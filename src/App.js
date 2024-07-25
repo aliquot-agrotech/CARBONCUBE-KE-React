@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import LoginForm from './components/LoginForm';
+import AdminDashboard from './admin/AnalyticsReporting';
+import VendorDashboard from './vendor/Analytics';
+import PurchaserDashboard from './purchaser/HomePage';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
+  const [userRole, setUserRole] = useState(null); // For storing user role
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<LoginForm setUserRole={setUserRole} />} />
+        <Route path="/admin/*" element={<PrivateRoute role="admin" userRole={userRole} />}>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          {/* Add more admin routes here */}
+        </Route>
+        <Route path="/vendor/*" element={<PrivateRoute role="vendor" userRole={userRole} />}>
+          <Route path="dashboard" element={<VendorDashboard />} />
+          {/* Add more vendor routes here */}
+        </Route>
+        <Route path="/purchaser/*" element={<PrivateRoute role="purchaser" userRole={userRole} />}>
+          <Route path="dashboard" element={<PurchaserDashboard />} />
+          {/* Add more purchaser routes here */}
+        </Route>
+        <Route path="/" element={<Navigate to="/login" />} />
+      </Routes>
+    </Router>
   );
 }
 

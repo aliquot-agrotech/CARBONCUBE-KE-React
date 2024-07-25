@@ -1,0 +1,41 @@
+.login-container {
+    background: url('./assets/LoginFormbg.jpg') no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  .login-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  .separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #aaa;
+  }
+  
+  .separator::before,
+  .separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .separator::before {
+    margin-right: .25em;
+  }
+  
+  .separator::after {
+    margin-left: .25em;
+  }
+  
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    margin: 0 5px;
+  }
+  
