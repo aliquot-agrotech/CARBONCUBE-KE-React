@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm';
 import AdminDashboard from './admin/AnalyticsReporting';
 import VendorDashboard from './vendor/Analytics';
 import PurchaserDashboard from './purchaser/HomePage';
+import PurchaserSignUpPage from './purchaser/SignUpPage';
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
@@ -33,10 +34,17 @@ function App() {
     setIsAuthenticated(false);
   };
 
+  const handlePurchaserSignup = () => {
+    setIsAuthenticated(true);
+    setUserRole('purchaser');
+    localStorage.setItem('role', 'purchaser');
+  };
+
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
+        <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         {isAuthenticated && userRole === 'admin' && (
           <Route path="/admin/*" element={<PrivateRoute role="admin" userRole={userRole} />}>
             <Route path="dashboard" element={<AdminDashboard onLogout={handleLogout} />} />
