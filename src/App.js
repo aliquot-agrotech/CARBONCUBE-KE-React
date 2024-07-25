@@ -8,30 +8,50 @@ import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   const [userRole, setUserRole] = useState(null); // For storing user role
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      setUserRole(user.role);
+    const token = localStorage.getItem('token');
+    if (token) {
+      const role = localStorage.getItem('role');
+      setUserRole(role);
+      setIsAuthenticated(true);
     }
   }, []);
+
+  const handleLogin = (token, role) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', role);
+    setUserRole(role);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    setUserRole(null);
+    setIsAuthenticated(false);
+  };
 
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<LoginForm setUserRole={setUserRole} />} />
-        <Route path="/admin/*" element={<PrivateRoute role="admin" userRole={userRole} />}>
-          <Route path="dashboard" element={<AdminDashboard />} />
-          {/* Add more admin routes here */}
-        </Route>
-        <Route path="/vendor/*" element={<PrivateRoute role="vendor" userRole={userRole} />}>
-          <Route path="dashboard" element={<VendorDashboard />} />
-          {/* Add more vendor routes here */}
-        </Route>
-        <Route path="/purchaser/*" element={<PrivateRoute role="purchaser" userRole={userRole} />}>
-          <Route path="dashboard" element={<PurchaserDashboard />} />
-          {/* Add more purchaser routes here */}
-        </Route>
+        <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
+        {isAuthenticated && userRole === 'admin' && (
+          <Route path="/admin/*" element={<PrivateRoute role="admin" userRole={userRole} />}>
+            <Route path="dashboard" element={<AdminDashboard onLogout={handleLogout} />} />
+          </Route>
+        )}
+        {isAuthenticated && userRole === 'vendor' && (
+          <Route path="/vendor/*" element={<PrivateRoute role="vendor" userRole={userRole} />}>
+            <Route path="dashboard" element={<VendorDashboard onLogout={handleLogout} />} />
+          </Route>
+        )}
+        {isAuthenticated && userRole === 'purchaser' && (
+          <Route path="/purchaser/*" element={<PrivateRoute role="purchaser" userRole={userRole} />}>
+            <Route path="dashboard" element={<PurchaserDashboard onLogout={handleLogout} />} />
+          </Route>
+        )}
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>

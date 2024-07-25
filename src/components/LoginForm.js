@@ -1,12 +1,12 @@
 // src/components/LoginForm.js
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import { FaGoogle, FaFacebookF, FaApple } from 'react-icons/fa';
+import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './LoginForm.css';
 
-const LoginForm = ({ setUserRole }) => {
+const LoginForm = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -25,9 +25,7 @@ const LoginForm = ({ setUserRole }) => {
       });
 
       const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-      setUserRole(user.role);
+      onLogin(token, user.role);
 
       // Redirect to the appropriate page based on the user role
       if (user.role === 'purchaser') {
@@ -84,13 +82,13 @@ const LoginForm = ({ setUserRole }) => {
 
             <div className="d-flex justify-content-around">
               <Button variant="outline-secondary" className="social-btn">
-                <FaGoogle size={20} /> Google
+                <Google size={20} /> Google
               </Button>
               <Button variant="outline-secondary" className="social-btn">
-                <FaFacebookF size={20} /> Facebook
+                <Facebook size={20} /> Facebook
               </Button>
               <Button variant="outline-secondary" className="social-btn">
-                <FaApple size={20} /> Apple
+                <Apple size={20} /> Apple
               </Button>
             </div>
           </Form>
