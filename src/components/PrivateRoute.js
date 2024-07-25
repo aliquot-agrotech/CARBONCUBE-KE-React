@@ -1,8 +1,15 @@
+// src/components/PrivateRoute.js
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-const PrivateRoute = ({ role, userRole, children }) => {
-  return userRole === role ? children : <Navigate to="/login" />;
+const PrivateRoute = ({ role, userRole }) => {
+  const token = localStorage.getItem('token');
+
+  if (!token || userRole !== role) {
+    return <Navigate to="/login" />;
+  }
+
+  return <Outlet />;
 };
 
 export default PrivateRoute;

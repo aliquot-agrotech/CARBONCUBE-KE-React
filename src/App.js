@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import AdminDashboard from './admin/AnalyticsReporting';
@@ -8,6 +8,13 @@ import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   const [userRole, setUserRole] = useState(null); // For storing user role
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setUserRole(user.role);
+    }
+  }, []);
 
   return (
     <Router>
