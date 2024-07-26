@@ -10,10 +10,10 @@ const AnalyticsReporting = () => {
       <TopNavbar />
       <Container fluid>
         <Row>
-          <Col xs={12} md={3} className="p-0">
+          <Col xs={12} md={2} className="p-0">
             <Sidebar />
           </Col>
-          <Col xs={12} md={9} className="p-3">
+          <Col xs={12} md={10} className="flex mt-4">
             <Row>
               <Col xs={12} md={3}>
                 <Card className="mb-4">

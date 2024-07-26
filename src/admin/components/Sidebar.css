@@ -5,34 +5,48 @@
     color: #fff;
     min-height: 100vh;
     padding: 1rem;
-    transition: width 0.3s;
+    transition: transform 0.3s, width 0.3s;
+    position: fixed;
+    top: 56px; /* Adjust this value to the height of your top navbar */
+    left: 0;
+    z-index: 1030;
   }
   
   .sidebar.collapsed {
     width: 60px;
+    transform: translateX(-100%); /* Move sidebar off the screen */
   }
   
   .sidebar.open {
     width: 250px;
+    transform: translateX(0); /* Bring sidebar into view */
   }
   
   .sidebar .nav-link {
     color: #fff;
     padding: 0.5rem 1rem;
     border-radius: 0.25rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
   }
   
-  .sidebar .nav-link:hover {
-    background-color: #ffc107;
-    color: #000;
-  }
-  
+  .sidebar .nav-link:hover,
   .sidebar .nav-link.active {
     background-color: #ffc107;
     color: #000;
+  }
+  
+  .sidebar .icon {
+    margin-right: 10px;
+  }
+  
+  .sidebar.collapsed .nav-link {
+    justify-content: center;
+  }
+  
+  .sidebar.collapsed .nav-link .icon {
+    margin-right: 0;
   }
   
   .toggle-button {
@@ -44,27 +58,24 @@
   
   @media (max-width: 768px) {
     .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1030;
       width: 100%;
       height: auto;
       min-height: 0;
       overflow-y: auto;
+      position: fixed;
+      top: 56px; /* Adjust to align below the top navbar */
     }
   
     .sidebar.collapsed {
-      width: 60px;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      overflow-y: auto;
+      transform: translateX(-100%); /* Move sidebar off the screen */
     }
   
     .sidebar.open {
-      width: 250px;
+      transform: translateX(0); /* Bring sidebar into view */
+    }
+  
+    .toggle-button.d-none {
+      display: none;
     }
   }
   
