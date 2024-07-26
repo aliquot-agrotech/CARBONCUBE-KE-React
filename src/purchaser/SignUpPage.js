@@ -39,11 +39,11 @@ function PurchaserSignUpPage({ onSignup }) {
   return (
     <Container fluid className="p-0">
       <Row className="m-0">
-        <Col className="warehouse-bg p-0">
+        <Col className="warehouse-bg p-4">
           <Col className="form-container d-flex align-items-center center">
-            <Container className="py-5">
+            <Container className="py-2">
               <Row className="justify-content-center">
-                <Col xs={12} sm={10} md={12} lg={10}>
+                <Col xs={12} sm={10} md={12} lg={10} >
                   <h2 className="form-title text-center mb-4">Sign Up Now</h2>
                   <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
