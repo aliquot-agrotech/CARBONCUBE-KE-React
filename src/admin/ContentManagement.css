@@ -1,0 +1,14 @@
+.card-title {
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .card-body ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .card-body ul li {
+    margin-bottom: 0.5rem;
+  }
+  

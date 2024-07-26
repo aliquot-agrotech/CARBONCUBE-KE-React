@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
-import AdminDashboard from './admin/AnalyticsReporting';
+import AnalyticsReporting from './admin/AnalyticsReporting';
+import ContentManagement from './admin/ContentManagement';
 import VendorDashboard from './vendor/Analytics';
 import PurchaserDashboard from './purchaser/HomePage';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
@@ -47,7 +48,8 @@ function App() {
         <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         {isAuthenticated && userRole === 'admin' && (
           <Route path="/admin/*" element={<PrivateRoute role="admin" userRole={userRole} />}>
-            <Route path="dashboard" element={<AdminDashboard onLogout={handleLogout} />} />
+            <Route path="analytics-reporting" element={<AnalyticsReporting onLogout={handleLogout} />} />
+            <Route path="content-management" element={<ContentManagement onLogout={handleLogout} />} />
           </Route>
         )}
         {isAuthenticated && userRole === 'vendor' && (

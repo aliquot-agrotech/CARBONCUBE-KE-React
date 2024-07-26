@@ -33,7 +33,7 @@ const LoginForm = ({ onLogin }) => {
       } else if (user.role === 'vendor') {
         navigate('/vendor/dashboard');
       } else if (user.role === 'admin') {
-        navigate('/admin/dashboard');
+        navigate('/admin/analytics-reporting');
       }
     } catch (error) {
       setError('Invalid email or password');
