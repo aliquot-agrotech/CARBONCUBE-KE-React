@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './SignUpPage.css';
@@ -39,9 +40,9 @@ function PurchaserSignUpPage({ onSignup }) {
   return (
     <Container fluid className="p-0">
       <Row className="m-0">
-        <Col className="warehouse-bg p-4">
-          <Col className="form-container d-flex align-items-center center">
-            <Container className="py-2">
+        <Col className="warehouse-bg">
+          <Col className="form-container align-items-center center">
+            <Container>
               <Row className="justify-content-center">
                 <Col xs={12} sm={10} md={12} lg={10} >
                   <h2 className="form-title text-center mb-4">Sign Up Now</h2>
@@ -108,23 +109,23 @@ function PurchaserSignUpPage({ onSignup }) {
                       />
                     </Form.Group>
                     <Button variant="warning" type="submit" className="btn-sign-in w-100 mb-3">
-                      SIGN UP
+                      Sign Up
                     </Button>
                     <div className="divider">
                       <span>or continue with</span>
                     </div>
-                    <div className="d-flex justify-content-center mb-3">
-                      <Button variant="outline-secondary" className="social-login-button">
-                        <img src="google-icon.png" alt="Google" />
+                    <div className="d-flex justify-content-around">
+                      <Button variant="outline-secondary" className="social-btn">
+                        <Google size={20} /> Google
                       </Button>
-                      <Button variant="outline-secondary" className="social-login-button mx-2">
-                        <img src="facebook-icon.png" alt="Facebook" />
+                      <Button variant="outline-secondary" className="social-btn">
+                        <Facebook size={20} /> Facebook
                       </Button>
-                      <Button variant="outline-secondary" className="social-login-button">
-                        <img src="apple-icon.png" alt="Apple" />
+                      <Button variant="outline-secondary" className="social-btn">
+                        <Apple size={20} /> Apple
                       </Button>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center mt-2">
                       Already have an account? <a href="./login" className="login-link">Log in</a>
                     </div>
                   </Form>

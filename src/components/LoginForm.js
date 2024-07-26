@@ -91,6 +91,10 @@ const LoginForm = ({ onLogin }) => {
                 <Apple size={20} /> Apple
               </Button>
             </div>
+
+            <div className="text-center mt-2">
+                Don't have an account? <a href="./purchasersignup" className="login-link">Purchaser SignUp</a>
+            </div>
           </Form>
         </Col>
       </Row>
