@@ -135,7 +135,7 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4">
                   <Card.Body>
-                    <Card.Title>Product Analytics</Card.Title>
+                    <Card.Title>Category Analytics</Card.Title>
                     {/* Insert Product Analytics Chart here */}
                   </Card.Body>
                 </Card>
