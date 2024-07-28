@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import SalesPerformance from './components/SalesPerformance';
+import TopSellingProducts from './components/TopSellingProducts';
+import CustomerInsights from './components/CustomerInsights';
 import './AnalyticsReporting.css';
 
 const AnalyticsReporting = () => {
@@ -107,7 +110,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4">
                   <Card.Body>
                     <Card.Title>Sales Performance</Card.Title>
-                    {/* Render Sales Performance Chart here */}
+                    <SalesPerformance data={analyticsData.sales_performance} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -115,29 +118,17 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4">
                   <Card.Body>
                     <Card.Title>Top Selling Products</Card.Title>
-                    <ul>
-                      {Object.entries(analyticsData.best_selling_products).map(([category, product]) => (
-                        <li key={product.product_id}>
-                          {category}: {product.product_title} ({product.total_sold} sold)
-                        </li>
-                      ))}
-                    </ul>
+                    <TopSellingProducts data={analyticsData.best_selling_products} />
                   </Card.Body>
                 </Card>
               </Col>
             </Row>
             <Row>
-              <Col xs={12} md={6}>
+            <Col xs={12} md={6}>
                 <Card className="mb-4">
                   <Card.Body>
                     <Card.Title>Customer Insights</Card.Title>
-                    <ul>
-                      {analyticsData.purchasers_insights.map((purchaser, index) => (
-                        <li key={index}>
-                          {purchaser.fullname}: {purchaser.total_orders} orders
-                        </li>
-                      ))}
-                    </ul>
+                    <CustomerInsights data={analyticsData.purchasers_insights} />
                   </Card.Body>
                 </Card>
               </Col>
