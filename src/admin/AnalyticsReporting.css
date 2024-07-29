@@ -13,6 +13,7 @@
   min-height: 100vh; /* Ensure the background color covers the full height */
   padding: 0 1rem; /* Optional: Adjust padding as needed */
   box-sizing: border-box; /* Include padding and border in element's total width and height */
+  padding-top: 56px;
 }
 
   

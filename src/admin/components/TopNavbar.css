@@ -12,7 +12,3 @@
   color: #ffc107;
 }
 
-/* Add some top margin to the main content to account for the fixed navbar */
-body {
-  padding-top: 56px; /* Adjust based on your navbar height */
-}

@@ -81,7 +81,7 @@ const PurchasersManagement = () => {
               <Sidebar />
             </Col>
             <Col xs={12} md={10} className="p-4">
-              <h2 className="mb-4">Purchaser Details & Metrics</h2>
+              <h2 className="mb-4 text-center">Purchaser Details & Metrics</h2>
               <Table hover className="purchasers-table text-center">
                 <thead className="table-header">
                   <tr>
