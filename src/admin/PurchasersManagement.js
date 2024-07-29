@@ -12,7 +12,6 @@ const PurchasersManagement = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch purchasers data from the API
     const fetchCustomers = async () => {
       try {
         const response = await fetch('http://localhost:3000/admin/purchasers', {
@@ -26,7 +25,6 @@ const PurchasersManagement = () => {
         }
 
         const data = await response.json();
-        console.log('Fetched customers:', data); // Log fetched data
         setCustomers(data);
       } catch (error) {
         console.error('Error fetching purchasers:', error);
@@ -52,7 +50,6 @@ const PurchasersManagement = () => {
       }
 
       const data = await response.json();
-      console.log('Fetched customer details:', data); // Log customer details
       setSelectedCustomer(data);
       setShowModal(true);
     } catch (error) {
@@ -127,28 +124,32 @@ const PurchasersManagement = () => {
                     <p><strong>Address:</strong> {selectedCustomer.location}</p>
                     <p><strong>Email:</strong> {selectedCustomer.email}</p>
                     <h4>Orders</h4>
-                    <Table striped bordered hover>
-                      <thead>
-                        <tr>
-                          <th>Order ID</th>
-                          <th>Product</th>
-                          <th>Quantity</th>
-                          <th>Total Price</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {selectedCustomer.orders && selectedCustomer.orders.map(order => (
-                          <tr key={order.id}>
-                            <td>{order.id}</td>
-                            <td>{order.product_name}</td>
-                            <td>{order.quantity}</td>
-                            <td>{order.total_price}</td>
-                            <td>{order.status}</td>
+                    {selectedCustomer.orders && selectedCustomer.orders.length > 0 ? (
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </Table>
+                        </thead>
+                        <tbody>
+                          {selectedCustomer.orders.map(order => (
+                            <tr key={order.id}>
+                              <td>{order.id}</td>
+                              <td>{order.product_name}</td>
+                              <td>{order.quantity}</td>
+                              <td>{order.total_price}</td>
+                              <td>{order.status}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    ) : (
+                      <p>No orders available</p>
+                    )}
                   </div>
                 ) : (
                   <p>No details available</p>
