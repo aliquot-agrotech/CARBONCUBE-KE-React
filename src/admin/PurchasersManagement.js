@@ -74,125 +74,127 @@ const PurchasersManagement = () => {
   return (
     <>
       <TopNavbar />
-      <Container fluid className="purchasers-management-page">
-        <Row>
-          <Col xs={12} md={2} className="p-0">
-            <Sidebar />
-          </Col>
-          <Col xs={12} md={10} className="p-4">
-            <h2 className="mb-4">Purchaser Details & Metrics</h2>
-            <Table hover className="purchasers-table">
-              <thead className="table-header">
-                <tr>
-                  <th>Purchaser ID</th>
-                  <th>Name</th>
-                  <th>Contact</th>
-                  <th>Address</th>
-                  <th>Email</th>
-                  <th>Edit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {purchasers.length > 0 ? (
-                  purchasers.map((purchaser) => (
-                    <tr key={purchaser.id} onClick={() => handleRowClick(purchaser.id)} style={{ cursor: 'pointer' }}>
-                      <td>{purchaser.id}</td>
-                      <td>{purchaser.fullname}</td>
-                      <td>{purchaser.phone_number}</td>
-                      <td>{purchaser.location}</td>
-                      <td>{purchaser.email}</td>
-                      <td><Pencil /></td>
-                    </tr>
-                  ))
-                ) : (
+      <div className="purchasers-management-page">
+        <Container fluid className="p-0">
+          <Row>
+            <Col xs={12} md={2} className="p-0">
+              <Sidebar />
+            </Col>
+            <Col xs={12} md={10} className="p-4">
+              <h2 className="mb-4">Purchaser Details & Metrics</h2>
+              <Table hover className="purchasers-table">
+                <thead className="table-header">
                   <tr>
-                    <td colSpan="6">No data available</td>
+                    <th>Purchaser ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Edit</th>
                   </tr>
-                )}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {purchasers.length > 0 ? (
+                    purchasers.map((purchaser) => (
+                      <tr key={purchaser.id} onClick={() => handleRowClick(purchaser.id)} style={{ cursor: 'pointer' }}>
+                        <td>{purchaser.id}</td>
+                        <td>{purchaser.fullname}</td>
+                        <td>{purchaser.phone_number}</td>
+                        <td>{purchaser.location}</td>
+                        <td>{purchaser.email}</td>
+                        <td><Pencil /></td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6">No data available</td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
 
-            <Modal show={showModal} onHide={handleCloseModal} size="lg">
-              <Modal.Header closeButton>
-                <Modal.Title>Purchaser Details</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                {selectedPurchaser ? (
-                  <div>
-                    <p><strong>Purchaser ID:</strong> {selectedPurchaser.id}</p>
-                    <p><strong>Name:</strong> {selectedPurchaser.fullname}</p>
-                    <p><strong>Contact:</strong> {selectedPurchaser.phone_number}</p>
-                    <p><strong>Address:</strong> {selectedPurchaser.location}</p>
-                    <p><strong>Email:</strong> {selectedPurchaser.email}</p>
-                    <h4>Orders</h4>
-                    {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
-                      selectedPurchaser.orders.map(order => (
-                        <div key={order.id} className="order-container">
-                          <Table striped bordered hover>
-                            <thead>
-                              <tr>
-                                <th>Order ID</th>
-                                <th>Order Date</th>
-                                <th>Total Price</th>
-                                <th>Status</th>
-                                <th>Details</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>{order.id}</td>
-                                <td>{order.order_date}</td>
-                                <td>Ksh {order.total_price}</td>
-                                <td>{order.status}</td>
-                                <td>
-                                  {/* Button or clickable text to toggle the sub-table */}
-                                  <Button
-                                    variant="warning"
-                                    onClick={() => document.getElementById(`details-${order.id}`).classList.toggle('d-none')}
-                                  >
-                                    View Details
-                                  </Button>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                          <Table id={`details-${order.id}`} className="d-none sub-table" striped bordered hover>
-                            <thead>
-                              <tr>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {order.order_items.map(item => (
-                                <tr key={item.product.id}>
-                                  <td>{item.product.title}</td>
-                                  <td>{item.quantity}</td>
-                                  <td>Ksh {(item.product.price * item.quantity).toFixed(2)}</td>
+              <Modal show={showModal} onHide={handleCloseModal} size="lg">
+                <Modal.Header closeButton>
+                  <Modal.Title>Purchaser Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  {selectedPurchaser ? (
+                    <div>
+                      <p><strong>Purchaser ID:</strong> {selectedPurchaser.id}</p>
+                      <p><strong>Name:</strong> {selectedPurchaser.fullname}</p>
+                      <p><strong>Contact:</strong> {selectedPurchaser.phone_number}</p>
+                      <p><strong>Address:</strong> {selectedPurchaser.location}</p>
+                      <p><strong>Email:</strong> {selectedPurchaser.email}</p>
+                      <h4>Orders</h4>
+                      {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
+                        selectedPurchaser.orders.map(order => (
+                          <div key={order.id} className="order-container">
+                            <Table striped bordered hover>
+                              <thead>
+                                <tr>
+                                  <th>Order ID</th>
+                                  <th>Order Date</th>
+                                  <th>Total Price</th>
+                                  <th>Status</th>
+                                  <th>Details</th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </Table>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No orders available</p>
-                    )}
-                  </div>
-                ) : (
-                  <p>No details available</p>
-                )}
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseModal}>
-                  Close
-                </Button>
-              </Modal.Footer>
-            </Modal>
-          </Col>
-        </Row>
-      </Container>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>{order.id}</td>
+                                  <td>{order.order_date}</td>
+                                  <td>Ksh {order.total_price}</td>
+                                  <td>{order.status}</td>
+                                  <td>
+                                    {/* Button or clickable text to toggle the sub-table */}
+                                    <Button
+                                      variant="warning"
+                                      onClick={() => document.getElementById(`details-${order.id}`).classList.toggle('d-none')}
+                                    >
+                                      View Details
+                                    </Button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </Table>
+                            <Table id={`details-${order.id}`} className="d-none sub-table" striped bordered hover>
+                              <thead>
+                                <tr>
+                                  <th>Product Name</th>
+                                  <th>Quantity</th>
+                                  <th>Price</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {order.order_items.map(item => (
+                                  <tr key={item.product.id}>
+                                    <td>{item.product.title}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>Ksh {(item.product.price * item.quantity)}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </Table>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No orders available</p>
+                      )}
+                    </div>
+                  ) : (
+                    <p>No details available</p>
+                  )}
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="primary" onClick={handleCloseModal}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </>
   );
 };
