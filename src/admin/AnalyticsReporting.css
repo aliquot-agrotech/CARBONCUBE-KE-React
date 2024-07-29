@@ -5,6 +5,16 @@
   .card-text {
     font-size: 1.5rem;
   }
+
+  .pie-chart {
+    width: 4cm;
+    height: 4cm;
+    margin: 1cm;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
   
   @media (max-width: 767px) {
     .card-title,
