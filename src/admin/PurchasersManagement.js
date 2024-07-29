@@ -141,12 +141,12 @@ const PurchasersManagement = () => {
                               <tr>
                                 <td>{order.id}</td>
                                 <td>{order.order_date}</td>
-                                <td>{order.total_price}</td>
+                                <td>Kshs {order.total_price}</td>
                                 <td>{order.status}</td>
                                 <td>
                                   {/* Button or clickable text to toggle the sub-table */}
                                   <Button
-                                    variant="info"
+                                    variant="warning"
                                     onClick={() => document.getElementById(`details-${order.id}`).classList.toggle('d-none')}
                                   >
                                     View Details
