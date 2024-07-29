@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import 'chart.js/auto';
 
 const SalesPerformance = ({ data }) => {
@@ -29,9 +29,20 @@ const SalesPerformance = ({ data }) => {
     ]
   };
 
+  const chartOptions = {
+    cutout: '80%',
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
   return (
-    <div style={{ width: '6cm', height: '6cm' }}>
-      <Pie data={chartData} />
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+      <div style={{ width: '6cm', height: '6cm' }}>
+        <Doughnut data={chartData} options={chartOptions} />
+      </div>
     </div>
   );
 };
