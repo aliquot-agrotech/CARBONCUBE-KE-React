@@ -140,7 +140,7 @@ const PurchasersManagement = () => {
                             <tbody>
                               <tr>
                                 <td>{order.id}</td>
-                                <td>{order.date}</td>
+                                <td>{order.order_date}</td>
                                 <td>{order.total_price}</td>
                                 <td>{order.status}</td>
                                 <td>
