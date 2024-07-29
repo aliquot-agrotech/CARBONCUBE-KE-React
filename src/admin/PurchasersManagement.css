@@ -47,11 +47,6 @@ body, html {
     color: #fff;
 }
 
-.modal-footer {
-    background-color: #343a40;
-    color: #fff;
-}
-
 .modal-title {
     font-weight: bold;
 }
@@ -59,6 +54,11 @@ body, html {
 .modal-body {
     padding: 20px;
     background-color: #E0E0E0;
+}
+
+.modal-footer {
+    background-color: #343a40;
+    color: #fff;
 }
 
 .purchaser-details {
