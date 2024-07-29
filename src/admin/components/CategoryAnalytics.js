@@ -4,16 +4,21 @@ import 'chart.js/auto';
 import './CategoryAnalytics.css'; // Ensure this file contains your CSS
 
 const CategoryAnalytics = ({ data }) => {
-  const chartData = (category) => ({
-    labels: ['Sold', 'Remaining'],
-    datasets: [
-      {
-        data: [category.total_sold, 100 - category.total_sold], // Assuming 100 as a max for demo purposes
-        backgroundColor: ['#FF6384', '#DDDDDD'],
-        hoverBackgroundColor: ['#FF6384', '#DDDDDD'],
-      },
-    ],
-  });
+  const totalProductsSold = data.reduce((sum, category) => sum + category.total_sold, 0);
+
+  const chartData = (category) => {
+    const percentageSold = ((category.total_sold / totalProductsSold) * 100).toFixed(2);
+    return {
+      labels: ['Sold', 'Remaining'],
+      datasets: [
+        {
+          data: [percentageSold, 100 - percentageSold],
+          backgroundColor: ['#FF6384', '#DDDDDD'],
+          hoverBackgroundColor: ['#FF6384', '#DDDDDD'],
+        },
+      ],
+    };
+  };
 
   const chartOptions = {
     cutout: '75%',
@@ -31,7 +36,7 @@ const CategoryAnalytics = ({ data }) => {
           <Doughnut data={chartData(category)} options={chartOptions} />
           <div className="chart-label">
             <span>{category.category_name}</span>
-            <span>{category.total_sold}%</span>
+            <span>{((category.total_sold / totalProductsSold) * 100).toFixed(2)}%</span>
           </div>
         </div>
       ))}
