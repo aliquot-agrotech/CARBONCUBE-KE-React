@@ -13,7 +13,7 @@ const CategoryAnalytics = ({ data }) => {
       datasets: [
         {
           data: [percentageSold, 100 - percentageSold],
-          backgroundColor: ['#FF6384', '#DDDDDD'],
+          backgroundColor: ['#FFC107', '#DDDDDD'],
           hoverBackgroundColor: ['#FF6384', '#DDDDDD'],
         },
       ],
@@ -35,8 +35,8 @@ const CategoryAnalytics = ({ data }) => {
         <div className="chart-container" key={index}>
           <Doughnut data={chartData(category)} options={chartOptions} />
           <div className="chart-label">
-            <span>{category.category_name}</span>
-            <span>{((category.total_sold / totalProductsSold) * 100).toFixed(2)}%</span>
+            <span>{category.category_name} </span>
+            <span>{((category.total_sold / totalProductsSold) * 100).toFixed(2)} %</span>
           </div>
         </div>
       ))}

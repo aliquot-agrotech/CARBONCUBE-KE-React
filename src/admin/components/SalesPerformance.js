@@ -10,7 +10,7 @@ const SalesPerformance = ({ data }) => {
         label: 'Sales Performance',
         data: Object.values(data),
         backgroundColor: [
-          '#FF6384',
+          '#FFC107',
           '#36A2EB',
           '#FFCE56',
           '#4BC0C0',
