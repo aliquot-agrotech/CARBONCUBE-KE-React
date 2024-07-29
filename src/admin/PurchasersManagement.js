@@ -3,6 +3,7 @@ import { Table, Modal, Button, Container, Row, Col } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import { Pencil } from 'react-bootstrap-icons';
+import './PurchasersManagement.css';  // Custom CSS
 
 const PurchasersManagement = () => {
   const [showModal, setShowModal] = useState(false);
@@ -73,15 +74,15 @@ const PurchasersManagement = () => {
   return (
     <>
       <TopNavbar />
-      <Container fluid>
+      <Container fluid className="purchasers-management-page">
         <Row>
           <Col xs={12} md={2} className="p-0">
             <Sidebar />
           </Col>
           <Col xs={12} md={10} className="p-4">
-            <h2>Purchaser Details & Metrics</h2>
-            <Table hover>
-              <thead>
+            <h2 className="mb-4">Purchaser Details & Metrics</h2>
+            <Table hover className="purchasers-table">
+              <thead className="table-header">
                 <tr>
                   <th>Purchaser ID</th>
                   <th>Name</th>
@@ -126,7 +127,7 @@ const PurchasersManagement = () => {
                     <h4>Orders</h4>
                     {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
                       selectedPurchaser.orders.map(order => (
-                        <div key={order.id}>
+                        <div key={order.id} className="order-container">
                           <Table striped bordered hover>
                             <thead>
                               <tr>
@@ -141,7 +142,7 @@ const PurchasersManagement = () => {
                               <tr>
                                 <td>{order.id}</td>
                                 <td>{order.order_date}</td>
-                                <td>Kshs {order.total_price}</td>
+                                <td>Ksh {order.total_price}</td>
                                 <td>{order.status}</td>
                                 <td>
                                   {/* Button or clickable text to toggle the sub-table */}
@@ -155,7 +156,7 @@ const PurchasersManagement = () => {
                               </tr>
                             </tbody>
                           </Table>
-                          <Table id={`details-${order.id}`} className="d-none" striped bordered hover>
+                          <Table id={`details-${order.id}`} className="d-none sub-table" striped bordered hover>
                             <thead>
                               <tr>
                                 <th>Product Name</th>
@@ -168,7 +169,7 @@ const PurchasersManagement = () => {
                                 <tr key={item.product.id}>
                                   <td>{item.product.title}</td>
                                   <td>{item.quantity}</td>
-                                  <td>{item.product.price * item.quantity}</td>
+                                  <td>Ksh {(item.product.price * item.quantity).toFixed(2)}</td>
                                 </tr>
                               ))}
                             </tbody>
