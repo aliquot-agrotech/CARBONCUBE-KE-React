@@ -6,13 +6,13 @@ import { Pencil } from 'react-bootstrap-icons';
 
 const PurchasersManagement = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedpurchaser, setSelectedpurchaser] = useState(null);
-  const [purchasers, setpurchasers] = useState([]);
+  const [selectedPurchaser, setSelectedPurchaser] = useState(null);
+  const [purchasers, setPurchasers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchpurchasers = async () => {
+    const fetchPurchasers = async () => {
       try {
         const response = await fetch('http://localhost:3000/admin/purchasers', {
           headers: {
@@ -25,8 +25,7 @@ const PurchasersManagement = () => {
         }
 
         const data = await response.json();
-        console.log('Fetched purchasers:', data); // Log fetched data
-        setpurchasers(data);
+        setPurchasers(data);
       } catch (error) {
         console.error('Error fetching purchasers:', error);
         setError('Error fetching purchasers');
@@ -35,7 +34,7 @@ const PurchasersManagement = () => {
       }
     };
 
-    fetchpurchasers();
+    fetchPurchasers();
   }, []);
 
   const handleRowClick = async (purchaserId) => {
@@ -51,8 +50,7 @@ const PurchasersManagement = () => {
       }
 
       const data = await response.json();
-      console.log('Fetched purchaser details:', data); // Log purchaser details
-      setSelectedpurchaser(data);
+      setSelectedPurchaser(data);
       setShowModal(true);
     } catch (error) {
       console.error('Error fetching purchaser details:', error);
@@ -61,7 +59,7 @@ const PurchasersManagement = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setSelectedpurchaser(null);
+    setSelectedPurchaser(null);
   };
 
   if (loading) {
@@ -118,37 +116,65 @@ const PurchasersManagement = () => {
                 <Modal.Title>Purchaser Details</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                {selectedpurchaser ? (
+                {selectedPurchaser ? (
                   <div>
-                    <p><strong>Purchaser ID:</strong> {selectedpurchaser.id}</p>
-                    <p><strong>Name:</strong> {selectedpurchaser.fullname}</p>
-                    <p><strong>Contact:</strong> {selectedpurchaser.phone_number}</p>
-                    <p><strong>Address:</strong> {selectedpurchaser.location}</p>
-                    <p><strong>Email:</strong> {selectedpurchaser.email}</p>
+                    <p><strong>Purchaser ID:</strong> {selectedPurchaser.id}</p>
+                    <p><strong>Name:</strong> {selectedPurchaser.fullname}</p>
+                    <p><strong>Contact:</strong> {selectedPurchaser.phone_number}</p>
+                    <p><strong>Address:</strong> {selectedPurchaser.location}</p>
+                    <p><strong>Email:</strong> {selectedPurchaser.email}</p>
                     <h4>Orders</h4>
-                    {selectedpurchaser.orders && selectedpurchaser.orders.length > 0 ? (
-                      <Table striped bordered hover>
-                        <thead>
-                          <tr>
-                            <th>Order ID</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                            <th>Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {selectedpurchaser.orders.map(order => (
-                            <tr key={order.id}>
-                              <td>{order.id}</td>
-                              <td>{order.product_name}</td>
-                              <td>{order.quantity}</td>
-                              <td>{order.total_price}</td>
-                              <td>{order.status}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </Table>
+                    {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
+                      selectedPurchaser.orders.map(order => (
+                        <div key={order.id}>
+                          <Table striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>Order ID</th>
+                                <th>Order Date</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>{order.id}</td>
+                                <td>{order.date}</td>
+                                <td>{order.total_price}</td>
+                                <td>{order.status}</td>
+                                <td>
+                                  {/* Button or clickable text to toggle the sub-table */}
+                                  <Button
+                                    variant="info"
+                                    onClick={() => document.getElementById(`details-${order.id}`).classList.toggle('d-none')}
+                                  >
+                                    View Details
+                                  </Button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </Table>
+                          <Table id={`details-${order.id}`} className="d-none" striped bordered hover>
+                            <thead>
+                              <tr>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {order.order_items.map(item => (
+                                <tr key={item.product.id}>
+                                  <td>{item.product.title}</td>
+                                  <td>{item.quantity}</td>
+                                  <td>{item.product.price * item.quantity}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                        </div>
+                      ))
                     ) : (
                       <p>No orders available</p>
                     )}
