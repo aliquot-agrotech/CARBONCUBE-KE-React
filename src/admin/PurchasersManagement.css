@@ -47,6 +47,11 @@ body, html {
     color: #fff;
 }
 
+.modal-footer {
+    background-color: #343a40;
+    color: #fff;
+}
+
 .modal-title {
     font-weight: bold;
 }

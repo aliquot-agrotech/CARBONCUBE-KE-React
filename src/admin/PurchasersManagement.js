@@ -88,9 +88,9 @@ const PurchasersManagement = () => {
                     <th>Purchaser ID</th>
                     <th>Name</th>
                     <th>Contact</th>
-                    <th>Address</th>
                     <th>Email</th>
-                    <th>Edit</th>
+                    <th>Address</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -100,8 +100,8 @@ const PurchasersManagement = () => {
                         <td>{purchaser.id}</td>
                         <td>{purchaser.fullname}</td>
                         <td>{purchaser.phone_number}</td>
-                        <td>{purchaser.location}</td>
                         <td>{purchaser.email}</td>
+                        <td>{purchaser.location}</td>
                         <td><Pencil /></td>
                       </tr>
                     ))
