@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 
 const CustomerInsights = ({ data }) => {
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover className='text-center'>
       <thead>
         <tr>
           <th>#</th>

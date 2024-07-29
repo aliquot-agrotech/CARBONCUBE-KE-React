@@ -8,7 +8,7 @@ const TopSellingProducts = ({ data }) => {
       {Object.entries(data).map(([category, product]) => (
         <Col xs={12} md={6} lg={4} key={product.product_id} className="mb-4">
           <Card className="h-100"> {/* Ensure cards fill the column height */}
-            <Card.Body>
+            <Card.Body className='text-center'>
               <Card.Title>{product.product_title}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted text-center">{category}</Card.Subtitle>
               <Card.Text>

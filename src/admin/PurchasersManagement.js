@@ -141,7 +141,7 @@ const PurchasersManagement = () => {
                       {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
                         selectedPurchaser.orders.map(order => (
                           <div key={order.id} className="order-container text-center">
-                            <Table striped bordered hover>
+                            <Table bordered hover>
                               <thead>
                                 <tr>
                                   <th>Order ID</th>
@@ -168,7 +168,7 @@ const PurchasersManagement = () => {
                                 </tr>
                               </tbody>
                             </Table>
-                            <Table id={`details-${order.id}`} className="d-none sub-table" striped bordered hover>
+                            <Table id={`details-${order.id}`} className="d-none sub-table" bordered hover>
                               <thead>
                                 <tr>
                                   <th>Product Name</th>
