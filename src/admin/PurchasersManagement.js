@@ -6,13 +6,13 @@ import { Pencil } from 'react-bootstrap-icons';
 
 const PurchasersManagement = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [customers, setCustomers] = useState([]);
+  const [selectedpurchaser, setSelectedpurchaser] = useState(null);
+  const [purchasers, setpurchasers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchCustomers = async () => {
+    const fetchpurchasers = async () => {
       try {
         const response = await fetch('http://localhost:3000/admin/purchasers', {
           headers: {
@@ -25,7 +25,8 @@ const PurchasersManagement = () => {
         }
 
         const data = await response.json();
-        setCustomers(data);
+        console.log('Fetched purchasers:', data); // Log fetched data
+        setpurchasers(data);
       } catch (error) {
         console.error('Error fetching purchasers:', error);
         setError('Error fetching purchasers');
@@ -34,12 +35,12 @@ const PurchasersManagement = () => {
       }
     };
 
-    fetchCustomers();
+    fetchpurchasers();
   }, []);
 
-  const handleRowClick = async (customerId) => {
+  const handleRowClick = async (purchaserId) => {
     try {
-      const response = await fetch(`http://localhost:3000/admin/purchasers/${customerId}`, {
+      const response = await fetch(`http://localhost:3000/admin/purchasers/${purchaserId}`, {
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('token'), // Add token if required
         },
@@ -50,7 +51,8 @@ const PurchasersManagement = () => {
       }
 
       const data = await response.json();
-      setSelectedCustomer(data);
+      console.log('Fetched purchaser details:', data); // Log purchaser details
+      setSelectedpurchaser(data);
       setShowModal(true);
     } catch (error) {
       console.error('Error fetching purchaser details:', error);
@@ -59,7 +61,7 @@ const PurchasersManagement = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setSelectedCustomer(null);
+    setSelectedpurchaser(null);
   };
 
   if (loading) {
@@ -79,11 +81,11 @@ const PurchasersManagement = () => {
             <Sidebar />
           </Col>
           <Col xs={12} md={10} className="p-4">
-            <h2>Customer Details & Metrics</h2>
+            <h2>Purchaser Details & Metrics</h2>
             <Table hover>
               <thead>
                 <tr>
-                  <th>Customer ID</th>
+                  <th>Purchaser ID</th>
                   <th>Name</th>
                   <th>Contact</th>
                   <th>Address</th>
@@ -92,14 +94,14 @@ const PurchasersManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {customers.length > 0 ? (
-                  customers.map((customer) => (
-                    <tr key={customer.id} onClick={() => handleRowClick(customer.id)} style={{ cursor: 'pointer' }}>
-                      <td>{customer.id}</td>
-                      <td>{customer.fullname}</td>
-                      <td>{customer.phone_number}</td>
-                      <td>{customer.location}</td>
-                      <td>{customer.email}</td>
+                {purchasers.length > 0 ? (
+                  purchasers.map((purchaser) => (
+                    <tr key={purchaser.id} onClick={() => handleRowClick(purchaser.id)} style={{ cursor: 'pointer' }}>
+                      <td>{purchaser.id}</td>
+                      <td>{purchaser.fullname}</td>
+                      <td>{purchaser.phone_number}</td>
+                      <td>{purchaser.location}</td>
+                      <td>{purchaser.email}</td>
                       <td><Pencil /></td>
                     </tr>
                   ))
@@ -113,18 +115,18 @@ const PurchasersManagement = () => {
 
             <Modal show={showModal} onHide={handleCloseModal} size="lg">
               <Modal.Header closeButton>
-                <Modal.Title>Customer Details</Modal.Title>
+                <Modal.Title>Purchaser Details</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                {selectedCustomer ? (
+                {selectedpurchaser ? (
                   <div>
-                    <p><strong>Customer ID:</strong> {selectedCustomer.id}</p>
-                    <p><strong>Name:</strong> {selectedCustomer.fullname}</p>
-                    <p><strong>Contact:</strong> {selectedCustomer.phone_number}</p>
-                    <p><strong>Address:</strong> {selectedCustomer.location}</p>
-                    <p><strong>Email:</strong> {selectedCustomer.email}</p>
+                    <p><strong>Purchaser ID:</strong> {selectedpurchaser.id}</p>
+                    <p><strong>Name:</strong> {selectedpurchaser.fullname}</p>
+                    <p><strong>Contact:</strong> {selectedpurchaser.phone_number}</p>
+                    <p><strong>Address:</strong> {selectedpurchaser.location}</p>
+                    <p><strong>Email:</strong> {selectedpurchaser.email}</p>
                     <h4>Orders</h4>
-                    {selectedCustomer.orders && selectedCustomer.orders.length > 0 ? (
+                    {selectedpurchaser.orders && selectedpurchaser.orders.length > 0 ? (
                       <Table striped bordered hover>
                         <thead>
                           <tr>
@@ -136,7 +138,7 @@ const PurchasersManagement = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {selectedCustomer.orders.map(order => (
+                          {selectedpurchaser.orders.map(order => (
                             <tr key={order.id}>
                               <td>{order.id}</td>
                               <td>{order.product_name}</td>
