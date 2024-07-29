@@ -4,7 +4,7 @@ import './TopNavbar.css';
 
 const TopNavbar = () => {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="mb-0">
+    <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top">
       <Container fluid>
         <Navbar.Brand href="/admin/analytics-reporting">CARBON - Admin</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

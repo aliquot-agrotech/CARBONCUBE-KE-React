@@ -40,7 +40,7 @@ const SalesPerformance = ({ data }) => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-      <div style={{ width: '6cm', height: '6cm' }}>
+      <div style={{ width: '5cm', height: '5cm' }}>
         <Doughnut data={chartData} options={chartOptions} />
       </div>
     </div>

@@ -5,7 +5,7 @@ import TopNavbar from './components/TopNavbar';
 import SalesPerformance from './components/SalesPerformance';
 import TopSellingProducts from './components/TopSellingProducts';
 import CustomerInsights from './components/CustomerInsights';
-import CategoryAnalytics from './components/CategoryAnalytics'; // Import the new component
+import CategoryAnalytics from './components/CategoryAnalytics'; // Ensure this is imported
 import './AnalyticsReporting.css';
 
 const AnalyticsReporting = () => {
@@ -40,7 +40,7 @@ const AnalyticsReporting = () => {
   return (
     <>
       <TopNavbar />
-      <Container fluid>
+      <Container fluid className="analytics-reporting-page">
         <Row>
           <Col xs={12} md={2} className="p-0">
             <Sidebar />
@@ -125,7 +125,7 @@ const AnalyticsReporting = () => {
               </Col>
             </Row>
             <Row>
-              <Col xs={12} md={6}>
+            <Col xs={12} md={6}>
                 <Card className="mb-4">
                   <Card.Body>
                     <Card.Title>Customer Insights</Card.Title>
@@ -137,7 +137,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4">
                   <Card.Body>
                     <Card.Title>Category Analytics</Card.Title>
-                    <CategoryAnalytics data={analyticsData.best_selling_categories} /> {/* Insert Product Analytics Chart here */}
+                    <CategoryAnalytics data={analyticsData.best_selling_categories} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -150,4 +150,3 @@ const AnalyticsReporting = () => {
 };
 
 export default AnalyticsReporting;
- 
