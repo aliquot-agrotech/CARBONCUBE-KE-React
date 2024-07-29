@@ -55,10 +55,10 @@ const Sidebar = () => {
             <House className="icon" /> {isOpen && 'Vendors Management'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/customers-management"
-            className={location.pathname === '/admin/customers-management' ? 'active' : ''}
+            href="/admin/purchasers-management"
+            className={location.pathname === '/admin/purchasers-management' ? 'active' : ''}
           >
-            <Person className="icon" /> {isOpen && 'Customers Management'}
+            <Person className="icon" /> {isOpen && 'Purchasers Management'}
           </Nav.Link>
           <Nav.Link
             href="/admin/content-management"

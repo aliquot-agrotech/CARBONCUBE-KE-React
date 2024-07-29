@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import LoginForm from './components/LoginForm';
 import AnalyticsReporting from './admin/AnalyticsReporting';
 import ContentManagement from './admin/ContentManagement';
+import PurchasersManagement from './admin/PurchasersManagement';
 import VendorDashboard from './vendor/Analytics';
 import PurchaserDashboard from './purchaser/HomePage';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
@@ -50,6 +51,7 @@ function App() {
           <Route path="/admin/*" element={<PrivateRoute role="admin" userRole={userRole} />}>
             <Route path="analytics-reporting" element={<AnalyticsReporting onLogout={handleLogout} />} />
             <Route path="content-management" element={<ContentManagement onLogout={handleLogout} />} />
+            <Route path="purchasers-management" element={<PurchasersManagement onLogout={handleLogout} />} />
           </Route>
         )}
         {isAuthenticated && userRole === 'vendor' && (
