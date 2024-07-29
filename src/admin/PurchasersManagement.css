@@ -1,4 +1,6 @@
-/* Ensure the background color covers the full height */
+/* PurchasersManagement.css */
+
+/* General page styles */
 .purchasers-management-page {
     background-color: #E0E0E0;
     min-height: 100vh; /* Ensure the background color covers the full height */
@@ -19,7 +21,7 @@ body, html {
     overflow-y: auto; /* Allow scrolling within this container */
 }
 
-/* General styles */
+/* Table styles */
 .purchasers-table {
     border-collapse: separate;
     border-spacing: 0 10px;
@@ -38,6 +40,40 @@ body, html {
     background-color: #f1f1f1;
 }
 
+/* Modal styles */
+.modal-header {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.purchaser-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.purchaser-detail-item {
+    flex: 1 1 45%;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.purchaser-detail-item strong {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
 .order-container {
     margin-top: 20px;
 }
@@ -49,18 +85,4 @@ body, html {
 
 .sub-table th, .sub-table td {
     text-align: center;
-}
-
-/* Modal styles */
-.modal-header {
-    background-color: #343a40;
-    color: #fff;
-}
-
-.modal-title {
-    font-weight: bold;
-}
-
-.modal-body p {
-    margin-bottom: 10px;
 }

@@ -120,11 +120,23 @@ const PurchasersManagement = () => {
                 <Modal.Body>
                   {selectedPurchaser ? (
                     <div>
-                      <p><strong>Purchaser ID:</strong> {selectedPurchaser.id}</p>
-                      <p><strong>Name:</strong> {selectedPurchaser.fullname}</p>
-                      <p><strong>Contact:</strong> {selectedPurchaser.phone_number}</p>
-                      <p><strong>Address:</strong> {selectedPurchaser.location}</p>
-                      <p><strong>Email:</strong> {selectedPurchaser.email}</p>
+                      <div className="purchaser-details">
+                        <div className="purchaser-detail-item">
+                          <strong>Purchaser ID:</strong> {selectedPurchaser.id}
+                        </div>
+                        <div className="purchaser-detail-item">
+                          <strong>Name:</strong> {selectedPurchaser.fullname}
+                        </div>
+                        <div className="purchaser-detail-item">
+                          <strong>Contact:</strong> {selectedPurchaser.phone_number}
+                        </div>
+                        <div className="purchaser-detail-item">
+                          <strong>Address:</strong> {selectedPurchaser.location}
+                        </div>
+                        <div className="purchaser-detail-item">
+                          <strong>Email:</strong> {selectedPurchaser.email}
+                        </div>
+                      </div>
                       <h4>Orders</h4>
                       {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
                         selectedPurchaser.orders.map(order => (
@@ -143,10 +155,9 @@ const PurchasersManagement = () => {
                                 <tr>
                                   <td>{order.id}</td>
                                   <td>{order.order_date}</td>
-                                  <td>Ksh {order.total_price}</td>
+                                  <td>${order.total_price}</td>
                                   <td>{order.status}</td>
                                   <td>
-                                    {/* Button or clickable text to toggle the sub-table */}
                                     <Button
                                       variant="warning"
                                       onClick={() => document.getElementById(`details-${order.id}`).classList.toggle('d-none')}
@@ -170,7 +181,7 @@ const PurchasersManagement = () => {
                                   <tr key={item.product.id}>
                                     <td>{item.product.title}</td>
                                     <td>{item.quantity}</td>
-                                    <td>Ksh {(item.product.price * item.quantity)}</td>
+                                    <td>${(item.product.price * item.quantity)}</td>
                                   </tr>
                                 ))}
                               </tbody>
