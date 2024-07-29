@@ -134,7 +134,7 @@ const AnalyticsReporting = () => {
                 </Card>
               </Col>
               <Col xs={12} md={6}>
-                <Card className="mb-4">
+                <Card className="mb-0">
                   <Card.Body>
                     <Card.Title>Category Analytics</Card.Title>
                     <CategoryAnalytics data={analyticsData.best_selling_categories} />
