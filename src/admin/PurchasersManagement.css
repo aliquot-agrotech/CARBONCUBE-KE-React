@@ -28,7 +28,7 @@ body, html {
 }
 
 .purchasers-table thead {
-    background-color: #343a40;
+    background-color: #ffffff;
     color: #fff;
 }
 
@@ -52,6 +52,7 @@ body, html {
 
 .modal-body {
     padding: 20px;
+    background-color: #E0E0E0;
 }
 
 .purchaser-details {

@@ -82,7 +82,7 @@ const PurchasersManagement = () => {
             </Col>
             <Col xs={12} md={10} className="p-4">
               <h2 className="mb-4">Purchaser Details & Metrics</h2>
-              <Table hover className="purchasers-table">
+              <Table hover className="purchasers-table text-center">
                 <thead className="table-header">
                   <tr>
                     <th>Purchaser ID</th>
@@ -120,7 +120,7 @@ const PurchasersManagement = () => {
                 <Modal.Body>
                   {selectedPurchaser ? (
                     <div>
-                      <div className="purchaser-details">
+                      <div className="purchaser-details mb-4 text-center">
                         <div className="purchaser-detail-item">
                           <strong>Purchaser ID:</strong> {selectedPurchaser.id}
                         </div>
@@ -140,7 +140,7 @@ const PurchasersManagement = () => {
                       <h4>Orders</h4>
                       {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
                         selectedPurchaser.orders.map(order => (
-                          <div key={order.id} className="order-container">
+                          <div key={order.id} className="order-container text-center">
                             <Table striped bordered hover>
                               <thead>
                                 <tr>
@@ -155,7 +155,7 @@ const PurchasersManagement = () => {
                                 <tr>
                                   <td>{order.id}</td>
                                   <td>{order.order_date}</td>
-                                  <td>${order.total_price}</td>
+                                  <td>Ksh {order.total_price}</td>
                                   <td>{order.status}</td>
                                   <td>
                                     <Button
@@ -181,7 +181,7 @@ const PurchasersManagement = () => {
                                   <tr key={item.product.id}>
                                     <td>{item.product.title}</td>
                                     <td>{item.quantity}</td>
-                                    <td>${(item.product.price * item.quantity)}</td>
+                                    <td>Ksh {(item.product.price * item.quantity)}</td>
                                   </tr>
                                 ))}
                               </tbody>
