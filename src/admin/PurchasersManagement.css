@@ -22,6 +22,25 @@
     text-align: center;
 }
 
-.table th, .table td {
-    text-align: center;
-}
+/* Add this to your CSS file */
+.table {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .table thead {
+    background-color: #f8f9fa;
+  }
+  
+  .table tbody tr {
+    border-radius: 10px;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #f1f3f5;
+  }
+  
+  .modal-content {
+    border-radius: 10px;
+  }
