@@ -1,81 +1,98 @@
 /* Sidebar.css */
 
 .sidebar {
-    background-color: #333;
-    color: #fff;
-    min-height: 100vh;
-    padding: 1rem;
-    transition: transform 0.3s, width 0.3s;
-    position: fixed;
-    top: 56px; /* Adjust this value to the height of your top navbar */
-    left: 0;
-    z-index: 1030;
-  }
-  
-  .sidebar.collapsed {
-    width: 60px;
-    transform: translateX(-100%); /* Move sidebar off the screen */
-  }
-  
-  .sidebar.open {
-    width: 250px;
-    transform: translateX(0); /* Bring sidebar into view */
-  }
-  
-  .sidebar .nav-link {
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s;
-  }
-  
-  .sidebar .nav-link:hover,
-  .sidebar .nav-link.active {
-    background-color: #ffc107;
-    color: #000;
-  }
-  
-  .sidebar .icon {
-    margin-right: 10px;
-  }
-  
-  .sidebar.collapsed .nav-link {
-    justify-content: center;
-  }
-  
-  .sidebar.collapsed .nav-link .icon {
-    margin-right: 0;
-  }
-  
-  .toggle-button {
-    background-color: #ffc107;
-    border: none;
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-  
-  @media (max-width: 768px) {
-    .sidebar {
+  background-color: #333;
+  color: #fff;
+  min-height: 100vh;
+  padding: 1rem;
+  transition: transform 0.3s, width 0.3s;
+  position: fixed;
+  top: 56px; /* Adjust this value to the height of your top navbar */
+  left: 0;
+  z-index: 1030;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+  transform: translateX(-100%); /* Move sidebar off the screen */
+}
+
+.sidebar.open {
+  width: 250px;
+  transform: translateX(0); /* Bring sidebar into view */
+}
+
+.sidebar .nav-link {
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.sidebar .icon {
+  margin-right: 10px;
+}
+
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+}
+
+.sidebar.collapsed .nav-link .icon {
+  margin-right: 0;
+}
+
+.toggle-button {
+  background-color: #ffc107;
+  border: none;
+  position: fixed;
+  top: 20px; /* Adjust the position as needed */
+  right: 20px; /* Adjust the position as needed */
+  z-index: 1040; /* Make sure it appears above other content */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+}
+
+.toggle-button.collapsed {
+  transform: rotate(180deg); /* Rotate arrow when sidebar is collapsed */
+}
+
+.toggle-button .arrow {
+  font-size: 1.5rem;
+  color: #000;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
       width: 100%;
       height: auto;
       min-height: 0;
       overflow-y: auto;
       position: fixed;
       top: 56px; /* Adjust to align below the top navbar */
-    }
-  
-    .sidebar.collapsed {
-      transform: translateX(-100%); /* Move sidebar off the screen */
-    }
-  
-    .sidebar.open {
-      transform: translateX(0); /* Bring sidebar into view */
-    }
-  
-    .toggle-button.d-none {
-      display: none;
-    }
   }
-  
+
+  .sidebar.collapsed {
+      transform: translateX(-100%); /* Move sidebar off the screen */
+  }
+
+  .sidebar.open {
+      transform: translateX(0); /* Bring sidebar into view */
+  }
+
+  .toggle-button.d-none {
+      display: none;
+  }
+}
