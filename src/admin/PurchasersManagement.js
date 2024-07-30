@@ -141,52 +141,57 @@ const PurchasersManagement = () => {
                       {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
                         selectedPurchaser.orders.map(order => (
                           <div key={order.id} className="order-container text-center">
-                            <Table bordered hover>
-                              <thead>
-                                <tr>
-                                  <th>Order ID</th>
-                                  <th>Order Date</th>
-                                  <th>Total Price</th>
-                                  <th>Status</th>
-                                  <th>Details</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>{order.id}</td>
-                                  <td>{order.order_date}</td>
-                                  <td>Ksh {order.total_price}</td>
-                                  <td>{order.status}</td>
-                                  <td>
-                                    <Button
-                                      variant="warning"
-                                      onClick={() => document.getElementById(`details-${order.id}`).classList.toggle('d-none')}
-                                    >
-                                      View Details
-                                    </Button>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </Table>
-                            <Table id={`details-${order.id}`} className="d-none sub-table" bordered hover>
-                              <thead>
-                                <tr>
-                                  <th>Product Name</th>
-                                  <th>Quantity</th>
-                                  <th>Price</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {order.order_items.map(item => (
-                                  <tr key={item.product.id}>
-                                    <td>{item.product.title}</td>
-                                    <td>{item.quantity}</td>
-                                    <td>Ksh {(item.product.price * item.quantity)}</td>
+                            <div className="table-responsive">
+                              <Table bordered hover>
+                                <thead>
+                                  <tr>
+                                    <th>Order ID</th>
+                                    <th>Order Date</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                    <th>Details</th>
                                   </tr>
-                                ))}
-                              </tbody>
-                            </Table>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>{order.id}</td>
+                                    <td>{order.order_date}</td>
+                                    <td>Ksh {order.total_price}</td>
+                                    <td>{order.status}</td>
+                                    <td>
+                                      <Button
+                                        variant="warning"
+                                        onClick={() => document.getElementById(`details-${order.id}`).classList.toggle('d-none')}
+                                      >
+                                        View Details
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </Table>
+                            </div>
+                            <div className="table-responsive">
+                              <Table id={`details-${order.id}`} className="d-none sub-table" bordered hover>
+                                <thead>
+                                  <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {order.order_items.map(item => (
+                                    <tr key={item.product.id}>
+                                      <td>{item.product.title}</td>
+                                      <td>{item.quantity}</td>
+                                      <td>Ksh {(item.product.price * item.quantity)}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </Table>
+                            </div>
                           </div>
+
                         ))
                       ) : (
                         <p>No orders available</p>

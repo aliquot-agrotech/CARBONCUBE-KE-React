@@ -83,13 +83,24 @@ body, html {
 
 .order-container {
     margin-top: 20px;
-}
-
-.sub-table {
+  }
+  
+  .sub-table {
     margin-top: 10px;
     background-color: #f8f9fa;
-}
-
-.sub-table th, .sub-table td {
+  }
+  
+  .sub-table th, .sub-table td {
     text-align: center;
-}
+  }
+  
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  @media (max-width: 576px) {
+    .order-container table {
+      width: 100%;
+    }
+  }
+  
