@@ -140,10 +140,11 @@ const OrdersManagement = () => {
                                                 <td>{order.order_date || 'N/A'}</td>
                                                 <td>
                                                     <Form.Control
+                                                        className="form-select"
                                                         as="select"
                                                         value={order.status}
                                                         onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                                                        style={{
+                                                        style={{ verticalAlign: 'middle',
                                                             backgroundColor: order.status === 'on-transit' ? '#FFC107' : 'white',
                                                         }}
                                                     >

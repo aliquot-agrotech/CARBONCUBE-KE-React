@@ -35,6 +35,10 @@ body {
     padding: 10px; /* Optional: Add padding for better spacing */
 }
 
+.form-select {
+  vertical-align: middle;
+}
+
 
 .table-header th {
     background-color: #f8f9fa;
