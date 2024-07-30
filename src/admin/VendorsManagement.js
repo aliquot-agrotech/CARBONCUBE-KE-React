@@ -167,7 +167,7 @@ const VendorsManagement = () => {
                                 </Modal.Header>
                                 <Modal.Body>
                                     {selectedVendor ? (
-                                        <Tabs defaultActiveKey="profile" id="vendor-details-tabs" className="mb-3">
+                                        <Tabs defaultActiveKey="profile" id="vendor-details-tabs" className="mb-3 custom-tabs">
                                             <Tab eventKey="profile" title="Profile">
                                                 <div>
                                                     <h5>Profile</h5>
@@ -217,12 +217,13 @@ const VendorsManagement = () => {
                                                 </div>
                                             </Tab>
                                         </Tabs>
+
                                     ) : (
                                         <p>No details available</p>
                                     )}
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleCloseModal}>
+                                    <Button variant="warning" onClick={handleCloseModal}>
                                         Close
                                     </Button>
                                 </Modal.Footer>

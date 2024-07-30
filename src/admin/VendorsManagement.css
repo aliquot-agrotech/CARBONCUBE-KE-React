@@ -76,3 +76,44 @@ body {
         padding: 15px; /* Adjust padding for smaller screens */
     }
 }
+
+.custom-tabs .nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+    display: flex;
+    justify-content: center; /* Center the tabs */
+    padding: 0; /* Remove default padding */
+}
+
+.custom-tabs .nav-item {
+    flex: auto; /* Make each tab take equal width */
+}
+
+.custom-tabs .nav-link {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 10px 10px;
+    text-align: center;
+    font-weight: 600;
+    background-color: #f8f9fa;
+    color: #495057;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: block; /* Ensure the links are block elements to use flex properties */
+}
+
+.custom-tabs .nav-link.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.custom-tabs .nav-link:hover {
+    background-color: #e9ecef;
+    color: #0056b3;
+}
+
+.custom-tabs .tab-content {
+    padding: 20px;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 4px;
+}
