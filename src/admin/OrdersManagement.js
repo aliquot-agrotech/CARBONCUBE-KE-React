@@ -145,9 +145,8 @@ const OrdersManagement = () => {
                                                         value={order.status}
                                                         onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
                                                         style={{ verticalAlign: 'middle',
-                                                            backgroundColor: order.status === 'on-transit' ? '#FFC107' : 'white',
-                                                        }}
-                                                    >
+                                                            backgroundColor: order.status === 'on-transit' ? 'limegreen' : '#FFC107',
+                                                        }}      >
                                                         <option className="text-center" value="processing">Processing</option>
                                                         <option className="text-center" value="on-transit">On-Transit</option>
                                                     </Form.Control>

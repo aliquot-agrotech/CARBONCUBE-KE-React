@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Row, Col, Tabs, Tab, Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserShield, faKey } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './VendorsManagement.css';  // Custom CSS
@@ -135,15 +137,19 @@ const VendorsManagement = () => {
                                                 <td>{vendor.enterprise_name}</td>
                                                 <td>{vendor.location}</td>
                                                 <td>
-                                                    <Button
-                                                        variant={vendor.blocked ? 'danger' : 'success'}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
-                                                        }}
+                                                <Button
+                                                    variant={vendor.blocked ? 'danger' : 'warning'}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
+                                                    }}
                                                     >
-                                                        {vendor.blocked ? 'Unblock' : 'Block'}
-                                                    </Button>
+                                                    {vendor.blocked ? (
+                                                        <FontAwesomeIcon icon={faKey} />
+                                                    ) : (
+                                                        <FontAwesomeIcon icon={faUserShield} />
+                                                    )}
+                                                </Button>
                                                 </td>
                                             </tr>
                                         ))
