@@ -127,7 +127,7 @@
                         >
                             <td>{order.id}</td>
                             <td>{order.purchaser.fullname}</td>
-                            <td>{order.order_items.map(item => item.product.title).join(', ')}</td>
+                            <td>{order.order_items.map(item => item.product.title).join(',  ')}</td>
                             <td>{order.order_items.map(item => item.quantity).reduce((a, b) => a + b, 0)}</td>
                             <td>{order.total_price}</td>
                             <td>{order.order_date}</td>
@@ -137,11 +137,10 @@
                                 value={order.status}
                                 onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
                                 style={{
-                                backgroundColor: order.status === 'on-transit' ? '#FFA500' : 'white', // Dark orange for "on-transit"
-                                }}
-                            >
-                                <option value="processing">Processing</option>
-                                <option value="on-transit">On-Transit</option>
+                                backgroundColor: order.status === 'on-transit' ? '#FFC107' : 'white', // Dark orange for "on-transit"
+                                }}>
+                                <option className="text-center" value="processing">Processing</option>
+                                <option className="text-center" value="on-transit">On-Transit</option>
                             </Form.Control>
                             </td>
                         </tr>
