@@ -1,0 +1,32 @@
+.orders-management-page {
+    display: flex;
+  }
+  
+  .orders-table {
+    width: 100%;
+  }
+  
+  .table-header {
+    background-color: #f8f9fa;
+  }
+  
+  .order-details {
+    margin-bottom: 20px;
+  }
+  
+  .order-detail-item {
+    margin-bottom: 10px;
+  }
+  
+  .product-container {
+    margin-top: 20px;
+  }
+  
+  .sub-table {
+    margin-top: 10px;
+  }
+  
+  .sub-table.d-none {
+    display: none;
+  }
+  
