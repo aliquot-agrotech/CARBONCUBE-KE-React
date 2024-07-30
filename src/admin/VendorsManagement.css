@@ -7,11 +7,14 @@
     padding: 0;
 }
 
+body {
+    overflow-x: hidden; /* Prevent horizontal scroll for the entire page */
+}
+
 .vendors-management-page {
     background-color: #E0E0E0;
     min-height: 100vh; /* Ensure the background color covers the full height */
     padding: 0 1rem; /* Optional: Adjust padding as needed */
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     padding-top: 56px;
@@ -22,11 +25,20 @@
     margin-top: 20px;
     width: 100%;
     table-layout: auto; /* Adjust table layout */
+    border-collapse: separate;
+    border-spacing: 0 10px;
 }
 
 .table-header th {
     background-color: #343a40;
     color: #fff;
+}
+
+/* Ensure vertical alignment of table content */
+.vendors-table td, 
+.vendors-table th {
+    vertical-align: middle; /* Vertically center the content */
+    padding: 10px; /* Optional: Add padding for better spacing */
 }
 
 /* Modal Styles */
