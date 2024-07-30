@@ -74,13 +74,14 @@ const VendorsManagement = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                const errorData = await response.json();
+                console.error('Error updating vendor status:', errorData);
+                return;
             }
 
-            const updatedVendor = await response.json();
             setVendors(prevVendors => 
                 prevVendors.map(vendor => 
-                    (vendor.id === vendorId ? updatedVendor : vendor)
+                    vendor.id === vendorId ? { ...vendor, blocked: status === 'block' } : vendor
                 )
             );
         } catch (error) {
@@ -137,7 +138,7 @@ const VendorsManagement = () => {
                                                             handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
                                                         }}
                                                     >
-                                                        {vendor.blocked ? 'Blocked' : 'Unblocked'}
+                                                        {vendor.blocked ? 'Unblock' : 'Block'}
                                                     </Button>
                                                 </td>
                                             </tr>
