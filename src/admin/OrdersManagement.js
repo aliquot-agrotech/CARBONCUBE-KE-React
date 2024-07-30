@@ -79,7 +79,12 @@ const OrdersManagement = () => {
             }
 
             const updatedOrder = await response.json();
-            setOrders(orders.map(order => (order.id === orderId ? updatedOrder : order)));
+            console.log('Updated Order:', updatedOrder); // Debug log
+            setOrders(prevOrders => 
+                prevOrders.map(order => 
+                    (order.id === orderId ? updatedOrder : order)
+                )
+            );
         } catch (error) {
             console.error('Error updating order status:', error);
         }
@@ -128,11 +133,11 @@ const OrdersManagement = () => {
                                                 style={{ cursor: 'pointer' }}
                                             >
                                                 <td>{order.id}</td>
-                                                <td>{order.purchaser.fullname}</td>
-                                                <td>{order.order_items.map(item => item.product.title).join(',  ')}</td>
-                                                <td>{order.order_items.map(item => item.quantity).reduce((a, b) => a + b, 0)}</td>
-                                                <td>{order.total_price}</td>
-                                                <td>{order.order_date}</td>
+                                                <td>{order.purchaser?.fullname || 'Unknown'}</td>
+                                                <td>{order.order_items.map(item => item.product?.title || 'Unknown').join(',  ')}</td>
+                                                <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
+                                                <td>{order.total_price || 'N/A'}</td>
+                                                <td>{order.order_date || 'N/A'}</td>
                                                 <td>
                                                     <Form.Control
                                                         as="select"
@@ -168,19 +173,19 @@ const OrdersManagement = () => {
                                                     <strong>Order ID:</strong> {selectedOrder.id}
                                                 </div>
                                                 <div className="order-detail-item">
-                                                    <strong>Purchaser:</strong> {selectedOrder.purchaser.fullname}
+                                                    <strong>Purchaser:</strong> {selectedOrder.purchaser?.fullname || 'Unknown'}
                                                 </div>
                                                 <div className="order-detail-item">
-                                                    <strong>Date Ordered:</strong> {selectedOrder.order_date}
+                                                    <strong>Date Ordered:</strong> {selectedOrder.order_date || 'N/A'}
                                                 </div>
                                                 <div className="order-detail-item">
-                                                    <strong>Total:</strong> Ksh {selectedOrder.total_price}
+                                                    <strong>Total:</strong> Ksh {selectedOrder.total_price || '0'}
                                                 </div>
                                             </div>
                                             <h4>Products</h4>
                                             {selectedOrder.order_items && selectedOrder.order_items.length > 0 ? (
                                                 selectedOrder.order_items.map(item => (
-                                                    <div key={item.product.id} className="product-container text-center">
+                                                    <div key={item.product?.id || 'unknown'} className="product-container text-center">
                                                         <div className="table-responsive">
                                                             <Table bordered hover>
                                                                 <thead>
@@ -193,10 +198,10 @@ const OrdersManagement = () => {
                                                                 </thead>
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td>{item.product.title}</td>
-                                                                        <td>{item.product.vendor.fullname}</td>
-                                                                        <td>{item.quantity}</td>
-                                                                        <td>Ksh {item.product.price * item.quantity}</td>
+                                                                        <td>{item.product?.title || 'Unknown'}</td>
+                                                                        <td>{item.product?.vendor?.fullname || 'Unknown'}</td>
+                                                                        <td>{item.quantity || '0'}</td>
+                                                                        <td>Ksh {item.product?.price * item.quantity || '0'}</td>
                                                                     </tr>
                                                                 </tbody>
                                                             </Table>
