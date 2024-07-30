@@ -5,6 +5,7 @@ import AnalyticsReporting from './admin/AnalyticsReporting';
 import ContentManagement from './admin/ContentManagement';
 import PurchasersManagement from './admin/PurchasersManagement';
 import OrdersManagement from './admin/OrdersManagement';
+import VendorsManagement from './admin/VendorsManagement';
 import VendorDashboard from './vendor/Analytics';
 import PurchaserDashboard from './purchaser/HomePage';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
@@ -54,6 +55,7 @@ function App() {
             <Route path="content-management" element={<ContentManagement onLogout={handleLogout} />} />
             <Route path="purchasers-management" element={<PurchasersManagement onLogout={handleLogout} />} />
             <Route path="orders-management" element={<OrdersManagement onLogout={handleLogout} />} />
+            <Route path="vendors-management" element={<VendorsManagement onLogout={handleLogout} />} />
           </Route>
         )}
         {isAuthenticated && userRole === 'vendor' && (

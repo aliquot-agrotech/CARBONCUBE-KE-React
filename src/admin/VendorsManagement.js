@@ -1,0 +1,227 @@
+import React, { useState, useEffect } from 'react';
+import { Table, Modal, Button, Container, Row, Col, Tabs, Tab, Card } from 'react-bootstrap';
+import Sidebar from './components/Sidebar';
+import TopNavbar from './components/TopNavbar';
+import './VendorsManagement.css';  // Custom CSS
+
+const VendorsManagement = () => {
+    const [showModal, setShowModal] = useState(false);
+    const [selectedVendor, setSelectedVendor] = useState(null);
+    const [vendors, setVendors] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchVendors = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/admin/vendors', {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                data.sort((a, b) => a.id - b.id);
+                setVendors(data);
+            } catch (error) {
+                console.error('Error fetching vendors:', error);
+                setError('Error fetching vendors');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchVendors();
+    }, []);
+
+    const handleRowClick = async (vendorId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/vendors/${vendorId}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            setSelectedVendor(data);
+            setShowModal(true);
+        } catch (error) {
+            console.error('Error fetching vendor details:', error);
+        }
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedVendor(null);
+    };
+
+    const handleUpdateStatus = async (vendorId, status) => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/vendors/${vendorId}/${status}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const updatedVendor = await response.json();
+            setVendors(prevVendors => 
+                prevVendors.map(vendor => 
+                    (vendor.id === vendorId ? updatedVendor : vendor)
+                )
+            );
+        } catch (error) {
+            console.error('Error updating vendor status:', error);
+        }
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    return (
+        <>
+            <TopNavbar />
+            <div className="vendors-management-page">
+                <Container fluid className="p-0">
+                    <Row>
+                        <Col xs={12} md={2} className="p-0">
+                            <Sidebar />
+                        </Col>
+                        <Col xs={12} md={10} className="p-4">
+                            <h2 className="mb-4 text-center">Vendors Management</h2>
+                            <Table hover className="vendors-table text-center">
+                                <thead className="table-header">
+                                    <tr>
+                                        <th>Vendor ID</th>
+                                        <th>Name</th>
+                                        <th>Enterprise</th>
+                                        <th>Location</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {vendors.length > 0 ? (
+                                        vendors.map((vendor) => (
+                                            <tr
+                                                key={vendor.id}
+                                                onClick={() => handleRowClick(vendor.id)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                <td>{vendor.id}</td>
+                                                <td>{vendor.fullname}</td>
+                                                <td>{vendor.enterprise_name}</td>
+                                                <td>{vendor.location}</td>
+                                                <td>
+                                                    <Button
+                                                        variant={vendor.blocked ? 'danger' : 'success'}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
+                                                        }}
+                                                    >
+                                                        {vendor.blocked ? 'Blocked' : 'Unblocked'}
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="5">No data available</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </Table>
+
+                            <Modal show={showModal} onHide={handleCloseModal} size="lg">
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Vendor Details</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {selectedVendor ? (
+                                        <Tabs defaultActiveKey="profile" id="vendor-details-tabs" className="mb-3">
+                                            <Tab eventKey="profile" title="Profile">
+                                                <div>
+                                                    <h5>Profile</h5>
+                                                    {/* Vendor profile details */}
+                                                    <p><strong>Name:</strong> {selectedVendor.fullname}</p>
+                                                    <p><strong>Enterprise:</strong> {selectedVendor.enterprise_name}</p>
+                                                    <p><strong>Location:</strong> {selectedVendor.location}</p>
+                                                </div>
+                                            </Tab>
+                                            <Tab eventKey="analytics" title="Analytics">
+                                                <div>
+                                                    <h5>Analytics</h5>
+                                                    {/* Fetch and display analytics data here */}
+                                                </div>
+                                            </Tab>
+                                            <Tab eventKey="orders" title="Orders">
+                                                <div>
+                                                    <h5>Orders</h5>
+                                                    {/* Fetch and display orders data here */}
+                                                </div>
+                                            </Tab>
+                                            <Tab eventKey="reviews" title="Reviews">
+                                                <div>
+                                                    <h5>Reviews</h5>
+                                                    {/* Fetch and display reviews data here */}
+                                                </div>
+                                            </Tab>
+                                            <Tab eventKey="products" title="Products">
+                                                <div>
+                                                    <h5>Products</h5>
+                                                    {/* Fetch and display products in card format */}
+                                                    {selectedVendor.products && selectedVendor.products.length > 0 ? (
+                                                        selectedVendor.products.map(product => (
+                                                            <Card key={product.id} className="mb-3">
+                                                                <Card.Img variant="top" src={product.image_url} />
+                                                                <Card.Body>
+                                                                    <Card.Title>{product.title}</Card.Title>
+                                                                    <Card.Text>
+                                                                        Price: Ksh {product.price}
+                                                                    </Card.Text>
+                                                                </Card.Body>
+                                                            </Card>
+                                                        ))
+                                                    ) : (
+                                                        <p>No products available</p>
+                                                    )}
+                                                </div>
+                                            </Tab>
+                                        </Tabs>
+                                    ) : (
+                                        <p>No details available</p>
+                                    )}
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleCloseModal}>
+                                        Close
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+        </>
+    );
+};
+
+export default VendorsManagement;

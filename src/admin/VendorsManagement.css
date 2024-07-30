@@ -1,0 +1,25 @@
+.vendors-management-page {
+    background-color: #f8f9fa;
+}
+
+.vendors-table {
+    margin-top: 20px;
+}
+
+.table-header th {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.product-card {
+    margin-bottom: 20px;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto;
+}
