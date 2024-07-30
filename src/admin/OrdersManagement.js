@@ -182,42 +182,44 @@ const OrdersManagement = () => {
                                                     <strong>Total:</strong> Ksh {selectedOrder.total_price || '0'}
                                                 </div>
                                             </div>
-                                            <h4>Products</h4>
-                                            {selectedOrder.order_items && selectedOrder.order_items.length > 0 ? (
-                                                selectedOrder.order_items.map(item => (
-                                                    <div key={item.product?.id || 'unknown'} className="product-container text-center">
-                                                        <div className="table-responsive">
-                                                            <Table bordered hover>
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Product Name</th>
-                                                                        <th>Vendor</th>
-                                                                        <th>Quantity</th>
-                                                                        <th>Price</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
+                                            <h4 className='text-center'>Products</h4>
+                                            <div className="product-container text-center">
+                                                <div className="table-responsive">
+                                                    <Table bordered hover>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Product Name</th>
+                                                                <th>Vendor</th>
+                                                                <th>Quantity</th>
+                                                                <th>Price</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {selectedOrder.order_items && selectedOrder.order_items.length > 0 ? (
+                                                                selectedOrder.order_items.map(item => (
+                                                                    <tr key={item.product?.id || 'unknown'}>
                                                                         <td>{item.product?.title || 'Unknown'}</td>
                                                                         <td>{item.product?.vendor?.fullname || 'Unknown'}</td>
                                                                         <td>{item.quantity || '0'}</td>
                                                                         <td>Ksh {item.product?.price * item.quantity || '0'}</td>
                                                                     </tr>
-                                                                </tbody>
-                                                            </Table>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                <p>No products available</p>
-                                            )}
+                                                                ))
+                                                            ) : (
+                                                                <tr>
+                                                                    <td colSpan="4">No products available</td>
+                                                                </tr>
+                                                            )}
+                                                        </tbody>
+                                                    </Table>
+                                                </div>
+                                            </div>
                                         </div>
                                     ) : (
                                         <p>No details available</p>
                                     )}
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleCloseModal}>
+                                    <Button variant="primary" onClick={handleCloseModal}>
                                         Close
                                     </Button>
                                 </Modal.Footer>
