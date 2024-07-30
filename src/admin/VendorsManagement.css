@@ -1,9 +1,27 @@
-.vendors-management-page {
-    background-color: #f8f9fa;
+/* General Styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
+.vendors-management-page {
+    background-color: #E0E0E0;
+    min-height: 100vh; /* Ensure the background color covers the full height */
+    padding: 0 1rem; /* Optional: Adjust padding as needed */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding-top: 56px;
+}
+
+/* Table Styles */
 .vendors-table {
     margin-top: 20px;
+    width: 100%;
+    table-layout: auto; /* Adjust table layout */
 }
 
 .table-header th {
@@ -11,10 +29,22 @@
     color: #fff;
 }
 
-.modal-body {
-    padding: 20px;
+/* Modal Styles */
+.modal-dialog {
+    max-width: 100%;
+    width: auto; /* Ensure modal width adjusts to content */
 }
 
+.modal-content {
+    overflow-x: hidden; /* Prevent horizontal scroll inside the modal */
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+/* Product Card Styles */
 .product-card {
     margin-bottom: 20px;
 }
@@ -22,4 +52,15 @@
 .product-card img {
     max-width: 100%;
     height: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .vendors-table {
+        font-size: 0.9rem; /* Adjust font size for smaller screens */
+    }
+
+    .modal-body {
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
 }
