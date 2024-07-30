@@ -113,6 +113,8 @@ const VendorsManagement = () => {
                                     <tr>
                                         <th>Vendor ID</th>
                                         <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
                                         <th>Enterprise</th>
                                         <th>Location</th>
                                         <th>Status</th>
@@ -128,6 +130,8 @@ const VendorsManagement = () => {
                                             >
                                                 <td>{vendor.id}</td>
                                                 <td>{vendor.fullname}</td>
+                                                <td>{vendor.email}</td>
+                                                <td>{vendor.phone_number}</td>
                                                 <td>{vendor.enterprise_name}</td>
                                                 <td>{vendor.location}</td>
                                                 <td>
