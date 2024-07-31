@@ -12,7 +12,7 @@ const VendorsManagement = () => {
     const [vendors, setVendors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedTab, setSelectedTab] = useState('profile'); // Add state for selected tab
+    const [selectedTab, setSelectedTab] = useState('profile');
 
     useEffect(() => {
         const fetchVendors = async () => {
@@ -55,7 +55,7 @@ const VendorsManagement = () => {
 
             const data = await response.json();
             setSelectedVendor(data);
-            setSelectedTab('profile'); // Reset tab to profile when vendor is selected
+            setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
             console.error('Error fetching vendor details:', error);
@@ -171,16 +171,33 @@ const VendorsManagement = () => {
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
                                             id="vendor-details-tabs"
-                                            className="custom-tabs"
-                                        >
+                                            className="custom-tabs mb-3">
                                             <Tab eventKey="profile" title="Profile">
-                                                <div>
-                                                    <h5>Profile</h5>
-                                                    <p><strong>Name:</strong> {selectedVendor.fullname}</p>
-                                                    <p><strong>Enterprise:</strong> {selectedVendor.enterprise_name}</p>
-                                                    <p><strong>Location:</strong> {selectedVendor.location}</p>
+                                                <div className="profile-cards text-center">
+                                                    <div className="profile-card">
+                                                        <p><strong>Name:</strong> {selectedVendor.fullname}</p>
+                                                    </div>
+                                                    <div className="profile-card">
+                                                        <p><strong>Email:</strong> {selectedVendor.email}</p>
+                                                    </div>
+                                                    <div className="profile-card">
+                                                        <p><strong>Phone:</strong> {selectedVendor.phone_number}</p>
+                                                    </div>
+                                                    <div className="profile-card">
+                                                        <p><strong>Enterprise:</strong> {selectedVendor.enterprise_name}</p>
+                                                    </div>
+                                                    <div className="profile-card">
+                                                        <p><strong>Location:</strong> {selectedVendor.location}</p>
+                                                    </div>
+                                                    <div className="profile-card">
+                                                        <p><strong>Status:</strong> {selectedVendor.blocked ? 'Blocked' : 'Active'}</p>
+                                                    </div>
+                                                    <div className="profile-card">
+                                                        <p><strong>Categories:</strong> {selectedVendor.category_names.join(', ')}</p>
+                                                    </div>
                                                 </div>
                                             </Tab>
+
                                             <Tab eventKey="analytics" title="Analytics">
                                                 <div>
                                                     <h5>Analytics</h5>
@@ -201,7 +218,7 @@ const VendorsManagement = () => {
                                                     <h5>Products</h5>
                                                     {selectedVendor.products && selectedVendor.products.length > 0 ? (
                                                         selectedVendor.products.map(product => (
-                                                            <Card key={product.id} className="mb-3">
+                                                            <Card key={product.id} className="product-card">
                                                                 <Card.Img variant="top" src={product.image_url} />
                                                                 <Card.Body>
                                                                     <Card.Title>{product.title}</Card.Title>
