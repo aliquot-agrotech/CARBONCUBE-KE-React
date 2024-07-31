@@ -54,6 +54,7 @@ const LoginForm = ({ onLogin }) => {
                 type="email"
                 placeholder="Email/Username"
                 className="mb-3"
+                id="button"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -64,6 +65,7 @@ const LoginForm = ({ onLogin }) => {
                 type="password"
                 placeholder="Password"
                 className="mb-3"
+                id="button"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -74,7 +76,7 @@ const LoginForm = ({ onLogin }) => {
               <a href="/" className="text-muted">Forget Password?</a>
             </Form.Group>
 
-            <Button variant="warning" type="submit" className="w-100 mt-3" disabled={loading}>
+            <Button variant="warning" type="submit" id="button" className="w-100 mt-3" disabled={loading}>
               {loading ? 'Signing In...' : 'Sign In'}
             </Button>
 
