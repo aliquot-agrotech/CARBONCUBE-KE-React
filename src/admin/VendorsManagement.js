@@ -22,12 +22,13 @@ const VendorsManagement = () => {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-
+    
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-
+    
                 const data = await response.json();
+                console.log('Fetched vendors:', data); // Add this line
                 data.sort((a, b) => a.id - b.id);
                 setVendors(data);
             } catch (error) {
@@ -37,25 +38,37 @@ const VendorsManagement = () => {
                 setLoading(false);
             }
         };
-
+    
         fetchVendors();
     }, []);
-
     const handleRowClick = async (vendorId) => {
         try {
-            const response = await fetch(`http://localhost:3000/admin/vendors/${vendorId}`, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-
-            if (!response.ok) {
+            const [vendorResponse, ordersResponse] = await Promise.all([
+                fetch(`http://localhost:3000/admin/vendors/${vendorId}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                }),
+                fetch(`http://localhost:3000/admin/vendors/${vendorId}/orders`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                })
+            ]);
+    
+            if (!vendorResponse.ok || !ordersResponse.ok) {
                 throw new Error('Network response was not ok');
             }
-
-            const data = await response.json();
+    
+            const vendorData = await vendorResponse.json();
+            const ordersData = await ordersResponse.json();
             const analytics = await fetchVendorAnalytics(vendorId);
-            setSelectedVendor({ ...data, analytics });
+    
+            console.log('Selected vendor:', vendorData); // Add this line
+            console.log('Orders:', ordersData); // Add this line
+            console.log('Analytics:', analytics); // Add this line
+    
+            setSelectedVendor({ ...vendorData, orders: ordersData, analytics });
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
@@ -84,11 +97,15 @@ const VendorsManagement = () => {
                 return;
             }
 
-            setVendors(prevVendors => 
-                prevVendors.map(vendor => 
+            setVendors(prevVendors =>
+                prevVendors.map(vendor =>
                     vendor.id === vendorId ? { ...vendor, blocked: status === 'block' } : vendor
                 )
             );
+
+            if (selectedVendor && selectedVendor.id === vendorId) {
+                setSelectedVendor(prevVendor => ({ ...prevVendor, blocked: status === 'block' }));
+            }
         } catch (error) {
             console.error('Error updating vendor status:', error);
         }
@@ -106,8 +123,7 @@ const VendorsManagement = () => {
                 throw new Error('Network response was not ok');
             }
 
-            const data = await response.json();
-            return data;
+            return await response.json();
         } catch (error) {
             console.error('Error fetching vendor analytics:', error);
             return {};
@@ -195,7 +211,7 @@ const VendorsManagement = () => {
                                             className="custom-tabs mb-3"
                                         >
                                             <Tab eventKey="profile" title="Profile">
-                                            <h5 className="text-center">Profile</h5>
+                                                <h5 className="text-center">Profile</h5>
                                                 <div className="profile-cards text-center">
                                                     <div className="profile-card">
                                                         <p><strong>Name:</strong> {selectedVendor.fullname}</p>
@@ -216,7 +232,7 @@ const VendorsManagement = () => {
                                                         <p><strong>Status:</strong> {selectedVendor.blocked ? 'Blocked' : 'Active'}</p>
                                                     </div>
                                                     <div className="profile-card">
-                                                        <p><strong>Categories:</strong> {selectedVendor.category_names.join(', ')}</p>
+                                                        <p><strong>Categories:</strong> {selectedVendor.category_names ? selectedVendor.category_names.join(', ') : 'No categories available'}</p>
                                                     </div>
                                                 </div>
                                             </Tab>
@@ -235,53 +251,109 @@ const VendorsManagement = () => {
                                                             <p><strong>Total Revenue:</strong> {selectedVendor.analytics.total_revenue}</p>
                                                         </div>
                                                         <div className="profile-card">
-                                                            <p><strong>Total Reviews:</strong> {selectedVendor.analytics.total_reviews}</p>
+                                                            <p><strong>Mean Rating:</strong> {selectedVendor.analytics.mean_rating}</p>
                                                         </div>
                                                         <div className="profile-card">
-                                                            <p><strong>Mean Rating:</strong> {selectedVendor.analytics.mean_rating}</p>
+                                                            <p><strong>Total Reviews:</strong> {selectedVendor.analytics.total_reviews}</p>
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <p>No analytics data available</p>
+                                                    <p>Loading analytics data...</p>
                                                 )}
                                             </Tab>
+
                                             <Tab eventKey="orders" title="Orders">
-                                                <div>
-                                                    <h5>Orders</h5>
-                                                </div>
+                                                <h5 className="text-center">Orders</h5>
+                                                <Table hover className="orders-table text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Order ID</th>
+                                                            <th>Purchaser</th>
+                                                            <th>Product</th>
+                                                            <th>Quantity</th>
+                                                            <th>Total Amount</th>
+                                                            <th>Status</th>
+                                                            <th>Date Ordered</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {selectedVendor && selectedVendor.orders && selectedVendor.orders.length > 0 ? (
+                                                            selectedVendor.orders.flatMap((order) =>
+                                                                order.order_items.map((item) => (
+                                                                    <tr key={`${order.id}-${item.id}`}>
+                                                                        <td>{order.id}</td>
+                                                                        <td>{order.purchaser.fullname}</td>
+                                                                        <td>{item.product.title}</td>
+                                                                        <td>{item.quantity}</td>
+                                                                        <td>{(item.quantity * item.product.price).toFixed(2)}</td>
+                                                                        <td>{order.status}</td>
+                                                                        <td>{new Date(order.created_at).toLocaleDateString()}</td>
+                                                                    </tr>
+                                                                ))
+                                                            )
+                                                        ) : (
+                                                            <tr>
+                                                                <td colSpan="6">No orders available</td>
+                                                            </tr>
+                                                        )}
+                                                    </tbody>
+                                                </Table>
                                             </Tab>
                                             <Tab eventKey="reviews" title="Reviews">
-                                                <div>
-                                                    <h5>Reviews</h5>
-                                                </div>
-                                            </Tab>
-                                            <Tab eventKey="products" title="Products">
-                                                <div>
-                                                    <h5>Products</h5>
-                                                    {selectedVendor.products && selectedVendor.products.length > 0 ? (
-                                                        selectedVendor.products.map(product => (
-                                                            <Card key={product.id} className="product-card">
-                                                                <Card.Img variant="top" src={product.image_url} />
+                                                <h5 className="text-center">Reviews</h5>
+                                                {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
+                                                    <div className="profile-cards text-center">
+                                                        {selectedVendor.reviews.map((review) => (
+                                                            <Card key={review.id} className="mb-3">
                                                                 <Card.Body>
-                                                                    <Card.Title>{product.title}</Card.Title>
-                                                                    <Card.Text>
-                                                                        Price: Ksh {product.price}
-                                                                    </Card.Text>
+                                                                    <Card.Title>Review by {review.reviewer_name}</Card.Title>
+                                                                    <Card.Text>Rating: {review.rating}</Card.Text>
+                                                                    <Card.Text>{review.comment}</Card.Text>
                                                                 </Card.Body>
                                                             </Card>
-                                                        ))
-                                                    ) : (
-                                                        <p>No products available</p>
-                                                    )}
-                                                </div>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <p>No reviews available</p>
+                                                )}
+                                            </Tab>
+
+                                            <Tab eventKey="products" title="Products">
+                                                <h5 className="text-center">Products</h5>
+                                                <Table hover className="products-table text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Product ID</th>
+                                                            <th>Name</th>
+                                                            <th>Description</th>
+                                                            <th>Price</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {selectedVendor.products && selectedVendor.products.length > 0 ? (
+                                                            selectedVendor.products.map((product) => (
+                                                                <tr key={product.id}>
+                                                                    <td>{product.id}</td>
+                                                                    <td>{product.name}</td>
+                                                                    <td>{product.description}</td>
+                                                                    <td>{product.price}</td>
+                                                                </tr>
+                                                            ))
+                                                        ) : (
+                                                            <tr>
+                                                                <td colSpan="4">No products available</td>
+                                                            </tr>
+                                                        )}
+                                                    </tbody>
+                                                </Table>
                                             </Tab>
                                         </Tabs>
                                     ) : (
-                                        <p>No details available</p>
+                                        <p>Loading...</p>
                                     )}
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="warning" onClick={handleCloseModal}>
+                                    <Button variant="secondary" onClick={handleCloseModal}>
                                         Close
                                     </Button>
                                 </Modal.Footer>
