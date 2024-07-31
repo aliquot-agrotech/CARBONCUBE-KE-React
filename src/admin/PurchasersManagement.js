@@ -11,6 +11,7 @@ const PurchasersManagement = () => {
   const [purchasers, setPurchasers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeOrder, setActiveOrder] = useState(null);
 
   useEffect(() => {
     const fetchPurchasers = async () => {
@@ -137,62 +138,70 @@ const PurchasersManagement = () => {
                           <strong>Email:</strong> {selectedPurchaser.email}
                         </div>
                       </div>
-                      <h4>Orders</h4>
+                      <h4 className='text-center'>Orders</h4>
                       {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
-                        selectedPurchaser.orders.map(order => (
-                          <div key={order.id} className="order-container text-center">
-                            <div className="table-responsive">
-                              <Table bordered hover>
-                                <thead>
-                                  <tr>
-                                    <th>Order ID</th>
-                                    <th>Order Date</th>
-                                    <th>Total Price</th>
-                                    <th>Status</th>
-                                    <th>Details</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>{order.id}</td>
-                                    <td>{order.order_date}</td>
-                                    <td>Ksh {order.total_price}</td>
-                                    <td>{order.status}</td>
-                                    <td>
-                                      <Button
-                                        variant="primary"
-                                        onClick={() => document.getElementById(`details-${order.id}`).classList.toggle('d-none')}
-                                      >
-                                        View Details
-                                      </Button>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </Table>
-                            </div>
-                            <div className="table-responsive">
-                              <Table id={`details-${order.id}`} className="d-none sub-table" bordered hover>
-                                <thead>
-                                  <tr>
-                                    <th>Product Name</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {order.order_items.map(item => (
-                                    <tr key={item.product.id}>
-                                      <td>{item.product.title}</td>
-                                      <td>{item.quantity}</td>
-                                      <td>Ksh {(item.product.price * item.quantity)}</td>
-                                    </tr>
+                        <div className="order-container text-center">
+                          <div className="table-responsive">
+                            <Table bordered hover>
+                              <thead>
+                                <tr>
+                                  <th>Order ID</th>
+                                  <th>Order Date</th>
+                                  <th>Total Price</th>
+                                  <th>Status</th>
+                                  <th>Details</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {selectedPurchaser.orders
+                                  .sort((a, b) => a.id - b.id)  // Sort orders by order ID in ascending order
+                                  .map(order => (
+                                    <React.Fragment key={order.id}>
+                                      <tr>
+                                        <td>{order.id}</td>
+                                        <td>{order.order_date}</td>
+                                        <td>Ksh {order.total_price}</td>
+                                        <td>{order.status}</td>
+                                        <td>
+                                          <Button
+                                            variant={activeOrder === order.id ? 'success' : 'primary'}
+                                            onClick={() => {
+                                              document.getElementById(`details-${order.id}`).classList.toggle('d-none');
+                                              setActiveOrder(prevOrder => prevOrder === order.id ? null : order.id);
+                                            }}
+                                          >
+                                            {activeOrder === order.id ? 'Hide Details' : 'View Details'}
+                                          </Button>
+                                        </td>
+                                      </tr>
+                                      <tr id={`details-${order.id}`} className="d-none sub-table">
+                                        <td colSpan="5">
+                                          <Table bordered hover>
+                                            <thead>
+                                              <tr>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              {order.order_items.map(item => (
+                                                <tr key={item.product.id}>
+                                                  <td>{item.product.title}</td>
+                                                  <td>{item.quantity}</td>
+                                                  <td>Ksh {item.product.price * item.quantity}</td>
+                                                </tr>
+                                              ))}
+                                            </tbody>
+                                          </Table>
+                                        </td>
+                                      </tr>
+                                    </React.Fragment>
                                   ))}
-                                </tbody>
-                              </Table>
-                            </div>
+                              </tbody>
+                            </Table>
                           </div>
-
-                        ))
+                        </div>
                       ) : (
                         <p>No orders available</p>
                       )}
