@@ -54,7 +54,8 @@ const VendorsManagement = () => {
             }
 
             const data = await response.json();
-            setSelectedVendor(data);
+            const analytics = await fetchVendorAnalytics(vendorId);
+            setSelectedVendor({ ...data, analytics });
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
@@ -90,6 +91,26 @@ const VendorsManagement = () => {
             );
         } catch (error) {
             console.error('Error updating vendor status:', error);
+        }
+    };
+
+    const fetchVendorAnalytics = async (vendorId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/vendors/${vendorId}/analytics`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching vendor analytics:', error);
+            return {};
         }
     };
 
@@ -148,7 +169,7 @@ const VendorsManagement = () => {
                                                         }}
                                                     >
                                                         <FontAwesomeIcon icon={vendor.blocked ? faKey : faUserShield} />
-                                                        {/* {vendor.blocked ? ' Unblock' : ' Block'}  */}
+                                                        {vendor.blocked ? ' Unblock' : ' Block'}
                                                     </Button>
                                                 </td>
                                             </tr>
@@ -171,7 +192,8 @@ const VendorsManagement = () => {
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
                                             id="vendor-details-tabs"
-                                            className="custom-tabs mb-3">
+                                            className="custom-tabs mb-3"
+                                        >
                                             <Tab eventKey="profile" title="Profile">
                                                 <div className="profile-cards text-center">
                                                     <div className="profile-card">
@@ -199,9 +221,69 @@ const VendorsManagement = () => {
                                             </Tab>
 
                                             <Tab eventKey="analytics" title="Analytics">
-                                                <div>
-                                                    <h5>Analytics</h5>
-                                                </div>
+                                                <h5>Analytics</h5>
+                                                {selectedVendor.analytics ? (
+                                                    <div>
+                                                        <Row className="mt-4">
+                                                            <Col md={6}>
+                                                                <Card className="text-center mb-4">
+                                                                    <Card.Body>
+                                                                        <Card.Title>Total Orders</Card.Title>
+                                                                        <Card.Text>
+                                                                            {selectedVendor.analytics.total_orders}
+                                                                        </Card.Text>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                            <Col md={6}>
+                                                                <Card className="text-center mb-4">
+                                                                    <Card.Body>
+                                                                        <Card.Title>Total Products Sold</Card.Title>
+                                                                        <Card.Text>
+                                                                            {selectedVendor.analytics.total_products_sold}
+                                                                        </Card.Text>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="mt-4">
+                                                            <Col md={6}>
+                                                                <Card className="text-center mb-4">
+                                                                    <Card.Body>
+                                                                        <Card.Title>Mean Rating</Card.Title>
+                                                                        <Card.Text>
+                                                                            {selectedVendor.analytics.mean_rating}
+                                                                        </Card.Text>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                            <Col md={6}>
+                                                                <Card className="text-center mb-4">
+                                                                    <Card.Body>
+                                                                        <Card.Title>Total Revenue</Card.Title>
+                                                                        <Card.Text>
+                                                                            {selectedVendor.analytics.total_revenue}
+                                                                        </Card.Text>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="mt-4">
+                                                            <Col md={12}>
+                                                                <Card className="text-center mb-4">
+                                                                    <Card.Body>
+                                                                        <Card.Title>Total Reviews</Card.Title>
+                                                                        <Card.Text>
+                                                                            {selectedVendor.analytics.total_reviews}
+                                                                        </Card.Text>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                ) : (
+                                                    <p>No analytics data available</p>
+                                                )}
                                             </Tab>
                                             <Tab eventKey="orders" title="Orders">
                                                 <div>

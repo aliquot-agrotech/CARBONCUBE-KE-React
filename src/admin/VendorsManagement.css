@@ -32,6 +32,7 @@ body {
 .table-header th {
     background-color: #343a40;
     color: #fff;
+    text-align: center; /* Center align header text */
 }
 
 /* Ensure vertical alignment of table content */
@@ -114,8 +115,8 @@ body {
 }
 
 .custom-tabs .nav-link:hover {
-    background-color: #e0a800; /* Slightly darker yellow for hover effect */
-    color: #fff;
+    background-color: #fff; /* Slightly darker yellow for hover effect */
+    color: #495057;
 }
 
 .custom-tabs .tab-content {
@@ -141,7 +142,7 @@ body {
     font-size: 1rem;
 }
 
-/* Product Card Styles */
+/* Profile Card Styles */
 .profile-cards {
     display: flex;
     flex-wrap: wrap; /* Allows items to wrap into new rows */
@@ -154,14 +155,19 @@ body {
     background-color: #fff;
     border: 1px solid #dee2e6;
     border-radius: 4px;
-    padding: 0px;
+    padding: 15px; /* Adjust padding for spacing inside cards */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px; /* Space below each card */
 }
 
-.product-card img {
-    max-width: 100%;
-    height: auto;
+.profile-card p {
+    margin: 0; /* Remove default margin for paragraphs inside cards */
+}
+
+.profile-card p strong {
+    display: block;
+    font-weight: 600;
+    color: #343a40;
 }
 
 /* Responsive Design */
@@ -175,15 +181,9 @@ body {
     }
 }
 
-.profile-card p strong {
-    display: block;
-    font-weight: 600;
-    color: #343a40;
-}
-
-/* Ensure proper spacing in smaller screens */
 @media (max-width: 768px) {
     .profile-card {
         flex: 1 1 100%; /* Stack cards in a single column */
     }
 }
+
