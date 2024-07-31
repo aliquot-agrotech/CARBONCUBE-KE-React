@@ -52,6 +52,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         type="text"
                         placeholder="Full name"
                         name="fullname"
+                        id="button"
                         value={formData.fullname}
                         onChange={handleChange}
                       />
@@ -61,6 +62,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         type="text"
                         placeholder="Username"
                         name="username"
+                        id="button"
                         value={formData.username}
                         onChange={handleChange}
                       />
@@ -70,6 +72,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         type="tel"
                         placeholder="Phone Number"
                         name="phone"
+                        id="button"
                         value={formData.phone}
                         onChange={handleChange}
                       />
@@ -79,6 +82,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         type="email"
                         placeholder="Email address"
                         name="email"
+                        id="button"
                         value={formData.email}
                         onChange={handleChange}
                       />
@@ -88,6 +92,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         type="text"
                         placeholder="Location/Address"
                         name="address"
+                        id="button"
                         value={formData.address}
                         onChange={handleChange}
                       />
@@ -97,6 +102,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         type="password"
                         placeholder="Password"
                         name="password"
+                        id="button"
                         value={formData.password}
                         onChange={handleChange}
                       />
@@ -108,7 +114,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         label="Agree to Terms and Conditions and receiving of SMS, emails and promotion notifications."
                       />
                     </Form.Group>
-                    <Button variant="warning" type="submit" className="btn-sign-in w-100 mb-3">
+                    <Button variant="warning" type="submit" id="button" className="btn-sign-in w-100 mb-3">
                       Sign Up
                     </Button>
                     <div className="divider">
