@@ -43,39 +43,41 @@ const VendorsManagement = () => {
     }, []);
 
     const handleRowClick = async (vendorId) => {
-    try {
-        const [vendorResponse, ordersResponse] = await Promise.all([
-            fetch(`http://localhost:3000/admin/vendors/${vendorId}`, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            }),
-            fetch(`http://localhost:3000/admin/vendors/${vendorId}/orders`, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            })
-        ]);
-
-        if (!vendorResponse.ok || !ordersResponse.ok) {
-            throw new Error('Network response was not ok');
+        try {
+            const [vendorResponse, ordersResponse, productsResponse] = await Promise.all([
+                fetch(`http://localhost:3000/admin/vendors/${vendorId}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                }),
+                fetch(`http://localhost:3000/admin/vendors/${vendorId}/orders`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                }),
+                fetch(`http://localhost:3000/admin/vendors/${vendorId}/products`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                })
+            ]);
+    
+            if (!vendorResponse.ok || !ordersResponse.ok || !productsResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+    
+            const vendorData = await vendorResponse.json();
+            const ordersData = await ordersResponse.json();
+            const productsData = await productsResponse.json();
+            const analytics = await fetchVendorAnalytics(vendorId);
+    
+            setSelectedVendor({ ...vendorData, orders: ordersData, products: productsData, analytics });
+            setSelectedTab('profile');
+            setShowModal(true);
+        } catch (error) {
+            console.error('Error fetching vendor details:', error);
         }
-
-        const vendorData = await vendorResponse.json();
-        const ordersData = await ordersResponse.json();
-        const analytics = await fetchVendorAnalytics(vendorId);
-
-        console.log('Selected vendor:', vendorData);
-        console.log('Orders:', ordersData);
-        console.log('Analytics:', analytics);
-
-        setSelectedVendor({ ...vendorData, orders: ordersData, analytics });
-        setSelectedTab('profile');
-        setShowModal(true);
-    } catch (error) {
-        console.error('Error fetching vendor details:', error);
-    }
-};
+    };
 
 
     const handleCloseModal = () => {
