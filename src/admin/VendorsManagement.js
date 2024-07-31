@@ -12,6 +12,7 @@ const VendorsManagement = () => {
     const [vendors, setVendors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedTab, setSelectedTab] = useState('profile'); // Add state for selected tab
 
     useEffect(() => {
         const fetchVendors = async () => {
@@ -54,6 +55,7 @@ const VendorsManagement = () => {
 
             const data = await response.json();
             setSelectedVendor(data);
+            setSelectedTab('profile'); // Reset tab to profile when vendor is selected
             setShowModal(true);
         } catch (error) {
             console.error('Error fetching vendor details:', error);
@@ -111,7 +113,7 @@ const VendorsManagement = () => {
                         <Col xs={12} md={10} className="p-4">
                             <h2 className="mb-4 text-center">Vendors Management</h2>
                             <Table hover className="vendors-table text-center">
-                                <thead className="table-header">
+                                <thead>
                                     <tr>
                                         <th>Vendor ID</th>
                                         <th>Name</th>
@@ -128,6 +130,7 @@ const VendorsManagement = () => {
                                             <tr
                                                 key={vendor.id}
                                                 onClick={() => handleRowClick(vendor.id)}
+                                                className={`vendor-row ${vendor.blocked ? 'blocked' : ''}`}
                                                 style={{ cursor: 'pointer' }}
                                             >
                                                 <td>{vendor.id}</td>
@@ -137,25 +140,22 @@ const VendorsManagement = () => {
                                                 <td>{vendor.enterprise_name}</td>
                                                 <td>{vendor.location}</td>
                                                 <td>
-                                                <Button
-                                                    variant={vendor.blocked ? 'danger' : 'warning'}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
-                                                    }}
+                                                    <Button
+                                                        variant={vendor.blocked ? 'danger' : 'warning'}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
+                                                        }}
                                                     >
-                                                    {vendor.blocked ? (
-                                                        <FontAwesomeIcon icon={faKey} />
-                                                    ) : (
-                                                        <FontAwesomeIcon icon={faUserShield} />
-                                                    )}
-                                                </Button>
+                                                        <FontAwesomeIcon icon={vendor.blocked ? faKey : faUserShield} />
+                                                        {/* {vendor.blocked ? ' Unblock' : ' Block'}  */}
+                                                    </Button>
                                                 </td>
                                             </tr>
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan="5">No data available</td>
+                                            <td colSpan="7">No data available</td>
                                         </tr>
                                     )}
                                 </tbody>
@@ -167,11 +167,15 @@ const VendorsManagement = () => {
                                 </Modal.Header>
                                 <Modal.Body>
                                     {selectedVendor ? (
-                                        <Tabs defaultActiveKey="profile" id="vendor-details-tabs" className="mb-3 custom-tabs">
+                                        <Tabs
+                                            activeKey={selectedTab}
+                                            onSelect={(key) => setSelectedTab(key)}
+                                            id="vendor-details-tabs"
+                                            className="custom-tabs"
+                                        >
                                             <Tab eventKey="profile" title="Profile">
                                                 <div>
                                                     <h5>Profile</h5>
-                                                    {/* Vendor profile details */}
                                                     <p><strong>Name:</strong> {selectedVendor.fullname}</p>
                                                     <p><strong>Enterprise:</strong> {selectedVendor.enterprise_name}</p>
                                                     <p><strong>Location:</strong> {selectedVendor.location}</p>
@@ -180,25 +184,21 @@ const VendorsManagement = () => {
                                             <Tab eventKey="analytics" title="Analytics">
                                                 <div>
                                                     <h5>Analytics</h5>
-                                                    {/* Fetch and display analytics data here */}
                                                 </div>
                                             </Tab>
                                             <Tab eventKey="orders" title="Orders">
                                                 <div>
                                                     <h5>Orders</h5>
-                                                    {/* Fetch and display orders data here */}
                                                 </div>
                                             </Tab>
                                             <Tab eventKey="reviews" title="Reviews">
                                                 <div>
                                                     <h5>Reviews</h5>
-                                                    {/* Fetch and display reviews data here */}
                                                 </div>
                                             </Tab>
                                             <Tab eventKey="products" title="Products">
                                                 <div>
                                                     <h5>Products</h5>
-                                                    {/* Fetch and display products in card format */}
                                                     {selectedVendor.products && selectedVendor.products.length > 0 ? (
                                                         selectedVendor.products.map(product => (
                                                             <Card key={product.id} className="mb-3">
@@ -217,7 +217,6 @@ const VendorsManagement = () => {
                                                 </div>
                                             </Tab>
                                         </Tabs>
-
                                     ) : (
                                         <p>No details available</p>
                                     )}
