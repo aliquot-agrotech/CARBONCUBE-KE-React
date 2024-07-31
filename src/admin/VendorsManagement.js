@@ -298,26 +298,7 @@ const VendorsManagement = () => {
                                                         )}
                                                     </tbody>
                                                 </Table>
-                                            </Tab>
-
-                                            <Tab eventKey="reviews" title="Reviews">
-                                                <h5 className="text-center">Reviews</h5>
-                                                {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
-                                                    <div className="profile-cards text-center">
-                                                        {selectedVendor.reviews.map((review) => (
-                                                            <Card key={review.id} className="mb-3">
-                                                                <Card.Body>
-                                                                    <Card.Title>Review by {review.reviewer_name}</Card.Title>
-                                                                    <Card.Text>Rating: {review.rating}</Card.Text>
-                                                                    <Card.Text>{review.comment}</Card.Text>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        ))}
-                                                    </div>
-                                                ) : (
-                                                    <p>No reviews available</p>
-                                                )}
-                                            </Tab>
+                                            </Tab>                                           
 
                                             <Tab eventKey="products" title="Products">
                                                 <h5 className="text-center">Products</h5>
@@ -347,6 +328,25 @@ const VendorsManagement = () => {
                                                         )}
                                                     </tbody>
                                                 </Table>
+                                            </Tab>
+
+                                            <Tab eventKey="reviews" title="Reviews">
+                                                <h5 className="text-center">Reviews</h5>
+                                                {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
+                                                    <div className="profile-cards text-center">
+                                                        {selectedVendor.reviews.map((review) => (
+                                                            <Card key={review.id} className="mb-3">
+                                                                <Card.Body>
+                                                                    <Card.Title>Review by {review.reviewer_name}</Card.Title>
+                                                                    <Card.Text>Rating: {review.rating}</Card.Text>
+                                                                    <Card.Text>{review.comment}</Card.Text>
+                                                                </Card.Body>
+                                                            </Card>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <p>No reviews available</p>
+                                                )}
                                             </Tab>
                                         </Tabs>
                                     ) : (
