@@ -41,40 +41,42 @@ const VendorsManagement = () => {
     
         fetchVendors();
     }, []);
+
     const handleRowClick = async (vendorId) => {
-        try {
-            const [vendorResponse, ordersResponse] = await Promise.all([
-                fetch(`http://localhost:3000/admin/vendors/${vendorId}`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                }),
-                fetch(`http://localhost:3000/admin/vendors/${vendorId}/orders`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                })
-            ]);
-    
-            if (!vendorResponse.ok || !ordersResponse.ok) {
-                throw new Error('Network response was not ok');
-            }
-    
-            const vendorData = await vendorResponse.json();
-            const ordersData = await ordersResponse.json();
-            const analytics = await fetchVendorAnalytics(vendorId);
-    
-            console.log('Selected vendor:', vendorData); // Add this line
-            console.log('Orders:', ordersData); // Add this line
-            console.log('Analytics:', analytics); // Add this line
-    
-            setSelectedVendor({ ...vendorData, orders: ordersData, analytics });
-            setSelectedTab('profile');
-            setShowModal(true);
-        } catch (error) {
-            console.error('Error fetching vendor details:', error);
+    try {
+        const [vendorResponse, ordersResponse] = await Promise.all([
+            fetch(`http://localhost:3000/admin/vendors/${vendorId}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            }),
+            fetch(`http://localhost:3000/admin/vendors/${vendorId}/orders`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            })
+        ]);
+
+        if (!vendorResponse.ok || !ordersResponse.ok) {
+            throw new Error('Network response was not ok');
         }
-    };
+
+        const vendorData = await vendorResponse.json();
+        const ordersData = await ordersResponse.json();
+        const analytics = await fetchVendorAnalytics(vendorId);
+
+        console.log('Selected vendor:', vendorData);
+        console.log('Orders:', ordersData);
+        console.log('Analytics:', analytics);
+
+        setSelectedVendor({ ...vendorData, orders: ordersData, analytics });
+        setSelectedTab('profile');
+        setShowModal(true);
+    } catch (error) {
+        console.error('Error fetching vendor details:', error);
+    }
+};
+
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -262,7 +264,6 @@ const VendorsManagement = () => {
                                                     <p>Loading analytics data...</p>
                                                 )}
                                             </Tab>
-
                                             <Tab eventKey="orders" title="Orders">
                                                 <h5 className="text-center">Orders</h5>
                                                 <Table hover className="orders-table text-center">
@@ -273,25 +274,23 @@ const VendorsManagement = () => {
                                                             <th>Product</th>
                                                             <th>Quantity</th>
                                                             <th>Total Amount</th>
-                                                            <th>Status</th>
                                                             <th>Date Ordered</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {selectedVendor && selectedVendor.orders && selectedVendor.orders.length > 0 ? (
-                                                            selectedVendor.orders.flatMap((order) =>
+                                                            selectedVendor.orders.map((order) => (
                                                                 order.order_items.map((item) => (
-                                                                    <tr key={`${order.id}-${item.id}`}>
+                                                                    <tr key={`${order.id}-${item.product.id}`}>
                                                                         <td>{order.id}</td>
                                                                         <td>{order.purchaser.fullname}</td>
                                                                         <td>{item.product.title}</td>
                                                                         <td>{item.quantity}</td>
                                                                         <td>{(item.quantity * item.product.price).toFixed(2)}</td>
-                                                                        <td>{order.status}</td>
                                                                         <td>{new Date(order.created_at).toLocaleDateString()}</td>
                                                                     </tr>
                                                                 ))
-                                                            )
+                                                            ))
                                                         ) : (
                                                             <tr>
                                                                 <td colSpan="6">No orders available</td>
@@ -300,6 +299,7 @@ const VendorsManagement = () => {
                                                     </tbody>
                                                 </Table>
                                             </Tab>
+
                                             <Tab eventKey="reviews" title="Reviews">
                                                 <h5 className="text-center">Reviews</h5>
                                                 {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
