@@ -195,6 +195,7 @@ const VendorsManagement = () => {
                                             className="custom-tabs mb-3"
                                         >
                                             <Tab eventKey="profile" title="Profile">
+                                            <h5 className="text-center">Profile</h5>
                                                 <div className="profile-cards text-center">
                                                     <div className="profile-card">
                                                         <p><strong>Name:</strong> {selectedVendor.fullname}</p>
@@ -221,65 +222,24 @@ const VendorsManagement = () => {
                                             </Tab>
 
                                             <Tab eventKey="analytics" title="Analytics">
-                                                <h5>Analytics</h5>
+                                                <h5 className="text-center">Analytics</h5>
                                                 {selectedVendor.analytics ? (
-                                                    <div>
-                                                        <Row className="mt-4">
-                                                            <Col md={6}>
-                                                                <Card className="text-center mb-4">
-                                                                    <Card.Body>
-                                                                        <Card.Title>Total Orders</Card.Title>
-                                                                        <Card.Text>
-                                                                            {selectedVendor.analytics.total_orders}
-                                                                        </Card.Text>
-                                                                    </Card.Body>
-                                                                </Card>
-                                                            </Col>
-                                                            <Col md={6}>
-                                                                <Card className="text-center mb-4">
-                                                                    <Card.Body>
-                                                                        <Card.Title>Total Products Sold</Card.Title>
-                                                                        <Card.Text>
-                                                                            {selectedVendor.analytics.total_products_sold}
-                                                                        </Card.Text>
-                                                                    </Card.Body>
-                                                                </Card>
-                                                            </Col>
-                                                        </Row>
-                                                        <Row className="mt-4">
-                                                            <Col md={6}>
-                                                                <Card className="text-center mb-4">
-                                                                    <Card.Body>
-                                                                        <Card.Title>Mean Rating</Card.Title>
-                                                                        <Card.Text>
-                                                                            {selectedVendor.analytics.mean_rating}
-                                                                        </Card.Text>
-                                                                    </Card.Body>
-                                                                </Card>
-                                                            </Col>
-                                                            <Col md={6}>
-                                                                <Card className="text-center mb-4">
-                                                                    <Card.Body>
-                                                                        <Card.Title>Total Revenue</Card.Title>
-                                                                        <Card.Text>
-                                                                            {selectedVendor.analytics.total_revenue}
-                                                                        </Card.Text>
-                                                                    </Card.Body>
-                                                                </Card>
-                                                            </Col>
-                                                        </Row>
-                                                        <Row className="mt-4">
-                                                            <Col md={12}>
-                                                                <Card className="text-center mb-4">
-                                                                    <Card.Body>
-                                                                        <Card.Title>Total Reviews</Card.Title>
-                                                                        <Card.Text>
-                                                                            {selectedVendor.analytics.total_reviews}
-                                                                        </Card.Text>
-                                                                    </Card.Body>
-                                                                </Card>
-                                                            </Col>
-                                                        </Row>
+                                                    <div className="profile-cards text-center">
+                                                        <div className="profile-card">
+                                                            <p><strong>Total Orders:</strong> {selectedVendor.analytics.total_orders}</p>
+                                                        </div>
+                                                        <div className="profile-card">
+                                                            <p><strong>Total Products Sold:</strong> {selectedVendor.analytics.total_products_sold}</p>
+                                                        </div>
+                                                        <div className="profile-card">
+                                                            <p><strong>Total Revenue:</strong> {selectedVendor.analytics.total_revenue}</p>
+                                                        </div>
+                                                        <div className="profile-card">
+                                                            <p><strong>Total Reviews:</strong> {selectedVendor.analytics.total_reviews}</p>
+                                                        </div>
+                                                        <div className="profile-card">
+                                                            <p><strong>Mean Rating:</strong> {selectedVendor.analytics.mean_rating}</p>
+                                                        </div>
                                                     </div>
                                                 ) : (
                                                     <p>No analytics data available</p>
