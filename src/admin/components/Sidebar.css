@@ -26,10 +26,11 @@
 .sidebar .nav-link {
     color: #fff;
     padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
+    border-radius: 2.0rem;
     display: flex;
     align-items: center;
     transition: background-color 0.3s;
+    margin-bottom: 10px;
 }
 
 .sidebar .nav-link:hover,

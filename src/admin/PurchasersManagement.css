@@ -1,5 +1,3 @@
-/* PurchasersManagement.css */
-
 /* General page styles */
 .purchasers-management-page {
     background-color: #E0E0E0;
@@ -41,7 +39,7 @@ body, html {
 }
 
 /* Modal styles */
-.modal-header {
+.modal-header, .modal-footer {
     background-color: #343a40;
     color: #fff;
 }
@@ -55,10 +53,7 @@ body, html {
     background-color: #E0E0E0;
 }
 
-.modal-footer {
-    background-color: #343a40;
-    color: #fff;
-}
+
 
 .purchaser-details {
     display: flex;

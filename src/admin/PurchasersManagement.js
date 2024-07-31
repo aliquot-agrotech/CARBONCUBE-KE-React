@@ -203,7 +203,7 @@ const PurchasersManagement = () => {
                           </div>
                         </div>
                       ) : (
-                        <p>No orders available</p>
+                        <p className="text-center">No orders available</p>
                       )}
                     </div>
                   ) : (
