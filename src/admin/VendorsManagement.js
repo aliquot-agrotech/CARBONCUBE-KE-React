@@ -250,11 +250,12 @@ const VendorsManagement = () => {
                                                         <div className="profile-card">
                                                             <p><strong>Total Revenue:</strong> {selectedVendor.analytics.total_revenue}</p>
                                                         </div>
-                                                        <div className="profile-card">
-                                                            <p><strong>Mean Rating:</strong> {selectedVendor.analytics.mean_rating}</p>
-                                                        </div>
+                                                        
                                                         <div className="profile-card">
                                                             <p><strong>Total Reviews:</strong> {selectedVendor.analytics.total_reviews}</p>
+                                                        </div>
+                                                        <div className="profile-card">
+                                                            <p><strong>Mean Rating:</strong> {selectedVendor.analytics.mean_rating}</p>
                                                         </div>
                                                     </div>
                                                 ) : (
