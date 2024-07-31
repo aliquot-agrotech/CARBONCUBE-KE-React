@@ -219,7 +219,7 @@ const OrdersManagement = () => {
                                     )}
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="primary" onClick={handleCloseModal}>
+                                    <Button variant="warning" onClick={handleCloseModal}>
                                         Close
                                     </Button>
                                 </Modal.Footer>

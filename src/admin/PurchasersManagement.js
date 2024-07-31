@@ -160,7 +160,7 @@ const PurchasersManagement = () => {
                                     <td>{order.status}</td>
                                     <td>
                                       <Button
-                                        variant="warning"
+                                        variant="primary"
                                         onClick={() => document.getElementById(`details-${order.id}`).classList.toggle('d-none')}
                                       >
                                         View Details
@@ -202,7 +202,7 @@ const PurchasersManagement = () => {
                   )}
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="primary" onClick={handleCloseModal}>
+                  <Button variant="warning" onClick={handleCloseModal}>
                     Close
                   </Button>
                 </Modal.Footer>
