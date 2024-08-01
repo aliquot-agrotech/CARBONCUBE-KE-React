@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Container, Row, Col, InputGroup, FormControl, Modal, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './ProductsManagement.css';
@@ -169,9 +169,6 @@ const ProductsManagement = () => {
                                                 onChange={handleSearchChange}
                                                 className="search-input"
                                             />
-                                            <InputGroup.Text id="search-icon">
-                                                <FontAwesomeIcon icon={faSearch} />
-                                            </InputGroup.Text>
                                         </InputGroup>
                                     </div>
                                 </Col>
