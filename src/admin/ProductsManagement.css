@@ -1,0 +1,24 @@
+.products-management-page {
+    background-color: #f8f9fa;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-input {
+    padding-right: 2.5rem; /* Adjust to make room for the icon */
+}
+
+.search-icon {
+    position: absolute;
+    right: 0.5rem; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}

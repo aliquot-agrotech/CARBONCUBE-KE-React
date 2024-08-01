@@ -6,6 +6,7 @@ import ContentManagement from './admin/ContentManagement';
 import PurchasersManagement from './admin/PurchasersManagement';
 import OrdersManagement from './admin/OrdersManagement';
 import VendorsManagement from './admin/VendorsManagement';
+import ProductsManagement from './admin/ProductsManagement';
 import VendorDashboard from './vendor/Analytics';
 import PurchaserDashboard from './purchaser/HomePage';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
@@ -56,6 +57,7 @@ function App() {
             <Route path="purchasers-management" element={<PurchasersManagement onLogout={handleLogout} />} />
             <Route path="orders-management" element={<OrdersManagement onLogout={handleLogout} />} />
             <Route path="vendors-management" element={<VendorsManagement onLogout={handleLogout} />} />
+            <Route path="products-management" element={<ProductsManagement onLogout={handleLogout} />} />
           </Route>
         )}
         {isAuthenticated && userRole === 'vendor' && (
