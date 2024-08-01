@@ -53,7 +53,7 @@ const LoginForm = ({ onLogin }) => {
               <Form.Control
                 type="email"
                 placeholder="Email/Username"
-                className="mb-3"
+                className="mb-3 text-center"
                 id="button"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -64,7 +64,7 @@ const LoginForm = ({ onLogin }) => {
               <Form.Control
                 type="password"
                 placeholder="Password"
-                className="mb-3"
+                className="mb-3 text-center"
                 id="button"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

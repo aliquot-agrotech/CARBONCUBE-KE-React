@@ -47,12 +47,13 @@ function PurchaserSignUpPage({ onSignup }) {
                 <Col xs={12} sm={10} md={12} lg={10} >
                   <h2 className="form-title text-center mb-4">Sign Up Now</h2>
                   <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3">
+                    <Form.Group>
                       <Form.Control
                         type="text"
                         placeholder="Full name"
                         name="fullname"
                         id="button"
+                        className="mb-3 text-center"
                         value={formData.fullname}
                         onChange={handleChange}
                       />
@@ -63,6 +64,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         placeholder="Username"
                         name="username"
                         id="button"
+                        className="mb-3 text-center"
                         value={formData.username}
                         onChange={handleChange}
                       />
@@ -73,6 +75,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         placeholder="Phone Number"
                         name="phone"
                         id="button"
+                        className="mb-3 text-center"
                         value={formData.phone}
                         onChange={handleChange}
                       />
@@ -83,6 +86,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         placeholder="Email address"
                         name="email"
                         id="button"
+                        className="mb-3 text-center"
                         value={formData.email}
                         onChange={handleChange}
                       />
@@ -93,6 +97,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         placeholder="Location/Address"
                         name="address"
                         id="button"
+                        className="mb-3 text-center"
                         value={formData.address}
                         onChange={handleChange}
                       />
@@ -103,6 +108,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         placeholder="Password"
                         name="password"
                         id="button"
+                        className="mb-3 text-center"  
                         value={formData.password}
                         onChange={handleChange}
                       />
