@@ -62,8 +62,14 @@ const ProductsManagement = () => {
 
     useEffect(() => {
         fetchProducts();
+        
+    }, []);
+
+    useEffect(() => {
+        
         fetchSoftDeletedProducts();
     }, []);
+
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
