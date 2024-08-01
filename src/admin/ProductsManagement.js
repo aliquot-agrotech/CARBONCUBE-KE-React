@@ -50,6 +50,7 @@ const ProductsManagement = () => {
             }
 
             const data = await response.json();
+            console.log('Fetched soft-deleted products:', data);  // Debugging line
             setSoftDeletedProducts(data);
             setLoading(false);
         } catch (error) {
@@ -233,7 +234,6 @@ const ProductsManagement = () => {
                     </Row>
                 </Container>
 
-                {/* Notification Modal */}
                 <Modal show={showModal} onHide={handleModalClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Notify Vendor</Modal.Title>
@@ -241,7 +241,7 @@ const ProductsManagement = () => {
                     <Modal.Body>
                         <Form>
                             <Form.Group controlId="notificationOptions">
-                                <Form.Label>Select Notification Reasons</Form.Label>
+                                <Form.Label>Select reasons for notification:</Form.Label>
                                 <Form.Check
                                     type="checkbox"
                                     label="Low-Quality Images"
@@ -258,18 +258,6 @@ const ProductsManagement = () => {
                                     type="checkbox"
                                     label="Insufficient Description"
                                     value="Insufficient Description"
-                                    onChange={handleNotificationOptionChange}
-                                />
-                                <Form.Check
-                                    type="checkbox"
-                                    label="Missing Tags"
-                                    value="Missing Tags"
-                                    onChange={handleNotificationOptionChange}
-                                />
-                                <Form.Check
-                                    type="checkbox"
-                                    label="Expired Inventory"
-                                    value="Expired Inventory"
                                     onChange={handleNotificationOptionChange}
                                 />
                                 <Form.Check
