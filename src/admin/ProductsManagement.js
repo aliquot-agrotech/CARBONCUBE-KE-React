@@ -17,52 +17,52 @@ const ProductsManagement = () => {
     const [notificationOptions, setNotificationOptions] = useState([]);
     const [notes, setNotes] = useState('');
 
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/admin/products', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setProducts(data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            setError(`Error fetching products: ${error.message}`);
+        }
+    };
+
+    const fetchSoftDeletedProducts = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/admin/products/soft_deleted', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setSoftDeletedProducts(data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching soft-deleted products:', error);
+            setError(`Error fetching soft-deleted products: ${error.message}`);
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/admin/products', {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok. Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setProducts(data);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-                setError(`Error fetching products: ${error.message}`);
-            }
-        };
-
-        const fetchSoftDeletedProducts = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/admin/products/soft_deleted', {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok. Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setSoftDeletedProducts(data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching soft-deleted products:', error);
-                setError(`Error fetching soft-deleted products: ${error.message}`);
-                setLoading(false);
-            }
-        };
-
         fetchProducts();
-        fetchSoftDeletedProducts(); // Ensure this is called
-    }, []); // Dependencies array is empty to only run on mount
+        fetchSoftDeletedProducts();
+    }, []);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -98,8 +98,7 @@ const ProductsManagement = () => {
             }
 
             handleModalClose();
-            // Refresh the soft-deleted products list after sending notification
-            await fetchSoftDeletedProducts();
+            fetchSoftDeletedProducts();  // Call the function to refresh soft-deleted products
         } catch (error) {
             console.error('Error sending notification:', error);
         }
@@ -125,36 +124,13 @@ const ProductsManagement = () => {
                 throw new Error(`Network response was not ok. Status: ${response.status}`);
             }
 
-            setSoftDeletedProducts(prevProducts =>
-                prevProducts.filter(product => product.id !== id)
-            );
+            const deletedProduct = products.find(product => product.id === id);
+            setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+            setSoftDeletedProducts(prevProducts => [...prevProducts, deletedProduct]);
         } catch (error) {
             console.error('Error deleting product:', error);
         }
     };
-
-    const fetchSoftDeletedProducts = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/admin/products/soft_deleted', {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-    
-            if (!response.ok) {
-                // Log the full response for debugging
-                const errorDetails = await response.text();
-                throw new Error(`Network response was not ok. Status: ${response.status}, Details: ${errorDetails}`);
-            }
-    
-            const data = await response.json();
-            setSoftDeletedProducts(data);
-        } catch (error) {
-            console.error('Error fetching soft-deleted products:', error);
-            setError(`Error fetching soft-deleted products: ${error.message}`);
-        }
-    };
-    
 
     const filteredProducts = products.filter(product =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -244,11 +220,6 @@ const ProductsManagement = () => {
                                                         Notify Vendor
                                                     </Button>
                                                 </Card.Body>
-                                                <Card.Footer className="text-muted">
-                                                    <Button variant="link" className="text-danger" onClick={() => handleDeleteProduct(product.id)}>
-                                                        <FontAwesomeIcon icon={faTrash} />
-                                                    </Button>
-                                                </Card.Footer>
                                             </Card>
                                         </Col>
                                     ))
@@ -289,7 +260,6 @@ const ProductsManagement = () => {
                                     value="Insufficient Description"
                                     onChange={handleNotificationOptionChange}
                                 />
-                                {/* Add more options if needed */}
                                 <Form.Check
                                     type="checkbox"
                                     label="Missing Tags"
@@ -302,9 +272,15 @@ const ProductsManagement = () => {
                                     value="Expired Inventory"
                                     onChange={handleNotificationOptionChange}
                                 />
+                                <Form.Check
+                                    type="checkbox"
+                                    label="Other"
+                                    value="Other"
+                                    onChange={handleNotificationOptionChange}
+                                />
                             </Form.Group>
-                            <Form.Group controlId="notes">
-                                <Form.Label>Notes</Form.Label>
+                            <Form.Group controlId="notificationNotes" className="mt-3">
+                                <Form.Label>Additional Notes</Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     rows={3}
