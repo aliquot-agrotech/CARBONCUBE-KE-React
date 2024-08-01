@@ -114,8 +114,8 @@ const ProductsManagement = () => {
 
     const handleDeleteProduct = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/admin/products/${id}`, {
-                method: 'DELETE',
+            const response = await fetch(`http://localhost:3000/admin/products/${id}/soft_delete`, {
+                method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 },
