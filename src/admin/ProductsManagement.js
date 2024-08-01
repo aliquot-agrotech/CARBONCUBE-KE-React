@@ -9,6 +9,7 @@ const ProductsManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -25,6 +26,7 @@ const ProductsManagement = () => {
 
                 const data = await response.json();
                 setProducts(data);
+                setFilteredProducts(data); // Initialize with all products
             } catch (error) {
                 console.error('Error fetching products:', error);
                 setError('Error fetching products');
@@ -37,12 +39,18 @@ const ProductsManagement = () => {
     }, []);
 
     const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
+        const term = e.target.value.toLowerCase();
+        setSearchTerm(term);
 
-    const filteredProducts = products.filter(product =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+        // Tokenize the search term and filter products
+        const tokens = term.split(' ').filter(token => token.length > 0);
+        const filtered = products.filter(product => {
+            const title = product.title.toLowerCase();
+            const description = product.description.toLowerCase();
+            return tokens.every(token => title.includes(token) || description.includes(token));
+        });
+        setFilteredProducts(filtered);
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -82,7 +90,7 @@ const ProductsManagement = () => {
                             <Row>
                                 {filteredProducts.length > 0 ? (
                                     filteredProducts.map(product => (
-                                        <Col key={product.id} xs={12} md={6} lg={4} className="mb-4">
+                                        <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
                                             <Card>
                                                 <Card.Img variant="top" src={product.imageUrl} />
                                                 <Card.Body>
