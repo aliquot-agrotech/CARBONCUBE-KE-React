@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Container, Row, Col, InputGroup, FormControl } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './ProductsManagement.css';
@@ -65,21 +63,22 @@ const ProductsManagement = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-4">
                             <h2 className="mb-4 text-center">Products Management</h2>
-                            <div className="search-container">
-                                <InputGroup className="mb-3">
-                                    <FormControl
-                                        placeholder="Search products..."
-                                        aria-label="Search products"
-                                        aria-describedby="search-icon"
-                                        value={searchTerm}
-                                        onChange={handleSearchChange}
-                                        className="search-input"
-                                    />
-                                    <InputGroup.Text id="search-icon" className="search-icon">
-                                        <FontAwesomeIcon icon={faSearch} />
-                                    </InputGroup.Text>
-                                </InputGroup>
-                            </div>
+                            <Row className="justify-content-center">
+                                <Col xs={9} md={6} lg={4} className="mb-3">
+                                    <div className="search-container">
+                                        <InputGroup>
+                                            <FormControl
+                                                placeholder="Search products..."
+                                                aria-label="Search products"
+                                                aria-describedby="search-icon"
+                                                value={searchTerm}
+                                                onChange={handleSearchChange}
+                                                className="search-input"
+                                            />
+                                        </InputGroup>
+                                    </div>
+                                </Col>
+                            </Row>
                             <Row>
                                 {filteredProducts.length > 0 ? (
                                     filteredProducts.map(product => (
