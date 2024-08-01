@@ -211,6 +211,12 @@ const ProductsManagement = () => {
                                                         Price: Ksh {product.price}
                                                     </Card.Text>
                                                     <Button variant="primary">View Details</Button>
+                                                    <FontAwesomeIcon
+                                                        icon={faTrash}
+                                                        className="delete-icon"
+                                                        onClick={() => handleDeleteProduct(product.id)}
+                                                        title="Delete Product"
+                                                    />
                                                 </Card.Body>
                                             </Card>
                                         </Col>
