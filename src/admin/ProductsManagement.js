@@ -50,26 +50,24 @@ const ProductsManagement = () => {
             }
 
             const data = await response.json();
-            console.log('Fetched soft-deleted products:', data);  // Debugging line
+            console.log('Fetched soft-deleted products:', data); // Debugging line
             setSoftDeletedProducts(data);
-            setLoading(false);
         } catch (error) {
             console.error('Error fetching soft-deleted products:', error);
             setError(`Error fetching soft-deleted products: ${error.message}`);
+        } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
         fetchProducts();
-        
-    }, []);
-
-    useEffect(() => {
-        
         fetchSoftDeletedProducts();
     }, []);
 
+    useEffect(() => {
+        console.log('Soft-deleted products:', softDeletedProducts); // Debugging line
+    }, [softDeletedProducts]);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -105,7 +103,7 @@ const ProductsManagement = () => {
             }
 
             handleModalClose();
-            fetchSoftDeletedProducts();  // Call the function to refresh soft-deleted products
+            fetchSoftDeletedProducts(); // Call the function to refresh soft-deleted products
         } catch (error) {
             console.error('Error sending notification:', error);
         }
