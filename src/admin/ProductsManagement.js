@@ -31,22 +31,42 @@ const ProductsManagement = () => {
 
             const data = await response.json();
             setProducts(data);
+
+            // Update flagged products based on fetched data
+            const flagged = data.filter(product => product.flagged);
+            setFlaggedProducts(flagged);
         } catch (error) {
             console.error('Error fetching products:', error);
             setError(`Error fetching products: ${error.message}`);
+        } finally {
+            setLoading(false);
         }
     };
 
-    
-    
-    useEffect(() => {
-        fetchProducts();
-        fetchFlaggedProducts();
-    }, []);
+    const fetchFlaggedProducts = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/admin/products/flagged', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Fetched flagged products:', data); // Debugging line
+            setFlaggedProducts(data);
+        } catch (error) {
+            console.error('Error fetching flagged products:', error);
+            setError(`Error fetching flagged products: ${error.message}`);
+        }
+    };
 
     useEffect(() => {
-        console.log('Flagged products:', flaggedProducts); // Debugging line
-    }, [flaggedProducts]);
+        fetchProducts();
+    }, []);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -82,7 +102,7 @@ const ProductsManagement = () => {
             }
 
             handleModalClose();
-            fetchFlaggedProducts(); // Call the function to refresh flagged products
+            await fetchFlaggedProducts(); // Call the function to refresh flagged products
         } catch (error) {
             console.error('Error sending notification:', error);
         }
@@ -97,49 +117,22 @@ const ProductsManagement = () => {
 
     const handleFlagProduct = async (id) => {
         try {
-            // Send a PATCH request to flag the product
             const response = await fetch(`http://localhost:3000/admin/products/${id}/flag`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error(`Network response was not ok. Status: ${response.status}`);
             }
-    
-            // Fetch the updated list of products and flagged products
-            await fetchProducts();
-            await fetchFlaggedProducts();
+
+            await fetchProducts(); // Refresh product list
         } catch (error) {
             console.error('Error flagging product:', error);
         }
     };
-
-    const fetchFlaggedProducts = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/admin/products/flagged', {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Network response was not ok. Status: ${response.status}`);
-            }
-    
-            const data = await response.json();
-            console.log('Fetched flagged products:', data); // Debugging line
-            setFlaggedProducts(data);
-        } catch (error) {
-            console.error('Error fetching flagged products:', error);
-            setError(`Error fetching flagged products: ${error.message}`);
-        } finally {
-            setLoading(false);
-        }
-    };
-        
 
     const filteredProducts = products.filter(product =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
