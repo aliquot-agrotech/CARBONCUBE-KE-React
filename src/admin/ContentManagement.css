@@ -1,15 +1,23 @@
+.content-management-page {
+  background-color: #E0E0E0;
+  min-height: 100vh; /* Ensure the background color covers the full height */
+  padding: 0 1rem; /* Optional: Adjust padding as needed */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+  padding-top: 56px;
+}
+
 .card-title {
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.card-body ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.card-body ul li {
+  margin-bottom: 0.5rem;
   
-  .card-body ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .card-body ul li {
-    margin-bottom: 0.5rem;
-    
-  }
+}
   
