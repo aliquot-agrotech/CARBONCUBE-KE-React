@@ -7,8 +7,8 @@ import TopNavbar from './components/TopNavbar';
 import './ProductsManagement.css';
 
 const ProductsManagement = () => {
-    const [products, setProducts] = useState([]);
     const [flaggedProducts, setFlaggedProducts] = useState([]);
+    const [nonFlaggedProducts, setNonFlaggedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -30,37 +30,18 @@ const ProductsManagement = () => {
             }
 
             const data = await response.json();
-            setProducts(data);
 
-            // Update flagged products based on fetched data
+            // Separate products into flagged and non-flagged
             const flagged = data.filter(product => product.flagged);
+            const nonFlagged = data.filter(product => !product.flagged);
+            
             setFlaggedProducts(flagged);
+            setNonFlaggedProducts(nonFlagged);
         } catch (error) {
             console.error('Error fetching products:', error);
             setError(`Error fetching products: ${error.message}`);
         } finally {
             setLoading(false);
-        }
-    };
-
-    const fetchFlaggedProducts = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/admin/products/flagged', {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`Network response was not ok. Status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Fetched flagged products:', data); // Debugging line
-            setFlaggedProducts(data);
-        } catch (error) {
-            console.error('Error fetching flagged products:', error);
-            setError(`Error fetching flagged products: ${error.message}`);
         }
     };
 
@@ -102,7 +83,7 @@ const ProductsManagement = () => {
             }
 
             handleModalClose();
-            await fetchFlaggedProducts(); // Call the function to refresh flagged products
+            await fetchProducts(); // Refresh product list
         } catch (error) {
             console.error('Error sending notification:', error);
         }
@@ -111,7 +92,9 @@ const ProductsManagement = () => {
     const handleNotificationOptionChange = (e) => {
         const { value, checked } = e.target;
         setNotificationOptions(prevOptions =>
-            checked ? [...prevOptions, value] : prevOptions.filter(option => option !== value)
+            checked
+                ? [...prevOptions, value] // Add the option if checked
+                : prevOptions.filter(option => option !== value) // Remove the option if unchecked
         );
     };
 
@@ -134,7 +117,7 @@ const ProductsManagement = () => {
         }
     };
 
-    const filteredProducts = products.filter(product =>
+    const filteredNonFlaggedProducts = nonFlaggedProducts.filter(product =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -174,9 +157,10 @@ const ProductsManagement = () => {
                                     </div>
                                 </Col>
                             </Row>
+                            {/* <h3 className="mb-4">Non-Flagged Products</h3> */}
                             <Row>
-                                {filteredProducts.length > 0 ? (
-                                    filteredProducts.map(product => (
+                                {filteredNonFlaggedProducts.length > 0 ? (
+                                    filteredNonFlaggedProducts.map(product => (
                                         <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
                                             <Card>
                                                 <Card.Img variant="top" src={product.imageUrl} />
@@ -198,7 +182,7 @@ const ProductsManagement = () => {
                                     ))
                                 ) : (
                                     <Col>
-                                        <p>No products found</p>
+                                        <p>No non-flagged products found</p>
                                     </Col>
                                 )}
                             </Row>
