@@ -34,14 +34,14 @@ const Sidebar = () => {
             <GraphUp className="icon" /> {isOpen && 'Analytics & Reporting'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/products-management"
-            className={location.pathname === '/admin/products-management' ? 'active' : ''}>
-            <Box className="icon" /> {isOpen && 'Products'}
-          </Nav.Link>
-          <Nav.Link
             href="/admin/orders-management"
             className={location.pathname === '/admin/orders-management' ? 'active' : ''}>
             <Truck className="icon" /> {isOpen && 'Orders'}
+          </Nav.Link>
+          <Nav.Link
+            href="/admin/products-management"
+            className={location.pathname === '/admin/products-management' ? 'active' : ''}>
+            <Box className="icon" /> {isOpen && 'Products'}
           </Nav.Link>
           <Nav.Link
             href="/admin/vendors-management"
