@@ -24,17 +24,24 @@ const ProductsManagement = () => {
                     'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-
+    
             if (!response.ok) {
                 throw new Error(`Network response was not ok. Status: ${response.status}`);
             }
-
+    
             const data = await response.json();
-
+    
+            // Debug: Log data to check its structure
+            console.log('Fetched products:', data);
+    
             // Separate products into flagged and non-flagged
             const flagged = data.filter(product => product.flagged);
             const nonFlagged = data.filter(product => !product.flagged);
-            
+    
+            // Debug: Log flagged and non-flagged products
+            console.log('Flagged products:', flagged);
+            console.log('Non-flagged products:', nonFlagged);
+    
             setFlaggedProducts(flagged);
             setNonFlaggedProducts(nonFlagged);
         } catch (error) {
@@ -44,6 +51,7 @@ const ProductsManagement = () => {
             setLoading(false);
         }
     };
+    
 
     useEffect(() => {
         fetchProducts();
