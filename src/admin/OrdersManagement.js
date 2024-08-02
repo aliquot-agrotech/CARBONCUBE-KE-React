@@ -108,7 +108,7 @@ const OrdersManagement = () => {
                             <Sidebar />
                         </Col>
                         <Col xs={12} md={10} className="p-4">
-                            <h2 className="mb-4 text-center">Orders Management</h2>
+                            {/* <h2 className="mb-4 text-center">Orders Management</h2> */}
                             <Table hover className="orders-table text-center">
                                 <thead className="table-header">
                                     <tr>
@@ -144,6 +144,7 @@ const OrdersManagement = () => {
                                                         as="select"
                                                         value={order.status}
                                                         onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                                                        id="button"
                                                         style={{ verticalAlign: 'middle',
                                                             backgroundColor: order.status === 'on-transit' ? 'limegreen' : '#FFC107',
                                                         }}      >

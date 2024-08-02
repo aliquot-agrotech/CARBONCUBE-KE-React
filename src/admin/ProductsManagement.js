@@ -146,7 +146,7 @@ const ProductsManagement = () => {
                             <Sidebar />
                         </Col>
                         <Col xs={12} md={10} className="p-4">
-                            <h2 className="mb-4 text-center">Products Management</h2>
+                            {/* <h2 className="mb-4 text-center">Products Management</h2> */}
                             <Row className="justify-content-center">
                                 <Col xs={9} md={6} lg={4} className="mb-3">
                                     <div className="search-container">
@@ -175,7 +175,7 @@ const ProductsManagement = () => {
                                                     <Card.Text>
                                                         Price: Ksh {product.price}
                                                     </Card.Text>
-                                                    <Button variant="primary">View Details</Button>
+                                                    <Button variant="warning" id="button">View Details</Button>
                                                     <FontAwesomeIcon
                                                         icon={faTrash}
                                                         className="delete-icon"
@@ -205,7 +205,7 @@ const ProductsManagement = () => {
                                                     <Card.Text>
                                                         Price: Ksh {product.price}
                                                     </Card.Text>
-                                                    <Button variant="primary" onClick={() => handleNotifyClick(product)}>
+                                                    <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
                                                         Notify Vendor
                                                     </Button>
                                                 </Card.Body>

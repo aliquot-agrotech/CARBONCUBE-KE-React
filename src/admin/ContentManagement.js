@@ -42,7 +42,7 @@ const ContentManagement = () => {
                       <Form.Label>Add File</Form.Label>
                       <Form.Control type="file" />
                     </Form.Group>
-                    <Button variant="warning" type="submit">Save</Button>
+                    <Button variant="warning" id="button" type="submit">Save</Button>
                   </Form>
                 </Card.Body>
               </Card>

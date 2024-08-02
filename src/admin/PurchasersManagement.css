@@ -91,6 +91,10 @@ body, html {
   .table-responsive {
     overflow-x: auto;
   }
+
+  #button {
+    border-radius: 1.5rem;
+  }
   
   @media (max-width: 576px) {
     .order-container table {

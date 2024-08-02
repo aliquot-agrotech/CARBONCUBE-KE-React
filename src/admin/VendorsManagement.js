@@ -152,7 +152,7 @@ const VendorsManagement = () => {
                             <Sidebar />
                         </Col>
                         <Col xs={12} md={10} className="p-4">
-                            <h2 className="mb-4 text-center">Vendors Management</h2>
+                            {/* <h2 className="mb-4 text-center">Vendors Management</h2> */}
                             <Table hover className="vendors-table text-center">
                                 <thead>
                                     <tr>
@@ -183,6 +183,7 @@ const VendorsManagement = () => {
                                                 <td>
                                                     <Button
                                                         variant={vendor.blocked ? 'danger' : 'warning'}
+                                                        id="button"
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
@@ -356,7 +357,7 @@ const VendorsManagement = () => {
                                     )}
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="secondary" onClick={handleCloseModal}>
+                                    <Button variant="warning" id="button" onClick={handleCloseModal}>
                                         Close
                                     </Button>
                                 </Modal.Footer>

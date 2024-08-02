@@ -164,7 +164,8 @@ const PurchasersManagement = () => {
                                         <td>{order.status}</td>
                                         <td>
                                           <Button
-                                            variant={activeOrder === order.id ? 'success' : 'primary'}
+                                            variant={activeOrder === order.id ? 'warning' : 'success'}
+                                            id="button"
                                             onClick={() => {
                                               document.getElementById(`details-${order.id}`).classList.toggle('d-none');
                                               setActiveOrder(prevOrder => prevOrder === order.id ? null : order.id);
@@ -211,7 +212,7 @@ const PurchasersManagement = () => {
                   )}
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="warning" onClick={handleCloseModal}>
+                  <Button variant="warning" onClick={handleCloseModal} id="button">
                     Close
                   </Button>
                 </Modal.Footer>

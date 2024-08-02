@@ -20,6 +20,21 @@
     position: relative;
 }
 
+#button {
+    border-radius: 1.5rem;
+}
+
+.custom-button {
+    background-color: #ffc107;
+    border: none;
+    color: black;
+}
+
+.custom-button:hover {
+    background-color: #d4d4d4de; /* Slightly darker shade for hover effect */
+    color: black;
+}
+
 .delete-icon {
     position: absolute;
     bottom: 10px;
