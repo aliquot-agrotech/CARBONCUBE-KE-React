@@ -8,7 +8,7 @@ import './ProductsManagement.css';
 
 const ProductsManagement = () => {
     const [products, setProducts] = useState([]);
-    const [softDeletedProducts, setSoftDeletedProducts] = useState([]);
+    const [flaggedProducts, setFlaggedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -37,9 +37,9 @@ const ProductsManagement = () => {
         }
     };
 
-    const fetchSoftDeletedProducts = async () => {
+    const fetchFlaggedProducts = async () => {
         try {
-            const response = await fetch('http://localhost:3000/admin/products/soft_deleted', {
+            const response = await fetch('http://localhost:3000/admin/products/flagged', {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 },
@@ -50,11 +50,11 @@ const ProductsManagement = () => {
             }
 
             const data = await response.json();
-            console.log('Fetched soft-deleted products:', data); // Debugging line
-            setSoftDeletedProducts(data);
+            console.log('Fetched flagged products:', data); // Debugging line
+            setFlaggedProducts(data);
         } catch (error) {
-            console.error('Error fetching soft-deleted products:', error);
-            setError(`Error fetching soft-deleted products: ${error.message}`);
+            console.error('Error fetching flagged products:', error);
+            setError(`Error fetching flagged products: ${error.message}`);
         } finally {
             setLoading(false);
         }
@@ -62,12 +62,12 @@ const ProductsManagement = () => {
 
     useEffect(() => {
         fetchProducts();
-        fetchSoftDeletedProducts();
+        fetchFlaggedProducts();
     }, []);
 
     useEffect(() => {
-        console.log('Soft-deleted products:', softDeletedProducts); // Debugging line
-    }, [softDeletedProducts]);
+        console.log('Flagged products:', flaggedProducts); // Debugging line
+    }, [flaggedProducts]);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -103,7 +103,7 @@ const ProductsManagement = () => {
             }
 
             handleModalClose();
-            fetchSoftDeletedProducts(); // Call the function to refresh soft-deleted products
+            fetchFlaggedProducts(); // Call the function to refresh flagged products
         } catch (error) {
             console.error('Error sending notification:', error);
         }
@@ -116,9 +116,9 @@ const ProductsManagement = () => {
         );
     };
 
-    const handleDeleteProduct = async (id) => {
+    const handleFlagProduct = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/admin/products/${id}/soft_delete`, {
+            const response = await fetch(`http://localhost:3000/admin/products/${id}/flag`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -129,11 +129,11 @@ const ProductsManagement = () => {
                 throw new Error(`Network response was not ok. Status: ${response.status}`);
             }
 
-            const deletedProduct = products.find(product => product.id === id);
+            const flaggedProduct = products.find(product => product.id === id);
             setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
-            setSoftDeletedProducts(prevProducts => [...prevProducts, deletedProduct]);
+            setFlaggedProducts(prevProducts => [...prevProducts, flaggedProduct]);
         } catch (error) {
-            console.error('Error deleting product:', error);
+            console.error('Error flagging product:', error);
         }
     };
 
@@ -192,8 +192,8 @@ const ProductsManagement = () => {
                                                     <FontAwesomeIcon
                                                         icon={faTrash}
                                                         className="delete-icon"
-                                                        onClick={() => handleDeleteProduct(product.id)}
-                                                        title="Delete Product"
+                                                        onClick={() => handleFlagProduct(product.id)}
+                                                        title="Flag Product"
                                                     />
                                                 </Card.Body>
                                             </Card>
@@ -206,10 +206,10 @@ const ProductsManagement = () => {
                                 )}
                             </Row>
 
-                            <h3 className="mb-4">Soft-Deleted Products</h3>
+                            <h3 className="mb-4">Flagged Products</h3>
                             <Row>
-                                {softDeletedProducts.length > 0 ? (
-                                    softDeletedProducts.map(product => (
+                                {flaggedProducts.length > 0 ? (
+                                    flaggedProducts.map(product => (
                                         <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
                                             <Card>
                                                 <Card.Img variant="top" src={product.imageUrl} />
@@ -227,7 +227,7 @@ const ProductsManagement = () => {
                                     ))
                                 ) : (
                                     <Col>
-                                        <p>No soft-deleted products found</p>
+                                        <p>No flagged products found</p>
                                     </Col>
                                 )}
                             </Row>
