@@ -78,11 +78,11 @@ const PurchasersManagement = () => {
       <div className="purchasers-management-page">
         <Container fluid className="p-0">
           <Row>
-            <Col xs={12} md={2} className="p-0">
+            <Col xs={12} md={2} className="p-0 d-flex flex-column">
               <Sidebar />
             </Col>
-            <Col xs={12} md={10} className="p-4">
-              <h2 className="mb-4 text-center">Purchaser Details & Metrics</h2>
+            <Col xs={12} md={10} className="p-4 d-flex flex-column">
+              {/* <h2 className="mb-4 text-center">Purchaser Details & Metrics</h2> */}
               <Table hover className="purchasers-table text-center">
                 <thead className="table-header">
                   <tr>
@@ -115,7 +115,7 @@ const PurchasersManagement = () => {
               </Table>
 
               <Modal show={showModal} onHide={handleCloseModal} size="lg">
-                <Modal.Header closeButton>
+                <Modal.Header>
                   <Modal.Title>Purchaser Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

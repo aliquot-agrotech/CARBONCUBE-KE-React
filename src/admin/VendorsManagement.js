@@ -151,7 +151,7 @@ const VendorsManagement = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-4">
+                        <Col xs={12} md={10} className="p-0">
                             {/* <h2 className="mb-4 text-center">Vendors Management</h2> */}
                             <Table hover className="vendors-table text-center">
                                 <thead>
@@ -204,7 +204,7 @@ const VendorsManagement = () => {
                             </Table>
 
                             <Modal show={showModal} onHide={handleCloseModal} size="lg">
-                                <Modal.Header closeButton>
+                                <Modal.Header>
                                     <Modal.Title>Vendor Details</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>

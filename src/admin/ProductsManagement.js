@@ -145,7 +145,7 @@ const ProductsManagement = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-4">
+                        <Col xs={12} md={10} className="p-0">
                             {/* <h2 className="mb-4 text-center">Products Management</h2> */}
                             <Row className="justify-content-center">
                                 <Col xs={9} md={6} lg={4} className="mb-3">

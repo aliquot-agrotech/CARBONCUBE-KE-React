@@ -119,6 +119,7 @@ const OrdersManagement = () => {
                                         <th>Total (Kshs)</th>
                                         <th>Date Ordered</th>
                                         <th>Status</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -163,7 +164,7 @@ const OrdersManagement = () => {
                             </Table>
 
                             <Modal show={showModal} onHide={handleCloseModal} size="lg">
-                                <Modal.Header closeButton>
+                                <Modal.Header>
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
@@ -220,7 +221,7 @@ const OrdersManagement = () => {
                                     )}
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="warning" onClick={handleCloseModal}>
+                                    <Button variant="warning" id="button" onClick={handleCloseModal}>
                                         Close
                                     </Button>
                                 </Modal.Footer>
