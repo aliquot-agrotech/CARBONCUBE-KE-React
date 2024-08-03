@@ -148,7 +148,7 @@ const ProductsManagement = () => {
                         <Col xs={12} md={10} className="p-0">
                             {/* <h2 className="mb-4 text-center">Products Management</h2> */}
                             <Row className="justify-content-center">
-                                <Col xs={9} md={6} lg={4} className="mb-3">
+                                <Col xs={9} md={6} lg={4} className="mb-3 pt-3">
                                     <div className="search-container">
                                         <InputGroup>
                                             <FormControl
@@ -223,7 +223,7 @@ const ProductsManagement = () => {
                 </Container>
 
                 <Modal show={showModal} onHide={handleModalClose}>
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>Notify Vendor</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -267,10 +267,10 @@ const ProductsManagement = () => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleModalClose}>
+                        <Button variant="secondary" id="button" onClick={handleModalClose}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={handleSendNotification}>
+                        <Button variant="primary" id="button" onClick={handleSendNotification}>
                             Send Notification
                         </Button>
                     </Modal.Footer>
