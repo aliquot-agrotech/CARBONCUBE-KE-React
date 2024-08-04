@@ -294,7 +294,7 @@ const ProductsManagement = () => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" id="button" onClick={handleModalClose}>
+                        <Button variant="warning" id="button" onClick={handleModalClose}>
                             Close
                         </Button>
                         <Button variant="primary" id="button" onClick={handleSendNotification}>
