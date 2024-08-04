@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Container, Row, Col, InputGroup, FormControl, Modal, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faTrashRestore } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './ProductsManagement.css';
@@ -208,6 +208,13 @@ const ProductsManagement = () => {
                                                     <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
                                                         Notify Vendor
                                                     </Button>
+
+                                                    <FontAwesomeIcon
+                                                        icon={faTrashRestore}
+                                                        className="restore-icon"
+                                                        onClick={() => handleFlagProduct(product.id)}
+                                                        title="Flag Product"
+                                                    />
                                                 </Card.Body>
                                             </Card>
                                         </Col>

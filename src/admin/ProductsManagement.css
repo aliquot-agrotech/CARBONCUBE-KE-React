@@ -49,6 +49,16 @@
     color: #c82333; /* Darker red for hover */
 }
 
+.restore-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+    cursor: pointer;
+    color: #02751b; /* Red color for delete icon */
+    font-size: 1.25rem;
+}
+
 
 .search-container {
     position: relative;
