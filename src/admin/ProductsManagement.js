@@ -123,6 +123,26 @@ const ProductsManagement = () => {
         }
     };
 
+
+    const handleRestoreProduct = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/products/${id}/restore`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
+            }
+
+            await fetchProducts(); // Refresh product list
+        } catch (error) {
+            console.error('Error flagging product:', error);
+        }
+    };
+
     const filteredNonFlaggedProducts = nonFlaggedProducts.filter(product =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -180,7 +200,7 @@ const ProductsManagement = () => {
                                                         icon={faTrash}
                                                         className="delete-icon"
                                                         onClick={() => handleFlagProduct(product.id)}
-                                                        title="Flag Product"
+                                                        title="Restore Product"
                                                     />
                                                 </Card.Body>
                                             </Card>
@@ -212,7 +232,7 @@ const ProductsManagement = () => {
                                                     <FontAwesomeIcon
                                                         icon={faTrashRestore}
                                                         className="restore-icon"
-                                                        onClick={() => handleFlagProduct(product.id)}
+                                                        onClick={() => handleRestoreProduct(product.id)}    
                                                         title="Flag Product"
                                                     />
                                                 </Card.Body>
