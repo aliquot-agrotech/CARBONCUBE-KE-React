@@ -1,106 +1,123 @@
-/* Sidebar.css */
-
 .sidebar {
-    background-color: #333;
-    color: #fff;
-    min-height: 100vh;
-    padding: 1rem;
-    transition: transform 0.3s, width 0.3s;
-    position: fixed;
-    top: 56px; /* Adjust this value to the height of your top navbar */
-    left: 0;
-    z-index: 1030;
-    overflow-y: auto;
+  background-color: #333;
+  color: #fff;
+  min-height: 100vh;
+  padding: 1rem;
+  transition: transform 0.3s, width 0.3s;
+  position: fixed;
+  top: 56px; /* Adjust this value to the height of your top navbar */
+  left: 0;
+  z-index: 1030;
+  overflow-y: auto;
 }
 
 .sidebar.collapsed {
-    width: 60px;
-    transform: translateX(-100%); /* Move sidebar off the screen */
+  width: 60px;
+  transform: translateX(-100%); /* Move sidebar off the screen */
 }
 
 .sidebar.open {
-    width: 250px;
-    transform: translateX(0); /* Bring sidebar into view */
+  width: 250px;
+  transform: translateX(0); /* Bring sidebar into view */
 }
 
-.sidebar .nav-link {
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border-radius: 2.0rem;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s;
-    margin-bottom: 10px;
+.sidebar .nav-link,
+.sidebar .dropdown-item {
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 2.0rem;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+  margin-bottom: 10px;
 }
 
 .sidebar .nav-link:hover,
-.sidebar .nav-link.active {
-    background-color: #ffc107;
-    color: #000;
+.sidebar .nav-link.active,
+.sidebar .dropdown-item:hover,
+.sidebar .dropdown-item.active {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.sidebar .nav-link.previous {
+  background-color: #ffc107;
+  color: #000;
 }
 
 .sidebar .icon {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .sidebar.collapsed .nav-link {
-    justify-content: center;
+  justify-content: center;
 }
 
 .sidebar.collapsed .nav-link .icon {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .toggle-button {
-    background-color: #ffc107;
-    border: none;
-    position: absolute; /* Make the button absolutely positioned within the sidebar */
-    top: 10px; /* Adjust this value as needed */
-    z-index: 1040; /* Ensure it stays on top of the sidebar */
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s, left 0.3s;
-    right: 100%; /* Position the button outside the sidebar when open */
-    left: auto; /* Reset left positioning */
+  background-color: #ffc107;
+  border: none;
+  position: absolute; /* Make the button absolutely positioned within the sidebar */
+  top: 10px; /* Adjust this value as needed */
+  z-index: 1040; /* Ensure it stays on top of the sidebar */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, left 0.3s;
+  right: 100%; /* Position the button outside the sidebar when open */
+  left: auto; /* Reset left positioning */
 }
 
 .sidebar.open .toggle-button {
-    transform: rotate(0); /* Arrow pointing left */
-    right: -20px; /* Position the button outside the sidebar */
-    left: auto; /* Reset left positioning */
+  transform: rotate(0); /* Arrow pointing left */
+  right: -20px; /* Position the button outside the sidebar */
+  left: auto; /* Reset left positioning */
 }
 
 .sidebar.collapsed .toggle-button {
-    transform: rotate(180deg); /* Arrow pointing right */
-    left: 10px; /* Position the button inside the screen when collapsed */
-    right: auto; /* Reset right positioning */
+  transform: rotate(180deg); /* Arrow pointing right */
+  left: 10px; /* Position the button inside the screen when collapsed */
+  right: auto; /* Reset right positioning */
 }
 
 @media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        min-height: 0;
-        overflow-y: auto;
-        position: fixed;
-        top: 56px; /* Adjust to align below the top navbar */
-    }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    overflow-y: auto;
+    position: fixed;
+    top: 56px; /* Adjust to align below the top navbar */
+  }
 
-    .sidebar.collapsed {
-        transform: translateX(-100%); /* Move sidebar off the screen */
-    }
+  .sidebar.collapsed {
+    transform: translateX(-100%); /* Move sidebar off the screen */
+  }
 
-    .sidebar.open {
-        transform: translateX(0); /* Bring sidebar into view */
-    }
+  .sidebar.open {
+    transform: translateX(0); /* Bring sidebar into view */
+  }
 
-    .toggle-button {
-        top: 60px;
-        left: 10px; /* Adjust for mobile */
-        right: auto;
-        position: fixed;
-    }
+  .toggle-button {
+    top: 60px;
+    left: 10px; /* Adjust for mobile */
+    right: auto;
+    position: fixed;
+  }
+}
+
+.dropdown-items {
+  display: flex;
+  flex-direction: column;
+  /* padding-left: 230px; Indent the dropdown items */
+}
+
+
+.dropdown-item {
+  justify-content: center; /* Center dropdown items */
 }
