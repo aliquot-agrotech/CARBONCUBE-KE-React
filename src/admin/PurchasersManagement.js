@@ -62,33 +62,34 @@ const PurchasersManagement = () => {
 
   const handleUpdateStatus = async (purchaserId, status) => {
     try {
-        const response = await fetch(`http://localhost:3000/admin/purchasers/${purchaserId}/${status}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-            },
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Error updating purchaser status:', errorData);
-            return;
-        }
-
-        setPurchasers(prevPurchasers =>
-            prevPurchasers.map(purchaser =>
-                purchaser.id === purchaserId ? { ...purchaser, blocked: status === 'block' } : purchaser
-            )
-        );
-
-        if (selectedPurchaser && selectedPurchaser.id === purchaserId) {
-            setSelectedPurchaser(prevPurchaser => ({ ...prevPurchaser, blocked: status === 'block' }));
-        }
+      const response = await fetch(`http://localhost:3000/admin/purchasers/${purchaserId}/${status}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        },
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error updating purchaser status:', errorData);
+        return;
+      }
+  
+      setPurchasers(prevPurchasers =>
+        prevPurchasers.map(purchaser =>
+          purchaser.id === purchaserId ? { ...purchaser, blocked: status === 'block' } : purchaser
+        )
+      );
+  
+      if (selectedPurchaser && selectedPurchaser.id === purchaserId) {
+        setSelectedPurchaser(prevPurchaser => ({ ...prevPurchaser, blocked: status === 'block' }));
+      }
     } catch (error) {
-        console.error('Error updating purchaser status:', error);
+      console.error('Error updating purchaser status:', error);
     }
-};
+  };
+  
 
   const handleCloseModal = () => {
     setShowModal(false);
