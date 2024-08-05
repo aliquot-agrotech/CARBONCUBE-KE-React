@@ -174,7 +174,7 @@ body {
 .product-card {
     display: flex;
     flex-direction: column;
-    height: 300px; /* Adjust height as needed */
+    height: auto; /* Adjust height as needed */
     border: 1px solid #ddd;
     border-radius: 5px;
     overflow: hidden;
@@ -204,13 +204,6 @@ body {
     font-size: 14px; /* Adjust font size for decimal part */
     margin-left: 2px;
 }
-
-.product-card .delete-icon {
-    cursor: pointer;
-    color: red;
-    font-size: 18px;
-}
-
 
 #button {
     border-radius: 1.5rem;
