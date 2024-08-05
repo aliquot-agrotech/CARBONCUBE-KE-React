@@ -227,7 +227,7 @@ const ProductsManagement = () => {
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
                                                     <Card.Text className="price-container">
-                                                        <strong>Kshs:</strong>
+                                                        <strong>Kshs: </strong>
                                                         {product.price.split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? part : (
@@ -332,7 +332,7 @@ const ProductsManagement = () => {
                                 <div className="product-detail-item">
                                     <strong>Price:</strong> 
                                     <p>
-                                        Ksh
+                                        Kshs
                                         {selectedProduct.price.split('.').map((part, index) => (
                                             <React.Fragment key={index}>
                                                 {index === 0 ? part : (
@@ -357,7 +357,7 @@ const ProductsManagement = () => {
                                     <strong>Sold Out:</strong> 
                                     <p>{selectedProduct.sold_out ? 'Yes' : 'No'}</p>
                                 </div>
-                                <div className="product-detail-item justify-content-center">
+                                <div className="product-detail-item">
                                     <strong>Quantity Sold:</strong> 
                                     <p>{selectedProduct.quantity_sold || 0}</p>
                                 </div>
@@ -367,6 +367,7 @@ const ProductsManagement = () => {
                                             <span className="star-rating">
                                                 {renderRatingStars(selectedProduct.mean_rating)}
                                             </span>
+                                            <p>{selectedProduct.mean_rating}</p>
                                         </p>
                                 </div>
                             </div>
