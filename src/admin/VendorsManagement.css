@@ -50,6 +50,8 @@ body {
 
 .modal-content {
     overflow-x: hidden; /* Prevent horizontal scroll inside the modal */
+    overflow-y: auto;
+    max-height: 80vh; /* Adjust this value as needed */
 }
 
 .modal-body {
@@ -57,15 +59,7 @@ body {
     overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
-/* Product Card Styles */
-.product-card {
-    margin-bottom: 20px;
-}
 
-.product-card img {
-    max-width: 100%;
-    height: auto;
-}
 
 /* Modal Header Styles */
 .modal-header {
@@ -130,7 +124,7 @@ body {
 .profile-details {
     display: flex;
     flex-direction: column; /* Ensure columns stack vertically */
-    gap: 20px; /* Space between sections */
+    gap: 200px; /* Space between sections */
 }
 
 .profile-column {
@@ -169,6 +163,54 @@ body {
     font-weight: 600;
     color: #343a40;
 }
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 20px; /* Space between cards */
+    margin: 20px;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    height: 300px; /* Adjust height as needed */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.product-card .card-img {
+    height: 33%; /* Image section occupies one-third of the card */
+    object-fit: cover;
+}
+
+.product-card .card-body {
+    height: 67%; /* Content section occupies the remaining two-thirds of the card */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card .price-container {
+    font-size: 16px;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+}
+
+.product-card .price-decimal {
+    font-size: 14px; /* Adjust font size for decimal part */
+    margin-left: 2px;
+}
+
+.product-card .delete-icon {
+    cursor: pointer;
+    color: red;
+    font-size: 18px;
+}
+
 
 #button {
     border-radius: 1.5rem;

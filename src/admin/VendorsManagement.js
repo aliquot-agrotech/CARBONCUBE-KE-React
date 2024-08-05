@@ -305,32 +305,33 @@ const VendorsManagement = () => {
 
                                             <Tab eventKey="products" title="Products">
                                                 <h5 className="text-center">Products</h5>
-                                                <Table hover className="products-table text-center">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Product ID</th>
-                                                            <th>Name</th>
-                                                            <th>Description</th>
-                                                            <th>Price</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {selectedVendor.products && selectedVendor.products.length > 0 ? (
-                                                            selectedVendor.products.map((product) => (
-                                                                <tr key={product.id}>
-                                                                    <td>{product.id}</td>
-                                                                    <td>{product.title}</td>
-                                                                    <td>{product.description}</td>
-                                                                    <td>{product.price}</td>
-                                                                </tr>
-                                                            ))
-                                                        ) : (
-                                                            <tr>
-                                                                <td colSpan="4">No products available</td>
-                                                            </tr>
-                                                        )}
-                                                    </tbody>
-                                                </Table>
+                                                <div className="card-container">
+                                                    {selectedVendor.products && selectedVendor.products.length > 0 ? (
+                                                        selectedVendor.products.map((product) => (
+                                                            <Card key={product.id} className="product-card">
+                                                                <Card.Img className="card-img" variant="top" src={product.imageUrl} alt={product.title} />
+                                                                <Card.Body>
+                                                                    <Card.Title>{product.title}</Card.Title>
+                                                                    <Card.Text className="price-container">
+                                                                        <strong>Kshs: </strong>
+                                                                        {product.price.split('.').map((part, index) => (
+                                                                            <React.Fragment key={index}>
+                                                                                {index === 0 ? part : (
+                                                                                    <>
+                                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                                        <span className="price-decimal">{part}</span>
+                                                                                    </>
+                                                                                )}
+                                                                            </React.Fragment>
+                                                                        ))}
+                                                                    </Card.Text>
+                                                                </Card.Body>
+                                                            </Card>
+                                                        ))
+                                                    ) : (
+                                                        <p className="text-center">No products available</p>
+                                                    )}
+                                                </div>
                                             </Tab>
 
                                             <Tab eventKey="reviews" title="Reviews">
