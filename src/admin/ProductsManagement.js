@@ -275,8 +275,9 @@ const ProductsManagement = () => {
                                 )}
                             </Row>
 
-                            <h3 className="mb-4 text-center">Flagged Products</h3>
+                            
                             <Row>
+                            <h3 className="mb-4 text-center">Flagged Products</h3>
                                 {flaggedProducts.length > 0 ? (
                                     flaggedProducts.map(product => (
                                         <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
@@ -391,7 +392,7 @@ const ProductsManagement = () => {
                                 <strong>Description:</strong> 
                                 <p>{selectedProduct.description}</p>
                             </div>
-                            <h5 className="text-center">Reviews</h5>
+                            <h5 className="text-center" id="reviews">Reviews</h5>
                                 {selectedProduct && selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
                                 <div className="reviews-container text-center">
                                     {selectedProduct.reviews.map((review, index) => (
@@ -436,7 +437,7 @@ const ProductsManagement = () => {
                                         label="Wrong Pricing"
                                         value="Wrong Pricing"
                                         onChange={handleNotificationOptionChange}
-                                    />
+                                    /> 
                                     <Form.Check
                                         type="checkbox"
                                         label="Insufficient Description"
