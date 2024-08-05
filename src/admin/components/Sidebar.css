@@ -97,15 +97,24 @@
 
   .sidebar.collapsed {
     transform: translateX(-100%); /* Move sidebar off the screen */
+    height: 100%;
   }
 
   .sidebar.open {
     transform: translateX(0); /* Bring sidebar into view */
+    height: 100%;
   }
 
   .toggle-button {
     top: 60px;
     left: 10px; /* Adjust for mobile */
+    right: auto;
+    position: fixed;
+  }
+
+  .toggle-button1 {
+    top: 5px;
+    left: 205px; /* Adjust for mobile */
     right: auto;
     position: fixed;
   }

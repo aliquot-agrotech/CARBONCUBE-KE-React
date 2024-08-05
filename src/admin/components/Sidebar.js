@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { House, Box, Truck, Person, FileText, Percent, Envelope, Bell, GraphUp,  ArrowLeft, ArrowRight } from 'react-bootstrap-icons';
+import { House, Box, Truck, Person, FileText, Percent, Envelope, Bell, GraphUp,  XCircle, ArrowRight } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -18,14 +18,14 @@ const Sidebar = () => {
         variant="warning" 
         className={`toggle-button ${isOpen ? 'd-none' : 'd-block'}`} 
         onClick={toggleSidebar}>
-        <ArrowRight /> {/* Arrow pointing right when sidebar is collapsed */}
+        <ArrowRight size={15}/> {/* Arrow pointing right when sidebar is collapsed */}
       </Button>
       <div className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
         <Button 
           variant="warning" 
-          className={`toggle-button d-md-none ${isOpen ? 'd-block' : 'd-none'}`}
+          className={`toggle-button1 d-md-none ${isOpen ? 'd-block' : 'd-none'}`}
           onClick={toggleSidebar}>
-          <ArrowLeft /> {/* Arrow pointing left when sidebar is open */}
+          <XCircle size={15}/> {/* Arrow pointing left when sidebar is open */}
         </Button>
         <Nav className="flex-column">
           <Nav.Link
