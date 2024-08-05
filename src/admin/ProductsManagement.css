@@ -129,6 +129,78 @@
     font-size: 0.75em;
     vertical-align: top;
 }
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.rating-stars .rating-star {
+    color: #ffc107; /* Gold color for filled stars */
+    margin-right: 2px;
+}
+
+.rating-stars .rating-star.empty {
+    color: #e4e5e9; /* Gray color for empty stars */
+}
+
+.rating-stars .rating-star.half-filled {
+    color: #ffc107;
+    position: relative;
+}
+
+.rating-stars .rating-star.half-filled:before {
+    content: '\f005';
+    font-family: 'FontAwesome';
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #ffc107; /* Gold color for half-filled stars */
+}
+
+
+.review-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-comment, .reviewer-name {
+    margin: 0;
+}
+
+.star-rating .star {
+    color: #ffc107; /* Gold color for filled stars */
+    margin-right: 2px;
+}
+
+.star-rating .star.empty {
+    color: #e4e5e9; /* Gray color for empty stars */
+}
+
+.star-rating .star.half-filled {
+    color: #ffc107;
+    position: relative;
+}
+
+.star-rating .star.half-filled:before {
+    content: '\f005';
+    font-family: 'FontAwesome';
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #ffc107; /* Gold color for half-filled stars */
+}
+
+.star-rating .star.filled {
+    color: #ffc107;
+}
+
 
 
 

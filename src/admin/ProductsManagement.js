@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Container, Row, Col, InputGroup, FormControl, Modal, Form, Carousel } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faTrashRestore, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faTrashRestore, faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './ProductsManagement.css';
@@ -163,22 +163,38 @@ const ProductsManagement = () => {
     );
 
     const renderRatingStars = (rating) => {
-        // Adjust the rating to be between 0 and 5
-        const roundedRating = Math.min(5, Math.max(0, Math.round(rating)));
-    
-        // Create an array of star states (filled or empty)
-        const stars = Array(5).fill(false).map((_, index) => index < roundedRating);
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
     
         return (
             <div className="rating-stars">
-                {stars.map((filled, index) => (
-                    <FontAwesomeIcon
-                        key={index}
-                        icon={filled ? faStar : faStar} // use filled or empty star
-                        className={`rating-star ${filled ? 'filled' : ''}`}
-                    />
+                {[...Array(fullStars)].map((_, index) => (
+                    <FontAwesomeIcon key={index} icon={faStar} className="rating-star filled" />
+                ))}
+                {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="rating-star half-filled" />}
+                {[...Array(emptyStars)].map((_, index) => (
+                    <FontAwesomeIcon key={index} icon={faStarEmpty} className="rating-star empty" />
                 ))}
             </div>
+        );
+    };
+
+    const StarRating = ({ rating }) => {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    
+        return (
+            <span className="star-rating">
+                {[...Array(fullStars)].map((_, index) => (
+                    <FontAwesomeIcon key={index} icon={faStar} className="star filled" />
+                ))}
+                {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="star half-filled" />}
+                {[...Array(emptyStars)].map((_, index) => (
+                    <FontAwesomeIcon key={index} icon={faStarEmpty} className="star empty" />
+                ))}
+            </span>
         );
     };
     
@@ -376,15 +392,16 @@ const ProductsManagement = () => {
                                 <p>{selectedProduct.description}</p>
                             </div>
                             <h5 className="text-center">Reviews</h5>
-                            {selectedProduct && selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
-                                <ul>
+                                {selectedProduct && selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
+                                <div className="reviews-container text-center">
                                     {selectedProduct.reviews.map((review, index) => (
-                                        <li key={index}>
-                                            <p><strong>{review.purchaser.fullname}:</strong> {review.review}</p>
-                                            <p><strong>Rating:</strong> {review.rating} stars</p>
-                                        </li>
+                                        <div className="review-card" key={index}>
+                                            <p className="review-comment">{review.review}</p>
+                                            <StarRating rating={review.rating} />
+                                            <p className="reviewer-name"><strong><em>{review.purchaser.fullname}</em></strong></p>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
                             ) : (
                                 <p className="text-center">No reviews yet</p>
                             )}
