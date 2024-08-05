@@ -213,7 +213,7 @@ const ProductsManagement = () => {
                                 )}
                             </Row>
 
-                            <h3 className="mb-4">Flagged Products</h3>
+                            <h3 className="mb-4 text-center">Flagged Products</h3>
                             <Row>
                                 {flaggedProducts.length > 0 ? (
                                     flaggedProducts.map(product => (
