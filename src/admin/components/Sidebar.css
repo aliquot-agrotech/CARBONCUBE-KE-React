@@ -59,7 +59,6 @@
 
 .toggle-button {
   background-color: #ffc107;
-  border: none;
   position: absolute; /* Make the button absolutely positioned within the sidebar */
   top: 10px; /* Adjust this value as needed */
   z-index: 1040; /* Ensure it stays on top of the sidebar */
@@ -110,6 +109,7 @@
     left: 10px; /* Adjust for mobile */
     right: auto;
     position: fixed;
+    border-radius: 1.5rem;
   }
 
   .toggle-button1 {
@@ -117,6 +117,7 @@
     left: 205px; /* Adjust for mobile */
     right: auto;
     position: fixed;
+    border-radius: 1.5rem;
   }
 }
 

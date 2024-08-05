@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Trash } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './OrdersManagement.css';  // Custom CSS
@@ -90,6 +91,25 @@ const OrdersManagement = () => {
         }
     };
 
+    const handleDeleteOrder = async (orderId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/orders/${orderId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
+        } catch (error) {
+            console.error('Error deleting order:', error);
+        }
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -110,57 +130,70 @@ const OrdersManagement = () => {
                         <Col xs={12} md={10} className="p-4">
                             {/* <h2 className="mb-4 text-center">Orders Management</h2> */}
                             <Table hover className="orders-table text-center">
-                                <thead className="table-header">
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Customer</th>
-                                        <th>Products</th>
-                                        <th>Quantity</th>
-                                        <th>Total (Kshs)</th>
-                                        <th>Date Ordered</th>
-                                        <th>Status</th>
-                                        
+                            <thead className="table-header">
+                                <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Products</th>
+                                <th>Quantity</th>
+                                <th>Total (Kshs)</th>
+                                <th>Date Ordered</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.length > 0 ? (
+                                orders.map((order) => (
+                                    <tr
+                                    key={order.id}
+                                    onClick={(e) => {
+                                        if (e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON') return; // Prevent modal opening on status change or delete button click
+                                        handleRowClick(order.id);
+                                    }}
+                                    style={{ cursor: 'pointer' }}
+                                    >
+                                    <td>{order.id}</td>
+                                    <td>{order.purchaser?.fullname || 'Unknown'}</td>
+                                    <td>{order.order_items.map(item => item.product?.title || 'Unknown').join(', ')}</td>
+                                    <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
+                                    <td>{order.total_price || 'N/A'}</td>
+                                    <td>{order.order_date || 'N/A'}</td>
+                                    <td>
+                                        <Form.Control
+                                        className="form-select align-middle"                                        as="select"
+                                        value={order.status}
+                                        onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                                        id="button"
+                                        style={{
+                                            verticalAlign: 'middle',
+                                            backgroundColor: order.status === 'on-transit' ? 'limegreen' : '#FFC107',
+                                        }}
+                                        >
+                                        <option className="text-center" value="processing">Processing</option>
+                                        <option className="text-center" value="on-transit">On-Transit</option>
+                                        </Form.Control>
+                                    </td>
+                                    <td>
+                                        <button
+                                        className="btn btn-link p-0"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteOrder(order.id);
+                                        }}
+                                        title="Delete Order"
+                                        >
+                                        <Trash className="text-danger" />
+                                        </button>
+                                    </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {orders.length > 0 ? (
-                                        orders.map((order) => (
-                                            <tr
-                                                key={order.id}
-                                                onClick={(e) => {
-                                                    if (e.target.tagName === 'SELECT') return; // Prevent modal opening on status change
-                                                    handleRowClick(order.id);
-                                                }}
-                                                style={{ cursor: 'pointer' }}
-                                            >
-                                                <td>{order.id}</td>
-                                                <td>{order.purchaser?.fullname || 'Unknown'}</td>
-                                                <td>{order.order_items.map(item => item.product?.title || 'Unknown').join(',  ')}</td>
-                                                <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
-                                                <td>{order.total_price || 'N/A'}</td>
-                                                <td>{order.order_date || 'N/A'}</td>
-                                                <td>
-                                                    <Form.Control
-                                                        className="form-select"
-                                                        as="select"
-                                                        value={order.status}
-                                                        onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                                                        id="button"
-                                                        style={{ verticalAlign: 'middle',
-                                                            backgroundColor: order.status === 'on-transit' ? 'limegreen' : '#FFC107',
-                                                        }}      >
-                                                        <option className="text-center" value="processing">Processing</option>
-                                                        <option className="text-center" value="on-transit">On-Transit</option>
-                                                    </Form.Control>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="7">No data available</td>
-                                        </tr>
-                                    )}
-                                </tbody>
+                                ))
+                                ) : (
+                                <tr>
+                                    <td colSpan="8">No data available</td>
+                                </tr>
+                                )}
+                            </tbody>
                             </Table>
 
                             <Modal show={showModal} onHide={handleCloseModal} size="lg">
