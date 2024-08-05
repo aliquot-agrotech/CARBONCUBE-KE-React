@@ -12,7 +12,7 @@ const ProductsManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [showNotifyVendorModal, setshowNotifyVendorModal] = useState(false);
+    const [showNotifyVendorModal, setShowNotifyVendorModal] = useState(false);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [notificationOptions, setNotificationOptions] = useState([]);
@@ -57,7 +57,7 @@ const ProductsManagement = () => {
         setSelectedProduct(product);
         setNotificationOptions([]);
         setNotes('');
-        setshowNotifyVendorModal(true);
+        setShowNotifyVendorModal(true);
     };
 
     const handleViewDetailsClick = async (product) => {
@@ -81,7 +81,7 @@ const ProductsManagement = () => {
     };
 
     const handleModalClose = () => {
-        setshowNotifyVendorModal(false);
+        setShowNotifyVendorModal(false);
         setShowDetailsModal(false);
     };
 
