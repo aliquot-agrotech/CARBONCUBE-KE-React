@@ -366,8 +366,8 @@ const ProductsManagement = () => {
                                         <p>
                                             <span className="star-rating">
                                                 {renderRatingStars(selectedProduct.mean_rating)}
+                                                {/* {selectedProduct.mean_rating} */}
                                             </span>
-                                            <p>{selectedProduct.mean_rating}</p>
                                         </p>
                                 </div>
                             </div>
@@ -376,11 +376,11 @@ const ProductsManagement = () => {
                                 <p>{selectedProduct.description}</p>
                             </div>
                             <h5 className="text-center">Reviews</h5>
-                            {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
+                            {selectedProduct && selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
                                 <ul>
                                     {selectedProduct.reviews.map((review, index) => (
                                         <li key={index}>
-                                            <p><strong>{review.reviewerName}:</strong> {review.comment}</p>
+                                            <p><strong>{review.purchaser.fullname}:</strong> {review.review}</p>
                                             <p><strong>Rating:</strong> {review.rating} stars</p>
                                         </li>
                                     ))}
