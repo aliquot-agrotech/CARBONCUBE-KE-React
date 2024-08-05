@@ -88,6 +88,22 @@
     right: 10px;
 }
 
+.product-details {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust as needed */
+}
+
+.product-detail-item {
+    margin-bottom: 10px;
+    flex: 1 1 calc(50% - 20px); /* Two columns with gap adjustment */
+    box-sizing: border-box;
+    padding: 10px; /* Add some padding for better spacing */
+    border: 1px solid #ddd; /* Optional: add a border for better visibility */
+    border-radius: 5px; /* Optional: rounded corners */
+    background-color: #f9f9f9; /* Optional: background color */
+}
 
 /* Responsive styles */
 @media (max-width: 767.98px) { /* Smartphones */
