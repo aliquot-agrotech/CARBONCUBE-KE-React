@@ -114,11 +114,11 @@
 }
 
 .rating-star {
-    color: gray; /* Default star color */
+    color: rgb(189, 189, 189); /* Default star color */
 }
 
 .rating-star.filled {
-    color: gold; /* Filled star color */
+    color: #ffc107; /* Filled star color */
 }
 
 

@@ -226,8 +226,9 @@ const ProductsManagement = () => {
                                                 <Card.Img variant="top" src={product.imageUrl} />
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
-                                                    <Card.Text>
-                                                        Price: Ksh {product.price}                                                      
+                                                    <Card.Text style={{ fontSize: '16px' }}>
+                                                    <strong>Price: </strong>
+                                                        Ksh {product.price}                                                      
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)}>
                                                         View Details
@@ -258,8 +259,9 @@ const ProductsManagement = () => {
                                                 <Card.Img variant="top" src={product.imageUrl} />
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
-                                                    <Card.Text>
-                                                        Price: Ksh {product.price}                                                        
+                                                    <Card.Text style={{ fontSize: '16px' }}>
+                                                    <strong>Price: </strong>
+                                                        Ksh {product.price}                                                      
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
                                                         Notify Vendor
