@@ -60,9 +60,24 @@ const ProductsManagement = () => {
         setshowNotifyVendorModal(true);
     };
 
-    const handleViewDetailsClick = (product) => {
-        setSelectedProduct(product);
-        setShowDetailsModal(true);
+    const handleViewDetailsClick = async (product) => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/products/${product.id}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setSelectedProduct(data);
+            setShowDetailsModal(true);
+        } catch (error) {
+            console.error('Error fetching product details:', error);
+        }
     };
 
     const handleModalClose = () => {
@@ -161,6 +176,7 @@ const ProductsManagement = () => {
             </div>
         );
     };
+    
 
     if (loading) {
         return <div>Loading...</div>;
@@ -271,82 +287,89 @@ const ProductsManagement = () => {
                 </Container>
 
                 <Modal show={showDetailsModal} onHide={handleModalClose} size="lg">
-                        <Modal.Header>
-                            <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            {selectedProduct && (
-                                <>
-                                    <Carousel>
-                                        {selectedProduct.images && selectedProduct.images.length > 0 ? (
-                                            selectedProduct.images.map((image, index) => (
-                                                <Carousel.Item key={index}>
-                                                    <img
-                                                        className="d-block w-100"
-                                                        src={image}
-                                                        alt={`Slide ${index}`}
-                                                    />
-                                                </Carousel.Item>
-                                            ))
-                                        ) : (
-                                            <Carousel.Item>
-                                                <p className="text-center">No images available</p>
-                                            </Carousel.Item>
-                                        )}
-                                    </Carousel>
-                                    <div className="product-details mb-4 text-center">
-                                        <div className="product-detail-item">
-                                            <strong>Price:</strong> Ksh {selectedProduct.price}
-                                        </div>
-                                        
-                                        <div className="product-detail-item">
-                                            <strong>Vendor:</strong> {selectedProduct.vendorName || 'Unknown'}
-                                        </div>
-                                        <div className="product-detail-item">
-                                            <strong>Category:</strong> {selectedProduct.category || 'N/A'}
-                                        </div>
-                                        <div className="product-detail-item">
-                                            <strong>Sold Out:</strong> {selectedProduct.sold_out ? 'Yes' : 'No'}
-                                        </div>
-                                        <div className="product-detail-item">
-                                            <strong>Rating:</strong> 
-                                            <span className="star-rating">
-                                                {[...Array(5)].map((_, index) => (
-                                                    <FontAwesomeIcon
-                                                        key={index}
-                                                        icon={faStar}
-                                                        className={`star ${index < selectedProduct.meanRating ? 'filled' : ''}`}
-                                                    />
-                                                ))}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="product-detail-item text-center">
-                                        <strong>Description:</strong> 
-                                        <p>{selectedProduct.description}</p>
-                                    </div>
-                                    <h5 className="text-center">Reviews</h5>
-                                    {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
-                                        <ul>
-                                            {selectedProduct.reviews.map((review, index) => (
-                                                <li key={index}>
-                                                    <p><strong>{review.reviewerName}:</strong> {review.comment}</p>
-                                                    <p><strong>Rating:</strong> {review.rating} stars</p>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p className="text-center">No reviews yet</p>
-                                    )}
-                                </>
+                <Modal.Header>
+                    <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {selectedProduct && (
+                        <>
+                            <Carousel>
+                                {selectedProduct.images && selectedProduct.images.length > 0 ? (
+                                    selectedProduct.images.map((image, index) => (
+                                        <Carousel.Item key={index}>
+                                            <img
+                                                className="d-block w-100"
+                                                src={image}
+                                                alt={`Slide ${index}`}
+                                            />
+                                        </Carousel.Item>
+                                    ))
+                                ) : (
+                                    <Carousel.Item>
+                                        <p className="text-center">No images available</p>
+                                    </Carousel.Item>
+                                )}
+                            </Carousel>
+                            <div className="product-details mb-4 text-center">
+                                <div className="product-detail-item">
+                                    <strong>Price:</strong> 
+                                    <p>Ksh {selectedProduct.price}</p>
+                                </div>
+                                <div className="product-detail-item">
+                                    <strong>Vendor:</strong> 
+                                    <p>{selectedProduct.vendor?.fullname || 'Unknown'}</p>
+                                </div>
+                                <div className="product-detail-item">
+                                    <strong>Category:</strong> 
+                                    <p>{selectedProduct.category?.name || 'N/A'}</p>
+                                </div>
+                                <div className="product-detail-item">
+                                    <strong>Sold Out:</strong> 
+                                    <p>{selectedProduct.sold_out ? 'Yes' : 'No'}</p>
+                                </div>
+                                <div className="product-detail-item justify-content-center">
+                                    <strong>Quantity Sold:</strong> 
+                                    <p>{selectedProduct.quantity_sold || 0}</p>
+                                </div>
+                                <div className="product-detail-item">
+                                    <strong>Rating:</strong> 
+                                    <p><span className="star-rating">
+                                        {[...Array(5)].map((_, index) => (
+                                            <FontAwesomeIcon
+                                                key={index}
+                                                icon={faStar}
+                                                className={`star ${index < Math.round(selectedProduct.mean_rating) ? 'filled' : ''}`}
+                                            />
+                                        ))}
+                                    </span></p>
+                                </div>
+                            </div>
+                            <div className="product-detail-item text-center">
+                                <strong>Description:</strong> 
+                                <p>{selectedProduct.description}</p>
+                            </div>
+                            <h5 className="text-center">Reviews</h5>
+                            {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
+                                <ul>
+                                    {selectedProduct.reviews.map((review, index) => (
+                                        <li key={index}>
+                                            <p><strong>{review.reviewerName}:</strong> {review.comment}</p>
+                                            <p><strong>Rating:</strong> {review.rating} stars</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p className="text-center">No reviews yet</p>
                             )}
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="warning" id="button" onClick={handleModalClose}>
-                                Close
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+                        </>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="warning" id="button" onClick={handleModalClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
 
                 <Modal show={showNotifyVendorModal} onHide={handleModalClose}>
