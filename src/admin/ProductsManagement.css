@@ -121,6 +121,16 @@
     color: #ffc107; /* Filled star color */
 }
 
+.price-container {
+    font-size: 16px;
+}
+
+.price-decimal {
+    font-size: 0.75em;
+    vertical-align: top;
+}
+
+
 
 /* Responsive styles */
 @media (max-width: 767.98px) { /* Smartphones */

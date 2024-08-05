@@ -226,9 +226,19 @@ const ProductsManagement = () => {
                                                 <Card.Img variant="top" src={product.imageUrl} />
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
-                                                    <Card.Text style={{ fontSize: '16px' }}>
-                                                    <strong>Price: </strong>
-                                                        Ksh {product.price}                                                      
+                                                    <Card.Text className="price-container">
+                                                        <strong>Price: </strong>
+                                                        Ksh 
+                                                        {product.price.split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? part : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)}>
                                                         View Details
@@ -259,9 +269,19 @@ const ProductsManagement = () => {
                                                 <Card.Img variant="top" src={product.imageUrl} />
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
-                                                    <Card.Text style={{ fontSize: '16px' }}>
-                                                    <strong>Price: </strong>
-                                                        Ksh {product.price}                                                      
+                                                    <Card.Text className="price-container">
+                                                        <strong>Price: </strong>
+                                                        Ksh 
+                                                        {product.price.split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? part : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
                                                         Notify Vendor
@@ -313,7 +333,19 @@ const ProductsManagement = () => {
                             <div className="product-details mb-4 text-center">
                                 <div className="product-detail-item">
                                     <strong>Price:</strong> 
-                                    <p>Ksh {selectedProduct.price}</p>
+                                    <p>
+                                        Kshs
+                                        {selectedProduct.price.split('.').map((part, index) => (
+                                            <React.Fragment key={index}>
+                                                {index === 0 ? part : (
+                                                    <>
+                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                        <span className="price-decimal">{part}</span>
+                                                    </>
+                                                )}
+                                            </React.Fragment>
+                                        ))}
+                                    </p>
                                 </div>
                                 <div className="product-detail-item">
                                     <strong>Vendor:</strong> 
