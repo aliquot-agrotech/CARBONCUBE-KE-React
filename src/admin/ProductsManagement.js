@@ -163,19 +163,25 @@ const ProductsManagement = () => {
     );
 
     const renderRatingStars = (rating) => {
-        const stars = Array(5).fill(false).map((_, index) => index < rating);
+        // Adjust the rating to be between 0 and 5
+        const roundedRating = Math.min(5, Math.max(0, Math.round(rating)));
+    
+        // Create an array of star states (filled or empty)
+        const stars = Array(5).fill(false).map((_, index) => index < roundedRating);
+    
         return (
             <div className="rating-stars">
                 {stars.map((filled, index) => (
                     <FontAwesomeIcon
                         key={index}
-                        icon={filled ? 'star' : 'star-o'}
-                        className="rating-star"
+                        icon={filled ? faStar : faStar} // use filled or empty star
+                        className={`rating-star ${filled ? 'filled' : ''}`}
                     />
                 ))}
             </div>
         );
     };
+    
     
 
     if (loading) {
@@ -221,11 +227,7 @@ const ProductsManagement = () => {
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
                                                     <Card.Text>
-                                                        Price: Ksh {product.price}
-                                                        <br />
-                                                        {renderRatingStars(product.meanRating)}
-                                                        <br />
-                                                        
+                                                        Price: Ksh {product.price}                                                      
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)}>
                                                         View Details
@@ -257,11 +259,7 @@ const ProductsManagement = () => {
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
                                                     <Card.Text>
-                                                        Price: Ksh {product.price}
-                                                        <br />
-                                                        {renderRatingStars(product.meanRating)}
-                                                        <br />
-                                                        
+                                                        Price: Ksh {product.price}                                                        
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
                                                         Notify Vendor
@@ -332,16 +330,12 @@ const ProductsManagement = () => {
                                     <p>{selectedProduct.quantity_sold || 0}</p>
                                 </div>
                                 <div className="product-detail-item">
-                                    <strong>Rating:</strong> 
-                                    <p><span className="star-rating">
-                                        {[...Array(5)].map((_, index) => (
-                                            <FontAwesomeIcon
-                                                key={index}
-                                                icon={faStar}
-                                                className={`star ${index < Math.round(selectedProduct.mean_rating) ? 'filled' : ''}`}
-                                            />
-                                        ))}
-                                    </span></p>
+                                        <strong>Rating:</strong> 
+                                        <p>
+                                            <span className="star-rating">
+                                                {renderRatingStars(selectedProduct.mean_rating)}
+                                            </span>
+                                        </p>
                                 </div>
                             </div>
                             <div className="product-detail-item text-center">

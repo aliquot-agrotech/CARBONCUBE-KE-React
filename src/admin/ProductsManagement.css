@@ -109,6 +109,19 @@
     margin-bottom: 0px;
 }
 
+.rating-stars {
+    display: inline-flex;
+}
+
+.rating-star {
+    color: gray; /* Default star color */
+}
+
+.rating-star.filled {
+    color: gold; /* Filled star color */
+}
+
+
 /* Responsive styles */
 @media (max-width: 767.98px) { /* Smartphones */
     .search-input {
