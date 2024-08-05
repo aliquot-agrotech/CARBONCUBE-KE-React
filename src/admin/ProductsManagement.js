@@ -227,8 +227,7 @@ const ProductsManagement = () => {
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
                                                     <Card.Text className="price-container">
-                                                        <strong>Price: </strong>
-                                                        Ksh 
+                                                        <strong>Kshs:</strong>
                                                         {product.price.split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? part : (
@@ -270,9 +269,8 @@ const ProductsManagement = () => {
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
                                                     <Card.Text className="price-container">
-                                                        <strong>Price: </strong>
-                                                        Ksh 
-                                                        {product.price.split('.').map((part, index) => (
+                                                        <strong>Kshs: </strong>
+                                                            {product.price.split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? part : (
                                                                     <>
@@ -334,7 +332,7 @@ const ProductsManagement = () => {
                                 <div className="product-detail-item">
                                     <strong>Price:</strong> 
                                     <p>
-                                        Kshs
+                                        Ksh
                                         {selectedProduct.price.split('.').map((part, index) => (
                                             <React.Fragment key={index}>
                                                 {index === 0 ? part : (
