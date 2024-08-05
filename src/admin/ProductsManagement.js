@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Container, Row, Col, InputGroup, FormControl, Modal, Form } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, InputGroup, FormControl, Modal, Form, Carousel } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faTrashRestore } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
@@ -13,6 +13,7 @@ const ProductsManagement = () => {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [notificationOptions, setNotificationOptions] = useState([]);
     const [notes, setNotes] = useState('');
@@ -31,15 +32,8 @@ const ProductsManagement = () => {
 
             const data = await response.json();
 
-            // Debug: Log entire response and data to check its structure
-            console.log('Fetched products:', data);
-
             // Extract flagged and non-flagged products from the response
-            const { flagged, non_flagged } = data;
-
-            // Debug: Log flagged and non-flagged products
-            console.log('Flagged products:', flagged);
-            console.log('Non-flagged products:', non_flagged);
+            const { flagged = [], non_flagged = [] } = data;
 
             setFlaggedProducts(flagged);
             setNonFlaggedProducts(non_flagged);
@@ -66,8 +60,14 @@ const ProductsManagement = () => {
         setShowModal(true);
     };
 
+    const handleViewDetailsClick = (product) => {
+        setSelectedProduct(product);
+        setShowDetailsModal(true);
+    };
+
     const handleModalClose = () => {
         setShowModal(false);
+        setShowDetailsModal(false);
     };
 
     const handleSendNotification = async () => {
@@ -123,7 +123,6 @@ const ProductsManagement = () => {
         }
     };
 
-
     const handleRestoreProduct = async (id) => {
         try {
             const response = await fetch(`http://localhost:3000/admin/products/${id}/restore`, {
@@ -166,7 +165,6 @@ const ProductsManagement = () => {
                             <Sidebar />
                         </Col>
                         <Col xs={12} md={10} className="p-0">
-                            {/* <h2 className="mb-4 text-center">Products Management</h2> */}
                             <Row className="justify-content-center">
                                 <Col xs={9} md={6} lg={4} className="mb-3 pt-3">
                                     <div className="search-container">
@@ -183,7 +181,6 @@ const ProductsManagement = () => {
                                     </div>
                                 </Col>
                             </Row>
-                            {/* <h3 className="mb-4">Non-Flagged Products</h3> */}
                             <Row>
                                 {filteredNonFlaggedProducts.length > 0 ? (
                                     filteredNonFlaggedProducts.map(product => (
@@ -195,7 +192,9 @@ const ProductsManagement = () => {
                                                     <Card.Text>
                                                         Price: Ksh {product.price}
                                                     </Card.Text>
-                                                    <Button variant="warning" id="button">View Details</Button>
+                                                    <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)}>
+                                                        View Details
+                                                    </Button>
                                                     <FontAwesomeIcon
                                                         icon={faTrash}
                                                         className="delete-icon"
@@ -228,12 +227,11 @@ const ProductsManagement = () => {
                                                     <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
                                                         Notify Vendor
                                                     </Button>
-
                                                     <FontAwesomeIcon
                                                         icon={faTrashRestore}
                                                         className="restore-icon"
-                                                        onClick={() => handleRestoreProduct(product.id)}    
-                                                        title="Flag Product"
+                                                        onClick={() => handleRestoreProduct(product.id)}
+                                                        title="Restore Product"
                                                     />
                                                 </Card.Body>
                                             </Card>
@@ -248,6 +246,63 @@ const ProductsManagement = () => {
                         </Col>
                     </Row>
                 </Container>
+
+                <Modal show={showDetailsModal} onHide={handleModalClose} size="lg">
+                    <Modal.Header closeButton>
+                        <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {selectedProduct && (
+                            <>
+                                <Carousel>
+                                    {selectedProduct.images && selectedProduct.images.length > 0 ? (
+                                        selectedProduct.images.map((image, index) => (
+                                            <Carousel.Item key={index}>
+                                                <img
+                                                    className="d-block w-100"
+                                                    src={image}
+                                                    alt={`Slide ${index}`}
+                                                />
+                                            </Carousel.Item>
+                                        ))
+                                    ) : (
+                                        <Carousel.Item>
+                                            <p>No images available</p>
+                                        </Carousel.Item>
+                                    )}
+                                </Carousel>
+                                <Row className="mt-3">
+                                    <Col md={6}>
+                                        <h5>Details</h5>
+                                        <p><strong>Price:</strong> Ksh {selectedProduct.price}</p>
+                                        <p><strong>Description:</strong> {selectedProduct.description}</p>
+                                        <p><strong>Vendor:</strong> {selectedProduct.vendorName}</p>
+                                    </Col>
+                                    <Col md={6}>
+                                        <h5>Reviews</h5>
+                                        {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
+                                            <ul>
+                                                {selectedProduct.reviews.map((review, index) => (
+                                                    <li key={index}>
+                                                        <p><strong>{review.reviewerName}:</strong> {review.comment}</p>
+                                                        <p><strong>Rating:</strong> {review.rating} stars</p>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p>No reviews yet</p>
+                                        )}
+                                    </Col>
+                                </Row>
+                            </>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleModalClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
                 <Modal show={showModal} onHide={handleModalClose}>
                     <Modal.Header>
@@ -294,7 +349,7 @@ const ProductsManagement = () => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="warning" id="button" onClick={handleModalClose}>
+                        <Button variant="warning" id="button" className="mx-2" onClick={handleModalClose}>
                             Close
                         </Button>
                         <Button variant="primary" id="button" onClick={handleSendNotification}>
@@ -302,6 +357,7 @@ const ProductsManagement = () => {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+                
             </div>
         </>
     );
