@@ -95,7 +95,7 @@ body {
 }
 
 #vendor-details-tabs .nav-link {
-    border: 1px solid #ffc107;
+    border: 2px solid #ffc107;
     border-radius: 2.0rem;
     padding: 10px 15px;
     text-align: center;
@@ -109,11 +109,13 @@ body {
     background-color: #ffffffed; /* Slightly darker yellow for active tab */
     color: #000;
     border-radius: 2.0rem;
+    border: 2px solid #ffc107;
 }
 
 #vendor-details-tabs .nav-link:hover {
     background-color: #fff; /* Slightly darker yellow for hover effect */
     color: #495057;
+    border: 2px solid #ffc107;
 }
 
 #vendor-details-tabs .tab-content {
@@ -186,7 +188,7 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Two equal columns */
     gap: 20px; /* Space between cards */
-    margin: 20px;
+    margin: 10px;
 }
 
 @media (max-width: 768px) {
@@ -236,7 +238,7 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .custom-tabs .nav-link {
+    #vendor-details-tabs .nav-link {
         font-size: 0.9rem; /* Adjust font size for smaller screens */
     }
 
