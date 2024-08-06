@@ -133,10 +133,10 @@ const OrdersManagement = () => {
                             <thead className="table-header">
                                 <tr>
                                 <th>Order ID</th>
-                                <th>Customer</th>
+                                <th>Purchaser</th>
                                 <th>Products</th>
                                 <th>Quantity</th>
-                                <th>Total (Kshs)</th>
+                                <th>Total <em className='price-label'>(Kshs)</em></th>
                                 <th>Date Ordered</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -157,7 +157,21 @@ const OrdersManagement = () => {
                                     <td>{order.purchaser?.fullname || 'Unknown'}</td>
                                     <td>{order.order_items.map(item => item.product?.title || 'Unknown').join(', ')}</td>
                                     <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
-                                    <td>{order.total_price || 'N/A'}</td>
+                                    <td className="price-container">
+                                        {/* <strong className="currency-label"><em>Kshs: </em></strong> */}
+                                        {order.total_price ? order.total_price.split('.').map((part, index) => (
+                                            <React.Fragment key={index}>
+                                                {index === 0 ? (
+                                                    <span className="price-integer">{part}</span>
+                                                ) : (
+                                                    <>
+                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                        <span className="price-decimal">{part}</span>
+                                                    </>
+                                                )}
+                                            </React.Fragment>
+                                        )) : 'N/A'}
+                                    </td>
                                     <td>{order.order_date || 'N/A'}</td>
                                     <td>
                                         <Form.Control
@@ -213,8 +227,22 @@ const OrdersManagement = () => {
                                                 <div className="order-detail-item">
                                                     <strong>Date Ordered:</strong> {selectedOrder.order_date || 'N/A'}
                                                 </div>
-                                                <div className="order-detail-item">
-                                                    <strong>Total:</strong> Ksh {selectedOrder.total_price || '0'}
+                                                <div className="order-detail-item price-container">
+                                                    <strong className="total-label">Total<em className='price-label'>(Kshs):</em></strong>
+                                                    <span className="price">
+                                                        {selectedOrder.total_price ? selectedOrder.total_price.split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">{part}</span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        )) : '0'}
+                                                    </span>
                                                 </div>
                                             </div>
                                             <h4 className='text-center'>Products</h4>
@@ -236,7 +264,25 @@ const OrdersManagement = () => {
                                                                         <td>{item.product?.title || 'Unknown'}</td>
                                                                         <td>{item.product?.vendor?.fullname || 'Unknown'}</td>
                                                                         <td>{item.quantity || '0'}</td>
-                                                                        <td>Ksh {item.product?.price * item.quantity || '0'}</td>
+                                                                        <td className="price-container">
+                                                                            <strong className="price-label"><em>Kshs: </em></strong>
+                                                                            <span className="price">
+                                                                                {item.product?.price && item.quantity ? (
+                                                                                    (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
+                                                                                        <React.Fragment key={index}>
+                                                                                            {index === 0 ? (
+                                                                                                <span className="price-integer">{part}</span>
+                                                                                            ) : (
+                                                                                                <>
+                                                                                                    <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                    <span className="price-decimal">{part}</span>
+                                                                                                </>
+                                                                                            )}
+                                                                                        </React.Fragment>
+                                                                                    ))
+                                                                                ) : '0.00'}
+                                                                            </span>
+                                                                        </td>
                                                                     </tr>
                                                                 ))
                                                             ) : (

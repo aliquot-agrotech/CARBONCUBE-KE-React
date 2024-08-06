@@ -204,7 +204,9 @@
     color: #ffc107;
 }
 
-
+.product-price-label {
+    font-size: 15px;
+}
 
 
 /* Responsive styles */

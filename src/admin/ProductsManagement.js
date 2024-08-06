@@ -243,7 +243,8 @@ const ProductsManagement = () => {
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
                                                     <Card.Text className="price-container">
-                                                        <strong>Kshs: </strong>
+                                                        <em className='product-price-label'>Kshs: </em>
+                                                        <strong>
                                                         {product.price.split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? part : (
@@ -254,6 +255,8 @@ const ProductsManagement = () => {
                                                                 )}
                                                             </React.Fragment>
                                                         ))}
+                                                        </strong>
+                                                        
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)}>
                                                         View Details
@@ -286,8 +289,9 @@ const ProductsManagement = () => {
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
                                                     <Card.Text className="price-container">
-                                                        <strong>Kshs: </strong>
-                                                            {product.price.split('.').map((part, index) => (
+                                                        <em className='product-price-label'>Kshs: </em>
+                                                        <strong>
+                                                        {product.price.split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? part : (
                                                                     <>
@@ -297,6 +301,8 @@ const ProductsManagement = () => {
                                                                 )}
                                                             </React.Fragment>
                                                         ))}
+                                                        </strong>
+                                                            
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
                                                         Notify Vendor
@@ -349,7 +355,8 @@ const ProductsManagement = () => {
                                 <div className="product-detail-item">
                                     <strong>Price:</strong> 
                                     <p>
-                                        Kshs
+                                        <em className='product-price-label'>Kshs: </em>
+                                        <strong>
                                         {selectedProduct.price.split('.').map((part, index) => (
                                             <React.Fragment key={index}>
                                                 {index === 0 ? part : (
@@ -360,6 +367,7 @@ const ProductsManagement = () => {
                                                 )}
                                             </React.Fragment>
                                         ))}
+                                        </strong>
                                     </p>
                                 </div>
                                 <div className="product-detail-item">
@@ -397,9 +405,9 @@ const ProductsManagement = () => {
                                 <div className="reviews-container text-center">
                                     {selectedProduct.reviews.map((review, index) => (
                                         <div className="review-card" key={index}>
-                                            <p className="review-comment">{review.review}</p>
+                                            <p className="review-comment"><em>"{review.review}"</em></p>
                                             <StarRating rating={review.rating} />
-                                            <p className="reviewer-name"><strong><em>{review.purchaser.fullname}</em></strong></p>
+                                            <p className="reviewer-name"><strong>{review.purchaser.fullname}</strong></p>
                                         </div>
                                     ))}
                                 </div>

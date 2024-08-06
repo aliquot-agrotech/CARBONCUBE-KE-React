@@ -84,3 +84,7 @@ body {
 .sub-table.d-none {
     display: none;
 }
+
+.price-label {
+    font-size: 12px;
+}
