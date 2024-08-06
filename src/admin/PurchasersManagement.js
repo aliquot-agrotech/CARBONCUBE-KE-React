@@ -206,7 +206,20 @@ const PurchasersManagement = () => {
                                       <tr>
                                         <td>{order.id}</td>
                                         <td>{order.order_date}</td>
-                                        <td>Ksh {order.total_price}</td>
+                                        <td className="price-container">
+                                            <strong>Kshs: </strong>
+                                            {order.total_price.split('.').map((part, index) => (
+                                                <React.Fragment key={index}>
+                                                    {index === 0 ? part : (
+                                                        <>
+                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                            <span className="price-decimal">{part}</span>
+                                                        </>
+                                                    )}
+                                                </React.Fragment>
+                                            ))}
+                                        </td>
+
                                         <td>{order.status}</td>
                                         <td>
                                           <Button
@@ -236,7 +249,20 @@ const PurchasersManagement = () => {
                                                 <tr key={item.product.id}>
                                                   <td>{item.product.title}</td>
                                                   <td>{item.quantity}</td>
-                                                  <td>Ksh {item.product.price * item.quantity}</td>
+                                                  <td className="price-container">
+                                                      <strong>Kshs: </strong>
+                                                      { (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
+                                                          <React.Fragment key={index}>
+                                                              {index === 0 ? part : (
+                                                                  <>
+                                                                      <span style={{ fontSize: '16px' }}>.</span>
+                                                                      <span className="price-decimal">{part}</span>
+                                                                  </>
+                                                              )}
+                                                          </React.Fragment>
+                                                      ))}
+                                                  </td>
+
                                                 </tr>
                                               ))}
                                             </tbody>
