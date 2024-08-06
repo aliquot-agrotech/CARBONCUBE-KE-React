@@ -278,8 +278,9 @@ const VendorsManagement = () => {
                                                             <p><strong>Total Products Sold:</strong> {selectedVendor.analytics.total_products_sold}</p>
                                                         </div>
                                                         <div className="profile-card price-container">
+                                                        <strong>Total Revenue:</strong>
                                                             <p className="total-revenue">
-                                                                <strong>Total Revenue (Kshs):</strong>
+                                                            <em className='product-price-label'>Kshs: </em>
                                                                 <span className="price">
                                                                     {selectedVendor.analytics.total_revenue.split('.').map((part, index) => (
                                                                         <React.Fragment key={index}>
@@ -302,7 +303,7 @@ const VendorsManagement = () => {
                                                         <div className="profile-card">
                                                             <p><strong>Mean Rating:</strong></p>
                                                             <StarRating rating={selectedVendor.analytics.mean_rating} />
-                                                            <p>{selectedVendor.analytics.mean_rating}</p>
+                                                            <p>{selectedVendor.analytics.mean_rating}/5</p>
                                                         </div>
 
                                                     </div>
@@ -333,7 +334,8 @@ const VendorsManagement = () => {
                                                                         <td>{item.product.title}</td>
                                                                         <td>{item.quantity}</td>
                                                                         <td className="price-container">
-                                                                            <strong>Kshs: </strong>
+                                                                        <em className='product-price-label'>Kshs: </em>
+                                                                            <strong>
                                                                             {((item.quantity * item.product.price).toFixed(2)).split('.').map((part, index) => (
                                                                                 <React.Fragment key={index}>
                                                                                     {index === 0 ? part : (
@@ -344,6 +346,8 @@ const VendorsManagement = () => {
                                                                                     )}
                                                                                 </React.Fragment>
                                                                             ))}
+                                                                            </strong>
+                                                                            
                                                                         </td>
                                                                         <td>{new Date(order.created_at).toLocaleDateString()}</td>
                                                                     </tr>
@@ -369,7 +373,8 @@ const VendorsManagement = () => {
                                                                     <Card.Body>
                                                                         <Card.Title>{product.title}</Card.Title>
                                                                         <Card.Text className="price-container">
-                                                                            <strong>Kshs: </strong>
+                                                                            <em className='product-price-label'>Kshs: </em>
+                                                                            <strong>
                                                                             {product.price.split('.').map((part, index) => (
                                                                                 <React.Fragment key={index}>
                                                                                     {index === 0 ? part : (
@@ -380,8 +385,9 @@ const VendorsManagement = () => {
                                                                                     )}
                                                                                 </React.Fragment>
                                                                             ))}
+                                                                            </strong>
+                                                                                
                                                                         </Card.Text>
-                                                                        
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>

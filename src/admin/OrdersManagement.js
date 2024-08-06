@@ -136,7 +136,7 @@ const OrdersManagement = () => {
                                 <th>Purchaser</th>
                                 <th>Products</th>
                                 <th>Quantity</th>
-                                <th>Total <em className='price-label'>(Kshs)</em></th>
+                                <th>Total</th>
                                 <th>Date Ordered</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -158,7 +158,8 @@ const OrdersManagement = () => {
                                     <td>{order.order_items.map(item => item.product?.title || 'Unknown').join(', ')}</td>
                                     <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
                                     <td className="price-container">
-                                        {/* <strong className="currency-label"><em>Kshs: </em></strong> */}
+                                        <em className="product-price-label">Kshs: </em>
+                                        <strong>
                                         {order.total_price ? order.total_price.split('.').map((part, index) => (
                                             <React.Fragment key={index}>
                                                 {index === 0 ? (
@@ -171,6 +172,7 @@ const OrdersManagement = () => {
                                                 )}
                                             </React.Fragment>
                                         )) : 'N/A'}
+                                        </strong>
                                     </td>
                                     <td>{order.order_date || 'N/A'}</td>
                                     <td>
@@ -229,6 +231,7 @@ const OrdersManagement = () => {
                                                 </div>
                                                 <div className="order-detail-item price-container">
                                                     <strong className="total-label">Total<em className='price-label'>(Kshs):</em></strong>
+                                                    <strong>
                                                     <span className="price">
                                                         {selectedOrder.total_price ? selectedOrder.total_price.split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
@@ -243,6 +246,7 @@ const OrdersManagement = () => {
                                                             </React.Fragment>
                                                         )) : '0'}
                                                     </span>
+                                                    </strong>
                                                 </div>
                                             </div>
                                             <h4 className='text-center'>Products</h4>
@@ -265,7 +269,8 @@ const OrdersManagement = () => {
                                                                         <td>{item.product?.vendor?.fullname || 'Unknown'}</td>
                                                                         <td>{item.quantity || '0'}</td>
                                                                         <td className="price-container">
-                                                                            <strong className="price-label"><em>Kshs: </em></strong>
+                                                                            <em className='product-price-label'>Kshs: </em>
+                                                                            <strong>
                                                                             <span className="price">
                                                                                 {item.product?.price && item.quantity ? (
                                                                                     (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
@@ -282,6 +287,7 @@ const OrdersManagement = () => {
                                                                                     ))
                                                                                 ) : '0.00'}
                                                                             </span>
+                                                                            </strong>
                                                                         </td>
                                                                     </tr>
                                                                 ))

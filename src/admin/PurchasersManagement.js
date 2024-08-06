@@ -207,7 +207,8 @@ const PurchasersManagement = () => {
                                         <td>{order.id}</td>
                                         <td>{order.order_date}</td>
                                         <td className="price-container">
-                                            <strong>Kshs: </strong>
+                                            <em className='product-price-label'>Kshs: </em>
+                                            <strong>
                                             {order.total_price.split('.').map((part, index) => (
                                                 <React.Fragment key={index}>
                                                     {index === 0 ? part : (
@@ -218,6 +219,7 @@ const PurchasersManagement = () => {
                                                     )}
                                                 </React.Fragment>
                                             ))}
+                                            </strong>
                                         </td>
 
                                         <td>{order.status}</td>
@@ -250,7 +252,8 @@ const PurchasersManagement = () => {
                                                   <td>{item.product.title}</td>
                                                   <td>{item.quantity}</td>
                                                   <td className="price-container">
-                                                      <strong>Kshs: </strong>
+                                                      <em className='product-price-label'>Kshs: </em>
+                                                      <strong>
                                                       { (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
                                                           <React.Fragment key={index}>
                                                               {index === 0 ? part : (
@@ -261,6 +264,7 @@ const PurchasersManagement = () => {
                                                               )}
                                                           </React.Fragment>
                                                       ))}
+                                                      </strong>
                                                   </td>
 
                                                 </tr>
