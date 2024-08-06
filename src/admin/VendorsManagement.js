@@ -279,11 +279,13 @@ const VendorsManagement = () => {
                                                         </div>
                                                         <div className="profile-card price-container">
                                                             <p className="total-revenue">
-                                                                <strong>Total Revenue:</strong> 
+                                                                <strong>Total Revenue (Kshs):</strong>
                                                                 <span className="price">
                                                                     {selectedVendor.analytics.total_revenue.split('.').map((part, index) => (
                                                                         <React.Fragment key={index}>
-                                                                            {index === 0 ? part : (
+                                                                            {index === 0 ? (
+                                                                                <span className="price-integer">{part}</span>
+                                                                            ) : (
                                                                                 <>
                                                                                     <span style={{ fontSize: '16px' }}>.</span>
                                                                                     <span className="price-decimal">{part}</span>
