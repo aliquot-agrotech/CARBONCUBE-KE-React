@@ -127,9 +127,11 @@ const PurchasersManagement = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {purchasers.length > 0 ? (
-                    purchasers.map((purchaser) => (
-                      <tr key={purchaser.id} onClick={() => handleRowClick(purchaser.id)} style={{ cursor: 'pointer' }}>
+                {purchasers.length > 0 ? (
+                  purchasers
+                      .sort((a, b) => a.id - b.id) // Sort purchasers by ID in ascending order
+                      .map((purchaser) => (
+                          <tr key={purchaser.id} onClick={() => handleRowClick(purchaser.id)} style={{ cursor: 'pointer' }}>
                         <td>{purchaser.id}</td>
                         <td>{purchaser.fullname}</td>
                         <td>{purchaser.phone_number}</td>
