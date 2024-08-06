@@ -1,58 +1,365 @@
-import React from 'react';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Form, Button, Modal, Table } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
-import './ContentManagement.css';
+import './ContentManagement.css';  // Custom CSS
 
 const ContentManagement = () => {
-  return (
-    <>
-      <TopNavbar />
-      <div className="content-management-page">
-        <Container fluid>
-          <Row>
-            <Col xs={12} md={2} className="p-0">
-              <Sidebar />
-            </Col>
-            <Col xs={12} md={10} className="mt-4">
-              <Card className="mb-4">
-                <Card.Body>
-                  <Card.Title>About Us</Card.Title>
-                  <p>
-                    Welcome to the ultimate destination for automotive parts and accessories! At [Your Company Name], we are passionate about helping you keep your vehicles running smoothly and looking their best. Our platform connects you with a wide range of high-quality products from trusted vendors, ensuring that you have access to everything you need for your automotive projects.
-                  </p>
-                  <p><strong>Our Mission</strong></p>
-                  <p>
-                    Our mission is to provide a seamless and enjoyable shopping experience for automotive enthusiasts and professionals alike. We strive to offer the best selection of parts and accessories, competitive prices, and exceptional customer service.
-                  </p>
-                  <p><strong>Why Choose Us?</strong></p>
-                  <ul>
-                    <li>Wide Selection: We partner with multiple vendors to bring you a vast array of products for all makes and models.</li>
-                    <li>Quality Assurance: Every product on our platform is thoroughly vetted to ensure it meets our high standards.</li>
-                    <li>User-Friendly Experience: Our intuitive search and filtering system makes it easy to find exactly what you need.</li>
-                    <li>Secure Shopping: Your security is our priority. We offer safe and secure payment options for a worry-free shopping experience.</li>
-                  </ul>
-                </Card.Body>
-              </Card>
-              <Card>
-                <Card.Body>
-                  <Card.Title>Media Gallery</Card.Title>
-                  <Form>
-                    <Form.Group controlId="formFile" className="mb-3">
-                      <Form.Label>Add File</Form.Label>
-                      <Form.Control type="file" />
-                    </Form.Group>
-                    <Button variant="warning" id="button" type="submit">Save</Button>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-      
-    </>
-  );
+    const [aboutData, setAboutData] = useState(null);
+    const [faqsData, setFaqsData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [editMode, setEditMode] = useState(false);
+    const [currentEdit, setCurrentEdit] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const aboutResponse = await fetch('http://localhost:3000/admin/abouts', {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+                const faqsResponse = await fetch('http://localhost:3000/admin/faqs', {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+
+                if (!aboutResponse.ok || !faqsResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const about = await aboutResponse.json();
+                const faqs = await faqsResponse.json();
+
+                setAboutData(about[0]);  // Assuming only one About Us entry
+                setFaqsData(faqs);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setError('Error fetching data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleEditClick = (dataType, data) => {
+        setCurrentEdit({ type: dataType, data });
+        setEditMode(true);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setCurrentEdit((prev) => ({
+            ...prev,
+            data: {
+                ...prev.data,
+                [name]: value,
+            },
+        }));
+    };
+
+    const handleSaveChanges = async () => {
+        try {
+            const { type, data } = currentEdit;
+            const url = `http://localhost:3000/admin/${type}/${data.id}`;
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            if (type === 'abouts') {
+                setAboutData(data);
+            } else if (type === 'faqs') {
+                setFaqsData((prevFaqs) =>
+                    prevFaqs.map((faq) => (faq.id === data.id ? data : faq))
+                );
+            }
+
+            setEditMode(false);
+            setCurrentEdit(null);
+        } catch (error) {
+            console.error('Error saving changes:', error);
+            setError('Error saving changes');
+        }
+    };
+
+    const handleDeleteFaq = async (faqId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/faqs/${faqId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            setFaqsData(prevFaqs => prevFaqs.filter(faq => faq.id !== faqId));
+        } catch (error) {
+            console.error('Error deleting FAQ:', error);
+            setError('Error deleting FAQ');
+        }
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    return (
+        <>
+            <TopNavbar />
+            <div className="content-management-page">
+                <Container fluid className="p-0">
+                    <Row>
+                        <Col xs={12} md={2} className="p-0">
+                            <Sidebar />
+                        </Col>
+                        <Col xs={12} md={10} className="p-4">
+                            {/* About Us Section */}
+                            <div className="section">
+                                <h2>About Us</h2>
+                                {aboutData && (
+                                    <Form>
+                                        <Form.Group controlId="formDescription">
+                                            <Form.Label>Description</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="description"
+                                                value={currentEdit?.data?.description || aboutData.description}
+                                                onChange={handleInputChange}
+                                                disabled={!editMode}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formMission">
+                                            <Form.Label>Mission</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="mission"
+                                                value={currentEdit?.data?.mission || aboutData.mission}
+                                                onChange={handleInputChange}
+                                                disabled={!editMode}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formVision">
+                                            <Form.Label>Vision</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="vision"
+                                                value={currentEdit?.data?.vision || aboutData.vision}
+                                                onChange={handleInputChange}
+                                                disabled={!editMode}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formValues">
+                                            <Form.Label>Values</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="values"
+                                                value={currentEdit?.data?.values?.join(', ') || aboutData.values.join(', ')}
+                                                onChange={handleInputChange}
+                                                disabled={!editMode}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formWhyChooseUs">
+                                            <Form.Label>Why Choose Us</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="why_choose_us"
+                                                value={currentEdit?.data?.why_choose_us || aboutData.why_choose_us}
+                                                onChange={handleInputChange}
+                                                disabled={!editMode}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formImageUrl">
+                                            <Form.Label>Image URL</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="image_url"
+                                                value={currentEdit?.data?.image_url || aboutData.image_url}
+                                                onChange={handleInputChange}
+                                                disabled={!editMode}
+                                            />
+                                        </Form.Group>
+                                        {editMode && (
+                                            <Button variant="primary" onClick={handleSaveChanges}>
+                                                Save Changes
+                                            </Button>
+                                        )}
+                                        {!editMode && (
+                                            <Button variant="warning" onClick={() => handleEditClick('abouts', aboutData)}>
+                                                Edit
+                                            </Button>
+                                        )}
+                                    </Form>
+                                )}
+                            </div>
+
+                            {/* FAQs Section */}
+                            <div className="section">
+                                <h2>FAQs</h2>
+                                <Table hover className="faqs-table text-center">
+                                    <thead className="table-header">
+                                        <tr>
+                                            <th>Question</th>
+                                            <th>Answer</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {faqsData.length > 0 ? (
+                                            faqsData.map((faq) => (
+                                                <tr key={faq.id}>
+                                                    <td>{faq.question}</td>
+                                                    <td>{faq.answer}</td>
+                                                    <td>
+                                                        <Button
+                                                            variant="warning"
+                                                            onClick={() => handleEditClick('faqs', faq)}
+                                                        >
+                                                            Edit
+                                                        </Button>
+                                                        <Button
+                                                            variant="danger"
+                                                            onClick={() => handleDeleteFaq(faq.id)}
+                                                        >
+                                                            Delete
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="3">No data available</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+
+                {/* Edit Modal */}
+                <Modal show={editMode} onHide={() => setEditMode(false)} size="lg">
+                    <Modal.Header>
+                        <Modal.Title>Edit {currentEdit?.type === 'abouts' ? 'About Us' : 'FAQ'}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {currentEdit && (
+                            <Form>
+                                {currentEdit.type === 'abouts' && (
+                                    <>
+                                        <Form.Group controlId="formDescription">
+                                            <Form.Label>Description</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="description"
+                                                value={currentEdit.data.description}
+                                                onChange={handleInputChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formMission">
+                                            <Form.Label>Mission</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="mission"
+                                                value={currentEdit.data.mission}
+                                                onChange={handleInputChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formVision">
+                                            <Form.Label>Vision</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="vision"
+                                                value={currentEdit.data.vision}
+                                                onChange={handleInputChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formValues">
+                                            <Form.Label>Values</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="values"
+                                                value={currentEdit.data.values.join(', ')}
+                                                onChange={handleInputChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formWhyChooseUs">
+                                            <Form.Label>Why Choose Us</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="why_choose_us"
+                                                value={currentEdit.data.why_choose_us}
+                                                onChange={handleInputChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formImageUrl">
+                                            <Form.Label>Image URL</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="image_url"
+                                                value={currentEdit.data.image_url}
+                                                onChange={handleInputChange}
+                                            />
+                                        </Form.Group>
+                                    </>
+                                )}
+                                {currentEdit.type === 'faqs' && (
+                                    <>
+                                        <Form.Group controlId="formQuestion">
+                                            <Form.Label>Question</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="question"
+                                                value={currentEdit.data.question}
+                                                onChange={handleInputChange}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group controlId="formAnswer">
+                                            <Form.Label>Answer</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="answer"
+                                                value={currentEdit.data.answer}
+                                                onChange={handleInputChange}
+                                            />
+                                        </Form.Group>
+                                    </>
+                                )}
+                            </Form>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setEditMode(false)}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={handleSaveChanges}>
+                            Save Changes
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        </>
+    );
 };
 
 export default ContentManagement;
