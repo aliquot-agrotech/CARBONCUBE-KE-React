@@ -308,25 +308,28 @@ const VendorsManagement = () => {
                                                 <div className="card-container">
                                                     {selectedVendor.products && selectedVendor.products.length > 0 ? (
                                                         selectedVendor.products.map((product) => (
-                                                            <Card key={product.id} className="product-card">
-                                                                <Card.Img className="card-img" variant="top" src={product.imageUrl} alt={product.title} />
-                                                                <Card.Body>
-                                                                    <Card.Title>{product.title}</Card.Title>
-                                                                    <Card.Text className="price-container">
-                                                                        <strong>Kshs: </strong>
-                                                                        {product.price.split('.').map((part, index) => (
-                                                                            <React.Fragment key={index}>
-                                                                                {index === 0 ? part : (
-                                                                                    <>
-                                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                                        <span className="price-decimal">{part}</span>
-                                                                                    </>
-                                                                                )}
-                                                                            </React.Fragment>
-                                                                        ))}
-                                                                    </Card.Text>
-                                                                </Card.Body>
-                                                            </Card>
+                                                            <Col key={product.id} xs={12} md={12} lg={12} className="mb-4">
+                                                                <Card>
+                                                                    <Card.Img variant="top" src={product.imageUrl} />
+                                                                    <Card.Body>
+                                                                        <Card.Title>{product.title}</Card.Title>
+                                                                        <Card.Text className="price-container">
+                                                                            <strong>Kshs: </strong>
+                                                                            {product.price.split('.').map((part, index) => (
+                                                                                <React.Fragment key={index}>
+                                                                                    {index === 0 ? part : (
+                                                                                        <>
+                                                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                                                            <span className="price-decimal">{part}</span>
+                                                                                        </>
+                                                                                    )}
+                                                                                </React.Fragment>
+                                                                            ))}
+                                                                        </Card.Text>
+                                                                        
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
                                                         ))
                                                     ) : (
                                                         <p className="text-center">No products available</p>
