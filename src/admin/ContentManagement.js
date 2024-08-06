@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button, Modal, Table } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Modal, Table, Card } from 'react-bootstrap';
+import { Trash, Pencil } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './ContentManagement.css';  // Custom CSS
@@ -26,6 +27,9 @@ const ContentManagement = () => {
                     },
                 });
 
+                console.log('About response status:', aboutResponse.status);
+                console.log('FAQs response status:', faqsResponse.status);
+
                 if (!aboutResponse.ok || !faqsResponse.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -33,7 +37,10 @@ const ContentManagement = () => {
                 const about = await aboutResponse.json();
                 const faqs = await faqsResponse.json();
 
-                setAboutData(about[0]);  // Assuming only one About Us entry
+                console.log('Fetched aboutData:', about);
+                console.log('Fetched faqsData:', faqs);
+
+                setAboutData(about);
                 setFaqsData(faqs);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -80,8 +87,10 @@ const ContentManagement = () => {
             }
 
             if (type === 'abouts') {
+                console.log('Updated aboutData:', data);
                 setAboutData(data);
             } else if (type === 'faqs') {
+                console.log('Updated FAQ:', data);
                 setFaqsData((prevFaqs) =>
                     prevFaqs.map((faq) => (faq.id === data.id ? data : faq))
                 );
@@ -136,88 +145,84 @@ const ContentManagement = () => {
                             {/* About Us Section */}
                             <div className="section">
                                 <h2>About Us</h2>
-                                {aboutData && (
-                                    <Form>
-                                        <Form.Group controlId="formDescription">
-                                            <Form.Label>Description</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="description"
-                                                value={currentEdit?.data?.description || aboutData.description}
-                                                onChange={handleInputChange}
-                                                disabled={!editMode}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formMission">
-                                            <Form.Label>Mission</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="mission"
-                                                value={currentEdit?.data?.mission || aboutData.mission}
-                                                onChange={handleInputChange}
-                                                disabled={!editMode}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formVision">
-                                            <Form.Label>Vision</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="vision"
-                                                value={currentEdit?.data?.vision || aboutData.vision}
-                                                onChange={handleInputChange}
-                                                disabled={!editMode}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formValues">
-                                            <Form.Label>Values</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="values"
-                                                value={currentEdit?.data?.values?.join(', ') || aboutData.values.join(', ')}
-                                                onChange={handleInputChange}
-                                                disabled={!editMode}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formWhyChooseUs">
-                                            <Form.Label>Why Choose Us</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="why_choose_us"
-                                                value={currentEdit?.data?.why_choose_us || aboutData.why_choose_us}
-                                                onChange={handleInputChange}
-                                                disabled={!editMode}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="formImageUrl">
-                                            <Form.Label>Image URL</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="image_url"
-                                                value={currentEdit?.data?.image_url || aboutData.image_url}
-                                                onChange={handleInputChange}
-                                                disabled={!editMode}
-                                            />
-                                        </Form.Group>
-                                        {editMode && (
-                                            <Button variant="primary" onClick={handleSaveChanges}>
-                                                Save Changes
-                                            </Button>
-                                        )}
-                                        {!editMode && (
-                                            <Button variant="warning" onClick={() => handleEditClick('abouts', aboutData)}>
-                                                Edit
-                                            </Button>
-                                        )}
-                                    </Form>
-                                )}
+                                <Card>
+                                    <Card.Header>
+                                        <Button
+                                            variant="warning"
+                                            onClick={() => handleEditClick('abouts', aboutData)}
+                                            disabled={!aboutData}
+                                        >
+                                            <Pencil /> Edit
+                                        </Button>
+                                    </Card.Header>
+                                    <Card.Body>
+                                        <Form>
+                                            <Form.Group controlId="formDescription">
+                                                <Form.Label>Description</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    name="description"
+                                                    value={aboutData?.description || ''}
+                                                    disabled
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formMission">
+                                                <Form.Label>Mission</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    name="mission"
+                                                    value={aboutData?.mission || ''}
+                                                    disabled
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formVision">
+                                                <Form.Label>Vision</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    name="vision"
+                                                    value={aboutData?.vision || ''}
+                                                    disabled
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formValues">
+                                                <Form.Label>Values</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    name="values"
+                                                    value={(Array.isArray(aboutData?.values) ? aboutData.values.join(', ') : '') || ''}
+                                                    disabled
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formWhyChooseUs">
+                                                <Form.Label>Why Choose Us</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    name="why_choose_us"
+                                                    value={aboutData?.why_choose_us || ''}
+                                                    disabled
+                                                />
+                                            </Form.Group>
+                                            <Form.Group controlId="formImageUrl">
+                                                <Form.Label>Image URL</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    name="image_url"
+                                                    value={aboutData?.image_url || ''}
+                                                    disabled
+                                                />
+                                            </Form.Group>
+                                        </Form>
+                                    </Card.Body>
+                                </Card>
                             </div>
 
                             {/* FAQs Section */}
                             <div className="section">
                                 <h2>FAQs</h2>
                                 <Table hover className="faqs-table text-center">
-                                    <thead className="table-header">
+                                    <thead>
                                         <tr>
+                                            <th>ID</th>
                                             <th>Question</th>
                                             <th>Answer</th>
                                             <th>Action</th>
@@ -227,6 +232,7 @@ const ContentManagement = () => {
                                         {faqsData.length > 0 ? (
                                             faqsData.map((faq) => (
                                                 <tr key={faq.id}>
+                                                    <td>{faq.id}</td>
                                                     <td>{faq.question}</td>
                                                     <td>{faq.answer}</td>
                                                     <td>
@@ -234,20 +240,20 @@ const ContentManagement = () => {
                                                             variant="warning"
                                                             onClick={() => handleEditClick('faqs', faq)}
                                                         >
-                                                            Edit
+                                                            <Pencil />
                                                         </Button>
                                                         <Button
                                                             variant="danger"
                                                             onClick={() => handleDeleteFaq(faq.id)}
                                                         >
-                                                            Delete
+                                                            <Trash />
                                                         </Button>
                                                     </td>
                                                 </tr>
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="3">No data available</td>
+                                                <td colSpan="4">No data available</td>
                                             </tr>
                                         )}
                                     </tbody>
@@ -299,7 +305,7 @@ const ContentManagement = () => {
                                             <Form.Control
                                                 type="text"
                                                 name="values"
-                                                value={currentEdit.data.values.join(', ')}
+                                                value={(Array.isArray(currentEdit.data.values) ? currentEdit.data.values.join(', ') : '')}
                                                 onChange={handleInputChange}
                                             />
                                         </Form.Group>
