@@ -44,7 +44,7 @@ const VendorsManagement = () => {
 
     const handleRowClick = async (vendorId) => {
         try {
-            const [vendorResponse, ordersResponse, productsResponse] = await Promise.all([
+            const [vendorResponse, ordersResponse, productsResponse, reviewsResponse] = await Promise.all([
                 fetch(`http://localhost:3000/admin/vendors/${vendorId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -59,25 +59,32 @@ const VendorsManagement = () => {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
+                }),
+                fetch(`http://localhost:3000/admin/vendors/${vendorId}/reviews`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
                 })
             ]);
     
-            if (!vendorResponse.ok || !ordersResponse.ok || !productsResponse.ok) {
+            if (!vendorResponse.ok || !ordersResponse.ok || !productsResponse.ok || !reviewsResponse.ok) {
                 throw new Error('Network response was not ok');
             }
     
             const vendorData = await vendorResponse.json();
             const ordersData = await ordersResponse.json();
             const productsData = await productsResponse.json();
+            const reviewsData = await reviewsResponse.json();
             const analytics = await fetchVendorAnalytics(vendorId);
     
-            setSelectedVendor({ ...vendorData, orders: ordersData, products: productsData, analytics });
+            setSelectedVendor({ ...vendorData, orders: ordersData, products: productsData, reviews: reviewsData, analytics });
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
             console.error('Error fetching vendor details:', error);
         }
     };
+    
 
 
     const handleCloseModal = () => {
@@ -340,21 +347,23 @@ const VendorsManagement = () => {
                                             <Tab eventKey="reviews" title="Reviews">
                                                 <h5 className="text-center">Reviews</h5>
                                                 {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
-                                                    <div className="profile-cards text-center">
-                                                        {selectedVendor.reviews.map((review) => (
-                                                            <Card key={review.id} className="mb-3">
-                                                                <Card.Body>
-                                                                    <Card.Title>Review by {review.reviewer_name}</Card.Title>
-                                                                    <Card.Text>Rating: {review.rating}</Card.Text>
-                                                                    <Card.Text>{review.comment}</Card.Text>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        ))}
+                                                    <div className="review-cards text-center">
+                                                    {selectedVendor.reviews.map((review) => (
+                                                        <Card key={review.id} className="mb-3">
+                                                        <Card.Body>
+                                                            <Card.Title>Review on {review.product_title}</Card.Title>
+                                                            <Card.Text>Rating: {review.rating}</Card.Text>
+                                                            <Card.Text>{review.review}</Card.Text>
+                                                            <Card.Text>Reviewed by: {review.purchaser_name}</Card.Text>
+                                                        </Card.Body>
+                                                        </Card>
+                                                    ))}
                                                     </div>
                                                 ) : (
                                                     <p>No reviews available</p>
                                                 )}
                                             </Tab>
+
                                         </Tabs>
                                     ) : (
                                         <p>Loading...</p>
