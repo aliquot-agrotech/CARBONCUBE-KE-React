@@ -288,7 +288,7 @@ const PurchasersManagement = () => {
                   )}
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="warning" onClick={handleCloseModal} id="button">
+                  <Button variant="danger" onClick={handleCloseModal} id="button">
                     Close
                   </Button>
                 </Modal.Footer>

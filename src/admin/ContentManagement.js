@@ -364,10 +364,10 @@ const ContentManagement = () => {
                         )}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setEditMode(false)}>
+                        <Button variant="danger" className='me-3' id="button" onClick={() => setEditMode(false)}>
                             Close
                         </Button>
-                        <Button variant="primary" onClick={handleSaveChanges}>
+                        <Button variant="warning" id="button" onClick={handleSaveChanges}>
                             Save Changes
                         </Button>
                     </Modal.Footer>

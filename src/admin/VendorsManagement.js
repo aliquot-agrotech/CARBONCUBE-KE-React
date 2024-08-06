@@ -421,7 +421,7 @@ const VendorsManagement = () => {
                                     )}
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button variant="warning" id="button" onClick={handleCloseModal}>
+                                    <Button variant="danger" id="button" onClick={handleCloseModal}>
                                         Close
                                     </Button>
                                 </Modal.Footer>
