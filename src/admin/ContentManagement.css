@@ -1,5 +1,5 @@
 .content-management-page {
-  background-color: #f8f9fa;
+  background-color: #e0e0e0;
 }
 
 .section {
@@ -8,6 +8,7 @@
 
 .faqs-table th, .faqs-table td {
   vertical-align: middle;
+  gap: 20px;
 }
 
 .fa-edit, .fa-trash-alt {

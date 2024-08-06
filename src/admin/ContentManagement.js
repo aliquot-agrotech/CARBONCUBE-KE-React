@@ -88,7 +88,7 @@ const ContentManagement = () => {
 
             if (type === 'abouts') {
                 console.log('Updated aboutData:', data);
-                setAboutData(data);
+                setAboutData([data]);  // Ensure aboutData remains an array
             } else if (type === 'faqs') {
                 console.log('Updated FAQ:', data);
                 setFaqsData((prevFaqs) =>
@@ -132,6 +132,8 @@ const ContentManagement = () => {
         return <div>{error}</div>;
     }
 
+    const about = aboutData && aboutData.length > 0 ? aboutData[0] : null;
+
     return (
         <>
             <TopNavbar />
@@ -149,8 +151,9 @@ const ContentManagement = () => {
                                     <Card.Header>
                                         <Button
                                             variant="warning"
-                                            onClick={() => handleEditClick('abouts', aboutData)}
-                                            disabled={!aboutData}
+                                            onClick={() => handleEditClick('abouts', about)}
+                                            id="button"
+                                            disabled={!about}
                                         >
                                             <Pencil /> Edit
                                         </Button>
@@ -162,7 +165,7 @@ const ContentManagement = () => {
                                                 <Form.Control
                                                     type="text"
                                                     name="description"
-                                                    value={aboutData?.description || ''}
+                                                    value={about?.description || ''}
                                                     disabled
                                                 />
                                             </Form.Group>
@@ -171,7 +174,7 @@ const ContentManagement = () => {
                                                 <Form.Control
                                                     type="text"
                                                     name="mission"
-                                                    value={aboutData?.mission || ''}
+                                                    value={about?.mission || ''}
                                                     disabled
                                                 />
                                             </Form.Group>
@@ -180,7 +183,7 @@ const ContentManagement = () => {
                                                 <Form.Control
                                                     type="text"
                                                     name="vision"
-                                                    value={aboutData?.vision || ''}
+                                                    value={about?.vision || ''}
                                                     disabled
                                                 />
                                             </Form.Group>
@@ -189,7 +192,7 @@ const ContentManagement = () => {
                                                 <Form.Control
                                                     type="text"
                                                     name="values"
-                                                    value={(Array.isArray(aboutData?.values) ? aboutData.values.join(', ') : '') || ''}
+                                                    value={(Array.isArray(about?.values) ? about.values.join(', ') : '') || ''}
                                                     disabled
                                                 />
                                             </Form.Group>
@@ -198,7 +201,7 @@ const ContentManagement = () => {
                                                 <Form.Control
                                                     type="text"
                                                     name="why_choose_us"
-                                                    value={aboutData?.why_choose_us || ''}
+                                                    value={about?.why_choose_us || ''}
                                                     disabled
                                                 />
                                             </Form.Group>
@@ -207,7 +210,7 @@ const ContentManagement = () => {
                                                 <Form.Control
                                                     type="text"
                                                     name="image_url"
-                                                    value={aboutData?.image_url || ''}
+                                                    value={about?.image_url || ''}
                                                     disabled
                                                 />
                                             </Form.Group>
@@ -225,6 +228,7 @@ const ContentManagement = () => {
                                             <th>ID</th>
                                             <th>Question</th>
                                             <th>Answer</th>
+                                            <th>Edit</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -239,12 +243,17 @@ const ContentManagement = () => {
                                                         <Button
                                                             variant="warning"
                                                             onClick={() => handleEditClick('faqs', faq)}
+                                                            id="button"
                                                         >
                                                             <Pencil />
-                                                        </Button>
+                                                            </Button>
+                                                    </td>
+                                                    <td>
+                                                        
                                                         <Button
                                                             variant="danger"
                                                             onClick={() => handleDeleteFaq(faq.id)}
+                                                            id="button"
                                                         >
                                                             <Trash />
                                                         </Button>
