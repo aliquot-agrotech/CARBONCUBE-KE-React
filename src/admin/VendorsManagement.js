@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Row, Col, Tabs, Tab, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserShield, faKey } from '@fortawesome/free-solid-svg-icons';
+import { faUserShield, faKey, faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './VendorsManagement.css';  // Custom CSS
@@ -141,6 +141,24 @@ const VendorsManagement = () => {
         }
     };
 
+    const StarRating = ({ rating }) => {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    
+        return (
+            <span className="star-rating">
+                {[...Array(fullStars)].map((_, index) => (
+                    <FontAwesomeIcon key={index} icon={faStar} className="star filled" />
+                ))}
+                {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="star half-filled" />}
+                {[...Array(emptyStars)].map((_, index) => (
+                    <FontAwesomeIcon key={index} icon={faStarEmpty} className="star empty" />
+                ))}
+            </span>
+        );
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -259,16 +277,32 @@ const VendorsManagement = () => {
                                                         <div className="profile-card">
                                                             <p><strong>Total Products Sold:</strong> {selectedVendor.analytics.total_products_sold}</p>
                                                         </div>
-                                                        <div className="profile-card">
-                                                            <p><strong>Total Revenue:</strong> {selectedVendor.analytics.total_revenue}</p>
-                                                        </div>
-                                                        
+                                                        <div className="profile-card price-container">
+                                                            <p className="total-revenue">
+                                                                <strong>Total Revenue:</strong> 
+                                                                <span className="price">
+                                                                    {selectedVendor.analytics.total_revenue.split('.').map((part, index) => (
+                                                                        <React.Fragment key={index}>
+                                                                            {index === 0 ? part : (
+                                                                                <>
+                                                                                    <span style={{ fontSize: '16px' }}>.</span>
+                                                                                    <span className="price-decimal">{part}</span>
+                                                                                </>
+                                                                            )}
+                                                                        </React.Fragment>
+                                                                    ))}
+                                                                </span>
+                                                            </p>
+                                                        </div>                                                        
                                                         <div className="profile-card">
                                                             <p><strong>Total Reviews:</strong> {selectedVendor.analytics.total_reviews}</p>
                                                         </div>
                                                         <div className="profile-card">
-                                                            <p><strong>Mean Rating:</strong> {selectedVendor.analytics.mean_rating}</p>
+                                                            <p><strong>Mean Rating:</strong></p>
+                                                            <StarRating rating={selectedVendor.analytics.mean_rating} />
+                                                            <p>{selectedVendor.analytics.mean_rating}</p>
                                                         </div>
+
                                                     </div>
                                                 ) : (
                                                     <p>Loading analytics data...</p>
@@ -296,7 +330,19 @@ const VendorsManagement = () => {
                                                                         <td>{order.purchaser.fullname}</td>
                                                                         <td>{item.product.title}</td>
                                                                         <td>{item.quantity}</td>
-                                                                        <td>{(item.quantity * item.product.price).toFixed(2)}</td>
+                                                                        <td className="price-container">
+                                                                            <strong>Kshs: </strong>
+                                                                            {((item.quantity * item.product.price).toFixed(2)).split('.').map((part, index) => (
+                                                                                <React.Fragment key={index}>
+                                                                                    {index === 0 ? part : (
+                                                                                        <>
+                                                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                                                            <span className="price-decimal">{part}</span>
+                                                                                        </>
+                                                                                    )}
+                                                                                </React.Fragment>
+                                                                            ))}
+                                                                        </td>
                                                                         <td>{new Date(order.created_at).toLocaleDateString()}</td>
                                                                     </tr>
                                                                 ))
@@ -345,25 +391,22 @@ const VendorsManagement = () => {
                                             </Tab>
 
                                             <Tab eventKey="reviews" title="Reviews">
-                                                <h5 className="text-center">Reviews</h5>
+                                            <h5 className="text-center" id="reviews">Reviews</h5>
                                                 {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
-                                                    <div className="review-cards text-center">
-                                                    {selectedVendor.reviews.map((review) => (
-                                                        <Card key={review.id} className="mb-3">
-                                                        <Card.Body>
-                                                            <Card.Title>Review on {review.product_title}</Card.Title>
-                                                            <Card.Text>Rating: {review.rating}</Card.Text>
-                                                            <Card.Text>{review.review}</Card.Text>
-                                                            <Card.Text>Reviewed by: {review.purchaser_name}</Card.Text>
-                                                        </Card.Body>
-                                                        </Card>
-                                                    ))}
+                                                    <div className="reviews-container text-center">
+                                                        {selectedVendor.reviews.map((review) => (
+                                                            <div className="review-card" key={review.id}>
+                                                                <p className="review-comment"><em>"{review.review}"</em></p>
+                                                                <StarRating rating={review.rating} /> {/* Assuming StarRating component is defined elsewhere */}
+                                                                <p className="review-product"><strong>{review.product_title}</strong></p>
+                                                                <p className="reviewer-name"><strong><em>{review.purchaser_name}</em></strong></p>
+                                                            </div>
+                                                        ))}
                                                     </div>
                                                 ) : (
-                                                    <p>No reviews available</p>
+                                                    <p className="text-center">No reviews available</p>
                                                 )}
                                             </Tab>
-
                                         </Tabs>
                                     ) : (
                                         <p>Loading...</p>
