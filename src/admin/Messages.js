@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faUser, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './Messages.css'; // Custom CSS
@@ -98,9 +98,11 @@ const Messages = () => {
             </Col>
             <Col xs={12} md={10} className="p-2">
               <Row>
-                <Col xs={12} md={3} >
+                <Col xs={12} md={3}>
                   <Card className="conversations-list">
-                    <Card.Header className="text-center justify-content-center"><strong>Conversations</strong></Card.Header>
+                    <Card.Header className="text-center justify-content-center">
+                      <strong>Conversations</strong>
+                    </Card.Header>
                     <Card.Body className="p-2 conversations-scroll">
                       {Array.isArray(conversations) ? (
                         conversations.map((conversation) => {
@@ -112,8 +114,8 @@ const Messages = () => {
                               className={`conversation-card ${selectedConversation?.id === conversation.id ? 'active' : ''} ${conversationType}`}
                               onClick={() => handleConversationClick(conversation)}
                             >
-                              <Card.Body className='text-center'>
-                                {participant?.fullname || 'Unknown'}
+                              <Card.Body className="text-center">
+                                <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
                               </Card.Body>
                             </Card>
                           );
@@ -126,7 +128,7 @@ const Messages = () => {
                 </Col>
                 <Col xs={12} md={9} className="messages-list">
                   {selectedConversation ? (
-                    <>                      
+                    <>
                       <Card className="message-container">
                         <Card className="messages-header mb-3">
                           <Card.Body>
