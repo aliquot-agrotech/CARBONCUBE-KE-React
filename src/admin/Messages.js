@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, ListGroup, Form, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faUser } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
@@ -98,41 +98,41 @@ const Messages = () => {
             </Col>
             <Col xs={12} md={10} className="p-4">
               <Row>
-                <Col xs={12} md={4} className="conversations-list">
-                  <Card className="h-100">
-                    <Card.Header className="text-center">Conversations</Card.Header>
-                    <Card.Body className="p-0">
-                      <ListGroup variant="flush" className="conversations-scroll">
-                        {Array.isArray(conversations) ? (
-                          conversations.map((conversation) => {
-                            const participant = conversation.purchaser || conversation.vendor;
-                            const conversationType = conversation.purchaser ? 'purchaser' : 'vendor';
-                            return (
-                              <ListGroup.Item
-                                key={conversation.id}
-                                className={`conversation-item ${selectedConversation?.id === conversation.id ? 'active' : ''} ${conversationType}`}
-                                onClick={() => handleConversationClick(conversation)}
-                              >
-                                Conversation with {participant?.fullname || 'Unknown'}
-                              </ListGroup.Item>
-                            );
-                          })
-                        ) : (
-                          <div>No conversations available</div>
-                        )}
-                      </ListGroup>
+                <Col xs={12} md={3} className="conversations-list">
+                  <Card className="conversations-list">
+                    <Card.Header className="text-center justify-content-center"><strong>Conversations</strong></Card.Header>
+                    <Card.Body className="p-0 conversations-scroll">
+                      {Array.isArray(conversations) ? (
+                        conversations.map((conversation) => {
+                          const participant = conversation.purchaser || conversation.vendor;
+                          const conversationType = conversation.purchaser ? 'purchaser' : 'vendor';
+                          return (
+                            <Card
+                              key={conversation.id}
+                              className={`conversation-card ${selectedConversation?.id === conversation.id ? 'active' : ''} ${conversationType}`}
+                              onClick={() => handleConversationClick(conversation)}
+                            >
+                              <Card.Body className='text-center'>
+                                {participant?.fullname || 'Unknown'}
+                              </Card.Body>
+                            </Card>
+                          );
+                        })
+                      ) : (
+                        <div>No conversations available</div>
+                      )}
                     </Card.Body>
                   </Card>
                 </Col>
-                <Col xs={12} md={8} className="messages-list">
+                <Col xs={12} md={9} className="messages-list">
                   {selectedConversation ? (
-                    <>
-                      <Card className="messages-header mb-3">
-                        <Card.Body>
-                          <FontAwesomeIcon icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
-                        </Card.Body>
-                      </Card>
+                    <>                      
                       <Card className="message-container">
+                        <Card className="messages-header mb-3">
+                          <Card.Body>
+                            <FontAwesomeIcon icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
+                          </Card.Body>
+                        </Card>
                         <Card.Body className="messages-scroll">
                           {Array.isArray(messages) ? (
                             messages.map((message) => (
@@ -165,7 +165,11 @@ const Messages = () => {
                       </div>
                     </>
                   ) : (
-                    <div>Select a conversation to view messages</div>
+                    <Card className="select-conversation-card">
+                      <Card.Body>
+                        <div className="select-conversation-text">Select a conversation to view messages</div>
+                      </Card.Body>
+                    </Card>
                   )}
                 </Col>
               </Row>

@@ -14,8 +14,7 @@ body {
 /* Messages Page Styles */
 .messages-page {
   background-color: #E0E0E0;
-  /* min-height: 100vh; Ensure the background color covers the full height */
-  max-height: 100vh;
+  min-height: 100vh; /* Ensure the background color covers the full height */
   padding: 0 1rem; /* Optional: Adjust padding as needed */
   display: flex;
   flex-direction: column;
@@ -24,35 +23,44 @@ body {
 
 .conversations-list {
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 20px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 0;
 }
 
 .conversations-scroll {
-  max-height: 400px; /* Adjust height as needed */
+  max-height: 800px; /* Adjust height as needed */
   overflow-y: auto; /* Ensure scroll is inside the container */
+  border: none;
 }
 
 .conversations-header {
   background-color: #f8f9fa;
   padding: 10px;
   border-bottom: 1px solid #ddd;
+  font-size: large;
+  align-items: center;
 }
 
-.conversation-item {
-  cursor: pointer;
+.conversation-card {
+  margin-bottom: 10px;
+  transition: transform 0.3s ease-in-out;
 }
 
-.conversations-list .conversation-item.active {
+.conversation-card:hover {
+  transform: scale(1.05);
+}
+
+.conversations-scroll .conversation-card.active {
   background-color: #ffc107;
   color: #000;
 }
 
-.conversation-item.purchaser {
+.conversation-card.purchaser {
   background-color: #e9f5f9; /* Light blue for purchaser conversations */
 }
 
-.conversation-item.vendor {
+.conversation-card.vendor {
   background-color: #f9e9e9; /* Light pink for vendor conversations */
 }
 
@@ -62,7 +70,7 @@ body {
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  max-height: 400px; /* Adjust height as needed */
+  max-height: 80vh; /* Adjust height as needed */
   overflow-y: auto; /* Ensure scroll is inside the container */
 }
 
@@ -97,14 +105,14 @@ body {
   color: #fff;
   align-self: flex-end; /* Align to the right */
   text-align: right;
-  margin-left: auto; /* Push message to the right */
+  margin-right: 0; /* Ensure no extra right margin */
 }
 
 .message.received {
   background-color: #f1f1f1;
   align-self: flex-start; /* Align to the left */
   text-align: left;
-  margin-right: auto; /* Push message to the left */
+  margin-left: 0; /* Ensure no extra left margin */
 }
 
 .message-timestamp {
@@ -155,4 +163,27 @@ body {
 
 .topbar .sender-name {
   font-weight: bold;
+}
+
+/* Select Conversation Card Styles */
+.select-conversation-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px; /* Adjust height as needed */
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.select-conversation-card:hover {
+  transform: scale(1.05);
+}
+
+.select-conversation-text {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #6c757d;
 }
