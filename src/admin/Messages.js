@@ -153,18 +153,19 @@ const Messages = () => {
                           )}
                         </Card.Body>
                       </Card>
-                      <div className="message-form">
+                      <Form className="message-form">
                         <Form.Control
                           className="message-input"
                           type="text"
                           value={newMessage}
                           onChange={(e) => setNewMessage(e.target.value)}
-                          placeholder="Type a message..."
-                        />
-                        <Button variant="warning" className="message-send-btn" onClick={handleSendMessage}>
+                          placeholder="Type a message..."/>
+                          <Button variant="warning" className="message-send-btn" onClick={handleSendMessage}>
                           <FontAwesomeIcon icon={faPaperPlane} />
                         </Button>
-                      </div>
+                        
+                        
+                      </Form>
                     </>
                   ) : (
                     <Card className="select-conversation-card">

@@ -150,7 +150,7 @@ body {
   flex: 1;
   padding: 0.5rem;
   border-radius: 5px 0 0 5px; /* Rounded corners for the left side */
-  height: 40px;
+  height: 50px;
   border: 1px solid #ddd; /* Border for better input visibility */
   transition: border-color 0.3s ease-in-out; /* Smooth border color transition */
 }
@@ -166,9 +166,10 @@ body {
   background-color: #ffc107;
   border: none;
   color: #fff;
-  margin-left: -1px; /* Remove space between input and button */
+  margin-left: 10px; /* Remove space between input and button */
+  margin-right: 20px;
   margin-top: -15px;
-  height: 40px;
+  height: 50px;
   transition: background-color 0.3s ease-in-out; /* Smooth background color transition */
 }
 
