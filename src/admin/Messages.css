@@ -14,7 +14,8 @@ body {
 /* Messages Page Styles */
 .messages-page {
   background-color: #E0E0E0;
-  min-height: 100vh; /* Ensure the background color covers the full height */
+  /* min-height: 100vh; Ensure the background color covers the full height */
+  max-height: 100vh;
   padding: 0 1rem; /* Optional: Adjust padding as needed */
   display: flex;
   flex-direction: column;
@@ -25,6 +26,11 @@ body {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.conversations-scroll {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto; /* Ensure scroll is inside the container */
 }
 
 .conversations-header {
@@ -42,7 +48,6 @@ body {
   color: #000;
 }
 
-
 .conversation-item.purchaser {
   background-color: #e9f5f9; /* Light blue for purchaser conversations */
 }
@@ -57,26 +62,57 @@ body {
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  height: 400px;
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto; /* Ensure scroll is inside the container */
+}
+
+.messages-scroll {
+  max-height: 100%; /* Fill the container's height */
   overflow-y: auto;
+}
+
+/* Date Divider Styles */
+.message-date-divider {
+  text-align: center;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #6c757d;
 }
 
 /* Message Styles */
 .message {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
-  max-width: 70%;
+  max-width: 60%;
+  position: relative;
+  word-break: break-word; /* Ensure long words break properly */
 }
 
+/* Flex alignment for sent and received messages */
 .message.sent {
   background-color: #ffc107;
   color: #fff;
-  margin-left: auto;
+  align-self: flex-end; /* Align to the right */
+  text-align: right;
+  margin-left: auto; /* Push message to the right */
 }
 
 .message.received {
   background-color: #f1f1f1;
+  align-self: flex-start; /* Align to the left */
+  text-align: left;
+  margin-right: auto; /* Push message to the left */
+}
+
+.message-timestamp {
+  font-size: 0.75rem;
+  color: #666;
+  position: absolute;
+  bottom: 5px;
+  right: 10px; /* Align timestamp to the right bottom end of the message */
 }
 
 /* Message Form Styles */
@@ -89,7 +125,6 @@ body {
 .message-input {
   flex: 1;
   padding: 0.5rem;
-  margin-right: 0; /* Remove right margin */
   border-radius: 5px 0 0 5px; /* Rounded corners for the left side */
   height: 40px;
 }
@@ -103,4 +138,21 @@ body {
   margin-left: -1px; /* Remove space between input and button */
   margin-top: -15px;
   height: 40px;
+}
+
+/* Topbar Styles */
+.topbar {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.topbar .person-icon {
+  margin-right: 10px;
+}
+
+.topbar .sender-name {
+  font-weight: bold;
 }

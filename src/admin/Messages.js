@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, ListGroup, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, Form, Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faUser } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './Messages.css'; // Custom CSS
@@ -30,7 +30,6 @@ const Messages = () => {
           },
         });
         const data = await response.json();
-        console.log('Fetched Conversations:', data); // Debug log
         setConversations(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching conversations:', error);
@@ -100,46 +99,58 @@ const Messages = () => {
             <Col xs={12} md={10} className="p-4">
               <Row>
                 <Col xs={12} md={4} className="conversations-list">
-                  <div className="conversations-header mb-4">
-                    <h2 className="text-center">Conversations</h2>
-                  </div>
-                  <ListGroup variant="flush">
-                    {Array.isArray(conversations) ? (
-                      conversations.map((conversation) => {
-                        const participant = conversation.purchaser || conversation.vendor;
-                        const conversationType = conversation.purchaser ? 'purchaser' : 'vendor';
-                        return (
-                          <ListGroup.Item
-                            key={conversation.id}
-                            className={`conversation-item ${selectedConversation?.id === conversation.id ? 'active' : ''} ${conversationType}`}
-                            onClick={() => handleConversationClick(conversation)}
-                          >
-                            Conversation with {participant?.fullname || 'Unknown'}
-                          </ListGroup.Item>
-                        );
-                      })
-                    ) : (
-                      <div>No conversations available</div>
-                    )}
-                  </ListGroup>
+                  <Card className="h-100">
+                    <Card.Header className="text-center">Conversations</Card.Header>
+                    <Card.Body className="p-0">
+                      <ListGroup variant="flush" className="conversations-scroll">
+                        {Array.isArray(conversations) ? (
+                          conversations.map((conversation) => {
+                            const participant = conversation.purchaser || conversation.vendor;
+                            const conversationType = conversation.purchaser ? 'purchaser' : 'vendor';
+                            return (
+                              <ListGroup.Item
+                                key={conversation.id}
+                                className={`conversation-item ${selectedConversation?.id === conversation.id ? 'active' : ''} ${conversationType}`}
+                                onClick={() => handleConversationClick(conversation)}
+                              >
+                                Conversation with {participant?.fullname || 'Unknown'}
+                              </ListGroup.Item>
+                            );
+                          })
+                        ) : (
+                          <div>No conversations available</div>
+                        )}
+                      </ListGroup>
+                    </Card.Body>
+                  </Card>
                 </Col>
                 <Col xs={12} md={8} className="messages-list">
                   {selectedConversation ? (
                     <>
-                      <div className="message-container">
-                        {Array.isArray(messages) ? (
-                          messages.map((message) => (
-                            <div
-                              key={message.id}
-                              className={`message ${message.sender_id === currentUser.id ? 'sent' : 'received'}`}
-                            >
-                              {message.content}
-                            </div>
-                          ))
-                        ) : (
-                          <div>Error loading messages</div>
-                        )}
-                      </div>
+                      <Card className="messages-header mb-3">
+                        <Card.Body>
+                          <FontAwesomeIcon icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
+                        </Card.Body>
+                      </Card>
+                      <Card className="message-container">
+                        <Card.Body className="messages-scroll">
+                          {Array.isArray(messages) ? (
+                            messages.map((message) => (
+                              <div
+                                key={message.id}
+                                className={`message ${message.sender_id === currentUser.id ? 'sent' : 'received'}`}
+                              >
+                                <p>{message.content}</p>
+                                <span className="message-timestamp">
+                                  {new Date(message.created_at).toLocaleTimeString()}
+                                </span>
+                              </div>
+                            ))
+                          ) : (
+                            <div>Error loading messages</div>
+                          )}
+                        </Card.Body>
+                      </Card>
                       <div className="message-form">
                         <Form.Control
                           className="message-input"
