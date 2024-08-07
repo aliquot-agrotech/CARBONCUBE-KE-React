@@ -26,6 +26,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   padding: 0;
+  min-height: 90vh;
 }
 
 .conversations-scroll {
@@ -70,7 +71,7 @@ body {
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  max-height: 80vh; /* Adjust height as needed */
+  max-height: 85vh; /* Adjust height as needed */
   overflow-y: auto; /* Ensure scroll is inside the container */
 }
 

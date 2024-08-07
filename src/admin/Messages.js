@@ -96,12 +96,12 @@ const Messages = () => {
             <Col xs={12} md={2} className="p-0">
               <Sidebar />
             </Col>
-            <Col xs={12} md={10} className="p-4">
+            <Col xs={12} md={10} className="p-2">
               <Row>
-                <Col xs={12} md={3} className="conversations-list">
+                <Col xs={12} md={3} >
                   <Card className="conversations-list">
                     <Card.Header className="text-center justify-content-center"><strong>Conversations</strong></Card.Header>
-                    <Card.Body className="p-0 conversations-scroll">
+                    <Card.Body className="p-2 conversations-scroll">
                       {Array.isArray(conversations) ? (
                         conversations.map((conversation) => {
                           const participant = conversation.purchaser || conversation.vendor;
