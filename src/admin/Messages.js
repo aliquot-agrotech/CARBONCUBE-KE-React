@@ -15,12 +15,8 @@ const Messages = () => {
     // Fetch current user data from local storage or decode the JWT token
     const token = localStorage.getItem('token');
     if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
-        setCurrentUser(payload);
-      } catch (error) {
-        console.error('Error decoding token:', error);
-      }
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
+      setCurrentUser(payload);
     }
   }, []);
 
@@ -34,13 +30,7 @@ const Messages = () => {
         });
         const data = await response.json();
         console.log('Fetched Conversations:', data); // Debug log
-
-        // Ensure data is an array and update state
-        if (Array.isArray(data)) {
-          setConversations(data);
-        } else {
-          console.error('Unexpected data format:', data);
-        }
+        setConversations(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching conversations:', error);
       }
@@ -57,7 +47,11 @@ const Messages = () => {
         },
       });
       const data = await response.json();
-      setMessages(data);
+      if (Array.isArray(data)) {
+        setMessages(data);
+      } else {
+        console.error('Messages data is not an array:', data);
+      }
     } catch (error) {
       console.error('Error fetching messages:', error);
     }
@@ -111,16 +105,15 @@ const Messages = () => {
                   <ListGroup variant="flush">
                     {Array.isArray(conversations) ? (
                       conversations.map((conversation) => {
-                        console.log('Conversation:', conversation); // Debug log
-                        console.log('Participant:', conversation.participant); // Debug log
+                        const participant = conversation.purchaser || conversation.vendor;
+                        const conversationType = conversation.purchaser ? 'purchaser' : 'vendor';
                         return (
                           <ListGroup.Item
                             key={conversation.id}
-                            className={`conversation-item ${selectedConversation?.id === conversation.id ? 'active' : ''}`}
+                            className={`conversation-item ${selectedConversation?.id === conversation.id ? 'active' : ''} ${conversationType}`}
                             onClick={() => handleConversationClick(conversation)}
                           >
-                            {/* Check if participant is defined before accessing fullname */}
-                            Conversation with {conversation.participant?.fullname || 'Unknown'}
+                            Conversation with {participant?.fullname || 'Unknown'}
                           </ListGroup.Item>
                         );
                       })
@@ -133,14 +126,18 @@ const Messages = () => {
                   {selectedConversation ? (
                     <>
                       <div className="message-container">
-                        {messages.map((message) => (
-                          <div
-                            key={message.id}
-                            className={`message ${message.sender_id === currentUser.id ? 'sent' : 'received'}`}
-                          >
-                            {message.content}
-                          </div>
-                        ))}
+                        {Array.isArray(messages) ? (
+                          messages.map((message) => (
+                            <div
+                              key={message.id}
+                              className={`message ${message.sender_id === currentUser.id ? 'sent' : 'received'}`}
+                            >
+                              {message.content}
+                            </div>
+                          ))
+                        ) : (
+                          <div>Error loading messages</div>
+                        )}
                       </div>
                       <div className="message-form">
                         <Form.Control

@@ -37,9 +37,18 @@ body {
   cursor: pointer;
 }
 
-.conversation-item.active {
-  background-color: #007bff;
-  color: #fff;
+.conversations-list .conversation-item.active {
+  background-color: #ffc107;
+  color: #000;
+}
+
+
+.conversation-item.purchaser {
+  background-color: #e9f5f9; /* Light blue for purchaser conversations */
+}
+
+.conversation-item.vendor {
+  background-color: #f9e9e9; /* Light pink for vendor conversations */
 }
 
 /* Message Container Styles */
@@ -61,7 +70,7 @@ body {
 }
 
 .message.sent {
-  background-color: #007bff;
+  background-color: #ffc107;
   color: #fff;
   margin-left: auto;
 }
