@@ -82,15 +82,25 @@ body {
 /* Message Form Styles */
 .message-form {
   display: flex;
-  align-items: center;
-  margin-top: 10px;
+  align-items: center; /* Vertically align items to the center */
+  margin-top: 20px;
 }
 
 .message-input {
   flex: 1;
-  margin-right: 10px;
+  padding: 0.5rem;
+  margin-right: 0; /* Remove right margin */
+  border-radius: 5px 0 0 5px; /* Rounded corners for the left side */
+  height: 40px;
 }
 
 .message-send-btn {
-  border-radius: 1.5rem;
+  border-radius: 0 5px 5px 0; /* Rounded corners for the right side */
+  padding: 0.5rem;
+  background-color: #ffc107;
+  border: none;
+  color: #fff;
+  margin-left: -1px; /* Remove space between input and button */
+  margin-top: -15px;
+  height: 40px;
 }

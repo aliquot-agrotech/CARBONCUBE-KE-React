@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, ListGroup, Form, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './Messages.css'; // Custom CSS
@@ -12,7 +14,6 @@ const Messages = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    // Fetch current user data from local storage or decode the JWT token
     const token = localStorage.getItem('token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
@@ -147,8 +148,8 @@ const Messages = () => {
                           onChange={(e) => setNewMessage(e.target.value)}
                           placeholder="Type a message..."
                         />
-                        <Button className="message-send-btn" onClick={handleSendMessage}>
-                          Send
+                        <Button variant="warning" className="message-send-btn" onClick={handleSendMessage}>
+                          <FontAwesomeIcon icon={faPaperPlane} />
                         </Button>
                       </div>
                     </>
