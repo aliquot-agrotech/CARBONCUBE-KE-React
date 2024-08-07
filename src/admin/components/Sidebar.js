@@ -56,7 +56,7 @@ const Sidebar = () => {
           <Nav.Link
             href="/admin/content-management"
             className={location.pathname === '/admin/content-management' ? 'active' : ''}>
-            <FileText className="icon" /> {isOpen && 'Content'}
+            <FileText className="icon" /> {isOpen && 'CMS'}
           </Nav.Link>
           <Nav.Link
             href="/admin/promotions-discount"

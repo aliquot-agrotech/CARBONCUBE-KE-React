@@ -1,0 +1,87 @@
+/* General Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-x: hidden; /* Prevent horizontal scroll for the entire page */
+}
+
+/* Messages Page Styles */
+.messages-page {
+  background-color: #E0E0E0;
+  min-height: 100vh; /* Ensure the background color covers the full height */
+  padding: 0 1rem; /* Optional: Adjust padding as needed */
+  display: flex;
+  flex-direction: column;
+  padding-top: 56px;
+}
+
+.conversations-list {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.conversations-header {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.conversation-item {
+  cursor: pointer;
+}
+
+.conversation-item.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Message Container Styles */
+.message-container {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+/* Message Styles */
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 70%;
+}
+
+.message.sent {
+  background-color: #007bff;
+  color: #fff;
+  margin-left: auto;
+}
+
+.message.received {
+  background-color: #f1f1f1;
+}
+
+/* Message Form Styles */
+.message-form {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.message-input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.message-send-btn {
+  border-radius: 1.5rem;
+}
