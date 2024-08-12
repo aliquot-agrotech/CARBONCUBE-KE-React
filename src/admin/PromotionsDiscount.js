@@ -171,8 +171,8 @@ const PromotionsDiscount = () => {
                                             </Table>
                                             
                                         </Card.Body>
-                                        <Card.Footer className="text-center">
-                                            <Button variant="success" id="button" onClick={handleShowModal}>
+                                        <Card.Footer className="card-footer text-center">
+                                            <Button variant="warning" id="button" onClick={handleShowModal}>
                                                 <PlusCircle /> Create New Promotion
                                             </Button>
                                         </Card.Footer>

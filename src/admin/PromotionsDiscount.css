@@ -3,12 +3,21 @@
     background-color: #E0E0E0;
 }
 
-.card-header {
-    background-color: #e9ecef; /* Secondary variant */
+.promotions-discount-page .card-header {
+    background-color: #616161; /* Secondary variant */
     font-weight: bold;
     font-size: 30px;
     text-align: center; /* Center text */
     padding: 1rem; /* Adjust padding as needed */
+    color: #fff;
+}
+
+.promotions-discount-page .card-footer {
+    background-color: #616161; /* Secondary variant */
+    font-weight: bold;
+    text-align: center; /* Center text */
+    padding: 1rem; /* Adjust padding as needed */
+    color: #fff;
 }
 
 .promotion-card, 
