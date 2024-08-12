@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Modal, Form, Table } from 'react-bootstrap';
+import { Trash, Pencil, PlusCircle } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import { Pie } from 'react-chartjs-2';
@@ -124,9 +125,10 @@ const PromotionsDiscount = () => {
                                     <Card className="promotion-card">
                                         <Card.Header className="card-header">Active Promotions</Card.Header>
                                         <Card.Body>
-                                            <Table striped bordered hover>
+                                            <Table className="promotion-table text-center">
                                                 <thead>
                                                     <tr>
+                                                        <th>ID</th>
                                                         <th>Title</th>
                                                         <th>Description</th>
                                                         <th>Discount Percentage</th>
@@ -139,6 +141,7 @@ const PromotionsDiscount = () => {
                                                 <tbody>
                                                     {promotions.map((promotion, index) => (
                                                         <tr key={promotion.id}>
+                                                            <td>{promotion.id}</td>
                                                             <td>{promotion.title}</td>
                                                             <td>{promotion.description}</td>
                                                             <td>{promotion.discount_percentage}%</td>
@@ -148,26 +151,31 @@ const PromotionsDiscount = () => {
                                                             <td>
                                                                 <Button 
                                                                     variant="warning" 
-                                                                    className="mr-2" 
+                                                                    className="me-2"
+                                                                    id="button"
                                                                     onClick={() => handleShowModal(promotion)}
                                                                 >
-                                                                    <i className="bi bi-pencil"></i> Edit
+                                                                    <Pencil />
                                                                 </Button>
                                                                 <Button 
-                                                                    variant="danger" 
+                                                                    variant="danger"
+                                                                    id="button" 
                                                                     onClick={() => handleDelete(promotion.id)}
                                                                 >
-                                                                    <i className="bi bi-trash"></i> Delete
+                                                                    <Trash /> 
                                                                 </Button>
                                                             </td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
                                             </Table>
-                                            <Button variant="warning" className="mt-3" onClick={() => handleShowModal()}>
-                                                <i className="bi bi-plus"></i> Add New Promotion
-                                            </Button>
+                                            
                                         </Card.Body>
+                                        <Card.Footer className="text-center">
+                                            <Button variant="success" id="button" onClick={handleShowModal}>
+                                                <PlusCircle /> Create New Promotion
+                                            </Button>
+                                        </Card.Footer>
                                     </Card>
                                 </Col>
                             </Row>
@@ -197,7 +205,7 @@ const PromotionsDiscount = () => {
             </div>
 
             <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title>{activePromotion.id ? 'Edit Promotion' : 'Create New Promotion'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -251,7 +259,7 @@ const PromotionsDiscount = () => {
                             />
                         </Form.Group>
                         <Form.Group controlId="formCouponCode">
-                            <Form.Label>Coupon Code</Form.Label>
+                            <Form.Label bold >Coupon Code</Form.Label>
                             <Form.Control 
                                 type="text" 
                                 name="coupon_code"  // Use name attribute for general handler
@@ -263,10 +271,10 @@ const PromotionsDiscount = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
+                    <Button className="me-2" variant="danger" id="button" onClick={handleCloseModal}>
                         Close
                     </Button>
-                    <Button variant="warning" onClick={handleSave}>
+                    <Button variant="warning" id="button" onClick={handleSave}>
                         Save Changes
                     </Button>
                 </Modal.Footer>

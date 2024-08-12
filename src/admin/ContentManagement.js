@@ -149,14 +149,7 @@ const ContentManagement = () => {
                                 <h2>About Us</h2>
                                 <Card>
                                     <Card.Header>
-                                        <Button
-                                            variant="warning"
-                                            onClick={() => handleEditClick('abouts', about)}
-                                            id="button"
-                                            disabled={!about}
-                                        >
-                                            <Pencil /> Edit
-                                        </Button>
+                                        ABOUT US
                                     </Card.Header>
                                     <Card.Body>
                                         <Form>
@@ -216,6 +209,16 @@ const ContentManagement = () => {
                                             </Form.Group>
                                         </Form>
                                     </Card.Body>
+                                    <Card.Footer>
+                                        <Button
+                                            variant="warning"
+                                            onClick={() => handleEditClick('abouts', about)}
+                                            id="button"
+                                            disabled={!about}
+                                        >
+                                            <Pencil /> Edit
+                                        </Button>
+                                    </Card.Footer>
                                 </Card>
                             </div>
 
