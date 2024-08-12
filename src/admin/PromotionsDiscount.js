@@ -119,11 +119,11 @@ const PromotionsDiscount = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-4">
+                        <Col xs={12} md={10} className="p-4 justify-content-center">
                             <Row>
                                 <Col md={12} className="mb-4">
                                     <Card className="promotion-card">
-                                        <Card.Header className="card-header">Active Promotions</Card.Header>
+                                        <Card.Header className="card-header justify-content-center">Active Promotions</Card.Header>
                                         <Card.Body>
                                             <Table className="promotion-table text-center">
                                                 <thead>
@@ -131,7 +131,7 @@ const PromotionsDiscount = () => {
                                                         <th>ID</th>
                                                         <th>Title</th>
                                                         <th>Description</th>
-                                                        <th>Discount Percentage</th>
+                                                        <th>Discount %</th>
                                                         <th>Coupon Code</th>
                                                         <th>Start Date</th>
                                                         <th>End Date</th>
@@ -182,7 +182,7 @@ const PromotionsDiscount = () => {
                             <Row>
                                 <Col md={6} className="mb-4">
                                     <Card className="campaign-card">
-                                        <Card.Header className="card-header">Campaign Performance</Card.Header>
+                                        <Card.Header className="card-header justify-content-center">Campaign Performance</Card.Header>
                                         <Card.Body className="text-center">
                                             <Pie data={pieData(40)} />
                                             <p>Redemption Rate</p>
@@ -191,7 +191,7 @@ const PromotionsDiscount = () => {
                                 </Col>
                                 <Col md={6} className="mb-4">
                                     <Card className="campaign-card">
-                                        <Card.Header className="card-header">Campaign Performance</Card.Header>
+                                        <Card.Header className="card-header justify-content-center">Campaign Performance</Card.Header>
                                         <Card.Body className="text-center">
                                             <Pie data={pieData(20)} />
                                             <p>Sales Increase</p>

@@ -9,6 +9,7 @@ import VendorsManagement from './admin/VendorsManagement';
 import ProductsManagement from './admin/ProductsManagement';
 import Messages from './admin/Messages';
 import PromotionsDiscount from './admin/PromotionsDiscount';
+import Notifications from './admin/Notifications';
 import VendorDashboard from './vendor/Analytics';
 import PurchaserDashboard from './purchaser/HomePage';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
@@ -62,6 +63,7 @@ function App() {
             <Route path="products-management" element={<ProductsManagement onLogout={handleLogout} />} />
             <Route path="messages" element={<Messages onLogout={handleLogout} />} />
             <Route path="promotions-discount" element={<PromotionsDiscount onLogout={handleLogout} />} />
+            <Route path="notifications" element={<Notifications onLogout={handleLogout} />} />
           </Route>
         )}
         {isAuthenticated && userRole === 'vendor' && (
