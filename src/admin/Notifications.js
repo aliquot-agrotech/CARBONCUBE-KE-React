@@ -56,7 +56,7 @@ const Notifications = () => {
                 {
                     received: (data) => {
                         console.log('Received notification:', data);
-                        setNotifications((prevNotifications) => [data, ...prevNotifications]);
+                        setNotifications((prevNotifications) => [data.notification, ...prevNotifications]);
                     },
                     connected: () => {
                         console.log("Connected to notifications channel");
