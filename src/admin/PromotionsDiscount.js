@@ -210,8 +210,8 @@ const PromotionsDiscount = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group controlId="formTitle">
-                            <Form.Label>Title</Form.Label>
+                        <Form.Group controlId="formTitle" className="text-center">
+                            <Form.Label style={{ fontWeight: 'bold' }}>Title</Form.Label>
                             <Form.Control 
                                 type="text" 
                                 name="title"
@@ -220,8 +220,8 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formDescription">
-                            <Form.Label>Description</Form.Label>
+                        <Form.Group controlId="formDescription" className="text-center">
+                            <Form.Label style={{ fontWeight: 'bold' }}>Description</Form.Label>
                             <Form.Control 
                                 type="text" 
                                 name="description"
@@ -230,8 +230,8 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formDiscountPercentage">
-                            <Form.Label>Discount Percentage</Form.Label>
+                        <Form.Group controlId="formDiscountPercentage" className="text-center">
+                            <Form.Label style={{ fontWeight: 'bold' }}>Discount Percentage</Form.Label>
                             <Form.Control 
                                 type="number" 
                                 name="discount_percentage"
@@ -240,8 +240,8 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formStartDate">
-                            <Form.Label>Start Date</Form.Label>
+                        <Form.Group controlId="formStartDate" className="text-center">
+                            <Form.Label style={{ fontWeight: 'bold' }}>Start Date</Form.Label>
                             <Form.Control 
                                 type="datetime-local" 
                                 name="start_date"
@@ -249,8 +249,8 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formEndDate">
-                            <Form.Label>End Date</Form.Label>
+                        <Form.Group controlId="formEndDate" className="text-center">
+                            <Form.Label style={{ fontWeight: 'bold' }}>End Date</Form.Label>
                             <Form.Control 
                                 type="datetime-local" 
                                 name="end_date"
@@ -258,8 +258,8 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formCouponCode">
-                            <Form.Label bold >Coupon Code</Form.Label>
+                        <Form.Group controlId="formCouponCode" className="text-center">
+                            <Form.Label style={{ fontWeight: 'bold' }}>Coupon Code</Form.Label>
                             <Form.Control 
                                 type="text" 
                                 name="coupon_code"  // Use name attribute for general handler
@@ -275,7 +275,7 @@ const PromotionsDiscount = () => {
                         Close
                     </Button>
                     <Button variant="warning" id="button" onClick={handleSave}>
-                        Save Changes
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>
