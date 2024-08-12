@@ -6,13 +6,13 @@ import { Pie } from 'react-chartjs-2';
 import './PromotionsDiscount.css';  // Custom CSS
 
 const PromotionsDiscount = () => {
-    const [promotions, setPromotions] = useState([]);
+    const [promotions, setPromotions] = useState([]); // Initialize as empty array
     const [activePromotion, setActivePromotion] = useState({
         id: null,
         title: '',
         description: '',
         discount_percentage: 0,
-        coupon_codes: [],  // Renamed to coupon_codes
+        coupon_code: '',  // Added coupon_code to the state
         start_date: '',
         end_date: ''
     });
@@ -24,9 +24,21 @@ const PromotionsDiscount = () => {
     }, []);
 
     const fetchPromotions = async () => {
-        const response = await fetch('http://localhost:3000/admin/promotions');
-        const data = await response.json();
-        setPromotions(data);
+        try {
+            const response = await fetch('http://localhost:3000/admin/promotions');
+            const data = await response.json();
+            
+            // Check if data is an array before setting state
+            if (Array.isArray(data)) {
+                setPromotions(data);
+            } else {
+                console.error('Fetched data is not an array:', data);
+                setPromotions([]); // Set to empty array in case of unexpected data format
+            }
+        } catch (error) {
+            console.error('Failed to fetch promotions:', error);
+            setPromotions([]); // Set to empty array on error
+        }
     };
 
     const handleSave = async () => {
@@ -61,7 +73,7 @@ const PromotionsDiscount = () => {
                 title: '',
                 description: '',
                 discount_percentage: 0,
-                coupon_codes: [],  // Renamed to coupon_codes
+                coupon_code: '',  // Initialize coupon_code
                 start_date: '',
                 end_date: ''
             });
@@ -71,9 +83,22 @@ const PromotionsDiscount = () => {
 
     const handleCloseModal = () => setShowModal(false);
 
-    const handleChange = (e) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
         setActivePromotion({ ...activePromotion, [name]: value });
+    };
+
+    const handleDelete = async (id) => {
+        const response = await fetch(`http://localhost:3000/admin/promotions/${id}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            fetchPromotions(); // Refresh the promotions list
+        } else {
+            // Handle error
+            console.error('Failed to delete promotion');
+        }
     };
 
     const pieData = (percentage) => ({
@@ -102,36 +127,44 @@ const PromotionsDiscount = () => {
                                             <Table striped bordered hover>
                                                 <thead>
                                                     <tr>
-                                                        <th>ID</th>
                                                         <th>Title</th>
+                                                        <th>Description</th>
+                                                        <th>Discount Percentage</th>
+                                                        <th>Coupon Code</th>
                                                         <th>Start Date</th>
                                                         <th>End Date</th>
-                                                        <th>Coupon Code</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {promotions.map((promotion, index) => (
-                                                        <tr key={index}>
-                                                            <td>{promotion.id}</td>
+                                                        <tr key={promotion.id}>
                                                             <td>{promotion.title}</td>
+                                                            <td>{promotion.description}</td>
+                                                            <td>{promotion.discount_percentage}%</td>
+                                                            <td>{promotion.coupon_code}</td>
                                                             <td>{new Date(promotion.start_date).toLocaleDateString()}</td>
                                                             <td>{new Date(promotion.end_date).toLocaleDateString()}</td>
                                                             <td>
-                                                                {promotion.coupon_codes.map((code, codeIndex) => (
-                                                                    <div key={codeIndex}>{code.code}</div>
-                                                                ))}
-                                                            </td>
-                                                            <td>
-                                                                <Button variant="warning" className="edit-button" onClick={() => handleShowModal(promotion)}>
+                                                                <Button 
+                                                                    variant="warning" 
+                                                                    className="mr-2" 
+                                                                    onClick={() => handleShowModal(promotion)}
+                                                                >
                                                                     <i className="bi bi-pencil"></i> Edit
+                                                                </Button>
+                                                                <Button 
+                                                                    variant="danger" 
+                                                                    onClick={() => handleDelete(promotion.id)}
+                                                                >
+                                                                    <i className="bi bi-trash"></i> Delete
                                                                 </Button>
                                                             </td>
                                                         </tr>
                                                     ))}
                                                 </tbody>
                                             </Table>
-                                            <Button variant="warning" className="edit-button" onClick={() => handleShowModal()}>
+                                            <Button variant="warning" className="mt-3" onClick={() => handleShowModal()}>
                                                 <i className="bi bi-plus"></i> Add New Promotion
                                             </Button>
                                         </Card.Body>
@@ -173,30 +206,30 @@ const PromotionsDiscount = () => {
                             <Form.Label>Title</Form.Label>
                             <Form.Control 
                                 type="text" 
-                                placeholder="Enter title" 
                                 name="title"
+                                placeholder="Enter title" 
                                 value={activePromotion.title} 
-                                onChange={handleChange}
+                                onChange={handleInputChange}
                             />
                         </Form.Group>
                         <Form.Group controlId="formDescription">
                             <Form.Label>Description</Form.Label>
                             <Form.Control 
                                 type="text" 
-                                placeholder="Enter description" 
                                 name="description"
+                                placeholder="Enter description" 
                                 value={activePromotion.description} 
-                                onChange={handleChange}
+                                onChange={handleInputChange}
                             />
                         </Form.Group>
                         <Form.Group controlId="formDiscountPercentage">
                             <Form.Label>Discount Percentage</Form.Label>
                             <Form.Control 
                                 type="number" 
-                                placeholder="Enter discount percentage" 
                                 name="discount_percentage"
+                                placeholder="Enter discount percentage" 
                                 value={activePromotion.discount_percentage} 
-                                onChange={handleChange}
+                                onChange={handleInputChange}
                             />
                         </Form.Group>
                         <Form.Group controlId="formStartDate">
@@ -205,7 +238,7 @@ const PromotionsDiscount = () => {
                                 type="datetime-local" 
                                 name="start_date"
                                 value={activePromotion.start_date} 
-                                onChange={handleChange}
+                                onChange={handleInputChange}
                             />
                         </Form.Group>
                         <Form.Group controlId="formEndDate">
@@ -214,17 +247,17 @@ const PromotionsDiscount = () => {
                                 type="datetime-local" 
                                 name="end_date"
                                 value={activePromotion.end_date} 
-                                onChange={handleChange}
+                                onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formCouponCodes">
-                            <Form.Label>Coupon Codes</Form.Label>
+                        <Form.Group controlId="formCouponCode">
+                            <Form.Label>Coupon Code</Form.Label>
                             <Form.Control 
                                 type="text" 
+                                name="coupon_code"  // Use name attribute for general handler
                                 placeholder="Enter coupon code" 
-                                name="coupon_code"
-                                value={activePromotion.coupon_code || ''}  // This input is optional
-                                onChange={handleChange}
+                                value={activePromotion.coupon_code} 
+                                onChange={handleInputChange}  // General handler
                             />
                         </Form.Group>
                     </Form>
