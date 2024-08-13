@@ -6,6 +6,7 @@ import './Sidebar.css';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [notificationCount, setNotificationCount] = useState(0);
   const [animateNotification, setAnimateNotification] = useState(false);
   const location = useLocation(); // Get the current URL path
 
@@ -13,11 +14,39 @@ const Sidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    if (location.pathname === '/admin/notifications') {
-      setAnimateNotification(false); // Reset animation when on notifications page
+  const fetchNotifications = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (!token) throw new Error('No token found');
+
+      const response = await fetch('http://localhost:3000/admin/notifications', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) throw new Error('Network response was not ok');
+
+      const data = await response.json();
+      setNotificationCount(data.length);
+
+      if (data.length > 0) {
+        setAnimateNotification(true);
+        setTimeout(() => setAnimateNotification(false), 500); // Duration of the animation
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
     }
-  }, [location.pathname]);
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+    const intervalId = setInterval(fetchNotifications, 5000); // Fetch notifications every 5 seconds
+
+    return () => clearInterval(intervalId); // Clean up the interval on component unmount
+  }, []);
 
   return (
     <>
@@ -32,7 +61,7 @@ const Sidebar = () => {
           variant="warning" 
           className={`toggle-button1 d-md-none ${isOpen ? 'd-block' : 'd-none'}`}
           onClick={toggleSidebar}>
-          <XCircle size={15}/> {/* Arrow pointing left when sidebar is open */}
+          <XCircle size={15}/> {/* Close button when sidebar is open */}
         </Button>
         <Nav className="flex-column">
           <Nav.Link
@@ -77,11 +106,8 @@ const Sidebar = () => {
           </Nav.Link>
           <Nav.Link
             href="/admin/notifications"
-            className={`nav-link ${location.pathname === '/admin/notifications' ? 'active' : ''} ${animateNotification ? 'zoom-in' : ''}`}
-            onAnimationEnd={() => setAnimateNotification(false)}
-            onClick={() => setAnimateNotification(false)}  // Reset animation on click
-          >
-            <Bell className="icon" /> {isOpen && 'Notifications'}
+            className={`notification-link ${location.pathname === '/admin/notifications' ? 'active' : ''} ${animateNotification ? 'animate' : ''}`}>
+            <Bell className="icon" /> {isOpen && `Notifications (${notificationCount})`}
           </Nav.Link>
         </Nav>
       </div>

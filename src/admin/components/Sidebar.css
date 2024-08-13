@@ -121,41 +121,22 @@
   }
 }
 
-.dropdown-items {
-  display: flex;
-  flex-direction: column;
-  /* padding-left: 230px; Indent the dropdown items */
+.notification-link {
+  transition: transform 0.3s ease-in-out;
 }
 
-
-.dropdown-item {
-  justify-content: center; /* Center dropdown items */
+.notification-link.animate {
+  animation: zoomInOut 0.5s ease-in-out;
 }
 
-
-/* Keyframe animations for zoom-in and zoom-out */
-@keyframes zoomIn {
-  from {
+@keyframes zoomInOut {
+  0% {
     transform: scale(1);
   }
-  to {
+  50% {
     transform: scale(1.2);
   }
-}
-
-@keyframes zoomOut {
-  from {
-    transform: scale(1.2);
-  }
-  to {
+  100% {
     transform: scale(1);
   }
-}
-
-.sidebar .nav-link.zoom-in {
-  animation: zoomIn 0.5s forwards;
-}
-
-.sidebar .nav-link.zoom-out {
-  animation: zoomOut 0.5s forwards;
 }
