@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { House, Box, Truck, Person, FileText, Percent, Envelope, Bell, GraphUp,  XCircle, ArrowRight } from 'react-bootstrap-icons';
+import { House, Box, Truck, Person, FileText, Percent, Envelope, Bell, GraphUp, XCircle, ArrowRight } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [animateNotification, setAnimateNotification] = useState(false);
   const location = useLocation(); // Get the current URL path
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    if (location.pathname === '/admin/notifications') {
+      setAnimateNotification(false); // Reset animation when on notifications page
+    }
+  }, [location.pathname]);
 
   return (
     <>
@@ -70,7 +77,10 @@ const Sidebar = () => {
           </Nav.Link>
           <Nav.Link
             href="/admin/notifications"
-            className={location.pathname === '/admin/notifications' ? 'active' : ''}>
+            className={`nav-link ${location.pathname === '/admin/notifications' ? 'active' : ''} ${animateNotification ? 'zoom-in' : ''}`}
+            onAnimationEnd={() => setAnimateNotification(false)}
+            onClick={() => setAnimateNotification(false)}  // Reset animation on click
+          >
             <Bell className="icon" /> {isOpen && 'Notifications'}
           </Nav.Link>
         </Nav>

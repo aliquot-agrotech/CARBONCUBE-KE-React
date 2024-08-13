@@ -78,7 +78,6 @@ const Notifications = () => {
         }
     }, [adminId]);
 
-
     useEffect(() => {
         const fetchNotifications = async () => {
             const token = localStorage.getItem('token');
@@ -87,7 +86,7 @@ const Notifications = () => {
                     'Authorization': 'Bearer ' + token,
                 },
             });
-    
+
             if (response.ok) {
                 const data = await response.json();
                 setNotifications(data);
@@ -95,11 +94,15 @@ const Notifications = () => {
                 setError('Failed to fetch notifications');
             }
         };
-    
-        fetchNotifications();
-    }, []);
-    
-    
+
+        fetchNotifications(); // Initial fetch
+
+        const intervalId = setInterval(() => {
+            fetchNotifications(); // Fetch every 5 seconds
+        }, 5000);
+
+        return () => clearInterval(intervalId); // Clear interval on component unmount
+    }, []); // Empty dependency array ensures this runs once when component mounts
 
     const getStatusIcon = (status) => {
         switch (status) {

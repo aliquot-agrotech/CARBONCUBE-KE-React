@@ -131,3 +131,31 @@
 .dropdown-item {
   justify-content: center; /* Center dropdown items */
 }
+
+
+/* Keyframe animations for zoom-in and zoom-out */
+@keyframes zoomIn {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.sidebar .nav-link.zoom-in {
+  animation: zoomIn 0.5s forwards;
+}
+
+.sidebar .nav-link.zoom-out {
+  animation: zoomOut 0.5s forwards;
+}
