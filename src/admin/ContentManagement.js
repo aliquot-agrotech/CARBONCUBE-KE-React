@@ -145,10 +145,9 @@ const ContentManagement = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-4">
                             {/* About Us Section */}
-                            <div className="section">
-                                <h2>About Us</h2>
-                                <Card>
-                                    <Card.Header className="text-center">
+                            <div >
+                                <Card className="section">
+                                    <Card.Header className="text-center justify-content-center">
                                         ABOUT US
                                     </Card.Header>
                                     <Card.Body>
@@ -224,52 +223,60 @@ const ContentManagement = () => {
 
                             {/* FAQs Section */}
                             <div className="section">
-                                <h2>FAQs</h2>
-                                <Table hover className="faqs-table text-center">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Question</th>
-                                            <th>Answer</th>
-                                            <th>Edit</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {faqsData.length > 0 ? (
-                                            faqsData.map((faq) => (
-                                                <tr key={faq.id}>
-                                                    <td>{faq.id}</td>
-                                                    <td>{faq.question}</td>
-                                                    <td>{faq.answer}</td>
-                                                    <td>
-                                                        <Button
-                                                            variant="warning"
-                                                            onClick={() => handleEditClick('faqs', faq)}
-                                                            id="button"
-                                                        >
-                                                            <Pencil />
-                                                            </Button>
-                                                    </td>
-                                                    <td>
-                                                        
-                                                        <Button
-                                                            variant="danger"
-                                                            onClick={() => handleDeleteFaq(faq.id)}
-                                                            id="button"
-                                                        >
-                                                            <Trash />
-                                                        </Button>
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        ) : (
+                                <Card className="section">
+                                    <Card.Header className="text-center justify-content-center">
+                                        FAQs
+                                    </Card.Header>
+                                    <Card.Body>
+                                    <Table hover className="faqs-table text-center">
+                                        <thead>
                                             <tr>
-                                                <td colSpan="4">No data available</td>
+                                                <th>ID</th>
+                                                <th>Question</th>
+                                                <th>Answer</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
                                             </tr>
-                                        )}
-                                    </tbody>
-                                </Table>
+                                        </thead>
+                                        <tbody>
+                                            {faqsData.length > 0 ? (
+                                                faqsData.map((faq) => (
+                                                    <tr key={faq.id}>
+                                                        <td>{faq.id}</td>
+                                                        <td>{faq.question}</td>
+                                                        <td>{faq.answer}</td>
+                                                        <td>
+                                                            <Button
+                                                                variant="warning"
+                                                                onClick={() => handleEditClick('faqs', faq)}
+                                                                id="button"
+                                                            >
+                                                                <Pencil />
+                                                                </Button>
+                                                        </td>
+                                                        <td>
+                                                            
+                                                            <Button
+                                                                variant="danger"
+                                                                onClick={() => handleDeleteFaq(faq.id)}
+                                                                id="button"
+                                                            >
+                                                                <Trash />
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="4">No data available</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </Table>
+                                    </Card.Body>
+                                    <Card.Footer className="text-center">
+                                    </Card.Footer>
+                                </Card>
                             </div>
                         </Col>
                     </Row>

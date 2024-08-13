@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Modal, Button, Container, Row, Col } from 'react-bootstrap';
+import { Table, Modal, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -115,7 +115,13 @@ const PurchasersManagement = () => {
             </Col>
             <Col xs={12} md={10} className="p-4 d-flex flex-column">
               {/* <h2 className="mb-4 text-center">Purchaser Details & Metrics</h2> */}
-              <Table hover className="purchasers-table text-center">
+
+              <Card className="section">
+                    <Card.Header className="text-center justify-content-center">
+                        Purchasers
+                    </Card.Header>
+                    <Card.Body>
+                  <Table hover className="purchasers-table text-center">
                 <thead className="table-header">
                   <tr>
                     <th>Purchaser ID</th>
@@ -159,6 +165,14 @@ const PurchasersManagement = () => {
                   )}
                 </tbody>
               </Table>
+                                    </Card.Body>
+                                    <Card.Footer className="text-center">
+
+                                    </Card.Footer>
+
+
+                                    </Card>
+              
 
               <Modal show={showModal} onHide={handleCloseModal} size="lg">
                 <Modal.Header>
