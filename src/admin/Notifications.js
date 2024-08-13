@@ -14,7 +14,6 @@ const Notifications = () => {
 
     useEffect(() => {
         const fetchAdminId = async () => {
-            console.log('Fetching admin ID...');
             const token = localStorage.getItem('token');
             if (token) {
                 try {
@@ -29,18 +28,15 @@ const Notifications = () => {
                     }
 
                     const data = await response.json();
-                    console.log('Fetched admin ID:', data.admin_id);
-                    setAdminId(data.admin_id);  // Adjust this based on the response structure
+                    setAdminId(data.admin_id);
                 } catch (error) {
-                    console.error('Error fetching admin ID:', error);
                     setError('Error fetching admin ID');
                 } finally {
-                    setLoading(false);  // Ensure loading is set to false in all cases
+                    setLoading(false);
                 }
             } else {
-                console.log('No token found');
                 setError('No token found');
-                setLoading(false);  // Ensure loading is set to false if no token
+                setLoading(false);
             }
         };
 
@@ -49,32 +45,17 @@ const Notifications = () => {
 
     useEffect(() => {
         if (adminId) {
-            console.log('Setting up WebSocket connection...');
             const consumer = createConsumer('ws://localhost:3000/cable');
             const subscription = consumer.subscriptions.create(
                 { channel: 'NotificationsChannel', admin_id: adminId },
                 {
                     received: (data) => {
-                        console.log('Received notification:', data);
                         setNotifications((prevNotifications) => [data.notification, ...prevNotifications]);
-                    },
-                    connected: () => {
-                        console.log("Connected to notifications channel");
-                    },
-                    disconnected: () => {
-                        console.log("Disconnected from notifications channel");
-                    },
-                    rejected: () => {
-                        console.log("Failed to connect to notifications channel");
-                        setError("Failed to connect to notifications channel");
                     },
                 }
             );
 
-            return () => {
-                console.log('Unsubscribing from WebSocket...');
-                subscription.unsubscribe();
-            };
+            return () => subscription.unsubscribe();
         }
     }, [adminId]);
 
@@ -95,14 +76,23 @@ const Notifications = () => {
             }
         };
 
-        fetchNotifications(); // Initial fetch
+        fetchNotifications();
+        const intervalId = setInterval(fetchNotifications, 5000);
+        return () => clearInterval(intervalId);
+    }, []);
 
-        const intervalId = setInterval(() => {
-            fetchNotifications(); // Fetch every 5 seconds
-        }, 5000);
-
-        return () => clearInterval(intervalId); // Clear interval on component unmount
-    }, []); // Empty dependency array ensures this runs once when component mounts
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'processing':
+                return 'processing';
+            case 'on-transit':
+                return 'on-transit';
+            case 'delivered':
+                return 'delivered';
+            default:
+                return '';
+        }
+    };
 
     const getStatusIcon = (status) => {
         switch (status) {
@@ -141,40 +131,50 @@ const Notifications = () => {
     return (
         <>
             <TopNavbar />
-            <div className="notifications-page">
-                <Container fluid className="p-0">
+            <div className="notifications-page" style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+                <Container fluid className="p-0" style={{ flex: 1 }}>
                     <Row>
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-4">
-                            <h2 className="mb-4">Notifications</h2>
-                            {notifications.length > 0 ? (
-                                notifications.map((notification) => (
-                                    <Card key={notification.order_id} className="mb-3 notification-card">
-                                        <Card.Body>
-                                            <Card.Title className="d-flex justify-content-between align-items-center">
-                                                <span>Order #{notification.order_id}</span>
-                                                <Badge
-                                                    bg={notification.status === 'processing' ? 'warning' :
-                                                        notification.status === 'on-transit' ? 'info' : 'success'}
-                                                >
-                                                    {notification.status}
-                                                </Badge>
-                                            </Card.Title>
-                                            <Card.Text>
-                                                {getStatusMessage(notification.status, notification.order_id)}
-                                            </Card.Text>
-                                            <div className="d-flex justify-content-between align-items-center">
-                                                <span className="text-muted">{new Date(notification.created_at).toLocaleString()}</span>
-                                                {getStatusIcon(notification.status)}
-                                            </div>
-                                        </Card.Body>
-                                    </Card>
-                                ))
-                            ) : (
-                                <p>No notifications available</p>
-                            )}
+                        <Col xs={12} md={10} className="p-4" style={{ display: 'flex', flexDirection: 'column' }}>
+                            <h2 className="mb-2">Notifications</h2>
+                            <Card className="notification-card-wrapper" style={{ height: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                                <Card.Header className="big-card-header justify-content-center ">Notifications</Card.Header>
+                                <Card.Body className="big-card-body" style={{ overflowY: 'auto', flex: 1 }}>
+                                    {notifications.length > 0 ? (
+                                        notifications.map((notification) => (
+                                            <Card key={notification.order_id} className="mb-3 notification-card">
+                                                <Card.Body>
+                                                    <Card.Title className="d-flex justify-content-between align-items-center">
+                                                        <span className={`order-id ${getStatusColor(notification.status)}`}>
+                                                            Order #{notification.order_id}
+                                                        </span>
+                                                        <Badge
+                                                            bg={notification.status === 'processing' ? 'warning' :
+                                                                notification.status === 'on-transit' ? 'info' : 'success'}
+                                                        >
+                                                            {notification.status}
+                                                        </Badge>
+                                                    </Card.Title>
+                                                    <Card.Text className='card-text'>
+                                                        {getStatusMessage(notification.status, notification.order_id)}
+                                                    </Card.Text>
+                                                    <div className="d-flex justify-content-between align-items-center">
+                                                        <span className="text-muted">
+                                                            <em>{new Date(notification.created_at).toLocaleString()}</em>
+                                                        </span>
+                                                        {getStatusIcon(notification.status)}
+                                                    </div>
+                                                </Card.Body>
+                                            </Card>
+                                        ))
+                                    ) : (
+                                        <p>No notifications available</p>
+                                    )}
+                                </Card.Body>
+                                <Card.Footer className="big-card-footer mb-1">CARBON - Admin</Card.Footer>
+                            </Card>
                         </Col>
                     </Row>
                 </Container>

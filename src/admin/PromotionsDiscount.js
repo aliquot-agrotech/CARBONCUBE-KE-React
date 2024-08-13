@@ -3,24 +3,23 @@ import { Container, Row, Col, Card, Button, Modal, Form, Table } from 'react-boo
 import { Trash, Pencil, PlusCircle } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import './PromotionsDiscount.css';  // Custom CSS
 
 const PromotionsDiscount = () => {
-    const [promotions, setPromotions] = useState([]); // Initialize as empty array
+    const [promotions, setPromotions] = useState([]);
     const [activePromotion, setActivePromotion] = useState({
         id: null,
         title: '',
         description: '',
         discount_percentage: 0,
-        coupon_code: '',  // Added coupon_code to the state
+        coupon_code: '',
         start_date: '',
         end_date: ''
     });
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        // Fetch promotions from the backend
         fetchPromotions();
     }, []);
 
@@ -28,17 +27,15 @@ const PromotionsDiscount = () => {
         try {
             const response = await fetch('http://localhost:3000/admin/promotions');
             const data = await response.json();
-            
-            // Check if data is an array before setting state
             if (Array.isArray(data)) {
                 setPromotions(data);
             } else {
                 console.error('Fetched data is not an array:', data);
-                setPromotions([]); // Set to empty array in case of unexpected data format
+                setPromotions([]);
             }
         } catch (error) {
             console.error('Failed to fetch promotions:', error);
-            setPromotions([]); // Set to empty array on error
+            setPromotions([]);
         }
     };
 
@@ -46,7 +43,6 @@ const PromotionsDiscount = () => {
         const url = activePromotion.id 
             ? `http://localhost:3000/admin/promotions/${activePromotion.id}` 
             : 'http://localhost:3000/admin/promotions';
-
         const method = activePromotion.id ? 'PUT' : 'POST';
         const response = await fetch(url, {
             method: method,
@@ -55,12 +51,10 @@ const PromotionsDiscount = () => {
             },
             body: JSON.stringify(activePromotion),
         });
-
         if (response.ok) {
             setShowModal(false);
-            fetchPromotions(); // Refresh the promotions list
+            fetchPromotions();
         } else {
-            // Handle error
             console.error('Failed to save promotion');
         }
     };
@@ -74,7 +68,7 @@ const PromotionsDiscount = () => {
                 title: '',
                 description: '',
                 discount_percentage: 0,
-                coupon_code: '',  // Initialize coupon_code
+                coupon_code: '',
                 start_date: '',
                 end_date: ''
             });
@@ -93,11 +87,9 @@ const PromotionsDiscount = () => {
         const response = await fetch(`http://localhost:3000/admin/promotions/${id}`, {
             method: 'DELETE',
         });
-
         if (response.ok) {
-            fetchPromotions(); // Refresh the promotions list
+            fetchPromotions();
         } else {
-            // Handle error
             console.error('Failed to delete promotion');
         }
     };
@@ -109,6 +101,15 @@ const PromotionsDiscount = () => {
         }],
         labels: ['Completed', 'Remaining'],
     });
+
+    const chartOptions = {
+        cutout: '80%',
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+    };
 
     return (
         <>
@@ -139,7 +140,7 @@ const PromotionsDiscount = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {promotions.map((promotion, index) => (
+                                                    {promotions.map((promotion) => (
                                                         <tr key={promotion.id}>
                                                             <td>{promotion.id}</td>
                                                             <td>{promotion.title}</td>
@@ -169,7 +170,6 @@ const PromotionsDiscount = () => {
                                                     ))}
                                                 </tbody>
                                             </Table>
-                                            
                                         </Card.Body>
                                         <Card.Footer className="card-footer text-center">
                                             <Button variant="warning" id="button" onClick={handleShowModal}>
@@ -184,7 +184,9 @@ const PromotionsDiscount = () => {
                                     <Card className="campaign-card">
                                         <Card.Header className="card-header justify-content-center">Campaign Performance</Card.Header>
                                         <Card.Body className="text-center">
-                                            <Pie data={pieData(40)} />
+                                            <div className="doughnut-chart-container">
+                                                <Doughnut data={pieData(40)} options={chartOptions} className="doughnut-chart" />
+                                            </div>
                                             <p>Redemption Rate</p>
                                         </Card.Body>
                                     </Card>
@@ -193,7 +195,9 @@ const PromotionsDiscount = () => {
                                     <Card className="campaign-card">
                                         <Card.Header className="card-header justify-content-center">Campaign Performance</Card.Header>
                                         <Card.Body className="text-center">
-                                            <Pie data={pieData(20)} />
+                                            <div className="doughnut-chart-container">
+                                                <Doughnut data={pieData(20)} options={chartOptions} className="doughnut-chart" />
+                                            </div>
                                             <p>Sales Increase</p>
                                         </Card.Body>
                                     </Card>
@@ -243,7 +247,7 @@ const PromotionsDiscount = () => {
                         <Form.Group controlId="formStartDate" className="text-center">
                             <Form.Label style={{ fontWeight: 'bold' }}>Start Date</Form.Label>
                             <Form.Control 
-                                type="datetime-local" 
+                                type="date" 
                                 name="start_date"
                                 value={activePromotion.start_date} 
                                 onChange={handleInputChange}
@@ -252,7 +256,7 @@ const PromotionsDiscount = () => {
                         <Form.Group controlId="formEndDate" className="text-center">
                             <Form.Label style={{ fontWeight: 'bold' }}>End Date</Form.Label>
                             <Form.Control 
-                                type="datetime-local" 
+                                type="date" 
                                 name="end_date"
                                 value={activePromotion.end_date} 
                                 onChange={handleInputChange}
@@ -262,20 +266,20 @@ const PromotionsDiscount = () => {
                             <Form.Label style={{ fontWeight: 'bold' }}>Coupon Code</Form.Label>
                             <Form.Control 
                                 type="text" 
-                                name="coupon_code"  // Use name attribute for general handler
+                                name="coupon_code"
                                 placeholder="Enter coupon code" 
                                 value={activePromotion.coupon_code} 
-                                onChange={handleInputChange}  // General handler
+                                onChange={handleInputChange}
                             />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="me-2" variant="danger" id="button" onClick={handleCloseModal}>
+                    <Button variant="secondary" onClick={handleCloseModal}>
                         Close
                     </Button>
-                    <Button variant="warning" id="button" onClick={handleSave}>
-                        Save
+                    <Button variant="primary" onClick={handleSave}>
+                        Save Changes
                     </Button>
                 </Modal.Footer>
             </Modal>
