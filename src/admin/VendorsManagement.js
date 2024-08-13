@@ -178,55 +178,66 @@ const VendorsManagement = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-0">
                             {/* <h2 className="mb-4 text-center">Vendors Management</h2> */}
-                            <Table hover className="vendors-table text-center">
-                                <thead>
-                                    <tr>
-                                        <th>Vendor ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Enterprise</th>
-                                        <th>Location</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {vendors.length > 0 ? (
-                                        vendors.map((vendor) => (
-                                            <tr
-                                                key={vendor.id}
-                                                onClick={() => handleRowClick(vendor.id)}
-                                                className={`vendor-row ${vendor.blocked ? 'blocked' : ''}`}
-                                                style={{ cursor: 'pointer' }}
-                                            >
-                                                <td>{vendor.id}</td>
-                                                <td>{vendor.fullname}</td>
-                                                <td>{vendor.email}</td>
-                                                <td>{vendor.phone_number}</td>
-                                                <td>{vendor.enterprise_name}</td>
-                                                <td>{vendor.location}</td>
-                                                <td>
-                                                    <Button
-                                                        variant={vendor.blocked ? 'danger' : 'warning'}
-                                                        id="button"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
-                                                        }}
-                                                    >
-                                                        <FontAwesomeIcon icon={vendor.blocked ? faKey : faUserShield} />
-                                                        {vendor.blocked ? ' Unblock' : ' Block'}
-                                                    </Button>
-                                                </td>
+                            <Card className="section">
+                                <Card.Header className="text-center justify-content-center">
+                                    Vendors
+                                </Card.Header>
+                                <Card.Body>
+                                    <Table hover className="vendors-table text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Vendor ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Enterprise</th>
+                                                <th>Location</th>
+                                                <th>Status</th>
                                             </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="7">No data available</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </Table>
+                                        </thead>
+                                        <tbody>
+                                            {vendors.length > 0 ? (
+                                                vendors.map((vendor) => (
+                                                    <tr
+                                                        key={vendor.id}
+                                                        onClick={() => handleRowClick(vendor.id)}
+                                                        className={`vendor-row ${vendor.blocked ? 'blocked' : ''}`}
+                                                        style={{ cursor: 'pointer' }}
+                                                    >
+                                                        <td>{vendor.id}</td>
+                                                        <td>{vendor.fullname}</td>
+                                                        <td>{vendor.email}</td>
+                                                        <td>{vendor.phone_number}</td>
+                                                        <td>{vendor.enterprise_name}</td>
+                                                        <td>{vendor.location}</td>
+                                                        <td>
+                                                            <Button
+                                                                variant={vendor.blocked ? 'danger' : 'warning'}
+                                                                id="button"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
+                                                                }}
+                                                            >
+                                                                <FontAwesomeIcon icon={vendor.blocked ? faKey : faUserShield} />
+                                                                {vendor.blocked ? ' Unblock' : ' Block'}
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="7">No data available</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </Table>
+                                </Card.Body>
+                                <Card.Footer>
+
+                                </Card.Footer>
+                            </Card>
+                            
 
                             <Modal show={showModal} onHide={handleCloseModal} size="lg">
                                 <Modal.Header>

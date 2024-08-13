@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Modal, Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Table, Modal, Button, Container, Row, Col, Form, Card } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
@@ -129,88 +129,98 @@ const OrdersManagement = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-4">
                             {/* <h2 className="mb-4 text-center">Orders Management</h2> */}
-                            <Table hover className="orders-table text-center">
-                            <thead className="table-header">
-                                <tr>
-                                <th>Order ID</th>
-                                <th>Purchaser</th>
-                                <th>Products</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                                <th>Date Ordered</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orders.length > 0 ? (
-                                orders.map((order) => (
-                                    <tr
-                                    key={order.id}
-                                    onClick={(e) => {
-                                        if (e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON') return; // Prevent modal opening on status change or delete button click
-                                        handleRowClick(order.id);
-                                    }}
-                                    style={{ cursor: 'pointer' }}
-                                    >
-                                    <td>{order.id}</td>
-                                    <td>{order.purchaser?.fullname || 'Unknown'}</td>
-                                    <td>{order.order_items.map(item => item.product?.title || 'Unknown').join(', ')}</td>
-                                    <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
-                                    <td className="price-container">
-                                        <em className="product-price-label">Kshs: </em>
-                                        <strong>
-                                        {order.total_price ? order.total_price.split('.').map((part, index) => (
-                                            <React.Fragment key={index}>
-                                                {index === 0 ? (
-                                                    <span className="price-integer">{part}</span>
-                                                ) : (
-                                                    <>
-                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                        <span className="price-decimal">{part}</span>
-                                                    </>
-                                                )}
-                                            </React.Fragment>
-                                        )) : 'N/A'}
-                                        </strong>
-                                    </td>
-                                    <td>{order.order_date || 'N/A'}</td>
-                                    <td>
-                                        <Form.Control
-                                        className="form-select align-middle"                                        as="select"
-                                        value={order.status}
-                                        onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                                        id="button"
-                                        style={{
-                                            verticalAlign: 'middle',
-                                            backgroundColor: order.status === 'on-transit' ? 'limegreen' : '#FFC107',
-                                        }}
-                                        >
-                                        <option className="text-center" value="processing">Processing</option>
-                                        <option className="text-center" value="on-transit">On-Transit</option>
-                                        </Form.Control>
-                                    </td>
-                                    <td>
-                                        <button
-                                        className="btn btn-link p-0"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleDeleteOrder(order.id);
-                                        }}
-                                        title="Delete Order"
-                                        >
-                                        <Trash className="text-danger" />
-                                        </button>
-                                    </td>
-                                    </tr>
-                                ))
-                                ) : (
-                                <tr>
-                                    <td colSpan="8">No data available</td>
-                                </tr>
-                                )}
-                            </tbody>
-                            </Table>
+                            <Card className="section">
+                                <Card.Header className="text-center justify-content-center">
+                                    Orders
+                                </Card.Header>
+                                    <Card.Body>
+                                    <Table hover className="orders-table text-center">
+                                        <thead className="table-header">
+                                            <tr>
+                                            <th>Order ID</th>
+                                            <th>Purchaser</th>
+                                            <th>Products</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th>Date Ordered</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {orders.length > 0 ? (
+                                            orders.map((order) => (
+                                                <tr
+                                                key={order.id}
+                                                onClick={(e) => {
+                                                    if (e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON') return; // Prevent modal opening on status change or delete button click
+                                                    handleRowClick(order.id);
+                                                }}
+                                                style={{ cursor: 'pointer' }}
+                                                >
+                                                <td>{order.id}</td>
+                                                <td>{order.purchaser?.fullname || 'Unknown'}</td>
+                                                <td>{order.order_items.map(item => item.product?.title || 'Unknown').join(', ')}</td>
+                                                <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
+                                                <td className="price-container">
+                                                    <em className="product-price-label">Kshs: </em>
+                                                    <strong>
+                                                    {order.total_price ? order.total_price.split('.').map((part, index) => (
+                                                        <React.Fragment key={index}>
+                                                            {index === 0 ? (
+                                                                <span className="price-integer">{part}</span>
+                                                            ) : (
+                                                                <>
+                                                                    <span style={{ fontSize: '16px' }}>.</span>
+                                                                    <span className="price-decimal">{part}</span>
+                                                                </>
+                                                            )}
+                                                        </React.Fragment>
+                                                    )) : 'N/A'}
+                                                    </strong>
+                                                </td>
+                                                <td>{order.order_date || 'N/A'}</td>
+                                                <td>
+                                                    <Form.Control
+                                                    className="form-select align-middle"                                        as="select"
+                                                    value={order.status}
+                                                    onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                                                    id="button"
+                                                    style={{
+                                                        verticalAlign: 'middle',
+                                                        backgroundColor: order.status === 'on-transit' ? 'limegreen' : '#FFC107',
+                                                    }}
+                                                    >
+                                                    <option className="text-center" value="processing">Processing</option>
+                                                    <option className="text-center" value="on-transit">On-Transit</option>
+                                                    </Form.Control>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                    className="btn btn-link p-0"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDeleteOrder(order.id);
+                                                    }}
+                                                    title="Delete Order"
+                                                    >
+                                                    <Trash className="text-danger" />
+                                                    </button>
+                                                </td>
+                                                </tr>
+                                            ))
+                                            ) : (
+                                            <tr>
+                                                <td colSpan="8">No data available</td>
+                                            </tr>
+                                            )}
+                                        </tbody>
+                                        </Table>
+                                    </Card.Body>
+                                    <Card.Footer>
+                                    </Card.Footer>
+                            </Card>
+                            
 
                             <Modal show={showModal} onHide={handleCloseModal} size="lg">
                                 <Modal.Header>
