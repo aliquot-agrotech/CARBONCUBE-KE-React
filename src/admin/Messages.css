@@ -218,3 +218,30 @@ body {
   font-size: 1.25rem;
   color: #6c757d;
 }
+
+.message {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  word-wrap: break-word;
+}
+
+.messages-scroll .sent {
+  background-color: #15ac68; /* Light green shade for sent messages */
+  align-self: flex-end;
+  text-align: right;
+}
+
+.messages-scroll .received {
+  background-color: #f8d7da; /* Light red shade for received messages */
+  align-self: flex-start;
+  text-align: left;
+}
+
+.message-timestamp {
+  display: block;
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin-top: 5px;
+}
