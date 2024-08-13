@@ -152,8 +152,8 @@ const Messages = () => {
                             <div>Error loading messages</div>
                           )}
                         </Card.Body>
-                      </Card>
-                      <Form className="message-form">
+                        <Card.Footer>
+                        <Form className="message-form">
                         <Form.Control
                           className="message-input"
                           type="text"
@@ -166,6 +166,9 @@ const Messages = () => {
                         
                         
                       </Form>
+                        </Card.Footer>
+                      </Card>
+                      
                     </>
                   ) : (
                     <Card className="select-conversation-card">

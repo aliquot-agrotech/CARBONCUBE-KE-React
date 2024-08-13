@@ -1,5 +1,11 @@
+/* Orders Management Page Styles */
 .content-management-page {
-  background-color: #e0e0e0;
+  background-color: #E0E0E0;
+  min-height: 100vh; /* Ensure the background color covers the full height */
+  padding: 0 1rem; /* Optional: Adjust padding as needed */
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 }
 
 .section {
