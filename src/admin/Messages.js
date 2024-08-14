@@ -17,7 +17,7 @@ const Messages = () => {
     const token = localStorage.getItem('token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
-      setCurrentUser(payload);
+      setCurrentUser({ id: payload.admin_id, type: 'Admin' });
     }
   }, []);
 
@@ -62,7 +62,8 @@ const Messages = () => {
     fetchMessages(conversation.id);
   };
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
     if (!newMessage.trim()) return;
 
     try {
@@ -72,7 +73,11 @@ const Messages = () => {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
-        body: JSON.stringify({ content: newMessage }),
+        body: JSON.stringify({
+          content: newMessage,
+          sender_id: currentUser.id,
+          sender_type: currentUser.type,
+        }),
       });
 
       if (!response.ok) throw new Error('Network response was not ok');
@@ -104,70 +109,57 @@ const Messages = () => {
                       <strong>Conversations</strong>
                     </Card.Header>
                     <Card.Body className="p-2 conversations-scroll">
-                      {Array.isArray(conversations) ? (
-                        conversations.map((conversation) => {
-                          const participant = conversation.purchaser || conversation.vendor;
-                          const conversationType = conversation.purchaser ? 'purchaser' : 'vendor';
-                          return (
-                            <Card
-                              key={conversation.id}
-                              className={`conversation-card ${selectedConversation?.id === conversation.id ? 'active' : ''} ${conversationType}`}
-                              onClick={() => handleConversationClick(conversation)}
-                            >
-                              <Card.Body className="text-center">
-                                <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
-                              </Card.Body>
-                            </Card>
-                          );
-                        })
-                      ) : (
-                        <div>No conversations available</div>
-                      )}
+                      {conversations.map((conversation) => {
+                        const participant = conversation.purchaser || conversation.vendor;
+                        return (
+                          <Card
+                            key={conversation.id}
+                            className={`conversation-card ${selectedConversation?.id === conversation.id ? 'active' : ''}`}
+                            onClick={() => handleConversationClick(conversation)}
+                          >
+                            <Card.Body className="text-center">
+                              <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
+                            </Card.Body>
+                          </Card>
+                        );
+                      })}
                     </Card.Body>
                   </Card>
                 </Col>
                 <Col xs={12} md={9} className="messages-list">
                   {selectedConversation ? (
-                    <>
-                      <Card className="message-container">
-                        <Card className="messages-header mb-3">
-                          <Card.Body>
-                            <FontAwesomeIcon icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
-                          </Card.Body>
-                        </Card>
-                        <Card.Body className="messages-scroll">
-                          {Array.isArray(messages) ? (
-                            messages.map((message) => (
-                              <div
-                                key={message.id}
-                                className={`message ${message.sender_id === currentUser.id ? 'sent' : 'received'}`}
-                              >
-                                <p>{message.content}</p>
-                                <span className="message-timestamp">
-                                  {new Date(message.created_at).toLocaleTimeString()}
-                                </span>
-                              </div>
-                            ))
-                          ) : (
-                            <div>Error loading messages</div>
-                          )}
-                        </Card.Body>
-                        <Card.Footer>
-                          <Form className="message-form">
-                            <Form.Control
-                              className="message-input"
-                              type="text"
-                              value={newMessage}
-                              onChange={(e) => setNewMessage(e.target.value)}
-                              placeholder="Type a message..."
-                            />
-                            <Button variant="warning" className="message-send-btn" onClick={handleSendMessage}>
-                              <FontAwesomeIcon icon={faPaperPlane} />
-                            </Button>
-                          </Form>
-                        </Card.Footer>
-                      </Card>
-                    </>
+                    <Card className="message-container">
+                      <Card.Header className="messages-header justify-content-center">
+                        <FontAwesomeIcon icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
+                      </Card.Header>
+                      <Card.Body className="messages-scroll">
+                        {messages.map((message) => {
+                          const isSent = message.sender_id === currentUser.id && message.sender_type === 'Admin';
+                          return (
+                            <div key={message.id} className={`message ${isSent ? 'sent' : 'received'}`}>
+                              <p>{message.content}</p>
+                              <span className="message-timestamp">
+                                {new Date(message.created_at).toLocaleTimeString()}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </Card.Body>
+                      <Card.Footer>
+                        <Form className="message-form" onSubmit={handleSendMessage}>
+                          <Form.Control
+                            className="message-input"
+                            type="text"
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            placeholder="Type a message..."
+                          />
+                          <Button type="submit" variant="warning" className="message-send-btn">
+                            <FontAwesomeIcon icon={faPaperPlane} />
+                          </Button>
+                        </Form>
+                      </Card.Footer>
+                    </Card>
                   ) : (
                     <Card className="select-conversation-card">
                       <Card.Body>
