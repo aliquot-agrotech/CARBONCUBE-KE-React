@@ -104,17 +104,21 @@ const Messages = () => {
             <Col xs={12} md={10} className="p-2">
               <Row>
                 <Col xs={12} md={2}>
-                  <Card className="conversations-list">
-                    <Card.Header className="text-center justify-content-center">
-                      <strong>Conversations</strong>
-                    </Card.Header>
-                    <Card.Body className="p-2 conversations-scroll">
-                      {conversations.map((conversation) => {
+                <Card className="conversations-list">
+                  <Card.Header className="conversations-header text-center justify-content-center">
+                    <strong>Conversations</strong>
+                  </Card.Header>
+                  <Card.Body className="p-2 conversations-scroll">
+                    {conversations
+                      .sort((a, b) => new Date(b.lastMessageTimestamp) - new Date(a.lastMessageTimestamp)) // Sort by latest timestamp
+                      .map((conversation) => {
                         const participant = conversation.purchaser || conversation.vendor;
+                        const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
+
                         return (
                           <Card
                             key={conversation.id}
-                            className={`conversation-card ${selectedConversation?.id === conversation.id ? 'active' : ''}`}
+                            className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''}`}
                             onClick={() => handleConversationClick(conversation)}
                           >
                             <Card.Body className="text-center">
@@ -123,8 +127,8 @@ const Messages = () => {
                           </Card>
                         );
                       })}
-                    </Card.Body>
-                  </Card>
+                  </Card.Body>
+                </Card>
                 </Col>
                 <Col xs={12} md={10} className="messages-list">
                   {selectedConversation ? (
