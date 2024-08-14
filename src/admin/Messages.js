@@ -110,7 +110,7 @@ const Messages = () => {
                   </Card.Header>
                   <Card.Body className="p-2 conversations-scroll">
                     {conversations
-                      .sort((a, b) => new Date(b.lastMessageTimestamp) - new Date(a.lastMessageTimestamp)) // Sort by latest timestamp
+                      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by latest created_at timestamp
                       .map((conversation) => {
                         const participant = conversation.purchaser || conversation.vendor;
                         const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
@@ -129,6 +129,7 @@ const Messages = () => {
                       })}
                   </Card.Body>
                 </Card>
+
                 </Col>
                 <Col xs={12} md={10} className="messages-list">
                   {selectedConversation ? (
