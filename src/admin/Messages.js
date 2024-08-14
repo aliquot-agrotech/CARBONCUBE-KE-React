@@ -145,7 +145,7 @@ const Messages = () => {
                           );
                         })}
                       </Card.Body>
-                      <Card.Footer>
+                      <Card.Footer className="message-footer">
                         <Form className="message-form" onSubmit={handleSendMessage}>
                           <Form.Control
                             className="message-input"
