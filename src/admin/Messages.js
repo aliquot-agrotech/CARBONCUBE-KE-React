@@ -128,32 +128,31 @@ const Messages = () => {
                     <strong>Conversations</strong>
                   </Card.Header>
                   <Card.Body className="p-2 conversations-scroll">
-  {conversations
-    .sort((a, b) => {
-      const lastMessageA = a.messages[a.messages.length - 1];
-      const lastMessageB = b.messages[b.messages.length - 1];
-      return new Date(lastMessageB.created_at) - new Date(lastMessageA.created_at);
-    })
-    .map((conversation, index) => {
-      const participant = conversation.purchaser || conversation.vendor;
-      const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
+                    {conversations
+                      .sort((a, b) => {
+                        const lastMessageA = a.messages[a.messages.length - 1];
+                        const lastMessageB = b.messages[b.messages.length - 1];
+                        return new Date(lastMessageB.created_at) - new Date(lastMessageA.created_at);
+                      })
+                      .map((conversation, index) => {
+                        const participant = conversation.purchaser || conversation.vendor;
+                        const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
 
-      const pullOverClass = conversation.pullOver ? 'conversation-pull-over' : '';
+                        const pullOverClass = conversation.pullOver ? 'conversation-pull-over' : '';
 
-      return (
-        <Card
-          key={conversation.id}
-          className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''} ${pullOverClass}`}
-          onClick={() => handleConversationClick(conversation)}
-        >
-          <Card.Body className="text-center">
-            <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
-          </Card.Body>
-        </Card>
-      );
-    })}
-</Card.Body>
-
+                        return (
+                          <Card
+                            key={conversation.id}
+                            className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''} ${pullOverClass}`}
+                            onClick={() => handleConversationClick(conversation)}
+                          >
+                            <Card.Body className="text-center">
+                              <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
+                            </Card.Body>
+                          </Card>
+                        );
+                      })}
+                  </Card.Body>
                 </Card>
                 </Col>
                 <Col xs={12} md={10} className="messages-list">
