@@ -103,7 +103,7 @@ const Messages = () => {
             </Col>
             <Col xs={12} md={10} className="p-2">
               <Row>
-                <Col xs={12} md={3}>
+                <Col xs={12} md={2}>
                   <Card className="conversations-list">
                     <Card.Header className="text-center justify-content-center">
                       <strong>Conversations</strong>
@@ -126,7 +126,7 @@ const Messages = () => {
                     </Card.Body>
                   </Card>
                 </Col>
-                <Col xs={12} md={9} className="messages-list">
+                <Col xs={12} md={10} className="messages-list">
                   {selectedConversation ? (
                     <Card className="message-container">
                       <Card.Header className="messages-header justify-content-center">
@@ -145,7 +145,7 @@ const Messages = () => {
                           );
                         })}
                       </Card.Body>
-                      <Card.Footer className="message-footer">
+                      <Card.Footer className="messages-footer">
                         <Form className="message-form" onSubmit={handleSendMessage}>
                           <Form.Control
                             className="message-input"
