@@ -67,7 +67,7 @@ const Messages = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
-
+  
     try {
       const response = await fetch(`http://localhost:3000/admin/conversations/${selectedConversation.id}/messages`, {
         method: 'POST',
@@ -83,13 +83,32 @@ const Messages = () => {
       });
       if (!response.ok) throw new Error('Network response was not ok');
       const message = await response.json();
-      setMessages([...messages, message]);
+  
+      // Move the conversation to the top of the list with animation
+      const updatedConversation = { ...selectedConversation, messages: [...messages, message], pullOver: true };
+      const updatedConversations = conversations
+        .filter(convo => convo.id !== selectedConversation.id)
+        .map(convo => ({ ...convo, pullOver: false }));
+  
+      setConversations([updatedConversation, ...updatedConversations]);
+  
+      // Reset the pull-over animation after it completes
+      setTimeout(() => {
+        setConversations(prevConversations => prevConversations.map(convo => {
+          if (convo.id === updatedConversation.id) {
+            return { ...convo, pullOver: false };
+          }
+          return convo;
+        }));
+      }, 500); // Duration of the animation
+  
       setNewMessage('');
     } catch (error) {
       console.error('Error sending message:', error);
     }
   };
-
+  
+  
   if (!currentUser) return <div>Loading...</div>;
 
   return (
@@ -109,29 +128,32 @@ const Messages = () => {
                     <strong>Conversations</strong>
                   </Card.Header>
                   <Card.Body className="p-2 conversations-scroll">
-                    {conversations
-                      .sort((a, b) => {
-                        const lastMessageA = a.messages[a.messages.length - 1];
-                        const lastMessageB = b.messages[b.messages.length - 1];
-                        return new Date(lastMessageB.created_at) - new Date(lastMessageA.created_at);
-                      }) // Sort conversations by the latest message's timestamp
-                      .map((conversation) => {
-                        const participant = conversation.purchaser || conversation.vendor;
-                        const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
+  {conversations
+    .sort((a, b) => {
+      const lastMessageA = a.messages[a.messages.length - 1];
+      const lastMessageB = b.messages[b.messages.length - 1];
+      return new Date(lastMessageB.created_at) - new Date(lastMessageA.created_at);
+    })
+    .map((conversation, index) => {
+      const participant = conversation.purchaser || conversation.vendor;
+      const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
 
-                        return (
-                          <Card
-                            key={conversation.id}
-                            className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''}`}
-                            onClick={() => handleConversationClick(conversation)}
-                          >
-                            <Card.Body className="text-center">
-                              <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
-                            </Card.Body>
-                          </Card>
-                        );
-                      })}
-                  </Card.Body>
+      const pullOverClass = conversation.pullOver ? 'conversation-pull-over' : '';
+
+      return (
+        <Card
+          key={conversation.id}
+          className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''} ${pullOverClass}`}
+          onClick={() => handleConversationClick(conversation)}
+        >
+          <Card.Body className="text-center">
+            <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
+          </Card.Body>
+        </Card>
+      );
+    })}
+</Card.Body>
+
                 </Card>
                 </Col>
                 <Col xs={12} md={10} className="messages-list">

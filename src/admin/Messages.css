@@ -76,6 +76,49 @@ body {
   background-color: #f3dbdb; /* Light pink for vendor conversations */
 }
 
+/* Messages.css */
+@keyframes pullOver {
+  0% {
+    transform: translateY(0) scale(1);
+    z-index: 1; /* Ensures the card is on top */
+  }
+  100% {
+    transform: translateY(-100%) scale(1.05);
+    z-index: 1; /* Ensures the card is on top */
+  }
+}
+
+@keyframes moveToTop {
+  0% {
+    transform: translateY(0);
+    z-index: 1; /* Ensure the moving card is on top */
+  }
+  100% {
+    transform: translateY(-100%);
+    z-index: 1; /* Ensure the moving card is on top */
+  }
+}
+
+.conversation-overtake {
+  animation: moveToTop 0.5s ease-in-out forwards;
+  position: relative;
+}
+
+.conversation-move-down {
+  transform: translateY(100%);
+  transition: transform 0.5s ease-in-out;
+}
+
+.conversation-pull-over {
+  animation: pullOver 0.5s ease-in-out forwards;
+  position: relative;
+}
+
+.conversation-card {
+  transition: transform 0.5s ease-in-out;
+}
+
+
 /* Message Container Styles */
 .message-container {
   background-color: #fff;
