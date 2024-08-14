@@ -29,6 +29,7 @@ const Messages = () => {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
           },
         });
+        if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
         setConversations(Array.isArray(data) ? data : []);
       } catch (error) {
@@ -46,6 +47,7 @@ const Messages = () => {
           'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
       });
+      if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       if (Array.isArray(data)) {
         setMessages(data);
@@ -79,9 +81,7 @@ const Messages = () => {
           sender_type: currentUser.type,
         }),
       });
-
       if (!response.ok) throw new Error('Network response was not ok');
-
       const message = await response.json();
       setMessages([...messages, message]);
       setNewMessage('');
@@ -130,11 +130,11 @@ const Messages = () => {
                   {selectedConversation ? (
                     <Card className="message-container">
                       <Card.Header className="messages-header justify-content-center">
-                        <FontAwesomeIcon icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
+                        <FontAwesomeIcon className="me-3" icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
                       </Card.Header>
                       <Card.Body className="messages-scroll">
                         {messages.map((message) => {
-                          const isSent = message.sender_id === currentUser.id && message.sender_type === 'Admin';
+                          const isSent = message.sender_type === 'Admin';
                           return (
                             <div key={message.id} className={`message ${isSent ? 'sent' : 'received'}`}>
                               <p>{message.content}</p>
