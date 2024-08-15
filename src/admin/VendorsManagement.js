@@ -179,10 +179,10 @@ const VendorsManagement = () => {
                         <Col xs={12} md={10} className="p-0">
                             {/* <h2 className="mb-4 text-center">Vendors Management</h2> */}
                             <Card className="section">
-                                <Card.Header className="text-center justify-content-center">
+                                <Card.Header className="text-center justify-content-center p-2">
                                     Vendors
                                 </Card.Header>
-                                <Card.Body>
+                                <Card.Body className="p-0">
                                     <Table hover className="vendors-table text-center">
                                         <thead>
                                             <tr>
@@ -252,80 +252,157 @@ const VendorsManagement = () => {
                                             className="custom-tabs mb-3"
                                         >
                                             <Tab eventKey="profile" title="Profile">
-                                                <h5 className="text-center">Profile</h5>
-                                                <div className="profile-cards text-center">
-                                                    <div className="profile-card">
-                                                        <p><strong>Name:</strong> {selectedVendor.fullname}</p>
-                                                    </div>
-                                                    <div className="profile-card">
-                                                        <p><strong>Email:</strong> {selectedVendor.email}</p>
-                                                    </div>
-                                                    <div className="profile-card">
-                                                        <p><strong>Phone:</strong> {selectedVendor.phone_number}</p>
-                                                    </div>
-                                                    <div className="profile-card">
-                                                        <p><strong>Enterprise:</strong> {selectedVendor.enterprise_name}</p>
-                                                    </div>
-                                                    <div className="profile-card">
-                                                        <p><strong>Location:</strong> {selectedVendor.location}</p>
-                                                    </div>
-                                                    <div className="profile-card">
-                                                        <p><strong>Status:</strong> {selectedVendor.blocked ? 'Blocked' : 'Active'}</p>
-                                                    </div>
-                                                    <div className="profile-card">
-                                                        <p><strong>Categories:</strong> {selectedVendor.category_names ? selectedVendor.category_names.join(', ') : 'No categories available'}</p>
-                                                    </div>
-                                                </div>
+                                                {/* <h5 className="text-center">Profile</h5> */}
+                                                <Container className="profile-cards text-center">
+                                                    <Row>
+                                                        <Col xs={12} md={6}>
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedVendor.fullname}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                        <Col xs={12} md={6}>
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Email</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedVendor.email}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                    </Row>
+
+                                                    <Row>
+                                                        <Col xs={12} md={6}>
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Phone</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedVendor.phone_number}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                        <Col xs={12} md={6}>
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Enterprise</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedVendor.enterprise_name}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                    </Row>
+
+                                                    <Row>
+                                                        <Col xs={12} md={6}>
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Location</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedVendor.location}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                        <Col xs={12} md={6}>
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Status</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedVendor.blocked ? 'Blocked' : 'Active'}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                    </Row>
+
+                                                    <Row>
+                                                        <Col xs={12}>
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Categories</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedVendor.category_names ? selectedVendor.category_names.join(', ') : 'No categories available'}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                    </Row>
+
+                                                </Container>
                                             </Tab>
 
                                             <Tab eventKey="analytics" title="Analytics">
-                                                <h5 className="text-center">Analytics</h5>
+                                                {/* <h5 className="text-center">Analytics</h5> */}
                                                 {selectedVendor.analytics ? (
-                                                    <div className="profile-cards text-center">
-                                                        <div className="profile-card">
-                                                            <p><strong>Total Orders:</strong> {selectedVendor.analytics.total_orders}</p>
-                                                        </div>
-                                                        <div className="profile-card">
-                                                            <p><strong>Total Products Sold:</strong> {selectedVendor.analytics.total_products_sold}</p>
-                                                        </div>
-                                                        <div className="profile-card price-container">
-                                                        <strong>Total Revenue:</strong>
-                                                            <p className="total-revenue">
-                                                            <em className='product-price-label'>Kshs: </em>
-                                                                <span className="price">
-                                                                    {selectedVendor.analytics.total_revenue.split('.').map((part, index) => (
-                                                                        <React.Fragment key={index}>
-                                                                            {index === 0 ? (
-                                                                                <span className="price-integer">{part}</span>
-                                                                            ) : (
-                                                                                <>
-                                                                                    <span style={{ fontSize: '16px' }}>.</span>
-                                                                                    <span className="price-decimal">{part}</span>
-                                                                                </>
-                                                                            )}
-                                                                        </React.Fragment>
-                                                                    ))}
-                                                                </span>
-                                                            </p>
-                                                        </div>                                                        
-                                                        <div className="profile-card">
-                                                            <p><strong>Total Reviews:</strong> {selectedVendor.analytics.total_reviews}</p>
-                                                        </div>
-                                                        <div className="profile-card">
-                                                            <p><strong>Mean Rating:</strong></p>
-                                                            <StarRating rating={selectedVendor.analytics.mean_rating} />
-                                                            <p>{selectedVendor.analytics.mean_rating}/5</p>
-                                                        </div>
+                                                    <Container className="profile-cards text-center">
+                                                        <Row>
+                                                            <Col xs={12} md={6}>
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Total Orders</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        {selectedVendor.analytics.total_orders}
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                            <Col xs={12} md={6}>
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Total Products Sold</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        {selectedVendor.analytics.total_products_sold}
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        </Row>
 
-                                                    </div>
+                                                        <Row>
+                                                            <Col xs={12} md={6}>
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Total Revenue</Card.Header>
+                                                                    <Card.Body className="text-center price-container">
+                                                                        <p className="total-revenue m-0">
+                                                                            <em className='product-price-label'>Kshs: </em>
+                                                                            <span className="price">
+                                                                                {selectedVendor.analytics.total_revenue.split('.').map((part, index) => (
+                                                                                    <React.Fragment key={index}>
+                                                                                        {index === 0 ? (
+                                                                                            <span className="price-integer">{part}</span>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                <span className="price-decimal">{part}</span>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </React.Fragment>
+                                                                                ))}
+                                                                            </span>
+                                                                        </p>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                            <Col xs={12} md={6}>
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Total Reviews</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        {selectedVendor.analytics.total_reviews}
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        </Row>
+
+                                                        <Row>
+                                                            <Col xs={12}>
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Mean Rating</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        <StarRating rating={selectedVendor.analytics.mean_rating} />
+                                                                        <p className='m-0'>{selectedVendor.analytics.mean_rating}/5</p>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        </Row>
+                                                    </Container>
                                                 ) : (
                                                     <p>Loading analytics data...</p>
                                                 )}
                                             </Tab>
                                             <Tab eventKey="orders" title="Orders">
-                                                <h5 className="text-center">Orders</h5>
+                                                {/* <h5 className="text-center">Orders</h5> */}
                                                 <Table hover className="orders-table text-center">
-                                                    <thead>
+                                                    <thead className='table-head'>
                                                         <tr>
                                                             <th>Order ID</th>
                                                             <th>Purchaser</th>
@@ -374,7 +451,7 @@ const VendorsManagement = () => {
                                             </Tab>                                           
 
                                             <Tab eventKey="products" title="Products">
-                                                <h5 className="text-center">Products</h5>
+                                                {/* <h5 className="text-center">Products</h5> */}
                                                 <div className="card-container">
                                                     {selectedVendor.products && selectedVendor.products.length > 0 ? (
                                                         selectedVendor.products.map((product) => (
@@ -410,11 +487,11 @@ const VendorsManagement = () => {
                                             </Tab>
 
                                             <Tab eventKey="reviews" title="Reviews">
-                                            <h5 className="text-center" id="reviews">Reviews</h5>
+                                            {/* <h5 className="text-center" id="reviews">Reviews</h5> */}
                                                 {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
                                                     <div className="reviews-container text-center">
                                                         {selectedVendor.reviews.map((review) => (
-                                                            <div className="review-card" key={review.id}>
+                                                            <div className="review-card p-1" key={review.id}>
                                                                 <p className="review-comment"><em>"{review.review}"</em></p>
                                                                 <StarRating rating={review.rating} /> {/* Assuming StarRating component is defined elsewhere */}
                                                                 <p className="review-product"><strong>{review.product_title}</strong></p>

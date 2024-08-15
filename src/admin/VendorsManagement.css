@@ -44,7 +44,7 @@ body {
     width: 100%;
     table-layout: auto; /* Adjust table layout */
     border-collapse: separate;
-    border-spacing: 0 10px;
+    border-spacing: 0;
 }
 
 .table-header th {
@@ -176,7 +176,7 @@ body {
 
 /* Profile Card Styles */
 .profile-cards {
-    display: flex;
+    /* display: flex; */
     flex-wrap: wrap; /* Allows items to wrap into new rows */
     gap: 10px; /* Space between cards */
 }
@@ -215,6 +215,11 @@ body {
     }
 }
 
+
+.orders-table .table-head th {
+    background-color: #616161;
+    color: #fff;
+}
 
 .product-card {
     display: flex;
@@ -267,7 +272,7 @@ body {
     border: 1px solid #dee2e6;
     border-radius: 8px;
     padding: 10px;
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb); /* Gradient from two colors */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
