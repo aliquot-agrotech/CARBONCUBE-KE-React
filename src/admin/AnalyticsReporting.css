@@ -16,7 +16,7 @@
   border: none;
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(210deg, #9fffd9, #5f9ebb); /* Gradient from two colors */
+  background: linear-gradient(135deg, #9fffd9, #5f9ebb); /* Gradient from two colors */
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   color: #000; /* Ensure text is readable on the gradient background */
 }
@@ -24,6 +24,7 @@
 
 .custom-card:hover {
   transform: translateY(-5px);
+  transform: scale(1.0);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -48,6 +49,10 @@
   background-color: #f4f4f4;
   font-size: 1.5rem;
   color: #333;
+}
+
+.analytics-price-container {
+  margin : 0;
 }
 
 .text-center {

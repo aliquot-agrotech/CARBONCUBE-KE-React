@@ -24,11 +24,11 @@ body {
 .orders-management-page .card-header {
     background-color: #616161; /* Secondary variant */
     font-weight: bold;
-    font-size: 25px;
+    font-size: 20px;
     /* text-align: center; Center text */
     padding: 1rem; /* Adjust padding as needed */
     color: #fff;
-  }
+}
   
   .orders-management-page .card-footer {
     background-color: #616161; /* Secondary variant */
@@ -38,11 +38,27 @@ body {
     color: #fff;
   }
 
+.modal .modal-header {
+    background-color: #616161;
+    padding: 10px;
+}
+
+.modal .modal-footer {
+    background-color: #616161;
+}
+
+
+  .modal-body .card-header {
+    background-color: #616161; /* Secondary variant */
+    color: #fff;
+  }
+
+
 /* Table Styles */
 .orders-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 10px;
+    border-spacing: 0 0px;
 }
 
 /* Ensure vertical alignment of table content */
@@ -64,6 +80,11 @@ body {
 
 .table-header th {
     background-color: #f8f9fa;
+}
+
+.table-responsive .table-head th {
+    background-color: #616161;
+    color: #fff;
 }
 
 /* Order Details Styles */
@@ -90,7 +111,7 @@ body {
 
 /* Product Container Styles */
 .product-container {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 /* Sub-Table Styles */
