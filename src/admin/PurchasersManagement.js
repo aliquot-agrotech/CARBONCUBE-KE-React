@@ -113,14 +113,14 @@ const PurchasersManagement = () => {
             <Col xs={12} md={2} className="p-0 d-flex flex-column">
               <Sidebar />
             </Col>
-            <Col xs={12} md={10} className="p-4 d-flex flex-column">
+            <Col xs={12} md={10} className="p-2 d-flex flex-column">
               {/* <h2 className="mb-4 text-center">Purchaser Details & Metrics</h2> */}
 
               <Card className="section">
                     <Card.Header className="text-center justify-content-center">
                         Purchasers
                     </Card.Header>
-                    <Card.Body>
+                    <Card.Body className='p-0 m-0'>
                   <Table hover className="purchasers-table text-center">
                 <thead className="table-header">
                   <tr>
@@ -181,29 +181,63 @@ const PurchasersManagement = () => {
                 <Modal.Body>
                   {selectedPurchaser ? (
                     <div>
-                      <div className="purchaser-details mb-4 text-center">
-                        <div className="purchaser-detail-item">
-                          <strong>Purchaser ID:</strong> {selectedPurchaser.id}
-                        </div>
-                        <div className="purchaser-detail-item">
-                          <strong>Name:</strong> {selectedPurchaser.fullname}
-                        </div>
-                        <div className="purchaser-detail-item">
-                          <strong>Contact:</strong> {selectedPurchaser.phone_number}
-                        </div>
-                        <div className="purchaser-detail-item">
-                          <strong>Address:</strong> {selectedPurchaser.location}
-                        </div>
-                        <div className="purchaser-detail-item">
-                          <strong>Email:</strong> {selectedPurchaser.email}
-                        </div>
-                      </div>
+                      <Container className="purchaser-details mb-4 text-center">
+                        <Row>
+                          <Col xs={12} md={6}>
+                              <Card className="mb-2 custom-card">
+                                  <Card.Header as="h6" className="justify-content-center">Purchaser ID</Card.Header>
+                                  <Card.Body className="text-center">
+                                      {selectedPurchaser.id}
+                                  </Card.Body>
+                              </Card>
+                          </Col>
+                          <Col xs={12} md={6}>
+                              <Card className="mb-2 custom-card">
+                                  <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
+                                  <Card.Body className="text-center">
+                                      {selectedPurchaser.fullname}
+                                  </Card.Body>
+                              </Card>
+                          </Col>
+                        </Row>
+
+                        <Row>
+                          <Col xs={12} md={6}>
+                              <Card className="mb-2 custom-card">
+                                  <Card.Header as="h6" className="justify-content-center">Contact</Card.Header>
+                                  <Card.Body className="text-center">
+                                      {selectedPurchaser.phone_number}
+                                  </Card.Body>
+                              </Card>
+                          </Col>
+                          <Col xs={12} md={6}>
+                              <Card className="mb-2 custom-card">
+                                  <Card.Header as="h6" className="justify-content-center">Address</Card.Header>
+                                  <Card.Body className="text-center">
+                                      {selectedPurchaser.location}
+                                  </Card.Body>
+                              </Card>
+                          </Col>
+                        </Row>
+
+                        <Row>
+                          <Col xs={12}>
+                              <Card className="mb-2 custom-card">
+                                  <Card.Header as="h6" className="justify-content-center">Email</Card.Header>
+                                  <Card.Body className="text-center">
+                                      {selectedPurchaser.email}
+                                  </Card.Body>
+                              </Card>
+                          </Col>
+                        </Row>
+
+                      </Container>
                       <h4 className='text-center'>Orders</h4>
                       {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
                         <div className="order-container text-center">
                           <div className="table-responsive">
                             <Table bordered hover>
-                              <thead>
+                              <thead className='table-head'>
                                 <tr>
                                   <th>Order ID</th>
                                   <th>Order Date</th>
@@ -217,7 +251,7 @@ const PurchasersManagement = () => {
                                   .sort((a, b) => a.id - b.id)  // Sort orders by order ID in ascending order
                                   .map(order => (
                                     <React.Fragment key={order.id}>
-                                      <tr>
+                                      <tr className='table-row'>
                                         <td>{order.id}</td>
                                         <td>{order.order_date}</td>
                                         <td className="price-container">
@@ -253,7 +287,7 @@ const PurchasersManagement = () => {
                                       <tr id={`details-${order.id}`} className="d-none sub-table">
                                         <td colSpan="5">
                                           <Table bordered hover>
-                                            <thead>
+                                            <thead className='table-head'>
                                               <tr>
                                                 <th>Product Name</th>
                                                 <th>Quantity</th>

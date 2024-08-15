@@ -22,7 +22,7 @@ body, html {
 /* Table styles */
 .purchasers-table {
     border-collapse: separate;
-    border-spacing: 0 10px;
+    border-spacing: 0;
 }
 
 .purchasers-table thead {
@@ -32,6 +32,10 @@ body, html {
 
 .purchasers-table tbody tr {
     transition: all 0.2s;
+}
+
+.purchasers-table tbody td {
+  vertical-align: middle;
 }
 
 .purchasers-table tbody tr:hover {
@@ -74,7 +78,7 @@ body, html {
 
 
 .purchaser-details {
-    display: flex;
+    /* display: flex; */
     flex-wrap: wrap;
     gap: 20px;
 }
@@ -95,6 +99,14 @@ body, html {
 
 .order-container {
     margin-top: 20px;
+  }
+
+  .table-responsive .table-head {
+    background-color: #616161;
+  }
+
+  .table-responsive .table-row td {
+    vertical-align: middle;
   }
   
   .sub-table {
