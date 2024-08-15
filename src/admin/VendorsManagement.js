@@ -182,7 +182,7 @@ const VendorsManagement = () => {
                                 <Card.Header className="text-center justify-content-center p-2">
                                     Vendors
                                 </Card.Header>
-                                <Card.Body className="p-0">
+                                <Card.Body className="p-2">
                                     <Table hover className="vendors-table text-center">
                                         <thead>
                                             <tr>
@@ -220,7 +220,7 @@ const VendorsManagement = () => {
                                                                 }}
                                                             >
                                                                 <FontAwesomeIcon icon={vendor.blocked ? faKey : faUserShield} />
-                                                                {vendor.blocked ? ' Unblock' : ' Block'}
+                                                                
                                                             </Button>
                                                         </td>
                                                     </tr>

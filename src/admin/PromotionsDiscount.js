@@ -180,28 +180,30 @@ const PromotionsDiscount = () => {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={6} className="mb-4">
+                                <Col md={12} className="mb-4">
                                     <Card className="campaign-card">
                                         <Card.Header className="card-header justify-content-center">Campaign Performance</Card.Header>
                                         <Card.Body className="text-center">
-                                            <div className="doughnut-chart-container">
-                                                <Doughnut data={pieData(40)} options={chartOptions} className="doughnut-chart" />
-                                            </div>
-                                            <p>Redemption Rate</p>
+                                        <Row>
+                                        <Col md={6} className="mb-4">
+                                                <div className="doughnut-chart-container">
+                                                    <Doughnut data={pieData(40)} options={chartOptions} className="doughnut-chart" />
+                                                </div>
+                                                <p>Redemption Rate</p>
+                                            </Col>
+
+                                            <Col md={6} className="mb-4">
+                                                <div className="doughnut-chart-container">
+                                                    <Doughnut data={pieData(20)} options={chartOptions} className="doughnut-chart" />
+                                                </div>
+                                                <p>Sales Increase</p>
+                                            </Col>
+                                        </Row>
+                                            
                                         </Card.Body>
                                     </Card>
                                 </Col>
-                                <Col md={6} className="mb-4">
-                                    <Card className="campaign-card">
-                                        <Card.Header className="card-header justify-content-center">Campaign Performance</Card.Header>
-                                        <Card.Body className="text-center">
-                                            <div className="doughnut-chart-container">
-                                                <Doughnut data={pieData(20)} options={chartOptions} className="doughnut-chart" />
-                                            </div>
-                                            <p>Sales Increase</p>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
+                                
                             </Row>
                         </Col>
                     </Row>

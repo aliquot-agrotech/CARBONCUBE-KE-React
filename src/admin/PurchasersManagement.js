@@ -121,57 +121,55 @@ const PurchasersManagement = () => {
                         Purchasers
                     </Card.Header>
                     <Card.Body className='p-0 m-0'>
-                  <Table hover className="purchasers-table text-center">
-                <thead className="table-header">
-                  <tr>
-                    <th>Purchaser ID</th>
-                    <th>Name</th>
-                    <th>Contact</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {purchasers.length > 0 ? (
-                  purchasers
-                      .sort((a, b) => a.id - b.id) // Sort purchasers by ID in ascending order
-                      .map((purchaser) => (
-                          <tr key={purchaser.id} onClick={() => handleRowClick(purchaser.id)} style={{ cursor: 'pointer' }}>
-                        <td>{purchaser.id}</td>
-                        <td>{purchaser.fullname}</td>
-                        <td>{purchaser.phone_number}</td>
-                        <td>{purchaser.email}</td>
-                        <td>{purchaser.location}</td>
-                        <td>
-                          <Button
-                              variant={purchaser.blocked ? 'danger' : 'warning'}
-                              id="button"
-                              onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleUpdateStatus(purchaser.id, purchaser.blocked ? 'unblock' : 'block');
-                              }}
-                          >
-                              <FontAwesomeIcon icon={purchaser.blocked ? faKey : faUserShield} />
-                              {purchaser.blocked ? ' Unblock' : ' Block'}
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="6">No data available</td>
-                    </tr>
-                  )}
-                </tbody>
-              </Table>
-                                    </Card.Body>
-                                    <Card.Footer className="text-center">
+                        <Table hover className="purchasers-table text-center">
+                          <thead className="table-header">
+                            <tr>
+                              <th>Purchaser ID</th>
+                              <th>Name</th>
+                              <th>Contact</th>
+                              <th>Email</th>
+                              <th>Address</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {purchasers.length > 0 ? (
+                            purchasers
+                                .sort((a, b) => a.id - b.id) // Sort purchasers by ID in ascending order
+                                .map((purchaser) => (
+                                    <tr key={purchaser.id} onClick={() => handleRowClick(purchaser.id)} style={{ cursor: 'pointer' }}>
+                                  <td>{purchaser.id}</td>
+                                  <td>{purchaser.fullname}</td>
+                                  <td>{purchaser.phone_number}</td>
+                                  <td>{purchaser.email}</td>
+                                  <td>{purchaser.location}</td>
+                                  <td>
+                                    <Button
+                                        variant={purchaser.blocked ? 'danger' : 'warning'}
+                                        id="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleUpdateStatus(purchaser.id, purchaser.blocked ? 'unblock' : 'block');
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={purchaser.blocked ? faKey : faUserShield} />
+                                        {purchaser.blocked ? ' Unblock' : ' Block'}
+                                    </Button>
+                                  </td>
+                                </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan="6">No data available</td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </Table>
+                      </Card.Body>
+                    <Card.Footer className="text-center">
+                    </Card.Footer>
 
-                                    </Card.Footer>
-
-
-                                    </Card>
+                  </Card>
               
 
               <Modal show={showModal} onHide={handleCloseModal} size="lg">
