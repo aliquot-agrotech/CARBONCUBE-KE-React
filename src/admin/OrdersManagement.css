@@ -71,7 +71,7 @@ body {
     /* margin-bottom: 20px; */
     display: flex;
     flex-wrap: wrap;
-    /* gap: 1px; Adjust as needed */
+    gap: 1rem;
 }
 
 .order-detail-item {

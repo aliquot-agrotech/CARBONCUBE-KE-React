@@ -30,7 +30,7 @@ const AnalyticsReporting = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading-screen">Loading...</div>; // Update to use loading-screen class
   }
 
   if (!analyticsData) {
@@ -45,99 +45,146 @@ const AnalyticsReporting = () => {
           <Col xs={12} md={2} className="p-0">
             <Sidebar />
           </Col>
-          <Col xs={12} md={10} className="flex mt-4">
+          <Col xs={12} md={10} className="content-area">
             <Row>
               <Col xs={12} md={3}>
-                <Card className="mb-4">
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Total Vendors
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Total Vendors</Card.Title>
-                    <Card.Text className='text-center'>{analyticsData.total_vendors}</Card.Text>
+                    {/* <Card.Title className="text-center">Total Vendors</Card.Title> */}
+                    <Card.Text className="text-center"><strong>{analyticsData.total_vendors}</strong></Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-                <Card className="mb-4">
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Total Purchasers
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Total Purchasers</Card.Title>
-                    <Card.Text className='text-center'>{analyticsData.total_purchasers}</Card.Text>
+                    {/* <Card.Title className="text-center">Total Purchasers</Card.Title> */}
+                    <Card.Text className="text-center"><strong>{analyticsData.total_purchasers}</strong></Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-                <Card className="mb-4">
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Total Orders
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Total Orders</Card.Title>
-                    <Card.Text className='text-center'>{analyticsData.total_orders}</Card.Text>
+                    {/* <Card.Title className="text-center">Total Orders</Card.Title> */}
+                    <Card.Text className="text-center"><strong>{analyticsData.total_orders}</strong></Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-                <Card className="mb-4">
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Total Products
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Total Products</Card.Title>
-                    <Card.Text className='text-center'>{analyticsData.total_products}</Card.Text>
+                    {/* <Card.Title className="text-center">Total Products</Card.Title> */}
+                    <Card.Text className="text-center"><strong>{analyticsData.total_products}</strong></Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
             </Row>
             <Row>
               <Col xs={12} md={3}>
-                <Card className="mb-4">
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Total Reviews
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Total Reviews</Card.Title>
-                    <Card.Text className='text-center'>{analyticsData.total_reviews}</Card.Text>
+                    {/* <Card.Title className="text-center">Total Reviews</Card.Title> */}
+                    <Card.Text className="text-center"><strong>{analyticsData.total_reviews}</strong></Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-                <Card className="mb-4">
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Total Products Sold
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Total Products Sold Out</Card.Title>
-                    <Card.Text className='text-center'>{analyticsData.total_products_sold_out}</Card.Text>
+                    {/* <Card.Title className="text-center">Total Products Sold Out</Card.Title> */}
+                    <Card.Text className="text-center"><strong>{analyticsData.total_products_sold_out}</strong></Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-                <Card className="mb-4">
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Total Revenue
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Total Revenue</Card.Title>
-                    <Card.Text className='text-center'>Ksh: {analyticsData.total_revenue}</Card.Text>
+                    {/* <Card.Title className="text-center">Total Revenue</Card.Title> */}
+                    {/* <Card.Text className="text-center">Ksh: {analyticsData.total_revenue}</Card.Text> */}
+                    <Card.Text className="analytics-price-container">
+                      <em className='analytics-product-price-label'>Kshs: </em>
+                      <strong>
+                        {analyticsData.total_revenue.split('.').map((part, index) => (
+                          <React.Fragment key={index}>
+                            {index === 0 ? part : (
+                              <>
+                                <span style={{ fontSize: '10px' }}>.</span>
+                                <span className="analytics-price-decimal">{part}</span>
+                              </>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </strong>
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
             </Row>
             <Row>
               <Col xs={12} md={6}>
-                <Card className="mb-4">
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Category Analytics
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Sales Performance</Card.Title>
+                    {/* <Card.Title className="text-center">Category Analytics</Card.Title> */}
+                    <CategoryAnalytics data={analyticsData.best_selling_categories} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Sales Performance
+                  </Card.Header>
+                  <Card.Body>
                     <SalesPerformance data={analyticsData.sales_performance} />
                   </Card.Body>
                 </Card>
               </Col>
+            </Row>
+            <Row>
               <Col xs={12} md={6}>
-                <Card className="mb-4">
+                <Card className="mb-4 custom-card">
+                <Card.Header className="justify-content-center">
+                    Top Selling Products
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Top Selling Products</Card.Title>
+                    {/* <Card.Title className="text-center">Top Selling Products</Card.Title> */}
                     <TopSellingProducts data={analyticsData.best_selling_products} />
                   </Card.Body>
                 </Card>
               </Col>
-            </Row>
-            <Row>
-            <Col xs={12} md={6}>
-                <Card className="mb-4">
-                  <Card.Body>
-                    <Card.Title className='text-center'>Customer Insights</Card.Title>
-                    <CustomerInsights data={analyticsData.purchasers_insights} />
-                  </Card.Body>
-                </Card>
-              </Col>
               <Col xs={12} md={6}>
-                <Card className="mb-0">
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Customer Insights
+                  </Card.Header>
                   <Card.Body>
-                    <Card.Title className='text-center'>Category Analytics</Card.Title>
-                    <CategoryAnalytics data={analyticsData.best_selling_categories} />
+                    {/* <Card.Title className="text-center">Customer Insights</Card.Title> */}
+                    <CustomerInsights data={analyticsData.purchasers_insights} />
                   </Card.Body>
                 </Card>
               </Col>

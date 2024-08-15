@@ -1,45 +1,74 @@
+/* AnalyticsReporting.css */
 
-.card-title {
-    font-weight: bold;
-  }
-
-  .card {
-    margin-bottom: 1.5rem; /* Adjust spacing between cards */
-  }
-
-  /* AnalyticsReporting.css */
 .analytics-reporting-page {
-  background-color: #E0E0E0;
-  min-height: 100vh; /* Ensure the background color covers the full height */
-  padding: 0 1rem; /* Optional: Adjust padding as needed */
-  box-sizing: border-box; /* Include padding and border in element's total width and height */
-  padding-top: 56px;
+  background-color: #e0e0e0;
+  min-height: 100vh;
+  padding-top: 70px;
 }
 
-  
+.content-area {
+  margin-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.custom-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(210deg, #9fffd9, #5f9ebb); /* Gradient from two colors */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  color: #000; /* Ensure text is readable on the gradient background */
+}
+
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.analytics-reporting-page .card-header {
+  font-weight: bold;
+  font-size: 1rem;
+  background: #616161;
+  color: #fff;
+  /* margin-bottom: 1rem; */
+}
+
+.card-text {
+  font-size: 1.5rem;
+  color: #000000;
+}
+
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.text-center {
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .card-title,
   .card-text {
-    font-size: 1.5rem;
-  }
-
-  .card-body {
-    overflow: hidden; /* Prevent content from overflowing */
-    text-align: left; /* Ensure text alignment fits your design */
-  }
-
-  .pie-chart {
-    width: 4cm;
-    height: 4cm;
-    margin: 1rem;
-  }
-  
-  .text-center {
     text-align: center;
+    font-size: 1rem;
   }
-  
-  @media (max-width: 767px) {
-    .card-title,
-    .card-text {
-      text-align: center;
-    }
+}
+
+@media (max-width: 576px) {
+  .analytics-reporting-page {
+    padding: 1rem;
   }
-  
+
+  .content-area {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
