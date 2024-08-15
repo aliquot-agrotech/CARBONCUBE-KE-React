@@ -205,10 +205,20 @@ const ProductsManagement = () => {
     };
     
     
-
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="loading-container">
+                <div className="dots-wrapper">
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                    <div className="dot"></div>
+                </div>
+                <p className="loading-text">Loading...</p>
+            </div>
+        );
     }
+    
+    
 
     if (error) {
         return <div>{error}</div>;
