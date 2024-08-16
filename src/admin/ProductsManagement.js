@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Container, Row, Col, InputGroup, FormControl, Modal, Form, Carousel } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, FormControl, Modal, Form, Carousel, Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faTrashRestore, faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faTrashRestore, faStar, faStarHalfAlt, faStar as faStarEmpty, faFilter } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import './ProductsManagement.css';
@@ -9,6 +9,8 @@ import './ProductsManagement.css';
 const ProductsManagement = () => {
     const [flaggedProducts, setFlaggedProducts] = useState([]);
     const [nonFlaggedProducts, setNonFlaggedProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('All');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -17,7 +19,7 @@ const ProductsManagement = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [notificationOptions, setNotificationOptions] = useState([]);
     const [notes, setNotes] = useState('');
-
+    
     const fetchProducts = async () => {
         try {
             const response = await fetch('http://localhost:3000/admin/products', {
@@ -31,10 +33,7 @@ const ProductsManagement = () => {
             }
 
             const data = await response.json();
-
-            // Extract flagged and non-flagged products from the response
             const { flagged = [], non_flagged = [] } = data;
-
             setFlaggedProducts(flagged);
             setNonFlaggedProducts(non_flagged);
         } catch (error) {
@@ -45,13 +44,44 @@ const ProductsManagement = () => {
         }
     };
 
+    const fetchCategories = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/admin/categories', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setCategories(data);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
+
     useEffect(() => {
         fetchProducts();
+        fetchCategories();
     }, []);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
+
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category);
+    };
+
+    const filteredNonFlaggedProducts = nonFlaggedProducts
+        .filter(product => selectedCategory === 'All' || product.category_id === selectedCategory)
+        .filter(product =>
+            product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            product.description.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
     const handleNotifyClick = (product) => {
         setSelectedProduct(product);
@@ -157,11 +187,6 @@ const ProductsManagement = () => {
         }
     };
 
-    const filteredNonFlaggedProducts = nonFlaggedProducts.filter(product =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
     const renderRatingStars = (rating) => {
         if (typeof rating !== 'number' || rating < 0) {
             console.error('Invalid rating value:', rating);
@@ -184,7 +209,6 @@ const ProductsManagement = () => {
             </div>
         );
     };
-    
 
     const StarRating = ({ rating }) => {
         const fullStars = Math.floor(rating);
@@ -203,8 +227,7 @@ const ProductsManagement = () => {
             </span>
         );
     };
-    
-    
+
     if (loading) {
         return (
             <div className="loading-container">
@@ -217,8 +240,6 @@ const ProductsManagement = () => {
             </div>
         );
     }
-    
-    
 
     if (error) {
         return <div>{error}</div>;
@@ -235,21 +256,36 @@ const ProductsManagement = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-0">
                             <Row className="justify-content-center">
-                                <Col xs={9} md={6} lg={4} className="mb-3 pt-3">
-                                    <div className="search-container">
-                                        <InputGroup>
-                                            <FormControl
-                                                placeholder="Search products..."
-                                                aria-label="Search products"
-                                                aria-describedby="search-icon"
-                                                value={searchTerm}
-                                                onChange={handleSearchChange}
-                                                className="search-input"
-                                            />
-                                        </InputGroup>
+                                <Col xs={12} md={8} lg={6} className="mb-3 pt-3 ">
+                                    <div className="search-container d-flex align-items-center">
+                                        <FormControl
+                                            placeholder="Search products..."
+                                            aria-label="Search products"
+                                            aria-describedby="search-icon"
+                                            value={searchTerm}
+                                            onChange={handleSearchChange}
+                                            className="search-input"
+                                        />
+                                        <Dropdown className="dropdown-filter">
+                                        <Dropdown.Toggle variant="warning" id="dropdown-basic" className="filter-icon">
+                                            <FontAwesomeIcon icon={faFilter} />
+                                        </Dropdown.Toggle>
+
+                                            <Dropdown.Menu className="dropdown-menu">
+                                                <Dropdown.Item onClick={() => handleCategorySelect('All')}>All Categories</Dropdown.Item>
+                                                {categories.map(category => (
+                                                    <Dropdown.Item key={category.id} onClick={() => handleCategorySelect(category.id)}>
+                                                        {category.name}
+                                                    </Dropdown.Item>
+                                                ))}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
                                     </div>
                                 </Col>
                             </Row>
+
+
+
                             <Row>
                                 {filteredNonFlaggedProducts.length > 0 ? (
                                     filteredNonFlaggedProducts.map(product => (
@@ -272,7 +308,6 @@ const ProductsManagement = () => {
                                                             </React.Fragment>
                                                         ))}
                                                         </strong>
-                                                        
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)}>
                                                         View Details
@@ -294,9 +329,8 @@ const ProductsManagement = () => {
                                 )}
                             </Row>
 
-                            
                             <Row>
-                            <h3 className="mb-4 text-center">Flagged Products</h3>
+                                <h3 className="mb-4 text-center">Flagged Products</h3>
                                 {flaggedProducts.length > 0 ? (
                                     flaggedProducts.map(product => (
                                         <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
@@ -318,7 +352,6 @@ const ProductsManagement = () => {
                                                             </React.Fragment>
                                                         ))}
                                                         </strong>
-                                                            
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
                                                         Notify Vendor
@@ -344,102 +377,100 @@ const ProductsManagement = () => {
                 </Container>
 
                 <Modal show={showDetailsModal} onHide={handleModalClose} size="lg">
-                <Modal.Header>
-                    <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {selectedProduct && (
-                        <>
-                            <Carousel>
-                                {selectedProduct.images && selectedProduct.images.length > 0 ? (
-                                    selectedProduct.images.map((image, index) => (
-                                        <Carousel.Item key={index}>
-                                            <img
-                                                className="d-block w-100"
-                                                src={image}
-                                                alt={`Slide ${index}`}
-                                            />
+                    <Modal.Header>
+                        <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {selectedProduct && (
+                            <>
+                                <Carousel>
+                                    {selectedProduct.images && selectedProduct.images.length > 0 ? (
+                                        selectedProduct.images.map((image, index) => (
+                                            <Carousel.Item key={index}>
+                                                <img
+                                                    className="d-block w-100"
+                                                    src={image}
+                                                    alt={`Slide ${index}`}
+                                                />
+                                            </Carousel.Item>
+                                        ))
+                                    ) : (
+                                        <Carousel.Item>
+                                            <p className="text-center">No images available</p>
                                         </Carousel.Item>
-                                    ))
-                                ) : (
-                                    <Carousel.Item>
-                                        <p className="text-center">No images available</p>
-                                    </Carousel.Item>
-                                )}
-                            </Carousel>
-                            <div className="product-details mb-4 text-center">
-                                <div className="product-detail-item">
-                                    <strong>Price:</strong> 
-                                    <p>
-                                        <em className='product-price-label'>Kshs: </em>
-                                        <strong>
-                                        {selectedProduct.price.split('.').map((part, index) => (
-                                            <React.Fragment key={index}>
-                                                {index === 0 ? part : (
-                                                    <>
-                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                        <span className="price-decimal">{part}</span>
-                                                    </>
-                                                )}
-                                            </React.Fragment>
-                                        ))}
-                                        </strong>
-                                    </p>
-                                </div>
-                                <div className="product-detail-item">
-                                    <strong>Vendor:</strong> 
-                                    <p>{selectedProduct.vendor?.fullname || 'Unknown'}</p>
-                                </div>
-                                <div className="product-detail-item">
-                                    <strong>Category:</strong> 
-                                    <p>{selectedProduct.category?.name || 'N/A'}</p>
-                                </div>
-                                <div className="product-detail-item">
-                                    <strong>Sold Out:</strong> 
-                                    <p>{selectedProduct.sold_out ? 'Yes' : 'No'}</p>
-                                </div>
-                                <div className="product-detail-item">
-                                    <strong>Quantity Sold:</strong> 
-                                    <p>{selectedProduct.quantity_sold || 0}</p>
-                                </div>
-                                <div className="product-detail-item">
+                                    )}
+                                </Carousel>
+                                <div className="product-details mb-4 text-center">
+                                    <div className="product-detail-item">
+                                        <strong>Price:</strong> 
+                                        <p>
+                                            <em className='product-price-label'>Kshs: </em>
+                                            <strong>
+                                            {selectedProduct.price.split('.').map((part, index) => (
+                                                <React.Fragment key={index}>
+                                                    {index === 0 ? part : (
+                                                        <>
+                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                            <span className="price-decimal">{part}</span>
+                                                        </>
+                                                    )}
+                                                </React.Fragment>
+                                            ))}
+                                            </strong>
+                                        </p>
+                                    </div>
+                                    <div className="product-detail-item">
+                                        <strong>Vendor:</strong> 
+                                        <p>{selectedProduct.vendor?.fullname || 'Unknown'}</p>
+                                    </div>
+                                    <div className="product-detail-item">
+                                        <strong>Category:</strong> 
+                                        <p>{selectedProduct.category?.name || 'N/A'}</p>
+                                    </div>
+                                    <div className="product-detail-item">
+                                        <strong>Sold Out:</strong> 
+                                        <p>{selectedProduct.sold_out ? 'Yes' : 'No'}</p>
+                                    </div>
+                                    <div className="product-detail-item">
+                                        <strong>Quantity Sold:</strong> 
+                                        <p>{selectedProduct.quantity_sold || 0}</p>
+                                    </div>
+                                    <div className="product-detail-item">
                                         <strong>Rating:</strong> 
                                         <p>
                                             <span className="star-rating">
                                                 {renderRatingStars(selectedProduct.mean_rating)}
-                                                {/* {selectedProduct.mean_rating} */}
                                             </span>
                                         </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="product-detail-item text-center">
-                                <strong>Description:</strong> 
-                                <p>{selectedProduct.description}</p>
-                            </div>
-                            <h5 className="text-center" id="reviews">Reviews</h5>
-                                {selectedProduct && selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
-                                <div className="reviews-container text-center">
-                                    {selectedProduct.reviews.map((review, index) => (
-                                        <div className="review-card" key={index}>
-                                            <p className="review-comment"><em>"{review.review}"</em></p>
-                                            <StarRating rating={review.rating} />
-                                            <p className="reviewer-name"><strong>{review.purchaser.fullname}</strong></p>
-                                        </div>
-                                    ))}
+                                <div className="product-detail-item text-center">
+                                    <strong>Description:</strong> 
+                                    <p>{selectedProduct.description}</p>
                                 </div>
-                            ) : (
-                                <p className="text-center">No reviews yet</p>
-                            )}
-                        </>
-                    )}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="danger" id="button" onClick={handleModalClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
+                                <h5 className="text-center" id="reviews">Reviews</h5>
+                                    {selectedProduct && selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
+                                    <div className="reviews-container text-center">
+                                        {selectedProduct.reviews.map((review, index) => (
+                                            <div className="review-card" key={index}>
+                                                <p className="review-comment"><em>"{review.review}"</em></p>
+                                                <StarRating rating={review.rating} />
+                                                <p className="reviewer-name"><strong>{review.purchaser.fullname}</strong></p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-center">No reviews yet</p>
+                                )}
+                            </>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" id="button" onClick={handleModalClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
                 <Modal show={showNotifyVendorModal} onHide={handleModalClose}>
                     <Modal.Header >

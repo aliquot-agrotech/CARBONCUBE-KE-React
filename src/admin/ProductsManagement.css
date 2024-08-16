@@ -7,7 +7,7 @@
 }
 
 .container-fluid, .row {
-    overflow: hidden;
+    overflow: visible;
 }
 
 
@@ -70,6 +70,20 @@
     width: 100%;
 }
 
+.search-input .form-control {
+    margin-bottom: 0px;
+}
+
+#dropdown-basic {
+    margin-bottom: 16px;
+}
+
+.dropdown-filter .filter-icon:hover {
+    background-color: #616161;
+    border-color: #616161;
+    color: white;
+}
+
 .search-icon {
     position: absolute;
     right: 0.5rem; /* Adjust as needed */
@@ -81,6 +95,14 @@
 .card-body {
     position: relative;
 }
+
+.search-dropdown {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+}
+
 
 .btn-notify {
     position: absolute;
