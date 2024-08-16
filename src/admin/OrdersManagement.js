@@ -3,6 +3,7 @@ import { Table, Modal, Button, Container, Row, Col, Form, Card } from 'react-boo
 import { Trash } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import Spinner from "react-spinkit";
 import './OrdersManagement.css';  // Custom CSS
 
 const OrdersManagement = () => {
@@ -111,7 +112,11 @@ const OrdersManagement = () => {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="centered-loader">
+                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+            </div>
+        );
     }
 
     if (error) {

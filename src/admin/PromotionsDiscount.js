@@ -4,10 +4,12 @@ import { Trash, Pencil, PlusCircle } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import { Doughnut } from 'react-chartjs-2';
+import Spinner from "react-spinkit";
 import './PromotionsDiscount.css';  // Custom CSS
 
 const PromotionsDiscount = () => {
     const [promotions, setPromotions] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [activePromotion, setActivePromotion] = useState({
         id: null,
         title: '',
@@ -36,6 +38,9 @@ const PromotionsDiscount = () => {
         } catch (error) {
             console.error('Failed to fetch promotions:', error);
             setPromotions([]);
+        }
+        finally {
+            setLoading(false);
         }
     };
 
@@ -110,6 +115,14 @@ const PromotionsDiscount = () => {
             },
         },
     };
+
+    if (loading) {
+        return (
+            <div className="centered-loader">
+                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+            </div>
+        );
+    }
 
     return (
         <>

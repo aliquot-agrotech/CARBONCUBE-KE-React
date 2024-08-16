@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserShield, faKey } from '@fortawesome/free-solid-svg-icons';
+import Spinner from "react-spinkit";
 import './PurchasersManagement.css';  // Custom CSS
 
 const PurchasersManagement = () => {
@@ -97,9 +98,13 @@ const PurchasersManagement = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+        <div className="centered-loader">
+            <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+        </div>
+    );
   }
-
+  
   if (error) {
     return <div>{error}</div>;
   }

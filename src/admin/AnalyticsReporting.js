@@ -6,6 +6,7 @@ import SalesPerformance from './components/SalesPerformance';
 import TopSellingProducts from './components/TopSellingProducts';
 import CustomerInsights from './components/CustomerInsights';
 import CategoryAnalytics from './components/CategoryAnalytics'; // Ensure this is imported
+import Spinner from "react-spinkit";
 import './AnalyticsReporting.css';
 
 const AnalyticsReporting = () => {
@@ -30,7 +31,11 @@ const AnalyticsReporting = () => {
   }, []);
 
   if (loading) {
-    return <div className="loading-screen">Loading...</div>; // Update to use loading-screen class
+    return (
+        <div className="centered-loader">
+            <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+        </div>
+    );
   }
 
   if (!analyticsData) {

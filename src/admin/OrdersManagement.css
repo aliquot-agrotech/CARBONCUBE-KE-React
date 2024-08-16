@@ -47,6 +47,13 @@ body {
     background-color: #616161;
 }
 
+.centered-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    color: #ffc107;
+}
 
   .modal-body .card-header {
     background-color: #616161; /* Secondary variant */

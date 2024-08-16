@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
 import { Gear, Truck, GeoAlt } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import Spinner from "react-spinkit";
 import './Notifications.css';  // Custom CSS file
 import { createConsumer } from "@rails/actioncable";
 
@@ -121,7 +122,11 @@ const Notifications = () => {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="centered-loader">
+                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+            </div>
+        );
     }
 
     if (error) {

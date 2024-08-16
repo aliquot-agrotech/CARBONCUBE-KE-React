@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserShield, faKey, faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import Spinner from "react-spinkit";
 import './VendorsManagement.css';  // Custom CSS
 
 const VendorsManagement = () => {
@@ -160,7 +161,11 @@ const VendorsManagement = () => {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="centered-loader">
+                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+            </div>
+        );
     }
 
     if (error) {

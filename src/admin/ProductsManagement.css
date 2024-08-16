@@ -59,6 +59,13 @@
     font-size: 1.25rem;
 }
 
+.centered-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    color: #ffc107;
+}
 
 .search-container {
     position: relative;

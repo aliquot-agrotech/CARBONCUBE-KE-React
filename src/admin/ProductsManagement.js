@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faTrashRestore, faStar, faStarHalfAlt, faStar as faStarEmpty, faFilter } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import Spinner from "react-spinkit";
 import './ProductsManagement.css';
 
 const ProductsManagement = () => {
@@ -233,13 +234,8 @@ const ProductsManagement = () => {
 
     if (loading) {
         return (
-            <div className="loading-container">
-                <div className="dots-wrapper">
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                    <div className="dot"></div>
-                </div>
-                <p className="loading-text">Loading...</p>
+            <div className="centered-loader">
+                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
             </div>
         );
     }

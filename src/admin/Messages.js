@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faUser, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import Spinner from "react-spinkit";
 import './Messages.css'; // Custom CSS
 
 const Messages = () => {
@@ -11,6 +12,7 @@ const Messages = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -34,6 +36,8 @@ const Messages = () => {
         setConversations(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching conversations:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -56,6 +60,8 @@ const Messages = () => {
       }
     } catch (error) {
       console.error('Error fetching messages:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -110,6 +116,14 @@ const Messages = () => {
   
   
   if (!currentUser) return <div>Loading...</div>;
+
+  if (loading) {
+    return (
+        <div className="centered-loader">
+            <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+        </div>
+    );
+}
 
   return (
     <>
