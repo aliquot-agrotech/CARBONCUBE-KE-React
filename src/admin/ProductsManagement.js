@@ -412,54 +412,89 @@ const ProductsManagement = () => {
                                         </Carousel.Item>
                                     )}
                                 </Carousel>
-                                <div className="product-details mb-4 text-center">
-                                    <div className="product-detail-item">
-                                        <strong>Price:</strong> 
-                                        <p>
-                                            <em className='product-price-label'>Kshs: </em>
-                                            <strong>
-                                            {selectedProduct.price.split('.').map((part, index) => (
-                                                <React.Fragment key={index}>
-                                                    {index === 0 ? part : (
-                                                        <>
-                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                            <span className="price-decimal">{part}</span>
-                                                        </>
-                                                    )}
-                                                </React.Fragment>
-                                            ))}
-                                            </strong>
-                                        </p>
-                                    </div>
-                                    <div className="product-detail-item">
-                                        <strong>Vendor:</strong> 
-                                        <p>{selectedProduct.vendor?.fullname || 'Unknown'}</p>
-                                    </div>
-                                    <div className="product-detail-item">
-                                        <strong>Category:</strong> 
-                                        <p>{selectedProduct.category?.name || 'N/A'}</p>
-                                    </div>
-                                    <div className="product-detail-item">
-                                        <strong>Sold Out:</strong> 
-                                        <p>{selectedProduct.sold_out ? 'Yes' : 'No'}</p>
-                                    </div>
-                                    <div className="product-detail-item">
-                                        <strong>Quantity Sold:</strong> 
-                                        <p>{selectedProduct.quantity_sold || 0}</p>
-                                    </div>
-                                    <div className="product-detail-item">
-                                        <strong>Rating:</strong> 
-                                        <p>
-                                            <span className="star-rating">
-                                                {renderRatingStars(selectedProduct.mean_rating)}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="product-detail-item text-center">
-                                    <strong>Description:</strong> 
-                                    <p>{selectedProduct.description}</p>
-                                </div>
+                                <Container className="product-details mb-4">
+                                    <Row>
+                                        <Col xs={12} md={6}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Price</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    <em className='product-price-label'>Kshs: </em>
+                                                    <strong>
+                                                        {selectedProduct.price.split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? part : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </strong>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col xs={12} md={6}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Vendor</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    {selectedProduct.vendor?.fullname || 'Unknown'}
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col xs={12} md={6}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Category</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    {selectedProduct.category?.name || 'N/A'}
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col xs={12} md={6}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Sold Out</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    {selectedProduct.sold_out ? 'Yes' : 'No'}
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col xs={12} md={6}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Quantity Sold</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    {selectedProduct.quantity_sold || 0}
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col xs={12} md={6}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Rating</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    <span className="star-rating">
+                                                        {renderRatingStars(selectedProduct.mean_rating)}
+                                                    </span>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col xs={12}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Description</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    {selectedProduct.description}
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </Container>
                                 <h5 className="text-center" id="reviews">Reviews</h5>
                                     {selectedProduct && selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
                                     <div className="reviews-container text-center">
