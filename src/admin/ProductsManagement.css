@@ -96,7 +96,7 @@
 
   .dropdown-filter .dropdown-toggle {
     height: 40px;
-    width: 80px;
+    width: auto;
     justify-content: center;
   }
   

@@ -76,12 +76,15 @@ const ProductsManagement = () => {
         setSelectedCategory(category);
     };
 
+    const searchTerms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
+
     const filteredNonFlaggedProducts = nonFlaggedProducts
         .filter(product => selectedCategory === 'All' || product.category_id === selectedCategory)
-        .filter(product =>
-            product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.description.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        .filter(product => {
+            const titleMatches = searchTerms.every(term => product.title.toLowerCase().includes(term));
+            const descriptionMatches = searchTerms.every(term => product.description.toLowerCase().includes(term));
+            return titleMatches || descriptionMatches;
+        });
 
     const handleNotifyClick = (product) => {
         setSelectedProduct(product);
@@ -244,7 +247,6 @@ const ProductsManagement = () => {
     if (error) {
         return <div>{error}</div>;
     }
-
     return (
         <>
             <TopNavbar />
