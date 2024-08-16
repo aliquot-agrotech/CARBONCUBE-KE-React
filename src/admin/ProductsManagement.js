@@ -256,30 +256,40 @@ const ProductsManagement = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-0">
                             <Row className="justify-content-center">
-                                <Col xs={12} md={8} lg={6} className="mb-3 pt-3 ">
+                                <Col xs={12} md={8} lg={6} className="mb-3 pt-3">
                                     <div className="search-container d-flex align-items-center">
-                                        <FormControl
-                                            placeholder="Search products..."
-                                            aria-label="Search products"
-                                            aria-describedby="search-icon"
-                                            value={searchTerm}
-                                            onChange={handleSearchChange}
-                                            className="search-input"
-                                        />
-                                        <Dropdown className="dropdown-filter">
-                                        <Dropdown.Toggle variant="warning" id="dropdown-basic" className="filter-icon">
+                                    <FormControl
+                                        placeholder="Search products..."
+                                        aria-label="Search products"
+                                        aria-describedby="search-icon"
+                                        id="button"
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        className="search-input me-2"
+                                    />
+                                    <Dropdown className="dropdown-filter">
+                                        <Dropdown.Toggle
+                                        variant="secondary"
+                                        id="button"
+                                        className={`filter-toggle ${selectedCategory === 'All' ? 'filter-icon' : 'active-category'}`}
+                                        >
+                                        {selectedCategory === 'All' ? (
                                             <FontAwesomeIcon icon={faFilter} />
+                                        ) : (
+                                            categories.find(c => c.id === selectedCategory)?.name || 'Select Category'
+                                        )}
                                         </Dropdown.Toggle>
-
-                                            <Dropdown.Menu className="dropdown-menu">
-                                                <Dropdown.Item onClick={() => handleCategorySelect('All')}>All Categories</Dropdown.Item>
-                                                {categories.map(category => (
-                                                    <Dropdown.Item key={category.id} onClick={() => handleCategorySelect(category.id)}>
-                                                        {category.name}
-                                                    </Dropdown.Item>
-                                                ))}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
+                                        <Dropdown.Menu className="dropdown-menu">
+                                        <Dropdown.Item id="button" onClick={() => handleCategorySelect('All')}>
+                                            <FontAwesomeIcon icon={faFilter} /> All Categories
+                                        </Dropdown.Item>
+                                        {categories.map(category => (
+                                            <Dropdown.Item id="button" key={category.id} onClick={() => handleCategorySelect(category.id)}>
+                                            {category.name}
+                                            </Dropdown.Item>
+                                        ))}
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                     </div>
                                 </Col>
                             </Row>
