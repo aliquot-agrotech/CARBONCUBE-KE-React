@@ -11,11 +11,12 @@ const OrdersManagement = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch('http://localhost:3000/admin/orders', {
+                const response = await fetch(`http://localhost:3000/admin/orders?phone_number=${phoneNumber}`, {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
@@ -37,7 +38,7 @@ const OrdersManagement = () => {
         };
 
         fetchOrders();
-    }, []);
+    }, [phoneNumber]);
 
     const handleRowClick = async (orderId) => {
         try {
@@ -80,7 +81,6 @@ const OrdersManagement = () => {
             }
 
             const updatedOrder = await response.json();
-            console.log('Updated Order:', updatedOrder); // Debug log
             setOrders(prevOrders => 
                 prevOrders.map(order => 
                     (order.id === orderId ? updatedOrder : order)
@@ -128,23 +128,44 @@ const OrdersManagement = () => {
                             <Sidebar />
                         </Col>
                         <Col xs={12} md={10} className="p-4">
-                            {/* <h2 className="mb-4 text-center">Orders Management</h2> */}
                             <Card className="section">
                                 <Card.Header className="text-center justify-content-center">
                                     Orders
                                 </Card.Header>
-                                    <Card.Body className="p-0">
+                                <Card.Body>
+
+                                <Row className="justify-content-center">
+                                <Col xs={12} md={12} lg={12} className="mb-3 pt-3">
+                                    <div className="search-container d-flex justify-content-center">
+                                        <Form className="mb-3">
+                                            <Form.Group controlId="searchPhoneNumber">
+                                                {/* <Form.Label>Search by Purchaser Phone Number</Form.Label> */}
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Search Purchaser order by Phone Number"
+                                                    id="button"
+                                                    className='form-control'
+                                                    value={phoneNumber}
+                                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                                />
+                                            </Form.Group>
+                                        </Form>
+                                    </div>                                    
+                                </Col>
+                                </Row>
+                                
+                                    
                                     <Table hover className="orders-table text-center">
                                         <thead className="table-header">
                                             <tr>
-                                            <th>Order ID</th>
-                                            <th>Purchaser</th>
-                                            <th>Products</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th>Date Ordered</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+                                                <th>Order ID</th>
+                                                <th>Purchaser</th>
+                                                <th>Products</th>
+                                                <th>Quantity</th>
+                                                <th>Total</th>
+                                                <th>Date Ordered</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -216,12 +237,11 @@ const OrdersManagement = () => {
                                             )}
                                         </tbody>
                                         </Table>
-                                    </Card.Body>
-                                    <Card.Footer>
-                                    </Card.Footer>
+                                </Card.Body>
+                                <Card.Footer>
+                                </Card.Footer>
                             </Card>
                             
-
                             <Modal show={showModal} onHide={handleCloseModal} size="lg">
                                 <Modal.Header>
                                     <Modal.Title>Order Details</Modal.Title>
