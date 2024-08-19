@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Modal, Button, Container, Row, Col, Tabs, Tab, Card } from 'react-bootstrap';
+import { Table, Modal, Button, Container, Row, Col, Tabs, Tab, Card, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserShield, faKey, faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
@@ -13,21 +13,22 @@ const VendorsManagement = () => {
     const [vendors, setVendors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedTab, setSelectedTab] = useState('profile');
+    const [selectedTab, setSelectedTab] = useState('profile');    
+    const [searchQuery, setSearchQuery] = useState(''); // Add this line if not already present
 
     useEffect(() => {
         const fetchVendors = async () => {
             try {
-                const response = await fetch('http://localhost:3000/admin/vendors', {
+                const response = await fetch(`http://localhost:3000/admin/vendors?search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-    
+
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-    
+
                 const data = await response.json();
                 console.log('Fetched vendors:', data); // Add this line
                 data.sort((a, b) => a.id - b.id);
@@ -39,9 +40,10 @@ const VendorsManagement = () => {
                 setLoading(false);
             }
         };
-    
+
         fetchVendors();
-    }, []);
+    }, [searchQuery]); // Depend on searchQuery so it refetches when the query changes
+
 
     const handleRowClick = async (vendorId) => {
         try {
@@ -184,8 +186,31 @@ const VendorsManagement = () => {
                         <Col xs={12} md={10} className="p-0">
                             {/* <h2 className="mb-4 text-center">Vendors Management</h2> */}
                             <Card className="section">
-                                <Card.Header className="text-center justify-content-center p-2">
-                                    Vendors
+                            <Card.Header className="text-center">
+                                    <Container fluid>
+                                        <Row className="justify-content-between align-items-center">
+                                            <Col xs={12} md={4} className="text-center">
+                                                <h3 className="mb-0">Vendors</h3>
+                                            </Col>
+                                            <Col xs={12} md={8}>
+                                                <div className="search-container text-center">
+                                                    <Form>
+                                                    <Form.Group controlId="searchPhoneNumberOrID">
+                                                        <Form.Control
+                                                        type="text"
+                                                        placeholder="Search (Phone Number or ID)"
+                                                        className="form-control"
+                                                        id="button"
+                                                        value={searchQuery}
+                                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                                        />
+                                                    </Form.Group>
+                                                    </Form>
+                                                </div>
+                                            </Col>
+
+                                        </Row>
+                                    </Container>
                                 </Card.Header>
                                 <Card.Body className="p-2">
                                     <Table hover className="vendors-table text-center">
@@ -193,8 +218,8 @@ const VendorsManagement = () => {
                                             <tr>
                                                 <th>Vendor ID</th>
                                                 <th>Name</th>
+                                                <th>Contact</th>
                                                 <th>Email</th>
-                                                <th>Phone</th>
                                                 <th>Enterprise</th>
                                                 <th>Location</th>
                                                 <th>Status</th>
@@ -211,8 +236,8 @@ const VendorsManagement = () => {
                                                     >
                                                         <td>{vendor.id}</td>
                                                         <td>{vendor.fullname}</td>
-                                                        <td>{vendor.email}</td>
                                                         <td>{vendor.phone_number}</td>
+                                                        <td>{vendor.email}</td>
                                                         <td>{vendor.enterprise_name}</td>
                                                         <td>{vendor.location}</td>
                                                         <td>
