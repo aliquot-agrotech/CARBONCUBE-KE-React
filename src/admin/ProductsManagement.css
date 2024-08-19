@@ -139,6 +139,12 @@
     background-color: #ffc107;
     color: #000;
   }
+
+
+  .subcategory-item {
+    padding-left: 20px; /* Indent subcategories */
+    color: #6c757d; /* Lighter color for subcategories */
+}
   
 
 
