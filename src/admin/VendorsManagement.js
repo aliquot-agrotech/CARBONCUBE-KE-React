@@ -14,7 +14,7 @@ const VendorsManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedTab, setSelectedTab] = useState('profile');    
-    const [searchQuery, setSearchQuery] = useState(''); // Add this line if not already present
+    const [searchQuery, setSearchQuery] = useState(''); 
 
     useEffect(() => {
         const fetchVendors = async () => {
@@ -186,7 +186,7 @@ const VendorsManagement = () => {
                         <Col xs={12} md={10} className="p-0">
                             {/* <h2 className="mb-4 text-center">Vendors Management</h2> */}
                             <Card className="section">
-                            <Card.Header className="text-center">
+                                <Card.Header className="text-center">
                                     <Container fluid>
                                         <Row className="justify-content-between align-items-center">
                                             <Col xs={12} md={4} className="text-center">
@@ -208,7 +208,6 @@ const VendorsManagement = () => {
                                                     </Form>
                                                 </div>
                                             </Col>
-
                                         </Row>
                                     </Container>
                                 </Card.Header>
