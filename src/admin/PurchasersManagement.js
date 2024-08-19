@@ -178,7 +178,7 @@ const PurchasersManagement = () => {
               
 
               <Modal show={showModal} onHide={handleCloseModal} size="lg">
-                <Modal.Header>
+                <Modal.Header className="justify-content-center">
                   <Modal.Title>Purchaser Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -244,7 +244,7 @@ const PurchasersManagement = () => {
                                 <tr>
                                   <th>Order ID</th>
                                   <th>Order Date</th>
-                                  <th>Total Price</th>
+                                  <th>Total <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:)</em></th>
                                   <th>Status</th>
                                   <th>Details</th>
                                 </tr>
@@ -258,19 +258,22 @@ const PurchasersManagement = () => {
                                         <td>{order.id}</td>
                                         <td>{order.order_date}</td>
                                         <td className="price-container">
-                                            <em className='product-price-label'>Kshs: </em>
-                                            <strong>
-                                            {order.total_price.split('.').map((part, index) => (
+                                          <strong>
+                                            {order.total_price ? order.total_price.split('.').map((part, index) => (
                                                 <React.Fragment key={index}>
-                                                    {index === 0 ? part : (
+                                                    {index === 0 ? (
+                                                        <span className="price-integer">
+                                                            {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                        </span>
+                                                    ) : (
                                                         <>
-                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                            <span style={{ fontSize: '16x' }}>.</span>
                                                             <span className="price-decimal">{part}</span>
                                                         </>
                                                     )}
                                                 </React.Fragment>
-                                            ))}
-                                            </strong>
+                                            )) : 'N/A'}
+                                          </strong>
                                         </td>
 
                                         <td>{order.status}</td>
@@ -294,7 +297,7 @@ const PurchasersManagement = () => {
                                               <tr>
                                                 <th>Product Name</th>
                                                 <th>Quantity</th>
-                                                <th>Price</th>
+                                                <th>Price <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:)</em></th>
                                               </tr>
                                             </thead>
                                             <tbody>
@@ -303,11 +306,14 @@ const PurchasersManagement = () => {
                                                   <td>{item.product.title}</td>
                                                   <td>{item.quantity}</td>
                                                   <td className="price-container">
-                                                      <em className='product-price-label'>Kshs: </em>
-                                                      <strong>
-                                                      { (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
+                                                    <strong>
+                                                      {((item.product.price * item.quantity).toFixed(1)).split('.').map((part, index) => (
                                                           <React.Fragment key={index}>
-                                                              {index === 0 ? part : (
+                                                              {index === 0 ? (
+                                                                  <span className="price-integer">
+                                                                      {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                  </span>
+                                                              ) : (
                                                                   <>
                                                                       <span style={{ fontSize: '16px' }}>.</span>
                                                                       <span className="price-decimal">{part}</span>
@@ -315,7 +321,8 @@ const PurchasersManagement = () => {
                                                               )}
                                                           </React.Fragment>
                                                       ))}
-                                                      </strong>
+                                                    </strong>
+
                                                   </td>
 
                                                 </tr>

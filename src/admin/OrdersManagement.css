@@ -68,9 +68,21 @@ body {
     border-spacing: 0 0px;
 }
 
-.search-container .form-control {
-    width: 100%;
+.search-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
 }
+
+.search-container .form-control {
+    width: 100%; /* Adjusts the width to 70% */
+    display: block; /* Ensures the form control takes the specified width */
+}
+
+.form-control::placeholder {
+    font-style: italic;
+}
+
 
 /* Ensure vertical alignment of table content */
 .orders-table td, 

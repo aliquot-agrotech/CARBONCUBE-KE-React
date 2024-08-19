@@ -305,17 +305,23 @@ const ProductsManagement = () => {
                                                     <Card.Text className="price-container">
                                                         <em className='product-price-label'>Kshs: </em>
                                                         <strong>
-                                                        {product.price.split('.').map((part, index) => (
-                                                            <React.Fragment key={index}>
-                                                                {index === 0 ? part : (
-                                                                    <>
-                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                        <span className="price-decimal">{part}</span>
-                                                                    </>
-                                                                )}
-                                                            </React.Fragment>
-                                                        ))}
+                                                            {product.price ? product.price.split('.').map((part, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    {index === 0 ? (
+                                                                        <span className="price-integer">
+                                                                            {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                        </span>
+                                                                    ) : (
+                                                                        <>
+                                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                                            <span className="price-decimal">{part}</span>
+                                                                        </>
+                                                                    )}
+                                                                </React.Fragment>
+                                                            )) : 'N/A'}
                                                         </strong>
+
+                                                        
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)}>
                                                         View Details

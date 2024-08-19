@@ -12,21 +12,22 @@ const OrdersManagement = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/admin/orders?phone_number=${phoneNumber}`, {
+                const response = await fetch(`http://localhost:3000/admin/orders?search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-
+    
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-
+    
                 const data = await response.json();
                 data.sort((a, b) => a.id - b.id);
                 setOrders(data);
@@ -37,9 +38,10 @@ const OrdersManagement = () => {
                 setLoading(false);
             }
         };
-
+    
         fetchOrders();
-    }, [phoneNumber]);
+    }, [searchQuery]);
+    
 
     const handleRowClick = async (orderId) => {
         try {
@@ -134,29 +136,38 @@ const OrdersManagement = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-4">
                             <Card className="section">
-                                <Card.Header className="text-center justify-content-center">
-                                    Orders
+                                <Card.Header className="text-center">
+                                    <Container fluid>
+                                        <Row className="justify-content-between align-items-center">
+                                            <Col xs={12} md={4} className="text-center">
+                                                <h3 className="mb-0">Orders</h3>
+                                            </Col>
+                                            <Col xs={12} md={8}>
+                                                <div className="search-container text-center">
+                                                    <Form>
+                                                    <Form.Group controlId="searchPhoneNumberOrID">
+                                                        <Form.Control
+                                                        type="text"
+                                                        placeholder="Search (Phone Number or ID)"
+                                                        className="form-control"
+                                                        id="button"
+                                                        value={searchQuery}
+                                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                                        />
+                                                    </Form.Group>
+                                                    </Form>
+                                                </div>
+                                            </Col>
+
+                                        </Row>
+                                    </Container>
                                 </Card.Header>
+
+
                                 <Card.Body>
 
                                 <Row className="justify-content-center">
-                                <Col xs={12} md={12} lg={12} className="mb-3 pt-3">
-                                    <div className="search-container d-flex justify-content-center">
-                                        <Form className="mb-3">
-                                            <Form.Group controlId="searchPhoneNumber">
-                                                {/* <Form.Label>Search by Purchaser Phone Number</Form.Label> */}
-                                                <Form.Control
-                                                    type="text"
-                                                    placeholder="Search Purchaser order by Phone Number"
-                                                    id="button"
-                                                    className='form-control'
-                                                    value={phoneNumber}
-                                                    onChange={(e) => setPhoneNumber(e.target.value)}
-                                                />
-                                            </Form.Group>
-                                        </Form>
-                                    </div>                                    
-                                </Col>
+                                
                                 </Row>
                                 
                                     
@@ -167,7 +178,7 @@ const OrdersManagement = () => {
                                                 <th>Purchaser</th>
                                                 <th>Products</th>
                                                 <th>Quantity</th>
-                                                <th>Total</th>
+                                                <th>Total<em className="product-price-label">Kshs: </em></th>
                                                 <th>Date Ordered</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -189,20 +200,21 @@ const OrdersManagement = () => {
                                                 <td>{order.order_items.map(item => item.product?.title || 'Unknown').join(', ')}</td>
                                                 <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
                                                 <td className="price-container">
-                                                    <em className="product-price-label">Kshs: </em>
                                                     <strong>
-                                                    {order.total_price ? order.total_price.split('.').map((part, index) => (
-                                                        <React.Fragment key={index}>
-                                                            {index === 0 ? (
-                                                                <span className="price-integer">{part}</span>
-                                                            ) : (
-                                                                <>
-                                                                    <span style={{ fontSize: '16px' }}>.</span>
-                                                                    <span className="price-decimal">{part}</span>
-                                                                </>
-                                                            )}
-                                                        </React.Fragment>
-                                                    )) : 'N/A'}
+                                                        {order.total_price ? order.total_price.split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()} {/* Format the integer part with commas */}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        )) : 'N/A'}
                                                     </strong>
                                                 </td>
                                                 <td>{order.order_date || 'N/A'}</td>
@@ -248,7 +260,7 @@ const OrdersManagement = () => {
                             </Card>
                             
                             <Modal show={showModal} onHide={handleCloseModal} size="lg">
-                                <Modal.Header>
+                                <Modal.Header className="justify-content-center">
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
