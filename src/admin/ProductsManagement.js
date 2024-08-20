@@ -52,17 +52,13 @@ const ProductsManagement = () => {
               'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
           });
-      
+    
           if (!response.ok) {
             throw new Error(`Network response was not ok. Status: ${response.status}`);
           }
-      
+    
           const data = await response.json();
-          const categories = data.map(item => ({
-            ...item,
-            subcategories: item.subcategories || [] // Ensure subcategories are included
-          }));
-          setCategories(categories);
+          setCategories(data || []);
         } catch (error) {
           console.error('Error fetching categories:', error);
         }
@@ -289,16 +285,18 @@ const ProductsManagement = () => {
                                                 <FontAwesomeIcon icon={faFilter} /> All Categories
                                                 </Dropdown.Item>
                                                 {categories.map(category => (
-                                                <React.Fragment key={category.id}>
-                                                    <Dropdown.Item id="button" onClick={() => handleCategorySelect(category.id)}>
+                                                <Dropdown.Item id="button" key={category.id} onClick={() => handleCategorySelect(category.id)}>
                                                     {category.name}
-                                                    </Dropdown.Item>
-                                                    {selectedCategory === category.id && category.subcategories.map(subcategory => (
-                                                    <Dropdown.Item id="button" key={subcategory.id} className="subcategory-item">
-                                                        — {subcategory.name}
-                                                    </Dropdown.Item>
-                                                    ))}
-                                                </React.Fragment>
+                                                    {category.subcategories.length > 0 && (
+                                                    <div className="dropdown-submenu">
+                                                        {category.subcategories.map(subcategory => (
+                                                        <Dropdown.Item id="button" key={subcategory.id} className="subcategory-item">
+                                                            * {subcategory.name}
+                                                        </Dropdown.Item>
+                                                        ))}
+                                                    </div>
+                                                    )}
+                                                </Dropdown.Item>
                                                 ))}
                                             </Dropdown.Menu>
                                         </Dropdown>
