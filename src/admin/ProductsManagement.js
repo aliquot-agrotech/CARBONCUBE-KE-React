@@ -303,13 +303,14 @@ const ProductsManagement = () => {
                                                 <FontAwesomeIcon icon={faFilter} /> All Categories
                                                 </Dropdown.Item>
                                                 {categories.map(category => (
-                                                <Dropdown.Item key={category.id} onClick={() => { handleCategorySelect(category.id); setSelectedSubcategory('All'); }}>
+                                                <Dropdown.Item key={category.id} id="button" onClick={() => { handleCategorySelect(category.id); setSelectedSubcategory('All'); }}>
                                                     {category.name}
                                                     {category.subcategories.length > 0 && (
                                                         <div className="dropdown-submenu">
                                                             {category.subcategories.map(subcategory => (
                                                                 <Dropdown.Item 
-                                                                    key={subcategory.id} 
+                                                                    key={subcategory.id}
+                                                                    id="button"
                                                                     onClick={(e) => {
                                                                         e.stopPropagation();
                                                                         handleSubcategorySelect(subcategory.id);
