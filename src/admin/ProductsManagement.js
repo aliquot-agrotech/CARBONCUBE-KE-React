@@ -266,8 +266,8 @@ const ProductsManagement = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-0">
-                            <Row className="justify-content-center">
+                        <Col xs={12} md={10} className="p-2">
+                            <Row className="justify-content-center d-flex">
                                 <Col xs={12} md={8} lg={6} className="mb-3 pt-3">
                                     <div className="search-container d-flex align-items-center">
                                         <FormControl
