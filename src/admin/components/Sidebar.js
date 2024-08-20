@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Nav, Button } from 'react-bootstrap';
 import { House, Box, Truck, Person, FileText, Percent, Envelope, Bell, GraphUp, XCircle, ArrowRight, List } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
@@ -6,47 +6,11 @@ import './Sidebar.css';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [notificationCount, setNotificationCount] = useState(0);
-  const [animateNotification, setAnimateNotification] = useState(false);
   const location = useLocation(); // Get the current URL path
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
-  const fetchNotifications = async () => {
-    try {
-      const token = localStorage.getItem('authToken');
-      if (!token) throw new Error('No token found');
-
-      const response = await fetch('http://localhost:3000/admin/notifications', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) throw new Error('Network response was not ok');
-
-      const data = await response.json();
-      setNotificationCount(data.length);
-
-      if (data.length > 0) {
-        setAnimateNotification(true);
-        setTimeout(() => setAnimateNotification(false), 500); // Duration of the animation
-      }
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchNotifications();
-    const intervalId = setInterval(fetchNotifications, 5000); // Fetch notifications every 5 seconds
-
-    return () => clearInterval(intervalId); // Clean up the interval on component unmount
-  }, []);
 
   return (
     <>
@@ -111,8 +75,8 @@ const Sidebar = () => {
           </Nav.Link>
           <Nav.Link
             href="/admin/notifications"
-            className={`notification-link ${location.pathname === '/admin/notifications' ? 'active' : ''} ${animateNotification ? 'animate' : ''}`}>
-            <Bell className="icon" /> {isOpen && `Notifications (${notificationCount})`}
+            className={location.pathname === '/admin/notifications' ? 'active' : ''}>
+            <Bell className="icon" /> {isOpen && 'Notifications'}
           </Nav.Link>
         </Nav>
       </div>
