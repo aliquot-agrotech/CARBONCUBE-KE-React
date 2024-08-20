@@ -97,7 +97,9 @@ const ProductsManagement = () => {
         const titleMatches = searchTerms.every(term => product.title.toLowerCase().includes(term));
         const descriptionMatches = searchTerms.every(term => product.description.toLowerCase().includes(term));
         return titleMatches || descriptionMatches;
-    });
+    })
+    .sort((a, b) => a.price - b.price); // Sort by price in ascending order
+
 
     const handleNotifyClick = (product) => {
         setSelectedProduct(product);
