@@ -12,6 +12,7 @@ const ProductsManagement = () => {
     const [nonFlaggedProducts, setNonFlaggedProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [selectedSubcategory, setSelectedSubcategory] = useState('All');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -47,22 +48,23 @@ const ProductsManagement = () => {
 
     const fetchCategories = async () => {
         try {
-          const response = await fetch('http://localhost:3000/admin/categories', {
-            headers: {
-              'Authorization': 'Bearer ' + localStorage.getItem('token'),
-            },
-          });
+            const response = await fetch('http://localhost:3000/admin/categories', {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
     
-          if (!response.ok) {
-            throw new Error(`Network response was not ok. Status: ${response.status}`);
-          }
+            if (!response.ok) {
+                throw new Error(`Network response was not ok. Status: ${response.status}`);
+            }
     
-          const data = await response.json();
-          setCategories(data || []);
+            const data = await response.json();
+            // Assuming subcategories are included with categories in the response
+            setCategories(data || []);
         } catch (error) {
-          console.error('Error fetching categories:', error);
+            console.error('Error fetching categories:', error);
         }
-      };
+    };
       
     
     
@@ -78,17 +80,24 @@ const ProductsManagement = () => {
 
     const handleCategorySelect = (categoryId) => {
         setSelectedCategory(categoryId);
-      };
+        setSelectedSubcategory('All');
+    };
+
+    const handleSubcategorySelect = (subcategoryId) => {
+        setSelectedSubcategory(subcategoryId);
+    };
+    
 
     const searchTerms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
 
     const filteredNonFlaggedProducts = nonFlaggedProducts
-        .filter(product => selectedCategory === 'All' || product.category_id === selectedCategory)
-        .filter(product => {
-            const titleMatches = searchTerms.every(term => product.title.toLowerCase().includes(term));
-            const descriptionMatches = searchTerms.every(term => product.description.toLowerCase().includes(term));
-            return titleMatches || descriptionMatches;
-        });
+    .filter(product => selectedCategory === 'All' || product.category_id === selectedCategory)
+    .filter(product => selectedSubcategory === 'All' || product.subcategory_id === selectedSubcategory)
+    .filter(product => {
+        const titleMatches = searchTerms.every(term => product.title.toLowerCase().includes(term));
+        const descriptionMatches = searchTerms.every(term => product.description.toLowerCase().includes(term));
+        return titleMatches || descriptionMatches;
+    });
 
     const handleNotifyClick = (product) => {
         setSelectedProduct(product);
@@ -272,12 +281,19 @@ const ProductsManagement = () => {
                                             <Dropdown.Toggle
                                                 variant="secondary"
                                                 id="button"
-                                                className={`filter-toggle ${selectedCategory === 'All' ? 'filter-icon' : 'active-category'}`}
+                                                className={`filter-toggle ${selectedCategory === 'All' && selectedSubcategory === 'All' ? 'filter-icon' : 'active-category'}`}
                                             >
-                                                {selectedCategory === 'All' ? (
-                                                <FontAwesomeIcon icon={faFilter} />
+                                                {selectedCategory === 'All' && selectedSubcategory === 'All' ? (
+                                                    <FontAwesomeIcon icon={faFilter} />
                                                 ) : (
-                                                categories.find(c => c.id === selectedCategory)?.name || 'Select Category'
+                                                    <>
+                                                        {categories.find(c => c.id === selectedCategory)?.name || 'Select Category'}
+                                                        {selectedSubcategory !== 'All' && (
+                                                            ` > ${categories
+                                                                .find(c => c.id === selectedCategory)
+                                                                ?.subcategories.find(sc => sc.id === selectedSubcategory)?.name}`
+                                                        )}
+                                                    </>
                                                 )}
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu className="dropdown-menu">
@@ -285,16 +301,22 @@ const ProductsManagement = () => {
                                                 <FontAwesomeIcon icon={faFilter} /> All Categories
                                                 </Dropdown.Item>
                                                 {categories.map(category => (
-                                                <Dropdown.Item id="button" key={category.id} onClick={() => handleCategorySelect(category.id)}>
+                                                <Dropdown.Item key={category.id} onClick={() => { handleCategorySelect(category.id); setSelectedSubcategory('All'); }}>
                                                     {category.name}
                                                     {category.subcategories.length > 0 && (
-                                                    <div className="dropdown-submenu">
-                                                        {category.subcategories.map(subcategory => (
-                                                        <Dropdown.Item id="button" key={subcategory.id} className="subcategory-item">
-                                                            * {subcategory.name}
-                                                        </Dropdown.Item>
-                                                        ))}
-                                                    </div>
+                                                        <div className="dropdown-submenu">
+                                                            {category.subcategories.map(subcategory => (
+                                                                <Dropdown.Item 
+                                                                    key={subcategory.id} 
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleSubcategorySelect(subcategory.id);
+                                                                    }}
+                                                                >
+                                                                    * {subcategory.name}
+                                                                </Dropdown.Item>
+                                                            ))}
+                                                        </div>
                                                     )}
                                                 </Dropdown.Item>
                                                 ))}
