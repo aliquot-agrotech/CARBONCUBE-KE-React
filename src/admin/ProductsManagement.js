@@ -11,7 +11,6 @@ const ProductsManagement = () => {
     const [flaggedProducts, setFlaggedProducts] = useState([]);
     const [nonFlaggedProducts, setNonFlaggedProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [subcategories, setSubcategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -48,23 +47,27 @@ const ProductsManagement = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch('http://localhost:3000/admin/categories', {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Network response was not ok. Status: ${response.status}`);
-            }
-    
-            const data = await response.json();
-            setCategories(data.categories || []); // Ensure categories is always an array
-            setSubcategories(data.subcategories || []); // Ensure subcategories is always an array
+          const response = await fetch('http://localhost:3000/admin/categories', {
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            },
+          });
+      
+          if (!response.ok) {
+            throw new Error(`Network response was not ok. Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          const categories = data.map(item => ({
+            ...item,
+            subcategories: item.subcategories || [] // Ensure subcategories are included
+          }));
+          setCategories(categories);
         } catch (error) {
-            console.error('Error fetching categories:', error);
+          console.error('Error fetching categories:', error);
         }
-    };
+      };
+      
     
     
 
@@ -79,7 +82,7 @@ const ProductsManagement = () => {
 
     const handleCategorySelect = (categoryId) => {
         setSelectedCategory(categoryId);
-    };
+      };
 
     const searchTerms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
 
@@ -260,45 +263,45 @@ const ProductsManagement = () => {
                             <Row className="justify-content-center">
                                 <Col xs={12} md={8} lg={6} className="mb-3 pt-3">
                                     <div className="search-container d-flex align-items-center">
-                                    <FormControl
-                                        placeholder="Search products..."
-                                        aria-label="Search products"
-                                        aria-describedby="search-icon"
-                                        id="button"
-                                        value={searchTerm}
-                                        onChange={handleSearchChange}
-                                        className="search-input me-2"
-                                    />
-                                    <Dropdown className="dropdown-filter">
-                                        <Dropdown.Toggle
-                                            variant="secondary"
+                                        <FormControl
+                                            placeholder="Search products..."
+                                            aria-label="Search products"
+                                            aria-describedby="search-icon"
                                             id="button"
-                                            className={`filter-toggle ${selectedCategory === 'All' ? 'filter-icon' : 'active-category'}`}
-                                        >
-                                            {selectedCategory === 'All' ? (
+                                            value={searchTerm}
+                                            onChange={handleSearchChange}
+                                            className="search-input me-2"
+                                        />
+                                        <Dropdown className="dropdown-filter">
+                                            <Dropdown.Toggle
+                                                variant="secondary"
+                                                id="button"
+                                                className={`filter-toggle ${selectedCategory === 'All' ? 'filter-icon' : 'active-category'}`}
+                                            >
+                                                {selectedCategory === 'All' ? (
                                                 <FontAwesomeIcon icon={faFilter} />
-                                            ) : (
+                                                ) : (
                                                 categories.find(c => c.id === selectedCategory)?.name || 'Select Category'
-                                            )}
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu className="dropdown-menu">
-                                            <Dropdown.Item id="button" onClick={() => handleCategorySelect('All')}>
+                                                )}
+                                            </Dropdown.Toggle>
+                                            <Dropdown.Menu className="dropdown-menu">
+                                                <Dropdown.Item id="button" onClick={() => handleCategorySelect('All')}>
                                                 <FontAwesomeIcon icon={faFilter} /> All Categories
-                                            </Dropdown.Item>
-                                            {categories.map(category => (
+                                                </Dropdown.Item>
+                                                {categories.map(category => (
                                                 <React.Fragment key={category.id}>
                                                     <Dropdown.Item id="button" onClick={() => handleCategorySelect(category.id)}>
-                                                        {category.name}
+                                                    {category.name}
                                                     </Dropdown.Item>
-                                                    {selectedCategory === category.id && subcategories.filter(sub => sub.categoryId === category.id).map(subcategory => (
-                                                        <Dropdown.Item id="button" key={subcategory.id} className="subcategory-item">
-                                                            — {subcategory.name}
-                                                        </Dropdown.Item>
+                                                    {selectedCategory === category.id && category.subcategories.map(subcategory => (
+                                                    <Dropdown.Item id="button" key={subcategory.id} className="subcategory-item">
+                                                        — {subcategory.name}
+                                                    </Dropdown.Item>
                                                     ))}
                                                 </React.Fragment>
-                                            ))}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                                ))}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
                                     </div>
                                 </Col>
                             </Row>
