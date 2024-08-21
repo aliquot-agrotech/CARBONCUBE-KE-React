@@ -76,10 +76,19 @@ const CategoriesManagement = () => {
             const savedCategory = await categoryResponse.json();
     
             // Handle subcategories
+            const existingSubcategories = categories.find(cat => cat.id === savedCategory.id)?.subcategories || [];
+    
+            // Extract IDs of existing subcategories
+            const savedSubcategoryIds = new Set(existingSubcategories.map(sub => sub.id));
+            console.log('Saved Subcategory IDs:', Array.from(savedSubcategoryIds));
+    
+            // Record IDs of new subcategories
+            const newSubcategoryIds = new Set(newCategory.subcategories.filter(sub => sub.id).map(sub => sub.id));
+            console.log('New Subcategory IDs:', Array.from(newSubcategoryIds));
+    
+            // Save or update subcategories
             for (const subcategory of newCategory.subcategories) {
-                const existingSubcategory = categories
-                    .find(cat => cat.id === savedCategory.id)
-                    ?.subcategories.find(sub => sub.name === subcategory.name);
+                const existingSubcategory = existingSubcategories.find(sub => sub.name === subcategory.name);
     
                 if (subcategory.name && !existingSubcategory) {
                     const subcategoryMethod = subcategory.id ? 'PUT' : 'POST';
@@ -104,8 +113,28 @@ const CategoriesManagement = () => {
                         throw new Error(`Failed to save subcategory: ${subcategoryResponse.status} - ${errorText}`);
                     }
                 } else if (existingSubcategory && !subcategory.id) {
-                    // Optionally handle if subcategory already exists but no id is assigned
                     console.log(`Subcategory ${subcategory.name} already exists.`);
+                }
+            }
+    
+            // Handle deletions
+            const subcategoriesToDelete = Array.from(savedSubcategoryIds).filter(id => !newSubcategoryIds.has(id));
+            console.log('Subcategories to Delete:', subcategoriesToDelete);
+    
+            for (const subcategoryId of subcategoriesToDelete) {
+                const subcategoryUrl = `http://localhost:3000/admin/subcategories/${subcategoryId}`;
+    
+                const deleteResponse = await fetch(subcategoryUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Content-Type': 'application/json',
+                    },
+                });
+    
+                if (!deleteResponse.ok) {
+                    const errorText = await deleteResponse.text();
+                    throw new Error(`Failed to delete subcategory: ${deleteResponse.status} - ${errorText}`);
                 }
             }
     
@@ -142,9 +171,6 @@ const CategoriesManagement = () => {
     };
     
     
-    
-    
-
     const handleAddSubcategory = () => {
         setNewCategory({ ...newCategory, subcategories: [...newCategory.subcategories, { name: '' }] });
     };
