@@ -224,7 +224,7 @@ const PromotionsDiscount = () => {
             </div>
 
             <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header>
+                <Modal.Header className="justify-content-center">
                     <Modal.Title>{activePromotion.id ? 'Edit Promotion' : 'Create New Promotion'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -290,10 +290,10 @@ const PromotionsDiscount = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
+                    <Button variant="danger" onClick={handleCloseModal}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleSave}>
+                    <Button variant="warning" onClick={handleSave}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
