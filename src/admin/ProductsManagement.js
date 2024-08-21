@@ -270,16 +270,8 @@ const ProductsManagement = () => {
                             <Row className="justify-content-center d-flex">
                                 <Col xs={12} md={8} lg={6} className="mb-3 pt-3">
                                     <div className="search-container d-flex align-items-center">
-                                        <FormControl
-                                            placeholder="Search products..."
-                                            aria-label="Search products"
-                                            aria-describedby="search-icon"
-                                            id="button"
-                                            value={searchTerm}
-                                            onChange={handleSearchChange}
-                                            className="search-input me-2"
-                                        />
-                                        <Dropdown className="dropdown-filter">
+                                        
+                                        <Dropdown className="dropdown-filter me-2">
                                             <Dropdown.Toggle
                                                 variant="secondary"
                                                 id="button"
@@ -325,6 +317,15 @@ const ProductsManagement = () => {
                                                 ))}
                                             </Dropdown.Menu>
                                         </Dropdown>
+                                        <FormControl
+                                            placeholder="Search products..."
+                                            aria-label="Search products"
+                                            aria-describedby="search-icon"
+                                            id="button"
+                                            value={searchTerm}
+                                            onChange={handleSearchChange}
+                                            className="search-input"
+                                        />
                                     </div>
                                 </Col>
                             </Row>
