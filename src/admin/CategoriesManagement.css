@@ -1,41 +1,49 @@
 /* General container and card styling */
 .categories-management-page {
-    background-color: #f8f9fa; /* Light background color for the page */
-    min-height: 100vh;
-}
-
-.section {
-    background-color: #ffffff; /* White background for cards */
-    border-radius: 8px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-bottom: 20px;
+    background-color: #e0e0e0; /* Light background color for the page */
+    min-height: 100vh; /* Ensure the background color covers the full height */
+    padding: 0 1rem; /* Optional: Adjust padding as needed */
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
 }
 
 .category-card {
     background-color: #fdfdfd; /* Slightly off-white background for list items */
     border: 1px solid #e0e0e0; /* Light grey border for cards */
     border-radius: 8px;
-    margin: 10px 0;
-    padding: 15px;
+    margin: 10px;
     transition: transform 0.3s ease-in-out;
 }
 
 .category-card:hover {
-    transform: scale(1.02); /* Slight zoom on hover */
+    transform: scale(1.05); /* Slight zoom on hover */
 }
 
 /* Card header and footer */
-.card-header,
-.card-footer {
-    background-color: #343a40; /* Dark background */
+.categories-management-page .card-header {
+    background-color: #616161; /* Dark background */
     color: #ffffff; /* White text */
     border-radius: 8px;
 }
 
-.card-header h3,
+
+.categories-management-page .card-footer {
+    background-color: #616161; /* Dark background */
+    color: #ffffff; /* White text */
+    border-radius: 8px;
+}
+
+.custom-card2 {
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+    color:#000000;
+}
+
+.custom-card2:hover {
+    background: linear-gradient(135deg, #5f9ebb, #9fffd9);
+}
 .card-footer button {
-    color: #ffffff;
+    color: #000000;
     font-weight: 600;
 }
 
@@ -83,7 +91,7 @@ button.ml-2 {
 }
 
 .modal-body {
-    padding: 30px;
+    padding: 10px 20px 20px 20px;
 }
 
 .modal-footer button {
