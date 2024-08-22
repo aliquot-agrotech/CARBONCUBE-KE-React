@@ -1,9 +1,10 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import './CustomerInsights.css'; // Import the CSS file
 
 const CustomerInsights = ({ data }) => {
   return (
-    <Table striped bordered hover className='text-center'>
+    <Table striped bordered hover className='text-center transparent-table'>
       <thead>
         <tr>
           <th>#</th>
