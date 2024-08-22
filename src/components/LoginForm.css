@@ -2,8 +2,9 @@
     background: url('./assets/LoginFormbg.jpg') no-repeat center center fixed;
     background-size: cover;
     font-family: "Fira Sans Extra Condensed", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-weight: 400;
+    font-style: normal;
+    min-height: 100vh;
   }
   
   .login-box {

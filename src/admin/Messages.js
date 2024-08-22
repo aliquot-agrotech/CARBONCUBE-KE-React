@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faUser, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
@@ -12,8 +12,10 @@ const Messages = () => {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loadingConversations, setLoadingConversations] = useState(true);
+  const [loadingMessages, setLoadingMessages] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -37,7 +39,7 @@ const Messages = () => {
       } catch (error) {
         console.error('Error fetching conversations:', error);
       } finally {
-        setLoading(false);
+        setLoadingConversations(false);
       }
     };
 
@@ -45,6 +47,7 @@ const Messages = () => {
   }, []);
 
   const fetchMessages = async (conversationId) => {
+    setLoadingMessages(true); // Set loading state for messages
     try {
       const response = await fetch(`http://localhost:3000/admin/conversations/${conversationId}/messages`, {
         headers: {
@@ -53,21 +56,27 @@ const Messages = () => {
       });
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      if (Array.isArray(data)) {
-        setMessages(data);
-      } else {
-        console.error('Messages data is not an array:', data);
-      }
+
+      // Sort messages by created_at (oldest to newest)
+      const sortedMessages = Array.isArray(data) ? data.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) : [];
+      setMessages(sortedMessages);
     } catch (error) {
       console.error('Error fetching messages:', error);
     } finally {
-      setLoading(false);
+      setLoadingMessages(false); // Reset loading state for messages
     }
   };
 
+  useEffect(() => {
+    // Scroll to bottom when messages change or when a new message is sent
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
   const handleConversationClick = (conversation) => {
     setSelectedConversation(conversation);
-    fetchMessages(conversation.id);
+    fetchMessages(conversation.id); // Fetch messages for the selected conversation
   };
 
   const handleSendMessage = async (e) => {
@@ -87,10 +96,18 @@ const Messages = () => {
           sender_type: currentUser.type,
         }),
       });
+  
       if (!response.ok) throw new Error('Network response was not ok');
       const message = await response.json();
   
-      // Move the conversation to the top of the list with animation
+      // Update the messages state with the newly created message
+      setMessages(prevMessages => {
+        // Add the new message and sort the messages
+        const updatedMessages = [...prevMessages, message].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        return updatedMessages;
+      });
+  
+      // Optionally, move the conversation to the top of the list
       const updatedConversation = { ...selectedConversation, messages: [...messages, message], pullOver: true };
       const updatedConversations = conversations
         .filter(convo => convo.id !== selectedConversation.id)
@@ -114,16 +131,8 @@ const Messages = () => {
     }
   };
   
-  
-  if (!currentUser) return <div>Loading...</div>;
 
-  if (loading) {
-    return (
-        <div className="centered-loader">
-            <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
-        </div>
-    );
-}
+  if (!currentUser) return <div>Loading...</div>;
 
   return (
     <>
@@ -137,37 +146,43 @@ const Messages = () => {
             <Col xs={12} md={10} className="p-2">
               <Row>
                 <Col xs={12} md={2}>
-                <Card className="conversations-list">
-                  <Card.Header className="conversations-header text-center justify-content-center">
-                    <strong>Conversations</strong>
-                  </Card.Header>
-                  <Card.Body className="p-2 conversations-scroll">
-                    {conversations
-                      .sort((a, b) => {
-                        const lastMessageA = a.messages[a.messages.length - 1];
-                        const lastMessageB = b.messages[b.messages.length - 1];
-                        return new Date(lastMessageB.created_at) - new Date(lastMessageA.created_at);
-                      })
-                      .map((conversation, index) => {
-                        const participant = conversation.purchaser || conversation.vendor;
-                        const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
+                  <Card className="conversations-list">
+                    <Card.Header className="conversations-header text-center justify-content-center">
+                      <strong>Conversations</strong>
+                    </Card.Header>
+                    <Card.Body className="p-2 conversations-scroll">
+                      {loadingConversations ? (
+                        <div className="centered-loader">
+                          <Spinner variant="warning" name="cube-grid" style={{ width: 50, height: 50 }} />
+                        </div>
+                      ) : (
+                        conversations
+                          .sort((a, b) => {
+                            const lastMessageA = a.messages[a.messages.length - 1];
+                            const lastMessageB = b.messages[b.messages.length - 1];
+                            return new Date(lastMessageB.created_at) - new Date(lastMessageA.created_at);
+                          })
+                          .map((conversation) => {
+                            const participant = conversation.purchaser || conversation.vendor;
+                            const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
 
-                        const pullOverClass = conversation.pullOver ? 'conversation-pull-over' : '';
+                            const pullOverClass = conversation.pullOver ? 'conversation-pull-over' : '';
 
-                        return (
-                          <Card
-                            key={conversation.id}
-                            className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''} ${pullOverClass}`}
-                            onClick={() => handleConversationClick(conversation)}
-                          >
-                            <Card.Body className="text-center">
-                              <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
-                            </Card.Body>
-                          </Card>
-                        );
-                      })}
-                  </Card.Body>
-                </Card>
+                            return (
+                              <Card
+                                key={conversation.id}
+                                className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''} ${pullOverClass}`}
+                                onClick={() => handleConversationClick(conversation)}
+                              >
+                                <Card.Body className="text-center">
+                                  <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
+                                </Card.Body>
+                              </Card>
+                            );
+                          })
+                      )}
+                    </Card.Body>
+                  </Card>
                 </Col>
                 <Col xs={12} md={10} className="messages-list">
                   {selectedConversation ? (
@@ -176,17 +191,26 @@ const Messages = () => {
                         <FontAwesomeIcon className="me-3" icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
                       </Card.Header>
                       <Card.Body className="messages-scroll">
-                        {messages.map((message) => {
-                          const isSent = message.sender_type === 'Admin';
-                          return (
-                            <div key={message.id} className={`message ${isSent ? 'sent' : 'received'}`}>
-                              <p>{message.content}</p>
-                              <span className="message-timestamp">
-                                {new Date(message.created_at).toLocaleTimeString()}
-                              </span>
-                            </div>
-                          );
-                        })}
+                        {loadingMessages ? (
+                          <div className="centered-loader">
+                            <Spinner variant="warning" name="cube-grid" style={{ width: 50, height: 50 }} />
+                          </div>
+                        ) : (
+                          <>
+                            {messages.map((message) => {
+                              const isSent = message.sender_type === 'Admin';
+                              return (
+                                <div key={message.id} className={`message ${isSent ? 'sent' : 'received'}`}>
+                                  <p>{message.content}</p>
+                                  <span className="message-timestamp">
+                                    {new Date(message.created_at).toLocaleTimeString()}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                            <div ref={messagesEndRef} /> {/* This empty div will be scrolled into view */}
+                          </>
+                        )}
                       </Card.Body>
                       <Card.Footer className="messages-footer">
                         <Form className="message-form" onSubmit={handleSendMessage}>
