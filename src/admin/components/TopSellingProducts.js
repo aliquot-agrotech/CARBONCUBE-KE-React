@@ -15,14 +15,18 @@ const TopSellingProducts = ({ data }) => {
                 <em className='analytics-product-price-label'>Kshs: </em>
                 <strong>
                   {product.product_price.split('.').map((part, index) => (
-                    <React.Fragment key={index}>
-                      {index === 0 ? part : (
-                        <>
-                          <span style={{ fontSize: '16px' }}>.</span>
-                          <span className="analytics-price-decimal">{part}</span>
-                        </>
-                      )}
-                    </React.Fragment>
+                      <React.Fragment key={index}>
+                          {index === 0 ? (
+                              <span className="analytics-price-integer">
+                                  {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                              </span>
+                          ) : (
+                              <>
+                                  <span style={{ fontSize: '16px' }}>.</span>
+                                  <span className="analytics-price-decimal">{part}</span>
+                              </>
+                          )}
+                      </React.Fragment>
                   ))}
                 </strong>
               </Card.Text>

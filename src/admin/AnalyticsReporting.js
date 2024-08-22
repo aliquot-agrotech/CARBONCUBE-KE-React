@@ -59,7 +59,9 @@ const AnalyticsReporting = () => {
                   </Card.Header>
                   <Card.Body>
                     {/* <Card.Title className="text-center">Total Vendors</Card.Title> */}
-                    <Card.Text className="text-center"><strong>{analyticsData.total_vendors}</strong></Card.Text>
+                    <Card.Text className="text-center">
+                        <strong>{parseInt(analyticsData.total_vendors, 10).toLocaleString()}</strong> {/* Add commas to the total reviews */}
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
@@ -70,7 +72,9 @@ const AnalyticsReporting = () => {
                   </Card.Header>
                   <Card.Body>
                     {/* <Card.Title className="text-center">Total Purchasers</Card.Title> */}
-                    <Card.Text className="text-center"><strong>{analyticsData.total_purchasers}</strong></Card.Text>
+                    <Card.Text className="text-center">
+                        <strong>{parseInt(analyticsData.total_purchasers, 10).toLocaleString()}</strong> {/* Add commas to the total reviews */}
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
@@ -81,7 +85,9 @@ const AnalyticsReporting = () => {
                   </Card.Header>
                   <Card.Body>
                     {/* <Card.Title className="text-center">Total Orders</Card.Title> */}
-                    <Card.Text className="text-center"><strong>{analyticsData.total_orders}</strong></Card.Text>
+                    <Card.Text className="text-center">
+                        <strong>{parseInt(analyticsData.total_orders, 10).toLocaleString()}</strong> {/* Add commas to the total reviews */}
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
@@ -92,7 +98,9 @@ const AnalyticsReporting = () => {
                   </Card.Header>
                   <Card.Body>
                     {/* <Card.Title className="text-center">Total Products</Card.Title> */}
-                    <Card.Text className="text-center"><strong>{analyticsData.total_products}</strong></Card.Text>
+                    <Card.Text className="text-center">
+                        <strong>{parseInt(analyticsData.total_products, 10).toLocaleString()}</strong> {/* Add commas to the total reviews */}
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
@@ -105,7 +113,10 @@ const AnalyticsReporting = () => {
                   </Card.Header>
                   <Card.Body>
                     {/* <Card.Title className="text-center">Total Reviews</Card.Title> */}
-                    <Card.Text className="text-center"><strong>{analyticsData.total_reviews}</strong></Card.Text>
+                    <Card.Text className="text-center">
+                        <strong>{parseInt(analyticsData.total_reviews, 10).toLocaleString()}</strong> {/* Add commas to the total reviews */}
+                    </Card.Text>
+
                   </Card.Body>
                 </Card>
               </Col>
@@ -132,14 +143,18 @@ const AnalyticsReporting = () => {
                       <em className='analytics-product-price-label'>Kshs: </em>
                       <strong>
                         {analyticsData.total_revenue.split('.').map((part, index) => (
-                          <React.Fragment key={index}>
-                            {index === 0 ? part : (
-                              <>
-                                <span style={{ fontSize: '10px' }}>.</span>
-                                <span className="analytics-price-decimal">{part}</span>
-                              </>
-                            )}
-                          </React.Fragment>
+                            <React.Fragment key={index}>
+                                {index === 0 ? (
+                                    <span className="analytics-price-integer">
+                                        {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                    </span>
+                                ) : (
+                                    <>
+                                        <span style={{ fontSize: '10px' }}>.</span>
+                                        <span className="analytics-price-decimal">{part}</span>
+                                    </>
+                                )}
+                            </React.Fragment>
                         ))}
                       </strong>
                     </Card.Text>

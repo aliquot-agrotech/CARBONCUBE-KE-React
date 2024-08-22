@@ -429,7 +429,7 @@ const ProductsManagement = () => {
                 </Container>
 
                 <Modal show={showDetailsModal} onHide={handleModalClose} size="lg">
-                    <Modal.Header>
+                    <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -462,7 +462,11 @@ const ProductsManagement = () => {
                                                     <strong>
                                                         {selectedProduct.price.split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
-                                                                {index === 0 ? part : (
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                    </span>
+                                                                ) : (
                                                                     <>
                                                                         <span style={{ fontSize: '16px' }}>.</span>
                                                                         <span className="price-decimal">{part}</span>

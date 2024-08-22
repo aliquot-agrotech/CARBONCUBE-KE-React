@@ -298,22 +298,24 @@ const OrdersManagement = () => {
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='justify-content-center'>Total Price (Kshs)</Card.Header>
                                                         <Card.Body className="price-container text-center">
-                                                            <strong>
-                                                                <span className="price">
-                                                                    {selectedOrder.total_price ? selectedOrder.total_price.split('.').map((part, index) => (
-                                                                        <React.Fragment key={index}>
-                                                                            {index === 0 ? (
-                                                                                <span className="price-integer">{part}</span>
-                                                                            ) : (
-                                                                                <>
-                                                                                    <span style={{ fontSize: '16px' }}>.</span>
-                                                                                    <span className="price-decimal">{part}</span>
-                                                                                </>
-                                                                            )}
-                                                                        </React.Fragment>
-                                                                    )) : '0'}
-                                                                </span>
-                                                            </strong>
+                                                        <strong>
+                                                            <span className="price">
+                                                                {selectedOrder.total_price ? selectedOrder.total_price.split('.').map((part, index) => (
+                                                                    <React.Fragment key={index}>
+                                                                        {index === 0 ? (
+                                                                            <span className="price-integer">
+                                                                                {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                            </span>
+                                                                        ) : (
+                                                                            <>
+                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                <span className="price-decimal">{part}</span>
+                                                                            </>
+                                                                        )}
+                                                                    </React.Fragment>
+                                                                )) : '0'}
+                                                            </span>
+                                                        </strong>
                                                         </Card.Body>
                                                     </Card>
                                                 </Col>
@@ -346,7 +348,9 @@ const OrdersManagement = () => {
                                                                                         (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
                                                                                             <React.Fragment key={index}>
                                                                                                 {index === 0 ? (
-                                                                                                    <span className="price-integer">{part}</span>
+                                                                                                    <span className="price-integer">
+                                                                                                        {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                                                    </span>
                                                                                                 ) : (
                                                                                                     <>
                                                                                                         <span style={{ fontSize: '16px' }}>.</span>
