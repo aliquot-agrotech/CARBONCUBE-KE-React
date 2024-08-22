@@ -14,38 +14,45 @@ const CategoriesManagement = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [newCategory, setNewCategory] = useState({ name: '', subcategories: [{ name: '' }] });
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/admin/categories`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                });
+    const fetchCategories = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/categories`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
 
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const data = await response.json();
-                setCategories(data);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-                setError('Error fetching categories');
-            } finally {
-                setLoading(false);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        };
 
+            const data = await response.json();
+            setCategories(data);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            setError('Error fetching categories');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
         fetchCategories();
     }, []);
-
+    
     const handleShowModal = (category = null) => {
         setSelectedCategory(category);
         setIsEditing(!!category);
         setShowModal(true);
-        setNewCategory(category ? { ...category, subcategories: category.subcategories.map(sub => ({ name: sub.name })) } : { name: '', subcategories: [{ name: '' }] });
+        setNewCategory(category
+            ? {
+                ...category,
+                subcategories: category.subcategories.map(sub => ({ id: sub.id, name: sub.name }))
+            }
+            : { name: '', subcategories: [{ name: '' }] }
+        );
     };
+    
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -78,19 +85,15 @@ const CategoriesManagement = () => {
             // Handle subcategories
             const existingSubcategories = categories.find(cat => cat.id === savedCategory.id)?.subcategories || [];
     
-            // Extract IDs of existing subcategories
+            // Extract IDs of existing and new subcategories
             const savedSubcategoryIds = new Set(existingSubcategories.map(sub => sub.id));
-            console.log('Saved Subcategory IDs:', Array.from(savedSubcategoryIds));
-    
-            // Record IDs of new subcategories
             const newSubcategoryIds = new Set(newCategory.subcategories.filter(sub => sub.id).map(sub => sub.id));
-            console.log('New Subcategory IDs:', Array.from(newSubcategoryIds));
     
             // Save or update subcategories
             for (const subcategory of newCategory.subcategories) {
-                const existingSubcategory = existingSubcategories.find(sub => sub.name === subcategory.name);
+                const existingSubcategory = existingSubcategories.find(sub => sub.id === subcategory.id);
     
-                if (subcategory.name && !existingSubcategory) {
+                if (subcategory.name && (!existingSubcategory || !subcategory.id)) {
                     const subcategoryMethod = subcategory.id ? 'PUT' : 'POST';
                     const subcategoryUrl = subcategory.id
                         ? `http://localhost:3000/admin/subcategories/${subcategory.id}`
@@ -112,14 +115,11 @@ const CategoriesManagement = () => {
                         const errorText = await subcategoryResponse.text();
                         throw new Error(`Failed to save subcategory: ${subcategoryResponse.status} - ${errorText}`);
                     }
-                } else if (existingSubcategory && !subcategory.id) {
-                    console.log(`Subcategory ${subcategory.name} already exists.`);
                 }
             }
     
             // Handle deletions
             const subcategoriesToDelete = Array.from(savedSubcategoryIds).filter(id => !newSubcategoryIds.has(id));
-            console.log('Subcategories to Delete:', subcategoriesToDelete);
     
             for (const subcategoryId of subcategoriesToDelete) {
                 const subcategoryUrl = `http://localhost:3000/admin/subcategories/${subcategoryId}`;
@@ -142,33 +142,13 @@ const CategoriesManagement = () => {
             setLoading(true);
     
             // Re-fetch categories after saving
-            const fetchCategories = async () => {
-                try {
-                    const response = await fetch('http://localhost:3000/admin/categories', {
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                        },
-                    });
-    
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-    
-                    const data = await response.json();
-                    setCategories(data);
-                } catch (error) {
-                    console.error('Error fetching categories:', error);
-                    setError('Error fetching categories');
-                } finally {
-                    setLoading(false);
-                }
-            };
-            fetchCategories();
+            await fetchCategories();
         } catch (error) {
             console.error('Error saving category or subcategory:', error.message);
             setError(`Error saving category or subcategory: ${error.message}`);
         }
     };
+    
     
     
     const handleAddSubcategory = () => {
