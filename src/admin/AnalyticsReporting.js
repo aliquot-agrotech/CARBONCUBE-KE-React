@@ -162,10 +162,10 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Sales Performance
+                    Sales Performance (Last 3 Months)
                   </Card.Header>
-                  <Card.Body>
-                    <SalesPerformance data={analyticsData.sales_performance} />
+                  <Card.Body >
+                    <SalesPerformance data={analyticsData.sales_performance} totalRevenue={parseFloat(analyticsData.total_revenue)}/>
                   </Card.Body>
                 </Card>
               </Col>
