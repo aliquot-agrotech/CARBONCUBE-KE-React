@@ -134,7 +134,7 @@ const OrdersManagement = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-4">
+                        <Col xs={12} md={10} className="p-2">
                             <Card className="section">
                                 <Card.Header className="text-center">
                                     <Container fluid>
@@ -164,13 +164,7 @@ const OrdersManagement = () => {
                                 </Card.Header>
 
 
-                                <Card.Body>
-
-                                <Row className="justify-content-center">
-                                
-                                </Row>
-                                
-                                    
+                                <Card.Body className="p-0">
                                     <Table hover className="orders-table text-center">
                                         <thead className="table-header">
                                             <tr>
