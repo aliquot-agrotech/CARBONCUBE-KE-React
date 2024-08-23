@@ -25,7 +25,7 @@ const SalesPerformance = ({ data, totalRevenue }) => {
         {
           data: [percentage, 100 - percentage],
           backgroundColor: ['#FFC107', '#E0E0E0'],
-          hoverBackgroundColor: ['#FFD54F', '#EEEEEE'],
+          hoverBackgroundColor: ['#0019ff', '#EEEEEE'],
         },
       ],
     };

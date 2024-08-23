@@ -14,7 +14,7 @@ const CategoryAnalytics = ({ data }) => {
         {
           data: [percentageSold, 100 - percentageSold],
           backgroundColor: ['#FFC107', '#DDDDDD'],
-          hoverBackgroundColor: ['#FF6384', '#DDDDDD'],
+          hoverBackgroundColor: ['#0019ff', '#DDDDDD'],
         },
       ],
     };
