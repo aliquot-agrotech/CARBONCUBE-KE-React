@@ -222,12 +222,141 @@ body {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-color: #f8f9fa;
+  background-color: #ffeb3b; /* Bright yellow background for high visibility */
   border-radius: 5px;
   text-align: center;
+  animation: pulse 1.5s infinite; /* Add a pulse animation */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
 }
 
 .select-conversation-text {
   font-size: 1.25rem;
-  color: #616161;
+  color: #212121; /* Darker color for better contrast */
+  font-weight: bold; /* Bold text to stand out */
+}
+
+/* Ensure the parent container also uses flexbox to center the card */
+.parent-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh; /* Full viewport height to center vertically */
+  width: 100%; /* Full width */
+  background-color: #e0e0e0; /* Optional: background color for the parent container */
+}
+
+/* Smooth Pulse Animation */
+
+/* Apply the animation to your element */
+.select-conversation-card {
+  animation: smoothBlinker 2s infinite ease-in-out;
+}
+
+/* Smooth Blinker Expanding Animation */
+@keyframes smoothBlinker {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  5% {
+    transform: scale(1.04);
+    opacity: 0.96;
+    background: linear-gradient(135deg, #8ee8cc, #67a3c7);
+  }
+  10% {
+    transform: scale(1.08);
+    opacity: 0.92;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  15% {
+    transform: scale(1.12);
+    opacity: 0.88;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  20% {
+    transform: scale(1.16);
+    opacity: 0.84;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  25% {
+    transform: scale(1.2);
+    opacity: 0.8;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  30% {
+    transform: scale(1.24);
+    opacity: 0.76;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  35% {
+    transform: scale(1.28);
+    opacity: 0.72;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  40% {
+    transform: scale(1.32);
+    opacity: 0.68;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  45% {
+    transform: scale(1.36);
+    opacity: 0.64;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.6;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  55% {
+    transform: scale(1.36);
+    opacity: 0.64;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  60% {
+    transform: scale(1.32);
+    opacity: 0.68;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  65% {
+    transform: scale(1.28);
+    opacity: 0.72;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  70% {
+    transform: scale(1.24);
+    opacity: 0.76;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  75% {
+    transform: scale(1.2);
+    opacity: 0.8;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  80% {
+    transform: scale(1.16);
+    opacity: 0.84;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  85% {
+    transform: scale(1.12);
+    opacity: 0.88;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  90% {
+    transform: scale(1.08);
+    opacity: 0.92;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  95% {
+    transform: scale(1.04);
+    opacity: 0.96;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    background: linear-gradient(135deg, #9fffd9, #5f9ebb);
+  }
 }

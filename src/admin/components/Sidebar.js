@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
 import { House, Box, Truck, Person, FileText, Percent, Envelope, Bell, GraphUp, XCircle, ArrowRight, List } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
@@ -11,6 +11,24 @@ const Sidebar = () => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  // Effect to auto-expand sidebar on large screens
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 769 && !isOpen) {
+        setIsOpen(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Initial check when the component mounts
+    if (window.innerWidth >= 769) {
+      setIsOpen(true);
+    }
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isOpen]);
 
   return (
     <>

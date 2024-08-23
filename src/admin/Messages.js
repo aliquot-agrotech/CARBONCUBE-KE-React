@@ -228,11 +228,13 @@ const Messages = () => {
                       </Card.Footer>
                     </Card>
                   ) : (
-                    <Card className="select-conversation-card">
-                      <Card.Body>
-                        <div className="select-conversation-text">Select a conversation to view messages</div>
-                      </Card.Body>
-                    </Card>
+                    <div className="parent-container">
+                      <Card className="select-conversation-card">
+                        <Card.Body>
+                          <div className="select-conversation-text">Select a conversation to view messages</div>
+                        </Card.Body>
+                      </Card>
+                    </div>
                   )}
                 </Col>
               </Row>
