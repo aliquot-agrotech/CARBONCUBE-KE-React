@@ -330,8 +330,6 @@ const ProductsManagement = () => {
                                 </Col>
                             </Row>
 
-
-
                             <Row>
                                 {filteredNonFlaggedProducts.length > 0 ? (
                                     filteredNonFlaggedProducts.map(product => (

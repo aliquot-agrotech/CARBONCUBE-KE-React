@@ -52,7 +52,6 @@ const CategoriesManagement = () => {
             : { name: '', subcategories: [{ name: '' }] }
         );
     };
-    
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -62,7 +61,9 @@ const CategoriesManagement = () => {
 
     const handleSaveCategory = async () => {
         const method = isEditing ? 'PUT' : 'POST';
-        const url = isEditing ? `http://localhost:3000/admin/categories/${selectedCategory.id}` : 'http://localhost:3000/admin/categories';
+        const url = isEditing 
+            ? `http://localhost:3000/admin/categories/${selectedCategory.id}` 
+            : 'http://localhost:3000/admin/categories';
     
         try {
             // Save or update the category
@@ -84,42 +85,47 @@ const CategoriesManagement = () => {
     
             // Handle subcategories
             const existingSubcategories = categories.find(cat => cat.id === savedCategory.id)?.subcategories || [];
-    
-            // Extract IDs of existing and new subcategories
             const savedSubcategoryIds = new Set(existingSubcategories.map(sub => sub.id));
-            const newSubcategoryIds = new Set(newCategory.subcategories.filter(sub => sub.id).map(sub => sub.id));
     
             // Save or update subcategories
+            const newlyCreatedSubcategories = [];
             for (const subcategory of newCategory.subcategories) {
-                const existingSubcategory = existingSubcategories.find(sub => sub.id === subcategory.id);
+                const subcategoryMethod = subcategory.id ? 'PUT' : 'POST';
+                const subcategoryUrl = subcategory.id
+                    ? `http://localhost:3000/admin/subcategories/${subcategory.id}`
+                    : `http://localhost:3000/admin/subcategories`;
     
-                if (subcategory.name && (!existingSubcategory || !subcategory.id)) {
-                    const subcategoryMethod = subcategory.id ? 'PUT' : 'POST';
-                    const subcategoryUrl = subcategory.id
-                        ? `http://localhost:3000/admin/subcategories/${subcategory.id}`
-                        : `http://localhost:3000/admin/subcategories`;
+                const subcategoryResponse = await fetch(subcategoryUrl, {
+                    method: subcategoryMethod,
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: subcategory.name,
+                        category_id: savedCategory.id,
+                    }),
+                });
     
-                    const subcategoryResponse = await fetch(subcategoryUrl, {
-                        method: subcategoryMethod,
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            name: subcategory.name,
-                            category_id: savedCategory.id,
-                        }),
-                    });
+                if (!subcategoryResponse.ok) {
+                    const errorText = await subcategoryResponse.text();
+                    throw new Error(`Failed to save subcategory: ${subcategoryResponse.status} - ${errorText}`);
+                }
     
-                    if (!subcategoryResponse.ok) {
-                        const errorText = await subcategoryResponse.text();
-                        throw new Error(`Failed to save subcategory: ${subcategoryResponse.status} - ${errorText}`);
-                    }
+                const savedSubcategory = await subcategoryResponse.json();
+                savedSubcategoryIds.add(savedSubcategory.id);
+    
+                // Track newly created subcategories to ensure they aren't deleted
+                if (!subcategory.id) {
+                    newlyCreatedSubcategories.push(savedSubcategory.id);
                 }
             }
     
-            // Handle deletions
-            const subcategoriesToDelete = Array.from(savedSubcategoryIds).filter(id => !newSubcategoryIds.has(id));
+            // Handle deletions, but exclude newly created subcategories
+            const newSubcategoryIds = new Set(newCategory.subcategories.filter(sub => sub.id).map(sub => sub.id));
+            const subcategoriesToDelete = Array.from(savedSubcategoryIds).filter(
+                id => !newSubcategoryIds.has(id) && !newlyCreatedSubcategories.includes(id)
+            );
     
             for (const subcategoryId of subcategoriesToDelete) {
                 const subcategoryUrl = `http://localhost:3000/admin/subcategories/${subcategoryId}`;
@@ -148,9 +154,7 @@ const CategoriesManagement = () => {
             setError(`Error saving category or subcategory: ${error.message}`);
         }
     };
-    
-    
-    
+
     const handleAddSubcategory = () => {
         setNewCategory({ ...newCategory, subcategories: [...newCategory.subcategories, { name: '' }] });
     };
@@ -232,7 +236,6 @@ const CategoriesManagement = () => {
                                     </Button>
                                 </Card.Footer>
                             </Card>
-
                             <Modal show={showModal} onHide={handleCloseModal} size="lg">
                                 <Modal.Header className="justify-content-center">
                                     <Modal.Title>{isEditing ? 'Edit Category' : 'Add New Category'}</Modal.Title>

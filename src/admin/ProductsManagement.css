@@ -78,7 +78,6 @@
 .search-container .search-input {
     padding-right: 2.5rem; /* Adjust to make room for the icon */
     width: 100%;
-   
 }
 
 .search-container .form-control {
@@ -95,14 +94,13 @@
     color: #fff;
     border: 1px solid #333;
     margin-bottom: 16px;
-
-  }
+}
   
-  .dropdown-filter .filter-toggle.active-category {
+.dropdown-filter .filter-toggle.active-category {
     background-color: #ffc107;
     color: #000;
     border: 1px solid #ffc107;
-  }
+}
 
   .dropdown-filter .dropdown-toggle {
     height: 40px;
