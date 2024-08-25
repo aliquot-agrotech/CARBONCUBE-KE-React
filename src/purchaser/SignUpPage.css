@@ -1,3 +1,10 @@
+.purchaser-signup-page {
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
 .signup-container {
     min-height: 100vh;
     display: flex;

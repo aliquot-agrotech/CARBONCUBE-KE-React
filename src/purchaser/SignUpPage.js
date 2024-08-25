@@ -38,7 +38,7 @@ function PurchaserSignUpPage({ onSignup }) {
   };
 
   return (
-    <Container fluid className="p-0">
+    <Container fluid className="p-0 purchaser-signup-page">
       <Row className="m-0">
         <Col className="warehouse-bg">
           <Col className="form-container align-items-center center">
