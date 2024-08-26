@@ -1,0 +1,142 @@
+.sidebar {
+  background-color: #333;
+  color: #fff;
+  min-height: 100vh;
+  padding: 1rem;
+  transition: transform 0.3s, width 0.3s;
+  position: fixed;
+  top: 56px; /* Adjust this value to the height of your top navbar */
+  left: 0;
+  z-index: 1030;
+  overflow-y: auto;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+  transform: translateX(-100%); /* Move sidebar off the screen */
+}
+
+.sidebar.open {
+  width: 275px;
+  transform: translateX(0); /* Bring sidebar into view */
+}
+
+.sidebar .nav-link,
+.sidebar .dropdown-item {
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 2.0rem;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+  margin-bottom: 10px;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active,
+.sidebar .dropdown-item:hover,
+.sidebar .dropdown-item.active {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.sidebar .nav-link.previous {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.sidebar .icon {
+  margin-right: 10px;
+}
+
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+}
+
+.sidebar.collapsed .nav-link .icon {
+  margin-right: 0;
+}
+
+.toggle-button {
+  background-color: #ffc107;
+  position: absolute; /* Make the button absolutely positioned within the sidebar */
+  top: 10px; /* Adjust this value as needed */
+  z-index: 1040; /* Ensure it stays on top of the sidebar */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, left 0.3s;
+  right: 100%; /* Position the button outside the sidebar when open */
+  left: auto; /* Reset left positioning */
+}
+
+.sidebar.open .toggle-button {
+  transform: rotate(0); /* Arrow pointing left */
+  right: -20px; /* Position the button outside the sidebar */
+  left: auto; /* Reset left positioning */
+}
+
+.sidebar.collapsed .toggle-button {
+  transform: rotate(180deg); /* Arrow pointing right */
+  left: 10px; /* Position the button inside the screen when collapsed */
+  right: auto; /* Reset right positioning */
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    overflow-y: auto;
+    position: fixed;
+    top: 56px; /* Adjust to align below the top navbar */
+  }
+
+  .sidebar.collapsed {
+    transform: translateX(-100%); /* Move sidebar off the screen */
+    height: 100%;
+  }
+
+  .sidebar.open {
+    transform: translateX(0); /* Bring sidebar into view */
+    height: 100%;
+  }
+
+  .toggle-button {
+    top: 60px;
+    left: 10px; /* Adjust for mobile */
+    right: auto;
+    position: fixed;
+    border-radius: 1.5rem;
+  }
+
+  .toggle-button1 {
+    top: 5px;
+    left: 205px; /* Adjust for mobile */
+    right: auto;
+    position: fixed;
+    border-radius: 1.5rem;
+  }
+}
+
+.notification-link {
+  transition: transform 0.3s ease-in-out;
+}
+
+.notification-link.animate {
+  animation: zoomInOut 0.5s ease-in-out;
+}
+
+@keyframes zoomInOut {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
