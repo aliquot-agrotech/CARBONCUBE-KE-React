@@ -52,8 +52,8 @@ const Sidebar = () => {
             <GraphUp className="icon" /> {isOpen && 'Analytics & Reporting'}
           </Nav.Link>
           <Nav.Link
-            href="/vendor/orders-management"
-            className={location.pathname === '/vendor/orders-management' ? 'active' : ''}>
+            href="/vendor/vendor-orders"
+            className={location.pathname === '/vendor/vendor-orders' ? 'active' : ''}>
             <Truck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
