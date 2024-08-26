@@ -47,28 +47,28 @@ const Sidebar = () => {
         </Button>
         <Nav className="flex-column">
           <Nav.Link
-            href="/vendor/analytics-reporting"
-            className={location.pathname === '/admin/analytics-reporting' ? 'active' : ''}>
+            href="/vendor/vendor-analytics"
+            className={location.pathname === '/vendor/vendor-analytics' ? 'active' : ''}>
             <GraphUp className="icon" /> {isOpen && 'Analytics & Reporting'}
           </Nav.Link>
           <Nav.Link
             href="/vendor/orders-management"
-            className={location.pathname === '/admin/orders-management' ? 'active' : ''}>
+            className={location.pathname === '/vendor/orders-management' ? 'active' : ''}>
             <Truck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
             href="/vendor/products-management"
-            className={location.pathname === '/admin/products-management' ? 'active' : ''}>
+            className={location.pathname === '/vendor/products-management' ? 'active' : ''}>
             <Box className="icon" /> {isOpen && 'Products'}
           </Nav.Link>
           <Nav.Link
             href="/vendor/messages"
-            className={location.pathname === '/admin/messages' ? 'active' : ''}>
+            className={location.pathname === '/vendor/messages' ? 'active' : ''}>
             <Envelope className="icon" /> {isOpen && 'Messages'}
           </Nav.Link>
           <Nav.Link
             href="/vendor/notifications"
-            className={location.pathname === '/admin/notifications' ? 'active' : ''}>
+            className={location.pathname === '/vendor/notifications' ? 'active' : ''}>
             <Bell className="icon" /> {isOpen && 'Notifications'}
           </Nav.Link>
         </Nav>

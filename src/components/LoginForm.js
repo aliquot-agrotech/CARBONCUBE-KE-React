@@ -31,7 +31,7 @@ const LoginForm = ({ onLogin }) => {
       if (user.role === 'purchaser') {
         navigate('/purchaser/dashboard');
       } else if (user.role === 'vendor') {
-        navigate('/vendor/messages');
+        navigate('/vendor/vendor-analytics');
       } else if (user.role === 'admin') {
         navigate('/admin/analytics-reporting');
       }

@@ -11,6 +11,7 @@ import Messages from './admin/Messages';
 import PromotionsDiscount from './admin/PromotionsDiscount';
 import Notifications from './admin/Notifications';
 import CategoriesManagement from './admin/CategoriesManagement';
+import VendorAnalytics from './vendor/VendorAnalytics';
 import VendorMessages from './vendor/Messages';
 import PurchaserDashboard from './purchaser/HomePage';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
@@ -70,7 +71,7 @@ function App() {
         )}
         {isAuthenticated && userRole === 'vendor' && (
           <Route path="/vendor/*" element={<PrivateRoute role="vendor" userRole={userRole} />}>
-            {/* <Route path="dashboard" element={<VendorDashboard onLogout={handleLogout} />} /> */}
+            <Route path="vendor-analytics" element={<VendorAnalytics onLogout={handleLogout} />} />
             <Route path="messages" element={<VendorMessages onLogout={handleLogout} />} />
           </Route>
         )}
