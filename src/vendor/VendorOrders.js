@@ -94,6 +94,18 @@ const VendorOrders = () => {
             console.error('Error updating order status:', error);
         }
     };
+
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'On-Transit':
+                return 'limegreen'; // Green for "On-Transit"
+            case 'Delivered':
+                return '#28A745'; // Dark green for "Delivered"
+            default:
+                return '#E9ECEF'; // Light gray for unknown statuses
+        }
+    };
+    
     
     if (loading) {
         return (
@@ -186,26 +198,44 @@ const VendorOrders = () => {
                                                     </td>
 
                                                 <td>{order.order_date || 'N/A'}</td>
-                                                <td>
-                                                    <Form.Control
-                                                        className="form-select align-middle text-center"
-                                                        as="select"
-                                                        value={order.status}
-                                                        id="button"
-                                                        onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                                                        style={{
-                                                            verticalAlign: 'middle',
-                                                            
-                                                            width: '50%',
-                                                            backgroundColor: order.status === 'On-Transit' ? 'limegreen' : '#FFC107',
-                                                        }}
-                                                    >
-                                                        <option value="Processing">Processing</option>
-                                                        <option value="Dispatched">Dispatched</option>
-                                                        <option value="On-Transit">On-Transit</option>
-                                                        <option value="Delivered">Delivered</option>
-                                                </Form.Control>
-
+                                                <td style={{ textAlign: 'center' }}>
+                                                    {order.status === 'Processing' || order.status === 'Dispatched' ? (
+                                                        <Form.Control
+                                                            className="form-select text-center"
+                                                            as="select"
+                                                            value={order.status}
+                                                            id="button"
+                                                            onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                                                            style={{
+                                                                verticalAlign: 'middle',
+                                                                display: 'inline-block',
+                                                                width: '60%',
+                                                                backgroundColor: order.status === 'Processing' ? '#FFC107' : '#E0E0E0', // Yellow for "Processing", Blue for "Dispatched"
+                                                            }}
+                                                        >
+                                                            <option value="Processing">Processing</option>
+                                                            <option value="Dispatched">Dispatched</option>
+                                                        </Form.Control>
+                                                    ) : (
+                                                        <Form.Control
+                                                            className="form-select text-center"
+                                                            as="select"
+                                                            value={order.status}
+                                                            id="button"
+                                                            disabled
+                                                            style={{
+                                                                verticalAlign: 'middle',
+                                                                display: 'inline-block',
+                                                                width: '60%',
+                                                                backgroundColor: getStatusColor(order.status), // Get the color based on status
+                                                                color: '#ffffff', // Text color to ensure visibility
+                                                                cursor: 'not-allowed',
+                                                                pointerEvents: 'none',
+                                                            }}
+                                                        >
+                                                            <option value={order.status}>{order.status}</option>
+                                                        </Form.Control>
+                                                    )}
                                                 </td>
                                             </tr>
                                             ))
