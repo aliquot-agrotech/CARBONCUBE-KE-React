@@ -214,7 +214,8 @@ const OrdersManagement = () => {
                                                 <td>{order.order_date || 'N/A'}</td>
                                                 <td>
                                                     <Form.Control
-                                                    className="form-select align-middle"                                        as="select"
+                                                    className="form-select align-middle"                                        
+                                                    as="select"
                                                     value={order.status}
                                                     onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
                                                     id="button"

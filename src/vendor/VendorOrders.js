@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Row, Col, Form, Card, Spinner } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
-// import './OrdersManagement.css'; // Custom CSS
 
 const VendorOrders = () => {
     const [showModal, setShowModal] = useState(false);
@@ -28,7 +27,7 @@ const VendorOrders = () => {
                 }
         
                 const data = await response.json();
-                console.log('Fetched orders:', data); // Check structure
+                console.log('Fetched orders:', data); // Check structure and status
                 data.sort((a, b) => a.id - b.id);
                 setOrders(data);
             } catch (error) {
@@ -39,7 +38,6 @@ const VendorOrders = () => {
             }
         };
         
-    
         fetchOrders();
     }, [searchQuery, vendorId]);
     
@@ -64,17 +62,14 @@ const VendorOrders = () => {
         }
     };
     
-    
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedOrder(null);
     };
 
     const handleUpdateStatus = async (orderId, status) => {
-        if (status !== 'dispatch') return; // Allow update only to 'dispatch'
-
         try {
-            const response = await fetch(`http://localhost:3000/vendor/orders/${orderId}/status`, {
+            const response = await fetch(`http://localhost:3000/vendor/orders/${orderId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -82,23 +77,22 @@ const VendorOrders = () => {
                 },
                 body: JSON.stringify({ status }),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
+    
             const updatedOrder = await response.json();
+            console.log('Updated order:', updatedOrder); // Check updated order status
             setOrders(prevOrders =>
                 prevOrders.map(order =>
-                    order.id === orderId ? updatedOrder : order
+                    (order.id === orderId ? updatedOrder : order)
                 )
             );
         } catch (error) {
             console.error('Error updating order status:', error);
         }
     };
-
-    // Delete action removed for vendor
 
     if (loading) {
         return (
