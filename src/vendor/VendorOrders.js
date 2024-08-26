@@ -84,6 +84,7 @@ const VendorOrders = () => {
     
             const updatedOrder = await response.json();
             console.log('Updated order:', updatedOrder); // Check updated order status
+    
             setOrders(prevOrders =>
                 prevOrders.map(order =>
                     (order.id === orderId ? updatedOrder : order)
@@ -93,7 +94,7 @@ const VendorOrders = () => {
             console.error('Error updating order status:', error);
         }
     };
-
+    
     if (loading) {
         return (
             <div className="centered-loader">
@@ -186,19 +187,25 @@ const VendorOrders = () => {
 
                                                 <td>{order.order_date || 'N/A'}</td>
                                                 <td>
-                                                <Form.Control
-                                                    className="form-select align-middle"
-                                                    as="select"
-                                                    value={order.status}
-                                                    id="button"
-                                                    onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                                                    style={{
-                                                    verticalAlign: 'middle',
-                                                    backgroundColor: order.status === 'on-transit' ? 'limegreen' : '#FFC107',
-                                                    }}
-                                                >
-                                                    <option className="text-center" value="dispatch">Dispatch</option>
+                                                    <Form.Control
+                                                        className="form-select align-middle text-center"
+                                                        as="select"
+                                                        value={order.status}
+                                                        id="button"
+                                                        onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                                                        style={{
+                                                            verticalAlign: 'middle',
+                                                            
+                                                            width: '50%',
+                                                            backgroundColor: order.status === 'On-Transit' ? 'limegreen' : '#FFC107',
+                                                        }}
+                                                    >
+                                                        <option value="Processing">Processing</option>
+                                                        <option value="Dispatched">Dispatched</option>
+                                                        <option value="On-Transit">On-Transit</option>
+                                                        <option value="Delivered">Delivered</option>
                                                 </Form.Control>
+
                                                 </td>
                                             </tr>
                                             ))

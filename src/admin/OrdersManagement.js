@@ -212,7 +212,7 @@ const OrdersManagement = () => {
                                                     </strong>
                                                 </td>
                                                 <td>{order.order_date || 'N/A'}</td>
-                                                <td>
+                                                <td >
                                                     <Form.Control
                                                     className="form-select align-middle"                                        
                                                     as="select"
@@ -221,11 +221,11 @@ const OrdersManagement = () => {
                                                     id="button"
                                                     style={{
                                                         verticalAlign: 'middle',
-                                                        backgroundColor: order.status === 'on-transit' ? 'limegreen' : '#FFC107',
+                                                        backgroundColor: order.status === 'On-Transit' ? 'limegreen' : '#FFC107',
                                                     }}
                                                     >
-                                                    <option className="text-center" value="processing">Processing</option>
-                                                    <option className="text-center" value="on-transit">On-Transit</option>
+                                                    <option className="text-center" value="Processing">Processing</option>
+                                                    <option className="text-center" value="On-Transit">On-Transit</option>
                                                     </Form.Control>
                                                 </td>
                                                 <td>
