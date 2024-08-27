@@ -57,8 +57,8 @@ const Sidebar = () => {
             <Truck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
-            href="/vendor/products-management"
-            className={location.pathname === '/vendor/products-management' ? 'active' : ''}>
+            href="/vendor/vendor-products"
+            className={location.pathname === '/vendor/vendor-products' ? 'active' : ''}>
             <Box className="icon" /> {isOpen && 'Products'}
           </Nav.Link>
           <Nav.Link
