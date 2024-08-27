@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import './VendorProducts.css'; 
 
 const VendorProducts = () => {
     const [products, setProducts] = useState([]);
@@ -16,6 +17,10 @@ const VendorProducts = () => {
     const [editedProduct, setEditedProduct] = useState({});
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedSubcategory, setSelectedSubcategory] = useState('');
+    const [showAddModal, setShowAddModal] = useState(false);
+
     
     const vendorId = localStorage.getItem('vendorId');
 
@@ -55,23 +60,35 @@ const VendorProducts = () => {
             }
         };
 
-        const fetchSubcategories = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/subcategories');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setSubcategories(data);
-            } catch (error) {
-                console.error('Error fetching subcategories:', error);
-            }
-        };
-
         fetchProducts();
         fetchCategories();
-        fetchSubcategories();
     }, [vendorId]);
+
+    useEffect(() => {
+        if (selectedCategory) {
+            const fetchSubcategories = async () => {
+                try {
+                    const response = await fetch(`http://localhost:3000/subcategories?categoryId=${selectedCategory}`);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+                    setSubcategories(data);
+                } catch (error) {
+                    console.error('Error fetching subcategories:', error);
+                }
+            };
+
+            fetchSubcategories();
+        }
+    }, [selectedCategory]);
+
+    const handleCategoryChange = (event) => {
+        const categoryId = event.target.value;
+        setSelectedCategory(categoryId);
+        setSelectedSubcategory(''); // Reset subcategory when category changes
+    };
+
 
     const handleAddNewProduct = () => {
         console.log('Add new product clicked');
@@ -104,6 +121,7 @@ const VendorProducts = () => {
     const handleModalClose = () => {
         setShowDetailsModal(false);
         setShowEditModal(false);
+        setShowAddModal(false);
     };
 
     const handleSaveEdit = async () => {
@@ -266,7 +284,7 @@ const VendorProducts = () => {
                             <Sidebar />
                         </Col>
                         <Col xs={12} md={10} className="p-2">
-                            <Row className="justify-content-center d-flex">
+                            <Row className="justify-content-center d-flex align-items-center">
                                 <Col xs={12} md={8} lg={6} className="mb-3 pt-3">
                                     <div className="search-container d-flex align-items-center">
                                         <FormControl
@@ -278,6 +296,11 @@ const VendorProducts = () => {
                                             className="search-input"
                                         />
                                     </div>
+                                </Col>
+                                <Col xs={12} md={4} lg={3} className="mb-3 pt-3 justify-content-start">
+                                    <Button id="button" variant="warning" onClick={() => setShowAddModal(true)}>
+                                        Add New Product
+                                    </Button>
                                 </Col>
                             </Row>
                             <Row>
@@ -548,6 +571,105 @@ const VendorProducts = () => {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+                                    
+                                    {/* ADD Product Modal */}
+                                    <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="lg" centered className="custom-modal">
+            <Modal.Header className="custom-modal-header">
+                <Modal.Title>Add Product</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="custom-modal-body">
+                <Form>
+                    <Row>
+                        <Col md={8}>
+                            <Form.Group className="mb-2">
+                                <Form.Label className="mb-0">Title</Form.Label>
+                                <Form.Control type="text" placeholder="Enter product title" className="custom-input" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-2">
+                                <Form.Label className="mb-0">Description</Form.Label>
+                                <Form.Control as="textarea" rows={5} placeholder="Enter product description" className="custom-input" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-2">
+                                <Form.Label className="mb-0">Media</Form.Label>
+                                <div className="upload-section">
+                                    <div className="upload-icon">&#8689;</div> {/* Example upload icon, replace with an actual icon */}
+                                    <Button variant="light" className="custom-upload-btn">Add File</Button>
+                                    <div className="upload-instructions">or upload files to upload</div>
+                                </div>
+                            </Form.Group>
+                        </Col>
+
+                        <Col md={4}>
+                            <Form.Group className="mb-2">
+                                <Form.Label className="mb-0">Category</Form.Label>
+                                <Form.Control as="select" className="custom-input" value={selectedCategory} onChange={handleCategoryChange}>
+                                    <option value="">Select Category</option>
+                                    {categories.map((category) => (
+                                        <option key={category.id} value={category.id}>
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </Form.Control>
+                            </Form.Group>
+                            <Form.Group className="mb-2">
+                                <Form.Label className="mb-0">Sub-Category</Form.Label>
+                                <Form.Control as="select" className="custom-input" value={selectedSubcategory} onChange={(e) => setSelectedSubcategory(e.target.value)}>
+                                    <option value="">Select Sub-Category</option>
+                                    {subcategories.filter(sub => sub.categoryId === selectedCategory).map((subcategory) => (
+                                        <option key={subcategory.id} value={subcategory.id}>
+                                            {subcategory.name}
+                                        </option>
+                                    ))}
+                                </Form.Control>
+                            </Form.Group>
+
+                            <Form.Group className="mb-2">
+                                <Form.Label className="mb-0">Price</Form.Label>
+                                <Form.Control type="text" placeholder="Enter product price" className="custom-input" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-1">
+                                <Form.Label className="mb-0">Quantity</Form.Label>
+                                <Form.Control type="text" placeholder="Enter quantity" className="custom-input" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-2">
+                                <Form.Label className="mb-0">Brand</Form.Label>
+                                <Form.Control type="text" placeholder="Enter brand" className="custom-input" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-2">
+                                <Form.Label className="mb-0">Manufacturer</Form.Label>
+                                <Form.Control type="text" placeholder="Enter manufacturer" className="custom-input" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-1">
+                                <Form.Label className="mb-0">Package Dimensions</Form.Label>
+                                <Form.Control type="text" placeholder="Length" className="custom-input mb-2" />
+                                <Form.Control type="text" placeholder="Width" className="custom-input mb-2" />
+                                <Form.Control type="text" placeholder="Height" className="custom-input" />
+                            </Form.Group>
+
+                            <Form.Group className="mb-1">
+                                <Form.Label className="mb-0">Package Weight</Form.Label>
+                                <Form.Control type="text" placeholder="Enter package weight" className="custom-input" />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer className="custom-modal-footer">
+                <Button variant="warning" className="add-product-btn" onClick={handleAddNewProduct}>
+                    Add Product
+                </Button>
+                <Button variant="danger" onClick={handleModalClose}>
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
+
             </div>
         </>
     );
