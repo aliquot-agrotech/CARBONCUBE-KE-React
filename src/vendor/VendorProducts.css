@@ -57,7 +57,6 @@
     color: black;
     border-radius: 25px;
     padding: 10px 20px;
-    font-weight: bold;
     border: none;
   }
   
@@ -69,7 +68,7 @@
     border-top: none;
     display: flex;
     justify-content: flex-end;
-    padding: 20px 30px;
+    padding: 10px 10px;
   }
   
 

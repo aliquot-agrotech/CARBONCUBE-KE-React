@@ -68,7 +68,7 @@ const VendorProducts = () => {
         if (selectedCategory) {
             const fetchSubcategories = async () => {
                 try {
-                    const response = await fetch(`http://localhost:3000/vendor/subcategories?categoryId=${selectedCategory}`);
+                    const response = await fetch(`http://localhost:3000/vendor/subcategories?category_id=${selectedCategory}`);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -78,14 +78,14 @@ const VendorProducts = () => {
                     console.error('Error fetching subcategories:', error);
                 }
             };
-
+    
             fetchSubcategories();
         }
     }, [selectedCategory]);
 
     const handleCategoryChange = (event) => {
-        const categoryId = event.target.value;
-        setSelectedCategory(categoryId);
+        const category_id = event.target.value;
+        setSelectedCategory(category_id);
         setSelectedSubcategory(''); // Reset subcategory when category changes
     };
 
