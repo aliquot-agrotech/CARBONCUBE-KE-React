@@ -114,7 +114,7 @@ const VendorOrders = () => {
     if (loading) {
         return (
             <div className="centered-loader">
-                <Spinner animation="border" variant="warning" style={{ width: 100, height: 100 }} />
+                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
             </div>
         );
     }

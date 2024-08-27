@@ -13,6 +13,9 @@ const VendorProducts = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [editedProduct, setEditedProduct] = useState({});
+    const [categories, setCategories] = useState([]);
+    const [subcategories, setSubcategories] = useState([]);
     
     const vendorId = localStorage.getItem('vendorId');
 
@@ -39,11 +42,38 @@ const VendorProducts = () => {
             }
         };
 
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/categories');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setCategories(data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        const fetchSubcategories = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/subcategories');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setSubcategories(data);
+            } catch (error) {
+                console.error('Error fetching subcategories:', error);
+            }
+        };
+
         fetchProducts();
+        fetchCategories();
+        fetchSubcategories();
     }, [vendorId]);
 
     const handleAddNewProduct = () => {
-        // Implement logic to add a new product
         console.log('Add new product clicked');
     };
 
@@ -53,14 +83,13 @@ const VendorProducts = () => {
     };
 
     const handleEditProduct = (productId) => {
-        // Set selected product for editing and show edit modal
         const product = products.find(p => p.id === productId);
         setSelectedProduct(product);
+        setEditedProduct({ ...product });
         setShowEditModal(true);
     };
 
     const handleDeleteProduct = (productId) => {
-        // Implement logic to delete product
         console.log('Delete product clicked for product ID:', productId);
     };
 
@@ -77,10 +106,35 @@ const VendorProducts = () => {
         setShowEditModal(false);
     };
 
-    const handleSaveEdit = () => {
-        // Implement save logic
-        console.log('Save changes clicked');
-        setShowEditModal(false);
+    const handleSaveEdit = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/vendor/products/${editedProduct.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+                body: JSON.stringify(editedProduct),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const updatedProduct = await response.json();
+            setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+            setShowEditModal(false);
+        } catch (error) {
+            console.error('Error saving changes:', error);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedProduct(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     };
 
     const renderProductCard = (product) => (
@@ -138,7 +192,6 @@ const VendorProducts = () => {
                                 <FontAwesomeIcon
                                     icon={faTrash}
                                     className="edit-icon"
-                                    variant="danger"
                                     title="Delete Product"
                                 />
                             </Button>
@@ -194,7 +247,7 @@ const VendorProducts = () => {
     if (loading) {
         return (
             <div className="centered-loader">
-                <Spinner animation="border" variant="warning" style={{ width: 100, height: 100 }} />
+                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
             </div>
         );
     }
@@ -374,21 +427,124 @@ const VendorProducts = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                            {/* Add form fields for editing product */}
-                            {/* Example: */}
                             <Form.Group controlId="formProductTitle">
                                 <Form.Label>Title</Form.Label>
-                                <Form.Control type="text" placeholder="Enter product title" defaultValue={selectedProduct?.title} />
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Enter product title" 
+                                    name="title"
+                                    value={editedProduct.title || ''} 
+                                    onChange={handleInputChange} 
+                                />
                             </Form.Group>
-                            {/* Add other fields as needed */}
+
+                            <Form.Group controlId="formProductCategory">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Control 
+                                    as="select" 
+                                    name="category" 
+                                    value={editedProduct.category || ''} 
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Select Category</option>
+                                    {categories.map(cat => (
+                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                    ))}
+                                </Form.Control>
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductSubcategory">
+                                <Form.Label>Subcategory</Form.Label>
+                                <Form.Control 
+                                    as="select" 
+                                    name="subcategory" 
+                                    value={editedProduct.subcategory || ''} 
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">Select Subcategory</option>
+                                    {subcategories.map(subcat => (
+                                        <option key={subcat.id} value={subcat.id}>{subcat.name}</option>
+                                    ))}
+                                </Form.Control>
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductDescription">
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control 
+                                    as="textarea" 
+                                    rows={3} 
+                                    placeholder="Enter product description" 
+                                    name="description"
+                                    value={editedProduct.description || ''} 
+                                    onChange={handleInputChange} 
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductPrice">
+                                <Form.Label>Price</Form.Label>
+                                <Form.Control 
+                                    type="number" 
+                                    placeholder="Enter product price" 
+                                    name="price"
+                                    value={editedProduct.price || ''} 
+                                    onChange={handleInputChange} 
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductQuantity">
+                                <Form.Label>Quantity in Stock</Form.Label>
+                                <Form.Control 
+                                    type="number" 
+                                    placeholder="Enter quantity in stock" 
+                                    name="quantity"
+                                    value={editedProduct.quantity || ''} 
+                                    onChange={handleInputChange} 
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductBrand">
+                                <Form.Label>Brand</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Enter product brand" 
+                                    name="brand"
+                                    value={editedProduct.brand || ''} 
+                                    onChange={handleInputChange} 
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductManufacturer">
+                                <Form.Label>Manufacturer</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Enter product manufacturer" 
+                                    name="manufacturer"
+                                    value={editedProduct.manufacturer || ''} 
+                                    onChange={handleInputChange} 
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductImages">
+                                <Form.Label>Images (URLs separated by commas)</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="Enter product image URLs" 
+                                    name="images"
+                                    value={(editedProduct.images || []).join(', ')} 
+                                    onChange={e => setEditedProduct({
+                                        ...editedProduct,
+                                        images: e.target.value.split(',').map(url => url.trim())
+                                    })} 
+                                />
+                            </Form.Group>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleModalClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={handleSaveEdit}>
+                    <Modal.Footer>                        
+                        <Button variant="warning" onClick={handleSaveEdit}>
                             Save Changes
+                        </Button>
+                        <Button variant="danger" onClick={handleModalClose}>
+                            Close
                         </Button>
                     </Modal.Footer>
                 </Modal>
