@@ -49,7 +49,7 @@ const VendorProducts = () => {
 
         const fetchCategories = async () => {
             try {
-                const response = await fetch('http://localhost:3000/categories');
+                const response = await fetch('http://localhost:3000/vendor/categories');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -68,7 +68,7 @@ const VendorProducts = () => {
         if (selectedCategory) {
             const fetchSubcategories = async () => {
                 try {
-                    const response = await fetch(`http://localhost:3000/subcategories?categoryId=${selectedCategory}`);
+                    const response = await fetch(`http://localhost:3000/vendor/subcategories?categoryId=${selectedCategory}`);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -583,7 +583,7 @@ const VendorProducts = () => {
                         <Col md={8}>
                             <Form.Group className="mb-2">
                                 <Form.Label className="mb-0">Title</Form.Label>
-                                <Form.Control type="text" placeholder="Enter product title" className="custom-input" />
+                                <Form.Control id="button" type="text" placeholder="Enter product title" className="custom-input" />
                             </Form.Group>
 
                             <Form.Group className="mb-2">
@@ -604,7 +604,7 @@ const VendorProducts = () => {
                         <Col md={4}>
                             <Form.Group className="mb-2">
                                 <Form.Label className="mb-0">Category</Form.Label>
-                                <Form.Control as="select" className="custom-input" value={selectedCategory} onChange={handleCategoryChange}>
+                                <Form.Control id="button" as="select" className="custom-input" value={selectedCategory} onChange={handleCategoryChange}>
                                     <option value="">Select Category</option>
                                     {categories.map((category) => (
                                         <option key={category.id} value={category.id}>
@@ -615,7 +615,7 @@ const VendorProducts = () => {
                             </Form.Group>
                             <Form.Group className="mb-2">
                                 <Form.Label className="mb-0">Sub-Category</Form.Label>
-                                <Form.Control as="select" className="custom-input" value={selectedSubcategory} onChange={(e) => setSelectedSubcategory(e.target.value)}>
+                                <Form.Control id="button" as="select" className="custom-input" value={selectedSubcategory} onChange={(e) => setSelectedSubcategory(e.target.value)}>
                                     <option value="">Select Sub-Category</option>
                                     {subcategories.filter(sub => sub.categoryId === selectedCategory).map((subcategory) => (
                                         <option key={subcategory.id} value={subcategory.id}>
@@ -627,34 +627,34 @@ const VendorProducts = () => {
 
                             <Form.Group className="mb-2">
                                 <Form.Label className="mb-0">Price</Form.Label>
-                                <Form.Control type="text" placeholder="Enter product price" className="custom-input" />
+                                <Form.Control id="button" type="text" placeholder="Enter product price" className="custom-input" />
                             </Form.Group>
 
                             <Form.Group className="mb-1">
                                 <Form.Label className="mb-0">Quantity</Form.Label>
-                                <Form.Control type="text" placeholder="Enter quantity" className="custom-input" />
+                                <Form.Control id="button" type="text" placeholder="Enter quantity" className="custom-input" />
                             </Form.Group>
 
                             <Form.Group className="mb-2">
                                 <Form.Label className="mb-0">Brand</Form.Label>
-                                <Form.Control type="text" placeholder="Enter brand" className="custom-input" />
+                                <Form.Control id="button" type="text" placeholder="Enter brand" className="custom-input" />
                             </Form.Group>
 
                             <Form.Group className="mb-2">
                                 <Form.Label className="mb-0">Manufacturer</Form.Label>
-                                <Form.Control type="text" placeholder="Enter manufacturer" className="custom-input" />
+                                <Form.Control id="button" type="text" placeholder="Enter manufacturer" className="custom-input" />
                             </Form.Group>
 
                             <Form.Group className="mb-1">
                                 <Form.Label className="mb-0">Package Dimensions</Form.Label>
-                                <Form.Control type="text" placeholder="Length" className="custom-input mb-2" />
-                                <Form.Control type="text" placeholder="Width" className="custom-input mb-2" />
-                                <Form.Control type="text" placeholder="Height" className="custom-input" />
+                                <Form.Control id="button" type="text" placeholder="Length" className="custom-input mb-2" />
+                                <Form.Control id="button" type="text" placeholder="Width" className="custom-input mb-2" />
+                                <Form.Control id="button" type="text" placeholder="Height" className="custom-input" />
                             </Form.Group>
 
                             <Form.Group className="mb-1">
                                 <Form.Label className="mb-0">Package Weight</Form.Label>
-                                <Form.Control type="text" placeholder="Enter package weight" className="custom-input" />
+                                <Form.Control id="button" type="text" placeholder="Enter package weight" className="custom-input" />
                             </Form.Group>
                         </Col>
                     </Row>
