@@ -69,7 +69,7 @@ const VendorOrders = () => {
 
     const handleUpdateStatus = async (orderId, status) => {
         try {
-            const response = await fetch(`http://localhost:3000/vendor/orders/${orderId}`, {
+            const response = await fetch(`http://localhost:3000/vendor/orders/${orderId}/update_status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
