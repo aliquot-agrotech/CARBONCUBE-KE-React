@@ -820,7 +820,7 @@ const handleDeleteImage = async (index) => {
 {/* ============================================================  START ADD PRODUCT MODAL ==================================================================================*/}
 
                 <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="lg" centered className="custom-modal">
-                    <Modal.Header className="custom-modal-header">
+                    <Modal.Header className="custom-modal-header justify-content-center">
                         <Modal.Title>Add Product</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="custom-modal-body">
@@ -834,7 +834,7 @@ const handleDeleteImage = async (index) => {
 
                                     <Form.Group className="mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Description</Form.Label>
-                                        <Form.Control as="textarea" rows={5} placeholder="Enter product description" className="custom-input" />
+                                        <Form.Control as="textarea" rows={10} placeholder="Enter product description" className="custom-input" />
                                     </Form.Group>
 
                                     <Form.Group className="mb-2">
