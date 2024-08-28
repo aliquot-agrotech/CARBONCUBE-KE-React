@@ -14,14 +14,17 @@ const VendorProducts = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [editedProduct, setEditedProduct] = useState({});
+    const [showAddModal, setShowAddModal] = useState(false);
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedSubcategory, setSelectedSubcategory] = useState('');
-    const [showAddModal, setShowAddModal] = useState(false);
+    const [newImageUrl, setNewImageUrl] = useState('');
+    const [editedProduct, setEditedProduct] = useState({
+        media: []  // Assuming 'images' holds the URLs of the product images
+    });
 
-    
+
     const vendorId = localStorage.getItem('vendorId');
 
     useEffect(() => {
@@ -47,6 +50,11 @@ const VendorProducts = () => {
             }
         };
 
+        fetchProducts();
+    }, [vendorId]);
+
+
+    useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await fetch('http://localhost:3000/vendor/categories');
@@ -59,10 +67,9 @@ const VendorProducts = () => {
                 console.error('Error fetching categories:', error);
             }
         };
-
-        fetchProducts();
+    
         fetchCategories();
-    }, [vendorId]);
+    }, []);
 
     useEffect(() => {
         if (selectedCategory) {
@@ -74,6 +81,9 @@ const VendorProducts = () => {
                     }
                     const data = await response.json();
                     setSubcategories(data);
+    
+                    // Set the selected subcategory to the one stored in the product data
+                    setSelectedSubcategory(editedProduct.subcategory_id);
                 } catch (error) {
                     console.error('Error fetching subcategories:', error);
                 }
@@ -81,15 +91,21 @@ const VendorProducts = () => {
     
             fetchSubcategories();
         }
-    }, [selectedCategory]);
+    }, [selectedCategory, editedProduct.subcategory_id]);  // Dependency on both selectedCategory and editedProduct.subcategory_id
+    
 
     const handleCategoryChange = (event) => {
         const category_id = event.target.value;
         setSelectedCategory(category_id);
-        setSelectedSubcategory(''); // Reset subcategory when category changes
+        setSelectedSubcategory(''); // Reset subcategory when a new category is selected
+        setEditedProduct(prevState => ({
+            ...prevState,
+            category: category_id,
+            subcategory: ''
+        }));
     };
-
-
+    
+    
     const handleAddNewProduct = () => {
         console.log('Add new product clicked');
     };
@@ -103,8 +119,14 @@ const VendorProducts = () => {
         const product = products.find(p => p.id === productId);
         setSelectedProduct(product);
         setEditedProduct({ ...product });
+        
+        // Set selected category and subcategory from the product data
+        setSelectedCategory(product.category_id);
+        setSelectedSubcategory(product.subcategory_id);
+    
         setShowEditModal(true);
     };
+    
 
     const handleDeleteProduct = (productId) => {
         console.log('Delete product clicked for product ID:', productId);
@@ -151,14 +173,31 @@ const VendorProducts = () => {
         const { name, value } = e.target;
         setEditedProduct(prevState => ({
             ...prevState,
-            [name]: value
+            [name]: value,
         }));
+    
+        if (name === 'category') {
+            handleCategoryChange(e);
+        }
     };
+
+    const handleDeleteImage = (index) => {
+        const updatedImages = editedProduct.images.filter((_, i) => i !== index);
+        setEditedProduct({
+            ...editedProduct,
+            images: updatedImages,
+        });
+    };
+    
+    
 
     const renderProductCard = (product) => (
         <Col xs={12} md={6} lg={3} key={product.id} className="mb-4">
             <Card>
-                <Card.Img variant="top" src={product.imageUrl} />
+            <Card.Img 
+                variant="top" 
+                src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
+            />
                 <Card.Body>
                     <Card.Title>{product.title}</Card.Title>
                     <Card.Text className="price-container">
@@ -325,14 +364,23 @@ const VendorProducts = () => {
                         {selectedProduct && (
                             <>
                                 <Carousel>
-                                    {selectedProduct.images && selectedProduct.images.length > 0 ? (
-                                        selectedProduct.images.map((image, index) => (
-                                            <Carousel.Item key={index}>
+                                    {selectedProduct.media && selectedProduct.media.length > 0 ? (
+                                        selectedProduct.media.map((image, index) => (
+                                            <Carousel.Item key={index} className="position-relative">
                                                 <img
                                                     className="d-block w-100"
                                                     src={image}
-                                                    alt={`Slide ${index}`}
+                                                    alt={`Product ${editedProduct.title} - view ${index + 1}`} // Updated alt text
+                                                    style={{ height: '300px', objectFit: 'cover' }}  // Adjust the height as needed
                                                 />
+                                                <Button 
+                                                    variant="danger" 
+                                                    className="position-absolute" 
+                                                    style={{ top: '10px', right: '10px' }} 
+                                                    onClick={() => handleDeleteImage(index)}
+                                                >
+                                                    <FontAwesomeIcon icon={faTrash} />
+                                                </Button>
                                             </Carousel.Item>
                                         ))
                                     ) : (
@@ -450,6 +498,35 @@ const VendorProducts = () => {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
+
+                            <Form.Group controlId="formProductImages">
+                                <Form.Label>Media</Form.Label>
+                                {editedProduct.media && editedProduct.media.length > 0 ? (
+                                    <Carousel>
+                                        {editedProduct.media.map((image, index) => (
+                                            <Carousel.Item key={index} className="position-relative">
+                                                <img
+                                                    className="d-block w-100"
+                                                    src={image}
+                                                    alt={`Product ${editedProduct.title} - view ${index + 1}`} // Updated alt text
+                                                    style={{ height: '300px', objectFit: 'cover' }}  // Adjust the height as needed
+                                                />
+                                                <Button 
+                                                    variant="danger" 
+                                                    className="position-absolute" 
+                                                    style={{ top: '10px', right: '10px' }} 
+                                                    onClick={() => handleDeleteImage(index)}
+                                                >
+                                                    <FontAwesomeIcon icon={faTrash} />
+                                                </Button>
+                                            </Carousel.Item>
+                                        ))}
+                                    </Carousel>
+                                ) : (
+                                    <p>No images available</p>
+                                )}
+                            </Form.Group>
+
                             <Form.Group controlId="formProductTitle">
                                 <Form.Label>Title</Form.Label>
                                 <Form.Control 
@@ -466,8 +543,8 @@ const VendorProducts = () => {
                                 <Form.Control 
                                     as="select" 
                                     name="category" 
-                                    value={editedProduct.category || ''} 
-                                    onChange={handleInputChange}
+                                    value={selectedCategory} 
+                                    onChange={handleCategoryChange}
                                 >
                                     <option value="">Select Category</option>
                                     {categories.map(cat => (
@@ -481,26 +558,14 @@ const VendorProducts = () => {
                                 <Form.Control 
                                     as="select" 
                                     name="subcategory" 
-                                    value={editedProduct.subcategory || ''} 
-                                    onChange={handleInputChange}
+                                    value={selectedSubcategory} 
+                                    onChange={(e) => setSelectedSubcategory(e.target.value)}
                                 >
                                     <option value="">Select Subcategory</option>
                                     {subcategories.map(subcat => (
                                         <option key={subcat.id} value={subcat.id}>{subcat.name}</option>
                                     ))}
                                 </Form.Control>
-                            </Form.Group>
-
-                            <Form.Group controlId="formProductDescription">
-                                <Form.Label>Description</Form.Label>
-                                <Form.Control 
-                                    as="textarea" 
-                                    rows={3} 
-                                    placeholder="Enter product description" 
-                                    name="description"
-                                    value={editedProduct.description || ''} 
-                                    onChange={handleInputChange} 
-                                />
                             </Form.Group>
 
                             <Form.Group controlId="formProductPrice">
@@ -547,17 +612,79 @@ const VendorProducts = () => {
                                 />
                             </Form.Group>
 
+                            <Form.Group controlId="formProductLength">
+                                <Form.Label>Length</Form.Label>
+                                <Form.Control 
+                                    type="number" 
+                                    placeholder="Enter product length" 
+                                    name="length"
+                                    value={editedProduct.package_length || ''} 
+                                    onChange={handleInputChange} 
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductWidth">
+                                <Form.Label>Width</Form.Label>
+                                <Form.Control 
+                                    type="number" 
+                                    placeholder="Enter product width" 
+                                    name="width"
+                                    value={editedProduct.package_width || ''} 
+                                    onChange={handleInputChange} 
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductHeight">
+                                <Form.Label>Height</Form.Label>
+                                <Form.Control 
+                                    type="number" 
+                                    placeholder="Enter product height" 
+                                    name="height"
+                                    value={editedProduct.package_height || ''} 
+                                    onChange={handleInputChange} 
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductWeight">
+                                <Form.Label>Weight</Form.Label>
+                                <Form.Control 
+                                    type="number" 
+                                    placeholder="Enter product weight" 
+                                    name="weight"
+                                    value={editedProduct.package_weight || ''} 
+                                    onChange={handleInputChange} 
+                                />
+                            </Form.Group>
+
                             <Form.Group controlId="formProductImages">
-                                <Form.Label>Images (URLs separated by commas)</Form.Label>
+                                <Form.Label>Add Image URL</Form.Label>
                                 <Form.Control 
                                     type="text" 
-                                    placeholder="Enter product image URLs" 
-                                    name="images"
-                                    value={(editedProduct.images || []).join(', ')} 
-                                    onChange={e => setEditedProduct({
-                                        ...editedProduct,
-                                        images: e.target.value.split(',').map(url => url.trim())
-                                    })} 
+                                    placeholder="Enter product image URL" 
+                                    value={newImageUrl}
+                                    onChange={(e) => setNewImageUrl(e.target.value)} 
+                                    onKeyPress={(e) => {
+                                        if (e.key === 'Enter') {
+                                            setEditedProduct(prevState => ({
+                                                ...prevState,
+                                                images: [...prevState.images, newImageUrl.trim()],
+                                            }));
+                                            setNewImageUrl('');
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductDescription">
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control 
+                                    as="textarea" 
+                                    rows={3} 
+                                    placeholder="Enter product description" 
+                                    name="description"
+                                    value={editedProduct.description || ''} 
+                                    onChange={handleInputChange} 
                                 />
                             </Form.Group>
                         </Form>
@@ -602,9 +729,15 @@ const VendorProducts = () => {
                         </Col>
 
                         <Col md={4}>
-                            <Form.Group className="mb-2">
+                        <Form.Group className="mb-2">
                                 <Form.Label className="mb-0">Category</Form.Label>
-                                <Form.Control id="button" as="select" className="custom-input" value={selectedCategory} onChange={handleCategoryChange}>
+                                <Form.Control
+                                    id="button"
+                                    as="select"
+                                    className="custom-input"
+                                    value={selectedCategory}
+                                    onChange={handleCategoryChange}
+                                >
                                     <option value="">Select Category</option>
                                     {categories.map((category) => (
                                         <option key={category.id} value={category.id}>
@@ -613,17 +746,25 @@ const VendorProducts = () => {
                                     ))}
                                 </Form.Control>
                             </Form.Group>
+
                             <Form.Group className="mb-2">
                                 <Form.Label className="mb-0">Sub-Category</Form.Label>
-                                <Form.Control id="button" as="select" className="custom-input" value={selectedSubcategory} onChange={(e) => setSelectedSubcategory(e.target.value)}>
+                                <Form.Control
+                                    id="button"
+                                    as="select"
+                                    className="custom-input"
+                                    value={selectedSubcategory}
+                                    onChange={(e) => setSelectedSubcategory(e.target.value)}
+                                >
                                     <option value="">Select Sub-Category</option>
-                                    {subcategories.filter(sub => sub.categoryId === selectedCategory).map((subcategory) => (
+                                    {subcategories.map((subcategory) => (
                                         <option key={subcategory.id} value={subcategory.id}>
                                             {subcategory.name}
                                         </option>
                                     ))}
                                 </Form.Control>
                             </Form.Group>
+
 
                             <Form.Group className="mb-2">
                                 <Form.Label className="mb-0">Price</Form.Label>
