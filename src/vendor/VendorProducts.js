@@ -20,6 +20,7 @@ const VendorProducts = () => {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedSubcategory, setSelectedSubcategory] = useState('');
     const [newImageUrl, setNewImageUrl] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
     const [editedProduct, setEditedProduct] = useState({
         media: []  // Assuming 'images' holds the URLs of the product images
     });
@@ -147,6 +148,7 @@ const VendorProducts = () => {
     };
 
     const handleSaveEdit = async () => {
+        setIsSaving(true);
         try {
             const response = await fetch(`http://localhost:3000/vendor/products/${editedProduct.id}`, {
                 method: 'PUT',
@@ -156,16 +158,18 @@ const VendorProducts = () => {
                 },
                 body: JSON.stringify(editedProduct),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
+    
             const updatedProduct = await response.json();
             setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
             setShowEditModal(false);
         } catch (error) {
             console.error('Error saving changes:', error);
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -181,16 +185,79 @@ const VendorProducts = () => {
         }
     };
 
-    const handleDeleteImage = (index) => {
-        console.log('Before delete:', editedProduct.media); // Check media before deletion
+    // Function to add an image URL
+const handleAddImage = async () => {
+    if (newImageUrl.trim()) {
+        try {
+            const updatedMedia = [...editedProduct.media, newImageUrl.trim()];
+
+            // Send PATCH request to update the product's media array
+            const response = await fetch(`http://localhost:3000/vendor/products/${editedProduct.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+                body: JSON.stringify({ product: { media: updatedMedia } }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update product');
+            }
+
+            const updatedProduct = await response.json();
+
+            // Update the product in the local state
+            setEditedProduct(updatedProduct);
+            setProducts(prevProducts => 
+                prevProducts.map(p => p.id === updatedProduct.id ? updatedProduct : p)
+            );
+
+            setNewImageUrl('');
+            console.log('Image added successfully');
+        } catch (error) {
+            console.error('Error adding image:', error);
+        }
+    }
+};
+
+const handleDeleteImage = async (index) => {
+    try {
+        // Filter out the image at the specific index
         const updatedMedia = editedProduct.media.filter((_, i) => i !== index);
-        console.log('After delete:', updatedMedia); // Check media after deletion
-        setEditedProduct({
-            ...editedProduct,
-            media: updatedMedia,
+
+        // Send a PATCH request to update the product's media array in the database
+        const response = await fetch(`http://localhost:3000/vendor/products/${editedProduct.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            },
+            body: JSON.stringify({ product: { media: updatedMedia } }),
         });
-    };
-    
+
+        if (!response.ok) {
+            throw new Error('Failed to update product');
+        }
+
+        const updatedProduct = await response.json();
+
+        // Update the product in the local state
+        setEditedProduct(updatedProduct);
+        setProducts(prevProducts => 
+            prevProducts.map(p => p.id === updatedProduct.id ? updatedProduct : p)
+        );
+
+        console.log('Image deleted successfully');
+    } catch (error) {
+        console.error('Error deleting image:', error);
+    }
+};
+
+
+
+
+
 
     const renderProductCard = (product) => (
         <Col xs={12} md={6} lg={3} key={product.id} className="mb-4">
@@ -356,7 +423,8 @@ const VendorProducts = () => {
                     </Row>
                 </Container>
 
-                {/* Product Details Modal */}
+{/* ============================================================ START PRODUCT DETAILS MODAL ==================================================================================*/}
+
                 <Modal show={showDetailsModal} onHide={handleModalClose} size="lg">
                     <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
@@ -484,7 +552,8 @@ const VendorProducts = () => {
                     </Modal.Footer>
                 </Modal>
 
-                {/* Edit Product Modal */}
+{/* ============================================================ START EDIT PRODUCT MODAL ==================================================================================*/}
+
                 <Modal show={showEditModal} onHide={handleModalClose} size="lg">
                     <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct ? `Edit ${selectedProduct.title}` : 'Edit Product'}</Modal.Title>
@@ -495,30 +564,29 @@ const VendorProducts = () => {
                         <Form.Group className="mb-3">
                             {editedProduct.media && editedProduct.media.length > 0 ? (
                                 <Carousel>
-                                    {editedProduct.media.map((image, index) => (
-                                        <Carousel.Item key={index} className="position-relative">
-                                            <img
-                                                className="d-block w-100"
-                                                src={image}
-                                                alt={`Product ${editedProduct.title} - view ${index + 1}`} // Updated alt text
-                                                style={{ height: '300px', objectFit: 'cover' }}  // Adjust the height as needed
-                                            />
-                                            <Button 
-                                                variant="danger" 
-                                                className="position-absolute" 
-                                                style={{ top: '10px', right: '10px' }} 
-                                                onClick={() => handleDeleteImage(index)}
-                                            >
-                                                <FontAwesomeIcon icon={faTrash} />
-                                            </Button>
-                                        </Carousel.Item>
-                                    ))}
+                                {editedProduct.media.map((image, index) => (
+                                    <Carousel.Item key={index} className="position-relative">
+                                        <img
+                                            className="d-block w-100"
+                                            src={image}
+                                            alt={`Product - view ${index + 1}`}
+                                            style={{ height: '300px', objectFit: 'cover' }}
+                                        />
+                                        <Button 
+                                            variant="danger"
+                                            className="delete-button"
+                                            onClick={() => handleDeleteImage(index)}  // Pass the index to delete the correct image
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </Button>
+                                    </Carousel.Item>
+                                ))}
+
                                 </Carousel>
                             ) : (
                                 <p>No images available</p>
                             )}
                         </Form.Group>
-
 
 
                             <Row className="mb-3">
@@ -637,25 +705,29 @@ const VendorProducts = () => {
                             
                             
                             <Form.Group className="d-flex flex-column align-items-center mb-3">
-                                <Form.Label className="text-center mb-0 fw-bold">Add Image URL</Form.Label>
-                                <Form.Control 
-                                    type="text"
-                                    id="button" 
-                                    placeholder="Enter product image URL" 
-                                    value={newImageUrl}
-                                    onChange={(e) => setNewImageUrl(e.target.value)} 
-                                    onKeyPress={(e) => {
-                                        if (e.key === 'Enter') {
-                                            setEditedProduct(prevState => ({
-                                                ...prevState,
-                                                images: [...prevState.images, newImageUrl.trim()],
-                                            }));
-                                            setNewImageUrl('');
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                            </Form.Group>
+                            <Form.Label className="text-center mb-0 fw-bold">Add Image URL</Form.Label>
+                            <Form.Control 
+                                type="text"
+                                placeholder="Enter product image URL"
+                                id="button" 
+                                value={newImageUrl}
+                                onChange={(e) => setNewImageUrl(e.target.value)} 
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        handleAddImage();
+                                    }
+                                }}
+                            />
+                            <Button 
+                                variant="warning"
+                                id="button" 
+                                onClick={handleAddImage} 
+                                className="mt-2"
+                            >
+                                Add Image
+                            </Button>
+                        </Form.Group>
 
 
                             <Form.Group className="d-flex flex-column align-items-center">
@@ -736,127 +808,127 @@ const VendorProducts = () => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>                        
-                        <Button variant="warning" onClick={handleSaveEdit}>
-                            Save Changes
-                        </Button>
+                    <Button variant="warning" onClick={handleSaveEdit} disabled={isSaving}>
+                        {isSaving ? 'Saving...' : 'Save Changes'}
+                    </Button>
                         <Button variant="danger" onClick={handleModalClose}>
                             Close
                         </Button>
                     </Modal.Footer>
                 </Modal>
                                     
-                                    {/* ADD Product Modal */}
-                                    <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="lg" centered className="custom-modal">
-            <Modal.Header className="custom-modal-header">
-                <Modal.Title>Add Product</Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="custom-modal-body">
-                <Form>
-                    <Row>
-                        <Col md={8}>
-                            <Form.Group className="mb-2">
-                                <Form.Label className="mb-0">Title</Form.Label>
-                                <Form.Control id="button" type="text" placeholder="Enter product title" className="custom-input" />
-                            </Form.Group>
+{/* ============================================================  START ADD PRODUCT MODAL ==================================================================================*/}
 
-                            <Form.Group className="mb-2">
-                                <Form.Label className="mb-0">Description</Form.Label>
-                                <Form.Control as="textarea" rows={5} placeholder="Enter product description" className="custom-input" />
-                            </Form.Group>
+                <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="lg" centered className="custom-modal">
+                    <Modal.Header className="custom-modal-header">
+                        <Modal.Title>Add Product</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="custom-modal-body">
+                        <Form>
+                            <Row>
+                                <Col md={8}>
+                                    <Form.Group className="mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Title</Form.Label>
+                                        <Form.Control id="button" type="text" placeholder="Enter product title" className="custom-input" />
+                                    </Form.Group>
 
-                            <Form.Group className="mb-2">
-                                <Form.Label className="mb-0">Media</Form.Label>
-                                <div className="upload-section">
-                                    <div className="upload-icon">&#8689;</div> {/* Example upload icon, replace with an actual icon */}
-                                    <Button variant="light" className="custom-upload-btn">Add File</Button>
-                                    <div className="upload-instructions">or upload files to upload</div>
-                                </div>
-                            </Form.Group>
-                        </Col>
+                                    <Form.Group className="mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Description</Form.Label>
+                                        <Form.Control as="textarea" rows={5} placeholder="Enter product description" className="custom-input" />
+                                    </Form.Group>
 
-                        <Col md={4}>
-                        <Form.Group className="mb-2">
-                                <Form.Label className="mb-0">Category</Form.Label>
-                                <Form.Control
-                                    id="button"
-                                    as="select"
-                                    className="custom-input"
-                                    value={selectedCategory}
-                                    onChange={handleCategoryChange}
-                                >
-                                    <option value="">Select Category</option>
-                                    {categories.map((category) => (
-                                        <option key={category.id} value={category.id}>
-                                            {category.name}
-                                        </option>
-                                    ))}
-                                </Form.Control>
-                            </Form.Group>
+                                    <Form.Group className="mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Media</Form.Label>
+                                        <div className="upload-section">
+                                            <div className="upload-icon">&#8689;</div> {/* Example upload icon, replace with an actual icon */}
+                                            <Button variant="light" className="custom-upload-btn">Add File</Button>
+                                            <div className="upload-instructions">or Drag and Drop files Here</div>
+                                        </div>
+                                    </Form.Group>
+                                </Col>
 
-                            <Form.Group className="mb-2">
-                                <Form.Label className="mb-0">Sub-Category</Form.Label>
-                                <Form.Control
-                                    id="button"
-                                    as="select"
-                                    className="custom-input"
-                                    value={selectedSubcategory}
-                                    onChange={(e) => setSelectedSubcategory(e.target.value)}
-                                >
-                                    <option value="">Select Sub-Category</option>
-                                    {subcategories.map((subcategory) => (
-                                        <option key={subcategory.id} value={subcategory.id}>
-                                            {subcategory.name}
-                                        </option>
-                                    ))}
-                                </Form.Control>
-                            </Form.Group>
+                                <Col md={4}>
+                                <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Category</Form.Label>
+                                        <Form.Control
+                                            id="button"
+                                            as="select"
+                                            className="custom-input"
+                                            value={selectedCategory}
+                                            onChange={handleCategoryChange}
+                                        >
+                                            <option value="">Select Category</option>
+                                            {categories.map((category) => (
+                                                <option key={category.id} value={category.id}>
+                                                    {category.name}
+                                                </option>
+                                            ))}
+                                        </Form.Control>
+                                    </Form.Group>
+
+                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Sub-Category</Form.Label>
+                                        <Form.Control
+                                            id="button"
+                                            as="select"
+                                            className="custom-input"
+                                            value={selectedSubcategory}
+                                            onChange={(e) => setSelectedSubcategory(e.target.value)}
+                                        >
+                                            <option value="">Select Sub-Category</option>
+                                            {subcategories.map((subcategory) => (
+                                                <option key={subcategory.id} value={subcategory.id}>
+                                                    {subcategory.name}
+                                                </option>
+                                            ))}
+                                        </Form.Control>
+                                    </Form.Group>
 
 
-                            <Form.Group className="mb-2">
-                                <Form.Label className="mb-0">Price</Form.Label>
-                                <Form.Control id="button" type="text" placeholder="Enter product price" className="custom-input" />
-                            </Form.Group>
+                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Price</Form.Label>
+                                        <Form.Control id="button" type="text" placeholder="Enter product price" className="custom-input" />
+                                    </Form.Group>
 
-                            <Form.Group className="mb-1">
-                                <Form.Label className="mb-0">Quantity</Form.Label>
-                                <Form.Control id="button" type="text" placeholder="Enter quantity" className="custom-input" />
-                            </Form.Group>
+                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Quantity</Form.Label>
+                                        <Form.Control id="button" type="text" placeholder="Enter quantity" className="custom-input" />
+                                    </Form.Group>
 
-                            <Form.Group className="mb-2">
-                                <Form.Label className="mb-0">Brand</Form.Label>
-                                <Form.Control id="button" type="text" placeholder="Enter brand" className="custom-input" />
-                            </Form.Group>
+                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Brand</Form.Label>
+                                        <Form.Control id="button" type="text" placeholder="Enter brand" className="custom-input" />
+                                    </Form.Group>
 
-                            <Form.Group className="mb-2">
-                                <Form.Label className="mb-0">Manufacturer</Form.Label>
-                                <Form.Control id="button" type="text" placeholder="Enter manufacturer" className="custom-input" />
-                            </Form.Group>
+                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Manufacturer</Form.Label>
+                                        <Form.Control id="button" type="text" placeholder="Enter manufacturer" className="custom-input" />
+                                    </Form.Group>
 
-                            <Form.Group className="mb-1">
-                                <Form.Label className="mb-0">Package Dimensions</Form.Label>
-                                <Form.Control id="button" type="text" placeholder="Length" className="custom-input mb-2" />
-                                <Form.Control id="button" type="text" placeholder="Width" className="custom-input mb-2" />
-                                <Form.Control id="button" type="text" placeholder="Height" className="custom-input" />
-                            </Form.Group>
+                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Package Dimensions</Form.Label>
+                                        <Form.Control id="button" type="text" placeholder="Length" className="custom-input mb-2" />
+                                        <Form.Control id="button" type="text" placeholder="Width" className="custom-input mb-2" />
+                                        <Form.Control id="button" type="text" placeholder="Height" className="custom-input" />
+                                    </Form.Group>
 
-                            <Form.Group className="mb-1">
-                                <Form.Label className="mb-0">Package Weight</Form.Label>
-                                <Form.Control id="button" type="text" placeholder="Enter package weight" className="custom-input" />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                </Form>
-            </Modal.Body>
-            <Modal.Footer className="custom-modal-footer">
-                <Button variant="warning" className="add-product-btn" onClick={handleAddNewProduct}>
-                    Add Product
-                </Button>
-                <Button variant="danger" onClick={handleModalClose}>
-                    Close
-                </Button>
-            </Modal.Footer>
-        </Modal>
-
+                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                        <Form.Label className="text-center mb-0 fw-bold">Package Weight</Form.Label>
+                                        <Form.Control id="button" type="text" placeholder="Enter package weight" className="custom-input" />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer className="custom-modal-footer">
+                        <Button variant="warning" className="add-product-btn" onClick={handleAddNewProduct}>
+                            Add Product
+                        </Button>
+                        <Button variant="danger" onClick={handleModalClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </>
     );
