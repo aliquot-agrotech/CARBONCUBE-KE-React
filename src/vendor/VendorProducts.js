@@ -182,13 +182,14 @@ const VendorProducts = () => {
     };
 
     const handleDeleteImage = (index) => {
-        const updatedImages = editedProduct.images.filter((_, i) => i !== index);
+        console.log('Before delete:', editedProduct.media); // Check media before deletion
+        const updatedMedia = editedProduct.media.filter((_, i) => i !== index);
+        console.log('After delete:', updatedMedia); // Check media after deletion
         setEditedProduct({
             ...editedProduct,
-            images: updatedImages,
+            media: updatedMedia,
         });
     };
-    
     
 
     const renderProductCard = (product) => (
@@ -491,37 +492,38 @@ const VendorProducts = () => {
                     <Modal.Body>
                         <Form>
 
-                            <Form.Group controlId="formProductImages" className="mb-3">
-                                {/* <Form.Label>Media</Form.Label> */}
-                                {editedProduct.media && editedProduct.media.length > 0 ? (
-                                    <Carousel>
-                                        {editedProduct.media.map((image, index) => (
-                                            <Carousel.Item key={index} className="position-relative">
-                                                <img
-                                                    className="d-block w-100"
-                                                    src={image}
-                                                    alt={`Product ${editedProduct.title} - view ${index + 1}`} // Updated alt text
-                                                    style={{ height: '300px', objectFit: 'cover' }}  // Adjust the height as needed
-                                                />
-                                                <Button 
-                                                    variant="danger" 
-                                                    className="position-absolute" 
-                                                    style={{ top: '10px', right: '10px' }} 
-                                                    onClick={() => handleDeleteImage(index)}
-                                                >
-                                                    <FontAwesomeIcon icon={faTrash} />
-                                                </Button>
-                                            </Carousel.Item>
-                                        ))}
-                                    </Carousel>
-                                ) : (
-                                    <p>No images available</p>
-                                )}
-                            </Form.Group>
+                        <Form.Group className="mb-3">
+                            {editedProduct.media && editedProduct.media.length > 0 ? (
+                                <Carousel>
+                                    {editedProduct.media.map((image, index) => (
+                                        <Carousel.Item key={index} className="position-relative">
+                                            <img
+                                                className="d-block w-100"
+                                                src={image}
+                                                alt={`Product ${editedProduct.title} - view ${index + 1}`} // Updated alt text
+                                                style={{ height: '300px', objectFit: 'cover' }}  // Adjust the height as needed
+                                            />
+                                            <Button 
+                                                variant="danger" 
+                                                className="position-absolute" 
+                                                style={{ top: '10px', right: '10px' }} 
+                                                onClick={() => handleDeleteImage(index)}
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} />
+                                            </Button>
+                                        </Carousel.Item>
+                                    ))}
+                                </Carousel>
+                            ) : (
+                                <p>No images available</p>
+                            )}
+                        </Form.Group>
+
+
 
                             <Row className="mb-3">
                                 <Col xs={12} >
-                                    <Form.Group controlId="formProductTitle" className="d-flex flex-column align-items-center">
+                                    <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Title</Form.Label>
                                         <Form.Control 
                                             type="text" 
@@ -539,7 +541,7 @@ const VendorProducts = () => {
 
                             <Row className="mb-3">
                                 <Col xs={12} md={6}>
-                                    <Form.Group controlId="formProductCategory" className="d-flex flex-column align-items-center">
+                                    <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Category</Form.Label>
                                         <Form.Control 
                                             as="select" 
@@ -556,7 +558,7 @@ const VendorProducts = () => {
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} md={6}>
-                                    <Form.Group controlId="formProductSubcategory" className="d-flex flex-column align-items-center">
+                                    <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Subcategory</Form.Label>
                                         <Form.Control 
                                             as="select" 
@@ -576,7 +578,7 @@ const VendorProducts = () => {
 
                             <Row className="mb-3">
                                 <Col xs={12} md={6}>
-                                    <Form.Group controlId="formProductPrice" className="d-flex flex-column align-items-center">
+                                    <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Price</Form.Label>
                                         <Form.Control 
                                             type="number" 
@@ -589,7 +591,7 @@ const VendorProducts = () => {
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} md={6}>
-                                    <Form.Group controlId="formProductQuantity" className="d-flex flex-column align-items-center">
+                                    <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Quantity in Stock</Form.Label>
                                         <Form.Control 
                                             type="number" 
@@ -605,7 +607,7 @@ const VendorProducts = () => {
 
                             <Row className="mb-3">
                                 <Col xs={12} md={6}>
-                                    <Form.Group controlId="formProductBrand" className="d-flex flex-column align-items-center">
+                                    <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className=" text-center mb-0 fw-bold">Brand</Form.Label>
                                         <Form.Control 
                                             type="text" 
@@ -618,7 +620,7 @@ const VendorProducts = () => {
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} md={6}>
-                                    <Form.Group controlId="formProductManufacturer" className="d-flex flex-column align-items-center">
+                                    <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Manufacturer</Form.Label>
                                         <Form.Control 
                                             type="text" 
@@ -632,71 +634,9 @@ const VendorProducts = () => {
                                 </Col>
                             </Row>
 
-                            <Card>
-                                <Card.Header className="fw-bold">Dimensions</Card.Header>
-                                <Card.Body className="transparent-card-body">
-                                    <Row className="mb-3">
-                                        <Col xs={12} md={6}>
-                                            <Form.Group controlId="formProductLength" className="d-flex flex-column align-items-center">
-                                                <Form.Label className="text-center mb-0 fw-bold">Length</Form.Label>
-                                                <Form.Control 
-                                                    type="number" 
-                                                    placeholder="Enter product length" 
-                                                    name="length"
-                                                    id="button"
-                                                    value={editedProduct.package_length || ''} 
-                                                    onChange={handleInputChange} 
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                        <Col xs={12} md={6}>
-                                            <Form.Group controlId="formProductWidth" className="d-flex flex-column align-items-center">
-                                                <Form.Label className="text-center mb-0 fw-bold">Width</Form.Label>
-                                                <Form.Control 
-                                                    type="number" 
-                                                    placeholder="Enter product width" 
-                                                    name="width"
-                                                    id="button"
-                                                    value={editedProduct.package_width || ''} 
-                                                    onChange={handleInputChange} 
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-
-                                    <Row className="mb-3">
-                                        <Col xs={12} md={6}>
-                                            <Form.Group controlId="formProductHeight" className="d-flex flex-column align-items-center">
-                                                <Form.Label className="text-center mb-0 fw-bold">Height</Form.Label>
-                                                <Form.Control 
-                                                    type="number" 
-                                                    placeholder="Enter product height" 
-                                                    name="height"
-                                                    id="button"
-                                                    value={editedProduct.package_height || ''} 
-                                                    onChange={handleInputChange} 
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                        <Col xs={12} md={6}>
-                                            <Form.Group controlId="formProductWeight" className="d-flex flex-column align-items-center">
-                                                <Form.Label className="text-center mb-0 fw-bold">Weight</Form.Label>
-                                                <Form.Control 
-                                                    type="number" 
-                                                    placeholder="Enter product weight" 
-                                                    name="weight"
-                                                    id="button"
-                                                    value={editedProduct.package_weight || ''} 
-                                                    onChange={handleInputChange} 
-                                                />
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
                             
                             
-                            <Form.Group controlId="formProductImages" className="d-flex flex-column align-items-center mb-3">
+                            <Form.Group className="d-flex flex-column align-items-center mb-3">
                                 <Form.Label className="text-center mb-0 fw-bold">Add Image URL</Form.Label>
                                 <Form.Control 
                                     type="text"
@@ -718,7 +658,7 @@ const VendorProducts = () => {
                             </Form.Group>
 
 
-                            <Form.Group controlId="formProductDescription" className="d-flex flex-column align-items-center">
+                            <Form.Group className="d-flex flex-column align-items-center">
                                 <Form.Label className="text-center mb-0 fw-bold">Description</Form.Label>
                                 <Form.Control 
                                     as="textarea" 
@@ -729,6 +669,70 @@ const VendorProducts = () => {
                                     onChange={handleInputChange} 
                                 />
                             </Form.Group>
+
+                            <Card>
+                                <Card.Header className="justify-content-center fw-bold">Dimensions</Card.Header>
+                                <Card.Body className="transparent-card-body">
+                                    <Row className="mb-3">
+                                        <Col xs={12} md={6}>
+                                            <Form.Group className="d-flex flex-column align-items-center">
+                                                <Form.Label className="text-center mb-0 fw-bold">Length</Form.Label>
+                                                <Form.Control 
+                                                    type="number" 
+                                                    placeholder="Enter product length" 
+                                                    name="package_length"
+                                                    id="button"
+                                                    value={editedProduct.package_length || ''} 
+                                                    onChange={handleInputChange} 
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col xs={12} md={6}>
+                                            <Form.Group className="d-flex flex-column align-items-center">
+                                                <Form.Label className="text-center mb-0 fw-bold">Width</Form.Label>
+                                                <Form.Control 
+                                                    type="number" 
+                                                    placeholder="Enter product width" 
+                                                    name="package_width"
+                                                    id="button"
+                                                    value={editedProduct.package_width || ''} 
+                                                    onChange={handleInputChange} 
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+
+                                    <Row className="mb-3">
+                                        <Col xs={12} md={6}>
+                                            <Form.Group className="d-flex flex-column align-items-center">
+                                                <Form.Label className="text-center mb-0 fw-bold">Height</Form.Label>
+                                                <Form.Control 
+                                                    type="number" 
+                                                    placeholder="Enter product height" 
+                                                    name="package_height"
+                                                    id="button"
+                                                    value={editedProduct.package_height || ''} 
+                                                    onChange={handleInputChange} 
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col xs={12} md={6}>
+                                            <Form.Group className="d-flex flex-column align-items-center">
+                                                <Form.Label className="text-center mb-0 fw-bold">Weight</Form.Label>
+                                                <Form.Control 
+                                                    type="number" 
+                                                    placeholder="Enter product weight" 
+                                                    name="package_weight"
+                                                    id="button"
+                                                    value={editedProduct.package_weight || ''} 
+                                                    onChange={handleInputChange} 
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                            
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>                        
