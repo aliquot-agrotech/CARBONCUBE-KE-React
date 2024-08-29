@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import { Cloudinary } from 'cloudinary-core';
 import './VendorProducts.css'; 
 
 const VendorProducts = () => {
@@ -38,6 +39,7 @@ const VendorProducts = () => {
         package_weight: ''
     });
 
+    const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
 
     const vendorId = localStorage.getItem('vendorId');
 
@@ -134,12 +136,37 @@ const VendorProducts = () => {
         setFormValues(prevValues => ({ ...prevValues, [id]: value }));
     };
 
+    const handleImageUpload = async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'carbonecom'); // Set this up in Cloudinary
+    
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.config().cloud_name}/image/upload/carbonecom`, {
+            method: 'POST',
+            body: formData,
+        });
+    
+        if (response.ok) {
+            const data = await response.json();
+            return data.secure_url; // The URL of the uploaded image
+        } else {
+            throw new Error('Failed to upload image');
+        }
+    };
+
     const handleAddNewProduct = async () => {
         const { title, description, price, quantity, brand, manufacturer, package_length, package_width, package_height, package_weight } = formValues;
     
         if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !package_length || !package_width || !package_height || !package_weight) {
             alert('Please fill in all required fields.');
             return;
+        }
+    
+        // Handle the image upload and get the URL
+        const fileInput = document.querySelector('.custom-upload-btn input[type="file"]');
+        let mediaUrl = '';
+        if (fileInput && fileInput.files.length > 0) {
+            mediaUrl = await handleImageUpload(fileInput.files[0]);
         }
     
         const newProduct = {
@@ -154,7 +181,8 @@ const VendorProducts = () => {
             package_length: parseInt(package_length),
             package_width: parseInt(package_width),
             package_height: parseInt(package_height),
-            package_weight: parseInt(package_weight)
+            package_weight: parseInt(package_weight),
+            media: [mediaUrl] // Store the uploaded image URL
         };
     
         try {
@@ -968,7 +996,10 @@ const VendorProducts = () => {
                                         <Form.Label className="text-center mb-0 fw-bold">Media</Form.Label>
                                         <div className="upload-section">
                                             <div className="upload-icon">&#8689;</div>
-                                            <Button variant="light" className="custom-upload-btn">Add File</Button>
+                                            <Button variant="light" className="custom-upload-btn">
+                                                <input type="file" accept="image/*" />
+                                                
+                                            </Button>
                                             <div className="upload-instructions">or Drag and Drop files Here</div>
                                         </div>
                                     </Form.Group>
