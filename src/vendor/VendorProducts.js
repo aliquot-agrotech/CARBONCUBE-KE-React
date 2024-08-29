@@ -215,9 +215,34 @@ const VendorProducts = () => {
     };
     
 
-    const handleDeleteProduct = (productId) => {
+    const handleDeleteProduct = async (productId) => {
         console.log('Delete product clicked for product ID:', productId);
+        
+        const confirmed = window.confirm("Are you sure you want to delete this product?");
+        if (!confirmed) return; // Exit if the user cancels the deletion
+        
+        try {
+            const response = await fetch(`http://localhost:3000/vendor/products/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to delete the product.');
+            }
+    
+            // If the product was successfully deleted, remove it from the local state
+            setProducts(prevProducts => prevProducts.filter(product => product.id !== productId));
+    
+            console.log('Product deleted successfully');
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            alert('There was an error deleting the product. Please try again.');
+        }
     };
+    
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -922,7 +947,7 @@ const VendorProducts = () => {
                                             placeholder="Enter product title"
                                             value={formValues.title}
                                             onChange={handleFormChange}
-                                            className="custom-input"
+                                            className="custom-input mb-1 rounded-pill"
                                         />
                                     </Form.Group>
 
@@ -935,7 +960,7 @@ const VendorProducts = () => {
                                             placeholder="Enter product description"
                                             value={formValues.description}
                                             onChange={handleFormChange}
-                                            className="custom-input"
+                                            className="custom-input mb-1"
                                         />
                                     </Form.Group>
 
@@ -955,7 +980,7 @@ const VendorProducts = () => {
                                         <Form.Control
                                             id="category_id"
                                             as="select"
-                                            className="custom-input"
+                                            className="custom-input mb-1 rounded-pill"
                                             value={selectedCategory}
                                             onChange={(e) => setSelectedCategory(e.target.value)}
                                         >
@@ -973,7 +998,7 @@ const VendorProducts = () => {
                                         <Form.Control
                                             id="subcategory_id"
                                             as="select"
-                                            className="custom-input"
+                                            className="custom-input mb-1 rounded-pill"
                                             value={selectedSubcategory}
                                             onChange={(e) => setSelectedSubcategory(e.target.value)}
                                         >
@@ -994,7 +1019,7 @@ const VendorProducts = () => {
                                             placeholder="Enter product price"
                                             value={formValues.price}
                                             onChange={handleFormChange}
-                                            className="custom-input"
+                                            className="custom-input mb-1 rounded-pill"
                                         />
                                     </Form.Group>
 
@@ -1006,7 +1031,7 @@ const VendorProducts = () => {
                                             placeholder="Enter quantity"
                                             value={formValues.quantity}
                                             onChange={handleFormChange}
-                                            className="custom-input"
+                                            className="custom-input mb-1 rounded-pill"
                                         />
                                     </Form.Group>
 
@@ -1018,7 +1043,7 @@ const VendorProducts = () => {
                                             placeholder="Enter brand"
                                             value={formValues.brand}
                                             onChange={handleFormChange}
-                                            className="custom-input"
+                                            className="custom-input mb-1 rounded-pill"
                                         />
                                     </Form.Group>
 
@@ -1030,7 +1055,7 @@ const VendorProducts = () => {
                                             placeholder="Enter manufacturer"
                                             value={formValues.manufacturer}
                                             onChange={handleFormChange}
-                                            className="custom-input"
+                                            className="custom-input mb-1 rounded-pill"
                                         />
                                     </Form.Group>
 
@@ -1042,7 +1067,7 @@ const VendorProducts = () => {
                                             placeholder="Length"
                                             value={formValues.package_length}
                                             onChange={handleFormChange}
-                                            className="custom-input mb-2"
+                                            className="custom-input mb-2 rounded-pill"
                                         />
                                         <Form.Control
                                             id="package_width"
@@ -1050,7 +1075,7 @@ const VendorProducts = () => {
                                             placeholder="Width"
                                             value={formValues.package_width}
                                             onChange={handleFormChange}
-                                            className="custom-input mb-2"
+                                            className="custom-input mb-2 rounded-pill"
                                         />
                                         <Form.Control
                                             id="package_height"
@@ -1058,7 +1083,7 @@ const VendorProducts = () => {
                                             placeholder="Height"
                                             value={formValues.package_height}
                                             onChange={handleFormChange}
-                                            className="custom-input"
+                                            className="custom-input rounded-pill"
                                         />
                                     </Form.Group>
 
@@ -1070,7 +1095,7 @@ const VendorProducts = () => {
                                             placeholder="Enter package weight"
                                             value={formValues.package_weight}
                                             onChange={handleFormChange}
-                                            className="custom-input"
+                                            className="custom-input mb-1 rounded-pill"
                                         />
                                     </Form.Group>
                                 </Col>

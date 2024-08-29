@@ -16,6 +16,7 @@
     border: 1px solid #B0C4DE;
     padding: 6px;
     font-size: 16px;
+    margin-bottom: 5px;
   }
   
   .custom-input::placeholder {
@@ -88,5 +89,7 @@
   z-index: 500; /* Set lower than the delete button */
 }
 
-
+.button{
+  border-radius: 1.5rem;
+}
   
