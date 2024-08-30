@@ -136,12 +136,12 @@ const VendorProducts = () => {
         setFormValues(prevValues => ({ ...prevValues, [id]: value }));
     };
 
-    const handleImageUpload = async (file) => {
+    const handleImageUpload = async (files) => {
         const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'carbonecom'); // Set this up in Cloudinary
+        formData.append('file', files);
+        formData.append('upload_preset', 'carbonecom'); // Ensure this is set up in Cloudinary
     
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.config().cloud_name}/image/upload/carbonecom`, {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.config().cloud_name}/image/upload/`, {
             method: 'POST',
             body: formData,
         });
@@ -153,6 +153,7 @@ const VendorProducts = () => {
             throw new Error('Failed to upload image');
         }
     };
+    
 
     const handleAddNewProduct = async () => {
         const { title, description, price, quantity, brand, manufacturer, package_length, package_width, package_height, package_weight } = formValues;
@@ -162,11 +163,14 @@ const VendorProducts = () => {
             return;
         }
     
-        // Handle the image upload and get the URL
         const fileInput = document.querySelector('.custom-upload-btn input[type="file"]');
-        let mediaUrl = '';
+        let mediaUrls = [];
+    
         if (fileInput && fileInput.files.length > 0) {
-            mediaUrl = await handleImageUpload(fileInput.files[0]);
+            for (let i = 0; i < fileInput.files.length; i++) {
+                const mediaUrl = await handleImageUpload(fileInput.files[i]);
+                mediaUrls.push(mediaUrl);
+            }
         }
     
         const newProduct = {
@@ -182,7 +186,7 @@ const VendorProducts = () => {
             package_width: parseInt(package_width),
             package_height: parseInt(package_height),
             package_weight: parseInt(package_weight),
-            media: [mediaUrl] // Store the uploaded image URL
+            media: mediaUrls // Store all the uploaded image URLs
         };
     
         try {
@@ -201,6 +205,9 @@ const VendorProducts = () => {
     
             const result = await response.json();
             console.log('Product added successfully:', result);
+    
+            // Update the products state to include the new product
+            setProducts(prevProducts => [...prevProducts, result]);
     
             // Optionally clear form fields
             setFormValues({
@@ -223,6 +230,9 @@ const VendorProducts = () => {
             alert('Failed to add product. Please try again.');
         }
     };
+    
+    
+    
     
 
     const handleViewDetailsClick = (product) => {
@@ -997,7 +1007,7 @@ const VendorProducts = () => {
                                         <div className="upload-section">
                                             <div className="upload-icon">&#8689;</div>
                                             <Button variant="light" className="custom-upload-btn">
-                                                <input type="file" accept="image/*" />
+                                                <input type="file" accept="image/*" multiple />
                                                 
                                             </Button>
                                             <div className="upload-instructions">or Drag and Drop files Here</div>
