@@ -67,7 +67,7 @@ const Sidebar = () => {
             <Envelope className="icon" /> {isOpen && 'Messages'}
           </Nav.Link>
           <Nav.Link
-            href="/vendor/notifications"
+            href="/vendor/vendor-notifications"
             className={location.pathname === '/vendor/notifications' ? 'active' : ''}>
             <Bell className="icon" /> {isOpen && 'Notifications'}
           </Nav.Link>

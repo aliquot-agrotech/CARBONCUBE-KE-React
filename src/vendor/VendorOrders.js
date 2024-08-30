@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Row, Col, Form, Card, Spinner } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import consumer from "../cable"; // Import ActionCable consumer
 
 const VendorOrders = () => {
     const [showModal, setShowModal] = useState(false);
@@ -27,11 +28,8 @@ const VendorOrders = () => {
                 }
 
                 const data = await response.json();
-                console.log('Fetched orders:', data);
-                data.sort((a, b) => a.id - b.id);
                 setOrders(data);
             } catch (error) {
-                console.error('Error fetching orders:', error);
                 setError('Error fetching orders');
             } finally {
                 setLoading(false);
@@ -39,6 +37,22 @@ const VendorOrders = () => {
         };
 
         fetchOrders();
+
+        // Subscribe to the orders channel for real-time updates
+        const subscription = consumer.subscriptions.create("OrdersChannel", {
+            received: (data) => {
+                const updatedOrder = data.order;
+                setOrders(prevOrders =>
+                    prevOrders.map(order =>
+                        order.id === updatedOrder.id ? updatedOrder : order
+                    )
+                );
+            }
+        });
+
+        return () => {
+            subscription.unsubscribe();
+        };
     }, [searchQuery, vendorId]);
 
     const handleRowClick = async (orderId) => {

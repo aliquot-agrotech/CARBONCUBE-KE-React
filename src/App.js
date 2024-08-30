@@ -15,6 +15,7 @@ import VendorAnalytics from './vendor/VendorAnalytics';
 import VendorOrders from './vendor/VendorOrders';
 import VendorProducts from './vendor/VendorProducts';
 import VendorMessages from './vendor/Messages';
+import VendorNotifications from './vendor/VendorNotifications';
 import PurchaserDashboard from './purchaser/HomePage';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
 import PrivateRoute from './components/PrivateRoute';
@@ -77,6 +78,7 @@ function App() {
             <Route path="vendor-orders" element={<VendorOrders onLogout={handleLogout} />} />
             <Route path="vendor-products" element={<VendorProducts onLogout={handleLogout} />} />
             <Route path="messages" element={<VendorMessages onLogout={handleLogout} />} />
+            <Route path="vendor-notifications" element={<VendorNotifications onLogout={handleLogout} />} />
           </Route>
         )}
         {isAuthenticated && userRole === 'purchaser' && (
