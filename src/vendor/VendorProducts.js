@@ -22,6 +22,7 @@ const VendorProducts = () => {
     const [selectedSubcategory, setSelectedSubcategory] = useState('');
     const [newImageUrl, setNewImageUrl] = useState('');
     const [isSaving, setIsSaving] = useState(false);
+    // const [files, setFiles] = useState([]);
     const [editedProduct, setEditedProduct] = useState({
         media: []  // Assuming 'images' holds the URLs of the product images
     });
@@ -346,12 +347,16 @@ const VendorProducts = () => {
     };
 
     // Function to add an image URL
-    const handleAddImage = async () => {
+    const handleAddImages = async () => {
         if (newImageUrl.trim()) {
             try {
-                const updatedMedia = [...editedProduct.media, newImageUrl.trim()];
-
-                // Send PATCH request to update the product's media array
+                // Upload image to Cloudinary
+                const imageUrl = await handleImageUpload(newImageUrl);
+                
+                // Append new image URL to media array
+                const updatedMedia = [...editedProduct.media, imageUrl];
+    
+                // Update the product's media array on the server
                 const response = await fetch(`http://localhost:3000/vendor/products/${editedProduct.id}`, {
                     method: 'PATCH',
                     headers: {
@@ -360,19 +365,19 @@ const VendorProducts = () => {
                     },
                     body: JSON.stringify({ product: { media: updatedMedia } }),
                 });
-
+    
                 if (!response.ok) {
                     throw new Error('Failed to update product');
                 }
-
+    
                 const updatedProduct = await response.json();
-
+    
                 // Update the product in the local state
                 setEditedProduct(updatedProduct);
                 setProducts(prevProducts => 
                     prevProducts.map(p => p.id === updatedProduct.id ? updatedProduct : p)
                 );
-
+    
                 setNewImageUrl('');
                 console.log('Image added successfully');
             } catch (error) {
@@ -380,6 +385,34 @@ const VendorProducts = () => {
             }
         }
     };
+    
+
+
+
+    const handleFileSelect = async (files) => {
+        if (files.length > 0) {
+            try {
+                const fileArray = Array.from(files);
+                const uploadPromises = fileArray.map(file => handleImageUpload(file));
+    
+                // Upload all images
+                const imageUrls = await Promise.all(uploadPromises);
+    
+                // Add the image URLs to the media array
+                const updatedMedia = [...editedProduct.media, ...imageUrls];
+                setEditedProduct(prev => ({
+                    ...prev,
+                    media: updatedMedia
+                }));
+    
+                console.log('Images uploaded and added successfully');
+            } catch (error) {
+                console.error('Error uploading images:', error);
+            }
+        }
+    };
+    
+    
 
     const handleDeleteImage = async (index) => {
         try {
@@ -855,29 +888,23 @@ const VendorProducts = () => {
                             
                             
                             <Form.Group className="d-flex flex-column align-items-center mb-3">
-                            <Form.Label className="text-center mb-0 fw-bold">Add Image URL</Form.Label>
-                            <Form.Control 
-                                type="text"
-                                placeholder="Enter product image URL"
-                                id="button" 
-                                value={newImageUrl}
-                                onChange={(e) => setNewImageUrl(e.target.value)} 
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
-                                        handleAddImage();
-                                    }
-                                }}
-                            />
-                            <Button 
-                                variant="warning"
-                                id="button" 
-                                onClick={handleAddImage} 
-                                className="mt-2"
-                            >
-                                Add Image
-                            </Button>
-                        </Form.Group>
+                                <Form.Label className="text-center mb-0 fw-bold">Add Images</Form.Label>
+                                <Form.Control 
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={(e) => handleFileSelect(e.target.files)}
+                                />
+                                <Button 
+                                    variant="warning"
+                                    onClick={handleAddImages} 
+                                    className="mt-2"
+                                >
+                                    Upload and Add Images
+                                </Button>
+                            </Form.Group>
+
+
 
 
                             <Form.Group className="d-flex flex-column align-items-center">
