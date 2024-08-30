@@ -335,7 +335,10 @@ const ProductsManagement = () => {
                                     filteredNonFlaggedProducts.map(product => (
                                         <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
                                             <Card>
-                                                <Card.Img variant="top" src={product.imageUrl} />
+                                            <Card.Img 
+                                                variant="top" 
+                                                src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
+                                            />
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
                                                     <Card.Text className="price-container">
@@ -385,7 +388,10 @@ const ProductsManagement = () => {
                                     flaggedProducts.map(product => (
                                         <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
                                             <Card>
-                                                <Card.Img variant="top" src={product.imageUrl} />
+                                            <Card.Img 
+                                                variant="top" 
+                                                src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
+                                            />
                                                 <Card.Body>
                                                     <Card.Title>{product.title}</Card.Title>
                                                     <Card.Text className="price-container">
@@ -434,8 +440,8 @@ const ProductsManagement = () => {
                         {selectedProduct && (
                             <>
                                 <Carousel>
-                                    {selectedProduct.images && selectedProduct.images.length > 0 ? (
-                                        selectedProduct.images.map((image, index) => (
+                                    {selectedProduct.media && selectedProduct.media.length > 0 ? (
+                                        selectedProduct.media.map((image, index) => (
                                             <Carousel.Item key={index}>
                                                 <img
                                                     className="d-block w-100"

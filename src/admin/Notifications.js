@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
 import { Gear, Truck, GeoAlt } from 'react-bootstrap-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTruckFast } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import Spinner from "react-spinkit";
@@ -84,12 +86,14 @@ const Notifications = () => {
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'processing':
-                return 'processing';
-            case 'on-transit':
-                return 'on-transit';
-            case 'delivered':
-                return 'delivered';
+            case 'Processing':
+                return 'Processing';
+            case 'Dispatched':
+                return 'Dispatched';
+            case 'On-Transit':
+                return 'On-Transit';
+            case 'Delivered':
+                return 'Delivered';
             default:
                 return '';
         }
@@ -97,11 +101,13 @@ const Notifications = () => {
 
     const getStatusIcon = (status) => {
         switch (status) {
-            case 'processing':
+            case 'Processing':
                 return <Gear className="status-icon processing" />;
-            case 'on-transit':
-                return <Truck className="status-icon on-transit" />;
-            case 'delivered':
+            case 'Dispatched':
+                return <Truck className="status-icon dispatched" />;
+            case 'On-Transit':
+                return <FontAwesomeIcon icon={faTruckFast} className="status-icon on-transit" />;
+            case 'Delivered':
                 return <GeoAlt className="status-icon delivered" />;
             default:
                 return null;
@@ -110,11 +116,13 @@ const Notifications = () => {
 
     const getStatusMessage = (status, id) => {
         switch (status) {
-            case 'processing':
+            case 'Processing':
                 return `Order #${id} is under processing and ready to be sent out for delivery.`;
-            case 'on-transit':
+            case 'Dispatched':
+                return `Order #${id} has been dispatched to the collection centre (Warehouse).`;
+            case 'On-Transit':
                 return `Order #${id} is on transit to the delivery address.`;
-            case 'delivered':
+            case 'Delivered':
                 return `Order #${id} has been delivered to the provided address.`;
             default:
                 return '';
@@ -178,7 +186,7 @@ const Notifications = () => {
                                         <p>No notifications available</p>
                                     )}
                                 </Card.Body>
-                                <Card.Footer className="big-card-footer mb-1">CARBON - Admin</Card.Footer>
+                                <Card.Footer className="big-card-footer mb-1"></Card.Footer>
                             </Card>
                         </Col>
                     </Row>
