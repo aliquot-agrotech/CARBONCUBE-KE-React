@@ -38,6 +38,7 @@
 .sidebar .dropdown-item.active {
   background-color: #ffc107;
   color: #000;
+  transform: scale3d(1.1, 1.1, 1.1);
 }
 
 .sidebar .nav-link.previous {

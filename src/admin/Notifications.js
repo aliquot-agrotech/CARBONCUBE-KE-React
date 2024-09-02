@@ -164,8 +164,10 @@ const Notifications = () => {
                                                             Order #{notification.order_id}
                                                         </span>
                                                         <Badge
-                                                            bg={notification.status === 'processing' ? 'warning' :
-                                                                notification.status === 'on-transit' ? 'info' : 'success'}
+                                                            bg={notification.status === 'Processing' ? 'warning' :
+                                                                notification.status === 'Dispatched' ? 'primary' :
+                                                                notification.status === 'Delivered' ? 'success' :
+                                                                notification.status === 'On-Transit' ? 'info' : 'success'}
                                                         >
                                                             {notification.status}
                                                         </Badge>

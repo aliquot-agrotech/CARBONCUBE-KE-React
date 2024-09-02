@@ -65,7 +65,7 @@ const VendorAnalytics = () => {
               <Col xs={12} md={3}>
               <Card className="mb-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Total Orders
+                    Average Rating
                   </Card.Header>
                   <Card.Body>
                     <Card.Text className="text-center">
