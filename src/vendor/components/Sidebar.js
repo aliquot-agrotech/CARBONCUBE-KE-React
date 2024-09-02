@@ -68,7 +68,7 @@ const Sidebar = () => {
           </Nav.Link>
           <Nav.Link
             href="/vendor/vendor-notifications"
-            className={location.pathname === '/vendor/notifications' ? 'active' : ''}>
+            className={location.pathname === '/vendor/vendor-notifications' ? 'active' : ''}>
             <Bell className="icon" /> {isOpen && 'Notifications'}
           </Nav.Link>
         </Nav>
