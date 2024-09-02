@@ -106,33 +106,45 @@ const HomePage = () => {
     );
 
 
-    const SubcategorySection = ({ subcategory, products }) => (
-        <Card className="subcategory-section mb-4">
-            <Card.Body>
-                <Row>
-                    {products.slice(0, 4).map(product => (
-                        <Col xs={12} sm={6} md={3} key={product.id}>
-                            <Card className="product-card">
-                                <Card.Img
-                                    variant="top"
-                                    src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}
-                                    alt={product.name}
-                                    className="product-image"
-                                />
-                                <Card.Body className="text-center">
-                                    <Card.Title>{product.title}</Card.Title>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
-            </Card.Body>
-            <Card.Footer className="d-flex justify-content-start">
-                <h5 className='m-0'>{subcategory}</h5>
-            </Card.Footer>
-        </Card>
-    );
+    const SubcategorySection = ({ subcategory, products }) => {
+        // Limit to the first four products
+        const displayedProducts = products.slice(0, 4);
     
+        // Split products into chunks of 2
+        const productRows = [];
+        for (let i = 0; i < displayedProducts.length; i += 2) {
+            productRows.push(displayedProducts.slice(i, i + 2));
+        }
+    
+        return (
+            <Card className="subcategory-section mb-2">
+                <Card.Body>
+                    {productRows.map((row, index) => (
+                        <Row key={index} className="mb-2"> {/* Add a margin-bottom to space rows */}
+                            {row.map(product => (
+                                <Col xs={12} sm={6} key={product.id}>
+                                    <Card className="product-card">
+                                        <Card.Img
+                                            variant="top"
+                                            src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}
+                                            alt={product.title}
+                                            className="product-image"
+                                        />
+                                        <Card.Body className="text-center">
+                                            <Card.Title>{product.title}</Card.Title>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))}
+                        </Row>
+                    ))}
+                </Card.Body>
+                <Card.Footer className="d-flex justify-content-start">
+                    <h5 className='m-0'>{subcategory}</h5>
+                </Card.Footer>
+            </Card>
+        );
+    };
     
 
     const PopularProductsSection = ({ products }) => (
@@ -142,7 +154,7 @@ const HomePage = () => {
             </Card.Header>
             <Card.Body>
                 <Row>
-                    {products.slice(0, 5).map(product => (
+                    {products.slice(0, 6).map(product => (
                         <Col xs={12} sm={6} md={2} key={product.id}>
                             <Card className="product-card">
                                 <Card.Img variant="top" src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} />
