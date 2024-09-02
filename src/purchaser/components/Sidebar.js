@@ -47,9 +47,9 @@ const Sidebar = () => {
         </Button>
         <Nav className="flex-column">
           <Nav.Link
-            href="/admin/analytics-reporting"
-            className={location.pathname === '/admin/analytics-reporting' ? 'active' : ''}>
-            <GraphUp className="icon" /> {isOpen && 'Analytics & Reporting'}
+            href="/purchaser/homepage"
+            className={location.pathname === '/purchaser/homepage' ? 'active' : ''}>
+            <GraphUp className="icon" /> {isOpen && 'HomePage'}
           </Nav.Link>
           <Nav.Link
             href="/admin/orders-management"

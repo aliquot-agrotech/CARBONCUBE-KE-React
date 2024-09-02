@@ -1,0 +1,113 @@
+.homepage {
+    background-color: #f8f9fa;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.sidebar-col {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.toggle-sidebar-btn {
+    margin-bottom: 20px;
+}
+
+.section {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px; /* Add space below each section */
+}
+
+.category-header, .popular-products-header {
+    background-color: #343a40;
+    color: white;
+    padding: 10px; /* Add padding inside header */
+}
+
+.subcategory-section {
+    margin-bottom: 20px; /* Add space below each subcategory section */
+}
+
+/* HomePage.css */
+.subcategory-section {
+    margin-bottom: 20px;
+}
+
+.category-header {
+    background-color: #f8f9fa;
+}
+
+.product-card {
+    margin-bottom: 20px;
+}
+
+
+.product-card {
+    margin-bottom: 15px;
+}
+
+.product-card img {
+    height: 150px;
+    object-fit: cover;
+}
+
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px; /* Add padding inside footer */
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.social-media-links {
+    list-style: none;
+    padding: 0;
+}
+
+.social-media-links li {
+    margin-bottom: 10px;
+}
+
+.centered-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Adjust spacing for rows and containers */
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.col {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Add spacing around the containers */
+.container {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Adjust specific container margins for larger screens */
+@media (min-width: 768px) {
+    .container-fluid {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
