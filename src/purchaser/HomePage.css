@@ -1,7 +1,10 @@
 .homepage {
-    background-color: #f8f9fa;
+    background-color: #e0e0e0;
     padding-left: 15px;
     padding-right: 15px;
+    font-family: "Fira Sans Extra Condensed", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .sidebar-col {
@@ -23,7 +26,13 @@
     margin-bottom: 20px; /* Add space below each section */
 }
 
-.category-header, .popular-products-header {
+.section .category-header {
+    background-color: #343a40;
+    color: white;
+    padding: 10px; /* Add padding inside header */
+}
+
+.section .popular-products-header {
     background-color: #343a40;
     color: white;
     padding: 10px; /* Add padding inside header */
@@ -33,28 +42,35 @@
     margin-bottom: 20px; /* Add space below each subcategory section */
 }
 
-/* HomePage.css */
+
+.product-card {
+    border: none;
+    overflow: hidden;
+}
+
+.product-image {
+    height: 200px;
+    object-fit: cover; /* Ensures the image covers the card area without distortion */
+    width: 100%; /* Ensures the image takes up the full width of the card */
+}
+
 .subcategory-section {
     margin-bottom: 20px;
 }
 
-.category-header {
-    background-color: #f8f9fa;
-}
-
-.product-card {
-    margin-bottom: 20px;
+.product-card .card-body {
+    padding: 10px;
 }
 
 
-.product-card {
+/* .product-card {
     margin-bottom: 15px;
 }
 
 .product-card img {
     height: 150px;
     object-fit: cover;
-}
+} */
 
 .footer {
     background-color: #343a40;

@@ -14,6 +14,7 @@ const HomePage = () => {
     useEffect(() => {
         const fetchCategoriesAndProducts = async () => {
             try {
+                // Fetch categories
                 const categoryResponse = await fetch('http://localhost:3000/purchaser/categories', {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -47,6 +48,7 @@ const HomePage = () => {
     
                 setCategories(categoriesWithSubcategories);
     
+                // Fetch products
                 const productResponse = await fetch('http://localhost:3000/purchaser/products', {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -59,11 +61,11 @@ const HomePage = () => {
     
                 const productData = await productResponse.json();
     
-                // Organize products under their respective subcategories
+                // Organize products under their respective subcategories using subcategory_id
                 const productsBySubcategory = {};
                 subcategoryData.forEach(subcategory => {
-                    productsBySubcategory[subcategory.name] = productData
-                        .filter(product => product.subcategory === subcategory.name)
+                    productsBySubcategory[subcategory.id] = productData
+                        .filter(product => product.subcategory_id === subcategory.id)
                         .sort(() => 0.5 - Math.random()); // Randomize product order
                 });
     
@@ -83,33 +85,10 @@ const HomePage = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    const SubcategorySection = ({ subcategory, products }) => (
-        <Card className="subcategory-section mb-4">
-            <Card.Header className="text-center">
-                <h4>{subcategory}</h4>
-            </Card.Header>
-            <Card.Body>
-                <Row>
-                    {products.slice(0, 4).map(product => (
-                        <Col xs={12} sm={6} md={3} key={product.id}>
-                            <Card className="product-card">
-                                <Card.Img variant="top" src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} />
-                                <Card.Body className="text-center">
-                                    <Card.Title>{product.name}</Card.Title>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
-            </Card.Body>
-        </Card>
-    );
-    
-
     const CategorySection = ({ title, subcategories }) => (
         <Card className="section mb-4">
-            <Card.Header className="text-center category-header">
-                <h3>{title}</h3>
+            <Card.Header className="category-header d-flex justify-content-start">
+                <h4 className='m-0'>{title}</h4>
             </Card.Header>
             <Card.Body>
                 <Row>
@@ -117,7 +96,7 @@ const HomePage = () => {
                         <Col xs={12} sm={6} md={3} key={subcategory.id}>
                             <SubcategorySection
                                 subcategory={subcategory.name}
-                                products={products[subcategory.name] || []}
+                                products={products[subcategory.id] || []}
                             />
                         </Col>
                     ))}
@@ -125,11 +104,40 @@ const HomePage = () => {
             </Card.Body>
         </Card>
     );
+
+
+    const SubcategorySection = ({ subcategory, products }) => (
+        <Card className="subcategory-section mb-4">
+            <Card.Body>
+                <Row>
+                    {products.slice(0, 4).map(product => (
+                        <Col xs={12} sm={6} md={3} key={product.id}>
+                            <Card className="product-card">
+                                <Card.Img
+                                    variant="top"
+                                    src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}
+                                    alt={product.name}
+                                    className="product-image"
+                                />
+                                <Card.Body className="text-center">
+                                    <Card.Title>{product.title}</Card.Title>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Card.Body>
+            <Card.Footer className="d-flex justify-content-start">
+                <h5 className='m-0'>{subcategory}</h5>
+            </Card.Footer>
+        </Card>
+    );
+    
     
 
     const PopularProductsSection = ({ products }) => (
         <Card className="section mb-4">
-            <Card.Header className="text-center popular-products-header">
+            <Card.Header className="d-flex justify-content-start popular-products-header">
                 <h3>Popular Products</h3>
             </Card.Header>
             <Card.Body>
@@ -223,7 +231,7 @@ const HomePage = () => {
                             </Button>
 
                             {/* Displaying Category Sections with Subcategories */}
-                            {categories.slice(0, 3).map(category => (
+                            {categories.map(category => (
                                 <CategorySection
                                     key={category.id}
                                     title={category.name}
