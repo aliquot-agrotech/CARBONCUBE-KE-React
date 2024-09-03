@@ -5,7 +5,7 @@ import './TopNavbar.css';
 
 const TopNavbar = ({ onSidebarToggle, sidebarOpen }) => {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar">
+    <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar mb-0">
       <Container fluid>
         <Button 
           variant="warning" 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import Banner from './components/Banner'; 
 import './HomePage.css'; // Import the CSS file
 
 const HomePage = () => {
@@ -225,6 +226,7 @@ const HomePage = () => {
     return (
         <>
             <TopNavbar onSidebarToggle={handleSidebarToggle} />
+            <Banner />
             <div className="homepage d-flex flex-column min-vh-100">
                 <Container fluid className="p-0 flex-grow-1">
                     <Row>
@@ -241,7 +243,10 @@ const HomePage = () => {
                             >
                                 {sidebarOpen ? 'Hide Sidebar' : 'Show Sidebar'}
                             </Button>
-
+                            
+                            {/* Include the Banner component */}
+                           
+                            
                             {/* Displaying Category Sections with Subcategories */}
                             {categories.map(category => (
                                 <CategorySection
