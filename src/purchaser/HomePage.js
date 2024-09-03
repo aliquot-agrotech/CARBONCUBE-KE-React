@@ -127,12 +127,12 @@ const HomePage = () => {
                                     <Card className="product-card">
                                         <Card.Img
                                             variant="top"
-                                            src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}
+                                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                             alt={product.title}
                                             className="product-image"
                                         />
                                         <Card.Body className="text-center">
-                                            <Card.Title>{product.title}</Card.Title>
+                                            <Card.Title className="mb-0">{product.title}</Card.Title>
                                         </Card.Body>
                                     </Card>
                                 </Col>
