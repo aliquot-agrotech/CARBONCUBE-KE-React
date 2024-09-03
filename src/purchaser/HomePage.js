@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import Banner from './components/Banner'; 
@@ -226,6 +226,7 @@ const HomePage = () => {
     return (
         <>
             <TopNavbar onSidebarToggle={handleSidebarToggle} />
+            {/* Include the Banner component */}
             <Banner />
             <div className="homepage d-flex flex-column min-vh-100">
                 <Container fluid className="p-0 flex-grow-1">
@@ -235,18 +236,7 @@ const HomePage = () => {
                                 <Sidebar />
                             </Col>
                         )}
-                        <Col xs={12} md={sidebarOpen ? 10 : 12} className="p-2">
-                            <Button
-                                variant="primary"
-                                onClick={handleSidebarToggle}
-                                className="toggle-sidebar-btn"
-                            >
-                                {sidebarOpen ? 'Hide Sidebar' : 'Show Sidebar'}
-                            </Button>
-                            
-                            {/* Include the Banner component */}
-                           
-                            
+                        <Col xs={12} md={12} className="p-2">
                             {/* Displaying Category Sections with Subcategories */}
                             {categories.map(category => (
                                 <CategorySection
@@ -255,7 +245,6 @@ const HomePage = () => {
                                     subcategories={category.subcategories || []}
                                 />
                             ))}
-
                             {/* Popular Products Row */}
                             <PopularProductsSection products={Object.values(products).flat()} />
                         </Col>

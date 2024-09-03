@@ -5,6 +5,9 @@
     font-family: "Fira Sans Extra Condensed", sans-serif;
     font-weight: 400;
     font-style: normal;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .sidebar-col {
@@ -118,6 +121,28 @@
 .container {
     padding-left: 15px;
     padding-right: 15px;
+}
+
+
+.content-col {
+    transition: margin-left 0.3s ease-in-out;
+}
+
+@media (min-width: 768px) {
+    .sidebar-open .content-col {
+        margin-left: 275px; /* This should match the width of your open sidebar */
+    }
+}
+
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
 }
 
 /* Adjust specific container margins for larger screens */

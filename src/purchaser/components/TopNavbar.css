@@ -1,9 +1,9 @@
-/* TopNavbar.css */
 .navbar {
   font-family: "Fira Sans Extra Condensed", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
+
 .navbar-dark .navbar-brand {
   color: #ffc107;
 }
@@ -16,3 +16,34 @@
   color: #ffc107;
 }
 
+.toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-button {
+  margin-right: 15px;
+  padding: 5px 10px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toggle-button.fade-in {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toggle-button.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toggle-container.hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .toggle-button {
+    margin-right: 10px;
+  }
+}
