@@ -158,7 +158,7 @@ const HomePage = () => {
                     {products.slice(0, 6).map(product => (
                         <Col xs={12} sm={6} md={2} key={product.id}>
                             <Card className="product-card">
-                                <Card.Img variant="top" src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} />
+                                <Card.Img variant="top" src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'} />
                             </Card>
                         </Col>
                     ))}
