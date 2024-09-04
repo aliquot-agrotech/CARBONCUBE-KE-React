@@ -85,6 +85,16 @@
   color: #000;
 }
 
+
+.dropdown-filter .dropdown-menu {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 0.25rem;
+  margin: 0;
+  padding: 0;
+}
+
 @media (max-width: 768px) {
   .search-bar {
     width: 70%;

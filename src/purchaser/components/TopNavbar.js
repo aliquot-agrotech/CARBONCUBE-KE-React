@@ -91,8 +91,8 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto"></Nav>
           <Form className="d-flex search-control" onSubmit={onSubmit}>
-            <Dropdown className="me-2">
-              <Dropdown.Toggle variant="secondary" id="button">
+            <Dropdown className="me-2 dropdown-filter">
+              <Dropdown.Toggle variant="warning" id="button">
                 {selectedCategory === 'All' && selectedSubcategory === 'All' ? (
                   <FontAwesomeIcon icon={faFilter} />
                 ) : (
@@ -106,18 +106,19 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
                   </>
                 )}
               </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleCategorySelect('All')}>
+              <Dropdown.Menu className="dropdown-menu">
+                <Dropdown.Item onClick={() => handleCategorySelect('All')} id="button">
                   All Categories
                 </Dropdown.Item>
                 {categories.map(category => (
-                  <Dropdown.Item key={category.id} onClick={() => handleCategorySelect(category.id)}>
+                  <Dropdown.Item key={category.id} onClick={() => handleCategorySelect(category.id)} id="button">
                     {category.name}
                     {category.subcategories.length > 0 && (
                       <div className="dropdown-submenu">
                         {category.subcategories.map(subcategory => (
                           <Dropdown.Item 
                             key={subcategory.id}
+                            id="button"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleSubcategorySelect(subcategory.id);
@@ -137,9 +138,10 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               placeholder="Search products..."
               className="me-sm-2"
               value={searchQuery}
+              id="button"
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button variant="warning" type="submit">
+            <Button variant="warning" type="submit" id="button">
               <FontAwesomeIcon icon={faSearch} />
             </Button>
           </Form>
