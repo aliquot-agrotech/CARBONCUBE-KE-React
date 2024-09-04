@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { House, Box, Truck, Person, FileText, Percent, Envelope, Bell, GraphUp, XCircle, ArrowRight, List } from 'react-bootstrap-icons';
+import { House, Box, Truck, Person, FileText, GraphUp, XCircle, ArrowRight, List } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -30,49 +30,34 @@ const Sidebar = () => {
             <GraphUp className="icon" /> {isOpen && 'HomePage'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/orders-management"
-            className={location.pathname === '/admin/orders-management' ? 'active' : ''}>
+            href="/purchaser/orders-history"
+            className={location.pathname === '/purchaser/orders-history' ? 'active' : ''}>
             <Truck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/products-management"
-            className={location.pathname === '/admin/products-management' ? 'active' : ''}>
-            <Box className="icon" /> {isOpen && 'Products'}
+            href="/purchaser/bookmarks"
+            className={location.pathname === '/purchaser/bookmarks' ? 'active' : ''}>
+            <Box className="icon" /> {isOpen && 'Bookmarks'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/categories-management"
-            className={location.pathname === '/admin/categories-management' ? 'active' : ''}>
-            <List className="icon" /> {isOpen && 'Categories'}
+            href="/purchaser/shopping-cart"
+            className={location.pathname === '/purchaser/shopping-cart' ? 'active' : ''}>
+            <List className="icon" /> {isOpen && 'Shopping Cart'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/vendors-management"
-            className={location.pathname === '/admin/vendors-management' ? 'active' : ''}>
-            <House className="icon" /> {isOpen && 'Vendors'}
+            href="/purchaser/messages"
+            className={location.pathname === '/purchaser/messages' ? 'active' : ''}>
+            <House className="icon" /> {isOpen && 'Messages'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/purchasers-management"
-            className={location.pathname === '/admin/purchasers-management' ? 'active' : ''}>
-            <Person className="icon" /> {isOpen && 'Purchasers'}
+            href="/purchaser/notifications"
+            className={location.pathname === '/purchaser/notifications' ? 'active' : ''}>
+            <Person className="icon" /> {isOpen && 'Notifications'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/content-management"
-            className={location.pathname === '/admin/content-management' ? 'active' : ''}>
-            <FileText className="icon" /> {isOpen && 'CMS'}
-          </Nav.Link>
-          <Nav.Link
-            href="/admin/promotions-discount"
-            className={location.pathname === '/admin/promotions-discount' ? 'active' : ''}>
-            <Percent className="icon" /> {isOpen && 'Promotions & Discount'}
-          </Nav.Link>
-          <Nav.Link
-            href="/admin/messages"
-            className={location.pathname === '/admin/messages' ? 'active' : ''}>
-            <Envelope className="icon" /> {isOpen && 'Messages'}
-          </Nav.Link>
-          <Nav.Link
-            href="/admin/notifications"
-            className={location.pathname === '/admin/notifications' ? 'active' : ''}>
-            <Bell className="icon" /> {isOpen && 'Notifications'}
+            href="/purchaser/profile"
+            className={location.pathname === '/purchaser/profile' ? 'active' : ''}>
+            <FileText className="icon" /> {isOpen && 'Profile'}
           </Nav.Link>
         </Nav>
       </div>

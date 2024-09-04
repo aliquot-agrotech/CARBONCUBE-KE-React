@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Container, Nav, Button } from 'react-bootstrap';
+import { Navbar, Container, Nav, Button, Form, FormControl } from 'react-bootstrap';
 import { List } from 'react-bootstrap-icons';
 import './TopNavbar.css';
 
-const TopNavbar = ({ onSidebarToggle, sidebarOpen }) => {
+const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, handleSearch }) => {
   const [isVisible, setIsVisible] = useState(!sidebarOpen);
 
   useEffect(() => {
@@ -32,7 +32,20 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen }) => {
         </div>
         <Navbar.Brand href="/purchaser/homepage">CARBON - Purchaser</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        
         <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto"></Nav> {/* Center align the search bar */}
+          <Form className="d-flex" onSubmit={handleSearch}>
+            <FormControl
+              type="text"
+              placeholder="Search products..."
+              className="me-sm-2"
+              id="button"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Button className="search-button" variant="outline-success" type="submit" id="button">Search</Button>
+          </Form>
           <Nav className="ms-auto">
             <Nav.Link href="/profile">Profile</Nav.Link>
             <Nav.Link href="/login">Logout</Nav.Link>

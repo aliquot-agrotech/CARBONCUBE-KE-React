@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
-import Banner from './components/Banner'; 
+import Banner from './components/Banner';
 import './HomePage.css'; // Import the CSS file
 
 const HomePage = () => {
@@ -11,6 +11,8 @@ const HomePage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
         const fetchCategoriesAndProducts = async () => {
@@ -21,47 +23,47 @@ const HomePage = () => {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-    
+
                 if (!categoryResponse.ok) {
                     throw new Error('Failed to fetch categories');
                 }
-    
+
                 const categoryData = await categoryResponse.json();
-    
+
                 // Fetch subcategories
                 const subcategoryResponse = await fetch('http://localhost:3000/purchaser/subcategories', {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-    
+
                 if (!subcategoryResponse.ok) {
                     throw new Error('Failed to fetch subcategories');
                 }
-    
+
                 const subcategoryData = await subcategoryResponse.json();
-    
+
                 // Organize subcategories under categories
                 const categoriesWithSubcategories = categoryData.map(category => ({
                     ...category,
                     subcategories: subcategoryData.filter(sub => sub.category_id === category.id)
                 }));
-    
+
                 setCategories(categoriesWithSubcategories);
-    
+
                 // Fetch products
                 const productResponse = await fetch('http://localhost:3000/purchaser/products', {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-    
+
                 if (!productResponse.ok) {
                     throw new Error('Failed to fetch products');
                 }
-    
+
                 const productData = await productResponse.json();
-    
+
                 // Organize products under their respective subcategories using subcategory_id
                 const productsBySubcategory = {};
                 subcategoryData.forEach(subcategory => {
@@ -69,7 +71,7 @@ const HomePage = () => {
                         .filter(product => product.subcategory_id === subcategory.id)
                         .sort(() => 0.5 - Math.random()); // Randomize product order
                 });
-    
+
                 setProducts(productsBySubcategory);
             } catch (error) {
                 setError('Error fetching data');
@@ -77,13 +79,23 @@ const HomePage = () => {
                 setLoading(false);
             }
         };
-    
+
         fetchCategoriesAndProducts();
     }, []);
-    
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!sidebarOpen);
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+
+        // Filter products based on search query
+        const results = Object.values(products).flat().filter(product =>
+            product.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        setSearchResults(results);
     };
 
     const CategorySection = ({ title, subcategories }) => (
@@ -106,20 +118,19 @@ const HomePage = () => {
         </Card>
     );
 
-
     const SubcategorySection = ({ subcategory, products }) => {
         // Limit to the first four products
         const displayedProducts = products.slice(0, 4);
-    
+
         // Split products into chunks of 2
         const productRows = [];
         for (let i = 0; i < displayedProducts.length; i += 2) {
             productRows.push(displayedProducts.slice(i, i + 2));
         }
-    
+
         return (
             <Card className="subcategory-section mb-2">
-                <Card.Body>
+                <Card.Body className="p-2">
                     {productRows.map((row, index) => (
                         <Row key={index} className="mb-2"> {/* Add a margin-bottom to space rows */}
                             {row.map(product => (
@@ -131,9 +142,10 @@ const HomePage = () => {
                                             alt={product.title}
                                             className="product-image"
                                         />
-                                        <Card.Body className="text-center">
+                                        {/* <Card.Body className="text-center">
                                             <Card.Title className="mb-0">{product.title}</Card.Title>
-                                        </Card.Body>
+                                            <Card.Text>{product.price}</Card.Text>
+                                        </Card.Body> */}
                                     </Card>
                                 </Col>
                             ))}
@@ -146,7 +158,6 @@ const HomePage = () => {
             </Card>
         );
     };
-    
 
     const PopularProductsSection = ({ products }) => (
         <Card className="section mb-4">
@@ -159,12 +170,37 @@ const HomePage = () => {
                         <Col xs={12} sm={6} md={2} key={product.id}>
                             <Card className="product-card">
                                 <Card.Img variant="top" src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'} />
+                                {/* <Card.Body className="text-center">
+                                    <Card.Title className="mb-0">{product.title}</Card.Title>
+                                    <Card.Text>{product.price}</Card.Text>
+                                </Card.Body> */}
                             </Card>
                         </Col>
                     ))}
                 </Row>
             </Card.Body>
         </Card>
+    );
+
+    const SearchResultSection = ({ results }) => (
+        <Row>
+            {results.map(product => (
+                <Col xs={12} sm={6} md={3} key={product.id}>
+                    <Card className="product-card mb-4">
+                        <Card.Img
+                            variant="top"
+                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                            alt={product.title}
+                            className="product-image"
+                        />
+                        <Card.Body className="text-center">
+                            <Card.Title className="mb-0">{product.title}</Card.Title>
+                            <Card.Text>{product.price}</Card.Text>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            ))}
+        </Row>
     );
 
     const Footer = () => (
@@ -214,7 +250,7 @@ const HomePage = () => {
     if (loading) {
         return (
             <div className="centered-loader">
-                <Spinner variant="warning" animation="border" role="status" style={{ width: 100, height: 100 }} />
+                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
             </div>
         );
     }
@@ -225,33 +261,35 @@ const HomePage = () => {
 
     return (
         <>
-            <TopNavbar onSidebarToggle={handleSidebarToggle} />
-            {/* Include the Banner component */}
+        
+            <TopNavbar
+                onSidebarToggle={handleSidebarToggle}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                onSearch={handleSearch}
+            />
+            <Sidebar isOpen={sidebarOpen} />
             <Banner />
-            <div className="homepage d-flex flex-column min-vh-100">
-                <Container fluid className="p-0 flex-grow-1">
-                    <Row>
-                        {sidebarOpen && (
-                            <Col xs={12} md={2} className="sidebar-col p-0">
-                                <Sidebar />
-                            </Col>
-                        )}
-                        <Col xs={12} md={12} className="p-2">
-                            {/* Displaying Category Sections with Subcategories */}
-                            {categories.map(category => (
-                                <CategorySection
-                                    key={category.id}
-                                    title={category.name}
-                                    subcategories={category.subcategories || []}
-                                />
-                            ))}
-                            {/* Popular Products Row */}
-                            <PopularProductsSection products={Object.values(products).flat()} />
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
-            <Footer />
+            <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
+            <Container fluid>
+                {searchQuery && searchResults.length > 0 ? (
+                    <SearchResultSection results={searchResults} />
+                ) : (
+                    <>
+                        {categories.map(category => (
+                            <CategorySection
+                                key={category.id}
+                                title={category.name}
+                                subcategories={category.subcategories}
+                            />
+                        ))}
+                        <PopularProductsSection products={Object.values(products).flat()} />
+                    </>
+                )}
+            </Container>
+            
+        </div>
+        <Footer />
         </>
     );
 };

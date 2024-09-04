@@ -47,3 +47,40 @@
     margin-right: 10px;
   }
 }
+
+/* Styling for the search bar */
+.search-bar {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%; /* Adjust width as needed */
+  max-width: 400px; /* Ensure it doesn't get too wide */
+}
+
+.search-bar .form-control {
+  border-radius: 50px;
+  padding-left: 20px;
+  padding-right: 40px;
+  font-size: 1rem;
+}
+
+.search-bar .btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  padding: 5px 10px;
+  background-color: #ffc107;
+  border: none;
+}
+
+.search-button {
+  background-color: #ffc107;
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    width: 70%;
+    max-width: 300px;
+  }
+}
