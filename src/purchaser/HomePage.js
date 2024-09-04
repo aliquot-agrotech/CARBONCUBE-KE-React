@@ -78,13 +78,13 @@ const HomePage = () => {
         e.preventDefault();
         setIsSearching(true);
         try {
-            const response = await fetch(`http://localhost:3000/purchaser/products/search?query=${searchQuery}&category=${category}&subcategory=${subcategory}`, {
+            const response = await fetch(`http://localhost:3000/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 },
             });
             if (!response.ok) throw new Error('Failed to fetch search results');
-
+    
             const results = await response.json();
             setSearchResults(results);
         } catch (error) {
@@ -94,6 +94,7 @@ const HomePage = () => {
             setIsSearching(false);
         }
     };
+    
 
     const CategorySection = ({ title, subcategories }) => (
         <Card className="section mb-4">
