@@ -287,7 +287,7 @@ const HomePage = () => {
                 handleSearch={handleSearch}
             />
             <Sidebar isOpen={sidebarOpen} />
-            <Banner />
+            {!isSearching && searchResults.length === 0 && <Banner />}
             <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
                 <Container fluid>
                     {isSearching ? (
@@ -313,6 +313,7 @@ const HomePage = () => {
             <Footer />
         </>
     );
+    
 };
 
 export default HomePage;

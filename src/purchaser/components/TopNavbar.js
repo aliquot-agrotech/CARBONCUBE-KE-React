@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Container, Nav, Button, Form, FormControl } from 'react-bootstrap';
 import { List } from 'react-bootstrap-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
 import './TopNavbar.css';
 
 const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, handleSearch }) => {
@@ -40,7 +43,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
         
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto"></Nav>
-          <Form className="d-flex" onSubmit={onSubmit}>
+          <Form className="d-flex search-control" onSubmit={onSubmit}>
             <FormControl
               type="text"
               placeholder="Search products..."
@@ -49,7 +52,10 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button className="search-button" variant="outline-success" type="submit" id="button">Search</Button>
+            <Button className="search-button" variant="warning" type="submit" id="button">
+              <FontAwesomeIcon icon={faSearch} />
+          </Button>
+
           </Form>
           <Nav className="ms-auto">
             <Nav.Link href="/profile">Profile</Nav.Link>

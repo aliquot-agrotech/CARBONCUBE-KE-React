@@ -49,10 +49,10 @@
 }
 
 /* Styling for the search bar */
-.search-bar {
+.search-control {
   margin-left: auto;
   margin-right: auto;
-  width: 50%; /* Adjust width as needed */
+  width: 80%; /* Adjust width as needed */
   max-width: 400px; /* Ensure it doesn't get too wide */
 }
 
@@ -74,8 +74,15 @@
   border: none;
 }
 
-.search-button {
-  background-color: #ffc107;
+.search-control .search-button {
+  color: #000;
+}
+
+
+.search-control .search-button:hover {
+  background: #5cb85c;
+  outline-color: #5cb85c;
+  color: #000;
 }
 
 @media (max-width: 768px) {
