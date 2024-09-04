@@ -10,10 +10,15 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
     if (sidebarOpen) {
       setIsVisible(false);
     } else {
-      const timer = setTimeout(() => setIsVisible(true), 300); // Match this with your CSS transition time
+      const timer = setTimeout(() => setIsVisible(true), 300);
       return () => clearTimeout(timer);
     }
   }, [sidebarOpen]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleSearch(e);
+  };
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar mb-0">
@@ -24,7 +29,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               variant="warning" 
               className={`toggle-button ${sidebarOpen ? 'fade-out' : 'fade-in'}`}
               onClick={onSidebarToggle}
-              aria-label="Toggle Sidebar" // Accessibility
+              aria-label="Toggle Sidebar"
             >
               <List size={15} />
             </Button>
@@ -34,8 +39,8 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto"></Nav> {/* Center align the search bar */}
-          <Form className="d-flex" onSubmit={handleSearch}>
+          <Nav className="me-auto"></Nav>
+          <Form className="d-flex" onSubmit={onSubmit}>
             <FormControl
               type="text"
               placeholder="Search products..."

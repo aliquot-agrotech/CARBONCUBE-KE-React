@@ -13,6 +13,7 @@ const HomePage = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
 
     useEffect(() => {
         const fetchCategoriesAndProducts = async () => {
@@ -87,15 +88,26 @@ const HomePage = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         e.preventDefault();
-
-        // Filter products based on search query
-        const results = Object.values(products).flat().filter(product =>
-            product.title.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-
-        setSearchResults(results);
+        setIsSearching(true);
+        try {
+            const response = await fetch(`http://localhost:3000/purchaser/products/search?query=${searchQuery}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch search results');
+            }
+            const results = await response.json();
+            setSearchResults(results);
+        } catch (error) {
+            console.error('Error searching products:', error);
+            setError('Error searching products');
+        } finally {
+            setIsSearching(false);
+        }
     };
 
     const CategorySection = ({ title, subcategories }) => (
@@ -183,24 +195,31 @@ const HomePage = () => {
     );
 
     const SearchResultSection = ({ results }) => (
-        <Row>
-            {results.map(product => (
-                <Col xs={12} sm={6} md={3} key={product.id}>
-                    <Card className="product-card mb-4">
-                        <Card.Img
-                            variant="top"
-                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                            alt={product.title}
-                            className="product-image"
-                        />
-                        <Card.Body className="text-center">
-                            <Card.Title className="mb-0">{product.title}</Card.Title>
-                            <Card.Text>{product.price}</Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            ))}
-        </Row>
+        <Card className="section mb-4">
+            <Card.Header className="d-flex justify-content-start">
+                <h3>Search Results</h3>
+            </Card.Header>
+            <Card.Body>
+                <Row>
+                    {results.map(product => (
+                        <Col xs={12} sm={6} md={2} key={product.id}>
+                            <Card className="product-card mb-4">
+                                <Card.Img
+                                    variant="top"
+                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                    alt={product.title}
+                                    className="product-image"
+                                />
+                                <Card.Body className="text-center">
+                                    <Card.Title className="mb-0">{product.title}</Card.Title>
+                                    <Card.Text>{product.price}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Card.Body>
+        </Card>
     );
 
     const Footer = () => (
@@ -261,35 +280,37 @@ const HomePage = () => {
 
     return (
         <>
-        
             <TopNavbar
                 onSidebarToggle={handleSidebarToggle}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                onSearch={handleSearch}
+                handleSearch={handleSearch}
             />
             <Sidebar isOpen={sidebarOpen} />
             <Banner />
             <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
-            <Container fluid>
-                {searchQuery && searchResults.length > 0 ? (
-                    <SearchResultSection results={searchResults} />
-                ) : (
-                    <>
-                        {categories.map(category => (
-                            <CategorySection
-                                key={category.id}
-                                title={category.name}
-                                subcategories={category.subcategories}
-                            />
-                        ))}
-                        <PopularProductsSection products={Object.values(products).flat()} />
-                    </>
-                )}
-            </Container>
-            
-        </div>
-        <Footer />
+                <Container fluid>
+                    {isSearching ? (
+                        <div className="centered-loader">
+                            <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+                        </div>
+                    ) : searchResults.length > 0 ? (
+                        <SearchResultSection results={searchResults} />
+                    ) : (
+                        <>
+                            {categories.map(category => (
+                                <CategorySection
+                                    key={category.id}
+                                    title={category.name}
+                                    subcategories={category.subcategories}
+                                />
+                            ))}
+                            <PopularProductsSection products={Object.values(products).flat()} />
+                        </>
+                    )}
+                </Container>
+            </div>
+            <Footer />
         </>
     );
 };
