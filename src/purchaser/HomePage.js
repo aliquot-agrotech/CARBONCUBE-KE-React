@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import Banner from './components/Banner';
-import './HomePage.css'; // Import the CSS file
+import './HomePage.css';
 
 const HomePage = () => {
     const [categories, setCategories] = useState([]);
@@ -18,59 +18,45 @@ const HomePage = () => {
     useEffect(() => {
         const fetchCategoriesAndProducts = async () => {
             try {
-                // Fetch categories
                 const categoryResponse = await fetch('http://localhost:3000/purchaser/categories', {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-
-                if (!categoryResponse.ok) {
-                    throw new Error('Failed to fetch categories');
-                }
+                if (!categoryResponse.ok) throw new Error('Failed to fetch categories');
 
                 const categoryData = await categoryResponse.json();
 
-                // Fetch subcategories
                 const subcategoryResponse = await fetch('http://localhost:3000/purchaser/subcategories', {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-
-                if (!subcategoryResponse.ok) {
-                    throw new Error('Failed to fetch subcategories');
-                }
+                if (!subcategoryResponse.ok) throw new Error('Failed to fetch subcategories');
 
                 const subcategoryData = await subcategoryResponse.json();
 
-                // Organize subcategories under categories
                 const categoriesWithSubcategories = categoryData.map(category => ({
                     ...category,
-                    subcategories: subcategoryData.filter(sub => sub.category_id === category.id)
+                    subcategories: subcategoryData.filter(sub => sub.category_id === category.id),
                 }));
 
                 setCategories(categoriesWithSubcategories);
 
-                // Fetch products
                 const productResponse = await fetch('http://localhost:3000/purchaser/products', {
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
-
-                if (!productResponse.ok) {
-                    throw new Error('Failed to fetch products');
-                }
+                if (!productResponse.ok) throw new Error('Failed to fetch products');
 
                 const productData = await productResponse.json();
 
-                // Organize products under their respective subcategories using subcategory_id
                 const productsBySubcategory = {};
                 subcategoryData.forEach(subcategory => {
                     productsBySubcategory[subcategory.id] = productData
                         .filter(product => product.subcategory_id === subcategory.id)
-                        .sort(() => 0.5 - Math.random()); // Randomize product order
+                        .sort(() => 0.5 - Math.random());
                 });
 
                 setProducts(productsBySubcategory);
@@ -88,18 +74,17 @@ const HomePage = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    const handleSearch = async (e) => {
+    const handleSearch = async (e, category = 'All', subcategory = 'All') => {
         e.preventDefault();
         setIsSearching(true);
         try {
-            const response = await fetch(`http://localhost:3000/purchaser/products/search?query=${searchQuery}`, {
+            const response = await fetch(`http://localhost:3000/purchaser/products/search?query=${searchQuery}&category=${category}&subcategory=${subcategory}`, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 },
             });
-            if (!response.ok) {
-                throw new Error('Failed to fetch search results');
-            }
+            if (!response.ok) throw new Error('Failed to fetch search results');
+
             const results = await response.json();
             setSearchResults(results);
         } catch (error) {
@@ -131,10 +116,8 @@ const HomePage = () => {
     );
 
     const SubcategorySection = ({ subcategory, products }) => {
-        // Limit to the first four products
         const displayedProducts = products.slice(0, 4);
 
-        // Split products into chunks of 2
         const productRows = [];
         for (let i = 0; i < displayedProducts.length; i += 2) {
             productRows.push(displayedProducts.slice(i, i + 2));
@@ -144,7 +127,7 @@ const HomePage = () => {
             <Card className="subcategory-section mb-2">
                 <Card.Body className="p-2">
                     {productRows.map((row, index) => (
-                        <Row key={index} className="mb-2"> {/* Add a margin-bottom to space rows */}
+                        <Row key={index} className="mb-2">
                             {row.map(product => (
                                 <Col xs={12} sm={6} key={product.id}>
                                     <Card className="product-card">
@@ -154,10 +137,6 @@ const HomePage = () => {
                                             alt={product.title}
                                             className="product-image"
                                         />
-                                        {/* <Card.Body className="text-center">
-                                            <Card.Title className="mb-0">{product.title}</Card.Title>
-                                            <Card.Text>{product.price}</Card.Text>
-                                        </Card.Body> */}
                                     </Card>
                                 </Col>
                             ))}
@@ -182,10 +161,6 @@ const HomePage = () => {
                         <Col xs={12} sm={6} md={2} key={product.id}>
                             <Card className="product-card">
                                 <Card.Img variant="top" src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'} />
-                                {/* <Card.Body className="text-center">
-                                    <Card.Title className="mb-0">{product.title}</Card.Title>
-                                    <Card.Text>{product.price}</Card.Text>
-                                </Card.Body> */}
                             </Card>
                         </Col>
                     ))}
@@ -313,7 +288,6 @@ const HomePage = () => {
             <Footer />
         </>
     );
-    
 };
 
 export default HomePage;
