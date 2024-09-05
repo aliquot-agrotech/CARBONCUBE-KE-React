@@ -1,94 +1,93 @@
 /* Main modal container with extra padding */
 .custom-modal .modal-dialog {
-    max-width: 900px;
+    max-width: 1200px;
     border-radius: 15px;
-  }
-  
-  .modal-header-gradient {
+}
+
+.modal-header-gradient {
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     color: white;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-  }
-  
-  .modal-body-modern {
+}
+
+.modal-body-modern {
     padding: 30px;
     background-color: #f5f7fa;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-  }
-  
-  /* Image and details styling */
-  .product-modal-content {
+}
+
+/* Image and details styling */
+.product-modal-content {
     padding: 20px;
-  }
-  
-  .product-image {
+}
+
+.product-image {
     max-width: 100%;
     height: auto;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .product-details h5 {
+}
+
+.product-details h5 {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
-  }
-  
-  .product-details p {
+}
+
+.product-details p {
     font-size: 1rem;
     margin-bottom: 0.75rem;
-  }
-  
-  .product-rating {
+}
+
+.product-rating {
     margin-bottom: 1rem;
-  }
-  
-  .product-price {
+}
+
+.product-price {
     font-size: 1.75rem;
     color: #ff6633;
     font-weight: bold;
-  }
-  
-  /* Button Styling */
-  .modal-footer .btn {
+}
+
+/* Button Styling */
+.modal-footer .btn {
     border-radius: 25px;
     padding: 12px 20px;
     font-size: 1rem;
-  }
-  
-  .modal-footer .modern-btn {
+}
+
+.modal-footer .modern-btn {
     background-color: #ffdd00;
     color: black;
     border: none;
     transition: background-color 0.3s ease;
-  }
-  
-  .modal-footer .modern-btn:hover {
+}
+
+.modal-footer .modern-btn:hover {
     background-color: #ffc107;
     color: white;
-  }
-  
-  .modal-footer .modern-btn-outline {
+}
+
+.modal-footer .modern-btn-outline {
     border-color: #007bff;
     color: #007bff;
     transition: all 0.3s ease;
-  }
-  
-  .modal-footer .modern-btn-outline:hover {
+}
+
+.modal-footer .modern-btn-outline:hover {
     background-color: #007bff;
     color: white;
-  }
-  
-  .modal-footer .modern-btn-dark {
+}
+
+.modal-footer .modern-btn-dark {
     background-color: #343a40;
     color: white;
     transition: background-color 0.3s ease;
-  }
-  
-  .modal-footer .modern-btn-dark:hover {
+}
+
+.modal-footer .modern-btn-dark:hover {
     background-color: #212529;
     color: #ffc107;
-  }
-  
+}
