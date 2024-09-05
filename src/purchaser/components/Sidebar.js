@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { BookmarkDash, Person, XCircle, ArrowRight, Cart, Bell, ChatSquareText, BagCheck, HouseGear } from 'react-bootstrap-icons';
+import { BookmarkDash, Person, XCircle, ArrowRight, Cart4, Bell, ChatSquareText, BagCheck, HouseGear } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -42,7 +42,7 @@ const Sidebar = () => {
           <Nav.Link
             href="/purchaser/shopping-cart"
             className={location.pathname === '/purchaser/shopping-cart' ? 'active' : ''}>
-            <Cart className="icon" /> {isOpen && 'Shopping Cart'}
+            <Cart4 className="icon" /> {isOpen && 'Shopping Cart'}
           </Nav.Link>
           <Nav.Link
             href="/purchaser/messages"
