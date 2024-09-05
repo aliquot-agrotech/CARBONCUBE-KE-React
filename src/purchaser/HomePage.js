@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import Banner from './components/Banner';
+import ProductDetailsModal from './components/ProductDetailsModal';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -14,6 +15,9 @@ const HomePage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
+    const [showModal, setShowModal] = useState(false); // State for modal visibility
+    const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
+
 
     useEffect(() => {
         const fetchCategoriesAndProducts = async () => {
@@ -74,6 +78,16 @@ const HomePage = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
+    const handleShowModal = (product) => {
+        setSelectedProduct(product);
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedProduct(null);
+    };
+
     const handleSearch = async (e, category = 'All', subcategory = 'All') => {
         e.preventDefault();
         setIsSearching(true);
@@ -108,6 +122,7 @@ const HomePage = () => {
                             <SubcategorySection
                                 subcategory={subcategory.name}
                                 products={products[subcategory.id] || []}
+                                onProductClick={handleShowModal} // Pass the function as a prop
                             />
                         </Col>
                     ))}
@@ -116,7 +131,7 @@ const HomePage = () => {
         </Card>
     );
 
-    const SubcategorySection = ({ subcategory, products }) => {
+    const SubcategorySection = ({ subcategory, products, onProductClick }) => {
         const displayedProducts = products.slice(0, 4);
 
         const productRows = [];
@@ -137,6 +152,7 @@ const HomePage = () => {
                                             src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                             alt={product.title}
                                             className="product-image"
+                                            onClick={() => onProductClick(product)} // Handle image click
                                         />
                                     </Card>
                                 </Col>
@@ -185,6 +201,7 @@ const HomePage = () => {
                                     src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                     alt={product.title}
                                     className="product-image"
+                                    onClick={() => handleShowModal(product)} // Handle image click
                                 />
                                 <Card.Body className="text-center">
                                     <Card.Title className="mb-0">{product.title}</Card.Title>
@@ -287,6 +304,11 @@ const HomePage = () => {
                 </Container>
             </div>
             <Footer />
+            <ProductDetailsModal
+                show={showModal}
+                onHide={handleCloseModal}
+                product={selectedProduct}
+            />
         </>
     );
 };
