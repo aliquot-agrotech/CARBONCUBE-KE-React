@@ -86,7 +86,7 @@
                 <p><strong>Colors:</strong> {product.colors}</p>
                 <p><strong>Add-ons:</strong> {product.addOns}</p>
                 <div className="product-rating">
-                {renderRating(product.rating)}
+                {renderRating(product.mean_rating)}
                 </div>
                 <h4 className="product-price">Kshs: {formatPrice(product.price)}</h4>
                 <p className="product-description"><strong>Description: </strong>{product.description}</p>
