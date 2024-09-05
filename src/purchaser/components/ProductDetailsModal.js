@@ -4,9 +4,9 @@
     import './ProductDetailsModal.css';  // Your custom styling
 
     const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
-    const renderRating = (rating) => {
+    const renderRating = (mean_rating) => {
         return Array(5).fill(0).map((_, i) => 
-        i < Math.floor(rating) ? <StarFill key={i} className="text-warning" /> : <Star key={i} className="text-warning" />
+        i < Math.floor(mean_rating) ? <StarFill key={i} className="text-warning" /> : <Star key={i} className="text-warning" />
         );
     };
 
@@ -74,10 +74,10 @@
 
         return (
         <Row className="product-modal-content">
-            <Col md={5} className="text-center">
+            <Col md={6} className="text-center">
             {renderCarousel()}
             </Col>
-            <Col md={7}>
+            <Col md={6}>
             <div className="product-details">
                 <h5>{product.title}</h5>
                 <p><strong>Brand:</strong> {product.brand}</p>
@@ -89,6 +89,7 @@
                 {renderRating(product.rating)}
                 </div>
                 <h4 className="product-price">Kshs: {formatPrice(product.price)}</h4>
+                <p className="product-description"><strong>Description: </strong>{product.description}</p>
             </div>
             </Col>
         </Row>
@@ -109,7 +110,7 @@
             <Button variant="warning" className="w-30 modern-btn" disabled={!product} id="button">
             <Cart4 className="me-2" /> Add to cart
             </Button>
-            <Button variant="outline-primary" id="button" className="w-30 modern-btn-outline" disabled={!product}>
+            <Button variant="primary" id="button" className="w-30 modern-btn-outline" disabled={!product}>
             <BoxArrowInRight className="me-2" /> Buy Now
             </Button>
             <Button variant="dark" className="w-30 modern-btn-dark" disabled={!product} id="button">

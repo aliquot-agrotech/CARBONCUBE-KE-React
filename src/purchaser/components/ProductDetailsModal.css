@@ -6,14 +6,12 @@
 
 .modal-header-gradient {
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    color: white;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    color: rgb(0, 0, 0);
 }
 
 .modal-body-modern {
     padding: 30px;
-    background-color: #f5f7fa;
+    background-color: #e0e0e0;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
@@ -72,7 +70,7 @@
 
 .modal-footer .modern-btn-outline {
     border-color: #007bff;
-    color: #007bff;
+    color: #ffffff;
     transition: all 0.3s ease;
 }
 
