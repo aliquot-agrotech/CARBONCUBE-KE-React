@@ -19,6 +19,7 @@ import VendorNotifications from './vendor/VendorNotifications';
 import HomePage from './purchaser/HomePage';
 import Orders from './purchaser/Orders';
 import PurchaserMessages from './purchaser/PurchaserMessages';
+import PurchaserNotifications from './purchaser/PurchaserNotifications';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
 import PrivateRoute from './components/PrivateRoute';
 
@@ -89,6 +90,7 @@ function App() {
             <Route path="homepage" element={<HomePage onLogout={handleLogout} />} />
             <Route path="orders" element={<Orders onLogout={handleLogout} />} />
             <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
+            <Route path="notifications" element={<PurchaserNotifications onLogout={handleLogout} />} />
           </Route>
         )}
       </Routes>
