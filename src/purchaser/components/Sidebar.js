@@ -30,8 +30,8 @@ const Sidebar = () => {
             <HouseGear className="icon" /> {isOpen && 'HomePage'}
           </Nav.Link>
           <Nav.Link
-            href="/purchaser/orders-history"
-            className={location.pathname === '/purchaser/orders-history' ? 'active' : ''}>
+            href="/purchaser/orders"
+            className={location.pathname === '/purchaser/orders' ? 'active' : ''}>
             <BagCheck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
