@@ -18,6 +18,7 @@ import VendorMessages from './vendor/Messages';
 import VendorNotifications from './vendor/VendorNotifications';
 import HomePage from './purchaser/HomePage';
 import Orders from './purchaser/Orders';
+import PurchaserMessages from './purchaser/PurchaserMessages';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
 import PrivateRoute from './components/PrivateRoute';
 
@@ -57,6 +58,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
         <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         {isAuthenticated && userRole === 'admin' && (
@@ -86,9 +88,9 @@ function App() {
           <Route path="/purchaser/*" element={<PrivateRoute role="purchaser" userRole={userRole} />}>
             <Route path="homepage" element={<HomePage onLogout={handleLogout} />} />
             <Route path="orders" element={<Orders onLogout={handleLogout} />} />
+            <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
           </Route>
         )}
-        <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
