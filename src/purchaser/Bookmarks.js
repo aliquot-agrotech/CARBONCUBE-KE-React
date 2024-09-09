@@ -54,7 +54,7 @@ const Bookmarks = () => {
 
   const handleAddToCart = async (productId) => {
     try {
-      await fetch(`http://localhost:3000/purchaser/cart`, {
+      await fetch(`http://localhost:3000/purchaser/cart_items`, {
         method: 'POST',
         headers: {
           "Authorization": `Bearer ${localStorage.getItem('token')}`,
