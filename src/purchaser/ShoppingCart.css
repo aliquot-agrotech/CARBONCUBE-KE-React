@@ -162,7 +162,6 @@
 
 .input-group-horizontal .form-control {
     border-radius: 0; /* Remove border-radius for a consistent look */
-    margin-right: -1px; /* Adjust spacing between the form control and button */
     margin-bottom: 0;
 }
 

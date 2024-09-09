@@ -116,7 +116,7 @@ const ShoppingCart = () => {
                     <Col md={8}>
                         <Card  className='cart'>
                         <Card.Header className="d-flex justify-content-between align-items-center">
-                            <h5 className="mb-0">Shopping Cart</h5>
+                            <h3 className="mb-0">Shopping Cart</h3>
                             <span>{cartItems.length} Items</span>
                         </Card.Header>
                         <Card.Body  className='cart2'>
@@ -181,7 +181,7 @@ const ShoppingCart = () => {
                         </Card.Body>
 
                         <Card.Footer className="text-end">
-                            <h5>Sub-Total: Ksh. {subtotal.toLocaleString()}</h5>
+                            <h4>Sub-Total <em style={{ fontSize: '15px' }}>(Kshs)</em>: {subtotal.toLocaleString()}</h4>
                         </Card.Footer>
                         </Card>
                     </Col>
@@ -214,10 +214,11 @@ const ShoppingCart = () => {
                                         type="text"
                                         value={discountCode}
                                         id="button"
+                                        className='me-3'
                                         onChange={(e) => setDiscountCode(e.target.value)}
                                         placeholder="Enter code"
                                     />
-                                    <Button variant="outline-secondary" id="button" onClick={handleApplyDiscount}>
+                                    <Button variant="warning" id="button" onClick={handleApplyDiscount}>
                                         Apply
                                     </Button>
                                 </InputGroup>
@@ -226,7 +227,7 @@ const ShoppingCart = () => {
                             Proceed to Checkout
                             </Button>
                             <div className="mt-3">
-                            <p className="mb-1">Available Payment Platforms</p>
+                            <p className="mb-1 text-center">Available Payment Platforms</p>
                             <img src="/api/placeholder/200/40" alt="Payment methods" className="img-fluid" />
                             </div>
                         </Card.Body>
