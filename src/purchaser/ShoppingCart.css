@@ -1,0 +1,109 @@
+/* Main layout styles */
+.shopping-cart-page {
+    font-family: "Fira Sans Extra Condensed", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 60px;
+  }
+  
+
+  
+  .navbar-brand {
+    color: #ffc107 !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  .navbar .form-control {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 20px;
+  }
+  
+  .navbar .btn-outline-warning {
+    color: #ffc107;
+    border-color: #ffc107;
+  }
+  
+  /* Shopping cart styles */
+  .card {
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .card-footer {
+    background-color: #ffffff;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  /* Product item styles */
+  .product-item {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .product-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  
+  .product-item img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Summary card styles */
+  .shopping-cart-page .summary-card {
+    background-color: #3a3a3a;
+    color: #ffffff;
+  }
+  
+  .summary-card .card-header {
+    background-color: #3a3a3a;
+    border-bottom: 1px solid #4a4a4a;
+  }
+  
+  .summary-card .card-body {
+    background-color: #3a3a3a;
+  }
+  
+  .summary-card .form-control {
+    background-color: #4a4a4a;
+    border: none;
+    color: #ffffff;
+  }
+  
+  .summary-card .btn-outline-secondary {
+    color: #ffc107;
+    border-color: #ffc107;
+  }
+  
+  .summary-card .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #000000;
+    font-weight: bold;
+  }
+  
+  /* Utility classes */
+  .text-yellow {
+    color: #ffc107;
+  }
+  
+  .bg-dark-gray {
+    background-color: #3a3a3a;
+  }

@@ -19,6 +19,7 @@ import VendorNotifications from './vendor/VendorNotifications';
 import HomePage from './purchaser/HomePage';
 import Orders from './purchaser/Orders';
 import Bookmarks from './purchaser/Bookmarks';
+import ShoppingCart from './purchaser/ShoppingCart';
 import PurchaserMessages from './purchaser/PurchaserMessages';
 import PurchaserNotifications from './purchaser/PurchaserNotifications';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
@@ -91,6 +92,7 @@ function App() {
             <Route path="homepage" element={<HomePage onLogout={handleLogout} />} />
             <Route path="orders" element={<Orders onLogout={handleLogout} />} />
             <Route path="bookmarks" element={<Bookmarks onLogout={handleLogout} />} />
+            <Route path="shopping-cart" element={<ShoppingCart onLogout={handleLogout} />} />
             <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
             <Route path="notifications" element={<PurchaserNotifications onLogout={handleLogout} />} />
           </Route>

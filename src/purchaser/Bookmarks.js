@@ -88,10 +88,26 @@ const Bookmarks = () => {
                       <Col key={bookmark.product.id} md={3} className="mb-4">
                         <Card>
                           <Card.Img variant="top" src={bookmark.product.first_media_url} />
-                          <Card.Body>
+                          <Card.Body className="p-2">
                             <Card.Title>{bookmark.product.title}</Card.Title>
                             <Card.Text>
-                              Kshs: {bookmark.product.price.toLocaleString()}
+                              <em className='product-price-label'>Kshs: </em>
+                              <strong>
+                                {bookmark.product.price ? bookmark.product.price.split('.').map((part, index) => (
+                                  <React.Fragment key={index}>
+                                    {index === 0 ? (
+                                      <span className="price-integer">
+                                        {parseInt(part, 10).toLocaleString()}
+                                      </span>
+                                    ) : (
+                                      <>
+                                        <span style={{ fontSize: '16px' }}>.</span>
+                                        <span className="price-decimal">{part}</span>
+                                      </>
+                                    )}
+                                  </React.Fragment>
+                                )) : 'N/A'}
+                              </strong>
                               <br />
                               {/* Rating: 
                               <span className="stars">
