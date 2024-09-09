@@ -13,7 +13,7 @@
 
   .cart2 {
     overflow-y: auto; /* Enable vertical scrolling for cart items */
-    max-height: calc(100vh - 175px); /* Adjust based on the header and footer height */
+    max-height: calc(100vh - 180px); /* Adjust based on the header and footer height */
 }
 
   .navbar-brand {
