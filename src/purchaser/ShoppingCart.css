@@ -7,10 +7,15 @@
     flex-direction: column;
     min-height: 100vh;
     padding-top: 60px;
+    background-color: #e0e0e0;
   }
   
 
-  
+  .cart2 {
+    overflow-y: auto; /* Enable vertical scrolling for cart items */
+    max-height: calc(100vh - 175px); /* Adjust based on the header and footer height */
+}
+
   .navbar-brand {
     color: #ffc107 !important;
     font-weight: bold;
@@ -34,18 +39,20 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
-  .card-header {
-    background-color: #ffffff;
+  .cart .card-header {
+    background-color: #616161;
     border-bottom: 1px solid #e0e0e0;
+    color: #ffffff;
   }
   
   .card-body {
     padding: 1.5rem;
   }
   
-  .card-footer {
-    background-color: #ffffff;
+  .cart .card-footer {
+    background-color: #616161;
     border-top: 1px solid #e0e0e0;
+    color: #ffffff;
   }
   
   /* Product item styles */
@@ -67,9 +74,12 @@
   }
   
   /* Summary card styles */
-  .shopping-cart-page .summary-card {
+ .shopping-cart-page .summary-card {
     background-color: #3a3a3a;
     color: #ffffff;
+    position: sticky;
+    top: 0; /* Stick to the top of its container */
+    z-index: 1; 
   }
   
   .summary-card .card-header {
@@ -107,3 +117,59 @@
   .bg-dark-gray {
     background-color: #3a3a3a;
   }
+
+  .cart .quantity-container {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+}
+
+.cart .quantity-button {
+    background-color: #ffc107; /* Yellow background */
+    border-color: #ffc107;     /* Yellow border */
+    color: black;              /* Black text for non-hovered button */
+    border-radius: 50%;        /* Circle shape */
+    width: 40px;               /* Fixed width to maintain circular shape */
+    height: 40px;              /* Fixed height to maintain circular shape */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0 5px;             /* Space between buttons */
+    font-size: 1.25rem;        /* Adjust icon size if needed */
+}
+
+.cart .quantity-button:hover {
+    background-color: #616161; /* Secondary background on hover */
+    color: white;              /* White text and icon on hover */
+    border-color: #616161;     /* Secondary border on hover */
+}
+
+.cart .quantity-button:disabled {
+    background-color: #e0e0e0; /* Disabled button background */
+    color: #8c8c8c;            /* Disabled button text and icon */
+    border-color: #e0e0e0;     /* Disabled button border */
+}
+
+.cart .quantity-button .bi {
+    color: inherit;            /* Ensure icon color inherits from button color */
+}
+
+.input-group-horizontal {
+    display: flex; /* Use flexbox for horizontal alignment */
+    align-items: center; /* Vertically center the items */
+}
+
+.input-group-horizontal .form-control {
+    border-radius: 0; /* Remove border-radius for a consistent look */
+    margin-right: -1px; /* Adjust spacing between the form control and button */
+    margin-bottom: 0;
+}
+
+.input-group-horizontal .btn {
+    border-radius: 0; /* Remove border-radius to match the form control */
+    margin-left: 0; /* Ensure there's no extra margin */
+    vertical-align: middle; /* Align button vertically in the middle */
+    
+}
+

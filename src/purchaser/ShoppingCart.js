@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap';
+import { Plus, Dash } from 'react-bootstrap-icons';
 import { Trash } from 'react-bootstrap-icons';
 import TopNavbar from './components/TopNavbar';
 import Sidebar from './components/Sidebar';
@@ -113,61 +114,68 @@ const ShoppingCart = () => {
                 <Container>
                     <Row>
                     <Col md={8}>
-                        <Card>
+                        <Card  className='cart'>
                         <Card.Header className="d-flex justify-content-between align-items-center">
                             <h5 className="mb-0">Shopping Cart</h5>
                             <span>{cartItems.length} Items</span>
                         </Card.Header>
-                        <Card.Body>
+                        <Card.Body  className='cart2'>
                             {cartItems.map((item) => (
                                 <Row key={item.id} className="mb-3 align-items-center product-item">
-                                <Col xs={2}>
-                                    {/* Use product's media URL */}
-                                    <img src={item.product.first_media_url} alt={item.product.title} className="img-fluid" />
-                                </Col>
-                                <Col xs={5}>
-                                    {/* Use product's title */}
-                                    <h6>{item.product.title}</h6>
-                                    <p className="text-muted small">{item.description}</p>
-                                </Col>
-                                <Col xs={3} className="text-center">
-                                    <Button
-                                    variant="outline-secondary"
-                                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                                    disabled={item.quantity <= 1}
-                                    >
-                                    -
-                                    </Button>
-                                    <span className="mx-2">{item.quantity}</span>
-                                    <Button
-                                    variant="outline-secondary"
-                                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                                    >
-                                    +
-                                    </Button>
-                                </Col>
-                                <Col xs={2} className="text-end">
-                                    <em className='product-price-label'>Kshs: </em>
-                                    <strong>
-                                    {item.price ? item.price.split('.').map((part, index) => (
-                                        <React.Fragment key={index}>
-                                        {index === 0 ? (
-                                            <span className="price-integer">
-                                            {parseInt(part, 10).toLocaleString()}
-                                            </span>
+                                    <Col xs={2}>
+                                        {/* Use product's first media URL */}
+                                        {item.product.media && item.product.media.length > 0 ? (
+                                            <img src={item.product.media[0]} alt={item.product.title} className="img-fluid" />
                                         ) : (
-                                            <>
-                                            <span style={{ fontSize: '16px' }}>.</span>
-                                            <span className="price-decimal">{part}</span>
-                                            </>
+                                            <span>No Image Available</span>
                                         )}
-                                        </React.Fragment>
-                                    )) : 'N/A'}
-                                    </strong>
-                                    <Button variant="link" className="text-danger p-0 ms-2" onClick={() => handleRemoveItem(item.id)}>
-                                    <Trash size={16} />
-                                    </Button>
-                                </Col>
+                                    </Col>
+
+                                    <Col xs={5}>
+                                        {/* Use product's title */}
+                                        <h6>{item.product.title}</h6>
+                                        <p className="text-muted small">{item.product.description}</p>
+                                    </Col>
+                                    <Col xs={3} className="text-center quantity-container">
+                                        <Button
+                                            id="decrement-button"
+                                            className="quantity-button"
+                                            onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                            disabled={item.quantity <= 1}
+                                        >
+                                            <Dash size={20} /> {/* Minus Icon */}
+                                        </Button>
+                                        <span className="mx-2"><strong>{item.quantity}</strong></span>
+                                        <Button
+                                            id="increment-button"
+                                            className="quantity-button"
+                                            onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                        >
+                                            <Plus size={20} /> {/* Plus Icon */}
+                                        </Button>
+                                    </Col>
+                                    <Col xs={2} className="text-end">
+                                        <em className='product-price-label'>Kshs: </em>
+                                        <strong>
+                                        {item.price ? item.price.split('.').map((part, index) => (
+                                            <React.Fragment key={index}>
+                                            {index === 0 ? (
+                                                <span className="price-integer">
+                                                {parseInt(part, 10).toLocaleString()}
+                                                </span>
+                                            ) : (
+                                                <>
+                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                <span className="price-decimal">{part}</span>
+                                                </>
+                                            )}
+                                            </React.Fragment>
+                                        )) : 'N/A'}
+                                        </strong>
+                                        <Button variant="link" className="text-danger p-0 ms-2" onClick={() => handleRemoveItem(item.id)}>
+                                        <Trash size={16} />
+                                        </Button>
+                                    </Col>
                                 </Row>
                             ))}
                         </Card.Body>
@@ -179,11 +187,11 @@ const ShoppingCart = () => {
                     </Col>
                     <Col md={4}>
                         <Card className="summary-card">
-                        <Card.Header>
-                            <h5 className="mb-0">Summary</h5>
+                        <Card.Header className="d-flex justify-content-center">
+                            <h5 className="mb-0">CHECK-OUT POINT</h5>
                         </Card.Header>
                         <Card.Body>
-                            <p className="d-flex justify-content-between">
+                            <p className="d-flex justify-content-center">
                             <span>Estimated Shipping and Tax</span>
                             </p>
                             <p className="d-flex justify-content-between">
@@ -200,20 +208,21 @@ const ShoppingCart = () => {
                             <strong className="text-yellow">Ksh. {total.toLocaleString()}</strong>
                             </p>
                             <Form.Group className="mb-3">
-                            <Form.Label>Apply Discount Code:</Form.Label>
-                            <InputGroup>
-                                <Form.Control
-                                type="text"
-                                value={discountCode}
-                                onChange={(e) => setDiscountCode(e.target.value)}
-                                placeholder="Enter code"
-                                />
-                                <Button variant="outline-secondary" onClick={handleApplyDiscount}>
-                                Apply
-                                </Button>
-                            </InputGroup>
+                                <Form.Label>Apply Discount Code:</Form.Label>
+                                <InputGroup className="input-group-horizontal">
+                                    <Form.Control
+                                        type="text"
+                                        value={discountCode}
+                                        id="button"
+                                        onChange={(e) => setDiscountCode(e.target.value)}
+                                        placeholder="Enter code"
+                                    />
+                                    <Button variant="outline-secondary" id="button" onClick={handleApplyDiscount}>
+                                        Apply
+                                    </Button>
+                                </InputGroup>
                             </Form.Group>
-                            <Button variant="warning" className="w-100">
+                            <Button variant="warning" id="button" className="w-100">
                             Proceed to Checkout
                             </Button>
                             <div className="mt-3">
