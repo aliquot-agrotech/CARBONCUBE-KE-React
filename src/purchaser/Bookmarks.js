@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Trash, CartPlus } from "react-bootstrap-icons";
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import './Bookmarks.css';
 
 const Bookmarks = () => {
   const [bookmarks, setBookmarks] = useState([]);
@@ -21,8 +22,9 @@ const Bookmarks = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        if (data && data.bookmarks) {
-          setBookmarks(data.bookmarks);
+        console.log("Fetched bookmarks data:", data); // Log the response data
+        if (data && Array.isArray(data)) {
+          setBookmarks(data);
         } else {
           console.error("Invalid data format:", data);
         }
@@ -30,6 +32,7 @@ const Bookmarks = () => {
         console.error("Error fetching bookmarks:", error);
       }
     };
+    
 
     fetchBookmarks();
   }, []);
@@ -76,32 +79,32 @@ const Bookmarks = () => {
             </Col>
             <Col xs={12} md={10} className="p-2">
               <Container>
-                <h2>Bookmarked Items</h2>
+                <h2>Bookmarked Products</h2>
                 <Row>
                   {bookmarks.length === 0 ? (
                     <p>No bookmarks found.</p>
                   ) : (
                     bookmarks.map((bookmark) => (
-                      <Col key={bookmark.product.id} md={4} className="mb-4">
+                      <Col key={bookmark.product.id} md={3} className="mb-4">
                         <Card>
                           <Card.Img variant="top" src={bookmark.product.first_media_url} />
                           <Card.Body>
                             <Card.Title>{bookmark.product.title}</Card.Title>
                             <Card.Text>
-                              Price: KSh {bookmark.product.price.toLocaleString()}
+                              Kshs: {bookmark.product.price.toLocaleString()}
                               <br />
-                              Rating: 
+                              {/* Rating: 
                               <span className="stars">
                                 {"★".repeat(bookmark.product.rating)}{" "}
                                 {"☆".repeat(5 - bookmark.product.rating)}
-                              </span>
+                              </span> */}
                             </Card.Text>
                             <div className="d-flex justify-content-between">
-                              <Button variant="danger" onClick={() => handleDeleteBookmark(bookmark.product.id)}>
-                                <Trash /> Delete
+                              <Button variant="danger" id="button" onClick={() => handleDeleteBookmark(bookmark.product.id)}>
+                                <Trash />
                               </Button>
-                              <Button variant="success" onClick={() => handleAddToCart(bookmark.product.id)}>
-                                <CartPlus /> Add to Cart
+                              <Button variant="warning" id="button" onClick={() => handleAddToCart(bookmark.product.id)}>
+                                <CartPlus />
                               </Button>
                             </div>
                           </Card.Body>
