@@ -220,7 +220,7 @@ const Orders = () => {
                                                         </td>
                                                         <td>{order.order_date || 'N/A'}</td>
                                                         <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
-                                                        {order.status.toLowerCase() === 'on-transit'.toLowerCase() ? (
+                                                        {order.status.toLowerCase() === 'On-Transit'.toLowerCase() ? (
                                                             <Form.Control
                                                             className="form-select text-center"
                                                             as="select"
@@ -232,10 +232,10 @@ const Orders = () => {
                                                                 verticalAlign: 'middle',
                                                                 display: 'inline-block',
                                                                 width: '60%',
-                                                                backgroundColor: '#E0E0E0',
+                                                                backgroundColor: 'limegreen',
                                                             }}
                                                             >
-                                                            <option value="On-transit">On-Transit</option>
+                                                            <option id="button" value="On-Transit">On-Transit</option>
                                                             <option value="Delivered">Delivered</option>
                                                             </Form.Control>
                                                         ) : (

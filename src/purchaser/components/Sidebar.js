@@ -18,6 +18,7 @@ const Sidebar = () => {
         variant="warning" 
         className={`toggle-button ${isOpen ? 'open' : 'collapsed'}`} 
         onClick={toggleSidebar}
+        id="button"
         aria-label="Toggle Sidebar" // Accessibility
       >
         {isOpen ? <XCircle size={15} /> : <ArrowRight size={15} />}
