@@ -1,11 +1,15 @@
-    import React from 'react';
-    import { Modal, Button, Row, Col, Spinner, Carousel } from 'react-bootstrap';
-    import { Star, StarFill, Cart4, Heart, BoxArrowInRight } from 'react-bootstrap-icons';
-    import './ProductDetailsModal.css';  // Your custom styling
+import React from 'react';
+import { Modal, Button, Row, Col, Spinner, Carousel } from 'react-bootstrap';
+import { Star, StarFill, Cart4, Heart, BoxArrowInRight } from 'react-bootstrap-icons';
+import './ProductDetailsModal.css';  // Your custom styling
+import axios from 'axios';  // Assuming you're using axios
 
-    const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
+const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
+    const [bookmarkLoading, setBookmarkLoading] = React.useState(false);
+    const [bookmarkError, setBookmarkError] = React.useState(null);
+
     const renderRating = (mean_rating) => {
-        return Array(5).fill(0).map((_, i) => 
+        return Array(5).fill(0).map((_, i) =>
         i < Math.floor(mean_rating) ? <StarFill key={i} className="text-warning" /> : <Star key={i} className="text-warning" />
         );
     };
@@ -29,7 +33,7 @@
             />
         );
         }
-        
+
         return (
         <Carousel>
             {product.media_urls.map((url, index) => (
@@ -44,6 +48,42 @@
         </Carousel>
         );
     };
+
+    const handleAddToWishlist = async () => {
+        if (!product) return;
+    
+        try {
+            setBookmarkLoading(true);
+            setBookmarkError(null);
+    
+            // Assuming you have a function to get the auth token
+            const token = localStorage.getItem('token');
+    
+            // Replace this with your actual API endpoint
+            const response = await axios.post(
+                `http://localhost:3000/purchaser/bookmarks`,
+                { product_id: product.id },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
+            // Check if the response is successful
+            if (response.status === 201) {
+                window.alert('Product bookmarked successfully!');
+            } else {
+                window.alert('Something went wrong. Please try again.');
+            }
+        } catch (error) {
+            setBookmarkError('Failed to bookmark the product. Please try again.');
+            window.alert('Failed to bookmark the product. Please try again.');
+        } finally {
+            setBookmarkLoading(false);
+        }
+    };
+    
 
     const renderContent = () => {
         if (loading) {
@@ -113,12 +153,24 @@
             <Button variant="primary" id="button" className="w-30 modern-btn-outline" disabled={!product}>
             <BoxArrowInRight className="me-2" /> Buy Now
             </Button>
-            <Button variant="dark" className="w-30 modern-btn-dark" disabled={!product} id="button">
-            <Heart className="me-2" /> Add to Wishlist
+            <Button
+            variant="dark"
+            className="w-30 modern-btn-dark"
+            disabled={!product || bookmarkLoading}
+            onClick={handleAddToWishlist}
+            id="button"
+            >
+            {bookmarkLoading ? (
+                <Spinner animation="border" size="sm" className="me-2" />
+            ) : (
+                <Heart className="me-2" />
+            )}
+            Add to Wishlist
             </Button>
         </Modal.Footer>
+        {bookmarkError && <div className="text-danger text-center mt-3">{bookmarkError}</div>}
         </Modal>
     );
-    };
+};
 
-    export default ProductDetailsModal;
+export default ProductDetailsModal;
