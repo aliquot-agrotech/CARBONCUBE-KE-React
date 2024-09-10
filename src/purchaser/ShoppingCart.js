@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap';
 import { Plus, Dash, Trash } from 'react-bootstrap-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCcVisa, faCcMastercard, faCcPaypal, faCcAmex, faCcDiscover } from '@fortawesome/free-brands-svg-icons';
 import TopNavbar from './components/TopNavbar';
 import Sidebar from './components/Sidebar';
 import LipaNaMpesa from './components/Mpesa.png';
@@ -14,7 +16,7 @@ const ShoppingCart = () => {
     const [discountCode, setDiscountCode] = useState('');
     const [discountPercentage, setDiscountPercentage] = useState(0);
     const [discountAmount, setDiscountAmount] = useState(0);
-    const [totalBeforeDiscount, setTotalBeforeDiscount] = useState(0);
+    const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
 
 
     const fetchCartItems = useCallback(async () => {
@@ -49,7 +51,7 @@ const ShoppingCart = () => {
         setSubtotal(subTotal);
         setTax(taxAmount);
         setDiscountAmount(discountAmount);
-        setTotalBeforeDiscount(subTotal + taxAmount); // Total before discount
+        setTotalAfterDiscount(subTotal - discountAmount); // Total before discount
         setTotal(totalAmount);
     }, [cartItems, discountPercentage]);
 
@@ -225,21 +227,12 @@ const ShoppingCart = () => {
                                                     <span>Estimated Shipping and Tax</span>
                                                 </p>
                                                 <p className="d-flex justify-content-between">
-                                                    <span>Sub Total:</span>
+                                                    <span><strong>Total Before Discount:</strong></span>
                                                     <strong className="text-yellow">Ksh. {subtotal.toLocaleString()}</strong>
                                                 </p>
-                                                <p className="d-flex justify-content-between">
-                                                    <span>Tax (16%):</span>
-                                                    <strong className="text-yellow">Ksh. {tax.toLocaleString()}</strong>
-                                                </p>
-                                                <hr className="bg-secondary" />
-                                                <p className="d-flex justify-content-between">
-                                                    <span>Total Before Discount:</span>
-                                                    <strong className="text-yellow">Ksh. {totalBeforeDiscount.toLocaleString()}</strong>
-                                                </p>
-                                                <hr className="bg-secondary" />
+
                                                 <Form.Group className="mb-3 text-center">
-                                                    <Form.Label>Apply Discount Code:</Form.Label>
+                                                    <Form.Label><strong>Apply Discount Code</strong></Form.Label>
                                                     <InputGroup className="input-group-horizontal">
                                                         <Form.Control
                                                             type="text"
@@ -258,19 +251,33 @@ const ShoppingCart = () => {
                                                     <span>Discount ({discountPercentage}%):</span>
                                                     <strong className="text-yellow">- Ksh. {discountAmount.toLocaleString()}</strong>
                                                 </p>
+                                                 <hr className="bg-secondary" />
+                                                <p className="d-flex justify-content-between">
+                                                    <span><strong>Total After Discount:</strong></span>
+                                                    <strong className="text-yellow">Ksh. {totalAfterDiscount.toLocaleString()}</strong>
+                                                </p>
                                                 <hr className="bg-secondary" />
                                                 <p className="d-flex justify-content-between">
-                                                    <span style={{ fontSize: '20px' }}>Order Total:</span>
+                                                    <span>Tax (16% of Sub-Total):</span>
+                                                    <strong className="text-yellow">Ksh. {tax.toLocaleString()}</strong>
+                                                </p>
+                                                <p className="d-flex justify-content-between">
+                                                    <span style={{ fontSize: '20px' }}><strong>Order Total:</strong></span>
                                                     <strong className="text-yellow" style={{ fontSize: '20px' }}>Ksh. {total.toLocaleString()}</strong>
                                                 </p>
                                                 <Button variant="warning" id="button" className="w-100">
-                                                    Proceed to Checkout
+                                                    Checkout
                                                 </Button>
                                                 <div className="mt-3">
-                                                    <p className="mb-1 text-center">Payment Platforms</p>
+                                                    <p className="mb-1 text-center"><strong>Payment Platforms</strong></p>
                                                     <div className="payment-logos">
                                                         <img src={LipaNaMpesa} alt="Payment methods" className="payment-logo" />
                                                         {/* Add more images here */}
+                                                        <FontAwesomeIcon icon={faCcVisa} className="payment-logo" title="Visa" />
+                                                        <FontAwesomeIcon icon={faCcMastercard} className="payment-logo" title="MasterCard" />
+                                                        <FontAwesomeIcon icon={faCcPaypal} className="payment-logo" title="PayPal" />
+                                                        <FontAwesomeIcon icon={faCcAmex} className="payment-logo" title="American Express" />
+                                                        <FontAwesomeIcon icon={faCcDiscover} className="payment-logo" title="Discover" />
                                                     </div>
                                                 </div>
 

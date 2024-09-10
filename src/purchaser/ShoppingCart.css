@@ -180,9 +180,9 @@ gap: 10px; /* Adds spacing between images */
 }
 
 .payment-logo {
-max-width: 100px; /* Adjust as needed */
+max-width: 100%; /* Adjust as needed */
 height: auto; /* Keeps the aspect ratio */
 /* Optional: Set a fixed height to all images */
-/* height: 50px; */
+height: 40px;
 }
 
