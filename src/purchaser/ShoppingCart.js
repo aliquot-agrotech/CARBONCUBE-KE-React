@@ -11,7 +11,7 @@ import './ShoppingCart.css';
 const ShoppingCart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
-    const [tax, setTax] = useState(0);
+    const [vat, setVat] = useState(0);
     const [total, setTotal] = useState(0);
     const [discountCode, setDiscountCode] = useState('');
     const [discountPercentage, setDiscountPercentage] = useState(0);
@@ -44,12 +44,12 @@ const ShoppingCart = () => {
 
     const calculateTotals = useCallback(() => {
         const subTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-        const taxAmount = subTotal * 0.16; // 16% tax
+        const vatAmount = subTotal * 0.16; // 16% VAT
         const discountAmount = subTotal * (discountPercentage / 100);
-        const totalAmount = subTotal - discountAmount + taxAmount;
+        const totalAmount = subTotal - discountAmount + vatAmount;
     
         setSubtotal(subTotal);
-        setTax(taxAmount);
+        setVat(vatAmount);
         setDiscountAmount(discountAmount);
         setTotalAfterDiscount(subTotal - discountAmount); // Total before discount
         setTotal(totalAmount);
@@ -224,12 +224,28 @@ const ShoppingCart = () => {
                                             </Card.Header>
                                             <Card.Body>
                                                 <p className="d-flex justify-content-center">
-                                                    <span>Estimated Shipping and Tax</span>
+                                                    <span>Estimated Shipping and VAT</span>
                                                 </p>
                                                 <p className="d-flex justify-content-between">
                                                     <span><strong>Total Before Discount:</strong></span>
-                                                    <strong className="text-yellow">Ksh. {subtotal.toLocaleString()}</strong>
+                                                    <strong className="text-yellow">
+                                                        Ksh. {subtotal.toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </strong>
                                                 </p>
+
 
                                                 <Form.Group className="mb-3 text-center">
                                                     <Form.Label><strong>Apply Discount Code</strong></Form.Label>
@@ -249,22 +265,87 @@ const ShoppingCart = () => {
                                                 </Form.Group>
                                                 <p className="d-flex justify-content-between">
                                                     <span>Discount ({discountPercentage}%):</span>
-                                                    <strong className="text-yellow">- Ksh. {discountAmount.toLocaleString()}</strong>
+                                                    <strong style={{ color: 'limegreen' }}>
+                                                        - Ksh. {discountAmount.toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </strong>
                                                 </p>
-                                                 <hr className="bg-secondary" />
-                                                <p className="d-flex justify-content-between">
-                                                    <span><strong>Total After Discount:</strong></span>
-                                                    <strong className="text-yellow">Ksh. {totalAfterDiscount.toLocaleString()}</strong>
-                                                </p>
+
+
                                                 <hr className="bg-secondary" />
                                                 <p className="d-flex justify-content-between">
-                                                    <span>Tax (16% of Sub-Total):</span>
-                                                    <strong className="text-yellow">Ksh. {tax.toLocaleString()}</strong>
+                                                    <span><strong>Total After Discount:</strong></span>
+                                                    <strong className="text-yellow">
+                                                        Ksh. {totalAfterDiscount.toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </strong>
                                                 </p>
+
+                                                <hr className="bg-secondary" />
+                                                <p className="d-flex justify-content-between">
+                                                    <span>VAT (16% of Sub-Total):</span>
+                                                    <strong className="text-yellow">
+                                                        Ksh. {vat.toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </strong>
+                                                </p>
+
                                                 <p className="d-flex justify-content-between">
                                                     <span style={{ fontSize: '20px' }}><strong>Order Total:</strong></span>
-                                                    <strong className="text-yellow" style={{ fontSize: '20px' }}>Ksh. {total.toLocaleString()}</strong>
+                                                    <strong className="text-yellow" style={{ fontSize: '20px' }}>
+                                                        Ksh. {total.toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </strong>
                                                 </p>
+
                                                 <Button variant="warning" id="button" className="w-100">
                                                     Checkout
                                                 </Button>
