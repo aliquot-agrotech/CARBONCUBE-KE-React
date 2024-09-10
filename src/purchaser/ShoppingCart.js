@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button, Form, InputGroup } from 'react-boots
 import { Plus, Dash, Trash } from 'react-bootstrap-icons';
 import TopNavbar from './components/TopNavbar';
 import Sidebar from './components/Sidebar';
+import LipaNaMpesa from './components/Mpesa.png';
 import './ShoppingCart.css';
 
 const ShoppingCart = () => {
@@ -266,9 +267,13 @@ const ShoppingCart = () => {
                                                     Proceed to Checkout
                                                 </Button>
                                                 <div className="mt-3">
-                                                    <p className="mb-1 text-center">Available Payment Platforms</p>
-                                                    {/* <img src="/api/placeholder/200/40" alt="Payment methods" className="img-fluid" /> */}
+                                                    <p className="mb-1 text-center">Payment Platforms</p>
+                                                    <div className="payment-logos">
+                                                        <img src={LipaNaMpesa} alt="Payment methods" className="payment-logo" />
+                                                        {/* Add more images here */}
+                                                    </div>
                                                 </div>
+
                                             </Card.Body>
                                         </Card>
                                     </Col>
