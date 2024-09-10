@@ -135,7 +135,44 @@ const ShoppingCart = () => {
             console.error('Error applying discount:', error);
             alert('Failed to apply discount');
         }
-    }; 
+    };
+
+    const handleCheckout = async () => {
+        const token = localStorage.getItem('token');
+        const mpesaTransactionCode = prompt("Enter Mpesa Transaction Code:");
+    
+        if (!mpesaTransactionCode) {
+            alert("Mpesa transaction code is required");
+            return;
+        }
+    
+        try {
+            const response = await fetch('http://localhost:3000/purchaser/orders', {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ 
+                    mpesa_transaction_code: mpesaTransactionCode,
+                    total_amount: total // Include total_amount here
+                })
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert("Order created successfully!");
+                // Optionally redirect the user to a success or order summary page
+            } else {
+                alert(`Error: ${data.error}`);
+            }
+        } catch (error) {
+            console.error("Error during checkout:", error);
+            alert("An error occurred during checkout.");
+        }
+    };
+    
 
     return (
         <>
@@ -346,7 +383,7 @@ const ShoppingCart = () => {
                                                     </strong>
                                                 </p>
 
-                                                <Button variant="warning" id="button" className="w-100">
+                                                <Button variant="warning" id="button" className="w-100" onClick={handleCheckout}>
                                                     Checkout
                                                 </Button>
                                                 <div className="mt-3">
