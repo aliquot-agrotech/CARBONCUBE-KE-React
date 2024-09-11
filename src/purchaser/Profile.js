@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import TopNavbar from './components/TopNavbar';
 import Sidebar from './components/Sidebar';
+import { formatDate } from './utils/formatDate';
 import './Profile.css';
 
 const ProfilePage = () => {
@@ -10,11 +11,11 @@ const ProfilePage = () => {
         full_name: '',
         email: '',
         phone_number: '',
-        zip_code: '',
+        zipcode: '',
         gender: '',
         address: '',
         city: '',
-        birth_date: ''
+        birthdate: ''
     });
 
     const [editMode, setEditMode] = useState(false);
@@ -95,7 +96,7 @@ const ProfilePage = () => {
                     <p>{new Date().toLocaleDateString()}</p>
                     
                     <div className="profile-info">
-                        <img src="profile-picture-url" alt="Profile" className="profile-pic" />
+                        <img src={profile.profilepicture} alt="Profile" className="profile-pic" />
                         <p>{profile.email}</p>
                         
                         <Button variant="warning" id="button" onClick={handleEditClick}>
@@ -109,7 +110,7 @@ const ProfilePage = () => {
                                 <Form.Label>Full Name</Form.Label>
                                 <Form.Control
                                 type="text"
-                                name="full_name"
+                                name="fullname"
                                 value={profile.fullname}
                                 onChange={handleChange}
                                 disabled={!editMode}
@@ -128,6 +129,53 @@ const ProfilePage = () => {
                                 />
                             </Form.Group>
                             </Col>
+                        </Row>
+
+                        <Row>
+                            <Col md={6}>
+                            <Form.Group controlId="formGender">
+                                <Form.Label>Gender</Form.Label>
+                                <Form.Control
+                                as="select"
+                                name="gender"
+                                value={profile.gender}
+                                onChange={handleChange}
+                                disabled={!editMode}
+                                >
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                                </Form.Control>
+                            </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                            <Form.Group controlId="formUsername">
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control
+                                type="text"
+                                name="username"
+                                value={profile.username}
+                                onChange={handleChange}
+                                disabled={!editMode}
+                                />
+                            </Form.Group>
+                            </Col>
+                        </Row>
+                        
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group controlId="formBirthDate">
+                                    <Form.Label>Birth Date</Form.Label>
+                                    <Form.Control
+                                    type="date"
+                                    name="birthdate"
+                                    value={formatDate(profile.birthdate)}
+                                    onChange={handleChange}
+                                    disabled={!editMode}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}></Col>
                         </Row>
 
                         <Row>
@@ -163,8 +211,8 @@ const ProfilePage = () => {
                                 <Form.Label>Zip Code (Optional)</Form.Label>
                                 <Form.Control
                                 type="text"
-                                name="zip_code"
-                                value={profile.zip_code}
+                                name="zipcode"
+                                value={profile.zipcode}
                                 onChange={handleChange}
                                 disabled={!editMode}
                                 />
@@ -184,36 +232,7 @@ const ProfilePage = () => {
                             </Col>
                         </Row>
 
-                        <Row>
-                            <Col md={6}>
-                            <Form.Group controlId="formGender">
-                                <Form.Label>Gender</Form.Label>
-                                <Form.Control
-                                as="select"
-                                name="gender"
-                                value={profile.gender}
-                                onChange={handleChange}
-                                disabled={!editMode}
-                                >
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                                </Form.Control>
-                            </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                            <Form.Group controlId="formBirthDate">
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control
-                                type="text"
-                                name="username"
-                                value={profile.username}
-                                onChange={handleChange}
-                                disabled={!editMode}
-                                />
-                            </Form.Group>
-                            </Col>
-                        </Row>
+                        
 
                         {editMode && (
                             <Button variant="success" id="button" onClick={handleSaveClick}>
