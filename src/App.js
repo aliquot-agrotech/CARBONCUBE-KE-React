@@ -23,6 +23,7 @@ import ShoppingCart from './purchaser/ShoppingCart';
 import PurchaserMessages from './purchaser/PurchaserMessages';
 import PurchaserNotifications from './purchaser/PurchaserNotifications';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
+import ProfilePage from './purchaser/Profile';
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
@@ -95,6 +96,7 @@ function App() {
             <Route path="shopping-cart" element={<ShoppingCart onLogout={handleLogout} />} />
             <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
             <Route path="notifications" element={<PurchaserNotifications onLogout={handleLogout} />} />
+            <Route path="profile" element={<ProfilePage onLogout={handleLogout} />} />
           </Route>
         )}
       </Routes>
