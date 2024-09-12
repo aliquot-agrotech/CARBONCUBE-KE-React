@@ -4,9 +4,9 @@ import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import Banner from './components/Banner';
 import ProductDetailsModal from './components/ProductDetailsModal';
-import './HomePage.css';
+import './Home.css';
 
-const HomePage = () => {
+const Home = () => {
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState({});
     const [loading, setLoading] = useState(true);
@@ -313,4 +313,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default Home;

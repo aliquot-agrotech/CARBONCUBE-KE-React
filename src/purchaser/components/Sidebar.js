@@ -26,9 +26,9 @@ const Sidebar = () => {
       <div className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
         <Nav className="flex-column">
           <Nav.Link
-            href="/purchaser/homepage"
-            className={location.pathname === '/purchaser/homepage' ? 'active' : ''}>
-            <HouseGear className="icon" /> {isOpen && 'HomePage'}
+            href="/purchaser/home"
+            className={location.pathname === '/purchaser/home' ? 'active' : ''}>
+            <HouseGear className="icon" /> {isOpen && 'Home'}
           </Nav.Link>
           <Nav.Link
             href="/purchaser/orders"

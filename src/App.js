@@ -16,7 +16,7 @@ import VendorOrders from './vendor/VendorOrders';
 import VendorProducts from './vendor/VendorProducts';
 import VendorMessages from './vendor/Messages';
 import VendorNotifications from './vendor/VendorNotifications';
-import HomePage from './purchaser/HomePage';
+import Home from './purchaser/Home';
 import Orders from './purchaser/Orders';
 import Bookmarks from './purchaser/Bookmarks';
 import ShoppingCart from './purchaser/ShoppingCart';
@@ -62,8 +62,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
+        <Route path="/home" element={<Home onLogout={handleLogout} />} />
         <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         {isAuthenticated && userRole === 'admin' && (
           <Route path="/admin/*" element={<PrivateRoute role="admin" userRole={userRole} />}>
@@ -90,7 +91,7 @@ function App() {
         )}
         {isAuthenticated && userRole === 'purchaser' && (
           <Route path="/purchaser/*" element={<PrivateRoute role="purchaser" userRole={userRole} />}>
-            <Route path="homepage" element={<HomePage onLogout={handleLogout} />} />
+            <Route path="home" element={<Home onLogout={handleLogout} />} />
             <Route path="orders" element={<Orders onLogout={handleLogout} />} />
             <Route path="bookmarks" element={<Bookmarks onLogout={handleLogout} />} />
             <Route path="shopping-cart" element={<ShoppingCart onLogout={handleLogout} />} />

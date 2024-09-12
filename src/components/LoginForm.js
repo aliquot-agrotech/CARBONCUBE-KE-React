@@ -29,7 +29,7 @@ const LoginForm = ({ onLogin }) => {
 
       // Redirect to the appropriate page based on the user role
       if (user.role === 'purchaser') {
-        navigate('/purchaser/homepage');
+        navigate('/purchaser/home');
       } else if (user.role === 'vendor') {
         navigate('/vendor/vendor-analytics');
       } else if (user.role === 'admin') {

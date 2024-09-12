@@ -10,6 +10,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedSubcategory, setSelectedSubcategory] = useState('All');
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
 
   useEffect(() => {
     if (sidebarOpen) {
@@ -26,7 +27,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
       try {
         const response = await fetch('http://localhost:3000/purchaser/categories', {
           headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
           },
         });
         if (!response.ok) throw new Error('Failed to fetch categories');
@@ -35,16 +36,16 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
 
         const subcategoryResponse = await fetch('http://localhost:3000/purchaser/subcategories', {
           headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
           },
         });
         if (!subcategoryResponse.ok) throw new Error('Failed to fetch subcategories');
 
         const subcategoryData = await subcategoryResponse.json();
 
-        const categoriesWithSubcategories = categoryData.map(category => ({
+        const categoriesWithSubcategories = categoryData.map((category) => ({
           ...category,
-          subcategories: subcategoryData.filter(sub => sub.category_id === category.id),
+          subcategories: subcategoryData.filter((sub) => sub.category_id === category.id),
         }));
 
         setCategories(categoriesWithSubcategories);
@@ -54,6 +55,10 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
     };
 
     fetchCategories();
+
+    // Check if the purchaser is logged in by verifying the presence of the token
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token); // If token exists, set isLoggedIn to true
   }, []);
 
   const handleCategorySelect = (categoryId) => {
@@ -68,6 +73,12 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
   const onSubmit = (e) => {
     e.preventDefault();
     handleSearch(e, selectedCategory, selectedSubcategory);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Remove the token from localStorage on logout
+    setIsLoggedIn(false); // Set the login state to false
+    window.location.href = '/login'; // Redirect to the login page
   };
 
   return (
@@ -87,7 +98,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
         </div>
         <Navbar.Brand href="/purchaser/homepage">CARBON - Purchaser</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        
+
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto"></Nav>
           <Form className="d-flex search-control" onSubmit={onSubmit}>
@@ -97,11 +108,14 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
                   <FontAwesomeIcon icon={faFilter} />
                 ) : (
                   <>
-                    {categories.find(c => c.id === selectedCategory)?.name || 'Select Category'}
+                    {categories.find((c) => c.id === selectedCategory)?.name || 'Select Category'}
                     {selectedSubcategory !== 'All' && (
-                      ` > ${categories
-                        .find(c => c.id === selectedCategory)
-                        ?.subcategories.find(sc => sc.id === selectedSubcategory)?.name}`
+                      <>
+                        {' '}
+                        {categories
+                          .find((c) => c.id === selectedCategory)
+                          ?.subcategories.find((sc) => sc.id === selectedSubcategory)?.name}
+                      </>
                     )}
                   </>
                 )}
@@ -110,13 +124,13 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
                 <Dropdown.Item onClick={() => handleCategorySelect('All')} id="button">
                   All Categories
                 </Dropdown.Item>
-                {categories.map(category => (
+                {categories.map((category) => (
                   <Dropdown.Item key={category.id} onClick={() => handleCategorySelect(category.id)} id="button">
                     {category.name}
                     {category.subcategories.length > 0 && (
                       <div className="dropdown-submenu">
-                        {category.subcategories.map(subcategory => (
-                          <Dropdown.Item 
+                        {category.subcategories.map((subcategory) => (
+                          <Dropdown.Item
                             key={subcategory.id}
                             id="button"
                             onClick={(e) => {
@@ -146,8 +160,11 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
             </Button>
           </Form>
           <Nav className="ms-auto">
-            <Nav.Link href="/profile">Profile</Nav.Link>
-            <Nav.Link href="/login">Logout</Nav.Link>
+            {isLoggedIn ? (
+              <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+            ) : (
+              <Nav.Link href="/login">Login</Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
