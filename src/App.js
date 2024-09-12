@@ -63,6 +63,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/admin" element={<Navigate to="/login" />} />
+        <Route path="/vendor" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
         <Route path="/home" element={<Home onLogout={handleLogout} />} />
         <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
