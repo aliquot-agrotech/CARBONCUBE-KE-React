@@ -152,7 +152,7 @@ const Home = () => {
                                             src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                             alt={product.title}
                                             className="product-image"
-                                            onClick={() => onProductClick(product)} // Handle image click
+                                            onClick={() => onProductClick(product)}
                                         />
                                     </Card>
                                 </Col>
@@ -167,7 +167,7 @@ const Home = () => {
         );
     };
 
-    const PopularProductsSection = ({ products }) => (
+    const PopularProductsSection = ({ products, onProductClick }) => (
         <Card className="section mb-4">
             <Card.Header className="d-flex justify-content-start popular-products-header">
                 <h3>Popular Products</h3>
@@ -177,7 +177,12 @@ const Home = () => {
                     {products.slice(0, 6).map(product => (
                         <Col xs={12} sm={6} md={2} key={product.id}>
                             <Card className="product-card">
-                                <Card.Img variant="top" src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'} />
+                                <Card.Img 
+                                    variant="top" 
+                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                    className="product-image"
+                                    onClick={() => onProductClick(product)} // Add click handler
+                                />
                             </Card>
                         </Col>
                     ))}
@@ -185,7 +190,7 @@ const Home = () => {
             </Card.Body>
         </Card>
     );
-
+    
     const SearchResultSection = ({ results }) => (
         <Card className="section mb-4">
             <Card.Header className="d-flex justify-content-start">
@@ -298,7 +303,10 @@ const Home = () => {
                                     subcategories={category.subcategories}
                                 />
                             ))}
-                            <PopularProductsSection products={Object.values(products).flat()} />
+                            <PopularProductsSection
+                                products={Object.values(products).flat()}
+                                onProductClick={handleShowModal} // Pass the click handler
+                            />
                         </>
                     )}
                 </Container>
