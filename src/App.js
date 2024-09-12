@@ -16,6 +16,7 @@ import VendorOrders from './vendor/VendorOrders';
 import VendorProducts from './vendor/VendorProducts';
 import VendorMessages from './vendor/Messages';
 import VendorNotifications from './vendor/VendorNotifications';
+import VendorProfile from './vendor/Profile';
 import Home from './purchaser/Home';
 import Orders from './purchaser/Orders';
 import Bookmarks from './purchaser/Bookmarks';
@@ -89,6 +90,7 @@ function App() {
             <Route path="vendor-products" element={<VendorProducts onLogout={handleLogout} />} />
             <Route path="messages" element={<VendorMessages onLogout={handleLogout} />} />
             <Route path="vendor-notifications" element={<VendorNotifications onLogout={handleLogout} />} />
+            <Route path="profile" element={<VendorProfile onLogout={handleLogout} />} />
           </Route>
         )}
         {isAuthenticated && userRole === 'purchaser' && (

@@ -8,7 +8,7 @@ import './Profile.css';
 
 const ProfilePage = () => {
     const [profile, setProfile] = useState({
-        full_name: '',
+        fullname: '',
         username: '',
         email: '',
         phone_number: '',
