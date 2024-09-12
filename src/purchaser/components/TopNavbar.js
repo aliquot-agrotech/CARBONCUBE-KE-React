@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Container, Nav, Button, Form, FormControl, Dropdown } from 'react-bootstrap';
-import { List } from 'react-bootstrap-icons';
+// import { List } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import './TopNavbar.css';
 
 const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, handleSearch }) => {
-  const [isVisible, setIsVisible] = useState(!sidebarOpen);
+  // const [isVisible, setIsVisible] = useState(!sidebarOpen);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedSubcategory, setSelectedSubcategory] = useState('All');
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
 
-  useEffect(() => {
-    if (sidebarOpen) {
-      setIsVisible(false);
-    } else {
-      const timer = setTimeout(() => setIsVisible(true), 300);
-      return () => clearTimeout(timer);
-    }
-  }, [sidebarOpen]);
+  // useEffect(() => {
+  //   if (sidebarOpen) {
+  //     setIsVisible(false);
+  //   } else {
+  //     const timer = setTimeout(() => setIsVisible(true), 300);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [sidebarOpen]);
 
   useEffect(() => {
     // Fetch categories and subcategories
@@ -84,7 +84,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar mb-0">
       <Container fluid>
-        <div className={`toggle-container ${sidebarOpen ? 'hidden' : ''}`}>
+        {/* <div className={`toggle-container ${sidebarOpen ? 'hidden' : ''}`}>
           {isVisible && (
             <Button
               variant="warning"
@@ -95,7 +95,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               <List size={15} />
             </Button>
           )}
-        </div>
+        </div> */}
         <Navbar.Brand href="/purchaser/homepage">CARBON - Purchaser</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
