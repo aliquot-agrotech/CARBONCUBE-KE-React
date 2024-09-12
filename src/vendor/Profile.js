@@ -10,6 +10,9 @@ const ProfilePage = () => {
     const [profile, setProfile] = useState({
         fullname: '',
         username: '',
+        enterprise_name: '',
+        description: '',
+        business_registration_number: '',
         email: '',
         phone_number: '',
         zipcode: '',
@@ -67,7 +70,7 @@ const ProfilePage = () => {
         return;
         }
 
-        axios.put('http://localhost:3000/purchaser/profile', profile, {
+        axios.put('http://localhost:3000/vendor/profile', profile, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -84,7 +87,7 @@ const ProfilePage = () => {
     return (
         <>
         <TopNavbar />
-            <div className="profile-page">
+            <div className="profile-page-vendor">
                 <Container fluid className="p-0">
                     <Row>
                         <Col xs={12} md={2} className="p-0">
@@ -134,6 +137,34 @@ const ProfilePage = () => {
                                                         </Form.Group>
                                                     </Col>
                                                     <Col md={6}>
+                                                        <Form.Group controlId="formUsername">
+                                                            <Form.Label>Username</Form.Label>
+                                                            <Form.Control
+                                                                type="text"
+                                                                name="username"
+                                                                value={profile.username}
+                                                                onChange={handleChange}
+                                                                disabled={!editMode}
+                                                            />
+                                                        </Form.Group>
+                                                    </Col>
+                                                </Row>
+
+                                                <Row>
+                                                    <Col md={6}>
+                                                    
+                                                        <Form.Group controlId="formBirthDate">
+                                                            <Form.Label>Birth Date</Form.Label>
+                                                            <Form.Control
+                                                                type="date"
+                                                                name="birthdate"
+                                                                value={formatDate(profile.birthdate) || ''} // Format birthdate to YYYY-MM-DD
+                                                                onChange={handleChange}
+                                                                disabled={!editMode}
+                                                            />
+                                                        </Form.Group>
+                                                    </Col>
+                                                    <Col md={6}>
                                                         <Form.Group controlId="formGender">
                                                             <Form.Label>Gender</Form.Label>
                                                             <Form.Control
@@ -150,27 +181,66 @@ const ProfilePage = () => {
                                                         </Form.Group>
                                                     </Col>
                                                 </Row>
+                                            </Container>
+
+
+                                            {/* {Business Information Section} */}
+                                            <Container>
+                                                <Row>
+                                                    <Col className="justify-content-center">
+                                                        <h4 className="section-heading text-center">Business Information</h4>
+                                                        <hr />
+                                                    </Col>
+                                                </Row>
+
 
                                                 <Row>
                                                     <Col md={6}>
-                                                        <Form.Group controlId="formBirthDate">
-                                                            <Form.Label>Birth Date</Form.Label>
+                                                    <Form.Group controlId="formEnterprise">
+                                                            <Form.Label>Enterprise Name</Form.Label>
                                                             <Form.Control
-                                                                type="date"
-                                                                name="birthdate"
-                                                                value={formatDate(profile.birthdate) || ''} // Format birthdate to YYYY-MM-DD
+                                                                type="text"
+                                                                name="enterprise_name"
+                                                                value={profile.enterprise_name}
                                                                 onChange={handleChange}
                                                                 disabled={!editMode}
                                                             />
                                                         </Form.Group>
                                                     </Col>
                                                     <Col md={6}>
-                                                        <Form.Group controlId="formUsername">
-                                                            <Form.Label>Username</Form.Label>
+                                                    <Form.Group controlId="formBusinessRegistrationNumber">
+                                                            <Form.Label>Business Registration Number</Form.Label>
                                                             <Form.Control
                                                                 type="text"
-                                                                name="username"
-                                                                value={profile.username}
+                                                                name="business_registration_number"
+                                                                value={profile.business_registration_number}
+                                                                onChange={handleChange}
+                                                                disabled={!editMode}
+                                                            />
+                                                        </Form.Group>
+                                                    </Col>
+                                                </Row>
+
+                                                <Row>
+                                                    <Col md={6}>
+                                                    <Form.Group controlId="formDescription">
+                                                            <Form.Label>Description</Form.Label>
+                                                            <Form.Control
+                                                                type="text"
+                                                                name="description"
+                                                                value={profile.description}
+                                                                onChange={handleChange}
+                                                                disabled={!editMode}
+                                                            />
+                                                        </Form.Group>
+                                                    </Col>
+                                                    <Col md={6}>
+                                                    <Form.Group controlId="formAddress">
+                                                            <Form.Label>Physical Address</Form.Label>
+                                                            <Form.Control
+                                                                type="text"
+                                                                name="location"
+                                                                value={profile.location}
                                                                 onChange={handleChange}
                                                                 disabled={!editMode}
                                                             />
@@ -178,6 +248,7 @@ const ProfilePage = () => {
                                                     </Col>
                                                 </Row>
                                             </Container>
+                                                
 
                                             {/* Contact Information Section */}
                                             <Container>
@@ -190,18 +261,6 @@ const ProfilePage = () => {
 
                                                 <Row>
                                                     <Col md={6}>
-                                                        <Form.Group controlId="formEmail">
-                                                            <Form.Label>Email</Form.Label>
-                                                            <Form.Control
-                                                                type="email"
-                                                                name="email"
-                                                                value={profile.email}
-                                                                onChange={handleChange}
-                                                                disabled={!editMode}
-                                                            />
-                                                        </Form.Group>
-                                                    </Col>
-                                                    <Col md={6}>
                                                         <Form.Group controlId="formPhoneNumber">
                                                             <Form.Label>Phone Number</Form.Label>
                                                             <Form.Control
@@ -213,21 +272,22 @@ const ProfilePage = () => {
                                                             />
                                                         </Form.Group>
                                                     </Col>
-                                                </Row>
-
-                                                <Row>
                                                     <Col md={6}>
-                                                        <Form.Group controlId="formAddress">
-                                                            <Form.Label>Physical Address</Form.Label>
+                                                        <Form.Group controlId="formEmail">
+                                                            <Form.Label>Email</Form.Label>
                                                             <Form.Control
-                                                                type="text"
-                                                                name="location"
-                                                                value={profile.location}
+                                                                type="email"
+                                                                name="email"
+                                                                value={profile.email}
                                                                 onChange={handleChange}
                                                                 disabled={!editMode}
                                                             />
                                                         </Form.Group>
+                                                        
                                                     </Col>
+                                                </Row>
+
+                                                <Row>
                                                     <Col md={6}>
                                                         <Form.Group controlId="formCity">
                                                             <Form.Label>City</Form.Label>
@@ -240,12 +300,9 @@ const ProfilePage = () => {
                                                             />
                                                         </Form.Group>
                                                     </Col>
-                                                </Row>
-
-                                                <Row>
                                                     <Col md={6}>
                                                         <Form.Group controlId="formZipCode">
-                                                            <Form.Label>Zip Code (Optional)</Form.Label>
+                                                            <Form.Label>Zip Code</Form.Label>
                                                             <Form.Control
                                                                 type="text"
                                                                 name="zipcode"
@@ -254,6 +311,12 @@ const ProfilePage = () => {
                                                                 disabled={!editMode}
                                                             />
                                                         </Form.Group>
+                                                    </Col>
+                                                </Row>
+
+                                                <Row>
+                                                    <Col md={6}>
+                                                        
                                                     </Col>
                                                     <Col md={6}></Col>
                                                 </Row>
