@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button, Row, Col, Spinner, Carousel } from 'react-bootstrap';
-import { Star, StarFill, Cart4, Heart, BoxArrowInRight } from 'react-bootstrap-icons';
+import { Star, StarFill, Cart4, Heart } from 'react-bootstrap-icons';
 import './ProductDetailsModal.css';  // Your custom styling
 import axios from 'axios';  // Assuming you're using axios
 
@@ -12,15 +12,6 @@ const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
         return Array(5).fill(0).map((_, i) =>
         i < Math.floor(mean_rating) ? <StarFill key={i} className="text-warning" /> : <Star key={i} className="text-warning" />
         );
-    };
-
-    const formatPrice = (price) => {
-        if (typeof price === 'number') {
-        return price.toFixed(2);
-        } else if (typeof price === 'string') {
-        return parseFloat(price).toFixed(2);
-        }
-        return 'N/A';
     };
 
     const renderCarousel = () => {
@@ -119,17 +110,39 @@ const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
             </Col>
             <Col md={6}>
             <div className="product-details">
-                <h5>{product.title}</h5>
+                <h4>{product.title}</h4>
                 <p><strong>Brand:</strong> {product.brand}</p>
+                <p><strong>Description:</strong> {product.description}</p>
+                <p><strong>Category:</strong> {product.category_name}</p>
+                <p><strong>Subcategory:</strong> {product.subcategory_name}</p>
                 <p><strong>Stock Status:</strong> {product.quantity}</p>
-                <p><strong>SKU:</strong> {product.sku}</p>
-                <p><strong>Colors:</strong> {product.colors}</p>
-                <p><strong>Add-ons:</strong> {product.addOns}</p>
+                {/* {Item Dimensions} */}
+                <p><strong>Height:</strong> {product.item_height}</p>
+                <p><strong>Width:</strong> {product.item_width}</p>
+                <p><strong>Length:</strong> {product.item_length}</p>
+                <p><strong>Weight:</strong> {product.item_weight}</p>
                 <div className="product-rating">
                 {renderRating(product.mean_rating)}
                 </div>
-                <h4 className="product-price">Kshs: {formatPrice(product.price)}</h4>
-                <p className="product-description"><strong>Description: </strong>{product.description}</p>
+                <h4 className="product-price">
+                    Kshs: 
+                    <strong>
+                        {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
+                            <React.Fragment key={index}>
+                                {index === 0 ? (
+                                    <span className="price-integer">
+                                        {parseInt(part, 10).toLocaleString()}
+                                    </span>
+                                ) : (
+                                    <>
+                                        <span style={{ fontSize: '16px' }}>.</span>
+                                        <span className="price-decimal">{part}</span>
+                                    </>
+                                )}
+                            </React.Fragment>
+                        )) : 'N/A'}
+                    </strong>
+                </h4>
             </div>
             </Col>
         </Row>
@@ -150,9 +163,9 @@ const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
             <Button variant="warning" className="w-30 modern-btn" disabled={!product} id="button">
             <Cart4 className="me-2" /> Add to cart
             </Button>
-            <Button variant="primary" id="button" className="w-30 modern-btn-outline" disabled={!product}>
+            {/* <Button variant="primary" id="button" className="w-30 modern-btn-outline" disabled={!product}>
             <BoxArrowInRight className="me-2" /> Buy Now
-            </Button>
+            </Button> */}
             <Button
             variant="dark"
             className="w-30 modern-btn-dark"
