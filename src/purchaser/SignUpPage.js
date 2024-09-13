@@ -187,26 +187,8 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.location}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    {/* <Col md={6}>
-                      <Form.Group className="mb-3">
-                        <Form.Control
-                          type="password"
-                          placeholder="Password"
-                          name="password"
-                          id="button"
-                          className="mb-3 text-center"
-                          value={formData.password}
-                          onChange={handleChange}
-                          isInvalid={!!errors.password}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col> */}
-                  </Row>
-                  
-                  <Row>
                     <Col md={6}>
-                      <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
                           placeholder="City"
@@ -220,8 +202,11 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.city}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
+                  </Row>
+                  
+                  <Row>
                     <Col md={6}>
-                      <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
                           placeholder="Zip Code"
@@ -235,11 +220,8 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.zipcode}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                  </Row>
-                  
-                  <Row>
                     <Col md={6}>
-                      <Form.Group className="mb-3">
+                    <Form.Group className="mb-3">
                         <Form.Control
                           type="date"
                           name="birthdate"
@@ -252,6 +234,9 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.birthdate}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
+                  </Row>
+                  
+                  <Row>
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
@@ -271,40 +256,41 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.gender}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
+                    
                   </Row>
 
                   <Row>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                name="password"
-                id="password"
-                className="mb-3 text-center"
-                value={formData.password}
-                onChange={handleChange}
-                isInvalid={!!errors.password}
-              />
-              <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="password"
-                placeholder="Confirm Password"
-                name="password_confirmation"
-                id="password_confirmation"
-                className="mb-3 text-center"
-                value={formData.password_confirmation}
-                onChange={handleChange}
-                isInvalid={!!errors.password_confirmation}
-              />
-              <Form.Control.Feedback type="invalid">{errors.password_confirmation}</Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-        </Row>
+                    <Col md={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          type="password"
+                          placeholder="Password"
+                          name="password"
+                          id="button"
+                          className="mb-3 text-center"
+                          value={formData.password}
+                          onChange={handleChange}
+                          isInvalid={!!errors.password}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          type="password"
+                          placeholder="Confirm Password"
+                          name="password_confirmation"
+                          id="button"
+                          className="mb-3 text-center"
+                          value={formData.password_confirmation}
+                          onChange={handleChange}
+                          isInvalid={!!errors.password_confirmation}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.password_confirmation}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>      
                   
                   <Form.Group className="mb-3">
                     <Form.Check

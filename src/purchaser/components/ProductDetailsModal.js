@@ -75,7 +75,22 @@ const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
         }
     };
     
-
+    const handleAddToCart = async (productId) => {
+        try {
+          await fetch(`http://localhost:3000/purchaser/cart_items`, {
+            method: 'POST',
+            headers: {
+              "Authorization": `Bearer ${localStorage.getItem('token')}`,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ product_id: productId })
+          });
+          window.alert("Product added to cart!");
+        } catch (error) {
+          console.error("Error adding to cart:", error);
+        }
+      };
+      
     const renderContent = () => {
         if (loading) {
         return (
@@ -160,8 +175,8 @@ const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
             {renderContent()}
         </Modal.Body>
         <Modal.Footer className="d-flex justify-content-between">
-            <Button variant="warning" className="w-30 modern-btn" disabled={!product} id="button">
-            <Cart4 className="me-2" /> Add to cart
+            <Button variant="warning" className="w-30 modern-btn" disabled={!product} id="button" onClick={() => handleAddToCart(product.id)}>
+                <Cart4 className="me-2" /> Add to cart
             </Button>
             {/* <Button variant="primary" id="button" className="w-30 modern-btn-outline" disabled={!product}>
             <BoxArrowInRight className="me-2" /> Buy Now
