@@ -1,45 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import './Banner.css'; // We'll convert your CSS into a file named Banner.css
+import './Banner.css'; // Ensure your CSS reflects the updated design
+import Carousel from 'react-bootstrap/Carousel'; // Install React Bootstrap Carousel
 
 const Banner = () => {
     const [images, setImages] = useState([]);
 
     useEffect(() => {
-        // Fetch products and randomize the images
-        const fetchRandomImages = async () => {
+        // Fetch banner images from your Rails backend
+        const fetchBannerImages = async () => {
             try {
-                const response = await fetch('http://localhost:3000/purchaser/products', {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                });
+                const response = await fetch('http://localhost:3000/banners'); // Removed token requirement
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch products');
+                    throw new Error('Failed to fetch banner images');
                 }
 
-                const products = await response.json();
-                const shuffledProducts = products.sort(() => 0.5 - Math.random());
-                const randomImages = shuffledProducts.slice(0, 10).map(product => product.media_urls[0]);
-                setImages(randomImages);
+                const banners = await response.json();
+                console.log('Fetched banners:', banners); // Log fetched data
+
+                // Assuming each banner has an image_url
+                const bannerImages = banners.map(banner => banner.image_url);
+                setImages(bannerImages);
             } catch (error) {
-                console.error('Error fetching images:', error);
+                console.error('Error fetching banner images:', error);
             }
         };
 
-        fetchRandomImages();
+        fetchBannerImages();
     }, []);
 
     return (
         <div className="banner">
-            <div className="slider" style={{ '--quantity': images.length }}>
-                {images.map((src, index) => (
-                    <div key={index} className="item" style={{ '--position': index + 1 }}>
-                        <img src={src} alt={`Slide ${index + 1}`} />
-                    </div>
-                ))}
-            </div>
-            
+            {/* Carousel for background images */}
+            {images.length > 0 ? (
+                <Carousel interval={5000} pause={false}>
+                    {images.map((src, index) => (
+                        <Carousel.Item key={index}>
+                            <div
+                                className="carousel-image"
+                                style={{
+                                    backgroundImage: `url(${src})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    height: '70vh', // Adjust height as needed
+                                }}
+                            />
+                        </Carousel.Item>
+                    ))}
+                </Carousel>
+            ) : (
+                <p>Loading images...</p> // Show a message while images are being loaded
+            )}
         </div>
     );
 };
