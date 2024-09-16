@@ -34,10 +34,10 @@ const VendorProducts = () => {
         quantity: '',
         brand: '',
         manufacturer: '',
-        package_length: '',
-        package_width: '',
-        package_height: '',
-        package_weight: ''
+        item_length: '',
+        item_width: '',
+        item_height: '',
+        item_weight: ''
     });
 
     const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
@@ -157,9 +157,9 @@ const VendorProducts = () => {
     
 
     const handleAddNewProduct = async () => {
-        const { title, description, price, quantity, brand, manufacturer, package_length, package_width, package_height, package_weight } = formValues;
+        const { title, description, price, quantity, brand, manufacturer, item_length, item_width, item_height, item_weight } = formValues;
     
-        if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !package_length || !package_width || !package_height || !package_weight) {
+        if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !item_length || !item_width || !item_height || !item_weight) {
             alert('Please fill in all required fields.');
             return;
         }
@@ -183,10 +183,10 @@ const VendorProducts = () => {
             quantity: parseInt(quantity),
             brand,
             manufacturer,
-            package_length: parseInt(package_length),
-            package_width: parseInt(package_width),
-            package_height: parseInt(package_height),
-            package_weight: parseInt(package_weight),
+            item_length: parseInt(item_length),
+            item_width: parseInt(item_width),
+            item_height: parseInt(item_height),
+            item_weight: parseInt(item_weight),
             media: mediaUrls // Store all the uploaded image URLs
         };
     
@@ -218,10 +218,10 @@ const VendorProducts = () => {
                 quantity: '',
                 brand: '',
                 manufacturer: '',
-                package_length: '',
-                package_width: '',
-                package_height: '',
-                package_weight: ''
+                item_length: '',
+                item_width: '',
+                item_height: '',
+                item_weight: ''
             });
             setSelectedCategory('');
             setSelectedSubcategory('');
@@ -231,10 +231,6 @@ const VendorProducts = () => {
             alert('Failed to add product. Please try again.');
         }
     };
-    
-    
-    
-    
 
     const handleViewDetailsClick = (product) => {
         setSelectedProduct(product);
@@ -249,7 +245,6 @@ const VendorProducts = () => {
         // Set selected category and subcategory from the product data
         setSelectedCategory(product.category_id);
         setSelectedSubcategory(product.subcategory_id);
-    
         setShowEditModal(true);
     };
     
@@ -315,10 +310,10 @@ const VendorProducts = () => {
             quantity: editedProduct.quantity,
             brand: editedProduct.brand,
             manufacturer: editedProduct.manufacturer,
-            package_length: editedProduct.package_length,
-            package_width: editedProduct.package_width,
-            package_height: editedProduct.package_height,
-            package_weight: editedProduct.package_weight,
+            item_length: editedProduct.item_length,
+            item_width: editedProduct.item_width,
+            item_height: editedProduct.item_height,
+            item_weight: editedProduct.item_weight,
             flagged: editedProduct.flagged,
             media: editedProduct.media // Only include media if applicable
             } }),
@@ -929,9 +924,9 @@ const VendorProducts = () => {
                                                 <Form.Control 
                                                     type="number" 
                                                     placeholder="Enter product length" 
-                                                    name="package_length"
+                                                    name="item_length"
                                                     id="button"
-                                                    value={editedProduct.package_length || ''} 
+                                                    value={editedProduct.item_length || ''} 
                                                     onChange={handleInputChange} 
                                                 />
                                             </Form.Group>
@@ -942,9 +937,9 @@ const VendorProducts = () => {
                                                 <Form.Control 
                                                     type="number" 
                                                     placeholder="Enter product width" 
-                                                    name="package_width"
+                                                    name="item_width"
                                                     id="button"
-                                                    value={editedProduct.package_width || ''} 
+                                                    value={editedProduct.item_width || ''} 
                                                     onChange={handleInputChange} 
                                                 />
                                             </Form.Group>
@@ -958,9 +953,9 @@ const VendorProducts = () => {
                                                 <Form.Control 
                                                     type="number" 
                                                     placeholder="Enter product height" 
-                                                    name="package_height"
+                                                    name="item_height"
                                                     id="button"
-                                                    value={editedProduct.package_height || ''} 
+                                                    value={editedProduct.item_height || ''} 
                                                     onChange={handleInputChange} 
                                                 />
                                             </Form.Group>
@@ -971,9 +966,9 @@ const VendorProducts = () => {
                                                 <Form.Control 
                                                     type="number" 
                                                     placeholder="Enter product weight" 
-                                                    name="package_weight"
+                                                    name="item_weight"
                                                     id="button"
-                                                    value={editedProduct.package_weight || ''} 
+                                                    value={editedProduct.item_weight || ''} 
                                                     onChange={handleInputChange} 
                                                 />
                                             </Form.Group>
@@ -1128,40 +1123,40 @@ const VendorProducts = () => {
                                     </Form.Group>
 
                                     <Form.Group className="d-flex flex-column align-items-center mb-2">
-                                        <Form.Label className="text-center mb-0 fw-bold">Package Dimensions</Form.Label>
+                                        <Form.Label className="text-center mb-0 fw-bold">Item Dimensions</Form.Label>
                                         <Form.Control
-                                            id="package_length"
+                                            id="item_length"
                                             type="text"
                                             placeholder="Length"
-                                            value={formValues.package_length}
+                                            value={formValues.item_length}
                                             onChange={handleFormChange}
                                             className="custom-input mb-2 rounded-pill"
                                         />
                                         <Form.Control
-                                            id="package_width"
+                                            id="item_width"
                                             type="text"
                                             placeholder="Width"
-                                            value={formValues.package_width}
+                                            value={formValues.item_width}
                                             onChange={handleFormChange}
                                             className="custom-input mb-2 rounded-pill"
                                         />
                                         <Form.Control
-                                            id="package_height"
+                                            id="item_height"
                                             type="text"
                                             placeholder="Height"
-                                            value={formValues.package_height}
+                                            value={formValues.item_height}
                                             onChange={handleFormChange}
                                             className="custom-input rounded-pill"
                                         />
                                     </Form.Group>
 
                                     <Form.Group className="d-flex flex-column align-items-center mb-2">
-                                        <Form.Label className="text-center mb-0 fw-bold">Package Weight</Form.Label>
+                                        <Form.Label className="text-center mb-0 fw-bold">Item Weight</Form.Label>
                                         <Form.Control
-                                            id="package_weight"
+                                            id="item_weight"
                                             type="text"
-                                            placeholder="Enter package weight"
-                                            value={formValues.package_weight}
+                                            placeholder="Enter item weight"
+                                            value={formValues.item_weight}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1 rounded-pill"
                                         />
