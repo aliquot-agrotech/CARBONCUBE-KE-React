@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import Spinner from "react-spinkit";
 import './ContentManagement.css';  // Custom CSS
+import { Cloudinary } from 'cloudinary-core';
 
 const ContentManagement = () => {
     const [aboutData, setAboutData] = useState(null);
@@ -16,6 +17,8 @@ const ContentManagement = () => {
     const [currentEdit, setCurrentEdit] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [file, setFile] = useState(null);
+
+    const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -134,16 +137,34 @@ const ContentManagement = () => {
     const handleUploadBanner = async () => {
         if (!file) return;
 
+        // Upload to Cloudinary
         const formData = new FormData();
-        formData.append('banner[image_url]', file);
+        formData.append('file', file);
+        formData.append('upload_preset', 'carbonecom'); // Replace with your Cloudinary upload preset
 
         try {
+            const cloudinaryResponse = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.config().cloud_name}/image/upload`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!cloudinaryResponse.ok) {
+                throw new Error('Failed to upload image to Cloudinary');
+            }
+
+            const cloudinaryData = await cloudinaryResponse.json();
+            const imageUrl = cloudinaryData.secure_url;
+
+            // Save the banner URL to your database
+            const bannerFormData = new FormData();
+            bannerFormData.append('banner[image_url]', imageUrl);
+
             const response = await fetch('http://localhost:3000/admin/banners', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 },
-                body: formData,
+                body: bannerFormData,
             });
 
             if (!response.ok) {
@@ -179,6 +200,8 @@ const ContentManagement = () => {
             setError('Error deleting banner');
         }
     };
+
+
 
     if (loading) {
         return (
