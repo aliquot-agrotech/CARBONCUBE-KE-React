@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Modal, Table, Card } from 'react-bootstrap';
-import { Trash, Pencil } from 'react-bootstrap-icons';
+import { Trash, Pencil, PlusCircle } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import Spinner from "react-spinkit";
@@ -9,10 +9,13 @@ import './ContentManagement.css';  // Custom CSS
 const ContentManagement = () => {
     const [aboutData, setAboutData] = useState(null);
     const [faqsData, setFaqsData] = useState([]);
+    const [banners, setBanners] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [currentEdit, setCurrentEdit] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [file, setFile] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,22 +30,23 @@ const ContentManagement = () => {
                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     },
                 });
+                const bannersResponse = await fetch('http://localhost:3000/admin/banners', {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
 
-                console.log('About response status:', aboutResponse.status);
-                console.log('FAQs response status:', faqsResponse.status);
-
-                if (!aboutResponse.ok || !faqsResponse.ok) {
+                if (!aboutResponse.ok || !faqsResponse.ok || !bannersResponse.ok) {
                     throw new Error('Network response was not ok');
                 }
 
                 const about = await aboutResponse.json();
                 const faqs = await faqsResponse.json();
-
-                console.log('Fetched aboutData:', about);
-                console.log('Fetched faqsData:', faqs);
+                const banners = await bannersResponse.json();
 
                 setAboutData(about);
                 setFaqsData(faqs);
+                setBanners(banners);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setError('Error fetching data');
@@ -88,10 +92,8 @@ const ContentManagement = () => {
             }
 
             if (type === 'abouts') {
-                console.log('Updated aboutData:', data);
                 setAboutData([data]);  // Ensure aboutData remains an array
             } else if (type === 'faqs') {
-                console.log('Updated FAQ:', data);
                 setFaqsData((prevFaqs) =>
                     prevFaqs.map((faq) => (faq.id === data.id ? data : faq))
                 );
@@ -125,6 +127,59 @@ const ContentManagement = () => {
         }
     };
 
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    const handleUploadBanner = async () => {
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('banner[image_url]', file);
+
+        try {
+            const response = await fetch('http://localhost:3000/admin/banners', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const newBanner = await response.json();
+            setBanners([...banners, newBanner]);
+            setShowModal(false);
+            setFile(null);
+        } catch (error) {
+            console.error('Error uploading banner:', error);
+            setError('Error uploading banner');
+        }
+    };
+
+    const handleDeleteBanner = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/admin/banners/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            setBanners(banners.filter(banner => banner.id !== id));
+        } catch (error) {
+            console.error('Error deleting banner:', error);
+            setError('Error deleting banner');
+        }
+    };
+
     if (loading) {
         return (
             <div className="centered-loader">
@@ -150,7 +205,7 @@ const ContentManagement = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-1">
                             {/* About Us Section */}
-                            <div >
+                            <div>
                                 <Card className="section">
                                     <Card.Header className="text-center justify-content-center">
                                         ABOUT US
@@ -202,7 +257,7 @@ const ContentManagement = () => {
                                                     disabled
                                                 />
                                             </Form.Group>
-                                            <Form.Group controlId="formImageUrl"className="text-center">
+                                            <Form.Group controlId="formImageUrl" className="text-center">
                                                 <Form.Label style={{ fontWeight: 'bold' }}>Image URL</Form.Label>
                                                 <Form.Control
                                                     type="text"
@@ -283,22 +338,90 @@ const ContentManagement = () => {
                                     </Card.Footer>
                                 </Card>
                             </div>
+
+                            {/* Banner Section */}
+                            <div className="section">
+                                <Card className="section">
+                                    <Card.Header className="text-center justify-content-center">
+                                        BANNERS
+                                    </Card.Header>
+                                    <Card.Body>
+                                        <Row>
+                                            {banners.map((banner) => (
+                                                <Col xs={12} md={4} lg={3} key={banner.id} className="mb-4">
+                                                    <Card>
+                                                        <Card.Img variant="top" src={banner.image_url} />
+                                                        <Card.Body>
+                                                            <Button
+                                                                variant="danger"
+                                                                className="float-end"
+                                                                onClick={() => handleDeleteBanner(banner.id)}
+                                                            >
+                                                                <Trash />
+                                                            </Button>
+                                                            <Card.Title className="text-center">Banner {banner.id}</Card.Title>
+                                                        </Card.Body>
+                                                    </Card>
+                                                </Col>
+                                            ))}
+                                        </Row>
+                                    </Card.Body>
+                                    <Card.Footer className="text-center">
+                                        <Button
+                                            variant="warning"
+                                            onClick={() => setShowModal(true)}
+                                            id="button"
+                                        >
+                                            <PlusCircle /> Add New Banner
+                                        </Button>
+                                    </Card.Footer>
+                                </Card>
+                            </div>
                         </Col>
                     </Row>
                 </Container>
 
-                {/* Edit Modal */}
-                <Modal show={editMode} onHide={() => setEditMode(false)} size="lg">
-                    <Modal.Header>
-                        <Modal.Title>Edit {currentEdit?.type === 'abouts' ? 'About Us' : 'FAQ'}</Modal.Title>
+                {/* Add Banner Modal */}
+                <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Upload New Banner</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {currentEdit && (
+                        <Form>
+                            <Form.Group className="mb-2">
+                                <Form.Label className="text-center mb-0 fw-bold">Media</Form.Label>
+                                <div className="upload-section">
+                                    <div className="upload-icon">&#8689;</div>
+                                    <Button variant="light" className="custom-upload-btn">
+                                        <input type="file" accept="image/*" onChange={handleFileChange} />
+                                    </Button>
+                                    <div className="upload-instructions">or Drag and Drop files Here</div>
+                                </div>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" className='me-3' onClick={() => setShowModal(false)}>
+                            Close
+                        </Button>
+                        <Button variant="warning" onClick={handleUploadBanner}>
+                            Upload
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* Edit Modal */}
+                {editMode && currentEdit && (
+                    <Modal show={editMode} onHide={() => setEditMode(false)} size="lg">
+                        <Modal.Header closeButton>
+                            <Modal.Title>Edit {currentEdit.type === 'abouts' ? 'About Us' : 'FAQ'}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
                             <Form>
-                                {currentEdit.type === 'abouts' && (
+                                {currentEdit.type === 'abouts' ? (
                                     <>
-                                        <Form.Group controlId="formDescription" className="text-center">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Description</Form.Label>
+                                        <Form.Group controlId="formDescription">
+                                            <Form.Label>Description</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="description"
@@ -306,8 +429,8 @@ const ContentManagement = () => {
                                                 onChange={handleInputChange}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formMission" className="text-center">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Mission</Form.Label>
+                                        <Form.Group controlId="formMission">
+                                            <Form.Label>Mission</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="mission"
@@ -315,8 +438,8 @@ const ContentManagement = () => {
                                                 onChange={handleInputChange}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formVision" className="text-center">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Vision</Form.Label>
+                                        <Form.Group controlId="formVision">
+                                            <Form.Label>Vision</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="vision"
@@ -324,8 +447,8 @@ const ContentManagement = () => {
                                                 onChange={handleInputChange}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formValues" className="text-center">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Values</Form.Label>
+                                        <Form.Group controlId="formValues">
+                                            <Form.Label>Values</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="values"
@@ -333,8 +456,8 @@ const ContentManagement = () => {
                                                 onChange={handleInputChange}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formWhyChooseUs" className="text-center">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Why Choose Us</Form.Label>
+                                        <Form.Group controlId="formWhyChooseUs">
+                                            <Form.Label>Why Choose Us</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="why_choose_us"
@@ -342,8 +465,8 @@ const ContentManagement = () => {
                                                 onChange={handleInputChange}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formImageUrl" className="text-center">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Image URL</Form.Label>
+                                        <Form.Group controlId="formImageUrl">
+                                            <Form.Label>Image URL</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="image_url"
@@ -352,11 +475,10 @@ const ContentManagement = () => {
                                             />
                                         </Form.Group>
                                     </>
-                                )}
-                                {currentEdit.type === 'faqs' && (
+                                ) : (
                                     <>
-                                        <Form.Group controlId="formQuestion" className="text-center">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Question</Form.Label>
+                                        <Form.Group controlId="formQuestion">
+                                            <Form.Label>Question</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="question"
@@ -364,8 +486,8 @@ const ContentManagement = () => {
                                                 onChange={handleInputChange}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formAnswer" className="text-center">
-                                            <Form.Label style={{ fontWeight: 'bold' }}>Answer</Form.Label>
+                                        <Form.Group controlId="formAnswer">
+                                            <Form.Label>Answer</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="answer"
@@ -376,17 +498,17 @@ const ContentManagement = () => {
                                     </>
                                 )}
                             </Form>
-                        )}
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="danger" className='me-3' id="button" onClick={() => setEditMode(false)}>
-                            Close
-                        </Button>
-                        <Button variant="warning" id="button" onClick={handleSaveChanges}>
-                            Save Changes
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="danger" onClick={() => setEditMode(false)}>
+                                Close
+                            </Button>
+                            <Button variant="warning" onClick={handleSaveChanges}>
+                                Save Changes
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
             </div>
         </>
     );
