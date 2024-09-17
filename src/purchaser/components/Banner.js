@@ -6,19 +6,15 @@ const Banner = () => {
     const [images, setImages] = useState([]);
 
     useEffect(() => {
-        // Fetch banner images from your Rails backend
         const fetchBannerImages = async () => {
             try {
-                const response = await fetch('http://localhost:3000/banners'); // Removed token requirement
+                const response = await fetch('http://localhost:3000/banners'); // Fetch without a token
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch banner images');
                 }
 
                 const banners = await response.json();
-                console.log('Fetched banners:', banners); // Log fetched data
-
-                // Assuming each banner has an image_url
                 const bannerImages = banners.map(banner => banner.image_url);
                 setImages(bannerImages);
             } catch (error) {
@@ -31,7 +27,6 @@ const Banner = () => {
 
     return (
         <div className="banner">
-            {/* Carousel for background images */}
             {images.length > 0 ? (
                 <Carousel interval={5000} pause={false}>
                     {images.map((src, index) => (
