@@ -26,14 +26,24 @@
 
 .section {
     border-radius: 8px;
+    border: none; /* Remove the border completely */
+    box-shadow: none; /* Remove any shadow */
     overflow: hidden;
     margin-bottom: 20px; /* Add space below each section */
+    background-color: transparent; /* Ensure background is also transparent if needed */
 }
+
+
 
 .section .category-header {
     background-color: #343a40;
     color: white;
     padding: 10px; /* Add padding inside header */
+}
+
+.section .cat-body{
+    background-color: #e0e0e0;
+
 }
 
 .section .popular-products-header {

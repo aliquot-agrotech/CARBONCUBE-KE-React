@@ -115,7 +115,7 @@ const Home = () => {
             <Card.Header className="category-header d-flex justify-content-start">
                 <h4 className='m-0'>{title}</h4>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className='cat-body'>
                 <Row>
                     {subcategories.slice(0, 4).map(subcategory => (
                         <Col xs={12} sm={6} md={3} key={subcategory.id}>
@@ -172,7 +172,7 @@ const Home = () => {
             <Card.Header className="d-flex justify-content-start popular-products-header">
                 <h3>Popular Products</h3>
             </Card.Header>
-            <Card.Body>
+            <Card.Body className="cat-body">
                 <Row>
                     {products.slice(0, 6).map(product => (
                         <Col xs={12} sm={6} md={2} key={product.id}>
