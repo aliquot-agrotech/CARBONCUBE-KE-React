@@ -1,6 +1,14 @@
+.products-details-page{
+    background-color: #e0e0e0;
+    font-family: "Fira Sans Extra Condensed", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .main-content {
     margin-left: 0;
     transition: margin-left 0.3s ease-in-out;
+    margin-top: 60px;
   }
   
   .sidebar-open .main-content {
