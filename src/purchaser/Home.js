@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import Banner from './components/Banner';
 import ProductDetailsModal from './components/ProductDetailsModal';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './Home.css';
 
 const Home = () => {
@@ -17,7 +18,7 @@ const Home = () => {
     const [isSearching, setIsSearching] = useState(false);
     const [showModal, setShowModal] = useState(false); // State for modal visibility
     const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
-
+    const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
         const fetchCategoriesAndProducts = async () => {
@@ -82,6 +83,14 @@ const Home = () => {
         setSelectedProduct(product);
         setShowModal(true);
     };
+
+    const handleProductClick = (productId) => {
+        if (productId) {
+          navigate(`/products/${productId}`);
+        } else {
+          console.error('Invalid productId');
+        }
+      };
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -152,7 +161,7 @@ const Home = () => {
                                             src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                             alt={product.title}
                                             className="product-image"
-                                            onClick={() => onProductClick(product)}
+                                            onClick={() => handleProductClick(product.id)}
                                         />
                                     </Card>
                                 </Col>
@@ -181,7 +190,7 @@ const Home = () => {
                                     variant="top" 
                                     src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                     className="product-image"
-                                    onClick={() => onProductClick(product)} // Add click handler
+                                    onClick={() => onProductClick(product.id)} 
                                 />
                             </Card>
                         </Col>
@@ -206,7 +215,7 @@ const Home = () => {
                                     src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                     alt={product.title}
                                     className="product-image"
-                                    onClick={() => handleShowModal(product)} // Handle image click
+                                    onClick={() => handleProductClick(product.id)} // Handle image click
                                 />
                                 <Card.Body className="text-center">
                                     <Card.Title className="mb-0">{product.title}</Card.Title>
@@ -287,7 +296,7 @@ const Home = () => {
             <Sidebar isOpen={sidebarOpen} />
             {!isSearching && searchResults.length === 0 && <Banner />}
             <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
-                <Container fluid>
+                <Container fluid className="floating-container">
                     {isSearching ? (
                         <div className="centered-loader">
                             <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
@@ -305,7 +314,7 @@ const Home = () => {
                             ))}
                             <PopularProductsSection
                                 products={Object.values(products).flat()}
-                                onProductClick={handleShowModal} // Pass the click handler
+                                onProductClick={handleProductClick} // Pass the click handler
                             />
                         </>
                     )}

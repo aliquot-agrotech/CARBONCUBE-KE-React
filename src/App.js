@@ -18,6 +18,7 @@ import VendorMessages from './vendor/Messages';
 import VendorNotifications from './vendor/VendorNotifications';
 import VendorProfile from './vendor/Profile';
 import Home from './purchaser/Home';
+import ProductDetailsPage from './purchaser/ProductDetailsPage';
 import Orders from './purchaser/Orders';
 import Bookmarks from './purchaser/Bookmarks';
 import ShoppingCart from './purchaser/ShoppingCart';
@@ -63,6 +64,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/products/:productId" element={<ProductDetailsPage />} />
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/admin" element={<Navigate to="/login" />} />
         <Route path="/vendor" element={<Navigate to="/login" />} />

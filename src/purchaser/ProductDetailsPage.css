@@ -1,0 +1,33 @@
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease-in-out;
+  }
+  
+  .sidebar-open .main-content {
+    margin-left: 250px; /* Adjust based on your sidebar width */
+  }
+  
+  .product-details-page {
+    padding: 20px;
+  }
+  
+  .product-details img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .related-products-title {
+    margin-top: 40px;
+    font-weight: bold;
+  }
+  
+  .related-products .card {
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .related-products .card:hover {
+    transform: translateY(-5px);
+  }
+  
