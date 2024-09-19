@@ -198,7 +198,20 @@ const VendorOrders = () => {
                                                         style={{ cursor: 'pointer' }}
                                                     >
                                                         <td>{order.id}</td>
-                                                        <td>{order.order_items.map(item => item.product_title || 'Unknown').join(', ')}</td>
+                                                        <td>
+                                                            {order.order_items
+                                                                .slice(0, 3) // Limit to the first 3 products
+                                                                .map((item, index, array) => {
+                                                                const productTitle = item.product_title || 'Unknown';
+                                                                // Limit the product title to 3 words
+                                                                const truncatedTitle = productTitle.split(' ').slice(0, 3).join(' ');
+                                                                // Add a comma after each item except the last one
+                                                                return `${truncatedTitle}${index < array.length - 1 ? ',' : ''}`;
+                                                                })
+                                                                .join(' ')}
+                                                            {order.order_items.length > 3 && '...'} {/* Add ellipsis if more than 3 products */}
+                                                        </td>
+
                                                         <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
                                                         <td className="price-container">
                                                             <strong>
