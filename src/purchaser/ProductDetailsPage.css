@@ -38,4 +38,10 @@
   .related-products .card:hover {
     transform: translateY(-5px);
   }
+
+  .product-price {
+    font-size: 1.8rem;
+    color: #ff6633;
+    font-weight: bold;
+}
   
