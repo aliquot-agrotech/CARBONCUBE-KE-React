@@ -136,7 +136,7 @@ const ProductDetailsPage = () => {
         }
     };
     
-    const renderRatingStars = (rating) => {
+    const renderRatingStars = (rating, reviewCount) => {
         if (typeof rating !== 'number' || rating < 0) {
             console.error('Invalid rating value:', rating);
             return <div className="rating-stars">Invalid rating</div>;
@@ -147,17 +147,23 @@ const ProductDetailsPage = () => {
         const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
     
         return (
-            <div className="rating-stars">
-                {[...Array(fullStars)].map((_, index) => (
-                    <FontAwesomeIcon key={index} icon={faStar} className="rating-star filled" />
-                ))}
-                {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="rating-star half-filled" />}
-                {[...Array(emptyStars)].map((_, index) => (
-                    <FontAwesomeIcon key={index} icon={faStarEmpty} className="rating-star empty" />
-                ))}
+            <div className="rating-container">
+                <div className="rating-stars">
+                    {[...Array(fullStars)].map((_, index) => (
+                        <FontAwesomeIcon key={index} icon={faStar} className="rating-star filled" />
+                    ))}
+                    {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="rating-star half-filled" />}
+                    {[...Array(emptyStars)].map((_, index) => (
+                        <FontAwesomeIcon key={index} icon={faStarEmpty} className="rating-star empty text-white" />
+                    ))}
+                </div>
+                <span style={{ fontSize: '14px' }} className="review-count text-secondary"><em>{rating.toFixed(1)}/5</em>  <em>({reviewCount} Ratings)</em></span>
             </div>
         );
     };
+    
+    
+    
 
     const renderCarousel = () => {
         if (!product.media_urls || product.media_urls.length === 0) {
@@ -229,7 +235,7 @@ const ProductDetailsPage = () => {
                                                 {renderCarousel()}
                                             </motion.div>
                                         </Col>
-                                        <Col xs={12} md={4} className="d-flex flex-column justify-content-center">
+                                        <Col xs={12} md={5} className="d-flex flex-column justify-content-center">
                                             <h3 className="display-6 text-dark mb-3">{product.title}</h3>
                                             <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{product.description}</p>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>
@@ -237,7 +243,7 @@ const ProductDetailsPage = () => {
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
                                             <Row>
                                                 <span className="star-rating">
-                                                    {renderRatingStars(product.mean_rating)}
+                                                    {renderRatingStars(product.mean_rating, product.review_count)}
                                                 </span>
                                             </Row>
                                             <h4 className="product-price my-4">
