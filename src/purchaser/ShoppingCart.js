@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Row, Col, Card, Button, Form, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, } from 'react-bootstrap';
+// import { Form, InputGroup } from 'react-bootstrap';
 import { Plus, Dash, Trash } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCcVisa, faCcMastercard, faCcPaypal, faCcAmex, faCcDiscover } from '@fortawesome/free-brands-svg-icons';
@@ -11,12 +12,12 @@ import './ShoppingCart.css';
 const ShoppingCart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
-    const [vat, setVat] = useState(0);
+    // const [vat, setVat] = useState(0);
     const [total, setTotal] = useState(0);
-    const [discountCode, setDiscountCode] = useState('');
-    const [discountPercentage, setDiscountPercentage] = useState(0);
-    const [discountAmount, setDiscountAmount] = useState(0);
-    const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
+    // const [discountCode, setDiscountCode] = useState('');
+    // const [discountPercentage, setDiscountPercentage] = useState(0);
+    // const [discountAmount, setDiscountAmount] = useState(0);
+    // const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
 
 
     const fetchCartItems = useCallback(async () => {
@@ -44,16 +45,11 @@ const ShoppingCart = () => {
 
     const calculateTotals = useCallback(() => {
         const subTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-        const vatAmount = subTotal * 0.16; // 16% VAT
-        const discountAmount = subTotal * (discountPercentage / 100);
-        const totalAmount = subTotal - discountAmount + vatAmount;
-    
+        
         setSubtotal(subTotal);
-        setVat(vatAmount);
-        setDiscountAmount(discountAmount);
-        setTotalAfterDiscount(subTotal - discountAmount); // Total before discount
-        setTotal(totalAmount);
-    }, [cartItems, discountPercentage]);
+        setTotal(subTotal); // Set total as subtotal since there's no VAT or discount
+    }, [cartItems]);
+    
 
     useEffect(() => {
         fetchCartItems();
@@ -105,37 +101,37 @@ const ShoppingCart = () => {
         }
     };
 
-    const handleApplyDiscount = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch("http://localhost:3000/purchaser/validate_coupon", {
-                method: 'POST',
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ coupon_code: discountCode })
-            });
+    // const handleApplyDiscount = async () => {
+    //     try {
+    //         const token = localStorage.getItem('token');
+    //         const response = await fetch("http://localhost:3000/purchaser/validate_coupon", {
+    //             method: 'POST',
+    //             headers: {
+    //                 "Authorization": `Bearer ${token}`,
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({ coupon_code: discountCode })
+    //         });
     
-            const data = await response.json();
+    //         const data = await response.json();
     
-            if (!response.ok) {
-                throw new Error(data.error || 'Invalid discount code');
-            }
+    //         if (!response.ok) {
+    //             throw new Error(data.error || 'Invalid discount code');
+    //         }
     
-            // Directly use the discount percentage from the response
-            const newDiscountPercentage = data.discount_percentage;
-            setDiscountPercentage(newDiscountPercentage);
+    //         // Directly use the discount percentage from the response
+    //         const newDiscountPercentage = data.discount_percentage;
+    //         setDiscountPercentage(newDiscountPercentage);
     
-            // Recalculate totals with the new discount
-            calculateTotals();
+    //         // Recalculate totals with the new discount
+    //         calculateTotals();
     
-            alert(`Discount applied: ${newDiscountPercentage}%`);
-        } catch (error) {
-            console.error('Error applying discount:', error);
-            alert('Failed to apply discount');
-        }
-    };
+    //         alert(`Discount applied: ${newDiscountPercentage}%`);
+    //     } catch (error) {
+    //         console.error('Error applying discount:', error);
+    //         alert('Failed to apply discount');
+    //     }
+    // };
 
     const handleCheckout = async () => {
         const token = localStorage.getItem('token');
@@ -284,7 +280,7 @@ const ShoppingCart = () => {
                                                 </p>
 
 
-                                                <Form.Group className="mb-3 text-center">
+                                                {/* <Form.Group className="mb-3 text-center">
                                                     <Form.Label><strong>Apply Discount Code</strong></Form.Label>
                                                     <InputGroup className="input-group-horizontal">
                                                         <Form.Control
@@ -318,10 +314,10 @@ const ShoppingCart = () => {
                                                             </React.Fragment>
                                                         ))}
                                                     </strong>
-                                                </p>
+                                                </p> */}
 
 
-                                                <hr className="bg-secondary" />
+                                                {/* <hr className="bg-secondary" />
                                                 <p className="d-flex justify-content-between">
                                                     <span><strong>Total After Discount:</strong></span>
                                                     <strong className="text-yellow">
@@ -340,8 +336,8 @@ const ShoppingCart = () => {
                                                             </React.Fragment>
                                                         ))}
                                                     </strong>
-                                                </p>
-
+                                                </p> */}
+{/* 
                                                 <hr className="bg-secondary" />
                                                 <p className="d-flex justify-content-between">
                                                     <span>VAT (16% of Sub-Total):</span>
@@ -361,7 +357,7 @@ const ShoppingCart = () => {
                                                             </React.Fragment>
                                                         ))}
                                                     </strong>
-                                                </p>
+                                                </p> */}
 
                                                 <p className="d-flex justify-content-between">
                                                     <span style={{ fontSize: '20px' }}><strong>Order Total:</strong></span>

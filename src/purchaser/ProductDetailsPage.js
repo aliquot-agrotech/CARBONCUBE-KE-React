@@ -236,9 +236,9 @@ const ProductDetailsPage = () => {
                                             </motion.div>
                                         </Col>
                                         <Col xs={12} md={5} className="d-flex flex-column justify-content-center">
-                                            <h3 className="display-6 text-dark mb-3">{product.title}</h3>
-                                            <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{product.description}</p>
+                                            <h3 className="display-6 text-dark mb-3"><strong>{product.title}</strong></h3>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>
+                                            <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {product.manufacturer}</p>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
                                             <Row>
@@ -315,6 +315,12 @@ const ProductDetailsPage = () => {
                                                         Add to Wishlist
                                                     </Button>
                                                 </motion.div>
+                                            </Container>
+                                            <Container className="mt-4">
+                                                <Row>
+                                                    <h3>Description</h3>
+                                                    <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{product.description}</p>
+                                                </Row>
                                             </Container>
 
                                             {bookmarkError && <div className="text-danger text-center mt-3">{bookmarkError}</div>}
