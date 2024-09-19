@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Spinner, Row, Col, Card, Carousel, Container, Button } from 'react-bootstrap';
 import { Cart4, Heart } from 'react-bootstrap-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
 import TopNavbar from './components/TopNavbar';  // Import your TopNavbar component
 import Sidebar from './components/Sidebar';      // Import your Sidebar component
 import { motion } from 'framer-motion'; // For animations
@@ -66,14 +68,20 @@ const ProductDetailsPage = () => {
     const handleAddToWishlist = async () => {
         if (!product) return;
     
+        // Check if the token is available
+        const token = localStorage.getItem('token');
+    
+        if (!token) {
+            // Token not found, show alert to log in
+            window.alert("You need to log in to add items to your wishlist.");
+            return; // Exit the function early if no token
+        }
+    
         try {
             setBookmarkLoading(true);
             setBookmarkError(null);
     
-            // Assuming you have a function to get the auth token
-            const token = localStorage.getItem('token');
-    
-            // Replace this with your actual API endpoint
+            // API call to add the product to the wishlist
             const response = await axios.post(
                 `http://localhost:3000/purchaser/bookmarks`,
                 { product_id: product.id },
@@ -98,21 +106,58 @@ const ProductDetailsPage = () => {
         }
     };
     
+    
     const handleAddToCart = async (productId) => {
+        const token = localStorage.getItem('token');
+    
+        if (!token) {
+        // Token not found, show alert to log in
+            window.alert("You need to log in to add items to your cart.");
+        return; // Exit function early if no token
+        }
+    
         try {
-          await fetch(`http://localhost:3000/purchaser/cart_items`, {
+        const response = await fetch(`http://localhost:3000/purchaser/cart_items`, {
             method: 'POST',
             headers: {
-              "Authorization": `Bearer ${localStorage.getItem('token')}`,
-              "Content-Type": "application/json"
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
             },
             body: JSON.stringify({ product_id: productId })
-          });
-          window.alert("Product added to cart!");
-        } catch (error) {
-          console.error("Error adding to cart:", error);
+        });
+    
+        if (response.ok) {
+            window.alert("Product added to cart!");
+        } else {
+            window.alert("Failed to add product to cart. Please try again.");
         }
-      };
+        } catch (error) {
+            window.alert("An error occurred. Please try again later.");
+        }
+    };
+    
+    const renderRatingStars = (rating) => {
+        if (typeof rating !== 'number' || rating < 0) {
+            console.error('Invalid rating value:', rating);
+            return <div className="rating-stars">Invalid rating</div>;
+        }
+    
+        const fullStars = Math.floor(Math.max(0, Math.min(rating, 5)));
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    
+        return (
+            <div className="rating-stars">
+                {[...Array(fullStars)].map((_, index) => (
+                    <FontAwesomeIcon key={index} icon={faStar} className="rating-star filled" />
+                ))}
+                {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="rating-star half-filled" />}
+                {[...Array(emptyStars)].map((_, index) => (
+                    <FontAwesomeIcon key={index} icon={faStarEmpty} className="rating-star empty" />
+                ))}
+            </div>
+        );
+    };
 
     const renderCarousel = () => {
         if (!product.media_urls || product.media_urls.length === 0) {
@@ -186,10 +231,15 @@ const ProductDetailsPage = () => {
                                         </Col>
                                         <Col xs={12} md={4} className="d-flex flex-column justify-content-center">
                                             <h3 className="display-6 text-dark mb-3">{product.title}</h3>
-                                            <p style={{ fontSize: '17px' }} className="lead text-muted text-dark">{product.description}</p>
-                                            <p><strong style={{ fontSize: '18px' }} className="text-secondary">Brand:</strong> {product.brand}</p>
-                                            <p><strong style={{ fontSize: '18px' }} className="text-secondary">Category:</strong> {product.category_name}</p>
-                                            <p><strong style={{ fontSize: '18px' }} className="text-secondary">Subcategory:</strong> {product.subcategory_name}</p>
+                                            <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{product.description}</p>
+                                            <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>
+                                            <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
+                                            <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
+                                            <Row>
+                                                <span className="star-rating">
+                                                    {renderRatingStars(product.mean_rating)}
+                                                </span>
+                                            </Row>
                                             <h4 className="product-price my-4">
                                                 <span className="text-success">Kshs: </span>
                                                 <strong className="text-danger display-6">
@@ -274,7 +324,23 @@ const ProductDetailsPage = () => {
                                             <Card.Img variant="top" src={relatedProduct.media_urls[0] || 'default-image-url'} />
                                             <Card.Body>
                                                 <Card.Title>{relatedProduct.title}</Card.Title>
-                                                <Card.Text>Kshs: {Number(relatedProduct.price).toFixed(2)}</Card.Text>
+                                                <Card.Text>
+                                                    <span className="text-success">Kshs: </span>
+                                                    <strong style={{ fontSize: '20px' }} className="text-danger">
+                                                        {relatedProduct.price ? Number(relatedProduct.price).toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        )) : 'N/A'}
+                                                    </strong>
+                                                </Card.Text>
                                             </Card.Body>
                                             </Card>
                                         </Col>
@@ -286,8 +352,6 @@ const ProductDetailsPage = () => {
                 </Row>
             </Container>
         </div>
-        
-        
         </>
     );
 };
