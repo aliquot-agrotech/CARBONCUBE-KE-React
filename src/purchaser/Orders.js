@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Row, Col, Form, Card, Spinner } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
+import './Orders.css';
 import consumer from "../cable"; // Import ActionCable consumer
 
 const Orders = () => {

@@ -208,7 +208,7 @@ const OrdersManagement = () => {
                                                 <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
                                                 <td className="price-container">
                                                     <strong>
-                                                        {order.total_price ? order.total_price.split('.').map((part, index) => (
+                                                        {order.total_price ? parseFloat(order.total_price).toFixed(2).split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? (
                                                                     <span className="price-integer">
@@ -278,7 +278,7 @@ const OrdersManagement = () => {
                                                 <Col xs={12} md={6} >
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='justify-content-center'>Order ID</Card.Header>
-                                                        <Card.Body className='text-center'>
+                                                        <Card.Body className='text-center p-3'>
                                                             {selectedOrder.id}
                                                         </Card.Body>
                                                     </Card>
@@ -286,7 +286,7 @@ const OrdersManagement = () => {
                                                 <Col xs={12} md={6}>
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='justify-content-center'>Purchaser</Card.Header>
-                                                        <Card.Body className='text-center'>
+                                                        <Card.Body className='text-center p-3'>
                                                             {selectedOrder.purchaser?.fullname || 'Unknown'}
                                                         </Card.Body>
                                                     </Card>
@@ -297,7 +297,7 @@ const OrdersManagement = () => {
                                                 <Col xs={12} md={6}>
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='justify-content-center'>Date Ordered</Card.Header>
-                                                        <Card.Body className='text-center'>
+                                                        <Card.Body className='text-center p-3'>
                                                             {selectedOrder.order_date || 'N/A'}
                                                         </Card.Body>
                                                     </Card>
@@ -305,10 +305,10 @@ const OrdersManagement = () => {
                                                 <Col xs={12} md={6}>
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='justify-content-center'>Total Price (Kshs)</Card.Header>
-                                                        <Card.Body className="price-container text-center">
+                                                        <Card.Body className="price-container text-center p-3">
                                                         <strong>
                                                             <span className="price">
-                                                                {selectedOrder.total_price ? selectedOrder.total_price.split('.').map((part, index) => (
+                                                                {selectedOrder.total_price ? parseFloat(selectedOrder.total_price).toFixed(2).split('.').map((part, index) => (
                                                                     <React.Fragment key={index}>
                                                                         {index === 0 ? (
                                                                             <span className="price-integer">
@@ -321,67 +321,74 @@ const OrdersManagement = () => {
                                                                             </>
                                                                         )}
                                                                     </React.Fragment>
-                                                                )) : '0'}
+                                                                )) : '0.00'}
                                                             </span>
                                                         </strong>
+
                                                         </Card.Body>
                                                     </Card>
                                                 </Col>
                                             </Row>
                                         
-                                            <h4 className="text-center mt-2">Products</h4>
-                                            <div className="product-container text-center">
-                                                <div className="table-responsive">
-                                                    <Table bordered hover>
-                                                        <thead className='table-head'>
-                                                            <tr>
-                                                                <th>Product Name</th>
-                                                                <th>Vendor</th>
-                                                                <th>Quantity</th>
-                                                                <th>Price</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {selectedOrder.order_items && selectedOrder.order_items.length > 0 ? (
-                                                                selectedOrder.order_items.map(item => (
-                                                                    <tr key={item.product?.id || 'unknown'}>
-                                                                        <td>{item.product?.title || 'Unknown'}</td>
-                                                                        <td>{item.product?.vendor?.fullname || 'Unknown'}</td>
-                                                                        <td>{item.quantity || '0'}</td>
-                                                                        <td className="price-container">
-                                                                            <em className="product-price-label">Kshs: </em>
-                                                                            <strong>
-                                                                                <span className="price">
-                                                                                    {item.product?.price && item.quantity ? (
-                                                                                        (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
-                                                                                            <React.Fragment key={index}>
-                                                                                                {index === 0 ? (
-                                                                                                    <span className="price-integer">
-                                                                                                        {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                                                                                    </span>
-                                                                                                ) : (
-                                                                                                    <>
-                                                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                                                        <span className="price-decimal">{part}</span>
-                                                                                                    </>
-                                                                                                )}
-                                                                                            </React.Fragment>
-                                                                                        ))
-                                                                                    ) : '0.00'}
-                                                                                </span>
-                                                                            </strong>
-                                                                        </td>
+                                            <Card className="mt-4 custom-card">
+                                                <Card.Header className="justify-content-start text-center">
+                                                    <h4>Products</h4>
+                                                </Card.Header>
+                                                <Card.Body>
+                                                    <div className="product-container text-start">
+                                                        <div className="table-responsive p-1">
+                                                            <Table bordered hover className="transparent-table transparent-table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Product Name</th>
+                                                                        <th>Vendor</th>
+                                                                        <th>Quantity</th>
+                                                                        <th>Price <em style={{ fontSize: '12px' }}>(Kshs)</em></th>
                                                                     </tr>
-                                                                ))
-                                                            ) : (
-                                                                <tr>
-                                                                    <td colSpan="4">No products available</td>
-                                                                </tr>
-                                                            )}
-                                                        </tbody>
-                                                    </Table>
-                                                </div>
-                                            </div>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {selectedOrder.order_items && selectedOrder.order_items.length > 0 ? (
+                                                                        selectedOrder.order_items.map(item => (
+                                                                            <tr key={item.product?.id || 'unknown'}>
+                                                                                <td>{item.product?.title || 'Unknown'}</td>
+                                                                                <td>{item.product?.vendor?.fullname || 'Unknown'}</td>
+                                                                                <td>{item.quantity || '0'}</td>
+                                                                                <td className="price-container">
+                                                                                    {/* <em className="product-price-label">Kshs: </em> */}
+                                                                                    <strong>
+                                                                                        <span className="price">
+                                                                                            {item.product?.price && item.quantity ? (
+                                                                                                (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
+                                                                                                    <React.Fragment key={index}>
+                                                                                                        {index === 0 ? (
+                                                                                                            <span className="price-integer">
+                                                                                                                {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                                                            </span>
+                                                                                                        ) : (
+                                                                                                            <>
+                                                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                                <span className="price-decimal">{part}</span>
+                                                                                                            </>
+                                                                                                        )}
+                                                                                                    </React.Fragment>
+                                                                                                ))
+                                                                                            ) : '0.00'}
+                                                                                        </span>
+                                                                                    </strong>
+                                                                                </td>
+                                                                            </tr>
+                                                                        ))
+                                                                    ) : (
+                                                                        <tr>
+                                                                            <td colSpan="4">No products available</td>
+                                                                        </tr>
+                                                                    )}
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
+                                                    </div>
+                                                </Card.Body>
+                                            </Card>
                                         </>
                                     ) : (
                                         <p>No details available</p>

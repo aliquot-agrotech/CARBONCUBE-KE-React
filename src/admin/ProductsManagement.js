@@ -344,7 +344,7 @@ const ProductsManagement = () => {
                                                     <Card.Text className="price-container">
                                                         <em className='product-price-label'>Kshs: </em>
                                                         <strong>
-                                                            {product.price ? product.price.split('.').map((part, index) => (
+                                                            {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
                                                                 <React.Fragment key={index}>
                                                                     {index === 0 ? (
                                                                         <span className="price-integer">
@@ -397,17 +397,20 @@ const ProductsManagement = () => {
                                                     <Card.Text className="price-container">
                                                         <em className='product-price-label'>Kshs: </em>
                                                         <strong>
-                                                        {product.price.split('.').map((part, index) => (
-                                                            <React.Fragment key={index}>
-                                                                {index === 0 ? part : (
-                                                                    <>
-                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                        <span className="price-decimal">{part}</span>
-                                                                    </>
-                                                                )}
-                                                            </React.Fragment>
-                                                        ))}
+                                                            {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    {index === 0 ? (
+                                                                        <span>{part}</span> // Integer part
+                                                                    ) : (
+                                                                        <>
+                                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                                            <span className="price-decimal">{part}</span>
+                                                                        </>
+                                                                    )}
+                                                                </React.Fragment>
+                                                            )) : 'N/A'}
                                                         </strong>
+
                                                     </Card.Text>
                                                     <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
                                                         Notify Vendor
@@ -439,7 +442,7 @@ const ProductsManagement = () => {
                     <Modal.Body>
                         {selectedProduct && (
                             <>
-                                <Carousel>
+                                <Carousel className="mb-4">
                                     {selectedProduct.media && selectedProduct.media.length > 0 ? (
                                         selectedProduct.media.map((image, index) => (
                                             <Carousel.Item key={index}>
@@ -464,7 +467,7 @@ const ProductsManagement = () => {
                                                 <Card.Body className="text-center">
                                                     <em className='product-price-label'>Kshs: </em>
                                                     <strong>
-                                                        {selectedProduct.price.split('.').map((part, index) => (
+                                                        {selectedProduct.price ? parseFloat(selectedProduct.price).toFixed(2).split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? (
                                                                     <span className="price-integer">
@@ -477,7 +480,7 @@ const ProductsManagement = () => {
                                                                     </>
                                                                 )}
                                                             </React.Fragment>
-                                                        ))}
+                                                        )) : 'N/A'}
                                                     </strong>
                                                 </Card.Body>
                                             </Card>
