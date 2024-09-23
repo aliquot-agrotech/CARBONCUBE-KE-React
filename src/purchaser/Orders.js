@@ -215,7 +215,7 @@ const Orders = () => {
                                                         <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
                                                         <td className="price-container">
                                                             <strong>
-                                                                {order.total_amount ? order.total_amount.split('.').map((part, index) => (
+                                                                {order.total_amount ? parseFloat(order.total_amount).toFixed(2).split('.').map((part, index) => (
                                                                     <React.Fragment key={index}>
                                                                         {index === 0 ? (
                                                                             <span className="price-integer">
@@ -316,42 +316,69 @@ const Orders = () => {
                                             <Row>
                                                 <Col xs={12}>
                                                     <Card className="mb-2 custom-card">
-                                                    <Card.Header as="h6" className="text-center">Products</Card.Header>
-                                                    <Card.Body>
-                                                        {selectedOrder?.order_items?.length > 0 ? (
-                                                        <Table striped bordered hover>
-                                                            <thead>
-                                                            <tr>
-                                                                <th>Product Name</th>
-                                                                <th>Price</th>
-                                                                <th>Quantity</th>
-                                                                <th>Total Price</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            {selectedOrder.order_items.map(item => (
-                                                                <tr key={item.id}>
-                                                                <td>{item.product_name || 'Unknown Product'}</td>
-                                                                <td>
-                                                                    {item.price ? item.price.split('.').map((part, index) => (
-                                                                    <React.Fragment key={index}>
-                                                                        {index === 0 ? (
-                                                                        <span className="price-integer">
-                                                                            {parseInt(part, 10).toLocaleString()}
-                                                                        </span>
-                                                                        ) : (
-                                                                        <>
-                                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                                            <span className="price-decimal">{part}</span>
-                                                                        </>
-                                                                        )}
-                                                                    </React.Fragment>
-                                                                    )) : 'N/A'}
-                                                                </td>
-                                                                <td>{item.quantity}</td>
-                                                                <td>
-                                                                    {(item.price && item.quantity) ? (
-                                                                    ((item.price * item.quantity).toFixed(2).split('.').map((part, index) => (
+                                                        <Card.Header as="h6" className="text-center">Products</Card.Header>
+                                                        <Card.Body>
+                                                            {selectedOrder?.order_items?.length > 0 ? (
+                                                            <Table striped bordered hover className="transparent-table transparent-table-striped">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>Product Name</th>
+                                                                    <th>Price</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Total Price</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                {selectedOrder.order_items.map(item => (
+                                                                    <tr key={item.id}>
+                                                                    <td>{item.product_name || 'Unknown Product'}</td>
+                                                                    <td>
+                                                                        {item.price ? parseFloat(item.price).toFixed(2).split('.').map((part, index) => (
+                                                                            <React.Fragment key={index}>
+                                                                                {index === 0 ? (
+                                                                                    <span className="price-integer">
+                                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                                    </span>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                                        <span className="price-decimal">{part}</span>
+                                                                                    </>
+                                                                                )}
+                                                                            </React.Fragment>
+                                                                        )) : 'N/A'}
+                                                                    </td>
+                                                                    <td>{item.quantity}</td>
+                                                                    <td>
+                                                                        {(item.price && item.quantity) ? (
+                                                                        ((item.price * item.quantity).toFixed(2).split('.').map((part, index) => (
+                                                                            <React.Fragment key={index}>
+                                                                            {index === 0 ? (
+                                                                                <span className="price-integer">
+                                                                                {parseInt(part, 10).toLocaleString()}
+                                                                                </span>
+                                                                            ) : (
+                                                                                <>
+                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                <span className="price-decimal">{part}</span>
+                                                                                </>
+                                                                            )}
+                                                                            </React.Fragment>
+                                                                        )))
+                                                                        ) : 'N/A'}
+                                                                    </td>
+                                                                    </tr>
+                                                                ))}
+                                                                {/* Total Row */}
+                                                                <tr>
+                                                                    <td colSpan="3" className="text-right">
+                                                                    <strong>Total Price for the Order:</strong>
+                                                                    </td>
+                                                                    <td>
+                                                                    {selectedOrder.order_items.reduce((acc, item) => {
+                                                                        const itemTotalPrice = (item.price || 0) * (item.quantity || 0);
+                                                                        return acc + itemTotalPrice;
+                                                                    }, 0).toFixed(2).split('.').map((part, index) => (
                                                                         <React.Fragment key={index}>
                                                                         {index === 0 ? (
                                                                             <span className="price-integer">
@@ -364,42 +391,15 @@ const Orders = () => {
                                                                             </>
                                                                         )}
                                                                         </React.Fragment>
-                                                                    )))
-                                                                    ) : 'N/A'}
-                                                                </td>
+                                                                    ))}
+                                                                    </td>
                                                                 </tr>
-                                                            ))}
-                                                            {/* Total Row */}
-                                                            <tr>
-                                                                <td colSpan="3" className="text-right">
-                                                                <strong>Total Price for the Order:</strong>
-                                                                </td>
-                                                                <td>
-                                                                {selectedOrder.order_items.reduce((acc, item) => {
-                                                                    const itemTotalPrice = (item.price || 0) * (item.quantity || 0);
-                                                                    return acc + itemTotalPrice;
-                                                                }, 0).toFixed(2).split('.').map((part, index) => (
-                                                                    <React.Fragment key={index}>
-                                                                    {index === 0 ? (
-                                                                        <span className="price-integer">
-                                                                        {parseInt(part, 10).toLocaleString()}
-                                                                        </span>
-                                                                    ) : (
-                                                                        <>
-                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                        <span className="price-decimal">{part}</span>
-                                                                        </>
-                                                                    )}
-                                                                    </React.Fragment>
-                                                                ))}
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </Table>
-                                                        ) : (
-                                                        <p>No products available</p>
-                                                        )}
-                                                    </Card.Body>
+                                                                </tbody>
+                                                            </Table>
+                                                            ) : (
+                                                            <p>No products available</p>
+                                                            )}
+                                                        </Card.Body>
                                                     </Card>
                                                 </Col>
                                             </Row>
