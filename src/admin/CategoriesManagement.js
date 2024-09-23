@@ -203,11 +203,11 @@ const CategoriesManagement = () => {
                                             <Row>
                                                 {categories.map((category) => (
                                                     <Col xs={12} md={6} lg={6} key={category.id} className="mb-3">
-                                                        <Card className="category-card">
+                                                        <Card className="custom -card">
                                                             <Card.Header className="justify-content-center">
                                                                 <h3 className="mb-0">{category.name}</h3>
                                                             </Card.Header>
-                                                            <Card.Body className="justify-content-between align-items-center custom-card2">
+                                                            <Card.Body className="justify-content-between align-items-center">
                                                                 <ul>
                                                                     {category.subcategories.map((subcategory, index) => (
                                                                         <li key={index} className="subcategory-item">
