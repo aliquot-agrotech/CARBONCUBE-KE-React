@@ -77,7 +77,7 @@ function VendorSignUpPage({ onSignup }) {
       });
       if (response.status === 201) {
         onSignup();
-        navigate('/vendor/login');
+        navigate('/login');
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {

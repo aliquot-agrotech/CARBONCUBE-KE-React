@@ -76,7 +76,7 @@ function PurchaserSignUpPage({ onSignup }) {
       });
       if (response.status === 201) {
         onSignup();
-        navigate('/purchaser/login');
+        navigate('/login');
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
