@@ -64,9 +64,9 @@
 }
 
 .product-image {
-    height: 200px;
     object-fit: cover; /* Ensures the image covers the card area without distortion */
     width: 100%; /* Ensures the image takes up the full width of the card */
+    aspect-ratio: 5 / 3.5;
 }
 
 .subcategory-section {
