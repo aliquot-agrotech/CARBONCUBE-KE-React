@@ -146,6 +146,17 @@ body {
     border-radius: 4px;
 }
 
+.custom-tabs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.custom-tabs .nav-item {
+    flex: 1; /* This will make all tabs take equal space */
+    text-align: center; /* Center align text */
+}
+
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {

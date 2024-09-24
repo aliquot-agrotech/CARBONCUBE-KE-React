@@ -278,7 +278,7 @@ const VendorsManagement = () => {
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
                                             id="vendor-details-tabs"
-                                            className="custom-tabs mb-3"
+                                            className="custom-tabs mb-3 d-flex justify-content-between" // Add d-flex and justify-content-between here
                                         >
                                             <Tab eventKey="profile" title="Profile">
                                                 {/* <h5 className="text-center">Profile</h5> */}
@@ -490,7 +490,11 @@ const VendorsManagement = () => {
                                                         selectedVendor.products.map((product) => (
                                                             <Col key={product.id} xs={12} md={12} lg={12} className="mb-4">
                                                                 <Card>
-                                                                    <Card.Img variant="top" src={product.imageUrl} />
+                                                                <Card.Img
+                                                                    className="analytics-card-img-top"
+                                                                    variant="top"
+                                                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                                                />
                                                                     <Card.Body>
                                                                         <Card.Title>{product.title}</Card.Title>
                                                                         <Card.Text className="price-container">

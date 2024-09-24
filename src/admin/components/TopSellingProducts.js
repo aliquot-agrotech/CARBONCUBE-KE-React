@@ -8,7 +8,11 @@ const TopSellingProducts = ({ data }) => {
       {data.map((product) => (
         <Col xs={12} md={6} lg={4} key={product.product_id} className="mb-4">
           <Card className="h-100">
-            <Card.Img className="analytics-card-img-top" variant="top" src={product.imageUrl} />
+          <Card.Img
+              className="analytics-card-img-top"
+              variant="top"
+              src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}
+            />
             <Card.Body className="analytics-card-body text-center p-0">
               <Card.Title>{product.product_title}</Card.Title>
               <Card.Text className="analytics-price-container">
