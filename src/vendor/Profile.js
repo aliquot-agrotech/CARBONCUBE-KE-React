@@ -190,7 +190,7 @@ const ProfilePage = () => {
                                                                 name="fullname"
                                                                 value={profile.fullname}
                                                                 onChange={handleChange}
-                                                                disabled={!editMode}
+                                                                disabled={editMode}
                                                             />
                                                         </Form.Group>
                                                     </Col>
@@ -202,7 +202,7 @@ const ProfilePage = () => {
                                                                 name="username"
                                                                 value={profile.username}
                                                                 onChange={handleChange}
-                                                                disabled={!editMode}
+                                                                disabled={editMode}
                                                             />
                                                         </Form.Group>
                                                     </Col>
@@ -218,7 +218,7 @@ const ProfilePage = () => {
                                                                 name="birthdate"
                                                                 value={formatDate(profile.birthdate) || ''} // Format birthdate to YYYY-MM-DD
                                                                 onChange={handleChange}
-                                                                disabled={!editMode}
+                                                                disabled={editMode}
                                                             />
                                                         </Form.Group>
                                                     </Col>
@@ -230,7 +230,7 @@ const ProfilePage = () => {
                                                                 name="gender"
                                                                 value={profile.gender}
                                                                 onChange={handleChange}
-                                                                disabled={!editMode}
+                                                                disabled={editMode}
                                                             >
                                                                 <option value="Male">Male</option>
                                                                 <option value="Female">Female</option>
@@ -261,7 +261,7 @@ const ProfilePage = () => {
                                                                 name="enterprise_name"
                                                                 value={profile.enterprise_name}
                                                                 onChange={handleChange}
-                                                                disabled={!editMode}
+                                                                disabled={editMode}
                                                             />
                                                         </Form.Group>
                                                     </Col>
@@ -273,7 +273,7 @@ const ProfilePage = () => {
                                                                 name="business_registration_number"
                                                                 value={profile.business_registration_number}
                                                                 onChange={handleChange}
-                                                                disabled={!editMode}
+                                                                disabled={editMode}
                                                             />
                                                         </Form.Group>
                                                     </Col>
@@ -300,7 +300,7 @@ const ProfilePage = () => {
                                                                 name="location"
                                                                 value={profile.location}
                                                                 onChange={handleChange}
-                                                                disabled={!editMode}
+                                                                disabled={editMode}
                                                             />
                                                         </Form.Group>
                                                     </Col>

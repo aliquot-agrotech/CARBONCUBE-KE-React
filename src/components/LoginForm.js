@@ -94,13 +94,13 @@ const LoginForm = ({ onLogin }) => {
               </Button>
             </div>
 
-            <div className="text-center mt-2">
+            <div className="text-center mt-2 signup-form">
               Don't have an account? 
               <div className="d-flex justify-content-center mt-2">
-                <Button variant="info" id="button" className="w-40 mx-1" onClick={() => navigate('/purchasersignup')}>
+                <Button variant="secondary" id="button" className="w-40 mx-2 signup-btn" onClick={() => navigate('/purchasersignup')}>
                   Purchaser SignUp
                 </Button>
-                <Button variant="info" id="button" className="w-40 mx-1" onClick={() => navigate('/vendorsignup')}>
+                <Button variant="secondary" id="button" className="w-40 mx-2 signup-btn" onClick={() => navigate('/vendorsignup')}>
                   Vendor SignUp
                 </Button>
               </div>
