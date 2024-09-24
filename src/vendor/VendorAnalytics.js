@@ -12,9 +12,9 @@ const VendorAnalytics = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3000/vendor/analytics', { // Updated endpoint for vendor analytics
+    fetch('http://localhost:3000/vendor/analytics', {
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'), // Replace with your actual token
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
     })
       .then(response => response.json())
@@ -40,6 +40,15 @@ const VendorAnalytics = () => {
     return <div>Error loading data</div>;
   }
 
+  // Handle new vendors with no data
+  const totalOrders = parseInt(analyticsData.total_orders, 10) || 0;
+  const averageRating = parseInt(analyticsData.average_rating, 10) || 0;
+  const totalProducts = parseInt(analyticsData.total_products, 10) || 0;
+  const totalReviews = parseInt(analyticsData.total_reviews, 10) || 0;
+  const totalRevenue = parseFloat(analyticsData.total_revenue) || 0;
+
+  const formattedRevenue = totalRevenue.toFixed(2);
+
   return (
     <>
       <TopNavbar />
@@ -57,19 +66,19 @@ const VendorAnalytics = () => {
                   </Card.Header>
                   <Card.Body>
                     <Card.Text className="text-center">
-                      <strong>{parseInt(analyticsData.total_orders, 10).toLocaleString()}</strong>
+                      <strong>{totalOrders.toLocaleString()}</strong>
                     </Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-              <Card className="mb-4 custom-card">
+                <Card className="mb-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Average Rating
                   </Card.Header>
                   <Card.Body>
                     <Card.Text className="text-center">
-                      <strong>{parseInt(analyticsData.average_rating, 10).toLocaleString()}</strong>
+                      <strong>{averageRating.toLocaleString()}</strong>
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -81,7 +90,7 @@ const VendorAnalytics = () => {
                   </Card.Header>
                   <Card.Body>
                     <Card.Text className="text-center">
-                      <strong>{parseInt(analyticsData.total_products, 10).toLocaleString()}</strong>
+                      <strong>{totalProducts.toLocaleString()}</strong>
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -93,7 +102,7 @@ const VendorAnalytics = () => {
                   </Card.Header>
                   <Card.Body>
                     <Card.Text className="text-center">
-                      <strong>{parseInt(analyticsData.total_reviews, 10).toLocaleString()}</strong>
+                      <strong>{totalReviews.toLocaleString()}</strong>
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -109,7 +118,7 @@ const VendorAnalytics = () => {
                     <Card.Text className="analytics-price-container">
                       <em className='analytics-product-price-label'>Kshs: </em>
                       <strong>
-                        {analyticsData.total_revenue.split('.').map((part, index) => (
+                        {formattedRevenue.split('.').map((part, index) => (
                           <React.Fragment key={index}>
                             {index === 0 ? (
                               <span className="analytics-price-integer">
@@ -136,7 +145,7 @@ const VendorAnalytics = () => {
                     Sales Performance (Last 3 Months)
                   </Card.Header>
                   <Card.Body>
-                    <SalesPerformance data={analyticsData.sales_performance} totalRevenue={parseFloat(analyticsData.total_revenue)} />
+                    <SalesPerformance data={analyticsData.sales_performance || {}} totalRevenue={totalRevenue} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -146,7 +155,7 @@ const VendorAnalytics = () => {
                     Top Selling Products
                   </Card.Header>
                   <Card.Body>
-                    <TopSellingProducts data={analyticsData.best_selling_products} />
+                    <TopSellingProducts data={analyticsData.best_selling_products || []} />
                   </Card.Body>
                 </Card>
               </Col>
