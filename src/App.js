@@ -9,8 +9,9 @@ import VendorsManagement from './admin/VendorsManagement';
 import ProductsManagement from './admin/ProductsManagement';
 import Messages from './admin/Messages';
 import PromotionsDiscount from './admin/PromotionsDiscount';
-import Notifications from './admin/Notifications';
+import Notifications from './admin/Notifications'; 
 import CategoriesManagement from './admin/CategoriesManagement';
+import VendorSignUpPage from './vendor/VendorSignUpPage';
 import VendorAnalytics from './vendor/VendorAnalytics';
 import VendorOrders from './vendor/VendorOrders';
 import VendorProducts from './vendor/VendorProducts';
@@ -61,6 +62,12 @@ function App() {
     localStorage.setItem('role', 'purchaser');
   };
 
+  const handleVendorSignup = () => {
+    setIsAuthenticated(true);
+    setUserRole('vendor');
+    localStorage.setItem('role', 'vendor');
+  };
+
   return (
     <Router>
       <Routes>
@@ -71,6 +78,7 @@ function App() {
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
         <Route path="/home" element={<Home onLogout={handleLogout} />} />
         <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
+        <Route path="/vendorsignup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
         {isAuthenticated && userRole === 'admin' && (
           <Route path="/admin/*" element={<PrivateRoute role="admin" userRole={userRole} />}>
             <Route path="analytics-reporting" element={<AnalyticsReporting onLogout={handleLogout} />} />
