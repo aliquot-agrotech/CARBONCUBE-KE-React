@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button,Modal } from 'react-bootstrap';
 import axios from 'axios';
 import TopNavbar from './components/TopNavbar';
 import Sidebar from './components/Sidebar';
@@ -23,6 +23,14 @@ const ProfilePage = () => {
     });
 
     const [editMode, setEditMode] = useState(false);
+    const [showChangePasswordModal, setShowChangePasswordModal] = useState(false); // State for modal visibility
+    const [passwordData, setPasswordData] = useState({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
+
+    const [passwordMatch, setPasswordMatch] = useState(true);
 
     // Retrieve token from localStorage
     const token = localStorage.getItem('token'); // Adjust the key to match your app
@@ -83,6 +91,56 @@ const ProfilePage = () => {
             console.error('Error saving profile data:', error);
         });
     };
+
+    const handleConfirmPasswordChange = (e) => {
+        const { value } = e.target;
+        setPasswordData({ ...passwordData, confirmPassword: value });
+        
+        // Check if newPassword matches confirmPassword in real time
+        if (passwordData.newPassword !== value) {
+            setPasswordMatch(false);
+        } else {
+            setPasswordMatch(true);
+        }
+    };
+
+    // Handle Change Password
+    const handlePasswordChange = () => {
+        // Check if the new password matches the confirm password
+        if (passwordData.newPassword !== passwordData.confirmPassword) {
+            alert("New password and confirm password do not match.");
+            return;
+        }
+    
+        // Proceed with the rest of the password change logic
+        axios.post('http://localhost:3000/vendor/profile/change-password', {
+            currentPassword: passwordData.currentPassword,
+            newPassword: passwordData.newPassword,
+            confirmPassword: passwordData.confirmPassword
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            alert("Password changed successfully. Please log in again.");
+            toggleChangePasswordModal();
+            localStorage.removeItem('token'); // Clear token to force login
+            window.location.href = '/login'; // Redirect to login page
+        })
+        .catch(error => {
+            if (error.response && error.response.status === 401) {
+                alert("Current password is incorrect.");
+            } else {
+                alert("Error changing password.");
+            }
+        });
+    };
+    
+    
+
+    // Toggle Modal
+    const toggleChangePasswordModal = () => setShowChangePasswordModal(!showChangePasswordModal);
 
     return (
         <>
@@ -323,12 +381,15 @@ const ProfilePage = () => {
 
                                                 {/* Buttons Section */}
                                                 <Row className="d-flex justify-content-between align-items-center">
-                                                    <Col md={6}>
+                                                    <Col md={4} className="d-flex justify-content-start">
                                                         <Button variant="warning" id="button" onClick={handleEditClick}>
                                                             {editMode ? 'Cancel' : 'Edit'}
                                                         </Button>
                                                     </Col>
-                                                    <Col md={6} className="d-flex justify-content-end">
+                                                    <Col md={4} className="d-flex justify-content-center">
+                                                        <Button variant="info" id="button" onClick={toggleChangePasswordModal}>Change Password</Button>
+                                                    </Col>
+                                                    <Col md={4} className="d-flex justify-content-end">
                                                         {editMode && (
                                                             <Button variant="success" id="button" onClick={handleSaveClick} className="me-2">
                                                                 Save
@@ -348,6 +409,61 @@ const ProfilePage = () => {
                         </Col>
                     </Row>
                 </Container>
+
+                {/* Change Password Modal */}
+                <Modal centered show={showChangePasswordModal} onHide={toggleChangePasswordModal}>
+                    <Modal.Header>
+                        <Modal.Title>Change Password</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group controlId="formCurrentPassword">
+                                <Form.Label>Current Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="currentPassword"
+                                    value={passwordData.currentPassword}
+                                    onChange={e => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formNewPassword">
+                                <Form.Label>New Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="newPassword"
+                                    value={passwordData.newPassword}
+                                    onChange={e => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="formConfirmPassword">
+                                <Form.Label>Confirm New Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    name="confirmPassword"
+                                    value={passwordData.confirmPassword}
+                                    onChange={handleConfirmPasswordChange}
+                                />
+                                {!passwordMatch && (
+                                    <Form.Text className="text-danger">
+                                        New password and confirm password do not match.
+                                    </Form.Text>
+                                )}
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={toggleChangePasswordModal}>
+                            Close
+                        </Button>
+                        <Button
+                            variant="warning"
+                            onClick={handlePasswordChange}
+                            disabled={!passwordMatch} // Disable save if passwords do not match
+                        >
+                            Save Password
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </>
     );
