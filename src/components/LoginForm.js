@@ -95,7 +95,15 @@ const LoginForm = ({ onLogin }) => {
             </div>
 
             <div className="text-center mt-2">
-                Don't have an account? <a href="./purchasersignup" className="login-link">Purchaser SignUp</a>
+              Don't have an account? 
+              <div className="d-flex justify-content-center mt-2">
+                <Button variant="info" id="button" className="w-40 mx-1" onClick={() => navigate('/purchasersignup')}>
+                  Purchaser SignUp
+                </Button>
+                <Button variant="info" id="button" className="w-40 mx-1" onClick={() => navigate('/vendorsignup')}>
+                  Vendor SignUp
+                </Button>
+              </div>
             </div>
           </Form>
         </Col>
