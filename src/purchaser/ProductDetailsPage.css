@@ -44,4 +44,11 @@
     color: #ff6633;
     font-weight: bold;
 }
+
+.link-hover:hover {
+  text-decoration: underline;
+  color: #0056b3; /* You can adjust the hover color */
+  transform: scale(1.01);
+}
+
   

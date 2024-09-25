@@ -269,11 +269,16 @@ const ProductDetailsPage = () => {
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {product.manufacturer}</p>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
-                                            <Row onClick={handleShowModal} style={{ cursor: 'pointer' }}>
-                                                <span className="star-rating">
-                                                    {renderRatingStars(product.mean_rating, product.review_count)}
-                                                </span>
-                                            </Row>
+                                            <Row 
+  onClick={handleShowModal} 
+  style={{ cursor: 'pointer' }} 
+  className="link-hover"
+>
+  <span className="star-rating">
+    {renderRatingStars(product.mean_rating, product.review_count)}
+  </span>
+</Row>
+
 
                                             <h4 className="product-price my-4">
                                                 <span className="text-success">Kshs: </span>
@@ -441,8 +446,7 @@ const ProductDetailsPage = () => {
                     Close
                     </Button>
                 </Modal.Footer>
-            </Modal>
-
+            </Modal> 
         </div>
         </>
     );
