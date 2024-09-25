@@ -226,7 +226,11 @@ const ProductDetailsPage = () => {
                             <div className="product-details-page container">
                                 {product && (
                                     <Row className="product-details mt-1 p-4 shadow-lg rounded border">
-                                        <Col xs={12} md={6} className="text-center">
+                                        <Col 
+                                            xs={12} 
+                                            md={6} 
+                                            className="d-flex flex-column justify-content-center text-center"
+                                            >
                                             <motion.div
                                                 initial={{ opacity: 0, scale: 0.9 }}
                                                 animate={{ opacity: 1, scale: 1 }}
@@ -235,6 +239,7 @@ const ProductDetailsPage = () => {
                                                 {renderCarousel()}
                                             </motion.div>
                                         </Col>
+
                                         <Col xs={12} md={5} className="d-flex flex-column justify-content-center">
                                             <h3 className="display-6 text-dark mb-3"><strong>{product.title}</strong></h3>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>

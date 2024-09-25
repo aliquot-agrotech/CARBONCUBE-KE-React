@@ -96,7 +96,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
             </Button>
           )}
         </div> */}
-        <Navbar.Brand href="/purchaser/homepage">CARBON - Purchaser</Navbar.Brand>
+        <Navbar.Brand href="/home">CARBON - Purchaser</Navbar.Brand>  
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
