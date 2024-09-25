@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Spinner, Row, Col, Card, Carousel, Container, Button } from 'react-bootstrap';
+import { Spinner, Row, Col, Card, Carousel, Container, Button, Modal } from 'react-bootstrap';
 import { Cart4, Heart } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +20,29 @@ const ProductDetailsPage = () => {
     const [searchQuery, setSearchQuery] = useState('');     // Manage search query state
     const [bookmarkLoading, setBookmarkLoading] = React.useState(false);
     const [bookmarkError, setBookmarkError] = React.useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [reviews, setReviews] = useState([]);
+    const [loadingReviews, setLoadingReviews] = useState(false);
+    const [reviewsError, setReviewsError] = useState(null);
+
+    const handleShowModal = async () => {
+        setShowModal(true);
+        setLoadingReviews(true);
+        
+        try {
+            const response = await fetch(`http://localhost:3000/products/${productId}/reviews`);
+            if (!response.ok) throw new Error('Failed to fetch reviews');
+            const data = await response.json();
+            setReviews(data);
+        } catch (error) {
+            setReviewsError('Error loading reviews.');
+        } finally {
+            setLoadingReviews(false);
+        }
+    };
+    
+    const handleCloseModal = () => setShowModal(false);
+
 
     useEffect(() => {
         if (!productId) {
@@ -246,11 +269,12 @@ const ProductDetailsPage = () => {
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {product.manufacturer}</p>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
-                                            <Row>
+                                            <Row onClick={handleShowModal} style={{ cursor: 'pointer' }}>
                                                 <span className="star-rating">
                                                     {renderRatingStars(product.mean_rating, product.review_count)}
                                                 </span>
                                             </Row>
+
                                             <h4 className="product-price my-4">
                                                 <span className="text-success">Kshs: </span>
                                                 <strong className="text-danger display-6">
@@ -368,6 +392,57 @@ const ProductDetailsPage = () => {
                     </Col>
                 </Row>
             </Container>
+
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header >
+                    <Modal.Title>Product Ratings</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {loadingReviews ? (
+                    <div className="text-center">
+                        <Spinner animation="border" />
+                        <p>Loading reviews...</p>
+                    </div>
+                    ) : reviewsError ? (
+                    <div className="text-danger">{reviewsError}</div>
+                    ) : reviews.length === 0 ? (
+                    <p>No reviews available for this product.</p>
+                    ) : (
+                    <div>
+                        {reviews.map((review, index) => {
+                        // Determine full stars, half stars, and empty stars based on the review rating
+                        const fullStars = Math.floor(review.rating);
+                        const halfStar = review.rating % 1 !== 0;
+                        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+                        return (
+                            <Card key={index} className="my-3 custom-card">
+                            <Card.Body>
+                                <Card.Title>{review.purchaser.name}</Card.Title>
+                                <Card.Text>{review.review}</Card.Text>
+                                <div className="rating-stars d-flex align-items-center">
+                                {[...Array(fullStars)].map((_, i) => (
+                                    <FontAwesomeIcon key={i} icon={faStar} className="rating-star filled" />
+                                ))}
+                                {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="rating-star half-filled" />}
+                                {[...Array(emptyStars)].map((_, i) => (
+                                    <FontAwesomeIcon key={i} icon={faStarEmpty} className="rating-star empty text-white" />
+                                ))}
+                                </div>
+                            </Card.Body>
+                            </Card>
+                        );
+                        })}
+                    </div>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="danger" onClick={handleCloseModal}>
+                    Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </div>
         </>
     );
