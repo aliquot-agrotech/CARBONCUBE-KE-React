@@ -201,8 +201,8 @@ const Home = () => {
     );
     
     const SearchResultSection = ({ results }) => (
-        <Card className="section mb-4">
-            <Card.Header className="d-flex justify-content-start">
+        <Card className="section-search mb-4">
+            <Card.Header className="d-flex justify-content-center align-items-center">
                 <h3>Search Results</h3>
             </Card.Header>
             <Card.Body>
@@ -217,9 +217,25 @@ const Home = () => {
                                     className="product-image"
                                     onClick={() => handleProductClick(product.id)} // Handle image click
                                 />
-                                <Card.Body className="text-center">
+                                <Card.Body className="text-start">
                                     <Card.Title className="mb-0">{product.title}</Card.Title>
-                                    <Card.Text>{product.price}</Card.Text>
+                                    <Card.Text>
+                                        <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                                        <strong style={{ fontSize: '20px' }} className="text-danger">
+                                            {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
+                                                <React.Fragment key={index}>
+                                                    {index === 0 ? (
+                                                        <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                                    ) : (
+                                                        <>
+                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                            <span className="price-decimal">{part}</span>
+                                                        </>
+                                                    )}
+                                                </React.Fragment>
+                                            )) : 'N/A'}
+                                        </strong>
+                                    </Card.Text>
                                 </Card.Body>
                             </Card>
                         </Col>

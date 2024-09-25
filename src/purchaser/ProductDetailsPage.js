@@ -220,15 +220,15 @@ const ProductDetailsPage = () => {
                     <Col xs={12} md={2} className="p-0">
                         <Sidebar isOpen={sidebarOpen} />
                     </Col>
-                    <Col xs={12} md={10} className="p-2">
+                    <Col xs={12} md={10} className="p-1">
                         {/* Main Content Area */}
                         <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
                             <div className="product-details-page container">
                                 {product && (
-                                    <Row className="product-details mt-1 p-4 shadow-lg rounded border">
+                                    <Row className="product-details mt-1 p-1 shadow-lg rounded border">
                                         <Col 
                                             xs={12} 
-                                            md={6} 
+                                            md={7} 
                                             className="d-flex flex-column justify-content-center text-center"
                                             >
                                             <motion.div
@@ -240,7 +240,7 @@ const ProductDetailsPage = () => {
                                             </motion.div>
                                         </Col>
 
-                                        <Col xs={12} md={5} className="d-flex flex-column justify-content-center">
+                                        <Col xs={12} md={4} className="d-flex flex-column justify-content-center">
                                             <h3 className="display-6 text-dark mb-3"><strong>{product.title}</strong></h3>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {product.manufacturer}</p>

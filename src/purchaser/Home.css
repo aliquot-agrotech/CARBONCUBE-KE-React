@@ -57,6 +57,20 @@
     margin-bottom: 20px; /* Add space below each subcategory section */
 }
 
+.section-search {
+    margin-top: 65px;
+}
+
+.section-search .card-header {
+    background-color: #343a40;
+    color: white;
+    padding: 10px; /* Add padding inside header */
+}
+
+.section-search .card-body{
+    background-color: #e0e0e0;
+}
+
 
 .product-card {
     border: none;
