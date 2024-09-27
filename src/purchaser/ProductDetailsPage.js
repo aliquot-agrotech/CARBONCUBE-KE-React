@@ -270,14 +270,14 @@ const ProductDetailsPage = () => {
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
                                             <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
                                             <Row 
-  onClick={handleShowModal} 
-  style={{ cursor: 'pointer' }} 
-  className="link-hover"
->
-  <span className="star-rating">
-    {renderRatingStars(product.mean_rating, product.review_count)}
-  </span>
-</Row>
+                                                onClick={handleShowModal} 
+                                                style={{ cursor: 'pointer' }} 
+                                                className="link-hover"
+                                                >
+                                                <span className="star-rating">
+                                                    {renderRatingStars(product.mean_rating, product.review_count)}
+                                                </span>
+                                            </Row>
 
 
                                             <h4 className="product-price my-4">
@@ -298,21 +298,24 @@ const ProductDetailsPage = () => {
                                                 </strong>
                                             </h4>
 
-                                            <Card className="mt-4 border-0 shadow">
+                                            <Card className="mt-4 border-0 shadow custom-card">
                                                 <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
                                                 <Card.Body>
                                                     <Row>
                                                         <Col xs={12} md={6}>
-                                                            <p><strong>Height:</strong> {product.item_height}</p>
-                                                            <p><strong>Width:</strong> {product.item_width}</p>
+                                                            <p><strong>Height:</strong> {product.item_height} cm</p>
+                                                            <p><strong>Width:</strong> {product.item_width} cm</p>
                                                         </Col>
                                                         <Col xs={12} md={6}>
-                                                            <p><strong>Length:</strong> {product.item_length}</p>
-                                                            <p><strong>Weight:</strong> {product.item_weight}</p>
+                                                            <p><strong>Length:</strong> {product.item_length} cm</p>
+                                                            <p>
+                                                                <strong>Weight:</strong> {product.item_weight} {product.weight_unit}
+                                                            </p>
                                                         </Col>
                                                     </Row>
                                                 </Card.Body>
                                             </Card>
+
 
                                             <Container className="mt-4 d-flex justify-content-center">
                                                 <motion.div

@@ -22,8 +22,14 @@ const VendorProducts = () => {
     const [selectedSubcategory, setSelectedSubcategory] = useState('');
     const [newImageUrl, setNewImageUrl] = useState('');
     const [isSaving, setIsSaving] = useState(false);
+    const [weightUnit, setWeightUnit] = useState('Grams');
     // const [files, setFiles] = useState([]);
     const [editedProduct, setEditedProduct] = useState({
+        item_length: '',
+        item_width: '',
+        item_height: '',
+        item_weight: '',
+        weight_unit: 'Grams', // Default weight unit
         media: []  // Assuming 'images' holds the URLs of the product images
     });
 
@@ -37,6 +43,7 @@ const VendorProducts = () => {
         item_length: '',
         item_width: '',
         item_height: '',
+        weight_unit: '',
         item_weight: ''
     });
 
@@ -130,6 +137,13 @@ const VendorProducts = () => {
             subcategory_id // Update subcategory_id
         }));
     };
+
+    const handleWeightUnitChange = (unit) => {
+        setEditedProduct((prev) => ({
+            ...prev,
+            weight_unit: unit,
+        }));
+    };
     
     
     const handleFormChange = (e) => {
@@ -174,6 +188,7 @@ const VendorProducts = () => {
             }
         }
     
+        // Assuming you have a state variable for weight unit, e.g. `weightUnit`
         const newProduct = {
             title,
             description,
@@ -187,6 +202,7 @@ const VendorProducts = () => {
             item_width: parseInt(item_width),
             item_height: parseInt(item_height),
             item_weight: parseInt(item_weight),
+            weight_unit: weightUnit, // Include the weight unit in the product object
             media: mediaUrls // Store all the uploaded image URLs
         };
     
@@ -225,12 +241,14 @@ const VendorProducts = () => {
             });
             setSelectedCategory('');
             setSelectedSubcategory('');
+            setWeightUnit('Grams'); // Reset to default if needed
             setShowAddModal(false);
         } catch (error) {
             console.error('Error adding product:', error);
             alert('Failed to add product. Please try again.');
         }
     };
+    
 
     const handleViewDetailsClick = (product) => {
         setSelectedProduct(product);
@@ -314,6 +332,7 @@ const VendorProducts = () => {
             item_width: editedProduct.item_width,
             item_height: editedProduct.item_height,
             item_weight: editedProduct.item_weight,
+            weight_unit: editedProduct.weight_unit,
             flagged: editedProduct.flagged,
             media: editedProduct.media // Only include media if applicable
             } }),
@@ -689,24 +708,45 @@ const VendorProducts = () => {
                                     </Row>
 
                                     <Row>
-                                        <Col xs={12}>
+                                        <Col xs={12} md={6}>
                                             <Card className="mb-2 custom-card">
-                                                <Card.Header as="h6" className="justify-content-center">Description</Card.Header>
+                                                <Card.Header as="h6" className="justify-content-center">Dimensions</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.description}
+                                                    <Row>
+                                                    <Col xs={12} md={6}>
+                                                            <p><strong>Height:</strong> {selectedProduct.item_height} cm</p>
+                                                            <p><strong>Width:</strong> {selectedProduct.item_width} cm</p>
+                                                        </Col>
+                                                        <Col xs={12} md={6}>
+                                                            <p><strong>Length:</strong> {selectedProduct.item_length} cm</p>
+                                                            <p>
+                                                                <strong>Weight:</strong> {selectedProduct.item_weight} {selectedProduct.weight_unit}
+                                                            </p>
+                                                        </Col>
+                                                    </Row>
                                                 </Card.Body>
                                             </Card>
                                         </Col>
-                                    </Row>
-
-                                    <Row>
-                                        <Col xs={12}>
+                                        <Col xs={12} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Rating</Card.Header>
                                                 <Card.Body className="text-center">
                                                     <span className="star-rating">
                                                         {renderRatingStars(selectedProduct.mean_rating || 0)}
                                                     </span>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+
+
+
+                                    <Row>
+                                        <Col xs={12}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Description</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    {selectedProduct.description}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -903,9 +943,6 @@ const VendorProducts = () => {
                                 </Button>
                             </Form.Group>
 
-
-
-
                             <Form.Group className="d-flex flex-column align-items-center">
                                 <Form.Label className="text-center mb-0 fw-bold">Description</Form.Label>
                                 <Form.Control 
@@ -920,7 +957,7 @@ const VendorProducts = () => {
 
                             <Card className="custom-card-vendor">
                                 <Card.Header className="justify-content-center fw-bold">Dimensions</Card.Header>
-                                <Card.Body >
+                                <Card.Body>
                                     <Row className="mb-3">
                                         <Col xs={12} md={6}>
                                             <Form.Group className="d-flex flex-column align-items-center">
@@ -929,7 +966,6 @@ const VendorProducts = () => {
                                                     type="number" 
                                                     placeholder="Enter product length" 
                                                     name="item_length"
-                                                    id="button"
                                                     value={editedProduct.item_length || ''} 
                                                     onChange={handleInputChange} 
                                                 />
@@ -942,7 +978,6 @@ const VendorProducts = () => {
                                                     type="number" 
                                                     placeholder="Enter product width" 
                                                     name="item_width"
-                                                    id="button"
                                                     value={editedProduct.item_width || ''} 
                                                     onChange={handleInputChange} 
                                                 />
@@ -958,7 +993,6 @@ const VendorProducts = () => {
                                                     type="number" 
                                                     placeholder="Enter product height" 
                                                     name="item_height"
-                                                    id="button"
                                                     value={editedProduct.item_height || ''} 
                                                     onChange={handleInputChange} 
                                                 />
@@ -971,12 +1005,37 @@ const VendorProducts = () => {
                                                     type="number" 
                                                     placeholder="Enter product weight" 
                                                     name="item_weight"
-                                                    id="button"
                                                     value={editedProduct.item_weight || ''} 
                                                     onChange={handleInputChange} 
                                                 />
                                             </Form.Group>
                                         </Col>
+                                    </Row>
+
+                                    <Row className="mb-3">
+                                        <Form.Group>
+                                            <Form.Label>Weight Unit</Form.Label>
+                                            <Row className="mb-3">                                                                                             
+                                                <Col xs={12} md={6}>
+                                                    <Form.Check
+                                                        type="checkbox"
+                                                        name="weight_unit"
+                                                        label="Grams"
+                                                        checked={editedProduct.weight_unit === 'Grams'}
+                                                        onChange={() => handleWeightUnitChange('Grams')}
+                                                    />
+                                                </Col>
+                                                <Col xs={12} md={6}>
+                                                    <Form.Check
+                                                        type="checkbox"
+                                                        name="weight_unit"
+                                                        label="Kilograms"
+                                                        checked={editedProduct.weight_unit === 'Kilograms'}
+                                                        onChange={() => handleWeightUnitChange('Kilograms')}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        </Form.Group>
                                     </Row>
                                 </Card.Body>
                             </Card>
@@ -1163,6 +1222,21 @@ const VendorProducts = () => {
                                             value={formValues.item_weight}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1 rounded-pill"
+                                        />
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label>Weight Unit</Form.Label>
+                                        <Form.Check
+                                            type="checkbox"
+                                            label="Grams"
+                                            checked={weightUnit === 'Grams'}
+                                            onChange={() => handleWeightUnitChange('Grams')}
+                                        />
+                                        <Form.Check
+                                            type="checkbox"
+                                            label="Kilograms"
+                                            checked={weightUnit === 'Kilograms'}
+                                            onChange={() => handleWeightUnitChange('Kilograms')}
                                         />
                                     </Form.Group>
                                 </Col>
