@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import './TopNavbar.css';
 
 const TopNavbar = () => {
@@ -11,7 +11,9 @@ const TopNavbar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
-            <Nav.Link href="/login">Logout</Nav.Link>
+            <Button variant="warning" href="/login" className="ms-2" id="button">
+                Logout
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
