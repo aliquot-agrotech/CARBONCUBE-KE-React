@@ -92,4 +92,20 @@
 .button{
   border-radius: 1.5rem;
 }
-  
+
+.custom-card-vendor {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #fff69a, #cbcbcb); /* Gradient from two colors */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  color: #000; /* Ensure text is readable on the gradient background */
+}
+
+
+.custom-card-vendor:hover {
+  /* transform: translateY(-5px); */
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #cbcbcb, #fff69a); /* Gradient from two colors */
+}

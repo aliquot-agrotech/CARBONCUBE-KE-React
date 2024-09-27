@@ -451,15 +451,13 @@ const VendorProducts = () => {
             />
                 <Card.Body className='p-2'>
                     <Card.Title>{product.title}</Card.Title>
-                    <Card.Text className="price-container">
-                        <em className='product-price-label'>Kshs: </em>
-                        <strong>
-                            {product.price ? product.price.split('.').map((part, index) => (
+                    <Card.Text>
+                        <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                        <strong style={{ fontSize: '20px' }} className="text-danger">
+                            {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
                                 <React.Fragment key={index}>
                                     {index === 0 ? (
-                                        <span className="price-integer">
-                                            {parseInt(part, 10).toLocaleString()}
-                                        </span>
+                                        <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
                                     ) : (
                                         <>
                                             <span style={{ fontSize: '16px' }}>.</span>
@@ -484,6 +482,7 @@ const VendorProducts = () => {
                             <Button
                                 variant="secondary"
                                 className="me-2"
+                                id="button"
                                 onClick={() => handleEditProduct(product.id)}
                             >
                                 <FontAwesomeIcon
@@ -495,6 +494,7 @@ const VendorProducts = () => {
                             <Button
                                 variant="danger"
                                 className="d-flex justify-content-center align-items-center"
+                                id="button"
                                 onClick={() => handleDeleteProduct(product.id)}
                             >
                                 <FontAwesomeIcon
@@ -716,7 +716,7 @@ const VendorProducts = () => {
                                 {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
                                     <div className="reviews-container text-center">
                                         {selectedProduct.reviews.map((review, index) => (
-                                            <div className="review-card" key={index}>
+                                            <div className="custom-card p-2" key={index}>
                                                 <p className="review-comment"><em>"{review.review}"</em></p>
                                                 <StarRating rating={review.rating} />
                                             </div>
@@ -794,6 +794,7 @@ const VendorProducts = () => {
                                         <Form.Control 
                                             as="select" 
                                             name="category_id"
+                                            id="button"
                                             value={selectedCategory} 
                                             onChange={handleCategoryChange}
                                         >
@@ -810,6 +811,7 @@ const VendorProducts = () => {
                                         <Form.Control 
                                             as="select" 
                                             name="subcategory_id"
+                                            id="button"
                                             value={selectedSubcategory} 
                                             onChange={handleSubcategoryChange}
                                         >
@@ -886,6 +888,7 @@ const VendorProducts = () => {
                                 <Form.Label className="text-center mb-0 fw-bold">Add Images</Form.Label>
                                 <Form.Control 
                                     type="file"
+                                    id="button"
                                     accept="image/*"
                                     multiple
                                     onChange={(e) => handleFileSelect(e.target.files)}
@@ -894,6 +897,7 @@ const VendorProducts = () => {
                                     variant="warning"
                                     onClick={handleAddImages} 
                                     className="mt-2"
+                                    id="button"
                                 >
                                     Upload and Add Images
                                 </Button>
@@ -914,9 +918,9 @@ const VendorProducts = () => {
                                 />
                             </Form.Group>
 
-                            <Card>
+                            <Card className="custom-card-vendor">
                                 <Card.Header className="justify-content-center fw-bold">Dimensions</Card.Header>
-                                <Card.Body className="transparent-card-body">
+                                <Card.Body >
                                     <Row className="mb-3">
                                         <Col xs={12} md={6}>
                                             <Form.Group className="d-flex flex-column align-items-center">
