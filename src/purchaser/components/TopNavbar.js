@@ -96,7 +96,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
             </Button>
           )}
         </div> */}
-        <Navbar.Brand href="/home">CARBON - Purchaser</Navbar.Brand>  
+        <Navbar.Brand href="/home">CARBONCUBE - Purchaser</Navbar.Brand>  
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
@@ -161,11 +161,16 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
           </Form>
           <Nav className="ms-auto">
             {isLoggedIn ? (
-              <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+              <Button variant="warning" onClick={handleLogout} className="ms-2" id="button">
+                Logout
+              </Button>
             ) : (
-              <Nav.Link href="/login">Login</Nav.Link>
+              <Button variant="outline-warning" href="/login" className="ms-2" id="button">
+                Login
+              </Button>
             )}
           </Nav>
+
         </Navbar.Collapse>
       </Container>
     </Navbar>

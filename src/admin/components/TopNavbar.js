@@ -6,7 +6,7 @@ const TopNavbar = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar">
       <Container fluid>
-        <Navbar.Brand href="/admin/analytics-reporting">CARBON - Admin</Navbar.Brand>
+        <Navbar.Brand href="/admin/analytics-reporting">CARBONCUBE - Admin</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
