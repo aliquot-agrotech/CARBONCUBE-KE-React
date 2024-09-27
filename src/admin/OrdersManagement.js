@@ -70,7 +70,7 @@ const OrdersManagement = () => {
 
     const handleUpdateStatus = async (orderId, status) => {
         try {
-            const response = await fetch(`http://localhost:3000/admin/orders/${orderId}/on-transit`, {
+            const response = await fetch(`http://localhost:3000/admin/orders/${orderId}/update-status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -225,22 +225,36 @@ const OrdersManagement = () => {
                                                     </strong>
                                                 </td>
                                                 <td>{order.order_date || 'N/A'}</td>
-                                                <td >
+                                                <td>
                                                     <Form.Control
-                                                    className="form-select align-middle"                                        
-                                                    as="select"
-                                                    value={order.status}
-                                                    onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                                                    id="button"
-                                                    style={{
-                                                        verticalAlign: 'middle',
-                                                        backgroundColor: order.status === 'On-Transit' ? 'limegreen' : '#FFC107',
-                                                    }}
+                                                        className="form-select align-middle"
+                                                        as="select"
+                                                        value={order.status}
+                                                        onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                                                        id="button"
+                                                        style={{
+                                                            verticalAlign: 'middle',
+                                                            backgroundColor: 
+                                                                order.status === 'Cancelled' ? '#FF0000' :  // Red
+                                                                order.status === 'Dispatched' ? '#007BFF' : // Blue
+                                                                order.status === 'On-Transit' ? '#80CED7' : // Orange
+                                                                order.status === 'Returned' ? '#6C757D' :  // Grey
+                                                                order.status === 'Processing' ? '#FFC107' : // Yellow
+                                                                order.status === 'Delivered' ? '#008000' : '', // Green
+                                                            color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status) 
+                                                                ? 'white' : 'black', // White text for specific statuses
+                                                        }}
                                                     >
-                                                    <option className="text-center" value="Processing">Processing</option>
-                                                    <option className="text-center" value="On-Transit">On-Transit</option>
+                                                        <option className="text-center mb-1" value="Processing">Processing</option>
+                                                        <option className="text-center mb-1" value="Dispatched">Dispatched</option>
+                                                        <option className="text-center mb-1" value="On-Transit">On-Transit</option>
+                                                        <option className="text-center mb-1" value="Delivered">Delivered</option>
+                                                        <option className="text-center mb-1" value="Cancelled">Cancelled</option>
+                                                        <option className="text-center mb-1" value="Returned">Returned</option>
                                                     </Form.Control>
                                                 </td>
+
+
                                                 <td>
                                                     <button
                                                     className="btn btn-link p-0"
