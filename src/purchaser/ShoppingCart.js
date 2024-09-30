@@ -15,6 +15,7 @@ const ShoppingCart = () => {
     const deliveryFee = 100;
     // const [vat, setVat] = useState(0);
     const [total, setTotal] = useState(0);
+    const [processingFee, setProcessingFee] = useState(0);
     // const [discountCode, setDiscountCode] = useState('');
     // const [discountPercentage, setDiscountPercentage] = useState(0);
     // const [discountAmount, setDiscountAmount] = useState(0);
@@ -82,20 +83,28 @@ const ShoppingCart = () => {
     };
     
     const calculateTotals = useCallback(() => {
+        let processingFeeTotal = 0;
+    
         const subTotal = cartItems.reduce((acc, item) => {
             const itemTotal = item.price * item.quantity; // Total product price (price * quantity)
-            const mpesaFee = calculateMpesaFee(itemTotal) * 2; // Mpesa fee based on total price
+            const mpesaFee = calculateMpesaFee(itemTotal); // Mpesa fee based on total price
             const productCharge = 0.02 * itemTotal; // 2% charge on total product price
     
-            // Add item total + Mpesa fee + product charge
-            return acc + itemTotal + mpesaFee + productCharge ;
+            // Add item total
+            const newAcc = acc + itemTotal;
+    
+            // Calculate total processing fee for this item
+            const processingFee = mpesaFee + productCharge;
+            processingFeeTotal += processingFee; // Accumulate processing fees
+    
+            return newAcc;
         }, 0);
     
-        setSubtotal(subTotal);  // Subtotal reflects all costs
-
-        const total = subTotal + deliveryFee;
-        setTotal(total);     // Total includes Mpesa fees and 2% charge
+        setSubtotal(subTotal);  // Subtotal reflects just the item costs
+        setTotal(subTotal + processingFeeTotal + deliveryFee);  // Total includes processing fees
+        setProcessingFee(processingFeeTotal);  // Set processing fee total separately
     }, [cartItems]);
+    
 
     useEffect(() => {
         fetchCartItems();
@@ -273,6 +282,27 @@ const ShoppingCart = () => {
                                                 <p className="d-flex justify-content-center">
                                                     <span>Estimated Shipping and VAT</span>
                                                 </p>
+
+                                                <p className="d-flex justify-content-between">
+                                                    <span><strong>Processing Fee</strong></span>
+                                                    <strong className="text-yellow">
+                                                        Ksh. {processingFee.toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </strong>
+                                                </p>
+
                                                 <p className="d-flex justify-content-between">
                                                     <span><strong>Delivery Fee</strong></span>
                                                     <strong className="text-yellow">
