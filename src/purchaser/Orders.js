@@ -271,10 +271,7 @@ const Orders = () => {
                                                                 background-image: none; /* Remove any default background image */
                                                             }
                                                         `}</style>
-
-
                                                     </tr>
-                                                    
                                                 ))
                                             ) : (
                                                 <tr>
@@ -321,82 +318,160 @@ const Orders = () => {
                                                             {selectedOrder?.order_items?.length > 0 ? (
                                                             <Table striped bordered hover className="transparent-table transparent-table-striped">
                                                                 <thead>
-                                                                <tr>
-                                                                    <th>Product Name</th>
-                                                                    <th>Price</th>
-                                                                    <th>Quantity</th>
-                                                                    <th>Total Price</th>
-                                                                </tr>
+                                                                    <tr>
+                                                                        <th>Product Name</th>
+                                                                        <th>Price</th>
+                                                                        <th>Quantity</th>
+                                                                        <th>Total Price</th>
+                                                                    </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                {selectedOrder.order_items.map(item => (
-                                                                    <tr key={item.id}>
-                                                                    <td>{item.product_name || 'Unknown Product'}</td>
-                                                                    <td>
-                                                                        {item.price ? parseFloat(item.price).toFixed(2).split('.').map((part, index) => (
-                                                                            <React.Fragment key={index}>
-                                                                                {index === 0 ? (
-                                                                                    <span className="price-integer">
-                                                                                        {parseInt(part, 10).toLocaleString()}
-                                                                                    </span>
-                                                                                ) : (
-                                                                                    <>
-                                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                                        <span className="price-decimal">{part}</span>
-                                                                                    </>
-                                                                                )}
-                                                                            </React.Fragment>
-                                                                        )) : 'N/A'}
-                                                                    </td>
-                                                                    <td>{item.quantity}</td>
-                                                                    <td>
-                                                                        {(item.price && item.quantity) ? (
-                                                                        ((item.price * item.quantity).toFixed(2).split('.').map((part, index) => (
-                                                                            <React.Fragment key={index}>
-                                                                            {index === 0 ? (
-                                                                                <span className="price-integer">
-                                                                                {parseInt(part, 10).toLocaleString()}
-                                                                                </span>
-                                                                            ) : (
-                                                                                <>
-                                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                                <span className="price-decimal">{part}</span>
-                                                                                </>
-                                                                            )}
-                                                                            </React.Fragment>
-                                                                        )))
-                                                                        ) : 'N/A'}
-                                                                    </td>
+                                                                    {selectedOrder.order_items.map(item => (
+                                                                        <tr key={item.id}>
+                                                                            <td>{item.product_name || 'Unknown Product'}</td>
+                                                                            <td>
+                                                                                {item.price ? parseFloat(item.price).toFixed(2).split('.').map((part, index) => (
+                                                                                    <React.Fragment key={index}>
+                                                                                        {index === 0 ? (
+                                                                                            <span className="price-integer">
+                                                                                                {parseInt(part, 10).toLocaleString()}
+                                                                                            </span>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                <span className="price-decimal">{part}</span>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </React.Fragment>
+                                                                                )) : 'N/A'}
+                                                                            </td>
+                                                                            <td>{item.quantity}</td>
+                                                                            <td>
+                                                                                {(item.price && item.quantity) ? (
+                                                                                    ((item.price * item.quantity).toFixed(2).split('.').map((part, index) => (
+                                                                                        <React.Fragment key={index}>
+                                                                                            {index === 0 ? (
+                                                                                                <span className="price-integer">
+                                                                                                    {parseInt(part, 10).toLocaleString()}
+                                                                                                </span>
+                                                                                            ) : (
+                                                                                                <>
+                                                                                                    <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                    <span className="price-decimal">{part}</span>
+                                                                                                </>
+                                                                                            )}
+                                                                                        </React.Fragment>
+                                                                                    )))
+                                                                                ) : 'N/A'}
+                                                                            </td>
+                                                                        </tr>
+                                                                    ))}
+                                                                    {/* Total Row
+                                                                    <tr>
+                                                                        <td colSpan="3" className="text-right">
+                                                                            <strong>Total Price for the Order:</strong>
+                                                                        </td>
+                                                                        <td>
+                                                                            <strong>
+                                                                                {selectedOrder.order_items.reduce((acc, item) => {
+                                                                                    const itemTotalPrice = (item.price || 0) * (item.quantity || 0);
+                                                                                    return acc + itemTotalPrice;
+                                                                                }, 0).toFixed(2).split('.').map((part, index) => (
+                                                                                    <React.Fragment key={index}>
+                                                                                        {index === 0 ? (
+                                                                                            <span className="price-integer">
+                                                                                                {parseInt(part, 10).toLocaleString()}
+                                                                                            </span>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                <span className="price-decimal">{part}</span>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </React.Fragment>
+                                                                                ))}
+                                                                            </strong>
+                                                                        </td>
+                                                                    </tr> */}
+                                                                    {/* Processing Fee Row */}
+                                                                    <tr>
+                                                                        <td colSpan="3" className="text-right">
+                                                                            <strong>Processing Fee:</strong>
+                                                                        </td>
+                                                                        <td>
+                                                                            <strong>
+                                                                                {selectedOrder.processing_fee ? parseFloat(selectedOrder.processing_fee).toFixed(2).split('.').map((part, index) => (
+                                                                                    <React.Fragment key={index}>
+                                                                                        {index === 0 ? (
+                                                                                            <span className="price-integer">
+                                                                                                {parseInt(part, 10).toLocaleString()}
+                                                                                            </span>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                <span className="price-decimal">{part}</span>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </React.Fragment>
+                                                                                )) : 'N/A'}
+                                                                            </strong>
+                                                                        </td>
                                                                     </tr>
-                                                                ))}
-                                                                {/* Total Row */}
-                                                                <tr>
-                                                                    <td colSpan="3" className="text-right">
-                                                                    <strong>Total Price for the Order:</strong>
-                                                                    </td>
-                                                                    <td>
-                                                                    <strong>
-                                                                        {selectedOrder.order_items.reduce((acc, item) => {
-                                                                            const itemTotalPrice = (item.price || 0) * (item.quantity || 0);
-                                                                            return acc + itemTotalPrice;
-                                                                        }, 0).toFixed(2).split('.').map((part, index) => (
-                                                                            <React.Fragment key={index}>
-                                                                            {index === 0 ? (
-                                                                                <span className="price-integer">
-                                                                                {parseInt(part, 10).toLocaleString()}
-                                                                                </span>
-                                                                            ) : (
-                                                                                <>
-                                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                                <span className="price-decimal">{part}</span>
-                                                                                </>
-                                                                            )}
-                                                                            </React.Fragment>
-                                                                        ))}
-                                                                    </strong>
-                                                                    
-                                                                    </td>
-                                                                </tr>
+                                                                    {/* Delivery Fee Row */}
+                                                                    <tr>
+                                                                        <td colSpan="3" className="text-right">
+                                                                            <strong>Delivery Fee:</strong>
+                                                                        </td>
+                                                                        <td>
+                                                                            <strong>
+                                                                                {selectedOrder.delivery_fee ? parseFloat(selectedOrder.delivery_fee).toFixed(2).split('.').map((part, index) => (
+                                                                                    <React.Fragment key={index}>
+                                                                                        {index === 0 ? (
+                                                                                            <span className="price-integer">
+                                                                                                {parseInt(part, 10).toLocaleString()}
+                                                                                            </span>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                <span className="price-decimal">{part}</span>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </React.Fragment>
+                                                                                )) : 'N/A'}
+                                                                            </strong>
+                                                                        </td>
+                                                                    </tr>
+                                                                    {/* Grand Total Row */}
+                                                                    <tr>
+                                                                        <td colSpan="3" className="text-right">
+                                                                            <strong>Grand Total:</strong>
+                                                                        </td>
+                                                                        <td>
+                                                                            <strong>
+                                                                                {(
+                                                                                    selectedOrder.order_items.reduce((acc, item) => {
+                                                                                        const itemTotalPrice = (item.price || 0) * (item.quantity || 0);
+                                                                                        return acc + itemTotalPrice;
+                                                                                    }, 0) + 
+                                                                                    Number(selectedOrder.processing_fee || 0) + 
+                                                                                    Number(selectedOrder.delivery_fee || 0)
+                                                                                ).toFixed(2).split('.').map((part, index) => (
+                                                                                    <React.Fragment key={index}>
+                                                                                        {index === 0 ? (
+                                                                                            <span className="price-integer">
+                                                                                                {parseInt(part, 10).toLocaleString()}
+                                                                                            </span>
+                                                                                        ) : (
+                                                                                            <>
+                                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                <span className="price-decimal">{part}</span>
+                                                                                            </>
+                                                                                        )}
+                                                                                    </React.Fragment>
+                                                                                ))}
+                                                                            </strong>
+                                                                        </td>
+                                                                    </tr>
                                                                 </tbody>
                                                             </Table>
                                                             ) : (
@@ -406,6 +481,7 @@ const Orders = () => {
                                                     </Card>
                                                 </Col>
                                             </Row>
+
                                         </>
                                     ) : (
                                         <p>No order details available.</p>
