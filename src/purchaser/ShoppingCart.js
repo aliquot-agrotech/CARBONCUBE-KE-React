@@ -13,7 +13,6 @@ const ShoppingCart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
     const deliveryFee = 100;
-    // const [vat, setVat] = useState(0);
     const [total, setTotal] = useState(0);
     const [processingFee, setProcessingFee] = useState(0);
     // const [discountCode, setDiscountCode] = useState('');
@@ -101,8 +100,8 @@ const ShoppingCart = () => {
         }, 0);
     
         setSubtotal(subTotal);  // Subtotal reflects just the item costs
-        setTotal(subTotal + processingFeeTotal + deliveryFee);  // Total includes processing fees
         setProcessingFee(processingFeeTotal);  // Set processing fee total separately
+        setTotal(subTotal + processingFeeTotal + deliveryFee);  // Total includes processing fees
     }, [cartItems]);
     
 
@@ -174,7 +173,9 @@ const ShoppingCart = () => {
                 },
                 body: JSON.stringify({ 
                     mpesa_transaction_code: mpesaTransactionCode,
-                    total_amount: total // Include total_amount here
+                    total_amount: total,            // Total amount (includes all fees)
+                    processing_fee: processingFee,   // Include processing fee
+                    delivery_fee: deliveryFee        // Include delivery fee
                 })
             });
     
@@ -191,6 +192,7 @@ const ShoppingCart = () => {
             alert("An error occurred during checkout.");
         }
     };
+    
     
 
     return (
