@@ -12,6 +12,7 @@ import './ShoppingCart.css';
 const ShoppingCart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
+    const deliveryFee = 100;
     // const [vat, setVat] = useState(0);
     const [total, setTotal] = useState(0);
     // const [discountCode, setDiscountCode] = useState('');
@@ -43,13 +44,58 @@ const ShoppingCart = () => {
         }
     }, []);
 
-    const calculateTotals = useCallback(() => {
-        const subTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-        
-        setSubtotal(subTotal);
-        setTotal(subTotal); // Set total as subtotal since there's no VAT or discount
-    }, [cartItems]);
+    const calculateMpesaFee = (amount) => {
+        switch (true) {
+            case amount >= 1 && amount <= 49:
+                return 0;
+            case amount >= 50 && amount <= 100:
+                return 0;
+            case amount >= 101 && amount <= 500:
+                return 7;
+            case amount >= 501 && amount <= 1000:
+                return 13;
+            case amount >= 1001 && amount <= 1500:
+                return 23;
+            case amount >= 1501 && amount <= 2500:
+                return 33;
+            case amount >= 2501 && amount <= 3500:
+                return 53;
+            case amount >= 3501 && amount <= 5000:
+                return 57;
+            case amount >= 5001 && amount <= 7500:
+                return 78;
+            case amount >= 7501 && amount <= 10000:
+                return 90;
+            case amount >= 10001 && amount <= 15000:
+                return 100;
+            case amount >= 15001 && amount <= 20000:
+                return 105;
+            case amount >= 20001 && amount <= 35000:
+                return 108;
+            case amount >= 35001 && amount <= 50000:
+                return 108;
+            case amount >= 50001 && amount <= 250000:
+                return 108;
+            default:
+                return 0;
+        }
+    };
     
+    const calculateTotals = useCallback(() => {
+        const subTotal = cartItems.reduce((acc, item) => {
+            const itemTotal = item.price * item.quantity; // Total product price (price * quantity)
+            const mpesaFee = calculateMpesaFee(itemTotal) * 2; // Mpesa fee based on total price
+            const productCharge = 0.02 * itemTotal; // 2% charge on total product price
+    
+            // Add item total + Mpesa fee + product charge
+            return acc + itemTotal + mpesaFee + productCharge ;
+        }, 0);
+    
+        setSubtotal(subTotal);  // Subtotal reflects all costs
+
+        const total = subTotal + deliveryFee;
+        setTotal(total);     // Total includes Mpesa fees and 2% charge
+    }, [cartItems]);
 
     useEffect(() => {
         fetchCartItems();
@@ -100,38 +146,6 @@ const ShoppingCart = () => {
             console.error("Error updating quantity:", error);
         }
     };
-
-    // const handleApplyDiscount = async () => {
-    //     try {
-    //         const token = localStorage.getItem('token');
-    //         const response = await fetch("http://localhost:3000/purchaser/validate_coupon", {
-    //             method: 'POST',
-    //             headers: {
-    //                 "Authorization": `Bearer ${token}`,
-    //                 "Content-Type": "application/json"
-    //             },
-    //             body: JSON.stringify({ coupon_code: discountCode })
-    //         });
-    
-    //         const data = await response.json();
-    
-    //         if (!response.ok) {
-    //             throw new Error(data.error || 'Invalid discount code');
-    //         }
-    
-    //         // Directly use the discount percentage from the response
-    //         const newDiscountPercentage = data.discount_percentage;
-    //         setDiscountPercentage(newDiscountPercentage);
-    
-    //         // Recalculate totals with the new discount
-    //         calculateTotals();
-    
-    //         alert(`Discount applied: ${newDiscountPercentage}%`);
-    //     } catch (error) {
-    //         console.error('Error applying discount:', error);
-    //         alert('Failed to apply discount');
-    //     }
-    // };
 
     const handleCheckout = async () => {
         const token = localStorage.getItem('token');
@@ -260,9 +274,9 @@ const ShoppingCart = () => {
                                                     <span>Estimated Shipping and VAT</span>
                                                 </p>
                                                 <p className="d-flex justify-content-between">
-                                                    <span><strong>Total Before Discount:</strong></span>
+                                                    <span><strong>Delivery Fee</strong></span>
                                                     <strong className="text-yellow">
-                                                        Ksh. {subtotal.toFixed(2).split('.').map((part, index) => (
+                                                        Ksh. {deliveryFee.toFixed(2).split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? (
                                                                     <span className="price-integer">
@@ -278,86 +292,6 @@ const ShoppingCart = () => {
                                                         ))}
                                                     </strong>
                                                 </p>
-
-
-                                                {/* <Form.Group className="mb-3 text-center">
-                                                    <Form.Label><strong>Apply Discount Code</strong></Form.Label>
-                                                    <InputGroup className="input-group-horizontal">
-                                                        <Form.Control
-                                                            type="text"
-                                                            value={discountCode}
-                                                            id="button"
-                                                            className='me-3'
-                                                            onChange={(e) => setDiscountCode(e.target.value)}
-                                                            placeholder="Enter code"
-                                                        />
-                                                        <Button variant="warning" id="button" onClick={handleApplyDiscount}>
-                                                            Apply
-                                                        </Button>
-                                                    </InputGroup>
-                                                </Form.Group>
-                                                <p className="d-flex justify-content-between">
-                                                    <span>Discount ({discountPercentage}%):</span>
-                                                    <strong style={{ color: 'limegreen' }}>
-                                                        - Ksh. {discountAmount.toFixed(2).split('.').map((part, index) => (
-                                                            <React.Fragment key={index}>
-                                                                {index === 0 ? (
-                                                                    <span className="price-integer">
-                                                                        {parseInt(part, 10).toLocaleString()}
-                                                                    </span>
-                                                                ) : (
-                                                                    <>
-                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                        <span className="price-decimal">{part}</span>
-                                                                    </>
-                                                                )}
-                                                            </React.Fragment>
-                                                        ))}
-                                                    </strong>
-                                                </p> */}
-
-
-                                                {/* <hr className="bg-secondary" />
-                                                <p className="d-flex justify-content-between">
-                                                    <span><strong>Total After Discount:</strong></span>
-                                                    <strong className="text-yellow">
-                                                        Ksh. {totalAfterDiscount.toFixed(2).split('.').map((part, index) => (
-                                                            <React.Fragment key={index}>
-                                                                {index === 0 ? (
-                                                                    <span className="price-integer">
-                                                                        {parseInt(part, 10).toLocaleString()}
-                                                                    </span>
-                                                                ) : (
-                                                                    <>
-                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                        <span className="price-decimal">{part}</span>
-                                                                    </>
-                                                                )}
-                                                            </React.Fragment>
-                                                        ))}
-                                                    </strong>
-                                                </p> */}
-{/* 
-                                                <hr className="bg-secondary" />
-                                                <p className="d-flex justify-content-between">
-                                                    <span>VAT (16% of Sub-Total):</span>
-                                                    <strong className="text-yellow">
-                                                        Ksh. {vat.toFixed(2).split('.').map((part, index) => (
-                                                            <React.Fragment key={index}>
-                                                                {index === 0 ? (
-                                                                    <span className="price-integer">
-                                                                        {parseInt(part, 10).toLocaleString()}
-                                                                    </span>
-                                                                ) : (
-                                                                    <>
-                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                        <span className="price-decimal">{part}</span>
-                                                                    </>
-                                                                )}
-                                                            </React.Fragment>
-                                                        ))}
-                                                    </strong>
-                                                </p> */}
 
                                                 <p className="d-flex justify-content-between">
                                                     <span style={{ fontSize: '20px' }}><strong>Order Total:</strong></span>
