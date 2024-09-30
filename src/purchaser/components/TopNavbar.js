@@ -159,7 +159,11 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               <FontAwesomeIcon icon={faSearch} />
             </Button>
           </Form>
+          {/* Navigation buttons for Vendors and Login/Logout */}
           <Nav className="ms-auto">
+            <Button variant="warning" href="/login" className="ms-2" id="button">
+              Vendors
+            </Button>
             {isLoggedIn ? (
               <Button variant="warning" onClick={handleLogout} className="ms-2" id="button">
                 Logout
@@ -170,7 +174,6 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               </Button>
             )}
           </Nav>
-
         </Navbar.Collapse>
       </Container>
     </Navbar>
