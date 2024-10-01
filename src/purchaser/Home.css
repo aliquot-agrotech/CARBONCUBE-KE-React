@@ -18,7 +18,7 @@
 
 /* Footer should stay at the bottom */
 .footer {
-    background-color: #343a40;
+    background-color: #333;
     color: white;
     padding: 20px;
     z-index: 10;
@@ -52,7 +52,7 @@
 }
 
 .section {
-    border-radius: 8px;
+    /* border-radius: 8px; */
     border: none; /* Remove the border completely */
     box-shadow: none; /* Remove any shadow */
     overflow: hidden;
@@ -63,13 +63,14 @@
 
 
 .section .category-header {
-    background-color: #343a40;
+    background-color: #333;
     color: white;
     padding: 10px; /* Add padding inside header */
 }
 
 .section .cat-body{
-    background-color: #e0e0e0;
+    background-color: transparent;
+    opacity: 1;
 
 }
 
