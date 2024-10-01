@@ -1,355 +1,354 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
-import Sidebar from './components/Sidebar';
-import TopNavbar from './components/TopNavbar';
-import Banner from './components/Banner';
-import ProductDetailsModal from './components/ProductDetailsModal';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import './Home.css';
+    import React, { useState, useEffect } from 'react';
+    import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
+    import Sidebar from './components/Sidebar';
+    import TopNavbar from './components/TopNavbar';
+    import Banner from './components/Banner';
+    import ProductDetailsModal from './components/ProductDetailsModal';
+    import { useNavigate } from 'react-router-dom'; // Import useNavigate
+    import './Home.css';
 
-const Home = () => {
-    const [categories, setCategories] = useState([]);
-    const [products, setProducts] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-    const [isSearching, setIsSearching] = useState(false);
-    const [showModal, setShowModal] = useState(false); // State for modal visibility
-    const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
-    const navigate = useNavigate(); // Initialize useNavigate
+    const Home = () => {
+        const [categories, setCategories] = useState([]);
+        const [products, setProducts] = useState({});
+        const [loading, setLoading] = useState(true);
+        const [error, setError] = useState(null);
+        const [sidebarOpen, setSidebarOpen] = useState(false);
+        const [searchQuery, setSearchQuery] = useState('');
+        const [searchResults, setSearchResults] = useState([]);
+        const [isSearching, setIsSearching] = useState(false);
+        const [showModal, setShowModal] = useState(false); // State for modal visibility
+        const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
+        const navigate = useNavigate(); // Initialize useNavigate
 
-    useEffect(() => {
-        const fetchCategoriesAndProducts = async () => {
-            try {
-                const categoryResponse = await fetch('http://localhost:3000/purchaser/categories', {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                });
-                if (!categoryResponse.ok) throw new Error('Failed to fetch categories');
+        useEffect(() => {
+            const fetchCategoriesAndProducts = async () => {
+                try {
+                    const categoryResponse = await fetch('http://localhost:3000/purchaser/categories', {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        },
+                    });
+                    if (!categoryResponse.ok) throw new Error('Failed to fetch categories');
 
-                const categoryData = await categoryResponse.json();
+                    const categoryData = await categoryResponse.json();
 
-                const subcategoryResponse = await fetch('http://localhost:3000/purchaser/subcategories', {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                });
-                if (!subcategoryResponse.ok) throw new Error('Failed to fetch subcategories');
+                    const subcategoryResponse = await fetch('http://localhost:3000/purchaser/subcategories', {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        },
+                    });
+                    if (!subcategoryResponse.ok) throw new Error('Failed to fetch subcategories');
 
-                const subcategoryData = await subcategoryResponse.json();
+                    const subcategoryData = await subcategoryResponse.json();
 
-                const categoriesWithSubcategories = categoryData.map(category => ({
-                    ...category,
-                    subcategories: subcategoryData.filter(sub => sub.category_id === category.id),
-                }));
+                    const categoriesWithSubcategories = categoryData.map(category => ({
+                        ...category,
+                        subcategories: subcategoryData.filter(sub => sub.category_id === category.id),
+                    }));
 
-                setCategories(categoriesWithSubcategories);
+                    setCategories(categoriesWithSubcategories);
 
-                const productResponse = await fetch('http://localhost:3000/purchaser/products', {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                    },
-                });
-                if (!productResponse.ok) throw new Error('Failed to fetch products');
+                    const productResponse = await fetch('http://localhost:3000/purchaser/products', {
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        },
+                    });
+                    if (!productResponse.ok) throw new Error('Failed to fetch products');
 
-                const productData = await productResponse.json();
+                    const productData = await productResponse.json();
 
-                const productsBySubcategory = {};
-                subcategoryData.forEach(subcategory => {
-                    productsBySubcategory[subcategory.id] = productData
-                        .filter(product => product.subcategory_id === subcategory.id)
-                        .sort(() => 0.5 - Math.random());
-                });
+                    const productsBySubcategory = {};
+                    subcategoryData.forEach(subcategory => {
+                        productsBySubcategory[subcategory.id] = productData
+                            .filter(product => product.subcategory_id === subcategory.id)
+                            .sort(() => 0.5 - Math.random());
+                    });
 
-                setProducts(productsBySubcategory);
-            } catch (error) {
-                setError('Error fetching data');
-            } finally {
-                setLoading(false);
+                    setProducts(productsBySubcategory);
+                } catch (error) {
+                    setError('Error fetching data');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchCategoriesAndProducts();
+        }, []);
+
+        const handleSidebarToggle = () => {
+            setSidebarOpen(!sidebarOpen);
+        };
+
+        const handleShowModal = (product) => {
+            setSelectedProduct(product);
+            setShowModal(true);
+        };
+
+        const handleProductClick = (productId) => {
+            if (productId) {
+            navigate(`/products/${productId}`);
+            } else {
+            console.error('Invalid productId');
             }
         };
 
-        fetchCategoriesAndProducts();
-    }, []);
+        const handleCloseModal = () => {
+            setShowModal(false);
+            setSelectedProduct(null);
+        };
 
-    const handleSidebarToggle = () => {
-        setSidebarOpen(!sidebarOpen);
-    };
+        const handleSearch = async (e, category = 'All', subcategory = 'All') => {
+            e.preventDefault();
+            setIsSearching(true);
+            try {
+                const response = await fetch(`http://localhost:3000/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    },
+                });
+                if (!response.ok) throw new Error('Failed to fetch search results');
+        
+                const results = await response.json();
+                setSearchResults(results);
+            } catch (error) {
+                console.error('Error searching products:', error);
+                setError('Error searching products');
+            } finally {
+                setIsSearching(false);
+            }
+        };
+        
 
-    const handleShowModal = (product) => {
-        setSelectedProduct(product);
-        setShowModal(true);
-    };
-
-    const handleProductClick = (productId) => {
-        if (productId) {
-          navigate(`/products/${productId}`);
-        } else {
-          console.error('Invalid productId');
-        }
-      };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-        setSelectedProduct(null);
-    };
-
-    const handleSearch = async (e, category = 'All', subcategory = 'All') => {
-        e.preventDefault();
-        setIsSearching(true);
-        try {
-            const response = await fetch(`http://localhost:3000/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                },
-            });
-            if (!response.ok) throw new Error('Failed to fetch search results');
-    
-            const results = await response.json();
-            setSearchResults(results);
-        } catch (error) {
-            console.error('Error searching products:', error);
-            setError('Error searching products');
-        } finally {
-            setIsSearching(false);
-        }
-    };
-    
-
-    const CategorySection = ({ title, subcategories }) => (
-        <Card className="section mb-4">
-            <Card.Header className="category-header d-flex justify-content-start">
-                <h4 className='m-0'>{title}</h4>
-            </Card.Header>
-            <Card.Body className='cat-body'>
-                <Row>
-                    {subcategories.slice(0, 4).map(subcategory => (
-                        <Col xs={12} sm={6} md={3} key={subcategory.id}>
-                            <SubcategorySection
-                                subcategory={subcategory.name}
-                                products={products[subcategory.id] || []}
-                                onProductClick={handleShowModal} // Pass the function as a prop
-                            />
-                        </Col>
-                    ))}
-                </Row>
-            </Card.Body>
-        </Card>
-    );
-
-    const SubcategorySection = ({ subcategory, products, onProductClick }) => {
-        const displayedProducts = products.slice(0, 4);
-
-        const productRows = [];
-        for (let i = 0; i < displayedProducts.length; i += 2) {
-            productRows.push(displayedProducts.slice(i, i + 2));
-        }
-
-        return (
-            <Card className="subcategory-section mb-2">
-                <Card.Body className="p-2">
-                    {productRows.map((row, index) => (
-                        <Row key={index} className="mb-2">
-                            {row.map(product => (
-                                <Col xs={12} sm={6} key={product.id}>
-                                    <Card className="product-card">
-                                        <Card.Img
-                                            variant="top"
-                                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                            alt={product.title}
-                                            className="product-image"
-                                            onClick={() => handleProductClick(product.id)}
-                                        />
-                                    </Card>
-                                </Col>
-                            ))}
-                        </Row>
-                    ))}
+        const CategorySection = ({ title, subcategories }) => (
+            <Card className="section mb-4">
+                <Card.Header className="category-header d-flex justify-content-start">
+                    <h4 className='m-0'>{title}</h4>
+                </Card.Header>
+                <Card.Body className='cat-body'>
+                    <Row>
+                        {subcategories.slice(0, 4).map(subcategory => (
+                            <Col xs={12} sm={6} md={3} key={subcategory.id}>
+                                <SubcategorySection
+                                    subcategory={subcategory.name}
+                                    products={products[subcategory.id] || []}
+                                    onProductClick={handleShowModal} // Pass the function as a prop
+                                />
+                            </Col>
+                        ))}
+                    </Row>
                 </Card.Body>
-                <Card.Footer className="d-flex justify-content-start">
-                    <h5 className='m-0'>{subcategory}</h5>
-                </Card.Footer>
             </Card>
         );
-    };
 
-    const PopularProductsSection = ({ products, onProductClick }) => (
-        <Card className="section mb-4">
-            <Card.Header className="d-flex justify-content-start popular-products-header">
-                <h3>Popular Products</h3>
-            </Card.Header>
-            <Card.Body className="cat-body">
-                <Row>
-                    {products.slice(0, 6).map(product => (
-                        <Col xs={12} sm={6} md={2} key={product.id}>
-                            <Card className="product-card">
-                                <Card.Img 
-                                    variant="top" 
-                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                    className="product-image"
-                                    onClick={() => onProductClick(product.id)} 
-                                />
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
-            </Card.Body>
-        </Card>
-    );
-    
-    const SearchResultSection = ({ results }) => (
-        <Card className="section-search mb-4">
-            <Card.Header className="d-flex justify-content-center align-items-center">
-                <h3>Search Results</h3>
-            </Card.Header>
-            <Card.Body>
-                <Row>
-                    {results.map(product => (
-                        <Col xs={12} sm={6} md={2} key={product.id}>
-                            <Card className="product-card mb-4">
-                                <Card.Img
-                                    variant="top"
-                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                    alt={product.title}
-                                    className="product-image"
-                                    onClick={() => handleProductClick(product.id)} // Handle image click
-                                />
-                                <Card.Body className="text-start">
-                                    <Card.Title className="mb-0">{product.title}</Card.Title>
-                                    <Card.Text>
-                                        <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
-                                        <strong style={{ fontSize: '20px' }} className="text-danger">
-                                            {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
-                                                <React.Fragment key={index}>
-                                                    {index === 0 ? (
-                                                        <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                                    ) : (
-                                                        <>
-                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                            <span className="price-decimal">{part}</span>
-                                                        </>
-                                                    )}
-                                                </React.Fragment>
-                                            )) : 'N/A'}
-                                        </strong>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
-            </Card.Body>
-        </Card>
-    );
+        const SubcategorySection = ({ subcategory, products, onProductClick }) => {
+            const displayedProducts = products.slice(0, 4);
 
-    const Footer = () => (
-        <footer className="">
-            <Container>
-                <Row>
-                    <Col xs={12} md={3}>
-                        <h5>Shopping Guide</h5>
-                        <ul>
-                            <li><a href="/how-to-pay">How Do I Pay?</a></li>
-                            <li><a href="/how-to-shop">How Do I Shop?</a></li>
-                            <li><a href="/flash-sales">Flash Sales/ Deals</a></li>
-                        </ul>
-                    </Col>
-                    <Col xs={12} md={3}>
-                        <h5>Customer Help Center</h5>
-                        <ul>
-                            <li><a href="/dispute-resolution">Dispute Resolution Center</a></li>
-                            <li><a href="/terms-and-conditions">Terms and Conditions</a></li>
-                            <li><a href="/account-settings">Account Settings</a></li>
-                            <li><a href="/faqs">FAQs Center</a></li>
-                        </ul>
-                    </Col>
-                    <Col xs={12} md={3}>
-                        <h5>Business</h5>
-                        <ul>
-                            <li><a href="/become-a-vendor">Want to be a Vendor</a></li>
-                            <li><a href="/vendor-help">Vendor Help Center</a></li>
-                            <li><a href="/vendor-account-settings">Vendor Account Settings</a></li>
-                            <li><a href="/faqs">FAQs Center</a></li>
-                        </ul>
-                    </Col>
-                    <Col xs={12} md={3}>
-                        <h5>Let's Connect:</h5>
-                        <ul className="social-media-links">
-                            <li><a href="https://twitter.com">Twitter</a></li>
-                            <li><a href="https://whatsapp.com">WhatsApp</a></li>
-                            <li><a href="https://instagram.com">Instagram</a></li>
-                            <li><a href="https://facebook.com">Facebook</a></li>
-                        </ul>
-                    </Col>
-                </Row>
-            </Container>
-        </footer>
-    );
+            const productRows = [];
+            for (let i = 0; i < displayedProducts.length; i += 2) {
+                productRows.push(displayedProducts.slice(i, i + 2));
+            }
 
-    if (loading) {
-        return (
-            <div className="centered-loader">
-                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
-            </div>
+            return (
+                <Card className="subcategory-section mb-2">
+                    <Card.Body className="p-2">
+                        {productRows.map((row, index) => (
+                            <Row key={index} className="mb-2">
+                                {row.map(product => (
+                                    <Col xs={12} sm={6} key={product.id}>
+                                        <Card className="product-card">
+                                            <Card.Img
+                                                variant="top"
+                                                src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                                alt={product.title}
+                                                className="product-image"
+                                                onClick={() => handleProductClick(product.id)}
+                                            />
+                                        </Card>
+                                    </Col>
+                                ))}
+                            </Row>
+                        ))}
+                    </Card.Body>
+                    <Card.Footer className="d-flex justify-content-start">
+                        <h5 className='m-0'>{subcategory}</h5>
+                    </Card.Footer>
+                </Card>
+            );
+        };
+
+        const PopularProductsSection = ({ products, onProductClick }) => (
+            <Card className="section mb-4">
+                <Card.Header className="d-flex justify-content-start popular-products-header">
+                    <h3>Popular Products</h3>
+                </Card.Header>
+                <Card.Body className="cat-body">
+                    <Row>
+                        {products.slice(0, 6).map(product => (
+                            <Col xs={12} sm={6} md={2} key={product.id}>
+                                <Card className="product-card">
+                                    <Card.Img 
+                                        variant="top" 
+                                        src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                        className="product-image"
+                                        onClick={() => onProductClick(product.id)} 
+                                    />
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
+                </Card.Body>
+            </Card>
         );
-    }
+        
+        const SearchResultSection = ({ results }) => (
+            <Card className="section-search mb-4">
+                <Card.Header className="d-flex justify-content-center align-items-center">
+                    <h3>Search Results</h3>
+                </Card.Header>
+                <Card.Body>
+                    <Row>
+                        {results.map(product => (
+                            <Col xs={12} sm={6} md={2} key={product.id}>
+                                <Card className="product-card mb-4">
+                                    <Card.Img
+                                        variant="top"
+                                        src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                        alt={product.title}
+                                        className="product-image"
+                                        onClick={() => handleProductClick(product.id)} // Handle image click
+                                    />
+                                    <Card.Body className="text-start">
+                                        <Card.Title className="mb-0">{product.title}</Card.Title>
+                                        <Card.Text>
+                                            <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                                            <strong style={{ fontSize: '20px' }} className="text-danger">
+                                                {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
+                                                    <React.Fragment key={index}>
+                                                        {index === 0 ? (
+                                                            <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                                        ) : (
+                                                            <>
+                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                <span className="price-decimal">{part}</span>
+                                                            </>
+                                                        )}
+                                                    </React.Fragment>
+                                                )) : 'N/A'}
+                                            </strong>
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
+                </Card.Body>
+            </Card>
+        );
 
-    if (error) {
-        return <div>{error}</div>;
-    }
+        const Footer = () => (
+            <footer className="footer">
+                <Container>
+                    <Row>
+                        <Col xs={12} md={3}>
+                            <h5>Shopping Guide</h5>
+                            <ul>
+                                <li><a href="/how-to-pay">How Do I Pay?</a></li>
+                                <li><a href="/how-to-shop">How Do I Shop?</a></li>
+                                <li><a href="/flash-sales">Flash Sales/ Deals</a></li>
+                            </ul>
+                        </Col>
+                        <Col xs={12} md={3}>
+                            <h5>Customer Help Center</h5>
+                            <ul>
+                                <li><a href="/dispute-resolution">Dispute Resolution Center</a></li>
+                                <li><a href="/terms-and-conditions">Terms and Conditions</a></li>
+                                <li><a href="/account-settings">Account Settings</a></li>
+                                <li><a href="/faqs">FAQs Center</a></li>
+                            </ul>
+                        </Col>
+                        <Col xs={12} md={3}>
+                            <h5>Business</h5>
+                            <ul>
+                                <li><a href="/become-a-vendor">Want to be a Vendor</a></li>
+                                <li><a href="/vendor-help">Vendor Help Center</a></li>
+                                <li><a href="/vendor-account-settings">Vendor Account Settings</a></li>
+                                <li><a href="/faqs">FAQs Center</a></li>
+                            </ul>
+                        </Col>
+                        <Col xs={12} md={3}>
+                            <h5>Let's Connect:</h5>
+                            <ul className="social-media-links">
+                                <li><a href="https://twitter.com">Twitter</a></li>
+                                <li><a href="https://whatsapp.com">WhatsApp</a></li>
+                                <li><a href="https://instagram.com">Instagram</a></li>
+                                <li><a href="https://facebook.com">Facebook</a></li>
+                            </ul>
+                        </Col>
+                    </Row>
+                </Container>
+            </footer>
+        );
 
-    return (
-        <>
-            <div className='container w-100 h-100 position-relative mb-3'>
+        if (loading) {
+            return (
+                <div className="centered-loader">
+                    <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+                </div>
+            );
+        }
+
+        if (error) {
+            return <div>{error}</div>;
+        }
+
+        return (
+            <>
+            <div className="container w-100 position-relative mb-3">
                 <TopNavbar
-                    onSidebarToggle={handleSidebarToggle}
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                    handleSearch={handleSearch}
+                onSidebarToggle={handleSidebarToggle}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                handleSearch={handleSearch}
                 />
                 <Sidebar isOpen={sidebarOpen} />
                 {!isSearching && searchResults.length === 0 && <Banner />}
                 <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
                     <Container fluid className="floating-container">
                         {isSearching ? (
-                            <div className="centered-loader">
-                                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
-                            </div>
+                        <div className="centered-loader">
+                            <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+                        </div>
                         ) : searchResults.length > 0 ? (
-                            <SearchResultSection results={searchResults} />
+                        <SearchResultSection results={searchResults} />
                         ) : (
-                            <>
+                        <>
                             <div className="absolute-prt">
-                                {categories.map(category => (
-                                    <CategorySection
-                                        key={category.id}
-                                        title={category.name}
-                                        subcategories={category.subcategories}
-                                    />
-                                ))}
-                                <PopularProductsSection
-                                    products={Object.values(products).flat()}
-                                    onProductClick={handleProductClick} // Pass the click handler
+                            {categories.map((category) => (
+                                <CategorySection
+                                key={category.id}
+                                title={category.name}
+                                subcategories={category.subcategories}
                                 />
-                                </div>
-                            </>
+                            ))}
+                            <PopularProductsSection
+                                products={Object.values(products).flat()}
+                                onProductClick={handleProductClick} // Pass the click handler
+                            />
+                            </div>
+                        </>
                         )}
                     </Container>
                 </div>
-            
-                <ProductDetailsModal
+                    <ProductDetailsModal
                     show={showModal}
                     onHide={handleCloseModal}
                     product={selectedProduct}
-                />
+                    />
             </div>
             <Footer />
-            
-        </>
-    );
-};
+            </>
+        );
+        
+    };
 
-export default Home;
+    export default Home;
