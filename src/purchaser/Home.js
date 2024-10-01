@@ -246,7 +246,7 @@ const Home = () => {
     );
 
     const Footer = () => (
-        <footer className="footer mt-auto py-3">
+        <footer className="">
             <Container>
                 <Row>
                     <Col xs={12} md={3}>
@@ -303,45 +303,51 @@ const Home = () => {
 
     return (
         <>
-            <TopNavbar
-                onSidebarToggle={handleSidebarToggle}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                handleSearch={handleSearch}
-            />
-            <Sidebar isOpen={sidebarOpen} />
-            {!isSearching && searchResults.length === 0 && <Banner />}
-            <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
-                <Container fluid className="floating-container">
-                    {isSearching ? (
-                        <div className="centered-loader">
-                            <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
-                        </div>
-                    ) : searchResults.length > 0 ? (
-                        <SearchResultSection results={searchResults} />
-                    ) : (
-                        <>
-                            {categories.map(category => (
-                                <CategorySection
-                                    key={category.id}
-                                    title={category.name}
-                                    subcategories={category.subcategories}
+            <div className='container w-100 h-100 position-relative mb-3'>
+                <TopNavbar
+                    onSidebarToggle={handleSidebarToggle}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    handleSearch={handleSearch}
+                />
+                <Sidebar isOpen={sidebarOpen} />
+                {!isSearching && searchResults.length === 0 && <Banner />}
+                <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
+                    <Container fluid className="floating-container">
+                        {isSearching ? (
+                            <div className="centered-loader">
+                                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+                            </div>
+                        ) : searchResults.length > 0 ? (
+                            <SearchResultSection results={searchResults} />
+                        ) : (
+                            <>
+                            <div className="absolute-prt">
+                                {categories.map(category => (
+                                    <CategorySection
+                                        key={category.id}
+                                        title={category.name}
+                                        subcategories={category.subcategories}
+                                    />
+                                ))}
+                                <PopularProductsSection
+                                    products={Object.values(products).flat()}
+                                    onProductClick={handleProductClick} // Pass the click handler
                                 />
-                            ))}
-                            <PopularProductsSection
-                                products={Object.values(products).flat()}
-                                onProductClick={handleProductClick} // Pass the click handler
-                            />
-                        </>
-                    )}
-                </Container>
+                                </div>
+                            </>
+                        )}
+                    </Container>
+                </div>
+            
+                <ProductDetailsModal
+                    show={showModal}
+                    onHide={handleCloseModal}
+                    product={selectedProduct}
+                />
             </div>
             <Footer />
-            <ProductDetailsModal
-                show={showModal}
-                onHide={handleCloseModal}
-                product={selectedProduct}
-            />
+            
         </>
     );
 };
