@@ -120,7 +120,7 @@
         
 
         const CategorySection = ({ title, subcategories }) => (
-            <Card className="section bg-transparent  mb-4">
+            <Card className="section bg-transparent  m-4 justify-content-center">
                 <Card.Header className="category-header d-flex justify-content-start">
                     <h4 className='m-0'>{title}</h4>
                 </Card.Header>
@@ -177,7 +177,7 @@
         };
 
         const PopularProductsSection = ({ products, onProductClick }) => (
-            <Card className="section mb-4">
+            <Card className="section bg-transparent mb-4">
                 <Card.Header className="d-flex justify-content-start popular-products-header">
                     <h3>Popular Products</h3>
                 </Card.Header>
