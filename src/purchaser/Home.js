@@ -150,7 +150,7 @@
 
             return (
                 <Card className="subcategory-section mb-2">
-                    <Card.Body className="p-2">
+                    <Card.Body className="p-1">
                         {productRows.map((row, index) => (
                             <Row key={index} className="mb-2">
                                 {row.map(product => (

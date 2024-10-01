@@ -367,7 +367,7 @@ const ProductDetailsPage = () => {
 
                                 <h3 className="related-products-title">Related Products</h3>
                                     <Row className="related-products">
-                                        {relatedProducts.map((relatedProduct) => (
+                                        {relatedProducts.slice(0, 4).map((relatedProduct) => (
                                         <Col key={relatedProduct.id} md={3} className="mb-4">
                                             <Card onClick={() => window.location.href = `/products/${relatedProduct.id}`}>
                                             <Card.Img variant="top" src={relatedProduct.media_urls[0] || 'default-image-url'} />
