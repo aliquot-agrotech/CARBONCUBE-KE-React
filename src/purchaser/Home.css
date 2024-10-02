@@ -120,7 +120,7 @@
 }
 
 .social-media-links a:hover {
-    color: #007bff; /* Optional hover color */
+    color: #ffc107; /* Optional hover color */
 }
 
 
@@ -156,6 +156,7 @@
         padding-left: 1rem;
         padding-right: 1rem;
     }
+    
 }
 
 @media (min-width: 992px) {
@@ -170,5 +171,24 @@
     .home-page {
         margin-right: 200px;
         margin-left: 200px;
+    }
+}
+
+@media (max-width: 767px) {
+    .home-page {
+        margin-right: 0px;
+        margin-left: 0;
+    }
+    .categories-overlay{
+        margin-left: -30px;
+        margin-right: -30px;
+    }
+    .categories-overlay .footer {
+        font-size: 0.75rem;
+        padding-left: 100px;
+    
+    }
+    .section {
+        margin: 10px;
     }
 }

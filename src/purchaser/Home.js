@@ -173,7 +173,7 @@ const Home = () => {
     };
 
     const PopularProductsSection = ({ products, onProductClick }) => (
-        <Card className="section bg-transparent mb-4">
+        <Card className="section bg-transparent mb-4 m-5">
             <Card.Header className="d-flex justify-content-start popular-products-header">
                 <h3>Popular Products</h3>
             </Card.Header>
@@ -242,8 +242,8 @@ const Home = () => {
     );
 
     const Footer = () => (
-        <footer className="footer">
-            <Container>
+        <footer >
+            <Container className="footer justify-content-center">
                 <Row>
                     <Col xs={12} md={3}>
                         <h5>Shopping Guide</h5>
@@ -325,7 +325,7 @@ const Home = () => {
                 <Sidebar isOpen={sidebarOpen} />
                 <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
                     {!isSearching && searchResults.length === 0 && <Banner />}
-                    <Container fluid className="px-3 py-4 ">
+                    <Container fluid className="">
                         {isSearching ? (
                             <div className="centered-loader">
                                 <Spinner variant="warning" animation="border" />
