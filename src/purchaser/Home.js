@@ -5,6 +5,9 @@ import TopNavbar from './components/TopNavbar';
 import Banner from './components/Banner';
 import ProductDetailsModal from './components/ProductDetailsModal';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTwitter, faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+
 import './Home.css';
 
 const Home = () => {
@@ -271,16 +274,32 @@ const Home = () => {
                     <Col xs={12} md={3}>
                         <h5>Let's Connect:</h5>
                         <ul className="social-media-links">
-                            <li><a href="https://twitter.com">Twitter</a></li>
-                            <li><a href="https://whatsapp.com">WhatsApp</a></li>
-                            <li><a href="https://instagram.com">Instagram</a></li>
-                            <li><a href="https://facebook.com">Facebook</a></li>
+                            <li>
+                                <a href="https://twitter.com" aria-label="Twitter">
+                                    <FontAwesomeIcon icon={faTwitter} />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://whatsapp.com" aria-label="WhatsApp">
+                                    <FontAwesomeIcon icon={faWhatsapp} />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://instagram.com" aria-label="Instagram">
+                                    <FontAwesomeIcon icon={faInstagram} />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://facebook.com" aria-label="Facebook">
+                                    <FontAwesomeIcon icon={faFacebook} />
+                                </a>
+                            </li>
                         </ul>
                     </Col>
                 </Row>
             </Container>
         </footer>
-    );
+    );    
 
     if (loading) {
         return (

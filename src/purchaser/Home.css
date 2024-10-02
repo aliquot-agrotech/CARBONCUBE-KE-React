@@ -102,6 +102,29 @@
     height: 50vh;
 }
 
+.social-media-links {
+    list-style-type: none;
+    padding: 0;
+    display: flex; /* Use flexbox for horizontal layout */
+    gap: 15px; /* Space between icons */
+}
+
+.social-media-links li {
+    margin: 0; /* Remove margin from list items */
+}
+
+.social-media-links a {
+    color: white; /* Change color to white for visibility */
+    text-decoration: none;
+    font-size: 1.5rem; /* Adjust icon size */
+}
+
+.social-media-links a:hover {
+    color: #007bff; /* Optional hover color */
+}
+
+
+
 @media (max-width: 767px) {
     .home-page {
         padding-left: 0.5rem;
