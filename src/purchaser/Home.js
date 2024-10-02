@@ -120,11 +120,11 @@ const Home = () => {
     
 
     const CategorySection = ({ title, subcategories }) => (
-        <Card className="section bg-transparent mb-4">
+        <Card className="section bg-transparent mb-4 m-5">
             <Card.Header className="category-header">
                 <h4 className='m-0'>{title}</h4>
             </Card.Header>
-            <Card.Body className='cat-body'>
+            <Card.Body className='cat-body p-0'>
                 <Row className="g-3">
                     {subcategories.slice(0, 4).map(subcategory => (
                         <Col xs={12} sm={6} md={3} key={subcategory.id}>
@@ -306,7 +306,7 @@ const Home = () => {
                 <Sidebar isOpen={sidebarOpen} />
                 <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
                     {!isSearching && searchResults.length === 0 && <Banner />}
-                    <Container fluid className="px-3 py-4">
+                    <Container fluid className="px-3 py-4 categories-overlay">
                         {isSearching ? (
                             <div className="centered-loader">
                                 <Spinner variant="warning" animation="border" />
@@ -337,8 +337,9 @@ const Home = () => {
                     onHide={handleCloseModal}
                     product={selectedProduct}
                 />
+                <Footer />
             </div>
-            <Footer />
+            
         </>
     );
 };
