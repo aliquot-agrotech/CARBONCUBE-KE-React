@@ -120,18 +120,18 @@
         
 
         const CategorySection = ({ title, subcategories }) => (
-            <Card className="section bg-transparent  m-4 justify-content-center">
-                <Card.Header className="category-header d-flex justify-content-start">
+            <Card className="section bg-transparent mb-4">
+                <Card.Header className="category-header">
                     <h4 className='m-0'>{title}</h4>
                 </Card.Header>
                 <Card.Body className='cat-body'>
-                    <Row>
+                    <Row className="g-3">
                         {subcategories.slice(0, 4).map(subcategory => (
                             <Col xs={12} sm={6} md={3} key={subcategory.id}>
                                 <SubcategorySection
                                     subcategory={subcategory.name}
                                     products={products[subcategory.id] || []}
-                                    onProductClick={handleShowModal} // Pass the function as a prop
+                                    onProductClick={handleShowModal}
                                 />
                             </Col>
                         ))}
@@ -139,35 +139,28 @@
                 </Card.Body>
             </Card>
         );
+    
 
         const SubcategorySection = ({ subcategory, products, onProductClick }) => {
             const displayedProducts = products.slice(0, 4);
-
-            const productRows = [];
-            for (let i = 0; i < displayedProducts.length; i += 2) {
-                productRows.push(displayedProducts.slice(i, i + 2));
-            }
-
             return (
-                <Card className="subcategory-section mb-2">
-                    <Card.Body className="p-1">
-                        {productRows.map((row, index) => (
-                            <Row key={index} className="mb-2">
-                                {row.map(product => (
-                                    <Col xs={12} sm={6} key={product.id}>
-                                        <Card className="product-card">
-                                            <Card.Img
-                                                variant="top"
-                                                src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                                alt={product.title}
-                                                className="product-image"
-                                                onClick={() => handleProductClick(product.id)}
-                                            />
-                                        </Card>
-                                    </Col>
-                                ))}
-                            </Row>
-                        ))}
+                <Card className="subcategory-section h-100">
+                    <Card.Body className="p-2">
+                        <Row className="g-2">
+                            {displayedProducts.map(product => (
+                                <Col xs={6} key={product.id}>
+                                    <Card className="product-card h-100">
+                                        <Card.Img
+                                            variant="top"
+                                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                            alt={product.title}
+                                            className="product-image"
+                                            onClick={() => handleProductClick(product.id)}
+                                        />
+                                    </Card>
+                                </Col>
+                            ))}
+                        </Row>
                     </Card.Body>
                     <Card.Footer className="d-flex justify-content-start">
                         <h5 className='m-0'>{subcategory}</h5>
@@ -302,53 +295,52 @@
         }
 
         return (
-            <>
-            <div className="container w-100 position-relative mb-3">
+        <>
+            <div className="home-page-wrapper">
                 <TopNavbar
-                onSidebarToggle={handleSidebarToggle}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                handleSearch={handleSearch}
+                    onSidebarToggle={handleSidebarToggle}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    handleSearch={handleSearch}
                 />
                 <Sidebar isOpen={sidebarOpen} />
-                {!isSearching && searchResults.length === 0 && <Banner />}
                 <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
-                    <Container fluid className="floating-container">
+                    {!isSearching && searchResults.length === 0 && <Banner />}
+                    <Container fluid className="px-3 py-4">
                         {isSearching ? (
-                        <div className="centered-loader">
-                            <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
-                        </div>
-                        ) : searchResults.length > 0 ? (
-                        <SearchResultSection results={searchResults} />
-                        ) : (
-                        <>
-                            <div className="absolute-prt">
-                            {categories.map((category) => (
-                                <CategorySection
-                                key={category.id}
-                                title={category.name}
-                                subcategories={category.subcategories}
-                                />
-                            ))}
-                            <PopularProductsSection
-                                products={Object.values(products).flat()}
-                                onProductClick={handleProductClick} // Pass the click handler
-                            />
+                            <div className="centered-loader">
+                                <Spinner variant="warning" animation="border" />
                             </div>
-                        </>
+                        ) : searchResults.length > 0 ? (
+                            <SearchResultSection results={searchResults} />
+                        ) : (
+                            <>
+                            <div className="absolute-prt">
+                                {categories.map((category) => (
+                                    <CategorySection
+                                        key={category.id}
+                                        title={category.name}
+                                        subcategories={category.subcategories}
+                                    />
+                                ))}
+                                <PopularProductsSection
+                                    products={Object.values(products).flat()}
+                                    onProductClick={handleProductClick}
+                                />
+                                </div>
+                            </>
                         )}
                     </Container>
                 </div>
-                    <ProductDetailsModal
+                <ProductDetailsModal
                     show={showModal}
                     onHide={handleCloseModal}
                     product={selectedProduct}
-                    />
+                />
             </div>
             <Footer />
-            </>
-        );
-        
-    };
+        </>
+    );
+};
 
-    export default Home;
+export default Home;

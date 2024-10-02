@@ -1,32 +1,87 @@
-.home-page {
-    background-color: #e0e0e0;
-    padding-left: 15px;
-    padding-right: 15px;
-    font-family: "Fira Sans Extra Condensed", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+.home-page-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    position: relative;
-    z-index: 2;
 }
 
-.content-col {
-    flex: 1; /* Makes the content take up available space */
-}
-
-/* Footer should stay at the bottom */
-.footer {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    z-index: 10;
-    position: relative; /* Remove absolute positioning */
+.home-page {
+    background-color: #e0e0e0;
     font-family: "Fira Sans Extra Condensed", sans-serif;
     font-weight: 400;
     font-style: normal;
-    top: 400px;
+    flex: 1;
+    padding-top: 56px; /* Adjust based on your navbar height */
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.sidebar-open {
+    margin-left: 250px; /* Adjust based on your sidebar width */
+}
+
+.banner-container {
+    position: relative;
+    width: 100%;
+}
+
+
+.categories-overlay {
+    position: absolute;
+    bottom: 400px;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    padding-top: 30px; /* Adjust as needed */
+}
+
+.section {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.section .category-header,
+.section .popular-products-header,
+.section-search .card-header {
+    background-color: rgba(51, 51, 51, 0.8); /* Semi-transparent dark */
+    color: white;
+    padding: 0.75rem 1rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.section .cat-body {
+    background-color: transparent;
+}
+
+.subcategory-section {
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9); /* More opaque white */
+    border-radius: 8px;
+}
+
+.product-card {
+    border: none;
+    overflow: hidden;
+    height: 100%;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.product-image {
+    object-fit: cover;
+    width: 100%;
+    aspect-ratio: 5 / 3.5;
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 2rem 0;
+    margin-top: auto;
+    font-family: "Fira Sans Extra Condensed", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .footer a {
@@ -38,165 +93,57 @@
     text-decoration: underline;
 }
 
-.sidebar-col {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    overflow-y: auto;
-    z-index: 1000;
-}
-
-.toggle-sidebar-btn {
-    margin-bottom: 20px;
-}
-
-.section {
-    /* border-radius: 8px; */
-    border: none; /* Remove the border completely */
-    box-shadow: none; /* Remove any shadow */
-    overflow: hidden;
-    margin-bottom: 20px; /* Add space below each section */
-    background-color: transparent; /* Ensure background is also transparent if needed */
-}
-
-
-
-.section .category-header {
-    background-color: #333;
-    color: white;
-    padding: 10px; /* Add padding inside header */
-}
-
-.section .cat-body{
-    background-color: transparent;
-    opacity: 1;
-
-}
-
-.section .popular-products-header {
-    background-color: #343a40;
-    color: white;
-    padding: 10px; /* Add padding inside header */
-}
-
-.subcategory-section {
-    margin-bottom: 20px; /* Add space below each subcategory section */
-}
-
-.section-search {
-    margin-top: 65px;
-}
-
-.section-search .card-header {
-    background-color: #343a40;
-    color: white;
-    padding: 10px; /* Add padding inside header */
-}
-
-.section-search .card-body{
-    background-color: #e0e0e0;
-}
-
-
-.product-card {
-    border: none;
-    overflow: hidden;
-}
-
-.product-image {
-    object-fit: cover; /* Ensures the image covers the card area without distortion */
-    width: 100%; /* Ensures the image takes up the full width of the card */
-    aspect-ratio: 5 / 3.5;
-}
-
-.subcategory-section {
-    margin-bottom: 20px;
-}
-
-.product-card .card-body {
-    padding: 10px;
-}
-
-
-/* .product-card {
-    margin-bottom: 15px;
-}
-
-.product-card img {
-    height: 150px;
-    object-fit: cover;
-} */
-
-
-
-.social-media-links {
-    list-style: none;
-    padding: 0;
-}
-
-.social-media-links li {
-    margin-bottom: 10px;
-}
-
 .centered-loader {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 50vh;
 }
 
-/* Adjust spacing for rows and containers */
-.row {
-    margin-left: -15px;
-    margin-right: -15px;
-}
+@media (max-width: 767px) {
+    .home-page {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
 
-.col {
-    padding-left: 15px;
-    padding-right: 15px;
-}
+    .sidebar-open {
+        margin-left: 0;
+    }
 
-/* Add spacing around the containers */
-.container {
-    padding-left: 15px;
-    padding-right: 15px;
-}
+    .categories-overlay {
+        position: static;
+        padding-top: 15px;
+    }
 
+    .section .category-header h4,
+    .section .popular-products-header h3,
+    .section-search .card-header h3 {
+        font-size: 1.25rem;
+    }
 
-.content-col {
-    transition: margin-left 0.3s ease-in-out;
-}
-
-@media (min-width: 768px) {
-    .sidebar-open .content-col {
-        margin-left: 275px; /* This should match the width of your open sidebar */
+    .subcategory-section .card-footer h5 {
+        font-size: 1rem;
     }
 }
 
-.no-gutters {
-    margin-right: 0;
-    margin-left: 0;
-}
-
-.no-gutters > .col,
-.no-gutters > [class*="col-"] {
-    padding-right: 0;
-    padding-left: 0;
-}
-
-/* Adjust specific container margins for larger screens */
-@media (min-width: 768px) {
-    .container-fluid {
-        padding-left: 30px;
-        padding-right: 30px;
+@media (min-width: 768px) and (max-width: 991px) {
+    .home-page {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 }
-.absolute-prt {
-    position: absolute;
-    bottom: 400px;
-    left: 0;
-    width: 100%;
-    height: 100%;
 
+@media (min-width: 992px) {
+    .home-page {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+/* Add this to create space for the categories on larger screens */
+@media (min-width: 768px) {
+    .home-page {
+        margin-right: 200px;
+        margin-left: 200px;
+    }
 }

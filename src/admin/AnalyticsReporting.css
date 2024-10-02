@@ -18,7 +18,7 @@
 .custom-card {
   border: none;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
   background: linear-gradient(135deg, #fff69a, #cbcbcb); /* Gradient from two colors */
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   color: #000; /* Ensure text is readable on the gradient background */
