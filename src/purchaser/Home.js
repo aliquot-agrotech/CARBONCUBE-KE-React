@@ -327,12 +327,13 @@ const Home = () => {
                                     products={Object.values(products).flat()}
                                     onProductClick={handleProductClick}
                                 />
+                                <Footer />
                                 </div>
                             </>
                         )}
                     </Container>
                 </div>
-                <Footer />
+                
             </div>
             <ProductDetailsModal
                     show={showModal}

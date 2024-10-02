@@ -23,11 +23,11 @@
 
 .categories-overlay {
     position: absolute;
-    bottom: 400px;
+    /* bottom: 400px; */
     top: 20em;
     left: 0;
     right: 0;
-    bottom: -20em;
+    /* bottom: -20em; */
     z-index: 2;
     /* padding-left: 200px; */
     padding-top: 30px; /* Adjust as needed */
@@ -82,7 +82,7 @@
     font-style: normal;
     bottom: 0; /* Ensures the footer is positioned at the bottom */
     width: 100%;
-    position: fixed;
+    position: relative;
     z-index: 3;
 }
 
