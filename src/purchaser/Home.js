@@ -306,7 +306,7 @@ const Home = () => {
                 <Sidebar isOpen={sidebarOpen} />
                 <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
                     {!isSearching && searchResults.length === 0 && <Banner />}
-                    <Container fluid className="px-3 py-4 categories-overlay">
+                    <Container fluid className="px-3 py-4 ">
                         {isSearching ? (
                             <div className="centered-loader">
                                 <Spinner variant="warning" animation="border" />
@@ -315,7 +315,7 @@ const Home = () => {
                             <SearchResultSection results={searchResults} />
                         ) : (
                             <>
-                            <div className="absolute-prt">
+                            <div className="categories-overlay">
                                 {categories.map((category) => (
                                     <CategorySection
                                         key={category.id}
@@ -332,14 +332,14 @@ const Home = () => {
                         )}
                     </Container>
                 </div>
-                <ProductDetailsModal
+                <Footer />
+            </div>
+            <ProductDetailsModal
                     show={showModal}
                     onHide={handleCloseModal}
                     product={selectedProduct}
-                />
-                <Footer />
-            </div>
-            
+                /> 
+                
         </>
     );
 };
