@@ -112,7 +112,7 @@
   }
 
   .toggle-button.open {
-    left: calc(100% - 50px);
+    left: calc(100% - 125px);
   }
 }
 
