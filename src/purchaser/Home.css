@@ -13,6 +13,8 @@
     padding-top: 56px; /* Adjust based on your navbar height */
     transition: margin-left 0.3s ease-in-out;
     position: relative;
+    margin-right: 200px;
+    margin-left: 200px;
 }
 
 
@@ -167,7 +169,7 @@
 }
 
 /* Add this to create space for the categories on larger screens */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .home-page {
         margin-right: 200px;
         margin-left: 200px;
@@ -180,8 +182,8 @@
         margin-left: 0;
     }
     .categories-overlay{
-        margin-left: -30px;
-        margin-right: -30px;
+        margin-left: -50px;
+        margin-right: -50px;
     }
     .categories-overlay .footer {
         font-size: 0.75rem;

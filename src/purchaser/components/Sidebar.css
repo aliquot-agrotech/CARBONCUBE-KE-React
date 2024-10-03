@@ -79,7 +79,7 @@
 
 
 .toggle-button.open {
-  left: 285px; /* Width of the open sidebar + 10px */
+  left: 280px; /* Width of the open sidebar + 10px */
   background-color: #333;
   color: #ffc107;
 }
