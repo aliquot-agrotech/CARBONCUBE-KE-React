@@ -248,7 +248,7 @@ const Orders = () => {
                                                                     backgroundColor: 
                                                                         order.status === 'Cancelled' ? '#FF0000' :  // Red
                                                                         order.status === 'Dispatched' ? '#007BFF' : // Blue
-                                                                        order.status === 'On-Transit' ? '#80CED7' : // Light Blue
+                                                                        order.status === 'In-Transit' ? '#80CED7' : // Light Blue
                                                                         order.status === 'Returned' ? '#6C757D' :  // Grey
                                                                         order.status === 'Processing' ? '#FFC107' : // Yellow
                                                                         order.status === 'Delivered' ? '#008000' : '', // Green

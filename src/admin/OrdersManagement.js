@@ -237,7 +237,7 @@ const OrdersManagement = () => {
                                                             backgroundColor: 
                                                                 order.status === 'Cancelled' ? '#FF0000' :  // Red
                                                                 order.status === 'Dispatched' ? '#007BFF' : // Blue
-                                                                order.status === 'On-Transit' ? '#80CED7' : // Orange
+                                                                order.status === 'In-Transit' ? '#80CED7' : // Orange
                                                                 order.status === 'Returned' ? '#6C757D' :  // Grey
                                                                 order.status === 'Processing' ? '#FFC107' : // Yellow
                                                                 order.status === 'Delivered' ? '#008000' : '', // Green
@@ -247,7 +247,7 @@ const OrdersManagement = () => {
                                                     >
                                                         <option className="text-center mb-1" value="Processing">Processing</option>
                                                         <option className="text-center mb-1" value="Dispatched">Dispatched</option>
-                                                        <option className="text-center mb-1" value="On-Transit">On-Transit</option>
+                                                        <option className="text-center mb-1" value="In-Transit">In-Transit</option>
                                                         <option className="text-center mb-1" value="Delivered">Delivered</option>
                                                         <option className="text-center mb-1" value="Cancelled">Cancelled</option>
                                                         <option className="text-center mb-1" value="Returned">Returned</option>
@@ -408,7 +408,6 @@ const OrdersManagement = () => {
                                         <p>No details available</p>
                                     )}
                                 </Modal.Body>
-
                                 <Modal.Footer>
                                     <Button variant="danger" id="button" onClick={handleCloseModal}>
                                         Close
