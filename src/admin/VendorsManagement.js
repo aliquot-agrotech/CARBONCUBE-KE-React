@@ -491,7 +491,7 @@ const VendorsManagement = () => {
                                                             <Col key={product.id} xs={12} md={12} lg={12} className="mb-4">
                                                                 <Card>
                                                                 <Card.Img
-                                                                    className="analytics-card-img-top"
+                                                                    className="analytics-card-img-top product-image"
                                                                     variant="top"
                                                                     src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                                                 />

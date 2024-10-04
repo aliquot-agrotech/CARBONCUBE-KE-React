@@ -337,6 +337,7 @@ const ProductsManagement = () => {
                                             <Card>
                                             <Card.Img 
                                                 variant="top" 
+                                                className="product-image"
                                                 src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
                                             />
                                                 <Card.Body>
@@ -389,7 +390,8 @@ const ProductsManagement = () => {
                                         <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
                                             <Card>
                                             <Card.Img 
-                                                variant="top" 
+                                                variant="top"
+                                                className="product-image" 
                                                 src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
                                             />
                                                 <Card.Body>
