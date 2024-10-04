@@ -121,27 +121,40 @@ const Home = () => {
         }
     };
     
-
-    const CategorySection = ({ title, subcategories }) => (
-        <Card className="section bg-transparent mb-4 m-5">
-            <Card.Header className="category-header">
-                <h4 className='m-0'>{title}</h4>
-            </Card.Header>
-            <Card.Body className='cat-body p-0'>
-                <Row className="g-3">
-                    {subcategories.slice(0, 4).map(subcategory => (
-                        <Col xs={12} sm={6} md={3} key={subcategory.id}>
-                            <SubcategorySection
-                                subcategory={subcategory.name}
-                                products={products[subcategory.id] || []}
-                                onProductClick={handleShowModal}
-                            />
-                        </Col>
-                    ))}
-                </Row>
-            </Card.Body>
-        </Card>
-    );
+    const CategorySection = ({ title, subcategories }) => {
+        // Function to shuffle an array
+        const shuffleArray = (array) => {
+            return array
+                .map(value => ({ value, sort: Math.random() }))
+                .sort((a, b) => a.sort - b.sort)
+                .map(({ value }) => value);
+        };
+    
+        // Shuffle the subcategories before slicing
+        const randomizedSubcategories = shuffleArray(subcategories).slice(0, 4);
+    
+        return (
+            <Card className="section bg-transparent mb-4 m-5">
+                <Card.Header className="category-header justify-content-start">
+                    <h4 className='m-0'>{title}</h4>
+                </Card.Header>
+                <Card.Body className='cat-body p-0'>
+                    <Row className="g-3">
+                        {randomizedSubcategories.map(subcategory => (
+                            <Col xs={12} sm={6} md={3} key={subcategory.id}>
+                                <SubcategorySection
+                                    subcategory={subcategory.name}
+                                    products={products[subcategory.id] || []}
+                                    onProductClick={handleShowModal}
+                                />
+                            </Col>
+                        ))}
+                    </Row>
+                </Card.Body>
+            </Card>
+        );
+    };
+    
 
 
     const SubcategorySection = ({ subcategory, products, onProductClick }) => {
