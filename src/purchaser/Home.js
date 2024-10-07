@@ -256,7 +256,7 @@ const Home = () => {
 
     const Footer = () => (
         <footer >
-            <Container className="footer justify-content-center">
+            <Container className="footer">
                 <Row>
                     <Col xs={12} md={3}>
                         <h5>Shopping Guide</h5>
