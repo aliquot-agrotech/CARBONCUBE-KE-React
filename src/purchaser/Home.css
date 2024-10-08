@@ -199,3 +199,17 @@
         margin: 10px;
     }
 }
+
+
+@media only screen and (min-width: 992px) {
+    .lorem {
+        margin-top: 300px;
+    }
+    
+}
+@media only screen and (min-width: 1200px) {
+    .lorem {
+        margin-top: 1300px;
+    }
+    
+}

@@ -255,8 +255,8 @@ const Home = () => {
     );
 
     const Footer = () => (
-        <footer >
-            <Container className="footer">
+        <footer className="footer">
+            <Container>
                 <Row>
                     <Col xs={12} md={3}>
                         <h5>Shopping Guide</h5>
@@ -359,13 +359,16 @@ const Home = () => {
                                     products={Object.values(products).flat()}
                                     onProductClick={handleProductClick}
                                 />
-                                <Footer />
                                 </div>
                             </>
                         )}
                     </Container>
+                    
                 </div>
-                
+               
+            </div>
+            <div className='lorem'>
+                <Footer />
             </div>
             <ProductDetailsModal
                     show={showModal}
