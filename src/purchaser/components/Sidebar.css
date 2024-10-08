@@ -5,13 +5,14 @@
   padding: 1rem;
   transition: transform 0.3s, width 0.3s;
   position: fixed;
-  top: 56px; /* Adjust this value to the height of your top navbar */
+  top: 64px; /* Adjust this value to the height of your top navbar */
   left: 0;
-  z-index: 1030;
+  z-index: 4;
   overflow-y: auto;
   font-family: "Fira Sans Extra Condensed", sans-serif;
   font-weight: 400;
   font-style: normal;
+  width:fit-content;
 }
 
 .sidebar.collapsed {
@@ -20,7 +21,7 @@
 }
 
 .sidebar.open {
-  width: 275px;
+  width: 200px;
   transform: translateX(0);
 }
 
@@ -64,9 +65,9 @@
   background-color: #333;
   color: #333;
   position: fixed;
-  top: 66px; /* Adjust this value as needed */
+  top: 70px; /* Adjust this value as needed */
   left: 10px;
-  z-index: 1040;
+  z-index: 5;
   width: 40px;
   height: 40px;
   display: flex;
@@ -79,7 +80,7 @@
 
 
 .toggle-button.open {
-  left: 280px; /* Width of the open sidebar + 10px */
+  left: 180px; /* Width of the open sidebar + 10px */
   background-color: #333;
   color: #ffc107;
 }
@@ -106,13 +107,13 @@
   }
 
   .toggle-button {
-    top: 60px;
+    top: 70px;
     width: 40px;
     height: 40px;
   }
 
   .toggle-button.open {
-    left: calc(100% - 125px);
+    left: 180px;
   }
 }
 

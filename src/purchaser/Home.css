@@ -25,14 +25,11 @@
 
 .categories-overlay {
     position: absolute;
-    /* bottom: 400px; */
     top: 20em;
     left: 0;
     right: 0;
-    /* bottom: -20em; */
     z-index: 2;
-    /* padding-left: 200px; */
-    padding-top: 30px; /* Adjust as needed */
+    padding-top: 30px;
 }
 
 .section {
@@ -53,6 +50,7 @@
 
 .section .cat-body {
     background-color: transparent;
+    border-style: none;
 }
 
 .subcategory-section {
@@ -67,6 +65,11 @@
     height: 100%;
     background-color: white;
     border-radius: 8px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .product-image {

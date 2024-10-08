@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Container, Nav, Button, Form, FormControl, Dropdown } from 'react-bootstrap';
+import { Navbar, Container, Nav, Button, Form, FormControl, Dropdown, Row, Col } from 'react-bootstrap';
 // import { List } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
@@ -96,7 +96,17 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
             </Button>
           )}
         </div> */}
-        <Navbar.Brand href="/home">CARBONCUBE - Purchaser</Navbar.Brand>  
+        <Navbar.Brand href="/home" className="d-flex align-items-center">
+    <img
+      src={`${process.env.PUBLIC_URL}/logo.png`}
+      alt="Carboncube Logo"
+      width="40"  // Adjust size as needed
+      height="40"  // Adjust size as needed
+      className="d-inline-block align-top"
+    />
+    <span className="ml-2">ARBONCUBE</span>
+  </Navbar.Brand>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
@@ -150,7 +160,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
             <FormControl
               type="text"
               placeholder="Search products..."
-              className="me-sm-2"
+              className="me-sm-2 me-2"
               value={searchQuery}
               id="button"
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -161,19 +171,26 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
           </Form>
           {/* Navigation buttons for Vendors and Login/Logout */}
           <Nav className="ms-auto">
-            <Button variant="warning" href="/login" className="ms-2" id="button">
-              Vendors
-            </Button>
-            {isLoggedIn ? (
-              <Button variant="warning" onClick={handleLogout} className="ms-2" id="button">
-                Logout
-              </Button>
-            ) : (
-              <Button variant="outline-warning" href="/login" className="ms-2" id="button">
-                Login
-              </Button>
-            )}
-          </Nav>
+  <Row className="d-flex justify-content-between">
+    <Col className="text-end">
+      <Button variant="warning" href="/login" className="ms-2" id="button">
+        Vendors
+      </Button>
+    </Col>
+    <Col className="text-start">
+      {isLoggedIn ? (
+        <Button variant="warning" onClick={handleLogout} className="ms-2" id="button">
+          Logout
+        </Button>
+      ) : (
+        <Button variant="outline-warning" href="/login" className="ms-2" id="button">
+          Login
+        </Button>
+      )}
+    </Col>
+  </Row>
+</Nav>
+
         </Navbar.Collapse>
       </Container>
     </Navbar>
