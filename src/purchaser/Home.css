@@ -121,13 +121,13 @@
 }
 
 .social-media-links a {
-    color: #ffc107; /* Change color to white for visibility */
+    color: white; /* Change color to white for visibility */
     text-decoration: none;
     font-size: 1.5rem; /* Adjust icon size */
 }
 
 .social-media-links a:hover {
-    color: white; /* Optional hover color */
+    color: #ffc107; /* Optional hover color */
 }
 
 
