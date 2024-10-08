@@ -1,3 +1,7 @@
+.section {
+    margin-top: 56px;
+}
+
 .transparent-table {
     background-color: transparent !important;
     border-color: rgba(255, 255, 255, 0.1) !important; /* Transparent border for light effect */
@@ -12,4 +16,17 @@
 
 .transparent-table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(255, 255, 255, 0.05); /* Slight transparency for striping */
+}
+
+@media screen and (max-width: 767px) {
+    .orders-management-page {
+        font-size: 13px;
+        margin: 0;
+    }
+
+    
+
+    .section {
+        margin-top: 56px;
+    }
 }
