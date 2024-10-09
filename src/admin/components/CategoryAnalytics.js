@@ -38,7 +38,7 @@ const CategoryAnalytics = ({ data }) => {
             <p><span>{category.category_name} </span></p>
           </div>
           <div className="chart-label">
-            <span><strong>{((category.total_sold / totalProductsSold) * 100).toFixed(2)} %</strong></span>
+            <span><strong className="text-danger">{((category.total_sold / totalProductsSold) * 100).toFixed(2)} %</strong></span>
           </div>
         </div>
       ))}
