@@ -8,14 +8,15 @@
   flex: 1;
   overflow: hidden;
   height: fit-content;
-  padding: 2px;
-  text-align: center;
+  padding: 0; /* Remove padding to allow left alignment */
   margin-top: 0.5rem;
+  text-align: left; /* Ensure text is aligned to the left */
 }
 
 .card-title {
   font-size: 1.25rem;
   font-weight: bold;
+  margin: 0;
 }
 
 .card-subtitle {
@@ -25,13 +26,15 @@
 
 .card-text {
   font-size: 0.875rem;
+  margin: 0;
 }
+
 
 .analytics-price-container {
   display: flex;
-  justify-content: center;
   align-items: baseline;
-  margin-top: 0.5rem;
+  /* margin-top: 0.5rem; */
+  justify-content: flex-start; /* Ensure the price is aligned to the left */
 }
 
 .analytics-product-price-label {
