@@ -132,7 +132,10 @@ const OrdersManagement = () => {
                 <Container fluid className="p-0">
                     <Row>
                         <Col xs={12} md={2} className="p-0">
-                            <Sidebar />
+                        <Container fluid>
+                        <Sidebar />
+                        </Container>
+                            
                         </Col>
                         <Col xs={12} md={10} className="p-2">
                             <Card className="section">
@@ -206,7 +209,7 @@ const OrdersManagement = () => {
                                                 </td>
 
                                                 <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
-                                                <td className="price-container">
+                                                <td className="price-container text-success">
                                                     <strong>
                                                         {order.total_price ? parseFloat(order.total_price).toFixed(2).split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
@@ -318,9 +321,10 @@ const OrdersManagement = () => {
                                                 </Col>
                                                 <Col xs={12} md={6}>
                                                     <Card className="mb-2 custom-card">
-                                                        <Card.Header as="h6" className='justify-content-center'>Total Price (Kshs)</Card.Header>
+                                                        <Card.Header as="h6" className='justify-content-center'>Total Price</Card.Header>
                                                         <Card.Body className="price-container text-center p-3">
-                                                        <strong>
+                                                        <span><em className='text-success'>Kshs: </em></span>
+                                                        <strong className='text-success'>
                                                             <span className="price">
                                                                 {selectedOrder.total_price ? parseFloat(selectedOrder.total_price).toFixed(2).split('.').map((part, index) => (
                                                                     <React.Fragment key={index}>
@@ -370,7 +374,7 @@ const OrdersManagement = () => {
                                                                                 <td className="price-container">
                                                                                     {/* <em className="product-price-label">Kshs: </em> */}
                                                                                     <strong>
-                                                                                        <span className="price">
+                                                                                        <span className="price text-success">
                                                                                             {item.product?.price && item.quantity ? (
                                                                                                 (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
                                                                                                     <React.Fragment key={index}>
