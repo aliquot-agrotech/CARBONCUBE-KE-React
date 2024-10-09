@@ -21,7 +21,7 @@ const PurchasersManagement = () => {
           try {
               const response = await fetch(`http://localhost:3000/admin/purchasers?search_query=${searchQuery}`, {
                   headers: {
-                      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                      'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                   },
               });
 
@@ -47,7 +47,7 @@ const PurchasersManagement = () => {
     try {
       const response = await fetch(`http://localhost:3000/admin/purchasers/${purchaserId}`, {
         headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'), // Add token if required
+          'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // Add token if required
         },
       });
 
@@ -69,7 +69,7 @@ const PurchasersManagement = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
         },
       });
   

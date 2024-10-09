@@ -168,6 +168,7 @@ const Home = () => {
                                 <Card className="product-card h-100">
                                     <Card.Img
                                         variant="top"
+                                        loading="lazy"
                                         src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                         alt={product.title}
                                         className="product-image"

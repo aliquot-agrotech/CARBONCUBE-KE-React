@@ -20,7 +20,7 @@ const OrdersManagement = () => {
             try {
                 const response = await fetch(`http://localhost:3000/admin/orders?search_query=${searchQuery}`, {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
     
@@ -47,7 +47,7 @@ const OrdersManagement = () => {
         try {
             const response = await fetch(`http://localhost:3000/admin/orders/${orderId}`, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 
@@ -74,7 +74,7 @@ const OrdersManagement = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({ status }),
             });
@@ -99,7 +99,7 @@ const OrdersManagement = () => {
             const response = await fetch(`http://localhost:3000/admin/orders/${orderId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 

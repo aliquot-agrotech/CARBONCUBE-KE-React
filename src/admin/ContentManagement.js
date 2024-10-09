@@ -25,17 +25,17 @@ const ContentManagement = () => {
             try {
                 const aboutResponse = await fetch('http://localhost:3000/admin/abouts', {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
                 const faqsResponse = await fetch('http://localhost:3000/admin/faqs', {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
                 const bannersResponse = await fetch('http://localhost:3000/admin/banners', {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
 
@@ -85,7 +85,7 @@ const ContentManagement = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify(data),
             });
@@ -115,7 +115,7 @@ const ContentManagement = () => {
             const response = await fetch(`http://localhost:3000/admin/faqs/${faqId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 
@@ -162,7 +162,7 @@ const ContentManagement = () => {
             const response = await fetch('http://localhost:3000/admin/banners', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
                 body: bannerFormData,
             });
@@ -186,7 +186,7 @@ const ContentManagement = () => {
             const response = await fetch(`http://localhost:3000/admin/banners/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 

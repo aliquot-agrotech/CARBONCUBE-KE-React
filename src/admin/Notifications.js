@@ -17,7 +17,7 @@ const Notifications = () => {
 
     useEffect(() => {
         const fetchAdminId = async () => {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             if (token) {
                 try {
                     const response = await fetch('http://localhost:3000/admin/identify', {
@@ -64,7 +64,7 @@ const Notifications = () => {
 
     useEffect(() => {
         const fetchNotifications = async () => {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const response = await fetch('http://localhost:3000/admin/notifications', {
                 headers: {
                     'Authorization': 'Bearer ' + token,

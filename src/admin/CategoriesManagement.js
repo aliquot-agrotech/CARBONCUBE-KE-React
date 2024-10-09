@@ -18,7 +18,7 @@ const CategoriesManagement = () => {
         try {
             const response = await fetch(`http://localhost:3000/admin/categories`, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 
@@ -70,7 +70,7 @@ const CategoriesManagement = () => {
             const categoryResponse = await fetch(url, {
                 method: method,
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ name: newCategory.name }),
@@ -98,7 +98,7 @@ const CategoriesManagement = () => {
                 const subcategoryResponse = await fetch(subcategoryUrl, {
                     method: subcategoryMethod,
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
@@ -133,7 +133,7 @@ const CategoriesManagement = () => {
                 const deleteResponse = await fetch(subcategoryUrl, {
                     method: 'DELETE',
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                         'Content-Type': 'application/json',
                     },
                 });

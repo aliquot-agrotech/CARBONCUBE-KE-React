@@ -16,7 +16,7 @@ const AnalyticsReporting = () => {
   useEffect(() => {
     fetch('http://localhost:3000/admin/analytics', {
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'), // Replace with your actual token
+        'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // Replace with your actual token
       },
     })
       .then(response => response.json())

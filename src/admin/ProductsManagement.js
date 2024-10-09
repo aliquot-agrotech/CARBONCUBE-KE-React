@@ -26,7 +26,7 @@ const ProductsManagement = () => {
         try {
             const response = await fetch('http://localhost:3000/admin/products', {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 
@@ -50,7 +50,7 @@ const ProductsManagement = () => {
         try {
             const response = await fetch('http://localhost:3000/admin/categories', {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
     
@@ -112,7 +112,7 @@ const ProductsManagement = () => {
         try {
             const response = await fetch(`http://localhost:3000/admin/products/${product.id}`, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 
@@ -138,7 +138,7 @@ const ProductsManagement = () => {
             const response = await fetch(`http://localhost:3000/admin/products/${selectedProduct.id}/notify`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
@@ -172,7 +172,7 @@ const ProductsManagement = () => {
             const response = await fetch(`http://localhost:3000/admin/products/${id}/flag`, {
                 method: 'PATCH',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 
@@ -191,7 +191,7 @@ const ProductsManagement = () => {
             const response = await fetch(`http://localhost:3000/admin/products/${id}/restore`, {
                 method: 'PATCH',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 

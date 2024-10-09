@@ -21,7 +21,7 @@ const VendorsManagement = () => {
             try {
                 const response = await fetch(`http://localhost:3000/admin/vendors?search_query=${searchQuery}`, {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
 
@@ -50,22 +50,22 @@ const VendorsManagement = () => {
             const [vendorResponse, ordersResponse, productsResponse, reviewsResponse] = await Promise.all([
                 fetch(`http://localhost:3000/admin/vendors/${vendorId}`, {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
                 fetch(`http://localhost:3000/admin/vendors/${vendorId}/orders`, {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
                 fetch(`http://localhost:3000/admin/vendors/${vendorId}/products`, {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
                 fetch(`http://localhost:3000/admin/vendors/${vendorId}/reviews`, {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 })
             ]);
@@ -101,7 +101,7 @@ const VendorsManagement = () => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 
@@ -129,7 +129,7 @@ const VendorsManagement = () => {
         try {
             const response = await fetch(`http://localhost:3000/admin/vendors/${vendorId}/analytics`, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 
