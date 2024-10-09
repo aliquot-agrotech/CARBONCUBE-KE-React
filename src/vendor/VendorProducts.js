@@ -49,14 +49,14 @@ const VendorProducts = () => {
 
     const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
 
-    const vendorId = localStorage.getItem('vendorId');
+    const vendorId = sessionStorage.getItem('vendorId');
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/vendor/products?vendor_id=${vendorId}`, {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
 
@@ -211,7 +211,7 @@ const VendorProducts = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify(newProduct),
             });
@@ -277,7 +277,7 @@ const VendorProducts = () => {
             const response = await fetch(`http://localhost:3000/vendor/products/${productId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
     
@@ -317,7 +317,7 @@ const VendorProducts = () => {
             method: 'PUT',
             headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             },
             body: JSON.stringify({ product: {
             title: editedProduct.title,
@@ -375,7 +375,7 @@ const VendorProducts = () => {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                     body: JSON.stringify({ product: { media: updatedMedia } }),
                 });
@@ -438,7 +438,7 @@ const VendorProducts = () => {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({ product: { media: updatedMedia } }),
             });

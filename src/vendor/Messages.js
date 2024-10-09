@@ -15,7 +15,7 @@ const VendorMessages = () => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
       setCurrentUser({ id: payload.vendor_id, type: 'Vendor' });
@@ -27,7 +27,7 @@ const VendorMessages = () => {
     try {
       const response = await fetch('http://localhost:3000/vendor/messages', {
         headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
         },
       });
       if (!response.ok) throw new Error('Network response was not ok');
@@ -65,7 +65,7 @@ const VendorMessages = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
         },
         body: JSON.stringify({
           content: newMessage,

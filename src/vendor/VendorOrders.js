@@ -12,14 +12,14 @@ const VendorOrders = () => {
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const vendorId = localStorage.getItem('vendorId');
+    const vendorId = sessionStorage.getItem('vendorId');
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/vendor/orders?vendor_id=${vendorId}&search_query=${searchQuery}`, {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
 
@@ -59,7 +59,7 @@ const VendorOrders = () => {
         try {
             const response = await fetch(`http://localhost:3000/vendor/orders/${orderId}`, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 
@@ -87,7 +87,7 @@ const VendorOrders = () => {
     //             method: 'PUT',
     //             headers: {
     //                 'Content-Type': 'application/json',
-    //                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    //                 'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
     //             },
     //             body: JSON.stringify({ status }),
     //         });

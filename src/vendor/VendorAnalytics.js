@@ -14,7 +14,7 @@ const VendorAnalytics = () => {
   useEffect(() => {
     fetch('http://localhost:3000/vendor/analytics', {
       headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
       },
     })
       .then(response => response.json())
