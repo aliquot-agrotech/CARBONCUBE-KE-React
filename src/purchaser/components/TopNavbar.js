@@ -97,15 +97,15 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
           )}
         </div> */}
         <Navbar.Brand href="/home" className="d-flex align-items-center">
-    <img
-      src={`${process.env.PUBLIC_URL}/logo.png`}
-      alt="Carboncube Logo"
-      width="40"  // Adjust size as needed
-      height="40"  // Adjust size as needed
-      className="d-inline-block align-top"
-    />
-    <span className="ml-2">ARBONCUBE</span>
-  </Navbar.Brand>
+            <img
+              src={`${process.env.PUBLIC_URL}/logo.png`}
+              alt="Carboncube Logo"
+              width="40"  // Adjust size as needed
+              height="40"  // Adjust size as needed
+              className="d-inline-block align-top"
+            />
+            <span className="ml-2">ARBONCUBE</span>
+          </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 

@@ -49,7 +49,7 @@ const Sidebar = () => {
           <Nav.Link
             href="/admin/analytics-reporting"
             className={location.pathname === '/admin/analytics-reporting' ? 'active' : ''}>
-            <GraphUp className="icon" /> {isOpen && 'Analytics & Reporting'}
+            <GraphUp className="icon" /> {isOpen && 'Analytics'}
           </Nav.Link>
           <Nav.Link
             href="/admin/orders-management"

@@ -9,7 +9,7 @@ const TopSellingProducts = ({ data }) => {
         <Col xs={12} md={6} lg={4} key={product.product_id} className="mb-4">
           <Card className="h-100">
             <Card.Img
-              className="analytics-card-img-top"
+              className="analytics-card-img-top product-image"
               variant="top"
               src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}
             />
