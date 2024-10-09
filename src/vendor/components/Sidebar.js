@@ -34,17 +34,14 @@ const Sidebar = () => {
     <>
       <Button 
         variant="warning" 
-        className={`toggle-button ${isOpen ? 'd-none' : 'd-block'}`} 
-        onClick={toggleSidebar}>
-        <ArrowRight size={15}/> {/* Arrow pointing right when sidebar is collapsed */}
+        className={`toggle-button ${isOpen ? 'open' : 'collapsed'}`} 
+        onClick={toggleSidebar}
+        id="button"
+        aria-label="Toggle Sidebar" // Accessibility
+      >
+        {isOpen ? <XCircle size={15} /> : <ArrowRight size={15} />}
       </Button>
       <div className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
-        <Button 
-          variant="warning" 
-          className={`toggle-button1 d-md-none ${isOpen ? 'd-block' : 'd-none'}`}
-          onClick={toggleSidebar}>
-          <XCircle size={15}/> {/* Close button when sidebar is open */}
-        </Button>
         <Nav className="flex-column">
           <Nav.Link
             href="/vendor/vendor-analytics"

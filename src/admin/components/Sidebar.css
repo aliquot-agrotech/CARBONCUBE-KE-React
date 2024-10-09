@@ -5,20 +5,24 @@
   padding: 1rem;
   transition: transform 0.3s, width 0.3s;
   position: fixed;
-  top: 56px; /* Adjust this value to the height of your top navbar */
+  top: 64px; /* Adjust this value to the height of your top navbar */
   left: 0;
-  z-index: 1030;
+  z-index: 4;
   overflow-y: auto;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  width:fit-content;
 }
 
 .sidebar.collapsed {
   width: 60px;
-  transform: translateX(-100%); /* Move sidebar off the screen */
+  transform: translateX(-60px);
 }
 
 .sidebar.open {
-  width: 275px;
-  transform: translateX(0); /* Bring sidebar into view */
+  width: 200px;
+  transform: translateX(0);
 }
 
 .sidebar .nav-link,
@@ -58,66 +62,58 @@
 }
 
 .toggle-button {
-  background-color: #ffc107;
-  position: absolute; /* Make the button absolutely positioned within the sidebar */
-  top: 10px; /* Adjust this value as needed */
-  z-index: 1040; /* Ensure it stays on top of the sidebar */
+  background-color: #333;
+  color: #333;
+  position: fixed;
+  top: 70px; /* Adjust this value as needed */
+  left: 10px;
+  z-index: 5;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.3s, left 0.3s;
-  right: 100%; /* Position the button outside the sidebar when open */
-  left: auto; /* Reset left positioning */
+  border-radius: 50%;
 }
 
-.sidebar.open .toggle-button {
-  transform: rotate(0); /* Arrow pointing left */
-  right: -20px; /* Position the button outside the sidebar */
-  left: auto; /* Reset left positioning */
+
+
+.toggle-button.open {
+  left: 180px; /* Width of the open sidebar + 10px */
+  background-color: #333;
+  color: #ffc107;
 }
 
-.sidebar.collapsed .toggle-button {
-  transform: rotate(180deg); /* Arrow pointing right */
-  left: 10px; /* Position the button inside the screen when collapsed */
-  right: auto; /* Reset right positioning */
+.toggle-button.collapsed {
+  left: 10px;
+  background-color: #333;
+  color: #ffc107;
 }
 
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
-    height: auto;
-    min-height: 0;
-    overflow-y: auto;
-    position: fixed;
-    top: 56px; /* Adjust to align below the top navbar */
+    height: 100%;
+    top: 56px;
   }
 
   .sidebar.collapsed {
-    transform: translateX(-100%); /* Move sidebar off the screen */
-    height: 100%;
+    transform: translateX(-100%);
   }
 
   .sidebar.open {
-    transform: translateX(0); /* Bring sidebar into view */
-    height: 100%;
+    transform: translateX(0);
   }
 
   .toggle-button {
-    top: 60px;
-    left: 10px; /* Adjust for mobile */
-    right: auto;
-    position: fixed;
-    border-radius: 1.5rem;
+    top: 70px;
+    width: 40px;
+    height: 40px;
   }
 
-  .toggle-button1 {
-    top: 5px;
-    left: 205px; /* Adjust for mobile */
-    right: auto;
-    position: fixed;
-    border-radius: 1.5rem;
+  .toggle-button.open {
+    left: 180px;
   }
 }
 
