@@ -341,10 +341,10 @@ const ProductsManagement = () => {
                                                 src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
                                             />
                                                 <Card.Body>
-                                                    <Card.Title>{product.title}</Card.Title>
-                                                    <Card.Text className="price-container">
-                                                        <em className='product-price-label'>Kshs: </em>
-                                                        <strong>
+                                                    <Card.Title className="d-flex justify-content-start">{product.title}</Card.Title>
+                                                    <Card.Text className="price-container d-flex justify-content-start">
+                                                        <em className='product-price-label text-success'>Kshs: </em>
+                                                        <strong style={{ fontSize: '18px' }} className="text-danger">
                                                             {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
                                                                 <React.Fragment key={index}>
                                                                     {index === 0 ? (
@@ -395,10 +395,10 @@ const ProductsManagement = () => {
                                                 src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
                                             />
                                                 <Card.Body>
-                                                    <Card.Title>{product.title}</Card.Title>
-                                                    <Card.Text className="price-container">
-                                                        <em className='product-price-label'>Kshs: </em>
-                                                        <strong>
+                                                    <Card.Title className='d-flex justify-content-start'>{product.title}</Card.Title>
+                                                    <Card.Text className="price-container d-flex justify-content-start">
+                                                        <em className='product-price-label text-success'>Kshs: </em>
+                                                        <strong style={{ fontSize: '18px' }} className="text-danger">
                                                             {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
                                                                 <React.Fragment key={index}>
                                                                     {index === 0 ? (

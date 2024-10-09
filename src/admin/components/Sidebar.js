@@ -81,7 +81,7 @@ const Sidebar = () => {
           <Nav.Link
             href="/admin/promotions-discount"
             className={location.pathname === '/admin/promotions-discount' ? 'active' : ''}>
-            <Percent className="icon" /> {isOpen && 'Promotions & Discount'}
+            <Percent className="icon" /> {isOpen && 'Promotions'}
           </Nav.Link>
           <Nav.Link
             href="/admin/messages"
