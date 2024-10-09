@@ -19,32 +19,40 @@ const LoginForm = ({ onLogin }) => {
     setError('');
 
     try {
-        const response = await axios.post('http://localhost:3000/auth/login', {
-            email,
-            password,
-        });
-
-        const { token, user } = response.data;
-
-        // Store the token and user role in sessionStorage
-        sessionStorage.setItem('token', token);
-        sessionStorage.setItem('userRole', user.role); // Store the user role
-
-        // Redirect to the appropriate page based on the user role
-        if (user.role === 'purchaser') {
-            navigate('/purchaser/home');
-        } else if (user.role === 'vendor') {
-            navigate('/vendor/vendor-analytics');
-        } else if (user.role === 'admin') {
-            navigate('/admin/analytics-reporting');
-        }
+      const response = await axios.post('http://localhost:3000/auth/login', {
+          email,
+          password,
+      });
+  
+      const { token, user } = response.data;
+  
+      onLogin(token, user);
+  
+      // Redirect based on user role
+      switch (user.role) {
+          case 'purchaser':
+              navigate('/purchaser/home');
+              break;
+          case 'vendor':
+              navigate('/vendor/vendor-analytics');
+              break;
+          case 'admin':
+              navigate('/admin/analytics-reporting');
+              break;
+          default:
+              setError('Unexpected user role.');
+      }
     } catch (error) {
-        setError('Invalid email or password');
+        console.error(error);
+        if (error.response) {
+            setError(error.response.data.message || 'Invalid email or password');
+        } else {
+            setError('Network error. Please try again later.');
+        }
     } finally {
         setLoading(false);
-    }
-};
-
+    }  
+  };
 
   return (
     <Container fluid className="login-container p-4">

@@ -34,24 +34,24 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
-      const role = localStorage.getItem('role');
+      const role = sessionStorage.getItem('userRole'); // Use 'userRole' here
       setUserRole(role);
       setIsAuthenticated(true);
     }
   }, []);
 
-  const handleLogin = (token, role) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('role', role);
-    setUserRole(role);
+  const handleLogin = (token, user) => {
+    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('userRole', user.role); // Use 'userRole' here
+    setUserRole(user.role);
     setIsAuthenticated(true);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userRole'); // Use 'userRole' here
     setUserRole(null);
     setIsAuthenticated(false);
   };
@@ -59,13 +59,13 @@ function App() {
   const handlePurchaserSignup = () => {
     setIsAuthenticated(true);
     setUserRole('purchaser');
-    localStorage.setItem('role', 'purchaser');
+    sessionStorage.setItem('userRole', 'purchaser'); // Use 'userRole' here
   };
 
   const handleVendorSignup = () => {
     setIsAuthenticated(true);
     setUserRole('vendor');
-    localStorage.setItem('role', 'vendor');
+    sessionStorage.setItem('userRole', 'vendor'); // Use 'userRole' here
   };
 
   return (
