@@ -256,8 +256,6 @@ const OrdersManagement = () => {
                                                         <option className="text-center mb-1" value="Returned">Returned</option>
                                                     </Form.Control>
                                                 </td>
-
-
                                                 <td>
                                                     <button
                                                     className="btn btn-link p-0"
@@ -284,7 +282,7 @@ const OrdersManagement = () => {
                                 </Card.Footer>
                             </Card>
                             
-                            <Modal show={showModal} onHide={handleCloseModal} size="lg">
+                            <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
                                 <Modal.Header className="justify-content-center">
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>
