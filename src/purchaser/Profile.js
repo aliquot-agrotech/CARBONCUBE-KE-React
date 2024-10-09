@@ -29,8 +29,8 @@ const ProfilePage = () => {
 
     const [passwordMatch, setPasswordMatch] = useState(true);
 
-    // Retrieve token from localStorage
-    const token = localStorage.getItem('token'); // Adjust the key to match your app
+    // Retrieve token from sessionStorage
+    const token = sessionStorage.getItem('token'); // Adjust the key to match your app
 
     // Fetch profile data from the backend API
     useEffect(() => {
@@ -122,7 +122,7 @@ const ProfilePage = () => {
         .then(response => {
             alert("Password changed successfully. Please log in again.");
             toggleChangePasswordModal();
-            localStorage.removeItem('token'); // Clear token to force login
+            sessionStorage.removeItem('token'); // Clear token to force login
             window.location.href = '/login'; // Redirect to login page
         })
         .catch(error => {

@@ -17,7 +17,7 @@ const PurchaserNotifications = () => {
 
     useEffect(() => {
         const fetchPurchaserId = async () => {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             if (token) {
                 try {
                     const response = await fetch('http://localhost:3000/purchaser/identify', {
@@ -66,7 +66,7 @@ const PurchaserNotifications = () => {
 
     useEffect(() => {
         const fetchNotifications = async () => {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const response = await fetch('http://localhost:3000/purchaser/notifications', {
                 headers: {
                     'Authorization': 'Bearer ' + token,

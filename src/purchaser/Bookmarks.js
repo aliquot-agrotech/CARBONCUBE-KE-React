@@ -11,7 +11,7 @@ const Bookmarks = () => {
   useEffect(() => {
     const fetchBookmarks = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const response = await fetch("http://localhost:3000/purchaser/bookmarks", {
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -42,7 +42,7 @@ const Bookmarks = () => {
       await fetch(`http://localhost:3000/purchaser/bookmarks/${productId}`, {
         method: 'DELETE',
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+          "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
           "Content-Type": "application/json"
         }
       });
@@ -57,7 +57,7 @@ const Bookmarks = () => {
       await fetch(`http://localhost:3000/purchaser/cart_items`, {
         method: 'POST',
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+          "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ product_id: productId })

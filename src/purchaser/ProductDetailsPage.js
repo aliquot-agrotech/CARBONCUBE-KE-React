@@ -92,7 +92,7 @@ const ProductDetailsPage = () => {
         if (!product) return;
     
         // Check if the token is available
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
     
         if (!token) {
             // Token not found, show alert to log in
@@ -131,7 +131,7 @@ const ProductDetailsPage = () => {
     
     
     const handleAddToCart = async (productId) => {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
     
         if (!token) {
         // Token not found, show alert to log in

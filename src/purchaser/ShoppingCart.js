@@ -23,7 +23,7 @@ const ShoppingCart = () => {
 
     const fetchCartItems = useCallback(async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const response = await fetch("http://localhost:3000/purchaser/cart_items", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -115,7 +115,7 @@ const ShoppingCart = () => {
 
     const handleRemoveItem = async (itemId) => {
         try {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             await fetch(`http://localhost:3000/purchaser/cart_items/${itemId}`, {
                 method: 'DELETE',
                 headers: {
@@ -132,7 +132,7 @@ const ShoppingCart = () => {
     const handleQuantityChange = async (itemId, newQuantity) => {
         if (newQuantity < 1) return;
         try {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const response = await fetch(`http://localhost:3000/purchaser/cart_items/${itemId}`, {
                 method: 'PUT',
                 headers: {
@@ -156,7 +156,7 @@ const ShoppingCart = () => {
     };
 
     const handleCheckout = async () => {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const mpesaTransactionCode = prompt("Enter Mpesa Transaction Code:");
     
         if (!mpesaTransactionCode) {

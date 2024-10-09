@@ -28,7 +28,7 @@ const Home = () => {
             try {
                 const categoryResponse = await fetch('http://localhost:3000/purchaser/categories', {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
                 if (!categoryResponse.ok) throw new Error('Failed to fetch categories');
@@ -37,7 +37,7 @@ const Home = () => {
 
                 const subcategoryResponse = await fetch('http://localhost:3000/purchaser/subcategories', {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
                 if (!subcategoryResponse.ok) throw new Error('Failed to fetch subcategories');
@@ -53,7 +53,7 @@ const Home = () => {
 
                 const productResponse = await fetch('http://localhost:3000/purchaser/products', {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
                 if (!productResponse.ok) throw new Error('Failed to fetch products');
@@ -106,7 +106,7 @@ const Home = () => {
         try {
             const response = await fetch(`http://localhost:3000/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
             if (!response.ok) throw new Error('Failed to fetch search results');

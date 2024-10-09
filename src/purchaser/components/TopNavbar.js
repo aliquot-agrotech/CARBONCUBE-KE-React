@@ -27,7 +27,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
       try {
         const response = await fetch('http://localhost:3000/purchaser/categories', {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
           },
         });
         if (!response.ok) throw new Error('Failed to fetch categories');
@@ -36,7 +36,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
 
         const subcategoryResponse = await fetch('http://localhost:3000/purchaser/subcategories', {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
+            Authorization: 'Bearer ' + sessionStorage.getItem('token'),
           },
         });
         if (!subcategoryResponse.ok) throw new Error('Failed to fetch subcategories');
@@ -57,7 +57,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
     fetchCategories();
 
     // Check if the purchaser is logged in by verifying the presence of the token
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     setIsLoggedIn(!!token); // If token exists, set isLoggedIn to true
   }, []);
 
@@ -76,7 +76,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove the token from localStorage on logout
+    sessionStorage.removeItem('token'); // Remove the token from sessionStorage on logout
     setIsLoggedIn(false); // Set the login state to false
     window.location.href = '/login'; // Redirect to the login page
   };

@@ -13,14 +13,14 @@ const Orders = () => {
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const purchaserId = localStorage.getItem('purchaserId');
+    const purchaserId = sessionStorage.getItem('purchaserId');
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/purchaser/orders?purchaser_id=${purchaserId}&search_query=${searchQuery}`, {
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
 
@@ -60,7 +60,7 @@ const Orders = () => {
         try {
             const response = await fetch(`http://localhost:3000/purchaser/orders/${orderId}`, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
 

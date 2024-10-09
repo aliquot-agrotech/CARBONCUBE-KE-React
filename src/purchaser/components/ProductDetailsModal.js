@@ -48,7 +48,7 @@ const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
             setBookmarkError(null);
     
             // Assuming you have a function to get the auth token
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
     
             // Replace this with your actual API endpoint
             const response = await axios.post(
@@ -80,7 +80,7 @@ const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
           await fetch(`http://localhost:3000/purchaser/cart_items`, {
             method: 'POST',
             headers: {
-              "Authorization": `Bearer ${localStorage.getItem('token')}`,
+              "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
               "Content-Type": "application/json"
             },
             body: JSON.stringify({ product_id: productId })
