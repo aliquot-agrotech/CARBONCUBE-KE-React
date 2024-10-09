@@ -382,25 +382,25 @@ const VendorsManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Revenue</Card.Header>
                                                                     <Card.Body className="text-center price-container">
-                                                                        <p className="total-revenue m-0">
-                                                                            <em className='product-price-label'>Kshs: </em>
-                                                                            <strong className="price">
-                                                                                {selectedVendor.analytics.total_revenue ? selectedVendor.analytics.total_revenue.split('.').map((part, index) => (
-                                                                                    <React.Fragment key={index}>
-                                                                                        {index === 0 ? (
-                                                                                            <span className="price-integer">
-                                                                                                {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                                                                            </span>
-                                                                                        ) : (
-                                                                                            <>
-                                                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                                                <span className="price-decimal">{part}</span>
-                                                                                            </>
-                                                                                        )}
-                                                                                    </React.Fragment>
-                                                                                )) : 'N/A'}
+                                                                        <Card.Text className="total-revenue m-0">
+                                                                            <span><em className='product-price-label text-success'>Kshs: </em></span>
+                                                                            <strong className="price text-danger">
+                                                                            {selectedVendor.analytics.total_revenue ? parseFloat(selectedVendor.analytics.total_revenue).toFixed(2).split('.').map((part, index) => (
+                                                                                <React.Fragment key={index}>
+                                                                                {index === 0 ? (
+                                                                                    <span className="price-integer">
+                                                                                    {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                                    </span>
+                                                                                ) : (
+                                                                                    <>
+                                                                                    <span style={{ fontSize: '16px' }}>.</span>
+                                                                                    <span className="price-decimal">{part}</span>
+                                                                                    </>
+                                                                                )}
+                                                                                </React.Fragment>
+                                                                            )) : 'N/A'}
                                                                             </strong>
-                                                                        </p>
+                                                                        </Card.Text>
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -490,29 +490,29 @@ const VendorsManagement = () => {
                                                         selectedVendor.products.map((product) => (
                                                             <Col key={product.id} xs={12} md={12} lg={12} className="mb-4">
                                                                 <Card>
-                                                                <Card.Img
-                                                                    className="analytics-card-img-top product-image"
-                                                                    variant="top"
-                                                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                                                />
+                                                                    <Card.Img
+                                                                        className="analytics-card-img-top product-image"
+                                                                        variant="top"
+                                                                        src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                                                    />
                                                                     <Card.Body>
-                                                                        <Card.Title>{product.title}</Card.Title>
+                                                                        <Card.Title style={{ fontSize: '18px' }}>{product.title}</Card.Title>
                                                                         <Card.Text className="price-container">
-                                                                            <em className='product-price-label'>Kshs: </em>
-                                                                            <strong>
-                                                                                {product.price ? product.price.split('.').map((part, index) => (
-                                                                                    <React.Fragment key={index}>
-                                                                                        {index === 0 ? (
-                                                                                            <span className="price-integer">
-                                                                                                {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                                                                            </span>
-                                                                                        ) : (
-                                                                                            <>
-                                                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                                                <span className="price-decimal">{part}</span>
-                                                                                            </>
-                                                                                        )}
-                                                                                    </React.Fragment>
+                                                                            <span><em className='product-price-label text-success'>Kshs: </em></span>
+                                                                            <strong className='text-danger'>
+                                                                                {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
+                                                                                <React.Fragment key={index}>
+                                                                                    {index === 0 ? (
+                                                                                    <span className="price-integer">
+                                                                                        {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                                    </span>
+                                                                                    ) : (
+                                                                                    <>
+                                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                                        <span className="price-decimal">{part}</span>
+                                                                                    </>
+                                                                                    )}
+                                                                                </React.Fragment>
                                                                                 )) : 'N/A'}
                                                                             </strong>                                                                                
                                                                         </Card.Text>

@@ -203,7 +203,7 @@ const CategoriesManagement = () => {
                                             <Row>
                                                 {categories.map((category) => (
                                                     <Col xs={12} md={6} lg={6} key={category.id} className="mb-3">
-                                                        <Card className="custom -card">
+                                                        <Card className="custom-card">
                                                             <Card.Header className="justify-content-center">
                                                                 <h3 className="mb-0">{category.name}</h3>
                                                             </Card.Header>
