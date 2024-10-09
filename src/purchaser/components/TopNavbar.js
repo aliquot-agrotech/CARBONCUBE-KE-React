@@ -25,6 +25,8 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
     // Fetch categories and subcategories
     const fetchCategories = async () => {
       try {
+        console.log('Token:', sessionStorage.getItem('token'));
+
         const response = await fetch('http://localhost:3000/purchaser/categories', {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('token'),

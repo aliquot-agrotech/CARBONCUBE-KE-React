@@ -19,28 +19,32 @@ const LoginForm = ({ onLogin }) => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', {
-        email,
-        password,
-      });
+        const response = await axios.post('http://localhost:3000/auth/login', {
+            email,
+            password,
+        });
 
-      const { token, user } = response.data;
-      onLogin(token, user.role);
+        const { token, user } = response.data;
 
-      // Redirect to the appropriate page based on the user role
-      if (user.role === 'purchaser') {
-        navigate('/purchaser/home');
-      } else if (user.role === 'vendor') {
-        navigate('/vendor/vendor-analytics');
-      } else if (user.role === 'admin') {
-        navigate('/admin/analytics-reporting');
-      }
+        // Store the token and user role in sessionStorage
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('userRole', user.role); // Store the user role
+
+        // Redirect to the appropriate page based on the user role
+        if (user.role === 'purchaser') {
+            navigate('/purchaser/home');
+        } else if (user.role === 'vendor') {
+            navigate('/vendor/vendor-analytics');
+        } else if (user.role === 'admin') {
+            navigate('/admin/analytics-reporting');
+        }
     } catch (error) {
-      setError('Invalid email or password');
+        setError('Invalid email or password');
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+
 
   return (
     <Container fluid className="login-container p-4">
