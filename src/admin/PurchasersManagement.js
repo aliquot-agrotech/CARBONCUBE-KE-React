@@ -19,7 +19,7 @@ const PurchasersManagement = () => {
   useEffect(() => {
       const fetchPurchasers = async () => {
           try {
-              const response = await fetch(`http://localhost:3000/admin/purchasers?search_query=${searchQuery}`, {
+              const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/admin/purchasers?search_query=${searchQuery}`, {
                   headers: {
                       'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                   },
@@ -45,7 +45,7 @@ const PurchasersManagement = () => {
 
   const handleRowClick = async (purchaserId) => {
     try {
-      const response = await fetch(`http://localhost:3000/admin/purchasers/${purchaserId}`, {
+      const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/admin/purchasers/${purchaserId}`, {
         headers: {
           'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // Add token if required
         },
@@ -65,7 +65,7 @@ const PurchasersManagement = () => {
 
   const handleUpdateStatus = async (purchaserId, status) => {
     try {
-      const response = await fetch(`http://localhost:3000/admin/purchasers/${purchaserId}/${status}`, {
+      const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/admin/purchasers/${purchaserId}/${status}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

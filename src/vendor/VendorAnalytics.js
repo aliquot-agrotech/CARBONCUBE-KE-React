@@ -12,7 +12,7 @@ const VendorAnalytics = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3000/vendor/analytics', {
+    fetch('https://carboncube-ke-rails-7ty3.onrender.com/vendor/analytics', {
       headers: {
         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
       },

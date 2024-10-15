@@ -14,7 +14,7 @@ const AnalyticsReporting = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:3000/admin/analytics', {
+    fetch('https://carboncube-ke-rails-7ty3.onrender.com/admin/analytics', {
       headers: {
         'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // Replace with your actual token
       },

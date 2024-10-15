@@ -17,7 +17,7 @@ const VendorOrders = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/vendor/orders?vendor_id=${vendorId}&search_query=${searchQuery}`, {
+                const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/vendor/orders?vendor_id=${vendorId}&search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -57,7 +57,7 @@ const VendorOrders = () => {
 
     const handleRowClick = async (orderId) => {
         try {
-            const response = await fetch(`http://localhost:3000/vendor/orders/${orderId}`, {
+            const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/vendor/orders/${orderId}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -83,7 +83,7 @@ const VendorOrders = () => {
 
     // const handleUpdateStatus = async (orderId, status) => {
     //     try {
-    //         const response = await fetch(`http://localhost:3000/vendor/orders/${orderId}/update_status`, {
+    //         const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/vendor/orders/${orderId}/update_status`, {
     //             method: 'PUT',
     //             headers: {
     //                 'Content-Type': 'application/json',

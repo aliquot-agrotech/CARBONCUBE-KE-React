@@ -20,7 +20,7 @@ const Notifications = () => {
             const token = sessionStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await fetch('http://localhost:3000/admin/identify', {
+                    const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/admin/identify', {
                         headers: {
                             'Authorization': 'Bearer ' + token,
                         },
@@ -65,7 +65,7 @@ const Notifications = () => {
     useEffect(() => {
         const fetchNotifications = async () => {
             const token = sessionStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/admin/notifications', {
+            const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/admin/notifications', {
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 },
