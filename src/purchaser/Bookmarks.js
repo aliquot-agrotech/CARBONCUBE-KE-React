@@ -12,7 +12,7 @@ const Bookmarks = () => {
     const fetchBookmarks = async () => {
       try {
         const token = sessionStorage.getItem('token');
-        const response = await fetch("http://localhost:3000/purchaser/bookmarks", {
+        const response = await fetch("https://carboncube-ke-rails-7ty3.onrender.com/purchaser/bookmarks", {
           headers: {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
@@ -39,7 +39,7 @@ const Bookmarks = () => {
 
   const handleDeleteBookmark = async (productId) => {
     try {
-      await fetch(`http://localhost:3000/purchaser/bookmarks/${productId}`, {
+      await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/purchaser/bookmarks/${productId}`, {
         method: 'DELETE',
         headers: {
           "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
@@ -54,7 +54,7 @@ const Bookmarks = () => {
 
   const handleAddToCart = async (productId) => {
     try {
-      await fetch(`http://localhost:3000/purchaser/cart_items`, {
+      await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/purchaser/cart_items`, {
         method: 'POST',
         headers: {
           "Authorization": `Bearer ${sessionStorage.getItem('token')}`,

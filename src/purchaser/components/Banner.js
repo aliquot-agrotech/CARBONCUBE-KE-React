@@ -8,7 +8,7 @@ const Banner = () => {
     useEffect(() => {
         const fetchBannerImages = async () => {
             try {
-                const response = await fetch('http://localhost:3000/banners'); // Fetch without a token
+                const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/banners'); // Fetch without a token
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch banner images');
