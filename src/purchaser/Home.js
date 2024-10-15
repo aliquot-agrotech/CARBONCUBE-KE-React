@@ -26,7 +26,7 @@ const Home = () => {
     useEffect(() => {
         const fetchCategoriesAndProducts = async () => {
             try {
-                const categoryResponse = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/purchaser/categories', {
+                const categoryResponse = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/purchaser/categories', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -35,7 +35,7 @@ const Home = () => {
 
                 const categoryData = await categoryResponse.json();
 
-                const subcategoryResponse = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/purchaser/subcategories', {
+                const subcategoryResponse = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/purchaser/subcategories', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -51,7 +51,7 @@ const Home = () => {
 
                 setCategories(categoriesWithSubcategories);
 
-                const productResponse = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/purchaser/products', {
+                const productResponse = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/purchaser/products', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -104,7 +104,7 @@ const Home = () => {
         e.preventDefault();
         setIsSearching(true);
         try {
-            const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, {
+            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },

@@ -19,7 +19,7 @@ const LoginForm = ({ onLogin }) => {
     setError('');
 
     try {
-      const response = await axios.post('https://carboncube-ke-rails-7ty3.onrender.com/auth/login', {
+      const response = await axios.post('https://carboncube-ke-rails-qrvq.onrender.com/auth/login', {
           email,
           password,
       });

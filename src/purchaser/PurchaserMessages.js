@@ -25,7 +25,7 @@ const PurchaserMessages = () => {
     const fetchMessages = async () => {
         setLoadingMessages(true);
         try {
-        const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/purchaser/messages', {
+        const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/purchaser/messages', {
             headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
@@ -61,7 +61,7 @@ const PurchaserMessages = () => {
         if (!newMessage.trim()) return;
 
         try {
-        const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/purchaser/messages', {
+        const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/purchaser/messages', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

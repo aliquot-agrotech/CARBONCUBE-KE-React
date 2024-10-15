@@ -20,7 +20,7 @@ const PurchaserNotifications = () => {
             const token = sessionStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/purchaser/identify', {
+                    const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/purchaser/identify', {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const PurchaserNotifications = () => {
     useEffect(() => {
         const fetchNotifications = async () => {
             const token = sessionStorage.getItem('token');
-            const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/purchaser/notifications', {
+            const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/purchaser/notifications', {
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 },

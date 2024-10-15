@@ -24,7 +24,7 @@ const ProductsManagement = () => {
     
     const fetchProducts = async () => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/admin/products', {
+            const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/admin/products', {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -48,7 +48,7 @@ const ProductsManagement = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/admin/categories', {
+            const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/admin/categories', {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -110,7 +110,7 @@ const ProductsManagement = () => {
 
     const handleViewDetailsClick = async (product) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/admin/products/${product.id}`, {
+            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/products/${product.id}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -135,7 +135,7 @@ const ProductsManagement = () => {
 
     const handleSendNotification = async () => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/admin/products/${selectedProduct.id}/notify`, {
+            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/products/${selectedProduct.id}/notify`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -169,7 +169,7 @@ const ProductsManagement = () => {
 
     const handleFlagProduct = async (id) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/admin/products/${id}/flag`, {
+            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/products/${id}/flag`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -188,7 +188,7 @@ const ProductsManagement = () => {
 
     const handleRestoreProduct = async (id) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/admin/products/${id}/restore`, {
+            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/products/${id}/restore`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),

@@ -30,7 +30,7 @@ const ProductDetailsPage = () => {
         setLoadingReviews(true);
         
         try {
-            const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/products/${productId}/reviews`);
+            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/products/${productId}/reviews`);
             if (!response.ok) throw new Error('Failed to fetch reviews');
             const data = await response.json();
             setReviews(data);
@@ -53,7 +53,7 @@ const ProductDetailsPage = () => {
 
         const fetchProductDetails = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/purchaser/products/${productId}`);
+                const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/purchaser/products/${productId}`);
                 if (!response.ok) throw new Error('Failed to fetch product details');
                 const data = await response.json();
                 setProduct(data);
@@ -66,7 +66,7 @@ const ProductDetailsPage = () => {
 
         const fetchRelatedProducts = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/purchaser/products/${productId}/related`);
+                const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/purchaser/products/${productId}/related`);
                 if (!response.ok) throw new Error('Failed to fetch related products');
                 const data = await response.json();
                 setRelatedProducts(data);
@@ -106,7 +106,7 @@ const ProductDetailsPage = () => {
     
             // API call to add the product to the wishlist
             const response = await axios.post(
-                `https://carboncube-ke-rails-7ty3.onrender.com/purchaser/bookmarks`,
+                `https://carboncube-ke-rails-qrvq.onrender.com/purchaser/bookmarks`,
                 { product_id: product.id },
                 {
                     headers: {
@@ -140,7 +140,7 @@ const ProductDetailsPage = () => {
         }
     
         try {
-        const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/purchaser/cart_items`, {
+        const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/purchaser/cart_items`, {
             method: 'POST',
             headers: {
             "Authorization": `Bearer ${token}`,

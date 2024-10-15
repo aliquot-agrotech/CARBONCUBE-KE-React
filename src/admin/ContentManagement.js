@@ -23,17 +23,17 @@ const ContentManagement = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const aboutResponse = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/admin/abouts', {
+                const aboutResponse = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/admin/abouts', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
-                const faqsResponse = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/admin/faqs', {
+                const faqsResponse = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/admin/faqs', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
-                const bannersResponse = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/admin/banners', {
+                const bannersResponse = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/admin/banners', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -80,7 +80,7 @@ const ContentManagement = () => {
     const handleSaveChanges = async () => {
         try {
             const { type, data } = currentEdit;
-            const url = `https://carboncube-ke-rails-7ty3.onrender.com/admin/${type}/${data.id}`;
+            const url = `https://carboncube-ke-rails-qrvq.onrender.com/admin/${type}/${data.id}`;
             const response = await fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -112,7 +112,7 @@ const ContentManagement = () => {
 
     const handleDeleteFaq = async (faqId) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/admin/faqs/${faqId}`, {
+            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/faqs/${faqId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -159,7 +159,7 @@ const ContentManagement = () => {
             const bannerFormData = new FormData();
             bannerFormData.append('banner[image_url]', imageUrl);
 
-            const response = await fetch('https://carboncube-ke-rails-7ty3.onrender.com/admin/banners', {
+            const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/admin/banners', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -183,7 +183,7 @@ const ContentManagement = () => {
 
     const handleDeleteBanner = async (id) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-7ty3.onrender.com/admin/banners/${id}`, {
+            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/banners/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
