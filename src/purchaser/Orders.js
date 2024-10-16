@@ -293,7 +293,7 @@ const Orders = () => {
                                                                                 )) : 'N/A'}
                                                                             </td>
                                                                             <td>{item.quantity}</td>
-                                                                            <td>
+                                                                            <td className='text-success'>
                                                                                 {(item.price && item.quantity) ? (
                                                                                     ((item.price * item.quantity).toFixed(2).split('.').map((part, index) => (
                                                                                         <React.Fragment key={index}>
