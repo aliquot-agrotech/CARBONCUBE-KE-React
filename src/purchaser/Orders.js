@@ -140,7 +140,7 @@ const Orders = () => {
                                             <th>Order ID</th>
                                             <th>Products</th>
                                             <th>Quantity</th>
-                                            <th>Total<em className="product-price-label">Kshs: </em></th>
+                                            <th>Total<em className="product-price-label" style={{ fontSize : '14px' }}>(Kshs:) </em></th>
                                             <th>Date Ordered</th>
                                             <th>Status</th>
                                             </tr>
@@ -166,7 +166,7 @@ const Orders = () => {
                                                     {order.order_items.length > 3 && ', ...'}
                                                 </td>
                                                 <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
-                                                <td className="price-container">
+                                                <td className="price-container text-success">
                                                     <strong>
                                                     {order.total_amount
                                                         ? parseFloat(order.total_amount).toFixed(2).split('.').map((part, index) => (
@@ -276,7 +276,7 @@ const Orders = () => {
                                                                     {selectedOrder.order_items.map(item => (
                                                                         <tr key={item.id}>
                                                                             <td>{item.product_name || 'Unknown Product'}</td>
-                                                                            <td>
+                                                                            <td className='text-success'>
                                                                                 {item.price ? parseFloat(item.price).toFixed(2).split('.').map((part, index) => (
                                                                                     <React.Fragment key={index}>
                                                                                         {index === 0 ? (
@@ -345,7 +345,7 @@ const Orders = () => {
                                                                         <td colSpan="3" className="text-right">
                                                                             <strong>Processing Fee:</strong>
                                                                         </td>
-                                                                        <td>
+                                                                        <td className='text-success'>
                                                                             <strong>
                                                                                 {selectedOrder.processing_fee ? parseFloat(selectedOrder.processing_fee).toFixed(2).split('.').map((part, index) => (
                                                                                     <React.Fragment key={index}>
@@ -369,7 +369,7 @@ const Orders = () => {
                                                                         <td colSpan="3" className="text-right">
                                                                             <strong>Delivery Fee:</strong>
                                                                         </td>
-                                                                        <td>
+                                                                        <td className='text-success'>
                                                                             <strong>
                                                                                 {selectedOrder.delivery_fee ? parseFloat(selectedOrder.delivery_fee).toFixed(2).split('.').map((part, index) => (
                                                                                     <React.Fragment key={index}>
@@ -393,7 +393,7 @@ const Orders = () => {
                                                                         <td colSpan="3" className="text-right">
                                                                             <strong>Grand Total:</strong>
                                                                         </td>
-                                                                        <td>
+                                                                        <td className='text-success'>
                                                                             <strong>
                                                                                 {(
                                                                                     selectedOrder.order_items.reduce((acc, item) => {
