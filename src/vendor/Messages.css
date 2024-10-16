@@ -14,7 +14,7 @@ body {
 /* Messages Page Styles */
 .messages-page {
   background-color: #E0E0E0;
-  min-height: 100vh; /* Ensure the background color covers the full height */
+  min-height: 90vh; /* Ensure the background color covers the full height */
   padding: 0 1rem; /* Optional: Adjust padding as needed */
   display: flex;
   flex-direction: column;
@@ -160,6 +160,7 @@ body {
 
   .message {
     font-size: 14px;
+    max-width: 85%;
   }
   
 }
