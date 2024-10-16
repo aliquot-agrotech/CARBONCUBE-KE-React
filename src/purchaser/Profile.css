@@ -53,6 +53,17 @@ font-style: normal;
     padding: 10px 15px;
 }
 
+.modal .form-control {
+    background-color: #f0f0f0;
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+}
+
+.modal .form-label {
+    margin-bottom: 0%;
+}
+
 .profile-info .form-control:disabled {
     background-color: #e0e0e0;
 }
@@ -111,8 +122,8 @@ button:focus {
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
     .profile-container {
-        margin: 10px;
-        padding: 15px;
+        padding: 10px;
+        margin-top: 70px;
     }
 
     .profile-pic {

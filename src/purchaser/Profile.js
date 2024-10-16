@@ -355,7 +355,7 @@ const ProfilePage = () => {
                     <Modal.Body>
                         <Form>
                             <Form.Group controlId="formCurrentPassword">
-                                <Form.Label>Current Password</Form.Label>
+                                <Form.Label><strong>Current Password</strong></Form.Label>
                                 <Form.Control
                                     type="password"
                                     name="currentPassword"
@@ -364,7 +364,7 @@ const ProfilePage = () => {
                                 />
                             </Form.Group>
                             <Form.Group controlId="formNewPassword">
-                                <Form.Label>New Password</Form.Label>
+                                <Form.Label><strong>New Password</strong></Form.Label>
                                 <Form.Control
                                     type="password"
                                     name="newPassword"
@@ -373,7 +373,7 @@ const ProfilePage = () => {
                                 />
                             </Form.Group>
                             <Form.Group controlId="formConfirmPassword">
-                                <Form.Label>Confirm New Password</Form.Label>
+                                <Form.Label><strong>Confirm New Password</strong></Form.Label>
                                 <Form.Control
                                     type="password"
                                     name="confirmPassword"
