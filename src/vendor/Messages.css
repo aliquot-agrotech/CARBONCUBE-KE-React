@@ -107,7 +107,7 @@ body {
   margin-top: 10px;
 }
 
-.message-input {
+.message-form .message-input {
   flex: 1;
   border-radius: 2.0rem;
   margin-right: 5px;
