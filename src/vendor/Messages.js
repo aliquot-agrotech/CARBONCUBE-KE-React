@@ -96,7 +96,7 @@ const VendorMessages = () => {
     <>
       <TopNavbar />
       <div className="messages-page">
-        <Container fluid className="p-0">
+        <Container fluid className="p-0 mt-3">
           <Row>
             <Col xs={12} md={2} className="p-0">
               <Sidebar />

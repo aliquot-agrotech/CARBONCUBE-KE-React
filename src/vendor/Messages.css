@@ -152,3 +152,14 @@ body {
 .select-conversation-card {
   animation: smoothBlinker 2s infinite ease-in-out;
 }
+
+@media screen and (max-width: 767px) {
+  .message-container {
+    max-height: 85vh; /* Adjust height as needed */
+  }
+
+  .message {
+    font-size: 14px;
+  }
+  
+}
