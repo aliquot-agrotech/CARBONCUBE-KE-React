@@ -132,7 +132,7 @@ const Orders = () => {
                                     </Container>
                                 </Card.Header>
 
-                                <Card.Body className="p-0">
+                                <Card.Body className="p-0 table-container">
                                     <div className="table-responsive">
                                         <Table hover className="orders-table text-center">
                                         <thead className="table-header">
