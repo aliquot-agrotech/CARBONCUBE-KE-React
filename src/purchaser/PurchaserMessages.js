@@ -27,7 +27,7 @@ const PurchaserMessages = () => {
         try {
         const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/purchaser/messages', {
             headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             },
         });
         if (!response.ok) throw new Error('Network response was not ok');
