@@ -101,7 +101,7 @@ const PurchaserMessages = () => {
                 <Col xs={12} md={2} className="p-0">
                 <Sidebar />
                 </Col>
-                <Col xs={12} md={10} className="p-2 mt-3">
+                <Col xs={12} md={10} className="p-0 p-md-2 mt-3">
                 <Card className="message-container">
                     <Card.Header className="messages-header justify-content-center">
                     <FontAwesomeIcon className="me-3" icon={faUser} /> Admin
