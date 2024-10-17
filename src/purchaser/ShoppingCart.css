@@ -59,7 +59,7 @@ color: #ffffff;
 /* Product item styles */
 .product-item {
 border-bottom: 1px solid #e0e0e0;
-padding-bottom: 1rem;
+padding-bottom: 0;
 margin-bottom: 1rem;
 }
 
@@ -129,8 +129,8 @@ background-color: #ffc107; /* Yellow background */
 border-color: #ffc107;     /* Yellow border */
 color: black;              /* Black text for non-hovered button */
 border-radius: 2rem;        /* Circle shape */
-width: 40px;               /* Fixed width to maintain circular shape */
-height: 40px;              /* Fixed height to maintain circular shape */
+width: 30px;               /* Fixed width to maintain circular shape */
+height: 30px;              /* Fixed height to maintain circular shape */
 display: flex;
 align-items: center;
 justify-content: center;
@@ -195,5 +195,8 @@ margin-bottom: 0.5rem;
 .cart .quantity-button {
     width: 20px;               /* Fixed width to maintain circular shape */
     height: 20px;
+}
+.cart .cart2 {
+    padding: 0.5rem;
 }
 }

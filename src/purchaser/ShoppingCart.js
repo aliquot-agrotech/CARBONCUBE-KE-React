@@ -216,18 +216,18 @@ const ShoppingCart = () => {
                                             <Card.Body className='cart2'>
                                                 {cartItems.map((item) => (
                                                     <Row key={item.id} className="mb-3 align-items-center product-item">
-                                                        <Col xs={2}>
+                                                        <Col xl={2} xs={2}>
                                                             {item.product.media && item.product.media.length > 0 ? (
                                                                 <img src={item.product.media[0]} alt={item.product.title} className="img-fluid" />
                                                             ) : (
                                                                 <span>No Image Available</span>
                                                             )}
                                                         </Col>
-                                                        <Col xs={5}>
+                                                        <Col xl={5} xs={4}>
                                                             <h6>{item.product.title}</h6>
                                                             <p className="text-muted small">{item.product.description}</p>
                                                         </Col>
-                                                        <Col xs={3} className="text-center quantity-container">
+                                                        <Col xl={3} xs={2} className="text-center quantity-container">
                                                             <Button
                                                                 id="decrement-button"
                                                                 className="quantity-button"
@@ -236,7 +236,7 @@ const ShoppingCart = () => {
                                                             >
                                                                 <Dash size={20} />
                                                             </Button>
-                                                            <span className="mx-2"><strong>{item.quantity}</strong></span>
+                                                            <span className="mx-1"><strong>{item.quantity}</strong></span>
                                                             <Button
                                                                 id="increment-button"
                                                                 className="quantity-button"
@@ -245,8 +245,8 @@ const ShoppingCart = () => {
                                                                 <Plus size={20} />
                                                             </Button>
                                                         </Col>
-                                                        <Col xs={2} className="text-end">
-                                                            <em className='product-price-label' style={{ fontSize: '13px' }}>Kshs: </em>
+                                                        <Col xl={2} xs={4} className="text-end">
+                                                            {/* <em className='product-price-label' style={{ fontSize: '13px' }}>Kshs: </em> */}
                                                             <strong className="text-success">
                                                                 {item.price ? parseFloat(item.price).toFixed(2).split('.').map((part, index) => (
                                                                     <React.Fragment key={index}>
