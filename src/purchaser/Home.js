@@ -329,13 +329,13 @@ const Home = () => {
 
     return (
         <>
+            <TopNavbar
+                onSidebarToggle={handleSidebarToggle}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                handleSearch={handleSearch}
+            />
             <div className="home-page-wrapper">
-                <TopNavbar
-                    onSidebarToggle={handleSidebarToggle}
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                    handleSearch={handleSearch}
-                />
                 <Sidebar isOpen={sidebarOpen} />
                 <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
                     {!isSearching && searchResults.length === 0 && <Banner />}

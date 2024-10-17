@@ -1,6 +1,7 @@
-* {
-  box-sizing: border-box;
-  /* background-color: #E0E0E0; */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 body {
   margin: 0;

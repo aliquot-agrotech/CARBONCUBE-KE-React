@@ -135,10 +135,16 @@
 
 
 
+/* For screens with max width 767px (mobile devices) */
 @media (max-width: 767px) {
     .home-page {
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0; /* Increase slightly if needed */
+        padding-right: 0;
+        padding-top: 56px; /* Adjust based on your navbar height */
+        width: 100%; /* Make sure the content stays within screen width */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
     }
 
     .sidebar-open {
@@ -148,6 +154,19 @@
     .categories-overlay {
         position: static;
         padding-top: 15px;
+        margin-left: -50px;
+        margin-right: -50px;
+        margin-top: -60px;
+        /* z-index: 1; */
+    }
+
+    .categories-overlay .footer {
+        font-size: 0.75rem;
+        padding-left: 100px;
+    }
+
+    .section {
+        margin: 10px;
     }
 
     .section .category-header h4,
@@ -161,58 +180,45 @@
     }
 }
 
+/* For screens between 768px and 991px (small tablets and larger mobile devices) */
 @media (min-width: 768px) and (max-width: 991px) {
     .home-page {
         padding-left: 1rem;
         padding-right: 1rem;
+        margin-left: 0; /* Ensure no extra margins */
+        margin-right: 0;
+        padding-top: 56px; /* Adjust based on your navbar height */
     }
-    
 }
 
+/* For screens with a min width of 992px (large tablets and desktops) */
 @media (min-width: 992px) {
     .home-page {
         padding-left: 2rem;
         padding-right: 2rem;
-    }
-}
-
-/* Add this to create space for the categories on larger screens */
-@media (max-width: 768px) {
-    .home-page {
-        margin-right: 200px;
         margin-left: 200px;
+        margin-right: 200px;
+        padding-top: 56px; /* Adjust based on your navbar height */
     }
 }
 
-@media (max-width: 767px) {
+/* Adjust layout space for larger screens (1200px and up) */
+@media (min-width: 1200px) {
     .home-page {
-        margin-right: 0px;
-        margin-left: 0;
-    }
-    .categories-overlay{
-        margin-left: -50px;
-        margin-right: -50px;
-    }
-    .categories-overlay .footer {
-        font-size: 0.75rem;
-        padding-left: 100px;
-    
-    }
-    .section {
-        margin: 10px;
-    }
-}
-
-
-@media only screen and (min-width: 992px) {
-    .lorem {
-        margin-top: 300px;
+        margin-left: 200px;
+        margin-right: 200px;
+        padding-left: 2rem;
+        padding-right: 2rem;
     }
     
-}
-@media only screen and (min-width: 1200px) {
     .lorem {
         margin-top: 1300px;
     }
-    
+}
+
+/* Adjust the margin for screens between 992px and 1199px */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .lorem {
+        margin-top: 300px;
+    }
 }

@@ -8,6 +8,7 @@ flex-direction: column;
 min-height: 100vh;
 padding-top: 60px;
 background-color: #e0e0e0;
+overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 
@@ -186,3 +187,8 @@ height: auto; /* Keeps the aspect ratio */
 height: 40px;
 }
 
+@media screen and (max-width: 767px) {
+    .cart-column {
+        margin-bottom: 0.5rem;
+    }
+}

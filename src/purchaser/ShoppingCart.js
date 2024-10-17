@@ -207,7 +207,7 @@ const ShoppingCart = () => {
                         <Col xs={12} md={10} className="p-2">
                             <Container>
                                 <Row>
-                                    <Col md={8}>
+                                    <Col md={8} className="p-2 cart-column">
                                         <Card className='cart'>
                                             <Card.Header className="d-flex justify-content-between align-items-center">
                                                 <h3 className="mb-0">Shopping Cart</h3>
@@ -275,7 +275,7 @@ const ShoppingCart = () => {
                                             </Card.Footer>
                                         </Card>
                                     </Col>
-                                    <Col md={4}>
+                                    <Col md={4} className="p-2">
                                         <Card className="summary-card">
                                             <Card.Header className="d-flex justify-content-center">
                                                 <h5 className="mb-0">CHECK-OUT POINT</h5>
