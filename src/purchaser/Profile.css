@@ -4,8 +4,8 @@
     height: 100vh;
     padding: 0;
     font-family: "Fira Sans Extra Condensed", sans-serif;
-font-weight: 400;
-font-style: normal;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .profile-container {
@@ -122,9 +122,10 @@ button:focus {
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
     .profile-container {
-        padding: 10px;
-        margin-top: 70px;
-        
+        padding: 5px;
+        margin-top: 65px;
+        margin-left: 0rem;
+        margin-right: 0rem;
     }
 
     .profile-page {
@@ -144,4 +145,54 @@ button:focus {
     button {
         padding: 8px 15px;
     }
+
+    .button-row {
+        display: flex;
+        flex-wrap: nowrap;  /* Keep buttons in a single row */
+        justify-content: space-between;
+        gap: 10px;  /* Add some space between buttons */
+    }
+
+    .button-row .col {
+        flex: 1 1 auto; /* Allow buttons to shrink and grow */
+        display: flex;
+        justify-content: center;
+    }
+
+    .profile-info .form-label {
+        margin-bottom: 0;
+    }
+
+    /* Ensure the buttons are evenly spaced */
+    .button-row button {
+        flex-grow: 1;
+    }
+
+    .vertical-center {
+        display: flex;
+        align-items: center; /* Vertically centers items */
+        justify-content: space-between; /* Ensure space between left and right sections */
+    }
+
+    .vertical-center .col {
+        display: flex;
+        flex: 1; /* Allow both columns to take up equal space */
+        justify-content: space-between;
+    }
+
+    .vertical-center .profile-pic {
+        width: 50px;
+        height: 50px;
+    }
+
+    .vertical-center p, .vertical-center h3 {
+        font-size: 16px;
+    }
+    
+    .text-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
 }
+

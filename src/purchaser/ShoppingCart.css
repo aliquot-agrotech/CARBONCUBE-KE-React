@@ -188,7 +188,7 @@ height: 40px;
 }
 
 @media screen and (max-width: 767px) {
-    .cart-column {
-        margin-bottom: 0.5rem;
-    }
+.cart-column {
+margin-bottom: 0.5rem;
+}
 }
