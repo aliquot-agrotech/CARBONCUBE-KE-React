@@ -104,7 +104,7 @@ const PurchaserMessages = () => {
                         <Col xs={12} md={10} className="p-0 p-md-2 mt-3">
                             <Card className="message-container">
                                 <Card.Header className="messages-header justify-content-center">
-                                    <FontAwesomeIcon className="me-3" icon={faUser} /> Admin
+                                    <FontAwesomeIcon className="me-2 mt-1" icon={faUser} /> Admin
                                 </Card.Header>
                                 <Card.Body className="messages-scroll">
                                     {loadingMessages ? (
