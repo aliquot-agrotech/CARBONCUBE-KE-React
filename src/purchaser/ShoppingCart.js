@@ -246,9 +246,9 @@ const ShoppingCart = () => {
                                                             </Button>
                                                         </Col>
                                                         <Col xs={2} className="text-end">
-                                                            <em className='product-price-label'>Kshs: </em>
-                                                            <strong>
-                                                                {item.price ? item.price.split('.').map((part, index) => (
+                                                            <em className='product-price-label' style={{ fontSize: '13px' }}>Kshs: </em>
+                                                            <strong className="text-success">
+                                                                {item.price ? parseFloat(item.price).toFixed(2).split('.').map((part, index) => (
                                                                     <React.Fragment key={index}>
                                                                         {index === 0 ? (
                                                                             <span className="price-integer">
@@ -263,6 +263,7 @@ const ShoppingCart = () => {
                                                                     </React.Fragment>
                                                                 )) : 'N/A'}
                                                             </strong>
+
                                                             <Button variant="link" className="text-danger p-0 ms-2" onClick={() => handleRemoveItem(item.id)}>
                                                                 <Trash size={16} />
                                                             </Button>
@@ -271,7 +272,25 @@ const ShoppingCart = () => {
                                                 ))}
                                             </Card.Body>
                                             <Card.Footer className="text-end">
-                                                <h4>Sub-Total <em style={{ fontSize: '15px' }}>(Kshs)</em>: {subtotal.toLocaleString()}</h4>
+                                                <h5 className='mb-0'>
+                                                    Sub-Total <em style={{ fontSize: '15px' }}>(Kshs)</em>:
+                                                    <strong className="text-warning">
+                                                        {subtotal.toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))}
+                                                    </strong>
+                                                </h5>
                                             </Card.Footer>
                                         </Card>
                                     </Col>

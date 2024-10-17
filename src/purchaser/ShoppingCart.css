@@ -128,7 +128,7 @@ align-items: center; /* Vertically center the items */
 background-color: #ffc107; /* Yellow background */
 border-color: #ffc107;     /* Yellow border */
 color: black;              /* Black text for non-hovered button */
-border-radius: 50%;        /* Circle shape */
+border-radius: 2rem;        /* Circle shape */
 width: 40px;               /* Fixed width to maintain circular shape */
 height: 40px;              /* Fixed height to maintain circular shape */
 display: flex;
@@ -190,5 +190,10 @@ height: 40px;
 @media screen and (max-width: 767px) {
 .cart-column {
 margin-bottom: 0.5rem;
+}
+
+.cart .quantity-button {
+    width: 20px;               /* Fixed width to maintain circular shape */
+    height: 20px;
 }
 }
