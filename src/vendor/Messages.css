@@ -155,7 +155,7 @@ body {
 
 @media screen and (max-width: 767px) {
   .message-container {
-    max-height: auto; /* Adjust height as needed */
+    max-height: 87vh; /* Adjust height as needed */
     margin-left: 0rem;
   }
 
