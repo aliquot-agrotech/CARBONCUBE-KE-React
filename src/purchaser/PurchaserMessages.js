@@ -95,58 +95,62 @@ const PurchaserMessages = () => {
     return (
         <>
         <TopNavbar />
-        <div className="messages-page">
-            <Container fluid className="p-0">
-            <Row>
-                <Col xs={12} md={2} className="p-0">
-                <Sidebar />
-                </Col>
-                <Col xs={12} md={10} className="p-0 p-md-2 mt-3">
-                <Card className="message-container">
-                    <Card.Header className="messages-header justify-content-center">
-                    <FontAwesomeIcon className="me-3" icon={faUser} /> Admin
-                    </Card.Header>
-                    <Card.Body className="messages-scroll">
-                    {loadingMessages ? (
-                        <div className="centered-loader">
-                        <Spinner variant="warning" name="cube-grid" style={{ width: 50, height: 50 }} />
-                        </div>
-                    ) : (
-                        <>
-                        {messages.map((message) => {
-                            const isSent = message.sender_type === 'Purchaser';
-                            return (
-                            <div key={message.id} className={`message ${isSent ? 'sent' : 'received'}`}>
-                                <p>{message.content}</p>
-                                <span className="message-timestamp">
-                                {new Date(message.created_at).toLocaleTimeString()}
-                                </span>
-                            </div>
-                            );
-                        })}
-                        <div ref={messagesEndRef} /> {/* This empty div will be scrolled into view */}
-                        </>
-                    )}
-                    </Card.Body>
-                    <Card.Footer className="messages-footer">
-                    <Form className="message-form" onSubmit={handleSendMessage}>
-                        <Form.Control
-                        className="message-input"
-                        type="text"
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        placeholder="Type a message..."
-                        />
-                        <Button type="submit" variant="warning" className="message-send-btn">
-                        <FontAwesomeIcon icon={faPaperPlane} />
-                        </Button>
-                    </Form>
-                    </Card.Footer>
-                </Card>
-                </Col>
-            </Row>
-            </Container>
-        </div>
+            <div className="messages-page">
+                <Container fluid className="p-0">
+                    <Row>
+                        <Col xs={12} md={2} className="p-0">
+                            <Sidebar />
+                        </Col>
+                        <Col xs={12} md={10} className="p-0 p-md-2 mt-3">
+                            <Card className="message-container">
+                                <Card.Header className="messages-header justify-content-center">
+                                    <FontAwesomeIcon className="me-3" icon={faUser} /> Admin
+                                </Card.Header>
+                                <Card.Body className="messages-scroll">
+                                    {loadingMessages ? (
+                                        <div className="centered-loader">
+                                            <Spinner variant="warning" name="cube-grid" style={{ width: 50, height: 50 }} />
+                                        </div>
+                                    ) : (
+                                        <>
+                                            {messages.map((message) => {
+                                                const isSent = message.sender_type === 'Purchaser';
+                                                return (
+                                                    <div key={message.id} className={`message ${isSent ? 'sent' : 'received'}`}>
+                                                        <div className="message-inner">
+                                                            <div className="message-content">
+                                                                <p>{message.content}</p>
+                                                            </div>
+                                                            <span className="message-timestamp">
+                                                                {new Date(message.created_at).toLocaleTimeString()}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                            <div ref={messagesEndRef} />
+                                        </>
+                                    )}
+                                </Card.Body>
+                                <Card.Footer className="messages-footer">
+                                    <Form className="message-form" onSubmit={handleSendMessage}>
+                                        <Form.Control
+                                        className="message-input"
+                                        type="text"
+                                        value={newMessage}
+                                        onChange={(e) => setNewMessage(e.target.value)}
+                                        placeholder="Type a message..."
+                                        />
+                                        <Button type="submit" variant="warning" className="message-send-btn">
+                                        <FontAwesomeIcon icon={faPaperPlane} />
+                                        </Button>
+                                    </Form>
+                                </Card.Footer>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         </>
     );
 };
