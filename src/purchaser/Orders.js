@@ -187,33 +187,33 @@ const Orders = () => {
                                                 <td>{order.order_date || 'N/A'}</td>
                                                 <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
                                                     <Form.Control
-                                                    className="form-select text-center no-arrow"
-                                                    as="select"
-                                                    value={order.status}
-                                                    id="button"
-                                                    disabled
-                                                    style={{
-                                                        verticalAlign: 'middle',
-                                                        display: 'inline-block',
-                                                        width: '60%',
-                                                        height: '40px',
-                                                        backgroundColor: 
-                                                        order.status === 'Cancelled' ? '#FF0000' :
-                                                        order.status === 'Dispatched' ? '#007BFF' :
-                                                        order.status === 'In-Transit' ? '#80CED7' :
-                                                        order.status === 'Returned' ? '#6C757D' :
-                                                        order.status === 'Processing' ? '#FFC107' :
-                                                        order.status === 'Delivered' ? '#008000' : '',
-                                                        color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status)
-                                                        ? 'white' : 'black',
-                                                        cursor: 'not-allowed',
-                                                        pointerEvents: 'none',
-                                                        textAlign: 'center',
-                                                        lineHeight: '40px',
-                                                        padding: '0',
-                                                    }}
+                                                        className="form-select text-center no-arrow" // Custom class for removing arrow
+                                                        as="select"
+                                                        value={order.status}
+                                                        id="button"
+                                                        disabled // Disables the dropdown for the vendor
+                                                        style={{
+                                                            verticalAlign: 'middle',
+                                                            display: 'inline-block',
+                                                            width: '60%',
+                                                            height: '40px', // Adjust the height to your preference
+                                                            backgroundColor: 
+                                                                order.status === 'Cancelled' ? '#FF0000' :  // Red
+                                                                order.status === 'Dispatched' ? '#007BFF' : // Blue
+                                                                order.status === 'In-Transit' ? '#80CED7' : // Light Blue
+                                                                order.status === 'Returned' ? '#6C757D' :  // Grey
+                                                                order.status === 'Processing' ? '#FFC107' : // Yellow
+                                                                order.status === 'Delivered' ? '#008000' : '', // Green
+                                                            color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status) 
+                                                                ? 'white' : 'black', // White text for specific statuses
+                                                            cursor: 'not-allowed',
+                                                            pointerEvents: 'none',
+                                                            textAlign: 'center', // Center text horizontally
+                                                            lineHeight: '40px', // Match line height to height for vertical centering
+                                                            padding: '0', // Remove padding for perfect centering
+                                                        }}
                                                     >
-                                                    <option value={order.status}>{order.status}</option>
+                                                        <option value={order.status}>{order.status}</option>
                                                     </Form.Control>
                                                 </td>
                                                 </tr>

@@ -146,16 +146,16 @@ const VendorOrders = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-2">
+                        <Col xs={12} md={10} className="p-0">
                             <Card className="section">
-                                <Card.Header className="text-center">
+                            <Card.Header className="text-center orders-header">
                                     <Container fluid>
-                                        <Row className="justify-content-between align-items-center">
-                                            <Col xs={12} md={4} className="text-center">
-                                                <h3 className="mb-0">Orders</h3>
+                                        <Row className="d-flex flex-row flex-md-row justify-content-between align-items-center">
+                                            <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3">
+                                                <h4 className="mb-0 align-self-center">Orders</h4>
                                             </Col>
-                                            <Col xs={12} md={8}>
-                                                <div className="search-container text-center">
+                                            <Col xs="auto" className="d-flex align-items-center">
+                                                <div className="search-container d-flex align-items-center">
                                                     <Form>
                                                         <Form.Group controlId="searchPhoneNumberOrID">
                                                             <Form.Control
@@ -173,7 +173,8 @@ const VendorOrders = () => {
                                     </Container>
                                 </Card.Header>
 
-                                <Card.Body className="p-0">
+                                <Card.Body className="p-0 table-container">
+                                    <div className="table-responsive">
                                     <Table hover className="orders-table text-center">
                                         <thead className="table-header">
                                             <tr>
@@ -214,7 +215,7 @@ const VendorOrders = () => {
 
                                                         <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
                                                         <td className="price-container">
-                                                            <strong>
+                                                            <strong className='text-success'>
                                                                 {order.total_price ? (
                                                                     parseFloat(order.total_price).toFixed(2).split('.').map((part, index) => (
                                                                         <React.Fragment key={index}>
@@ -281,20 +282,22 @@ const VendorOrders = () => {
                                             )}
                                         </tbody>
                                     </Table>
+                                    </div>
+                                    
                                 </Card.Body>
                                 <Card.Footer>
                                 </Card.Footer>
                             </Card>
 
-                            <Modal show={showModal} onHide={handleCloseModal} size="lg">
+                            <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
                                 <Modal.Header className="justify-content-center">
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>
+                                <Modal.Body className="p-1 p-md-3">
                                     {selectedOrder ? (
                                         <>
                                             <Row>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={6} md={6}>
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='text-center'>Order ID</Card.Header>
                                                         <Card.Body className='text-center'>
@@ -302,7 +305,7 @@ const VendorOrders = () => {
                                                         </Card.Body>
                                                     </Card>
                                                 </Col>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={6} md={6}>
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='text-center'>Date Ordered</Card.Header>
                                                         <Card.Body className='text-center'>
@@ -315,7 +318,7 @@ const VendorOrders = () => {
                                                 <Col xs={12}>
                                                     <Card className="mb-2 custom-card-vendor">
                                                         <Card.Header as="h6" className='text-center'>Products</Card.Header>
-                                                        <Card.Body>
+                                                        <Card.Body className='p-2'>
                                                             {selectedOrder?.order_items?.length > 0 ? (
                                                                 <Table className="transparent-table transparent-table-striped justify-content-start" style={{ backgroundColor: 'transparent' }}>
                                                                     <thead>
@@ -331,7 +334,7 @@ const VendorOrders = () => {
                                                                             <tr key={item.id}>
                                                                                 <td>{item.product_title || 'Unknown Product'}</td>
                                                                                 <td>{item.quantity}</td>
-                                                                                <td>
+                                                                                <td className='text-success'>
                                                                                 {item.price ? (
                                                                                     parseFloat(item.price).toFixed(2).split('.').map((part, index) => (
                                                                                         <React.Fragment key={index}>
@@ -349,7 +352,7 @@ const VendorOrders = () => {
                                                                                     ))
                                                                                 ) : 'N/A'}
                                                                                 </td>
-                                                                                <td >
+                                                                                <td className='text-success'>
                                                                                     {(item.price && item.quantity) ? 
                                                                                         (item.price * item.quantity).toFixed(2).split('.').map((part, index) => (
                                                                                             <React.Fragment key={index}>
@@ -374,7 +377,7 @@ const VendorOrders = () => {
                                                                         <tr>
                                                                             <td colSpan="3"><strong>Order Total:</strong></td>
                                                                             <td>
-                                                                            <strong>
+                                                                            <strong className='text-success'>
                                                                                 {selectedOrder?.order_items?.length > 0 ? (
                                                                                     selectedOrder.order_items.reduce((acc, item) => {
                                                                                         const itemTotalPrice = (item.price || 0) * (item.quantity || 0);
@@ -413,7 +416,7 @@ const VendorOrders = () => {
                                     )}
                                 </Modal.Body>
 
-                                <Modal.Footer>
+                                <Modal.Footer className="p-1 p-md-2">
                                     <Button variant="danger" onClick={handleCloseModal}>Close</Button>
                                 </Modal.Footer>
                             </Modal>
