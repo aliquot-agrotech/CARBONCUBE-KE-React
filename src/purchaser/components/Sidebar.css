@@ -115,6 +115,11 @@
   .toggle-button.open {
     left: 180px;
   }
+
+  .toggle-button.collapsed {
+    left: 0px;
+    top: 67px;
+  }
 }
 
 .notification-link {

@@ -106,29 +106,28 @@ const Orders = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-0">
                             <Card className="section">
-                                <Card.Header className="text-center">
+                                <Card.Header className="text-center orders-header">
                                     <Container fluid>
-                                    <Row className="d-flex flex-column flex-md-row justify-content-between align-items-center">
-                                        <Col xs="auto" className="mb-3 mb-md-0 text-center">
-                                            <h4 className="mb-0">My Orders</h4>
-                                        </Col>
-                                        <Col xs="auto">
-                                            <div className="search-container text-center">
-                                            <Form>
-                                                <Form.Group controlId="searchPhoneNumberOrID">
-                                                <Form.Control
-                                                    type="text"
-                                                    placeholder="Search (Order ID)"
-                                                    className="form-control"
-                                                    value={searchQuery}
-                                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                                />
-                                                </Form.Group>
-                                            </Form>
-                                            </div>
-                                        </Col>
+                                        <Row className="d-flex flex-row flex-md-row justify-content-between align-items-center">
+                                            <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3">
+                                                <h4 className="mb-0 align-self-center">My Orders</h4>
+                                            </Col>
+                                            <Col xs="auto" className="d-flex align-items-center">
+                                                <div className="search-container d-flex align-items-center">
+                                                    <Form>
+                                                        <Form.Group controlId="searchPhoneNumberOrID">
+                                                            <Form.Control
+                                                                type="text"
+                                                                placeholder="Search (Order ID)"
+                                                                className="form-control"
+                                                                value={searchQuery}
+                                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                            />
+                                                        </Form.Group>
+                                                    </Form>
+                                                </div>
+                                            </Col>
                                         </Row>
-
                                     </Container>
                                 </Card.Header>
 
