@@ -71,17 +71,14 @@
   }
 
   .content-area {
-    padding-top: 3.5rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .analytics-reporting-page {
-    padding: 1rem;
+    padding-top: 3rem;
+    
   }
 
-  .content-area {
-    padding-left: 1rem;
+  .analytics-reporting-page{
+    margin: 0.5rem;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
     padding-right: 1rem;
   }
 }

@@ -60,7 +60,25 @@ const SalesPerformance = ({ data, totalRevenue }) => {
           </div>
           <p style={{ marginTop: '10px' }}>{month}</p>
           <p style={{ fontWeight: 'bold' }}>
-            {new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES' }).format(data[month])}
+            <em className='analytics-product-price-label text-success'>Kshs: </em>
+            <strong style={{ fontSize: '18px' }} className="text-danger">
+            {data[month].toString().split('.').map((part, index) => (
+              <React.Fragment key={index}>
+                {index === 0 ? (
+                  <span className="analytics-price-integer">
+                    {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                  </span>
+                ) : (
+                  <>
+                    <span style={{ fontSize: '10px' }}>.</span>
+                    <span className="analytics-price-decimal">
+                      {(part || '00').padEnd(2, '0').slice(0, 2)} {/* Ensure two decimal points */}
+                    </span>
+                  </>
+                )}
+              </React.Fragment>
+            ))}
+            </strong>
           </p>
         </div>
       ))}

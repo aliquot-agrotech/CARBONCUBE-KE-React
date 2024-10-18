@@ -54,13 +54,13 @@ const VendorAnalytics = () => {
       <TopNavbar />
       <Container fluid className="analytics-reporting-page">
         <Row>
-          <Col xs={12} md={2} className="p-0">
+          <Col xs={12} lg={2} className="p-0">
             <Sidebar />
           </Col>
-          <Col xs={12} md={10} className="content-area">
+          <Col xs={12} lg={9} className="content-area">
             <Row>
-              <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Col xs={12} md={3} className="">
+                <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Orders
                   </Card.Header>
@@ -72,7 +72,7 @@ const VendorAnalytics = () => {
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Average Rating
                   </Card.Header>
@@ -84,7 +84,7 @@ const VendorAnalytics = () => {
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Products
                   </Card.Header>
@@ -96,7 +96,7 @@ const VendorAnalytics = () => {
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Reviews
                   </Card.Header>
@@ -110,14 +110,14 @@ const VendorAnalytics = () => {
             </Row>
             <Row>
               <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Revenue
                   </Card.Header>
                   <Card.Body>
                     <Card.Text className="analytics-price-container">
-                      <em className='analytics-product-price-label'>Kshs: </em>
-                      <strong>
+                      <em className='analytics-product-price-label text-success'>Kshs: </em>
+                      <strong className="text-danger">
                         {formattedRevenue.split('.').map((part, index) => (
                           <React.Fragment key={index}>
                             {index === 0 ? (
@@ -140,7 +140,7 @@ const VendorAnalytics = () => {
             </Row>
             <Row>
               <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
+              <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Sales Performance (Last 3 Months)
                   </Card.Header>
@@ -150,7 +150,7 @@ const VendorAnalytics = () => {
                 </Card>
               </Col>
               <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
+              <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Top Selling Products
                   </Card.Header>
