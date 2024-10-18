@@ -155,22 +155,24 @@ const ProfilePage = () => {
                             <Container>
                                 <div className="profile-container">
                                 <Container>
-                                    <Row className="align-items-center vertical-center d-flex">
+                                    <Row className="align-items-center text-center vertical-center d-flex mb-0">
                                         {/* Left Side: Welcome Message and Date */}
-                                        <Col md={6}>
-                                            <h3>Welcome, {profile.fullname}</h3>
-                                            <p>{new Date().toLocaleDateString()}</p>
+                                        <Col xs={8} md={6} lg={6} className="d-flex justify-content-start">
+                                            <div className="mt-4">
+                                                <h3>Welcome, <em className="text-primary">{profile.fullname}</em></h3>
+                                                <p>{new Date().toLocaleDateString()}</p>
+                                            </div>
                                         </Col>
 
                                         {/* Right Side: Profile Picture and Username */}
-                                        <Col md={6} className="d-flex justify-content-end">
+                                        <Col xs={4} md={6} lg={6} className="d-flex justify-content-end">
                                             <div className="text-right">
                                                 <img src={profile.profilepicture} alt="Profile" className="profile-pic" />
                                                 <p>@{profile.username}</p>
                                             </div>
                                         </Col>
                                     </Row>
-                                </Container>                                
+                                </Container>                               
                                     <div className="profile-info">
                                         <Form>
                                             {/* Bio Section */}
@@ -380,7 +382,7 @@ const ProfilePage = () => {
                                                 </Row>
 
                                                 {/* Buttons Section */}
-                                                <Row className="d-flex justify-content-between align-items-center">
+                                                <Row className="button-row d-flex justify-content-between align-items-center">
                                                     <Col md={4} className="d-flex justify-content-start">
                                                         <Button variant="warning" id="button" onClick={handleEditClick}>
                                                             {editMode ? 'Cancel' : 'Edit'}
