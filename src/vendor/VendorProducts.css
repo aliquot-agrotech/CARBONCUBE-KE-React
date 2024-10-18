@@ -109,3 +109,10 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   background: linear-gradient(135deg, #cbcbcb, #fff69a); /* Gradient from two colors */
 }
+
+
+@media screen and (max-width: 767px) {
+  .search-container .search-input {
+    width: 85%;
+  }
+}

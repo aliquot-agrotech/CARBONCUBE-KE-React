@@ -593,25 +593,26 @@ const VendorProducts = () => {
                             <Sidebar />
                         </Col>
                         <Col xs={12} md={10} className="p-2">
-                            <Row className="justify-content-center d-flex align-items-center">
-                                <Col xs={12} md={8} lg={6} className="mb-3 pt-3">
-                                    <div className="search-container d-flex align-items-center">
-                                        <FormControl
-                                            placeholder="Search products..."
-                                            aria-label="Search products"
-                                            aria-describedby="search-icon"
-                                            value={searchTerm}
-                                            onChange={handleSearchChange}
-                                            className="search-input"
-                                        />
-                                    </div>
-                                </Col>
-                                <Col xs={12} md={4} lg={3} className="mb-3 pt-3 justify-content-start">
-                                    <Button id="button" variant="warning" onClick={() => setShowAddModal(true)}>
-                                        Add New Product
-                                    </Button>
-                                </Col>
-                            </Row>
+                        <Row className="justify-content-center d-flex align-items-center">
+                            <Col xs={7} md={8} lg={6} className="mb-3 pt-3 justify-content-end">
+                                <div className="search-container d-flex align-items-center">
+                                    <FormControl
+                                        placeholder="Search products..."
+                                        aria-label="Search products"
+                                        aria-describedby="search-icon"
+                                        value={searchTerm}
+                                        onChange={handleSearchChange}
+                                        className="search-input text-end"
+                                    />
+                                </div>
+                            </Col>
+                            <Col xs={5} md={4} lg={3} className="mb-3 pt-3 d-flex justify-content-end">
+                                <Button id="button" variant="warning" onClick={() => setShowAddModal(true)}>
+                                    Add New Product
+                                </Button>
+                            </Col>
+                        </Row>
+
                             <Row>
                                 {filteredProducts.length > 0 ? (
                                     filteredProducts.map(renderProductCard)
