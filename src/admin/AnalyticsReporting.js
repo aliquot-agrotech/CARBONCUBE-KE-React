@@ -52,8 +52,8 @@ const AnalyticsReporting = () => {
           </Col>
           <Col xs={12} md={10} className="content-area">
             <Row>
-              <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Col xs={6} md={3}>
+                <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Vendors
                   </Card.Header>
@@ -65,8 +65,8 @@ const AnalyticsReporting = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Col xs={6} md={3}>
+                <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Purchasers
                   </Card.Header>
@@ -78,8 +78,8 @@ const AnalyticsReporting = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Col xs={6} md={3}>
+                <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Orders
                   </Card.Header>
@@ -91,8 +91,8 @@ const AnalyticsReporting = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Col xs={6} md={3}>
+                <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Products
                   </Card.Header>
@@ -106,8 +106,8 @@ const AnalyticsReporting = () => {
               </Col>
             </Row>
             <Row>
-              <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Col xs={6} md={3}>
+                <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Reviews
                   </Card.Header>
@@ -120,8 +120,8 @@ const AnalyticsReporting = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+              <Col xs={6} md={3}>
+                <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Products Sold
                   </Card.Header>
@@ -132,7 +132,7 @@ const AnalyticsReporting = () => {
                 </Card>
               </Col>
               <Col xs={12} md={3}>
-                <Card className="mb-4 custom-card">
+                <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Revenue
                   </Card.Header>
@@ -166,7 +166,7 @@ const AnalyticsReporting = () => {
             </Row>
             <Row>
               <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
+              <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Category Analytics
                   </Card.Header>

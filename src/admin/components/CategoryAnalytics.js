@@ -1,5 +1,6 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
+import { Col, Row } from 'react-bootstrap';
 import 'chart.js/auto';
 import './CategoryAnalytics.css'; // Ensure this file contains your CSS
 
@@ -30,19 +31,28 @@ const CategoryAnalytics = ({ data }) => {
   };
 
   return (
-    <div className="category-analytics">
+    <Row>
       {data.map((category, index) => (
-        <div className="chart-container" key={index}>
-          <Doughnut data={chartData(category)} options={chartOptions} />
-          <div className="chart-label">
-            <p><span>{category.category_name} </span></p>
+        <Col xs={6} md={4} lg={3} className="mb-4" key={index}>
+          <div className="category-analytics text-center">
+          <div className="chart-container">
+          <div >
+              <Doughnut data={chartData(category)} options={chartOptions} />
+            </div>
+            <div className="chart-label mt-2">
+              <p><span>{category.category_name}</span></p>
+            </div>
+            <div className="chart-label">
+              <span><strong className="text-danger">
+                {((category.total_sold / totalProductsSold) * 100).toFixed(2)} %
+              </strong></span>
+            </div>
           </div>
-          <div className="chart-label">
-            <span><strong className="text-danger">{((category.total_sold / totalProductsSold) * 100).toFixed(2)} %</strong></span>
           </div>
-        </div>
+            
+        </Col>
       ))}
-    </div>
+    </Row>    
   );
 };
 
