@@ -9,3 +9,14 @@
     padding-top: 60px;
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
+
+.bookmark-body {
+    background-color: #ededed;
+    text-align: start;
+}
+
+@media screen and (max-width: 767px) {
+    .bookmarks-page h2 {
+        text-align: center;
+    }
+}

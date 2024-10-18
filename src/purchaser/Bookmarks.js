@@ -88,12 +88,12 @@ const Bookmarks = () => {
                       <Col key={bookmark.product.id} md={3} className="mb-4">
                         <Card>
                           <Card.Img variant="top" src={bookmark.product.first_media_url} />
-                          <Card.Body className="p-2">
+                          <Card.Body className="p-2 bookmark-body">
                             <Card.Title>{bookmark.product.title}</Card.Title>
-                            <Card.Text>
-                              <em className='product-price-label'>Kshs: </em>
-                              <strong>
-                                {bookmark.product.price ? bookmark.product.price.split('.').map((part, index) => (
+                            <Card.Text >
+                              <em className='product-price-label' style={{ fontSize: '13px' }}>Kshs: </em>
+                              <strong className="text-success">
+                                {bookmark.product.price ? parseFloat(bookmark.product.price).toFixed(2).split('.').map((part, index) => (
                                   <React.Fragment key={index}>
                                     {index === 0 ? (
                                       <span className="price-integer">
@@ -108,6 +108,7 @@ const Bookmarks = () => {
                                   </React.Fragment>
                                 )) : 'N/A'}
                               </strong>
+
                               <br />
                               {/* Rating: 
                               <span className="stars">
