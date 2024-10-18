@@ -143,10 +143,10 @@ const Messages = () => {
             <Col xs={12} md={2} className="p-0">
               <Sidebar />
             </Col>
-            <Col xs={12} md={10} className="p-2">
+            <Col xs={12} md={10} className="p-1 p-lg-2">
               <Row>
                 <Col xs={12} md={2}>
-                  <Card className="conversations-list">
+                  <Card className="conversations-list mt-2 mt-lg-4">
                     <Card.Header className="conversations-header text-center justify-content-center">
                       <strong>Conversations</strong>
                     </Card.Header>
@@ -184,9 +184,9 @@ const Messages = () => {
                     </Card.Body>
                   </Card>
                 </Col>
-                <Col xs={12} md={10} className="messages-list">
+                <Col xs={12} md={10} className="messages-list ">
                   {selectedConversation ? (
-                    <Card className="message-container">
+                    <Card className="message-container mt-2 mt-lg-4">
                       <Card.Header className="messages-header justify-content-center">
                         <FontAwesomeIcon className="me-3" icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
                       </Card.Header>
