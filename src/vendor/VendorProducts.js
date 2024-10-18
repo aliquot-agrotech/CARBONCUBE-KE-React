@@ -462,13 +462,13 @@ const VendorProducts = () => {
     };
 
     const renderProductCard = (product) => (
-        <Col xs={12} md={6} lg={3} key={product.id} className="mb-4">
+        <Col xs={12} md={6} lg={3} key={product.id} className="mb-2 mb-lg-4 p-1 p-lg-0">
             <Card>
             <Card.Img 
                 variant="top" 
                 src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
             />
-                <Card.Body className='p-2'>
+                <Card.Body className='p-2 bookmark-body'>
                     <Card.Title>{product.title}</Card.Title>
                     <Card.Text>
                         <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
@@ -594,7 +594,7 @@ const VendorProducts = () => {
                         </Col>
                         <Col xs={12} md={10} className="p-2">
                         <Row className="justify-content-center d-flex align-items-center">
-                            <Col xs={7} md={8} lg={6} className="mb-3 pt-3 justify-content-end">
+                            <Col xs={7} md={8} lg={6} className="mb-1 mb-md-3 pt-2 pt-md-3 justify-content-end">
                                 <div className="search-container d-flex align-items-center">
                                     <FormControl
                                         placeholder="Search products..."
@@ -606,7 +606,7 @@ const VendorProducts = () => {
                                     />
                                 </div>
                             </Col>
-                            <Col xs={5} md={4} lg={3} className="mb-3 pt-3 d-flex justify-content-end">
+                            <Col xs={5} md={4} lg={3} className="mb-1 mb-md-3 pt-2 pt-md-3 d-flex justify-content-start">
                                 <Button id="button" variant="warning" onClick={() => setShowAddModal(true)}>
                                     Add New Product
                                 </Button>
@@ -628,7 +628,7 @@ const VendorProducts = () => {
 
 {/* ============================================================ START PRODUCT DETAILS MODAL ==================================================================================*/}
 
-                <Modal show={showDetailsModal} onHide={handleModalClose} size="lg">
+                <Modal centered show={showDetailsModal} onHide={handleModalClose} size="lg">
                     <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
                     </Modal.Header>
@@ -778,7 +778,7 @@ const VendorProducts = () => {
 
 {/* ============================================================ START EDIT PRODUCT MODAL ==================================================================================*/}
 
-                <Modal show={showEditModal} onHide={handleModalClose} size="lg">
+                <Modal centered show={showEditModal} onHide={handleModalClose} size="lg">
                     <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct ? `Edit ${selectedProduct.title}` : 'Edit Product'}</Modal.Title>
                     </Modal.Header>
