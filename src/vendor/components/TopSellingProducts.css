@@ -13,9 +13,10 @@
   margin-top: 0.5rem;
 }
 
-.card-title {
+.analytics-card-body .card-title {
   font-size: 1.25rem;
   font-weight: bold;
+
 }
 
 .card-subtitle {
@@ -31,7 +32,7 @@
   display: flex;
   justify-content: center;
   align-items: baseline;
-  margin-top: 0.5rem;
+  margin-top: 0rem;
 }
 
 .analytics-product-price-label {

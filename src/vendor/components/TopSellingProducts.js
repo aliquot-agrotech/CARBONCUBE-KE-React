@@ -6,7 +6,7 @@ const TopSellingProducts = ({ data }) => {
   return (
     <Row>
       {data.map((product) => (
-        <Col xs={12} md={6} lg={4} key={product.product_id} className="mb-4">
+        <Col xs={12} md={6} lg={4} key={product.product_id} className="mb-1 mb-lg-2">
           <Card className="h-100">
             <Card.Img
               className="analytics-card-img-top product-image"
@@ -14,9 +14,9 @@ const TopSellingProducts = ({ data }) => {
               src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}
             />
             <Card.Body className="analytics-card-body p-0 mx-2">
-              <Card.Title className='d-flex justify-content-start' style={{ fontSize: '17px' }}>{product.product_title}</Card.Title>
+              <Card.Title className='d-flex justify-content-start mb-0 mb-lg-1' style={{ fontSize: '17px' }}>{product.product_title}</Card.Title>
               <Card.Text className="analytics-price-container justify-content-start">
-                <span className="text-success"><em>Kshs:</em></span>
+                <em className="text-success" style={{ fontSize: '12px' }}>Kshs: </em>
                 <strong style={{ fontSize: '18px' }} className="text-danger">
                   {product.product_price.split('.').map((part, index) => (
                     <React.Fragment key={index}>
