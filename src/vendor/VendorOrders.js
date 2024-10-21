@@ -143,10 +143,10 @@ const VendorOrders = () => {
             <div className="orders-management-page">
                 <Container fluid className="p-0">
                     <Row>
-                        <Col xs={12} md={2} className="p-0">
+                        <Col xs={12} lg={2} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-0">
+                        <Col xs={12} lg={9} md={10} className="p-0">
                             <Card className="section">
                             <Card.Header className="text-center orders-header">
                                     <Container fluid>
