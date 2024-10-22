@@ -462,13 +462,13 @@ const VendorProducts = () => {
     };
 
     const renderProductCard = (product) => (
-        <Col xs={12} md={6} lg={3} key={product.id} className="mb-2 mb-lg-4 p-1 p-lg-0">
+        <Col xs={12} md={6} lg={3} key={product.id} className="mb-4">
             <Card>
-            <Card.Img 
-                variant="top" 
-                src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
-            />
-                <Card.Body className='p-2 bookmark-body'>
+                <Card.Img 
+                    variant="top" 
+                    src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
+                />
+                <Card.Body className="p-2 bookmark-body">
                     <Card.Title>{product.title}</Card.Title>
                     <Card.Text>
                         <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
@@ -592,26 +592,26 @@ const VendorProducts = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-2">
-                        <Row className="justify-content-center d-flex align-items-center">
-                            <Col xs={7} md={8} lg={6} className="mb-1 mb-md-3 pt-2 pt-md-3 justify-content-end">
-                                <div className="search-container d-flex align-items-center">
-                                    <FormControl
-                                        placeholder="Search products..."
-                                        aria-label="Search products"
-                                        aria-describedby="search-icon"
-                                        value={searchTerm}
-                                        onChange={handleSearchChange}
-                                        className="search-input text-end"
-                                    />
-                                </div>
-                            </Col>
-                            <Col xs={5} md={4} lg={3} className="mb-1 mb-md-3 pt-2 pt-md-3 d-flex justify-content-start">
-                                <Button id="button" variant="warning" onClick={() => setShowAddModal(true)}>
-                                    Add New Product
-                                </Button>
-                            </Col>
-                        </Row>
+                        <Col xs={12} md={9} lg={9} className="p-2">
+                            <Row className="justify-content-center d-flex align-items-center">
+                                <Col xs={7} md={8} lg={6} className="mb-1 mb-md-3 pt-2 pt-md-3 justify-content-end">
+                                    <div className="search-container d-flex align-items-center">
+                                        <FormControl
+                                            placeholder="Search products..."
+                                            aria-label="Search products"
+                                            aria-describedby="search-icon"
+                                            value={searchTerm}
+                                            onChange={handleSearchChange}
+                                            className="search-input text-end"
+                                        />
+                                    </div>
+                                </Col>
+                                <Col xs={5} md={4} lg={3} className="mb-1 mb-md-3 pt-2 pt-md-3 d-flex justify-content-start">
+                                    <Button id="button" variant="warning" onClick={() => setShowAddModal(true)}>
+                                        Add New Product
+                                    </Button>
+                                </Col>
+                            </Row>
 
                             <Row>
                                 {filteredProducts.length > 0 ? (
