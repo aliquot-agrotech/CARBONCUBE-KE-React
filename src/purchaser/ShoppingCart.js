@@ -12,7 +12,7 @@ import './ShoppingCart.css';
 const ShoppingCart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
-    const deliveryFee = 100;
+    const deliveryFee = 150;
     const [total, setTotal] = useState(0);
     const [processingFee, setProcessingFee] = useState(0);
     // const [discountCode, setDiscountCode] = useState('');
