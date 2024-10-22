@@ -50,7 +50,7 @@ const AnalyticsReporting = () => {
           <Col xs={12} md={2} className="p-0">
             <Sidebar />
           </Col>
-          <Col xs={12} md={10} className="content-area">
+          <Col xs={12} md={10} lg={9} className="content-area">
             <Row>
               <Col xs={6} md={3}>
                 <Card className="mb-2 mb-lg-4 custom-card">

@@ -137,7 +137,7 @@ const OrdersManagement = () => {
                         </Container>
                             
                         </Col>
-                        <Col xs={12} md={10} className="p-2">
+                        <Col xs={12} md={10} lg={9} className="p-2">
                             <Card className="section">
                                 <Card.Header className="text-center">
                                     <Container fluid>
