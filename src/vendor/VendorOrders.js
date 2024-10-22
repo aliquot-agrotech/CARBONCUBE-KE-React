@@ -148,7 +148,7 @@ const VendorOrders = () => {
                         </Col>
                         <Col xs={12} lg={9} md={10} className="p-0">
                             <Card className="section">
-                            <Card.Header className="text-center orders-header">
+                                <Card.Header className="text-center orders-header">
                                     <Container fluid>
                                         <Row className="d-flex flex-row flex-md-row justify-content-between align-items-center">
                                             <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3">

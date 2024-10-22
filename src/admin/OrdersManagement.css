@@ -105,7 +105,12 @@ body {
   }
 
 .form-select-admin {
-  vertical-align: middle;
+    vertical-align: middle;
+    padding: 0 !important; /* Ensure there's no padding affecting the display */
+    min-width: 100px; /* Set a minimum width to accommodate shorter status text */
+    width: auto; /* Allow the width to adjust based on content */
+    height: 40px; /* Uniform height for status display */
+    text-align: center; /* Center the text horizontally */
 }
 
 
@@ -143,6 +148,7 @@ body {
 /* Product Container Styles */
 .product-container {
     margin-top: 10px;
+    white-space: nowrap
 }
 
 /* Sub-Table Styles */
