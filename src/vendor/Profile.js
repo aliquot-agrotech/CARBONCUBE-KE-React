@@ -151,8 +151,8 @@ const ProfilePage = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-2">
-                            <Container>
+                        <Col xs={12} md={10} lg={9} className="p-2">
+                            {/* <Container> */}
                                 <div className="profile-container">
                                 <Container>
                                     <Row className="align-items-center text-center vertical-center d-flex mb-0">
@@ -407,7 +407,7 @@ const ProfilePage = () => {
 
                                     </div>
                                 </div>
-                            </Container>
+                            {/* </Container> */}
                         </Col>
                     </Row>
                 </Container>

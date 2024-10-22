@@ -602,7 +602,7 @@ const VendorProducts = () => {
                                             aria-describedby="search-icon"
                                             value={searchTerm}
                                             onChange={handleSearchChange}
-                                            className="search-input text-end"
+                                            className="search-input text-center"
                                         />
                                     </div>
                                 </Col>
