@@ -290,7 +290,7 @@ const OrdersManagement = () => {
                                 <Modal.Header className="justify-content-center">
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>
+                                <Modal.Body className="p-1 p-lg-3">
                                     {selectedOrder ? (
                                         <>
                                             <Row>
