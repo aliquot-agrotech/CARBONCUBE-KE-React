@@ -294,18 +294,18 @@ const OrdersManagement = () => {
                                     {selectedOrder ? (
                                         <>
                                             <Row>
-                                                <Col xs={12} md={6} >
+                                                <Col xs={6} md={6} lg={6} >
                                                     <Card className="mb-2 custom-card">
-                                                        <Card.Header as="h6" className='justify-content-center'>Order ID</Card.Header>
-                                                        <Card.Body className='text-center p-3'>
+                                                        <Card.Header as="h6" className='justify-content-start'>Order ID</Card.Header>
+                                                        <Card.Body className='text-center p-2 p-lg-3'>
                                                             {selectedOrder.id}
                                                         </Card.Body>
                                                     </Card>
                                                 </Col>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={6} md={6} lg={6}>
                                                     <Card className="mb-2 custom-card">
-                                                        <Card.Header as="h6" className='justify-content-center'>Purchaser</Card.Header>
-                                                        <Card.Body className='text-center p-3'>
+                                                        <Card.Header as="h6" className='justify-content-start'>Purchaser</Card.Header>
+                                                        <Card.Body className='text-center p-2 p-lg-3'>
                                                             {selectedOrder.purchaser?.fullname || 'Unknown'}
                                                         </Card.Body>
                                                     </Card>
@@ -313,18 +313,18 @@ const OrdersManagement = () => {
                                             </Row>
                                         
                                             <Row>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={6} md={6} lg={6}>
                                                     <Card className="mb-2 custom-card">
-                                                        <Card.Header as="h6" className='justify-content-center'>Date Ordered</Card.Header>
-                                                        <Card.Body className='text-center p-3'>
+                                                        <Card.Header as="h6" className='justify-content-start'>Date Ordered</Card.Header>
+                                                        <Card.Body className='text-center p-2 p-lg-3'>
                                                             {selectedOrder.order_date || 'N/A'}
                                                         </Card.Body>
                                                     </Card>
                                                 </Col>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={6} md={6} lg={6}>
                                                     <Card className="mb-2 custom-card">
-                                                        <Card.Header as="h6" className='justify-content-center'>Total Price</Card.Header>
-                                                        <Card.Body className="price-container text-center p-3">
+                                                        <Card.Header as="h6" className='justify-content-start'>Total Price</Card.Header>
+                                                        <Card.Body className="price-container text-center p-2 p-lg-3">
                                                         <span><em className='text-success'>Kshs: </em></span>
                                                         <strong className='text-success'>
                                                             <span className="price">
@@ -350,9 +350,9 @@ const OrdersManagement = () => {
                                                 </Col>
                                             </Row>
                                         
-                                            <Card className="mt-4 custom-card">
-                                                <Card.Header className="justify-content-start text-center">
-                                                    <h4>Products</h4>
+                                            <Card className="mt-2 mt-lg-4 custom-card">
+                                                <Card.Header className="justify-content-start text-center pb-1">
+                                                    <h4 className="mb-0">Products</h4>
                                                 </Card.Header>
                                                 <Card.Body>
                                                     <div className="product-container text-start">
@@ -414,8 +414,8 @@ const OrdersManagement = () => {
                                         <p>No details available</p>
                                     )}
                                 </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="danger" id="button" onClick={handleCloseModal}>
+                                <Modal.Footer className="p-1 p-lg-2">
+                                    <Button variant="danger" id="button" onClick={handleCloseModal} >
                                         Close
                                     </Button>
                                 </Modal.Footer>
