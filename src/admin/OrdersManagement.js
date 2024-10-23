@@ -132,11 +132,11 @@ const OrdersManagement = () => {
                 <Container fluid className="p-0">
                     <Row>
                         <Col xs={12} md={2} className="p-0">
-                        <Container fluid>
-                        <Sidebar />
-                        </Container>
-                            
+                            <Container fluid>
+                                <Sidebar />
+                            </Container>                            
                         </Col>
+
                         <Col xs={12} md={10} lg={9} className="p-0 p-lg-2">
                             <Card className="section">
                                 <Card.Header className="text-center orders-header">
