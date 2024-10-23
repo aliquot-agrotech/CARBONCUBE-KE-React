@@ -45,3 +45,10 @@
   padding: 1rem; /* Adjust padding as needed */
   color: #fff;
 }
+
+@media (max-width: 768px) {
+  .content-management-page {
+    padding: 5px;
+    padding-top: 10px;
+  }
+}

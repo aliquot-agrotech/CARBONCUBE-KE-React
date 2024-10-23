@@ -226,11 +226,11 @@ const ContentManagement = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-1">
+                        <Col xs={12} md={10} lg={9} className="p-1">
                             {/* About Us Section */}
                             <div>
                                 <Card className="section">
-                                    <Card.Header className="text-center justify-content-center">
+                                    <Card.Header className="text-center justify-content-center orders-header">
                                         ABOUT US
                                     </Card.Header>
                                     <Card.Body>
@@ -313,7 +313,7 @@ const ContentManagement = () => {
                             {/* FAQs Section */}
                             <div className="section">
                                 <Card className="section">
-                                    <Card.Header className="text-center justify-content-center">
+                                    <Card.Header className="text-center justify-content-center orders-header">
                                         FAQs
                                     </Card.Header>
                                     <Card.Body>
