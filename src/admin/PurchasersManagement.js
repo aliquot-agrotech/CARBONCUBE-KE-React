@@ -117,39 +117,38 @@ const PurchasersManagement = () => {
       <div className="purchasers-management-page">
         <Container fluid className="p-0">
           <Row>
-            <Col xs={12} md={2} className="p-0 d-flex flex-column">
+            <Col xs={12} md={2} className="p-0">
               <Sidebar />
             </Col>
-            <Col xs={12} md={10} className="p-2 d-flex flex-column">
+            <Col xs={12} md={10} lg={9} className="p-0 p-lg-2">
               <Card className="section">
-                <Card.Header className="text-center">
-                    <Container fluid>
-                        <Row className="justify-content-between align-items-center">
-                            <Col xs={12} md={4} className="text-center">
-                                <h3 className="mb-0">Purchasers </h3>
-                            </Col>
-                            <Col xs={12} md={8}>
-                                <div className="search-container text-center">
-                                    <Form>
+                <Card.Header className="text-center orders-header">
+                  <Container fluid>
+                    <Row className="d-flex flex-row flex-md-row justify-content-between align-items-center">
+                        <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3">
+                            <h4 className="mb-0 align-self-center">Purchasers</h4>
+                        </Col>
+                        <Col xs="auto" className="d-flex align-items-center">
+                            <div className="search-container d-flex align-items-center">
+                                <Form>
                                     <Form.Group controlId="searchPhoneNumberOrID">
                                         <Form.Control
-                                        type="text"
-                                        placeholder="Search (Phone Number or ID)"
-                                        className="form-control"
-                                        id="button"
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                            type="text"
+                                            placeholder="Search (Vendor ID)"
+                                            className="form-control"
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
                                         />
                                     </Form.Group>
-                                    </Form>
-                                </div>
-                            </Col>
-
-                        </Row>
-                    </Container>
+                                </Form>
+                            </div>
+                        </Col>
+                    </Row>
+                  </Container>
                 </Card.Header>
-                <Card.Body className='p-0 m-0'>
-                  <Table hover className="purchasers-table text-center">
+                <Card.Body className='p-0 m-0 table-container'>
+                  <div className="table-responsive">
+                  <Table hover className="orders-table text-center">
                     <thead className="table-header">
                       <tr>
                         <th>Purchaser ID</th>
@@ -193,13 +192,15 @@ const PurchasersManagement = () => {
                       )}
                     </tbody>
                   </Table>
+                  </div>
+                  
                 </Card.Body>
                 <Card.Footer className="text-center">
                 </Card.Footer>
               </Card>
               
 
-              <Modal show={showModal} onHide={handleCloseModal} size="lg">
+              <Modal centeredshow={showModal} onHide={handleCloseModal} size="lg">
                 <Modal.Header className="justify-content-center">
                   <Modal.Title>Purchaser Details</Modal.Title>
                 </Modal.Header>

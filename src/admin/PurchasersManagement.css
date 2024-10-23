@@ -134,4 +134,11 @@ body, html {
       width: 100%;
     }
   }
+
+  @media (max-width: 768px) {
+    .purchasers-management-page {
+      padding: 5px;
+      padding-top: 10px;
+    }
+  }
   
