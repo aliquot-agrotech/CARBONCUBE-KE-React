@@ -192,7 +192,7 @@ const CategoriesManagement = () => {
                         <Col xs={12} md={2} className="p-0 d-flex flex-column">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-2 d-flex flex-column">
+                        <Col xs={12} md={10} lg={9} className="p-2 d-flex flex-column">
                             <Card className="section">
                                 <Card.Header className="justify-content-center">
                                     <h3 className="mb-0">Categories</h3>
@@ -202,10 +202,10 @@ const CategoriesManagement = () => {
                                         <Container>
                                             <Row>
                                                 {categories.map((category) => (
-                                                    <Col xs={12} md={6} lg={6} key={category.id} className="mb-3">
+                                                    <Col xs={12} md={6} lg={6} key={category.id} className="mb-1 p-1 p-lg-2">
                                                         <Card className="custom-card">
                                                             <Card.Header className="justify-content-center">
-                                                                <h3 className="mb-0">{category.name}</h3>
+                                                                <h4 className="mb-0">{category.name}</h4>
                                                             </Card.Header>
                                                             <Card.Body className="justify-content-between align-items-center">
                                                                 <ul>
@@ -236,7 +236,7 @@ const CategoriesManagement = () => {
                                     </Button>
                                 </Card.Footer>
                             </Card>
-                            <Modal show={showModal} onHide={handleCloseModal} size="lg">
+                            <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
                                 <Modal.Header className="justify-content-center">
                                     <Modal.Title>{isEditing ? 'Edit Category' : 'Add New Category'}</Modal.Title>
                                 </Modal.Header>
