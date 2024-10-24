@@ -230,7 +230,7 @@ const ContentManagement = () => {
                             {/* About Us Section */}
                             <div>
                                 <Card className="section">
-                                    <Card.Header className="text-center justify-content-center orders-header">
+                                    <Card.Header className="text-center justify-content-center orders-header p-0 p-lg-1">
                                         ABOUT US
                                     </Card.Header>
                                     <Card.Body>
@@ -297,7 +297,7 @@ const ContentManagement = () => {
                                             </Form.Group>
                                         </Form>
                                     </Card.Body>
-                                    <Card.Footer className="text-center">
+                                    <Card.Footer className="text-center p-0 p-lg-1">
                                         <Button
                                             variant="warning"
                                             onClick={() => handleEditClick('abouts', about)}
@@ -311,12 +311,12 @@ const ContentManagement = () => {
                             </div>
 
                             {/* FAQs Section */}
-                            <div className="section">
-                                <Card className="section">
-                                    <Card.Header className="text-center justify-content-center orders-header">
+                            <div>
+                                <Card className="section mt-3">
+                                    <Card.Header className="text-center justify-content-center orders-header p-0 p-lg-1">
                                         FAQs
                                     </Card.Header>
-                                    <Card.Body>
+                                    <Card.Body className='p-0 table-container'>
                                     <Table hover className="faqs-table text-center">
                                         <thead>
                                             <tr>
@@ -363,15 +363,15 @@ const ContentManagement = () => {
                                         </tbody>
                                     </Table>
                                     </Card.Body>
-                                    <Card.Footer className="text-center">
+                                    <Card.Footer className="text-center p-0 p-lg-1">
                                     </Card.Footer>
                                 </Card>
                             </div>
 
                             {/* Banner Section */}
-                            <div className="section">
-                                <Card className="section">
-                                    <Card.Header className="text-center justify-content-center">
+                            <div>
+                                <Card className="section mt-3">
+                                    <Card.Header className="text-center justify-content-center orders-header p-0 p-lg-1">
                                         BANNERS
                                     </Card.Header>
                                     <Card.Body>
@@ -395,7 +395,7 @@ const ContentManagement = () => {
                                             ))}
                                         </Row>
                                     </Card.Body>
-                                    <Card.Footer className="text-center">
+                                    <Card.Footer className="text-center p-0 p-lg-1">
                                         <Button
                                             variant="warning"
                                             onClick={() => setShowModal(true)}
