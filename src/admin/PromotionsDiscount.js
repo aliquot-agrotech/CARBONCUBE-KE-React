@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button, Modal, Form, Table } from 'react-boo
 import { Trash, Pencil, PlusCircle } from 'react-bootstrap-icons';
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
-import { Doughnut } from 'react-chartjs-2';
+// import { Doughnut } from 'react-chartjs-2';
 import Spinner from "react-spinkit";
 import './PromotionsDiscount.css';  // Custom CSS
 
@@ -99,22 +99,22 @@ const PromotionsDiscount = () => {
         }
     };
 
-    const pieData = (percentage) => ({
-        datasets: [{
-            data: [percentage, 100 - percentage],
-            backgroundColor: ['#ffc107', '#f8f9fa'],
-        }],
-        labels: ['Completed', 'Remaining'],
-    });
+    // const pieData = (percentage) => ({
+    //     datasets: [{
+    //         data: [percentage, 100 - percentage],
+    //         backgroundColor: ['#ffc107', '#f8f9fa'],
+    //     }],
+    //     labels: ['Completed', 'Remaining'],
+    // });
 
-    const chartOptions = {
-        cutout: '80%',
-        plugins: {
-            legend: {
-                display: false,
-            },
-        },
-    };
+    // const chartOptions = {
+    //     cutout: '80%',
+    //     plugins: {
+    //         legend: {
+    //             display: false,
+    //         },
+    //     },
+    // };
 
     if (loading) {
         return (
@@ -133,66 +133,68 @@ const PromotionsDiscount = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-4 justify-content-center">
-                            <Row>
-                                <Col md={12} className="mb-4">
-                                    <Card className="promotion-card">
-                                        <Card.Header className="card-header justify-content-center">Active Promotions</Card.Header>
-                                        <Card.Body>
-                                            <Table className="promotion-table text-center">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Title</th>
-                                                        <th>Description</th>
-                                                        <th>Discount %</th>
-                                                        <th>Coupon Code</th>
-                                                        <th>Start Date</th>
-                                                        <th>End Date</th>
-                                                        <th>Actions</th>
+                        <Col xs={12} md={10} lg={9} className="p-1 p-lg-2">
+                            <Card className='section mt-2'>
+                                <Card.Header className="card-header justify-content-center p-0 p-lg-1">
+                                    <h4 className="mb-0 p-1 p-lg-2 align-self-center">Active Promotions</h4>
+                                </Card.Header>
+                                <Card.Body className="table-container">
+                                    <div className="table-responsive">
+                                        <Table className="text-center orders-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Title</th>
+                                                    <th>Description</th>
+                                                    <th>Discount %</th>
+                                                    <th>Coupon Code</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {promotions.map((promotion) => (
+                                                    <tr key={promotion.id}>
+                                                        <td>{promotion.id}</td>
+                                                        <td>{promotion.title}</td>
+                                                        <td>{promotion.description}</td>
+                                                        <td>{promotion.discount_percentage}%</td>
+                                                        <td>{promotion.coupon_code}</td>
+                                                        <td>{new Date(promotion.start_date).toLocaleDateString()}</td>
+                                                        <td>{new Date(promotion.end_date).toLocaleDateString()}</td>
+                                                        <td>
+                                                            <Button 
+                                                                variant="warning" 
+                                                                className="me-2"
+                                                                id="button"
+                                                                onClick={() => handleShowModal(promotion)}
+                                                            >
+                                                                <Pencil />
+                                                            </Button>
+                                                            <Button 
+                                                                variant="danger"
+                                                                id="button" 
+                                                                onClick={() => handleDelete(promotion.id)}
+                                                            >
+                                                                <Trash /> 
+                                                            </Button>
+                                                        </td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {promotions.map((promotion) => (
-                                                        <tr key={promotion.id}>
-                                                            <td>{promotion.id}</td>
-                                                            <td>{promotion.title}</td>
-                                                            <td>{promotion.description}</td>
-                                                            <td>{promotion.discount_percentage}%</td>
-                                                            <td>{promotion.coupon_code}</td>
-                                                            <td>{new Date(promotion.start_date).toLocaleDateString()}</td>
-                                                            <td>{new Date(promotion.end_date).toLocaleDateString()}</td>
-                                                            <td>
-                                                                <Button 
-                                                                    variant="warning" 
-                                                                    className="me-2"
-                                                                    id="button"
-                                                                    onClick={() => handleShowModal(promotion)}
-                                                                >
-                                                                    <Pencil />
-                                                                </Button>
-                                                                <Button 
-                                                                    variant="danger"
-                                                                    id="button" 
-                                                                    onClick={() => handleDelete(promotion.id)}
-                                                                >
-                                                                    <Trash /> 
-                                                                </Button>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </Table>
-                                        </Card.Body>
-                                        <Card.Footer className="card-footer text-center">
-                                            <Button variant="warning" id="button" onClick={handleShowModal}>
-                                                <PlusCircle /> Create New Promotion
-                                            </Button>
-                                        </Card.Footer>
-                                    </Card>
-                                </Col>
-                            </Row>
-                            <Row>
+                                                ))}
+                                            </tbody>
+                                        </Table>
+                                    </div>                                           
+                                </Card.Body>
+                                <Card.Footer className="card-footer text-center p-1 p-lg-2">
+                                    <Button variant="warning" id="button" onClick={handleShowModal}>
+                                        <PlusCircle /> Create New Promotion
+                                    </Button>
+                                </Card.Footer>
+                            </Card>
+                        </Col>
+                    </Row>
+                            {/* <Row>
                                 <Col md={12} className="mb-4">
                                     <Card className="campaign-card">
                                         <Card.Header className="card-header justify-content-center">Campaign Performance</Card.Header>
@@ -217,9 +219,7 @@ const PromotionsDiscount = () => {
                                     </Card>
                                 </Col>
                                 
-                            </Row>
-                        </Col>
-                    </Row>
+                            </Row> */}
                 </Container>
             </div>
 

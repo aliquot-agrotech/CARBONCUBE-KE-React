@@ -4,6 +4,7 @@
     font-family: "Fira Sans Extra Condensed", sans-serif;
     font-weight: 400;
     font-style: normal;
+    overflow-x: hidden;
 }
 
 .promotions-discount-page .card-header {
