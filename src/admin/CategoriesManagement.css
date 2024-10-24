@@ -103,12 +103,19 @@ button.ml-2 {
     border-radius: 25px;
 }
 
-/* Loading spinner centered */
 .centered-loader {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    justify-content: center;  
+    align-items: center;      /* Vertically center */
+    position: fixed;          /* Keep it fixed on the screen */
+    top: 0;
+    left: 0;
+    width: 100vw;             /* Full viewport width */
+    height: 100vh;            /* Full viewport height */
+    min-height: 100vh;        /* Ensure full height */
+    min-width: 100vw;         /* Ensure full width */
+    background-color: transparent; /* Optional background overlay */
+    z-index: 9999;            /* Ensure it overlays other content */
 }
 
 @media screen and (max-width: 767px) {

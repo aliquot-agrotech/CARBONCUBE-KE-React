@@ -130,7 +130,6 @@ const Messages = () => {
       console.error('Error sending message:', error);
     }
   };
-  
 
   if (!currentUser) return <div>Loading...</div>;
 
