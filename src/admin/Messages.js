@@ -143,7 +143,7 @@ const Messages = () => {
             <Col xs={12} md={2} className="p-0">
               <Sidebar />
             </Col>
-            <Col xs={12} md={10} className="p-1 p-lg-2">
+            <Col xs={12} md={10} lg={9} className="p-0 p-lg-2 mt-1">
               <Row>
                 <Col xs={12} md={2}>
                   <Card className="conversations-list mt-2 mt-lg-4">
@@ -165,9 +165,7 @@ const Messages = () => {
                           .map((conversation) => {
                             const participant = conversation.purchaser || conversation.vendor;
                             const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
-
                             const pullOverClass = conversation.pullOver ? 'conversation-pull-over' : '';
-
                             return (
                               <Card
                                 key={conversation.id}
