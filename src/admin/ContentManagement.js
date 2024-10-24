@@ -226,7 +226,7 @@ const ContentManagement = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} lg={9} className="p-1">
+                        <Col xs={12} md={10} lg={9} className="p-0 p-lg-2">
                             {/* About Us Section */}
                             <div>
                                 <Card className="section">
@@ -297,7 +297,7 @@ const ContentManagement = () => {
                                             </Form.Group>
                                         </Form>
                                     </Card.Body>
-                                    <Card.Footer className="text-center p-0 p-lg-1">
+                                    <Card.Footer className="text-center p-1 p-lg-2">
                                         <Button
                                             variant="warning"
                                             onClick={() => handleEditClick('abouts', about)}
@@ -395,7 +395,7 @@ const ContentManagement = () => {
                                             ))}
                                         </Row>
                                     </Card.Body>
-                                    <Card.Footer className="text-center p-0 p-lg-1">
+                                    <Card.Footer className="text-center p-1 p-lg-2">
                                         <Button
                                             variant="warning"
                                             onClick={() => setShowModal(true)}
