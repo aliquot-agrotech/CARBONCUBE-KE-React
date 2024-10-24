@@ -180,7 +180,7 @@ const PurchasersManagement = () => {
                                   }}
                               >
                                   <FontAwesomeIcon icon={purchaser.blocked ? faKey : faUserShield} />
-                                  {purchaser.blocked ? ' Unblock' : ' Block'}
+                                  {/* {purchaser.blocked ? ' Unblock' : ' Block'} */}
                               </Button>
                             </td>
                           </tr>

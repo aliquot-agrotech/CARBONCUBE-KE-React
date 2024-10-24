@@ -104,7 +104,7 @@ const Orders = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-0">
+                        <Col xs={12} md={10} lg={9} className="p-0">
                             <Card className="section">
                                 <Card.Header className="text-center orders-header">
                                     <Container fluid>
@@ -187,11 +187,11 @@ const Orders = () => {
                                                 <td>{order.order_date || 'N/A'}</td>
                                                 <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
                                                     <Form.Control
-                                                        className="form-select text-center no-arrow" // Custom class for removing arrow
+                                                        className="form-select-admin text-center" // Custom class for removing arrow
                                                         as="select"
                                                         value={order.status}
                                                         id="button"
-                                                        disabled // Disables the dropdown for the vendor
+                                                        disabled
                                                         style={{
                                                             verticalAlign: 'middle',
                                                             display: 'inline-block',
@@ -206,11 +206,7 @@ const Orders = () => {
                                                                 order.status === 'Delivered' ? '#008000' : '', // Green
                                                             color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status) 
                                                                 ? 'white' : 'black', // White text for specific statuses
-                                                            cursor: 'not-allowed',
-                                                            pointerEvents: 'none',
-                                                            textAlign: 'center', // Center text horizontally
-                                                            lineHeight: '40px', // Match line height to height for vertical centering
-                                                            padding: '0', // Remove padding for perfect centering
+                                                            
                                                         }}
                                                     >
                                                         <option value={order.status}>{order.status}</option>
