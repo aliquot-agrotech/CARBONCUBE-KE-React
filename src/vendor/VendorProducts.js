@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Spinner, Modal, Carousel, FormControl, Form } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Modal, Carousel, FormControl, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from './components/Sidebar';
+import Spinner from "react-spinkit";
 import TopNavbar from './components/TopNavbar';
 import { Cloudinary } from 'cloudinary-core';
 import './VendorProducts.css'; 

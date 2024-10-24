@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Spinner, Row, Col, Card, Carousel, Container, Button, Modal } from 'react-bootstrap';
+import {  Row, Col, Card, Carousel, Container, Button, Modal } from 'react-bootstrap';
 import { Cart4, Heart } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
 import TopNavbar from './components/TopNavbar';  // Import your TopNavbar component
 import Sidebar from './components/Sidebar';      // Import your Sidebar component
 import { motion } from 'framer-motion'; // For animations
+import Spinner from "react-spinkit";
 import axios from 'axios';  // Assuming you're using axios
 import './ProductDetailsPage.css';    // Custom styling for the page
 
