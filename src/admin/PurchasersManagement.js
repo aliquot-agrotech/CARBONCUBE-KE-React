@@ -200,7 +200,7 @@ const PurchasersManagement = () => {
               </Card>
               
 
-              <Modal centeredshow={showModal} onHide={handleCloseModal} size="lg">
+              <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
                 <Modal.Header className="justify-content-center">
                   <Modal.Title>Purchaser Details</Modal.Title>
                 </Modal.Header>
