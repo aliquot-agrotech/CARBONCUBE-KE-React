@@ -142,9 +142,9 @@ const Messages = () => {
             <Col xs={12} md={2} className="p-0">
               <Sidebar />
             </Col>
-            <Col xs={12} md={10} lg={9} className="p-0 p-lg-2 mt-1">
+            <Col xs={12} md={10} lg={9} className="p-0 p-lg-2 mt-1 mt-lg-0">
               <Row>
-                <Col xs={12} md={2}>
+                <Col xs={12} md={2} lg={3}>
                   <Card className="conversations-list mt-2 mt-lg-4">
                     <Card.Header className="conversations-header text-center justify-content-center">
                       <strong>Conversations</strong>
@@ -168,7 +168,7 @@ const Messages = () => {
                             return (
                               <Card
                                 key={conversation.id}
-                                id="button"
+                                id="button-admin"
                                 className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''} ${pullOverClass}`}
                                 onClick={() => handleConversationClick(conversation)}
                               >
@@ -182,7 +182,7 @@ const Messages = () => {
                     </Card.Body>
                   </Card>
                 </Col>
-                <Col xs={12} md={10} className="messages-list ">
+                <Col xs={12} md={10} lg={9}className="messages-list ">
                   {selectedConversation ? (
                     <Card className="message-container mt-2 mt-lg-4">
                       <Card.Header className="messages-header justify-content-center">

@@ -61,6 +61,10 @@ body {
   cursor: pointer; /* Pointer cursor for clickability */
 }
 
+#button-admin {
+  border-radius: 2rem;
+}
+
 .conversation-card:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
@@ -163,7 +167,7 @@ body {
 .message {
   margin-bottom: 15px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 2rem;
   position: relative;
   width: auto; /* Width adjusts to content */
   max-width: 60%; /* Messages should not exceed 60% of container width */
