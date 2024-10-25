@@ -22,6 +22,7 @@ body {
   font-family: "Fira Sans Extra Condensed", sans-serif;
   font-weight: 400;
   font-style: normal;
+  overflow-x: hidden;
 }
 
 .conversations-list {
@@ -262,7 +263,7 @@ body {
   5% {
     transform: scale(1.04);
     opacity: 0.96;
-    background: linear-gradient(135deg, #cbcbcb, #fff69a);
+    background: linear-gradient(135deg,  #cbcbcb, #fff69a);
   }
   10% {
     transform: scale(1.08);

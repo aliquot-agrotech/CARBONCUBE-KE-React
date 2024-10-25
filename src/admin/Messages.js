@@ -168,6 +168,7 @@ const Messages = () => {
                             return (
                               <Card
                                 key={conversation.id}
+                                id="button"
                                 className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''} ${pullOverClass}`}
                                 onClick={() => handleConversationClick(conversation)}
                               >
@@ -225,7 +226,7 @@ const Messages = () => {
                       </Card.Footer>
                     </Card>
                   ) : (
-                    <div className="parent-container">
+                    <div className="parent-container p-0">
                       <Card className="select-conversation-card">
                         <Card.Body>
                           <div className="select-conversation-text">Select a conversation to view messages</div>
