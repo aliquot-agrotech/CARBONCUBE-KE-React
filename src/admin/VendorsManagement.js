@@ -280,7 +280,7 @@ const VendorsManagement = () => {
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
                                             id="vendor-details-tabs"
-                                            className="custom-tabs mb-3 mx-1 mx-lg-4 d-flex justify-content-between flex-row nav-justified"
+                                            className="custom-tabs mb-0 mb-lg-2 mx-1 mx-lg-4 d-flex justify-content-between flex-row nav-justified"
                                             style={{ gap: '10px' }}
                                             >
                                             <Tab eventKey="profile" title="Profile">
@@ -437,90 +437,87 @@ const VendorsManagement = () => {
                                                 {/* <h5 className="text-center">Orders</h5> */}
                                                 <div className='section mt-1'>
                                                     <div className='table-container'>
-                                                    <div className="table-responsive">
-                                                    <Table hover className="orders-table text-center">
-                                                    <thead className='table-head'>
-                                                        <tr>
-                                                            <th>Order ID</th>
-                                                            <th>Purchaser</th>
-                                                            <th>Product</th>
-                                                            <th>Quantity</th>
-                                                            <th>Status</th>
-                                                            <th>Total <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:) </em></th>
-                                                            <th>Date Ordered</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {selectedVendor && selectedVendor.orders && selectedVendor.orders.length > 0 ? (
-                                                            selectedVendor.orders.map((order) => (
-                                                                order.order_items.map((item) => (
-                                                                    <tr key={`${order.id}-${item.product.id}`}>
-                                                                        <td>{order.id}</td>
-                                                                        <td>{order.purchaser.fullname}</td>
-                                                                        <td>{item.product.title}</td>
-                                                                        <td>{item.quantity}</td>
-                                                                        <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
-                                                                            <Form.Control
-                                                                                className="form-select-admin text-center" // Custom class for removing arrow
-                                                                                as="select"
-                                                                                value={order.status}
-                                                                                id="button"
-                                                                                disabled
-                                                                                style={{
-                                                                                    verticalAlign: 'middle',
-                                                                                    display: 'inline-block',
-                                                                                    width: '60%',
-                                                                                    height: '40px', // Adjust the height to your preference
-                                                                                    backgroundColor: 
-                                                                                        order.status === 'Cancelled' ? '#FF0000' :  // Red
-                                                                                        order.status === 'Dispatched' ? '#007BFF' : // Blue
-                                                                                        order.status === 'In-Transit' ? '#80CED7' : // Light Blue
-                                                                                        order.status === 'Returned' ? '#6C757D' :  // Grey
-                                                                                        order.status === 'Processing' ? '#FFC107' : // Yellow
-                                                                                        order.status === 'Delivered' ? '#008000' : '', // Green
-                                                                                    color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status) 
-                                                                                        ? 'white' : 'black', // White text for specific statuses
-                                                                                    
-                                                                                }}
-                                                                            >
-                                                                                <option value={order.status}>{order.status}</option>
-                                                                            </Form.Control>
-                                                                        </td>
-                                                                        <td className="price-container">
-                                                                            <strong className="text-success">
-                                                                                {((item.quantity * item.product.price).toFixed(2)).split('.').map((part, index) => (
-                                                                                    <React.Fragment key={index}>
-                                                                                        {index === 0 ? (
-                                                                                            <span className="price-integer">
-                                                                                                {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                                                                            </span>
-                                                                                        ) : (
-                                                                                            <>
-                                                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                                                <span className="price-decimal">{part}</span>
-                                                                                            </>
-                                                                                        )}
-                                                                                    </React.Fragment>
-                                                                                ))}
-                                                                            </strong>
-                                                                        </td>
-                                                                        <td>{new Date(order.created_at).toLocaleDateString()}</td>
+                                                        <div className="table-responsive">
+                                                            <Table hover className="orders-table text-center">
+                                                                <thead className='table-head'>
+                                                                    <tr>
+                                                                        <th>Order ID</th>
+                                                                        <th>Purchaser</th>
+                                                                        <th>Product</th>
+                                                                        <th>Quantity</th>
+                                                                        <th>Status</th>
+                                                                        <th>Total <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:) </em></th>
+                                                                        <th>Date Ordered</th>
                                                                     </tr>
-                                                                ))
-                                                            ))
-                                                        ) : (
-                                                            <tr>
-                                                                <td colSpan="6">No orders available</td>
-                                                            </tr>
-                                                        )}
-                                                    </tbody>
-                                                </Table>
-                                                </div>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {selectedVendor && selectedVendor.orders && selectedVendor.orders.length > 0 ? (
+                                                                        selectedVendor.orders.map((order) => (
+                                                                            order.order_items.map((item) => (
+                                                                                <tr key={`${order.id}-${item.product.id}`}>
+                                                                                    <td>{order.id}</td>
+                                                                                    <td>{order.purchaser.fullname}</td>
+                                                                                    <td>{item.product.title}</td>
+                                                                                    <td>{item.quantity}</td>
+                                                                                    <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
+                                                                                        <Form.Control
+                                                                                            className="form-select-admin text-center" // Custom class for removing arrow
+                                                                                            as="select"
+                                                                                            value={order.status}
+                                                                                            id="button"
+                                                                                            disabled
+                                                                                            style={{
+                                                                                                verticalAlign: 'middle',
+                                                                                                display: 'inline-block',
+                                                                                                width: '60%',
+                                                                                                height: '40px', // Adjust the height to your preference
+                                                                                                backgroundColor: 
+                                                                                                    order.status === 'Cancelled' ? '#FF0000' :  // Red
+                                                                                                    order.status === 'Dispatched' ? '#007BFF' : // Blue
+                                                                                                    order.status === 'In-Transit' ? '#80CED7' : // Light Blue
+                                                                                                    order.status === 'Returned' ? '#6C757D' :  // Grey
+                                                                                                    order.status === 'Processing' ? '#FFC107' : // Yellow
+                                                                                                    order.status === 'Delivered' ? '#008000' : '', // Green
+                                                                                                color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status) 
+                                                                                                    ? 'white' : 'black', // White text for specific statuses
+                                                                                                
+                                                                                            }}
+                                                                                        >
+                                                                                            <option value={order.status}>{order.status}</option>
+                                                                                        </Form.Control>
+                                                                                    </td>
+                                                                                    <td className="price-container">
+                                                                                        <strong className="text-success">
+                                                                                            {((item.quantity * item.product.price).toFixed(2)).split('.').map((part, index) => (
+                                                                                                <React.Fragment key={index}>
+                                                                                                    {index === 0 ? (
+                                                                                                        <span className="price-integer">
+                                                                                                            {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                                                        </span>
+                                                                                                    ) : (
+                                                                                                        <>
+                                                                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                            <span className="price-decimal">{part}</span>
+                                                                                                        </>
+                                                                                                    )}
+                                                                                                </React.Fragment>
+                                                                                            ))}
+                                                                                        </strong>
+                                                                                    </td>
+                                                                                    <td>{new Date(order.created_at).toLocaleDateString()}</td>
+                                                                                </tr>
+                                                                            ))
+                                                                        ))
+                                                                    ) : (
+                                                                        <tr>
+                                                                            <td colSpan="6">No orders available</td>
+                                                                        </tr>
+                                                                    )}
+                                                                </tbody>
+                                                            </Table>
+                                                        </div>
                                                     </div>
-                                                
                                                 </div>
-                                                
-                                                
                                             </Tab>                                           
 
                                             <Tab eventKey="products" title="Products">
@@ -528,14 +525,14 @@ const VendorsManagement = () => {
                                                 <div className="card-container">
                                                     {selectedVendor.products && selectedVendor.products.length > 0 ? (
                                                         selectedVendor.products.map((product) => (
-                                                            <Col key={product.id} xs={12} md={12} lg={12} className="mb-4">
+                                                            <Col key={product.id} xs={12} md={12} lg={12} className="mb-1">
                                                                 <Card>
                                                                     <Card.Img
                                                                         className="analytics-card-img-top product-image"
                                                                         variant="top"
                                                                         src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                                                     />
-                                                                    <Card.Body>
+                                                                    <Card.Body className='p-2'>
                                                                         <Card.Title style={{ fontSize: '18px' }}>{product.title}</Card.Title>
                                                                         <Card.Text className="price-container">
                                                                             <span><em className='product-price-label text-success'>Kshs: </em></span>
@@ -567,22 +564,27 @@ const VendorsManagement = () => {
                                             </Tab>
 
                                             <Tab eventKey="reviews" title="Reviews">
-                                            {/* <h5 className="text-center" id="reviews">Reviews</h5> */}
+                                                {/* <h5 className="text-center" id="reviews">Reviews</h5> */}
                                                 {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
-                                                    <div className="reviews-container text-center">
-                                                        {selectedVendor.reviews.map((review) => (
-                                                            <div className="review-card p-1" key={review.id}>
-                                                                <p className="review-comment"><em>"{review.review}"</em></p>
-                                                                <StarRating rating={review.rating} /> {/* Assuming StarRating component is defined elsewhere */}
-                                                                <p className="review-product"><strong>{review.product_title}</strong></p>
-                                                                <p className="reviewer-name"><strong><em>{review.purchaser_name}</em></strong></p>
+                                                    <Row>
+                                                    {selectedVendor.reviews.map((review) => (
+                                                        <Col lg={6} key={review.id} className=" justify-content-center">
+                                                        <div className="reviews-container text-center p-0 p-lg-2 ">
+                                                            <div className="review-card p-1">
+                                                            <p className="review-comment"><em>"{review.review}"</em></p>
+                                                            <StarRating rating={review.rating} /> {/* Assuming StarRating component is defined elsewhere */}
+                                                            <p className="review-product"><strong>{review.product_title}</strong></p>
+                                                            <p className="reviewer-name"><strong><em>{review.purchaser_name}</em></strong></p>
                                                             </div>
-                                                        ))}
-                                                    </div>
+                                                        </div>
+                                                        </Col>
+                                                    ))}
+                                                    </Row>
                                                 ) : (
                                                     <p className="text-center">No reviews available</p>
                                                 )}
                                             </Tab>
+
                                         </Tabs>
                                     ) : (
                                         <p>Loading...</p>

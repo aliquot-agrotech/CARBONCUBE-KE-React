@@ -266,8 +266,12 @@ body {
     border: 1px solid #dee2e6;
     border-radius: 8px;
     padding: 10px;
-    background: linear-gradient(135deg, #9fffd9, #5f9ebb); /* Gradient from two colors */
+    background: linear-gradient(135deg,  #cbcbcb, #fff69a); /* Gradient from two colors */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-card:hover {
+    background: linear-gradient(135deg, #fff69a, #cbcbcb);
 }
 
 .review-comment {
