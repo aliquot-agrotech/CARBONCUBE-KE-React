@@ -759,7 +759,7 @@ const VendorProducts = () => {
                                 </Container>
                                 <h5 className="text-center" id="reviews">Reviews</h5>
                                 {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
-                                    <div className="reviews-container text-center">
+                                    <div className="reviews-container text-center p-1 p-lg-2">
                                         {selectedProduct.reviews.map((review, index) => (
                                             <div className="custom-card p-2" key={index}>
                                                 <p className="review-comment"><em>"{review.review}"</em></p>
@@ -773,7 +773,7 @@ const VendorProducts = () => {
                             </>
                         )}
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer className=" p-1 p-lg-3">
                         <Button variant="danger" onClick={handleModalClose}>
                             Close
                         </Button>
