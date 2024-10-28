@@ -270,18 +270,19 @@ const VendorsManagement = () => {
                             </Card>
                             
 
-                            <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
+                            <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
                                 <Modal.Header className="justify-content-center">
                                     <Modal.Title>Vendor Details</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>
+                                <Modal.Body className="m-0 p-1">
                                     {selectedVendor ? (
                                         <Tabs
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
                                             id="vendor-details-tabs"
-                                            className="custom-tabs mb-3 d-flex justify-content-between" // Add d-flex and justify-content-between here
-                                        >
+                                            className="custom-tabs mb-3 mx-1 mx-lg-4 d-flex justify-content-between flex-row nav-justified"
+                                            style={{ gap: '10px' }}
+                                            >
                                             <Tab eventKey="profile" title="Profile">
                                                 {/* <h5 className="text-center">Profile</h5> */}
                                                 <Container className="profile-cards text-center">
@@ -434,13 +435,17 @@ const VendorsManagement = () => {
                                             </Tab>
                                             <Tab eventKey="orders" title="Orders">
                                                 {/* <h5 className="text-center">Orders</h5> */}
-                                                <Table hover className="orders-table text-center">
+                                                <div className='section mt-1'>
+                                                    <div className='table-container'>
+                                                    <div className="table-responsive">
+                                                    <Table hover className="orders-table text-center">
                                                     <thead className='table-head'>
                                                         <tr>
                                                             <th>Order ID</th>
                                                             <th>Purchaser</th>
                                                             <th>Product</th>
                                                             <th>Quantity</th>
+                                                            <th>Status</th>
                                                             <th>Total <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:) </em></th>
                                                             <th>Date Ordered</th>
                                                         </tr>
@@ -454,9 +459,36 @@ const VendorsManagement = () => {
                                                                         <td>{order.purchaser.fullname}</td>
                                                                         <td>{item.product.title}</td>
                                                                         <td>{item.quantity}</td>
+                                                                        <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
+                                                                            <Form.Control
+                                                                                className="form-select-admin text-center" // Custom class for removing arrow
+                                                                                as="select"
+                                                                                value={order.status}
+                                                                                id="button"
+                                                                                disabled
+                                                                                style={{
+                                                                                    verticalAlign: 'middle',
+                                                                                    display: 'inline-block',
+                                                                                    width: '60%',
+                                                                                    height: '40px', // Adjust the height to your preference
+                                                                                    backgroundColor: 
+                                                                                        order.status === 'Cancelled' ? '#FF0000' :  // Red
+                                                                                        order.status === 'Dispatched' ? '#007BFF' : // Blue
+                                                                                        order.status === 'In-Transit' ? '#80CED7' : // Light Blue
+                                                                                        order.status === 'Returned' ? '#6C757D' :  // Grey
+                                                                                        order.status === 'Processing' ? '#FFC107' : // Yellow
+                                                                                        order.status === 'Delivered' ? '#008000' : '', // Green
+                                                                                    color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status) 
+                                                                                        ? 'white' : 'black', // White text for specific statuses
+                                                                                    
+                                                                                }}
+                                                                            >
+                                                                                <option value={order.status}>{order.status}</option>
+                                                                            </Form.Control>
+                                                                        </td>
                                                                         <td className="price-container">
-                                                                            <strong>
-                                                                                {((item.quantity * item.product.price).toFixed(1)).split('.').map((part, index) => (
+                                                                            <strong className="text-success">
+                                                                                {((item.quantity * item.product.price).toFixed(2)).split('.').map((part, index) => (
                                                                                     <React.Fragment key={index}>
                                                                                         {index === 0 ? (
                                                                                             <span className="price-integer">
@@ -483,6 +515,12 @@ const VendorsManagement = () => {
                                                         )}
                                                     </tbody>
                                                 </Table>
+                                                </div>
+                                                    </div>
+                                                
+                                                </div>
+                                                
+                                                
                                             </Tab>                                           
 
                                             <Tab eventKey="products" title="Products">

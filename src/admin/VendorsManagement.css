@@ -280,7 +280,6 @@ body {
     color: #6c757d;
     margin-bottom: 5px;
 }
-
 .reviewer-name {
     font-size: 14px;
     color: #495057;
@@ -323,5 +322,9 @@ body {
 
     .card-container {
         grid-template-columns: 1fr; /* Single column for small screens */
+    }
+
+    #vendor-details-tabs .nav-item {
+        flex: 1; /* Ensures each tab takes up equal width */
     }
 }
