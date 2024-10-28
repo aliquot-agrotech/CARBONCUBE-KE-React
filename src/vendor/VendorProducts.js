@@ -633,7 +633,7 @@ const VendorProducts = () => {
                     <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body className="p-0 p-lg-2">
                         {selectedProduct && (
                             <>
                                 <Carousel className='mb-4'>
@@ -661,21 +661,24 @@ const VendorProducts = () => {
                                                 <Card.Header as="h6" className="justify-content-center">Price</Card.Header>
                                                 <Card.Body className="text-center">
                                                     <em className='product-price-label'>Kshs: </em>
-                                                    <strong>
-                                                        {selectedProduct.price?.split('.').map((part, index) => (
-                                                            <React.Fragment key={index}>
-                                                                {index === 0 ? (
-                                                                    <span className="price-integer">
-                                                                        {parseInt(part, 10).toLocaleString()}
-                                                                    </span>
-                                                                ) : (
+                                                    <strong className="text-success">
+                                                        {selectedProduct.price ? (
+                                                            (() => {
+                                                                const formattedPrice = parseFloat(selectedProduct.price).toFixed(2);
+                                                                const [integerPart, decimalPart] = formattedPrice.split('.');
+                                                                return (
                                                                     <>
+                                                                        <span className="price-integer">
+                                                                            {parseInt(integerPart, 10).toLocaleString()}
+                                                                        </span>
                                                                         <span style={{ fontSize: '16px' }}>.</span>
-                                                                        <span className="price-decimal">{part}</span>
+                                                                        <span className="price-decimal">{decimalPart}</span>
                                                                     </>
-                                                                )}
-                                                            </React.Fragment>
-                                                        )) || 'N/A'}
+                                                                );
+                                                            })()
+                                                        ) : (
+                                                            'N/A'
+                                                        )}
                                                     </strong>
                                                 </Card.Body>
                                             </Card>
