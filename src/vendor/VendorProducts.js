@@ -744,8 +744,6 @@ const VendorProducts = () => {
                                         </Col>
                                     </Row>
 
-
-
                                     <Row>
                                         <Col xs={12}>
                                             <Card className="mb-2 custom-card">
