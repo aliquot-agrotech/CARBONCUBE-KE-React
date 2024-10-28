@@ -641,10 +641,10 @@ const VendorProducts = () => {
                                         selectedProduct.media.map((image, index) => (
                                             <Carousel.Item key={index} className="position-relative">
                                                 <img
-                                                    className="d-block w-100"
+                                                    className="d-block w-100 product-image"
                                                     src={image}
                                                     alt={`Product ${editedProduct.title} - view ${index + 1}`} // Updated alt text
-                                                    style={{ height: '300px', objectFit: 'cover' }}  // Adjust the height as needed
+                                                    style={{ height: '300px', objectFit: 'contain' }}  // Adjust the height as needed
                                                 />
                                             </Carousel.Item>
                                         ))
