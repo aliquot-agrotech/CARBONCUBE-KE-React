@@ -14,7 +14,7 @@ const TopSellingProducts = ({ data }) => {
               src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}
             />
             <Card.Body className="analytics-card-body p-0 mx-2">
-              <Card.Title className='d-flex justify-content-start' style={{ fontSize: '17px' }}>{product.product_title}</Card.Title>
+              <Card.Title className='mb-0 d-flex justify-content-start' style={{ fontSize: '17px' }}>{product.product_title}</Card.Title>
               <Card.Text className="analytics-price-container justify-content-start">
                 <span className="text-success"><em>Kshs:</em></span>
                 <strong style={{ fontSize: '18px' }} className="text-danger">

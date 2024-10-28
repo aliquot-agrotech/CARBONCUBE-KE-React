@@ -526,14 +526,14 @@ const VendorsManagement = () => {
                                                     {selectedVendor.products && selectedVendor.products.length > 0 ? (
                                                         selectedVendor.products.map((product) => (
                                                             <Col key={product.id} xs={12} md={12} lg={12} className="mb-1">
-                                                                <Card>
+                                                                <Card className="product-card-vendor">
                                                                     <Card.Img
                                                                         className="analytics-card-img-top product-image"
                                                                         variant="top"
                                                                         src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                                                     />
                                                                     <Card.Body className='p-2'>
-                                                                        <Card.Title style={{ fontSize: '18px' }}>{product.title}</Card.Title>
+                                                                        <Card.Title className="mb-0" style={{ fontSize: '18px' }}>{product.title}</Card.Title>
                                                                         <Card.Text className="price-container">
                                                                             <span><em className='product-price-label text-success'>Kshs: </em></span>
                                                                             <strong className='text-danger'>
