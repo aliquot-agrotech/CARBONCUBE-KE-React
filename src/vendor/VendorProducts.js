@@ -463,7 +463,7 @@ const VendorProducts = () => {
     };
 
     const renderProductCard = (product) => (
-        <Col xs={6} md={6} lg={3} key={product.id} className="mb-4">
+        <Col xs={12} md={6} lg={3} key={product.id} className="mb-4">
             <Card>
                 <Card.Img 
                     variant="top" 
@@ -495,7 +495,7 @@ const VendorProducts = () => {
                                 id="button"
                                 onClick={() => handleViewDetailsClick(product)}
                             >
-                                Details
+                                View Details
                             </Button>
                         </div>
                         <div className="d-flex ml-2">
@@ -656,7 +656,7 @@ const VendorProducts = () => {
                                 </Carousel>
                                 <Container className="product-details mb-4 p-1 p-lg-2">
                                     <Row>
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Price</Card.Header>
                                                 <Card.Body className="text-center">
@@ -683,7 +683,7 @@ const VendorProducts = () => {
                                                 </Card.Body>
                                             </Card>
                                         </Col>
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Category</Card.Header>
                                                 <Card.Body className="text-center">
@@ -694,7 +694,7 @@ const VendorProducts = () => {
                                     </Row>
 
                                     <Row>
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Quantity Sold</Card.Header>
                                                 <Card.Body className="text-center">
@@ -702,7 +702,7 @@ const VendorProducts = () => {
                                                 </Card.Body>
                                             </Card>
                                         </Col>
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Sold Out</Card.Header>
                                                 <Card.Body className="text-center">
@@ -712,35 +712,7 @@ const VendorProducts = () => {
                                         </Col>
                                     </Row>
 
-                                    <Row>
-                                        <Col xs={12} md={6}>
-                                            <Card className="mb-2 custom-card">
-                                                <Card.Header as="h6" className="justify-content-center">Dimensions</Card.Header>
-                                                <Card.Body className="text-center">
-                                                    <Row>
-                                                    <Col xs={12} md={6}>
-                                                            <p><strong>Height:</strong> {selectedProduct.item_height} cm</p>
-                                                            <p><strong>Width:</strong> {selectedProduct.item_width} cm</p>
-                                                        </Col>
-                                                        <Col xs={12} md={6}>
-                                                            <p><strong>Length:</strong> {selectedProduct.item_length} cm</p>
-                                                            <p><strong>Weight:</strong> {selectedProduct.item_weight} {selectedProduct.weight_unit}</p>
-                                                        </Col>
-                                                    </Row>
-                                                </Card.Body>
-                                            </Card>
-                                        </Col>
-                                        <Col xs={12} md={6}>
-                                            <Card className="mb-2 custom-card">
-                                                <Card.Header as="h6" className="justify-content-center">Rating</Card.Header>
-                                                <Card.Body className="text-center">
-                                                    <span className="star-rating">
-                                                        {renderRatingStars(selectedProduct.mean_rating || 0)}
-                                                    </span>
-                                                </Card.Body>
-                                            </Card>
-                                        </Col>
-                                    </Row>
+                                    
 
                                     <Row>
                                         <Col xs={12}>
@@ -751,6 +723,37 @@ const VendorProducts = () => {
                                                 </Card.Body>
                                             </Card>
                                         </Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col xs={12} md={6}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Rating</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    <span className="star-rating">
+                                                        {renderRatingStars(selectedProduct.mean_rating || 0)}
+                                                    </span>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col xs={12} md={6}>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Dimensions</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    <Row>
+                                                    <Col xs={6} md={6}>
+                                                            <p><strong>Height:</strong> {selectedProduct.item_height} cm</p>
+                                                            <p><strong>Width:</strong> {selectedProduct.item_width} cm</p>
+                                                        </Col>
+                                                        <Col xs={6} md={6}>
+                                                            <p><strong>Length:</strong> {selectedProduct.item_length} cm</p>
+                                                            <p><strong>Weight:</strong> {selectedProduct.item_weight} {selectedProduct.weight_unit}</p>
+                                                        </Col>
+                                                    </Row>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        
                                     </Row>
                                 </Container>
                                 <h5 className="text-center" id="reviews">Reviews</h5>
