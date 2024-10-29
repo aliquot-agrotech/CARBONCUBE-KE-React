@@ -495,7 +495,7 @@ const VendorProducts = () => {
                                 id="button"
                                 onClick={() => handleViewDetailsClick(product)}
                             >
-                                View Details
+                                Details
                             </Button>
                         </div>
                         <div className="d-flex ml-2">
