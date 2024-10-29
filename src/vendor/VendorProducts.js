@@ -828,7 +828,7 @@ const VendorProducts = () => {
                             </Row>
 
                             <Row className="mb-1 mb-lg-3">
-                                <Col xs={12} md={6}>
+                                <Col xs={6} md={6}>
                                     <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Category</Form.Label>
                                         <Form.Control 
@@ -845,7 +845,7 @@ const VendorProducts = () => {
                                         </Form.Control>
                                     </Form.Group>
                                 </Col>
-                                <Col xs={12} md={6}>
+                                <Col xs={6} md={6}>
                                     <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Subcategory</Form.Label>
                                         <Form.Control 
@@ -865,7 +865,7 @@ const VendorProducts = () => {
                             </Row>
 
                             <Row className="mb-1 mb-lg-3">
-                                <Col xs={12} md={6}>
+                                <Col xs={6} md={6}>
                                     <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Price</Form.Label>
                                         <Form.Control 
@@ -878,7 +878,7 @@ const VendorProducts = () => {
                                         />
                                     </Form.Group>
                                 </Col>
-                                <Col xs={12} md={6}>
+                                <Col xs={6} md={6}>
                                     <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Quantity in Stock</Form.Label>
                                         <Form.Control 
@@ -959,7 +959,7 @@ const VendorProducts = () => {
                                 <Card.Header className="justify-content-center fw-bold">Dimensions</Card.Header>
                                 <Card.Body>
                                     <Row className="mb-1 -mb-lg-3">
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Form.Group className="d-flex flex-column align-items-center">
                                                 <Form.Label className="text-center mb-0 fw-bold">Length</Form.Label>
                                                 <Form.Control 
@@ -971,7 +971,7 @@ const VendorProducts = () => {
                                                 />
                                             </Form.Group>
                                         </Col>
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Form.Group className="d-flex flex-column align-items-center">
                                                 <Form.Label className="text-center mb-0 fw-bold">Width</Form.Label>
                                                 <Form.Control 
@@ -986,7 +986,7 @@ const VendorProducts = () => {
                                     </Row>
 
                                     <Row className="mb-1 mb-lg-3">
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Form.Group className="d-flex flex-column align-items-center">
                                                 <Form.Label className="text-center mb-0 fw-bold">Height</Form.Label>
                                                 <Form.Control 
@@ -998,7 +998,7 @@ const VendorProducts = () => {
                                                 />
                                             </Form.Group>
                                         </Col>
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Form.Group className="d-flex flex-column align-items-center">
                                                 <Form.Label className="text-center mb-0 fw-bold">Weight</Form.Label>
                                                 <Form.Control 
@@ -1016,7 +1016,7 @@ const VendorProducts = () => {
                                         <Form.Group>
                                             <Form.Label>Weight Unit</Form.Label>
                                             <Row className="mb-3">                                                                                             
-                                                <Col xs={12} md={6}>
+                                                <Col xs={6} md={6}>
                                                     <Form.Check
                                                         type="checkbox"
                                                         name="weight_unit"
@@ -1025,7 +1025,7 @@ const VendorProducts = () => {
                                                         onChange={() => handleWeightUnitChange('Grams')}
                                                     />
                                                 </Col>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={6} md={6}>
                                                     <Form.Check
                                                         type="checkbox"
                                                         name="weight_unit"
