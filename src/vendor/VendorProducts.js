@@ -470,7 +470,7 @@ const VendorProducts = () => {
                     src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
                 />
                 <Card.Body className="p-2 bookmark-body">
-                    <Card.Title>{product.title}</Card.Title>
+                    <Card.Title className="mb-0 mb-lg-1">{product.title}</Card.Title>
                     <Card.Text>
                         <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
                         <strong style={{ fontSize: '20px' }} className="text-danger">
