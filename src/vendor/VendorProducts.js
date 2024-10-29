@@ -1188,80 +1188,88 @@ const VendorProducts = () => {
                                         />
                                     </Form.Group>
 
-                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
-                                        <Form.Label className="text-center mb-0 fw-bold">Item Dimensions</Form.Label>
-                                        <Form.Control
-                                            id="item_length"
-                                            type="text"
-                                            placeholder="Length"
-                                            value={formValues.item_length}
-                                            onChange={handleFormChange}
-                                            className="custom-input mb-2 rounded-pill"
-                                        />
-                                        <Form.Control
-                                            id="item_width"
-                                            type="text"
-                                            placeholder="Width"
-                                            value={formValues.item_width}
-                                            onChange={handleFormChange}
-                                            className="custom-input mb-2 rounded-pill"
-                                        />
-                                        <Form.Control
-                                            id="item_height"
-                                            type="text"
-                                            placeholder="Height"
-                                            value={formValues.item_height}
-                                            onChange={handleFormChange}
-                                            className="custom-input rounded-pill"
-                                        />
-                                    </Form.Group>
-
-                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
-                                        <Form.Label className="text-center mb-0 fw-bold">Item Weight</Form.Label>
-                                        <Form.Control
-                                            id="item_weight"
-                                            type="text"
-                                            placeholder="Enter item weight"
-                                            value={formValues.item_weight}
-                                            onChange={handleFormChange}
-                                            className="custom-input mb-1 rounded-pill"
-                                        />
-                                    </Form.Group>
-                                    <Row>
+                                    <Container className="p-0">
                                         <Form.Group className="d-flex flex-column align-items-center mb-2">
-                                            <Form.Label className="text-center fw-bold">Weight Unit</Form.Label>
-                                            <Row >
-                                                <Col xs={6} md={6} lg={6} className=" d-flex justify-content-center">
-                                                    <Form.Check
-                                                        type="checkbox"
-                                                        label="Grams"
-                                                        checked={weightUnit === 'Grams'}
-                                                        onChange={() => handleWeightUnitChange('Grams')}
+                                            <Form.Label className="text-center mb-0 fw-bold">Item Dimensions</Form.Label>
+                                            <Row>
+                                                <Col xs={6} lg={12}>
+                                                    <Form.Control
+                                                        id="item_length"
+                                                        type="text"
+                                                        placeholder="Length"
+                                                        value={formValues.item_length}
+                                                        onChange={handleFormChange}
+                                                        className="custom-input mb-2 rounded-pill"
                                                     />
                                                 </Col>
-                                                <Col xs={6} md={6} ls={6} className=" d-flex justify-content-center">
-                                                    <Form.Check
-                                                        type="checkbox"
-                                                        label="Kilograms"
-                                                        checked={weightUnit === 'Kilograms'}
-                                                        onChange={() => handleWeightUnitChange('Kilograms')}
+                                                <Col xs={6} lg={12}>
+                                                    <Form.Control
+                                                        id="item_width"
+                                                        type="text"
+                                                        placeholder="Width"
+                                                        value={formValues.item_width}
+                                                        onChange={handleFormChange}
+                                                        className="custom-input mb-2 rounded-pill"
                                                     />
                                                 </Col>
                                             </Row>
-                                                
+                                            
+                                            
+                                            <Row>
+                                                <Col xs={6} lg={12}>
+                                                    <Form.Control
+                                                        id="item_height"
+                                                        type="text"
+                                                        placeholder="Height"
+                                                        value={formValues.item_height}
+                                                        onChange={handleFormChange}
+                                                        className="custom-input rounded-pill"
+                                                    />
+                                                </Col>
+                                                <Col xs={6} lg={12} >
+                                                    <Form.Control
+                                                        id="item_weight"
+                                                        type="text"
+                                                        placeholder="Weight"
+                                                        value={formValues.item_weight}
+                                                        onChange={handleFormChange}
+                                                        className="custom-input mb-1 rounded-pill"
+                                                    />
+                                                </Col>
+                                            </Row>
+                                            
                                         </Form.Group>
-                                    </Row>
-
-                                    <Row>
-                                        <Col></Col>
-                                        <Col></Col>
-                                    </Row>
+                                        <Row>
+                                            <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                                <Form.Label className="text-center fw-bold">Weight Unit</Form.Label>
+                                                <Row >
+                                                    <Col xs={6} md={6} lg={6} className=" d-flex justify-content-center">
+                                                        <Form.Check
+                                                            type="checkbox"
+                                                            label="Grams"
+                                                            checked={weightUnit === 'Grams'}
+                                                            onChange={() => handleWeightUnitChange('Grams')}
+                                                        />
+                                                    </Col>
+                                                    <Col xs={6} md={6} ls={6} className=" d-flex justify-content-center">
+                                                        <Form.Check
+                                                            type="checkbox"
+                                                            label="Kilograms"
+                                                            checked={weightUnit === 'Kilograms'}
+                                                            onChange={() => handleWeightUnitChange('Kilograms')}
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                                    
+                                            </Form.Group>
+                                        </Row>
+                                    </Container>
                                 </Col>
                             </Row>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className="custom-modal-footer p-1 p-lg-3">
-                        <Button variant="warning" className="add-product-btn" onClick={handleAddNewProduct}>
+                    <Modal.Footer className="custom-modal-footer p-0 p-lg-3">
+                        <Button variant="warning" onClick={handleAddNewProduct}>
                             Add Product
                         </Button>
                         <Button variant="danger" onClick={() => setShowAddModal(false)}>
