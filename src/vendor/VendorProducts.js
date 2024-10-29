@@ -1227,21 +1227,39 @@ const VendorProducts = () => {
                                             className="custom-input mb-1 rounded-pill"
                                         />
                                     </Form.Group>
-                                    <Form.Group>
-                                        <Form.Label>Weight Unit</Form.Label>
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Grams"
-                                            checked={weightUnit === 'Grams'}
-                                            onChange={() => handleWeightUnitChange('Grams')}
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Kilograms"
-                                            checked={weightUnit === 'Kilograms'}
-                                            onChange={() => handleWeightUnitChange('Kilograms')}
-                                        />
-                                    </Form.Group>
+                                    <Row>
+                                        <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                            <Form.Label className="text-center fw-bold">Weight Unit</Form.Label>
+                                            <Row >
+                                                <Col xs={6} md={6} lg={6} className=" d-flex justify-content-center">
+                                                    <Form.Check
+                                                        type="checkbox"
+                                                        label="Grams"
+                                                        checked={weightUnit === 'Grams'}
+                                                        onChange={() => handleWeightUnitChange('Grams')}
+                                                    />
+                                                </Col>
+                                                <Col xs={6} md={6} ls={6} className=" d-flex justify-content-center">
+                                                    <Form.Check
+                                                        type="checkbox"
+                                                        label="Kilograms"
+                                                        checked={weightUnit === 'Kilograms'}
+                                                        onChange={() => handleWeightUnitChange('Kilograms')}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                                
+                                        </Form.Group>
+                                    </Row>
+                                    
+                                        
+                                        
+                                    
+
+                                    <Row>
+                                        <Col></Col>
+                                        <Col></Col>
+                                    </Row>
                                 </Col>
                             </Row>
                         </Form>
