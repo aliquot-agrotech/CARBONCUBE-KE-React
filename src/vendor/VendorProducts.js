@@ -1057,7 +1057,7 @@ const VendorProducts = () => {
                                     
 {/* ============================================================  START ADD PRODUCT MODAL ==================================================================================*/}
 
-                <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="lg" centered className="custom-modal">
+                <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="xl" centered className="custom-modal">
                     <Modal.Header className="custom-modal-header justify-content-center">
                         <Modal.Title>Add Product</Modal.Title>
                     </Modal.Header>
@@ -1104,7 +1104,7 @@ const VendorProducts = () => {
                                 </Col>
 
                                 <Col md={4}>
-                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                    <Form.Group xs={6} className="d-flex flex-column align-items-center mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Category</Form.Label>
                                         <Form.Control
                                             id="category_id"
@@ -1122,7 +1122,7 @@ const VendorProducts = () => {
                                         </Form.Control>
                                     </Form.Group>
 
-                                    <Form.Group className="d-flex flex-column align-items-center mb-2">
+                                    <Form.Group xs={6} className="d-flex flex-column align-items-center mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Sub-Category</Form.Label>
                                         <Form.Control
                                             id="subcategory_id"
