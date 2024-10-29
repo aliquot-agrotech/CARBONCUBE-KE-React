@@ -778,41 +778,40 @@ const VendorProducts = () => {
 
 {/* ============================================================ START EDIT PRODUCT MODAL ==================================================================================*/}
 
-                <Modal centered show={showEditModal} onHide={handleModalClose} size="lg">
+                <Modal centered show={showEditModal} onHide={handleModalClose} size="xl">
                     <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct ? `Edit ${selectedProduct.title}` : 'Edit Product'}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body className="p-1 p-lg-2">
                         <Form>
 
-                        <Form.Group className="mb-3">
-                            {editedProduct.media && editedProduct.media.length > 0 ? (
-                                <Carousel>
-                                {editedProduct.media.map((image, index) => (
-                                    <Carousel.Item key={index} className="position-relative">
-                                        <img
-                                            className="d-block w-100"
-                                            src={image}
-                                            alt={`Product - view ${index + 1}`}
-                                            style={{ height: '300px', objectFit: 'cover' }}
-                                        />
-                                        <Button 
-                                            variant="danger"
-                                            className="delete-button"
-                                            onClick={() => handleDeleteImage(index)}  // Pass the index to delete the correct image
-                                        >
-                                            <FontAwesomeIcon icon={faTrash} />
-                                        </Button>
-                                    </Carousel.Item>
-                                ))}
+                            <Form.Group className="mb-3">
+                                {editedProduct.media && editedProduct.media.length > 0 ? (
+                                    <Carousel>
+                                    {editedProduct.media.map((image, index) => (
+                                        <Carousel.Item key={index} className="position-relative">
+                                            <img
+                                                className="d-block w-100"
+                                                src={image}
+                                                alt={`Product - view ${index + 1}`}
+                                                style={{ height: '300px', objectFit: 'contain' }}
+                                            />
+                                            <Button 
+                                                variant="danger"
+                                                className="delete-button"
+                                                onClick={() => handleDeleteImage(index)}  // Pass the index to delete the correct image
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} />
+                                            </Button>
+                                        </Carousel.Item>
+                                    ))}
+                                    </Carousel>
+                                ) : (
+                                    <p>No images available</p>
+                                )}
+                            </Form.Group>
 
-                                </Carousel>
-                            ) : (
-                                <p>No images available</p>
-                            )}
-                        </Form.Group>
-
-                            <Row className="mb-3">
+                            <Row className="mb-1 mb-lg-3">
                                 <Col xs={12} >
                                     <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Title</Form.Label>
@@ -828,7 +827,7 @@ const VendorProducts = () => {
                                 </Col>
                             </Row>
 
-                            <Row className="mb-3">
+                            <Row className="mb-1 mb-lg-3">
                                 <Col xs={12} md={6}>
                                     <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Category</Form.Label>
@@ -865,7 +864,7 @@ const VendorProducts = () => {
                                 </Col>
                             </Row>
 
-                            <Row className="mb-3">
+                            <Row className="mb-1 mb-lg-3">
                                 <Col xs={12} md={6}>
                                     <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className="text-center mb-0 fw-bold">Price</Form.Label>
@@ -894,7 +893,7 @@ const VendorProducts = () => {
                                 </Col>
                             </Row>
 
-                            <Row className="mb-3">
+                            <Row className="mb-1 mb-lg-3">
                                 <Col xs={12} md={6}>
                                     <Form.Group className="d-flex flex-column align-items-center">
                                         <Form.Label className=" text-center mb-0 fw-bold">Brand</Form.Label>
@@ -925,7 +924,7 @@ const VendorProducts = () => {
 
                             
                             
-                            <Form.Group className="d-flex flex-column align-items-center mb-3">
+                            <Form.Group className="d-flex flex-column align-items-center mb-1 mb-lg-3">
                                 <Form.Label className="text-center mb-0 fw-bold">Add Images</Form.Label>
                                 <Form.Control 
                                     type="file"
@@ -959,7 +958,7 @@ const VendorProducts = () => {
                             <Card className="custom-card-vendor">
                                 <Card.Header className="justify-content-center fw-bold">Dimensions</Card.Header>
                                 <Card.Body>
-                                    <Row className="mb-3">
+                                    <Row className="mb-1 -mb-lg-3">
                                         <Col xs={12} md={6}>
                                             <Form.Group className="d-flex flex-column align-items-center">
                                                 <Form.Label className="text-center mb-0 fw-bold">Length</Form.Label>
@@ -986,7 +985,7 @@ const VendorProducts = () => {
                                         </Col>
                                     </Row>
 
-                                    <Row className="mb-3">
+                                    <Row className="mb-1 mb-lg-3">
                                         <Col xs={12} md={6}>
                                             <Form.Group className="d-flex flex-column align-items-center">
                                                 <Form.Label className="text-center mb-0 fw-bold">Height</Form.Label>
@@ -1043,10 +1042,10 @@ const VendorProducts = () => {
                             
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer>                        
-                    <Button variant="warning" onClick={handleSaveEdit} disabled={isSaving}>
-                        {isSaving ? 'Saving...' : 'Save Changes'}
-                    </Button>
+                    <Modal.Footer className=" p-1 p-lg-3">                        
+                        <Button variant="warning" onClick={handleSaveEdit} disabled={isSaving}>
+                            {isSaving ? 'Saving...' : 'Save Changes'}
+                        </Button>
                         <Button variant="danger" onClick={handleModalClose}>
                             Close
                         </Button>
