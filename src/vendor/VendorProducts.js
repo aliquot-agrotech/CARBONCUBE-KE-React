@@ -724,9 +724,7 @@ const VendorProducts = () => {
                                                         </Col>
                                                         <Col xs={12} md={6}>
                                                             <p><strong>Length:</strong> {selectedProduct.item_length} cm</p>
-                                                            <p>
-                                                                <strong>Weight:</strong> {selectedProduct.item_weight} {selectedProduct.weight_unit}
-                                                            </p>
+                                                            <p><strong>Weight:</strong> {selectedProduct.item_weight} {selectedProduct.weight_unit}</p>
                                                         </Col>
                                                     </Row>
                                                 </Card.Body>
