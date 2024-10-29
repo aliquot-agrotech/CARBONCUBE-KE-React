@@ -463,7 +463,7 @@ const VendorProducts = () => {
     };
 
     const renderProductCard = (product) => (
-        <Col xs={12} md={6} lg={3} key={product.id} className="mb-4">
+        <Col xs={6} md={6} lg={3} key={product.id} className="mb-4">
             <Card>
                 <Card.Img 
                     variant="top" 
