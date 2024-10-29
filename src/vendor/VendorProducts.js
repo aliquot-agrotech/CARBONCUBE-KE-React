@@ -629,7 +629,7 @@ const VendorProducts = () => {
 
 {/* ============================================================ START PRODUCT DETAILS MODAL ==================================================================================*/}
 
-                <Modal centered show={showDetailsModal} onHide={handleModalClose} size="lg">
+                <Modal centered show={showDetailsModal} onHide={handleModalClose} size="xl">
                     <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
                     </Modal.Header>
@@ -654,7 +654,7 @@ const VendorProducts = () => {
                                         </Carousel.Item>
                                     )}
                                 </Carousel>
-                                <Container className="product-details mb-4">
+                                <Container className="product-details mb-4 p-1 p-lg-2">
                                     <Row>
                                         <Col xs={12} md={6}>
                                             <Card className="mb-2 custom-card">
