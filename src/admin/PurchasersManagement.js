@@ -258,9 +258,10 @@ const PurchasersManagement = () => {
                         </Row>
 
                         <Card className="section m-0 mt-2 ">
-                            <Card.Header className='justify-content-center'>
-                              <h4 >Orders</h4>
+                            <Card.Header className='justify-content-center m-0 p-1 p-lg-1'>
+                              <h4 className="mb-0">Orders</h4>
                             </Card.Header>
+                            
                             <Card.Body className="p-0 table-container">
                             {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
                             

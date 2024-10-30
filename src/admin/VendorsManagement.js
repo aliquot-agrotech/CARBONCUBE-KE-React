@@ -271,7 +271,7 @@ const VendorsManagement = () => {
                             
 
                             <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
-                                <Modal.Header className="justify-content-center">
+                                <Modal.Header className="justify-content-center p-1 p-lg-1">
                                     <Modal.Title>Vendor Details</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body className="m-0 p-1">
@@ -590,7 +590,7 @@ const VendorsManagement = () => {
                                         <p>Loading...</p>
                                     )}
                                 </Modal.Body>
-                                <Modal.Footer>
+                                <Modal.Footer className="p-1 p-lg-1">
                                     <Button variant="danger" id="button" onClick={handleCloseModal}>
                                         Close
                                     </Button>
