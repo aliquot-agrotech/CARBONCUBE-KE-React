@@ -1045,7 +1045,7 @@ const VendorProducts = () => {
                             
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className="p-1 p-lg-3">                        
+                    <Modal.Footer className="p-0 p-lg-2">                        
                         <Button variant="warning" onClick={handleSaveEdit} disabled={isSaving}>
                             {isSaving ? 'Saving...' : 'Save Changes'}
                         </Button>
@@ -1268,8 +1268,8 @@ const VendorProducts = () => {
                             </Row>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className="custom-modal-footer p-0 p-lg-3">
-                        <Button variant="warning" onClick={handleAddNewProduct}>
+                    <Modal.Footer className="p-0 p-lg-2">
+                        <Button variant="warning" onClick={handleAddNewProduct} >
                             Add Product
                         </Button>
                         <Button variant="danger" onClick={() => setShowAddModal(false)}>
