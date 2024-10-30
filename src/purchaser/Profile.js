@@ -148,9 +148,8 @@ const ProfilePage = () => {
                         <Col xs={12} md={2} className="p-0">
                             <Sidebar />
                         </Col>
-                        <Col xs={12} md={10} className="p-2">
-                            <Container>
-                                <div className="profile-container">
+                        <Col xs={12} md={9} className="p-2">
+                            <div className="profile-container">
                                 <Container>
                                     <Row className="align-items-center text-center vertical-center d-flex mb-0">
                                         {/* Left Side: Welcome Message and Date */}
@@ -170,180 +169,179 @@ const ProfilePage = () => {
                                         </Col>
                                     </Row>
                                 </Container>                                
-                                    <div className="profile-info">
-                                        <Form>
-                                            {/* Bio Section */}
-                                            <Container className="mb-4">
-                                                <Row>
-                                                    <Col className="justify-content-center">
-                                                        <h4 className="section-heading text-center mb-0">Bio</h4>
-                                                        <hr />
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col md={6}>
-                                                        <Form.Group controlId="formFullName">
-                                                            <Form.Label>Full Name</Form.Label>
-                                                            <Form.Control
-                                                                type="text"
-                                                                name="fullname"
-                                                                value={profile.fullname}
-                                                                onChange={handleChange}
-                                                                disabled={editMode}
-                                                            />
-                                                        </Form.Group>
-                                                    </Col>
-                                                    <Col md={6}>
-                                                        <Form.Group controlId="formGender">
-                                                            <Form.Label>Gender</Form.Label>
-                                                            <Form.Control
-                                                                as="select"
-                                                                name="gender"
-                                                                value={profile.gender}
-                                                                onChange={handleChange}
-                                                                disabled={editMode}
-                                                            >
-                                                                <option value="Male">Male</option>
-                                                                <option value="Female">Female</option>
-                                                                <option value="Other">Other</option>
-                                                            </Form.Control>
-                                                        </Form.Group>
-                                                    </Col>
-                                                </Row>
+                                <div className="profile-info">
+                                    <Form>
+                                        {/* Bio Section */}
+                                        <Container className="mb-4">
+                                            <Row>
+                                                <Col className="justify-content-center">
+                                                    <h4 className="section-heading text-center mb-0">Bio</h4>
+                                                    <hr />
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col md={6}>
+                                                    <Form.Group controlId="formFullName">
+                                                        <Form.Label>Full Name</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            name="fullname"
+                                                            value={profile.fullname}
+                                                            onChange={handleChange}
+                                                            disabled={editMode}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <Form.Group controlId="formGender">
+                                                        <Form.Label>Gender</Form.Label>
+                                                        <Form.Control
+                                                            as="select"
+                                                            name="gender"
+                                                            value={profile.gender}
+                                                            onChange={handleChange}
+                                                            disabled={editMode}
+                                                        >
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                            <option value="Other">Other</option>
+                                                        </Form.Control>
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
 
-                                                <Row>
-                                                    <Col md={6}>
-                                                        <Form.Group controlId="formBirthDate">
-                                                            <Form.Label>Birth Date</Form.Label>
-                                                            <Form.Control
-                                                                type="date"
-                                                                name="birthdate"
-                                                                value={formatDate(profile.birthdate) || ''} // Format birthdate to YYYY-MM-DD
-                                                                onChange={handleChange}
-                                                                disabled={editMode}
-                                                            />
-                                                        </Form.Group>
-                                                    </Col>
-                                                    <Col md={6}>
-                                                        <Form.Group controlId="formUsername">
-                                                            <Form.Label>Username</Form.Label>
-                                                            <Form.Control
-                                                                type="text"
-                                                                name="username"
-                                                                value={profile.username}
-                                                                onChange={handleChange}
-                                                                disabled={editMode}
-                                                            />
-                                                        </Form.Group>
-                                                    </Col>
-                                                </Row>
-                                            </Container>
+                                            <Row>
+                                                <Col md={6}>
+                                                    <Form.Group controlId="formBirthDate">
+                                                        <Form.Label>Birth Date</Form.Label>
+                                                        <Form.Control
+                                                            type="date"
+                                                            name="birthdate"
+                                                            value={formatDate(profile.birthdate) || ''} // Format birthdate to YYYY-MM-DD
+                                                            onChange={handleChange}
+                                                            disabled={editMode}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <Form.Group controlId="formUsername">
+                                                        <Form.Label>Username</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            name="username"
+                                                            value={profile.username}
+                                                            onChange={handleChange}
+                                                            disabled={editMode}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
+                                        </Container>
 
-                                            {/* Contact Information Section */}
-                                            <Container>
-                                                <Row>
-                                                    <Col className="justify-content-center">
-                                                        <h4 className="section-heading text-center">Contact Information</h4>
-                                                        <hr />
-                                                    </Col>
-                                                </Row>
+                                        {/* Contact Information Section */}
+                                        <Container>
+                                            <Row>
+                                                <Col className="justify-content-center">
+                                                    <h4 className="section-heading text-center">Contact Information</h4>
+                                                    <hr />
+                                                </Col>
+                                            </Row>
 
-                                                <Row>
-                                                    <Col md={6}>
-                                                        <Form.Group controlId="formEmail">
-                                                            <Form.Label>Email</Form.Label>
-                                                            <Form.Control
-                                                                type="email"
-                                                                name="email"
-                                                                value={profile.email}
-                                                                onChange={handleChange}
-                                                                disabled={!editMode}
-                                                            />
-                                                        </Form.Group>
-                                                    </Col>
-                                                    <Col md={6}>
-                                                        <Form.Group controlId="formPhoneNumber">
-                                                            <Form.Label>Phone Number</Form.Label>
-                                                            <Form.Control
-                                                                type="text"
-                                                                name="phone_number"
-                                                                value={profile.phone_number}
-                                                                onChange={handleChange}
-                                                                disabled={!editMode}
-                                                            />
-                                                        </Form.Group>
-                                                    </Col>
-                                                </Row>
+                                            <Row>
+                                                <Col md={6}>
+                                                    <Form.Group controlId="formEmail">
+                                                        <Form.Label>Email</Form.Label>
+                                                        <Form.Control
+                                                            type="email"
+                                                            name="email"
+                                                            value={profile.email}
+                                                            onChange={handleChange}
+                                                            disabled={!editMode}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <Form.Group controlId="formPhoneNumber">
+                                                        <Form.Label>Phone Number</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            name="phone_number"
+                                                            value={profile.phone_number}
+                                                            onChange={handleChange}
+                                                            disabled={!editMode}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
 
-                                                <Row>
-                                                    <Col md={6}>
-                                                        <Form.Group controlId="formAddress">
-                                                            <Form.Label>Physical Address</Form.Label>
-                                                            <Form.Control
-                                                                type="text"
-                                                                name="location"
-                                                                value={profile.location}
-                                                                onChange={handleChange}
-                                                                disabled={!editMode}
-                                                            />
-                                                        </Form.Group>
-                                                    </Col>
-                                                    <Col md={6}>
-                                                        <Form.Group controlId="formCity">
-                                                            <Form.Label>City</Form.Label>
-                                                            <Form.Control
-                                                                type="text"
-                                                                name="city"
-                                                                value={profile.city}
-                                                                onChange={handleChange}
-                                                                disabled={!editMode}
-                                                            />
-                                                        </Form.Group>
-                                                    </Col>
-                                                </Row>
+                                            <Row>
+                                                <Col md={6}>
+                                                    <Form.Group controlId="formAddress">
+                                                        <Form.Label>Physical Address</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            name="location"
+                                                            value={profile.location}
+                                                            onChange={handleChange}
+                                                            disabled={!editMode}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <Form.Group controlId="formCity">
+                                                        <Form.Label>City</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            name="city"
+                                                            value={profile.city}
+                                                            onChange={handleChange}
+                                                            disabled={!editMode}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
 
-                                                <Row>
-                                                    <Col md={6}>
-                                                        <Form.Group controlId="formZipCode">
-                                                            <Form.Label>Zip Code (Optional)</Form.Label>
-                                                            <Form.Control
-                                                                type="text"
-                                                                name="zipcode"
-                                                                value={profile.zipcode}
-                                                                onChange={handleChange}
-                                                                disabled={!editMode}
-                                                            />
-                                                        </Form.Group>
-                                                    </Col>
-                                                    <Col md={6}></Col>
-                                                </Row>
+                                            <Row>
+                                                <Col md={6}>
+                                                    <Form.Group controlId="formZipCode">
+                                                        <Form.Label>Zip Code (Optional)</Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            name="zipcode"
+                                                            value={profile.zipcode}
+                                                            onChange={handleChange}
+                                                            disabled={!editMode}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col md={6}></Col>
+                                            </Row>
 
-                                                {/* Buttons Section */}
-                                                <Row className="button-row d-flex justify-content-between align-items-center">
-                                                    <Col md={4} className="d-flex justify-content-start">
-                                                        <Button variant="warning" id="button" onClick={handleEditClick}>
-                                                            {editMode ? 'Cancel' : 'Edit'}
+                                            {/* Buttons Section */}
+                                            <Row className="button-row d-flex justify-content-between align-items-center">
+                                                <Col md={4} className="d-flex justify-content-start">
+                                                    <Button variant="warning" id="button" onClick={handleEditClick}>
+                                                        {editMode ? 'Cancel' : 'Edit'}
+                                                    </Button>
+                                                </Col>
+                                                <Col md={4} className="d-flex justify-content-center">
+                                                    <Button variant="info" id="button" onClick={toggleChangePasswordModal}>Change Password</Button>
+                                                </Col>
+                                                <Col md={4} className="d-flex justify-content-end">
+                                                    {editMode && (
+                                                        <Button variant="success" id="button" onClick={handleSaveClick} className="me-2">
+                                                            Save
                                                         </Button>
-                                                    </Col>
-                                                    <Col md={4} className="d-flex justify-content-center">
-                                                        <Button variant="info" id="button" onClick={toggleChangePasswordModal}>Change Password</Button>
-                                                    </Col>
-                                                    <Col md={4} className="d-flex justify-content-end">
-                                                        {editMode && (
-                                                            <Button variant="success" id="button" onClick={handleSaveClick} className="me-2">
-                                                                Save
-                                                            </Button>
-                                                        )}
-                                                        <Button variant="danger" id="button" className="ml-2">
-                                                            Delete Account
-                                                        </Button>
-                                                    </Col>
-                                                </Row>
-                                            </Container>
-                                        </Form>
-                                    </div>
+                                                    )}
+                                                    <Button variant="danger" id="button" className="ml-2">
+                                                        Delete Account
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                    </Form>
                                 </div>
-                            </Container>
+                            </div>
                         </Col>
                     </Row>
                 </Container>
