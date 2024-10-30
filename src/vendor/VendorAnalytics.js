@@ -59,7 +59,7 @@ const VendorAnalytics = () => {
           </Col>
           <Col xs={12} lg={9} className="content-area">
             <Row>
-              <Col xs={12} md={3} className="">
+              <Col xs={6} md={3} className="">
                 <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Orders
@@ -71,7 +71,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={3}>
+              <Col xs={6} md={3}>
               <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Average Rating
@@ -83,7 +83,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={3}>
+              <Col xs={6} md={3}>
               <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Products
@@ -95,7 +95,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={3}>
+              <Col xs={6} md={3}>
               <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Reviews
