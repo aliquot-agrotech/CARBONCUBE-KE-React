@@ -35,7 +35,7 @@ const Banner = () => {
                                 className="carousel-image"
                                 style={{
                                     backgroundImage: `url(${src})`,
-                                    backgroundSize: 'cover',
+                                    backgroundSize: 'contain',
                                     backgroundPosition: 'center',
                                     height: '70vh', // Adjust height as needed
                                 }}
