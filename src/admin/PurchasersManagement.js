@@ -201,10 +201,10 @@ const PurchasersManagement = () => {
               
 
               <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
-                <Modal.Header className="justify-content-center">
+                <Modal.Header className="justify-content-center p-1 p-lg-2">
                   <Modal.Title>Purchaser Details</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className=" m-0 p-1 ">
+                <Modal.Body className=" m-0 p-1 p-lg-3">
                   {selectedPurchaser ? (
                     <div>
                       <div className="purchaser-details mb-4  text-center">
@@ -404,8 +404,8 @@ const PurchasersManagement = () => {
                     <p>No details available</p>
                   )}
                 </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="danger" onClick={handleCloseModal} id="button">
+                <Modal.Footer className="p-1 p-lg-2">
+                  <Button variant="danger" onClick={handleCloseModal} id="button" >
                     Close
                   </Button>
                 </Modal.Footer>
