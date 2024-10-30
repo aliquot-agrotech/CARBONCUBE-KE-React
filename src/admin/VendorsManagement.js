@@ -185,11 +185,11 @@ const VendorsManagement = () => {
                         </Col>
                         <Col xs={12} md={10} lg={9} className="p-0 p-lg-2">
                             {/* <h2 className="mb-4 text-center">Vendors Management</h2> */}
-                            <Card className="section">
-                                <Card.Header className="text-center orders-header">
-                                <Container fluid>
+                            <Card className="section"> 
+                                <Card.Header className="text-center orders-header p-1 p-lg-2">
+                                    <Container fluid>
                                         <Row className="d-flex flex-row flex-md-row justify-content-between align-items-center">
-                                            <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3">
+                                            <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3 ps-4">
                                                 <h4 className="mb-0 align-self-center">Vendors</h4>
                                             </Col>
                                             <Col xs="auto" className="d-flex align-items-center">
@@ -274,7 +274,7 @@ const VendorsManagement = () => {
                                 <Modal.Header className="justify-content-center p-1 p-lg-1">
                                     <Modal.Title>Vendor Details</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body className="m-0 p-1">
+                                <Modal.Body className="m-0 p-0">
                                     {selectedVendor ? (
                                         <Tabs
                                             activeKey={selectedTab}
