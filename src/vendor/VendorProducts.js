@@ -630,7 +630,7 @@ const VendorProducts = () => {
 {/* ============================================================ START PRODUCT DETAILS MODAL ==================================================================================*/}
 
                 <Modal centered show={showDetailsModal} onHide={handleModalClose} size="xl">
-                    <Modal.Header className='justify-content-center'>
+                    <Modal.Header className='justify-content-center p-1 p-lg-2'>
                         <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="p-0 p-lg-2">
@@ -772,7 +772,7 @@ const VendorProducts = () => {
                             </>
                         )}
                     </Modal.Body>
-                    <Modal.Footer className=" p-1 p-lg-3">
+                    <Modal.Footer className=" p-0 p-lg-2">
                         <Button variant="danger" onClick={handleModalClose}>
                             Close
                         </Button>
@@ -782,7 +782,7 @@ const VendorProducts = () => {
 {/* ============================================================ START EDIT PRODUCT MODAL ==================================================================================*/}
 
                 <Modal centered show={showEditModal} onHide={handleModalClose} size="xl">
-                    <Modal.Header className='justify-content-center'>
+                    <Modal.Header className='justify-content-center p-1 p-lg-2'>
                         <Modal.Title>{selectedProduct ? `Edit ${selectedProduct.title}` : 'Edit Product'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="p-1 p-lg-2">
@@ -1058,7 +1058,7 @@ const VendorProducts = () => {
 {/* ============================================================  START ADD PRODUCT MODAL ==================================================================================*/}
 
                 <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="xl" centered className="custom-modal">
-                    <Modal.Header className="custom-modal-header justify-content-center">
+                    <Modal.Header className="custom-modal-header justify-content-center p-1 p-lg-2">
                         <Modal.Title>Add Product</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="custom-modal-body">
