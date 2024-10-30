@@ -362,7 +362,7 @@ const VendorsManagement = () => {
                                                 {selectedVendor.analytics ? (
                                                     <Container className="profile-cards text-center">
                                                         <Row>
-                                                            <Col xs={12} md={6}>
+                                                            <Col xs={6} md={6}>
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Orders</Card.Header>
                                                                     <Card.Body className="text-center">
@@ -370,7 +370,7 @@ const VendorsManagement = () => {
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
-                                                            <Col xs={12} md={6}>
+                                                            <Col xs={6} md={6}>
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Products Sold</Card.Header>
                                                                     <Card.Body className="text-center">
@@ -381,11 +381,11 @@ const VendorsManagement = () => {
                                                         </Row>
 
                                                         <Row>
-                                                            <Col xs={12} md={6}>
+                                                            <Col xs={6} md={6}>
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Revenue</Card.Header>
                                                                     <Card.Body className="text-center price-container">
-                                                                        <Card.Text className="total-revenue m-0">
+                                                                        <Card.Text className="total-revenue m-0 text-center">
                                                                             <span><em className='product-price-label text-success'>Kshs: </em></span>
                                                                             <strong className="price text-danger">
                                                                             {selectedVendor.analytics.total_revenue ? parseFloat(selectedVendor.analytics.total_revenue).toFixed(2).split('.').map((part, index) => (
@@ -407,7 +407,7 @@ const VendorsManagement = () => {
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
-                                                            <Col xs={12} md={6}>
+                                                            <Col xs={6} md={6}>
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Reviews</Card.Header>
                                                                     <Card.Body className="text-center">
