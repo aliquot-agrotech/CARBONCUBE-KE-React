@@ -291,7 +291,7 @@ const VendorOrders = () => {
                             </Card>
 
                             <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
-                                <Modal.Header className="justify-content-center">
+                                <Modal.Header className="justify-content-center p-1 p-lg-2">
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body className="p-1 p-md-3">
@@ -417,7 +417,7 @@ const VendorOrders = () => {
                                     )}
                                 </Modal.Body>
 
-                                <Modal.Footer className="p-1 p-md-2">
+                                <Modal.Footer className="p-0 p-lg-2">
                                     <Button variant="danger" onClick={handleCloseModal}>Close</Button>
                                 </Modal.Footer>
                             </Modal>
