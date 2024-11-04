@@ -84,7 +84,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar mb-0">
+    <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar mb-0 p-1">
       <Container fluid>
         {/* <div className={`toggle-container ${sidebarOpen ? 'hidden' : ''}`}>
           {isVisible && (

@@ -244,17 +244,13 @@ const ProductDetailsPage = () => {
                     <Col xs={12} md={2} className="p-0">
                         <Sidebar isOpen={sidebarOpen} />
                     </Col>
-                    <Col xs={12} md={10} className="p-1">
+                    <Col xs={12} md={10} lg={9} className="p-0 p-lg-1">
                         {/* Main Content Area */}
                         <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
                             <div className="product-details-page container">
                                 {product && (
                                     <Row className="product-details mt-1 p-1 shadow-lg rounded border">
-                                        <Col 
-                                            xs={12} 
-                                            md={7} 
-                                            className="d-flex flex-column justify-content-center text-center"
-                                            >
+                                        <Col xs={12} md={7} className="d-flex flex-column justify-content-center text-center">
                                             <motion.div
                                                 initial={{ opacity: 0, scale: 0.9 }}
                                                 animate={{ opacity: 1, scale: 1 }}
@@ -264,16 +260,18 @@ const ProductDetailsPage = () => {
                                             </motion.div>
                                         </Col>
 
-                                        <Col xs={12} md={4} className="d-flex flex-column justify-content-center">
-                                            <h3 className="display-6 text-dark mb-3"><strong>{product.title}</strong></h3>
-                                            <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>
-                                            <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {product.manufacturer}</p>
-                                            <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
-                                            <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
+                                        <Col xs={12} md={4} className="d-flex flex-column justify-content-center p-0 ">
+                                            <h3 className="display-6 text-dark mb-0 px-2"><strong>{product.title}</strong></h3>
+                                            <div className="p-2">
+                                                <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>
+                                                <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {product.manufacturer}</p>
+                                                <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
+                                                <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
+                                            </div>
                                             <Row 
                                                 onClick={handleShowModal} 
                                                 style={{ cursor: 'pointer' }} 
-                                                className="link-hover"
+                                                className="link-hover px-2"
                                                 >
                                                 <span className="star-rating">
                                                     {renderRatingStars(product.mean_rating, product.review_count)}
@@ -281,7 +279,7 @@ const ProductDetailsPage = () => {
                                             </Row>
 
 
-                                            <h4 className="product-price my-4">
+                                            <h4 className="product-price my-1 px-2">
                                                 <span className="text-success">Kshs: </span>
                                                 <strong className="text-danger display-6">
                                                     {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
@@ -303,11 +301,11 @@ const ProductDetailsPage = () => {
                                                 <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
                                                 <Card.Body>
                                                     <Row>
-                                                        <Col xs={12} md={6}>
+                                                        <Col xs={6} md={6} lg={6}>
                                                             <p><strong>Height:</strong> {product.item_height} cm</p>
                                                             <p><strong>Width:</strong> {product.item_width} cm</p>
                                                         </Col>
-                                                        <Col xs={12} md={6}>
+                                                        <Col xs={6} md={6} lg={6}>
                                                             <p><strong>Length:</strong> {product.item_length} cm</p>
                                                             <p>
                                                                 <strong>Weight:</strong> {product.item_weight} {product.weight_unit}
@@ -373,7 +371,7 @@ const ProductDetailsPage = () => {
                                         <Card onClick={() => window.location.href = `/products/${relatedProduct.id}`}>
                                         <Card.Img className='product-image' variant="top" src={relatedProduct.media_urls[0] || 'default-image-url'} />
                                         <Card.Body>
-                                            <Card.Title>{relatedProduct.title}</Card.Title>
+                                            <Card.Title className="mb-0 mb-lg-1">{relatedProduct.title}</Card.Title>
                                             <Card.Text>
                                                 <span className="text-success">Kshs: </span>
                                                 <strong style={{ fontSize: '20px' }} className="text-danger">
