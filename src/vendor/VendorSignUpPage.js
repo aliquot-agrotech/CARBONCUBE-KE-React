@@ -323,6 +323,15 @@ function VendorSignUpPage({ onSignup }) {
                     </Col>
                   </Row>
 
+                  <Form.Group className="mb-3">
+                    <Form.Check
+                      type="checkbox"
+                      label="Agree to Terms and Conditions and receiving of SMS, emails and promotion notifications."
+                      isInvalid={!!errors.terms}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.terms}</Form.Control.Feedback>
+                  </Form.Group>
+
                   <Button variant="warning" type="submit" id="button" className="w-100 mb-3">Sign Up</Button>
 
                   <div className="divider">

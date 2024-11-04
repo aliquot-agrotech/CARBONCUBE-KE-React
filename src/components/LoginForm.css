@@ -5,6 +5,10 @@
     font-weight: 400;
     font-style: normal;
     min-height: 100vh;
+    overflow-y: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .login-box {
@@ -52,4 +56,5 @@
   #button {
     border-radius: 1.5rem;
   }
+  
   

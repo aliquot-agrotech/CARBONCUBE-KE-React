@@ -55,9 +55,10 @@ const LoginForm = ({ onLogin }) => {
   };
 
   return (
-    <Container fluid className="login-container p-4">
-      <Row className="justify-content-center align-items-center min-vh-100">
-        <Col md={6} lg={4} className="text-center login-box">
+    <>
+    <Container fluid className="login-container">
+      <Row className="justify-content-center">
+        <Col md={12} lg={12} className="text-center login-box">
           <h2 className="mb-4">Welcome Back!</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleLogin}>
@@ -121,6 +122,7 @@ const LoginForm = ({ onLogin }) => {
         </Col>
       </Row>
     </Container>
+    </>
   );
 };
 
