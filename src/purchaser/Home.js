@@ -273,7 +273,7 @@ const Home = () => {
                         <ul>
                             <li><a href="/dispute-resolution">Dispute Resolution Center</a></li>
                             <li><a href="/terms-and-conditions">Terms and Conditions</a></li>
-                            <li><a href="/account-settings">Account Settings</a></li>
+                            {/* <li><a href="/account-settings">Account Settings</a></li> */}
                             <li><a href="/faqs">FAQs Center</a></li>
                         </ul>
                     </Col>
@@ -282,7 +282,7 @@ const Home = () => {
                         <ul>
                             <li><a href="/become-a-vendor">Want to be a Vendor</a></li>
                             <li><a href="/vendor-help">Vendor Help Center</a></li>
-                            <li><a href="/vendor-account-settings">Vendor Account Settings</a></li>
+                            {/* <li><a href="/vendor-account-settings">Vendor Account Settings</a></li> */}
                             <li><a href="/faqs">FAQs Center</a></li>
                         </ul>
                     </Col>

@@ -116,7 +116,6 @@ const AnalyticsReporting = () => {
                     <Card.Text className="text-center">
                         <strong>{parseInt(analyticsData.total_reviews, 10).toLocaleString()}</strong> {/* Add commas to the total reviews */}
                     </Card.Text>
-
                   </Card.Body>
                 </Card>
               </Col>
