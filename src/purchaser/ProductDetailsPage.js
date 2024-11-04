@@ -295,7 +295,7 @@ const ProductDetailsPage = () => {
                                                 </strong>
                                             </h4>
 
-                                            <Card className="mt-4 border-0 shadow custom-card">
+                                            <Card className="mt-2 border-0 shadow custom-card">
                                                 <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
                                                 <Card.Body>
                                                     <Row>
@@ -313,8 +313,7 @@ const ProductDetailsPage = () => {
                                                 </Card.Body>
                                             </Card>
 
-
-                                            <Container className="mt-4 d-flex justify-content-center">
+                                            <Container className="mt-3 d-flex justify-content-center">
                                                 <motion.div
                                                     whileHover={{ scale: 1.1 }}
                                                     whileTap={{ scale: 0.9 }}
@@ -350,7 +349,7 @@ const ProductDetailsPage = () => {
                                                     </Button>
                                                 </motion.div>
                                             </Container>
-                                            <Container className="mt-4">
+                                            <Container className="mt-2">
                                                 <Row>
                                                     <h3>Description</h3>
                                                     <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{product.description}</p>
@@ -368,7 +367,7 @@ const ProductDetailsPage = () => {
                                     <Col key={relatedProduct.id} md={3} className="mb-4">
                                         <Card onClick={() => window.location.href = `/products/${relatedProduct.id}`}>
                                         <Card.Img className='product-image' variant="top" src={relatedProduct.media_urls[0] || 'default-image-url'} />
-                                        <Card.Body>
+                                        <Card.Body className="px-2 py-1">
                                             <Card.Title className="mb-0 mb-lg-1">{relatedProduct.title}</Card.Title>
                                             <Card.Text>
                                                 <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
