@@ -56,7 +56,7 @@ const LoginForm = ({ onLogin }) => {
 
   return (
     <>
-    <Container fluid className="login-container">
+    <Container fluid className="login-container" style={{ minHeight: `${window.innerHeight}px` }}>
       <Row className="justify-content-center">
         <Col md={12} lg={12} className="text-center login-box">
           <h2 className="mb-4">Welcome Back!</h2>
