@@ -27,7 +27,7 @@
 
 .custom-card:hover {
   /* transform: translateY(-5px); */
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   background: linear-gradient(135deg, #cbcbcb, #fff69a); /* Gradient from two colors */
 }
@@ -73,6 +73,10 @@
   .content-area {
     padding-top: 3rem;
     
+  }
+
+  .custom-card:hover {
+    transform: scale(1.00);
   }
 
   .analytics-reporting-page{

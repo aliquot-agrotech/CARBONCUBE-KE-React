@@ -401,7 +401,7 @@ const ProductDetailsPage = () => {
                 <Modal.Header className="justify-content-center p-1 p-lg-2">
                     <Modal.Title>Product Ratings</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="px-1 px-lg-2 py-0">
                     {loadingReviews ? (
                     <div className="text-center">
                         <Spinner animation="border" />
@@ -420,8 +420,8 @@ const ProductDetailsPage = () => {
                         const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
 
                         return (
-                            <Card key={index} className="my-3 custom-card">
-                            <Card.Body>
+                            <Card key={index} className="my-2 my-lg-3 custom-card">
+                            <Card.Body className="py-2">
                                 <Card.Title>{review.purchaser.name}</Card.Title>
                                 <Card.Text>{review.review}</Card.Text>
                                 <div className="rating-stars d-flex align-items-center">
