@@ -398,7 +398,7 @@ const ProductDetailsPage = () => {
             </Container>
 
             <Modal centered show={showModal} onHide={handleCloseModal}>
-                <Modal.Header >
+                <Modal.Header className="justify-content-center p-1 p-lg-2">
                     <Modal.Title>Product Ratings</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -440,7 +440,7 @@ const ProductDetailsPage = () => {
                     </div>
                     )}
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className="p-0 p-lg-1">
                     <Button variant="danger" onClick={handleCloseModal}>
                     Close
                     </Button>
