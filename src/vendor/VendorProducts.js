@@ -465,12 +465,9 @@ const VendorProducts = () => {
     const renderProductCard = (product) => (
         <Col xs={12} md={6} lg={3} key={product.id} className="mb-4">
             <Card>
-                <Card.Img 
-                    variant="top" 
-                    src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
-                />
+                <Card.Img variant="top" src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}/> 
                 <Card.Body className="p-2 bookmark-body">
-                    <Card.Title className="mb-0 mb-lg-1">{product.title}</Card.Title>
+                    <Card.Title className="mb-0">{product.title}</Card.Title>
                     <Card.Text>
                         <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
                         <strong style={{ fontSize: '20px' }} className="text-danger">
@@ -772,7 +769,7 @@ const VendorProducts = () => {
                             </>
                         )}
                     </Modal.Body>
-                    <Modal.Footer className=" p-0 p-lg-2">
+                    <Modal.Footer className=" p-0 p-lg-1">
                         <Button variant="danger" onClick={handleModalClose}>
                             Close
                         </Button>
@@ -1045,7 +1042,7 @@ const VendorProducts = () => {
                             
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className="p-0 p-lg-2">                        
+                    <Modal.Footer className="p-0 p-lg-1">                        
                         <Button variant="warning" onClick={handleSaveEdit} disabled={isSaving}>
                             {isSaving ? 'Saving...' : 'Save Changes'}
                         </Button>
@@ -1268,7 +1265,7 @@ const VendorProducts = () => {
                             </Row>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className="p-0 p-lg-2">
+                    <Modal.Footer className="p-0 p-lg-1">
                         <Button variant="warning" onClick={handleAddNewProduct} >
                             Add Product
                         </Button>
