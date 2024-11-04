@@ -278,7 +278,7 @@ const ProductDetailsPage = () => {
 
 
                                             <h4 className="product-price my-1 px-2">
-                                                <span className="text-success">Kshs: </span>
+                                                <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
                                                 <strong className="text-danger display-6">
                                                     {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
                                                         <React.Fragment key={index}>
@@ -371,7 +371,7 @@ const ProductDetailsPage = () => {
                                         <Card.Body>
                                             <Card.Title className="mb-0 mb-lg-1">{relatedProduct.title}</Card.Title>
                                             <Card.Text>
-                                                <span className="text-success">Kshs: </span>
+                                                <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
                                                 <strong style={{ fontSize: '20px' }} className="text-danger">
                                                     {relatedProduct.price ? Number(relatedProduct.price).toFixed(2).split('.').map((part, index) => (
                                                         <React.Fragment key={index}>
