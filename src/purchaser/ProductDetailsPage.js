@@ -217,11 +217,9 @@ const ProductDetailsPage = () => {
 
     if (loading) {
         return (
-        <div className="text-center py-5">
-            <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-            </Spinner>
-        </div>
+            <div className="centered-loader">
+                <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+            </div>
         );
     }
 
