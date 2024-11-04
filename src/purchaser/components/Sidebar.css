@@ -5,7 +5,7 @@
   padding: 1rem;
   transition: transform 0.3s, width 0.3s;
   position: fixed;
-  top: 64px; /* Adjust this value to the height of your top navbar */
+  top: 56px; /* Adjust this value to the height of your top navbar */
   left: 0;
   z-index: 4;
   overflow-y: auto;
@@ -65,7 +65,7 @@
   background-color: #333;
   color: #333;
   position: fixed;
-  top: 70px; /* Adjust this value as needed */
+  top: 64px; /* Adjust this value as needed */
   left: 10px;
   z-index: 5;
   width: 40px;

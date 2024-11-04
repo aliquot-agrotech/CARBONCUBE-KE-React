@@ -4,7 +4,7 @@ import './TopNavbar.css';
 
 const TopNavbar = () => {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar">
+    <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar mb-0 p-1">
       <Container fluid>
       <Navbar.Brand href="/admin/analytics-reporting" className="d-flex align-items-center">
         <img

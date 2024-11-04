@@ -107,11 +107,11 @@ const Orders = () => {
                         </Col>
                         <Col xs={12} md={10} lg={9} className="p-0">
                             <Card className="section">
-                                <Card.Header className="text-center orders-header">
+                                <Card.Header className="text-center orders-header p-1 p-lg-2">
                                     <Container fluid>
                                         <Row className="d-flex flex-row flex-md-row justify-content-between align-items-center">
-                                            <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3">
-                                                <h4 className="mb-0 align-self-center">My Orders</h4>
+                                            <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3 ps-3">
+                                                <h4 className="mb-0 align-self-center">Orders</h4>
                                             </Col>
                                             <Col xs="auto" className="d-flex align-items-center">
                                                 <div className="search-container d-flex align-items-center">
@@ -228,15 +228,15 @@ const Orders = () => {
                                 </Card.Footer>
                             </Card>
 
-                            <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
-                                <Modal.Header className="justify-content-center">
+                            <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
+                                <Modal.Header className="justify-content-center p-1 p-lg-2">
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     {selectedOrder ? (
                                         <>
                                             <Row>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={6} md={6} lg={6}>
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='text-center'>Order ID</Card.Header>
                                                         <Card.Body className='text-center'>
@@ -244,7 +244,7 @@ const Orders = () => {
                                                         </Card.Body>
                                                     </Card>
                                                 </Col>
-                                                <Col xs={12} md={6}>
+                                                <Col xs={6} md={6} lg={6}>
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='text-center'>Date Ordered</Card.Header>
                                                         <Card.Body className='text-center'>
@@ -431,8 +431,10 @@ const Orders = () => {
                                     )}
                                 </Modal.Body>
 
-                                <Modal.Footer>
-                                    <Button variant="danger" onClick={handleCloseModal}>Close</Button>
+                                <Modal.Footer className="p-1 p-lg-2">
+                                    <Button variant="danger" id="button" onClick={handleCloseModal} >
+                                        Close
+                                    </Button>
                                 </Modal.Footer>
                             </Modal>
                         </Col>

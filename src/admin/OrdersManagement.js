@@ -137,7 +137,7 @@ const OrdersManagement = () => {
                             </Container>                            
                         </Col>
 
-                        <Col xs={12} md={10} lg={9} className="p-0 p-lg-2">
+                        <Col xs={12} md={10} lg={9} className="p-0">
                             <Card className="section">
                                 <Card.Header className="text-center orders-header p-1 p-lg-2">
                                     <Container fluid>
@@ -286,7 +286,7 @@ const OrdersManagement = () => {
                                 </Card.Footer>
                             </Card>
                             
-                            <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
+                            <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
                                 <Modal.Header className="justify-content-center p-1 p-lg-2">
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>

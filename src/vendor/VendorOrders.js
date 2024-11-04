@@ -290,7 +290,7 @@ const VendorOrders = () => {
                                 </Card.Footer>
                             </Card>
 
-                            <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
+                            <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
                                 <Modal.Header className="justify-content-center p-1 p-lg-2">
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>
