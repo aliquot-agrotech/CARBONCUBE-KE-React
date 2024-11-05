@@ -223,13 +223,13 @@ const PromotionsDiscount = () => {
                 </Container>
             </div>
 
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header className="justify-content-center">
+            <Modal centered show={showModal} onHide={handleCloseModal}>
+                <Modal.Header className="justify-content-center p-1 p-lg-2">
                     <Modal.Title>{activePromotion.id ? 'Edit Promotion' : 'Create New Promotion'}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group controlId="formTitle" className="text-center">
+                <Modal.Body className="py-1">
+                    <Form> 
+                        <Form.Group controlId="formTitle" className="text-start">
                             <Form.Label style={{ fontWeight: 'bold' }}>Title</Form.Label>
                             <Form.Control 
                                 type="text" 
@@ -239,7 +239,7 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formDescription" className="text-center">
+                        <Form.Group controlId="formDescription" className="text-start">
                             <Form.Label style={{ fontWeight: 'bold' }}>Description</Form.Label>
                             <Form.Control 
                                 type="text" 
@@ -249,7 +249,7 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formDiscountPercentage" className="text-center">
+                        <Form.Group controlId="formDiscountPercentage" className="text-start">
                             <Form.Label style={{ fontWeight: 'bold' }}>Discount Percentage</Form.Label>
                             <Form.Control 
                                 type="number" 
@@ -259,7 +259,7 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formStartDate" className="text-center">
+                        <Form.Group controlId="formStartDate" className="text-start">
                             <Form.Label style={{ fontWeight: 'bold' }}>Start Date</Form.Label>
                             <Form.Control 
                                 type="date" 
@@ -268,7 +268,7 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formEndDate" className="text-center">
+                        <Form.Group controlId="formEndDate" className="text-start">
                             <Form.Label style={{ fontWeight: 'bold' }}>End Date</Form.Label>
                             <Form.Control 
                                 type="date" 
@@ -277,7 +277,7 @@ const PromotionsDiscount = () => {
                                 onChange={handleInputChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formCouponCode" className="text-center">
+                        <Form.Group controlId="formCouponCode" className="text-start">
                             <Form.Label style={{ fontWeight: 'bold' }}>Coupon Code</Form.Label>
                             <Form.Control 
                                 type="text" 
@@ -289,7 +289,7 @@ const PromotionsDiscount = () => {
                         </Form.Group>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer className="text-center p-0 p-lg-1">
                     <Button variant="danger" onClick={handleCloseModal}>
                         Close
                     </Button>
