@@ -340,11 +340,13 @@ const ProductsManagement = () => {
                                                 className="product-image"
                                                 src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
                                             />
-                                                <Card.Body>
-                                                    <Card.Title className="d-flex justify-content-start">{product.title}</Card.Title>
-                                                    <Card.Text className="price-container d-flex justify-content-start">
-                                                        <em className='product-price-label text-success'>Kshs: </em>
-                                                        <strong style={{ fontSize: '18px' }} className="text-danger">
+                                                <Card.Body className="py-1 px-2 chill-body">
+                                                    <Card.Title className="d-flex justify-content-start mb-1">{product.title}</Card.Title>
+                                                    <Card.Text className="price-container d-flex justify-content-start" style={{ fontSize: '18px' }}>
+                                                        <span>
+                                                            <em className="product-price-label text-success" style={{ fontSize: '13px' }}>Kshs:&nbsp;</em>
+                                                        </span>
+                                                        <strong  className="text-danger">
                                                             {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
                                                                 <React.Fragment key={index}>
                                                                     {index === 0 ? (
@@ -360,9 +362,8 @@ const ProductsManagement = () => {
                                                                 </React.Fragment>
                                                             )) : 'N/A'}
                                                         </strong>
-
-                                                        
                                                     </Card.Text>
+
                                                     <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)}>
                                                         View Details
                                                     </Button>
@@ -394,10 +395,10 @@ const ProductsManagement = () => {
                                                 className="product-image" 
                                                 src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
                                             />
-                                                <Card.Body>
+                                                <Card.Body className="py-1 px-2 chill-body">
                                                     <Card.Title className='d-flex justify-content-start'>{product.title}</Card.Title>
                                                     <Card.Text className="price-container d-flex justify-content-start">
-                                                        <em className='product-price-label text-success'>Kshs: </em>
+                                                        <span><em className='product-price-label text-success'>Kshs: </em></span>
                                                         <strong style={{ fontSize: '18px' }} className="text-danger">
                                                             {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
                                                                 <React.Fragment key={index}>

@@ -274,13 +274,13 @@ const VendorsManagement = () => {
                                 <Modal.Header className="justify-content-center p-1 p-lg-1">
                                     <Modal.Title>Vendor Details</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body className="m-0 p-0">
+                                <Modal.Body className="m-0 p-1">
                                     {selectedVendor ? (
                                         <Tabs
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
                                             id="vendor-details-tabs"
-                                            className="custom-tabs mb-0 mb-lg-2 mx-1 mx-lg-4 d-flex justify-content-between flex-row nav-justified"
+                                            className="custom-tabs mb-0 mb-lg-2 mx-1 mx-lg-4 d-flex justify-content-between flex-row nav-justified mt-2"
                                             style={{ gap: '10px' }}
                                             >
                                             <Tab eventKey="profile" title="Profile">
