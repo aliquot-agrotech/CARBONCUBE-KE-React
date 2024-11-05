@@ -47,9 +47,17 @@
   color: #fff;
 }
 
+.banner-body{
+  background-color: #E0E0E0;
+}
+
 @media (max-width: 768px) {
   .content-management-page {
     padding: 5px;
     padding-top: 10px;
+  }
+
+  .section {
+    margin-top: 52px;
   }
 }

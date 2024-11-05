@@ -235,8 +235,8 @@ const ContentManagement = () => {
                                     </Card.Header>
                                     <Card.Body>
                                         <Form>
-                                            <Form.Group controlId="formDescription" className="text-center">
-                                                <Form.Label style={{ fontWeight: 'bold' }}>Description</Form.Label>
+                                            <Form.Group controlId="formDescription" className="text-start mb-2">
+                                                <Form.Label style={{ fontWeight: 'bold' }} className="mb-0">Description</Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="description"
@@ -245,8 +245,8 @@ const ContentManagement = () => {
                                                     disabled
                                                 />
                                             </Form.Group>
-                                            <Form.Group controlId="formMission" className="text-center">
-                                                <Form.Label style={{ fontWeight: 'bold' }}>Mission</Form.Label>
+                                            <Form.Group controlId="formMission" className="text-start mb-2">
+                                                <Form.Label style={{ fontWeight: 'bold' }} className="mb-0">Mission</Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="mission"
@@ -255,8 +255,8 @@ const ContentManagement = () => {
                                                     disabled
                                                 />
                                             </Form.Group>
-                                            <Form.Group controlId="formVision" className="text-center">
-                                                <Form.Label style={{ fontWeight: 'bold' }}>Vision</Form.Label>
+                                            <Form.Group controlId="formVision" className="text-start mb-2">
+                                                <Form.Label style={{ fontWeight: 'bold' }} className="mb-0">Vision</Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="vision"
@@ -265,8 +265,8 @@ const ContentManagement = () => {
                                                     disabled
                                                 />
                                             </Form.Group>
-                                            <Form.Group controlId="formValues" className="text-center">
-                                                <Form.Label style={{ fontWeight: 'bold' }}>Values</Form.Label>
+                                            <Form.Group controlId="formValues" className="text-start mb-2">
+                                                <Form.Label style={{ fontWeight: 'bold' }} className="mb-0">Values</Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="values"
@@ -275,8 +275,8 @@ const ContentManagement = () => {
                                                     disabled
                                                 />
                                             </Form.Group>
-                                            <Form.Group controlId="formWhyChooseUs" className="text-center">
-                                                <Form.Label style={{ fontWeight: 'bold' }}>Why Choose Us</Form.Label>
+                                            <Form.Group controlId="formWhyChooseUs" className="text-start mb-2">
+                                                <Form.Label style={{ fontWeight: 'bold' }} className="mb-0">Why Choose Us</Form.Label>
                                                 <Form.Control
                                                     type="text"
                                                     name="why_choose_us"
@@ -380,15 +380,16 @@ const ContentManagement = () => {
                                                 <Col xs={12} md={4} lg={3} key={banner.id} className="mb-4">
                                                     <Card>
                                                         <Card.Img variant="top" src={banner.image_url} />
-                                                        <Card.Body>
+                                                        <Card.Body className="banner-body py-2 px-2">
                                                             <Button
                                                                 variant="danger"
                                                                 className="float-end"
+                                                                id="button"
                                                                 onClick={() => handleDeleteBanner(banner.id)}
                                                             >
                                                                 <Trash />
                                                             </Button>
-                                                            <Card.Title className="text-center">Banner {banner.id}</Card.Title>
+                                                            <Card.Title className="text-center mt-2">Banner {banner.id}</Card.Title>
                                                         </Card.Body>
                                                     </Card>
                                                 </Col>
@@ -450,7 +451,7 @@ const ContentManagement = () => {
                                 {currentEdit.type === 'abouts' ? (
                                     <>
                                         <Form.Group controlId="formDescription">
-                                            <Form.Label>Description</Form.Label>
+                                            <Form.Label><strong>Description</strong></Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="description"
@@ -459,7 +460,7 @@ const ContentManagement = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group controlId="formMission">
-                                            <Form.Label>Mission</Form.Label>
+                                            <Form.Label><strong>Mission</strong></Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="mission"
@@ -468,7 +469,7 @@ const ContentManagement = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group controlId="formVision">
-                                            <Form.Label>Vision</Form.Label>
+                                            <Form.Label><strong>Vision</strong></Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="vision"
@@ -477,7 +478,7 @@ const ContentManagement = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group controlId="formValues">
-                                            <Form.Label>Values</Form.Label>
+                                            <Form.Label><strong>Values</strong></Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="values"
@@ -486,7 +487,7 @@ const ContentManagement = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group controlId="formWhyChooseUs">
-                                            <Form.Label>Why Choose Us</Form.Label>
+                                            <Form.Label><strong>Why Choose Us</strong></Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="why_choose_us"
