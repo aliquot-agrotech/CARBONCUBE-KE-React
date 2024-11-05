@@ -216,7 +216,7 @@ const CategoriesManagement = () => {
                                                                     ))}
                                                                 </ul>
                                                             </Card.Body>
-                                                            <Card.Footer className="d-flex justify-content-end">
+                                                            <Card.Footer className="d-flex justify-content-end p-1">
                                                                 <Button variant="warning" id="button" onClick={() => handleShowModal(category)}>
                                                                     Edit
                                                                 </Button>
@@ -230,17 +230,17 @@ const CategoriesManagement = () => {
                                         <p>No categories available</p>
                                     )}
                                 </Card.Body>
-                                <Card.Footer className="text-center">
+                                <Card.Footer className="text-center p-1">
                                     <Button variant="warning" id="button" onClick={() => handleShowModal()}>
                                         Add New Category
                                     </Button>
                                 </Card.Footer>
                             </Card>
-                            <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
-                                <Modal.Header className="justify-content-center">
+                            <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
+                                <Modal.Header className="justify-content-center p-1 p-lg-2">
                                     <Modal.Title>{isEditing ? 'Edit Category' : 'Add New Category'}</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>
+                                <Modal.Body className="py-1 px-2">
                                     <Form>
                                         <Form.Group controlId="categoryName">
                                             <Form.Group>
@@ -282,12 +282,12 @@ const CategoriesManagement = () => {
                                         </Button>
                                     </Form>
                                 </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="danger" onClick={handleCloseModal}>
-                                        Close
-                                    </Button>
+                                <Modal.Footer className="p-0 p-lg-1">                                    
                                     <Button variant="warning" onClick={handleSaveCategory}>
                                         Save Changes
+                                    </Button>
+                                    <Button variant="danger" onClick={handleCloseModal}>
+                                        Close
                                     </Button>
                                 </Modal.Footer>
                             </Modal>
