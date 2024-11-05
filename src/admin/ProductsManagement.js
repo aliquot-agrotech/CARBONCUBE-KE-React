@@ -437,21 +437,22 @@ const ProductsManagement = () => {
                     </Row>
                 </Container>
 
-                <Modal show={showDetailsModal} onHide={handleModalClose} size="lg">
+                <Modal centered show={showDetailsModal} onHide={handleModalClose} size="xl">
                     <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {selectedProduct && (
                             <>
-                                <Carousel className="mb-4">
+                            <Carousel className='mb-4'>
                                     {selectedProduct.media && selectedProduct.media.length > 0 ? (
                                         selectedProduct.media.map((image, index) => (
-                                            <Carousel.Item key={index}>
+                                            <Carousel.Item key={index} className="position-relative">
                                                 <img
-                                                    className="d-block w-100"
+                                                    className="d-block w-100 product-image"
                                                     src={image}
-                                                    alt={`Slide ${index}`}
+                                                    alt={`Product ${selectedProduct.title} - view ${index + 1}`} // Updated alt text
+                                                    style={{ height: '300px', objectFit: 'contain' }}  // Adjust the height as needed
                                                 />
                                             </Carousel.Item>
                                         ))
@@ -565,14 +566,14 @@ const ProductsManagement = () => {
                             </>
                         )}
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer className="p-0 p-lg-1">
                         <Button variant="danger" id="button" onClick={handleModalClose}>
                             Close
                         </Button>
                     </Modal.Footer>
                 </Modal>
 
-                <Modal show={showNotifyVendorModal} onHide={handleModalClose}>
+                <Modal centered show={showNotifyVendorModal} onHide={handleModalClose} size="xl">
                     <Modal.Header >
                         <Modal.Title>Notify Vendor</Modal.Title>
                     </Modal.Header>
@@ -613,7 +614,7 @@ const ProductsManagement = () => {
                             </Form.Group>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer className="p-0 p-lg-1">
                         <Button variant="danger" id="button" className='mx-2' onClick={handleModalClose}>
                             Close
                         </Button>

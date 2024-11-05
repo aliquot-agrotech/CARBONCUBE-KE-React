@@ -640,7 +640,7 @@ const VendorProducts = () => {
                                                 <img
                                                     className="d-block w-100 product-image"
                                                     src={image}
-                                                    alt={`Product ${editedProduct.title} - view ${index + 1}`} // Updated alt text
+                                                    alt={`Product ${selectedProduct.title} - view ${index + 1}`} // Updated alt text
                                                     style={{ height: '300px', objectFit: 'contain' }}  // Adjust the height as needed
                                                 />
                                             </Carousel.Item>
