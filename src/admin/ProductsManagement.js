@@ -441,7 +441,7 @@ const ProductsManagement = () => {
                     <Modal.Header className='justify-content-center'>
                         <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body className="px-1 py-1">
                         {selectedProduct && (
                             <>
                             <Carousel className='mb-4'>
@@ -469,7 +469,7 @@ const ProductsManagement = () => {
                                                 <Card.Header as="h6" className="justify-content-center">Price</Card.Header>
                                                 <Card.Body className="text-center">
                                                     <em className='product-price-label'>Kshs: </em>
-                                                    <strong>
+                                                    <strong className="text-success">
                                                         {selectedProduct.price ? parseFloat(selectedProduct.price).toFixed(2).split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? (
@@ -551,9 +551,9 @@ const ProductsManagement = () => {
                                 </Container>
                                 <h5 className="text-center" id="reviews">Reviews</h5>
                                     {selectedProduct && selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
-                                    <div className="reviews-container text-center">
+                                    <div className="reviews-container text-center px-0 px-lg-1 py-0">
                                         {selectedProduct.reviews.map((review, index) => (
-                                            <div className="review-card" key={index}>
+                                            <div className="review-card py-2 px-2" key={index}>
                                                 <p className="review-comment"><em>"{review.review}"</em></p>
                                                 <StarRating rating={review.rating} />
                                                 <p className="reviewer-name"><strong>{review.purchaser.fullname}</strong></p>
