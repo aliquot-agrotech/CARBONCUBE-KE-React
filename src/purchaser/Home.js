@@ -190,7 +190,7 @@ const Home = () => {
     const PopularProductsSection = ({ products, onProductClick }) => (
         <Card className="section bg-transparent mb-4 m-5">
             <Card.Header className="d-flex justify-content-start popular-products-header">
-                <h3>Popular Products</h3>
+                <h3>Best Sellers</h3>
             </Card.Header>
             <Card.Body className="cat-body">
                 <Row>
