@@ -19,7 +19,7 @@ const VendorsManagement = () => {
     useEffect(() => {
         const fetchVendors = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/vendors?search_query=${searchQuery}`, {
+                const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors?search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -48,22 +48,22 @@ const VendorsManagement = () => {
     const handleRowClick = async (vendorId) => {
         try {
             const [vendorResponse, ordersResponse, productsResponse, reviewsResponse] = await Promise.all([
-                fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/vendors/${vendorId}`, {
+                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/vendors/${vendorId}/orders`, {
+                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/orders`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/vendors/${vendorId}/products`, {
+                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/products`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/vendors/${vendorId}/reviews`, {
+                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/reviews`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -97,7 +97,7 @@ const VendorsManagement = () => {
 
     const handleUpdateStatus = async (vendorId, status) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/vendors/${vendorId}/${status}`, {
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/${status}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ const VendorsManagement = () => {
 
     const fetchVendorAnalytics = async (vendorId) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/vendors/${vendorId}/analytics`, {
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/analytics`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },

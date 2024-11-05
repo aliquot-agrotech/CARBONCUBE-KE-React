@@ -27,7 +27,7 @@ const PromotionsDiscount = () => {
 
     const fetchPromotions = async () => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/admin/promotions');
+            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/admin/promotions');
             const data = await response.json();
             if (Array.isArray(data)) {
                 setPromotions(data);
@@ -46,8 +46,8 @@ const PromotionsDiscount = () => {
 
     const handleSave = async () => {
         const url = activePromotion.id 
-            ? `https://carboncube-ke-rails-qrvq.onrender.com/admin/promotions/${activePromotion.id}` 
-            : 'https://carboncube-ke-rails-qrvq.onrender.com/admin/promotions';
+            ? `https://carboncube-ke-rails-4xo3.onrender.com/admin/promotions/${activePromotion.id}` 
+            : 'https://carboncube-ke-rails-4xo3.onrender.com/admin/promotions';
         const method = activePromotion.id ? 'PUT' : 'POST';
         const response = await fetch(url, {
             method: method,
@@ -89,7 +89,7 @@ const PromotionsDiscount = () => {
     };
 
     const handleDelete = async (id) => {
-        const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/admin/promotions/${id}`, {
+        const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/promotions/${id}`, {
             method: 'DELETE',
         });
         if (response.ok) {

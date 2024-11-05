@@ -69,7 +69,7 @@ function VendorSignUpPage({ onSignup }) {
     console.log("Form Data before submission:", payload);
   
     try {
-      const response = await axios.post('https://carboncube-ke-rails-qrvq.onrender.com/vendor/signup', payload, {
+      const response = await axios.post('https://carboncube-ke-rails-4xo3.onrender.com/vendor/signup', payload, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

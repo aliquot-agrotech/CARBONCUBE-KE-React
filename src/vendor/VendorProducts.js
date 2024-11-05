@@ -55,7 +55,7 @@ const VendorProducts = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/vendor/products?vendor_id=${vendorId}`, {
+                const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/products?vendor_id=${vendorId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -82,7 +82,7 @@ const VendorProducts = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/vendor/categories');
+                const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/vendor/categories');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -100,7 +100,7 @@ const VendorProducts = () => {
         if (selectedCategory) {
             const fetchSubcategories = async () => {
                 try {
-                    const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/vendor/subcategories?category_id=${selectedCategory}`);
+                    const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/subcategories?category_id=${selectedCategory}`);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -208,7 +208,7 @@ const VendorProducts = () => {
         };
     
         try {
-            const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/vendor/products', {
+            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/vendor/products', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -275,7 +275,7 @@ const VendorProducts = () => {
         if (!confirmed) return; // Exit if the user cancels the deletion
         
         try {
-            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/vendor/products/${productId}`, {
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/products/${productId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -314,7 +314,7 @@ const VendorProducts = () => {
     const handleSaveEdit = async () => {
         setIsSaving(true);
         try {
-        const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/vendor/products/${editedProduct.id}`, {
+        const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/products/${editedProduct.id}`, {
             method: 'PUT',
             headers: {
             'Content-Type': 'application/json',
@@ -372,7 +372,7 @@ const VendorProducts = () => {
                 const updatedMedia = [...editedProduct.media, imageUrl];
     
                 // Update the product's media array on the server
-                const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/vendor/products/${editedProduct.id}`, {
+                const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/products/${editedProduct.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -435,7 +435,7 @@ const VendorProducts = () => {
             const updatedMedia = editedProduct.media.filter((_, i) => i !== index);
 
             // Send a PATCH request to update the product's media array in the database
-            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/vendor/products/${editedProduct.id}`, {
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/products/${editedProduct.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

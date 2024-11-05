@@ -24,7 +24,7 @@ const ShoppingCart = () => {
     const fetchCartItems = useCallback(async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const response = await fetch("https://carboncube-ke-rails-qrvq.onrender.com/purchaser/cart_items", {
+            const response = await fetch("https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -116,7 +116,7 @@ const ShoppingCart = () => {
     const handleRemoveItem = async (itemId) => {
         try {
             const token = sessionStorage.getItem('token');
-            await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/purchaser/cart_items/${itemId}`, {
+            await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items/${itemId}`, {
                 method: 'DELETE',
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -133,7 +133,7 @@ const ShoppingCart = () => {
         if (newQuantity < 1) return;
         try {
             const token = sessionStorage.getItem('token');
-            const response = await fetch(`https://carboncube-ke-rails-qrvq.onrender.com/purchaser/cart_items/${itemId}`, {
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items/${itemId}`, {
                 method: 'PUT',
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -165,7 +165,7 @@ const ShoppingCart = () => {
         }
     
         try {
-            const response = await fetch('https://carboncube-ke-rails-qrvq.onrender.com/purchaser/orders', {
+            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/purchaser/orders', {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${token}`,

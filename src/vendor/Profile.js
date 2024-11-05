@@ -42,7 +42,7 @@ const ProfilePage = () => {
         return;
         }
 
-        axios.get('https://carboncube-ke-rails-qrvq.onrender.com/vendor/profile', {
+        axios.get('https://carboncube-ke-rails-4xo3.onrender.com/vendor/profile', {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -78,7 +78,7 @@ const ProfilePage = () => {
         return;
         }
 
-        axios.put('https://carboncube-ke-rails-qrvq.onrender.com/vendor/profile', profile, {
+        axios.put('https://carboncube-ke-rails-4xo3.onrender.com/vendor/profile', profile, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -113,7 +113,7 @@ const ProfilePage = () => {
         }
     
         // Proceed with the rest of the password change logic
-        axios.post('https://carboncube-ke-rails-qrvq.onrender.com/vendor/profile/change-password', {
+        axios.post('https://carboncube-ke-rails-4xo3.onrender.com/vendor/profile/change-password', {
             currentPassword: passwordData.currentPassword,
             newPassword: passwordData.newPassword,
             confirmPassword: passwordData.confirmPassword
