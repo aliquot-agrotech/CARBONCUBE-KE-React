@@ -272,7 +272,7 @@ const VendorsManagement = () => {
 
                             <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
                                 <Modal.Header className="justify-content-center p-1 p-lg-1">
-                                    <Modal.Title>Vendor Details</Modal.Title>
+                                    <Modal.Title>Vendor Info</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body className="m-0 p-1">
                                     {selectedVendor ? (
@@ -287,7 +287,7 @@ const VendorsManagement = () => {
                                                 {/* <h5 className="text-center">Profile</h5> */}
                                                 <Container className="profile-cards text-center">
                                                     <Row>
-                                                        <Col xs={12} md={6}>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -295,7 +295,7 @@ const VendorsManagement = () => {
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
-                                                        <Col xs={12} md={6}>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Email</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -306,7 +306,7 @@ const VendorsManagement = () => {
                                                     </Row>
 
                                                     <Row>
-                                                        <Col xs={12} md={6}>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Phone</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -314,7 +314,7 @@ const VendorsManagement = () => {
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
-                                                        <Col xs={12} md={6}>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Enterprise</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -325,7 +325,7 @@ const VendorsManagement = () => {
                                                     </Row>
 
                                                     <Row>
-                                                        <Col xs={12} md={6}>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Location</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -333,7 +333,7 @@ const VendorsManagement = () => {
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
-                                                        <Col xs={12} md={6}>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Status</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -344,7 +344,7 @@ const VendorsManagement = () => {
                                                     </Row>
 
                                                     <Row>
-                                                        <Col xs={12}>
+                                                        <Col xs={12} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Categories</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -362,7 +362,7 @@ const VendorsManagement = () => {
                                                 {selectedVendor.analytics ? (
                                                     <Container className="profile-cards text-center">
                                                         <Row>
-                                                            <Col xs={6} md={6}>
+                                                            <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Orders</Card.Header>
                                                                     <Card.Body className="text-center">
@@ -370,7 +370,7 @@ const VendorsManagement = () => {
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
-                                                            <Col xs={6} md={6}>
+                                                            <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Products Sold</Card.Header>
                                                                     <Card.Body className="text-center">
@@ -381,7 +381,7 @@ const VendorsManagement = () => {
                                                         </Row>
 
                                                         <Row>
-                                                            <Col xs={6} md={6}>
+                                                            <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Revenue</Card.Header>
                                                                     <Card.Body className="text-center price-container">
@@ -407,7 +407,7 @@ const VendorsManagement = () => {
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
-                                                            <Col xs={6} md={6}>
+                                                            <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Reviews</Card.Header>
                                                                     <Card.Body className="text-center">
@@ -418,7 +418,7 @@ const VendorsManagement = () => {
                                                         </Row>
 
                                                         <Row>
-                                                            <Col xs={12}>
+                                                            <Col xs={12} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Mean Rating</Card.Header>
                                                                     <Card.Body className="text-center">
