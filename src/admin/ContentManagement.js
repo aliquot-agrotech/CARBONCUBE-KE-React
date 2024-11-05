@@ -285,7 +285,7 @@ const ContentManagement = () => {
                                                     disabled
                                                 />
                                             </Form.Group>
-                                            <Form.Group controlId="formImageUrl" className="text-center">
+                                            {/* <Form.Group controlId="formImageUrl" className="text-center">
                                                 <Form.Label style={{ fontWeight: 'bold' }}>Image URL</Form.Label>
                                                 <Form.Control
                                                     type="text"
@@ -294,7 +294,7 @@ const ContentManagement = () => {
                                                     value={about?.image_url || ''}
                                                     disabled
                                                 />
-                                            </Form.Group>
+                                            </Form.Group> */}
                                         </Form>
                                     </Card.Body>
                                     <Card.Footer className="text-center p-1 p-lg-2">
@@ -411,8 +411,8 @@ const ContentManagement = () => {
                 </Container>
 
                 {/* Add Banner Modal */}
-                <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
-                    <Modal.Header closeButton>
+                <Modal centered show={showModal} onHide={() => setShowModal(false)} size="xl">
+                    <Modal.Header className="justify-content-center p-1 p-lg-2">
                         <Modal.Title>Upload New Banner</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -429,7 +429,7 @@ const ContentManagement = () => {
                             </Form.Group>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer className="p-0 p-lg-1">
                         <Button variant="danger" className='me-3' onClick={() => setShowModal(false)}>
                             Close
                         </Button>
@@ -441,8 +441,8 @@ const ContentManagement = () => {
 
                 {/* Edit Modal */}
                 {editMode && currentEdit && (
-                    <Modal show={editMode} onHide={() => setEditMode(false)} size="lg">
-                        <Modal.Header closeButton>
+                    <Modal centered show={editMode} onHide={() => setEditMode(false)} size="xl">
+                        <Modal.Header className="justify-content-center p-1 p-lg-2">
                             <Modal.Title>Edit {currentEdit.type === 'abouts' ? 'About Us' : 'FAQ'}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
@@ -494,7 +494,7 @@ const ContentManagement = () => {
                                                 onChange={handleInputChange}
                                             />
                                         </Form.Group>
-                                        <Form.Group controlId="formImageUrl">
+                                        {/* <Form.Group controlId="formImageUrl">
                                             <Form.Label>Image URL</Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -502,12 +502,12 @@ const ContentManagement = () => {
                                                 value={currentEdit.data.image_url}
                                                 onChange={handleInputChange}
                                             />
-                                        </Form.Group>
+                                        </Form.Group> */}
                                     </>
                                 ) : (
                                     <>
                                         <Form.Group controlId="formQuestion">
-                                            <Form.Label>Question</Form.Label>
+                                            <Form.Label><strong>Question</strong></Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="question"
@@ -516,7 +516,7 @@ const ContentManagement = () => {
                                             />
                                         </Form.Group>
                                         <Form.Group controlId="formAnswer">
-                                            <Form.Label>Answer</Form.Label>
+                                            <Form.Label><strong>Answer</strong></Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 name="answer"
@@ -528,7 +528,7 @@ const ContentManagement = () => {
                                 )}
                             </Form>
                         </Modal.Body>
-                        <Modal.Footer>
+                        <Modal.Footer className="p-0 p-lg-1">
                             <Button variant="danger" onClick={() => setEditMode(false)}>
                                 Close
                             </Button>
