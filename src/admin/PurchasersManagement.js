@@ -147,7 +147,7 @@ const PurchasersManagement = () => {
                   </Container>
                 </Card.Header>
                 <Card.Body className='p-0 m-0 table-container'>
-                  <div className="table-responsive">
+                  <div className="table-responsive orders-table-container">
                   <Table hover className="orders-table text-center">
                     <thead className="table-header">
                       <tr>

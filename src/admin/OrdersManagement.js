@@ -174,7 +174,7 @@ const OrdersManagement = () => {
                                                     <th>Purchaser</th>
                                                     <th>Products</th>
                                                     <th>Quantity</th>
-                                                    <th>Total<em className="product-price-label">Kshs: </em></th>
+                                                    <th>Total&nbsp;<em className="product-price-label" style={{ fontSize: "13px"}}>(Kshs:)</em></th>
                                                     <th>Date Ordered</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
