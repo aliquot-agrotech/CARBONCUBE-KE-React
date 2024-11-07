@@ -352,21 +352,32 @@
 
 
 /* Responsive styles */
-@media (max-width: 767.98px) { /* Smartphones */
-    .search-input {
-        width: 75%;
-    }
-    
+.search-input {
+    width: 100%; /* Default to full width on smaller screens */
 }
 
-@media (min-width: 768px) and (max-width: 991px) { /* Tablets */
+/* Smartphones (max-width: 767.98px) */
+@media (max-width: 767px) {
     .search-input {
-        width: 50%;
+        width: 75%; /* 75% width on smartphones */
+    }
+
+    .products-management-page{
+        margin-top: -10px;
     }
 }
 
-@media (min-width: 992px) { /* Desktops */
+/* Tablets (max-width: 991px) */
+@media (max-width: 991px) and (min-width: 768px) {
     .search-input {
-        width: 50%;
+        width: 50%; /* 50% width on tablets */
+    }
+
+}
+
+/* Desktops and larger screens (max-width: no limit) */
+@media (min-width: 992px) {
+    .search-input {
+        width: 50%; /* 50% width on desktops */
     }
 }
