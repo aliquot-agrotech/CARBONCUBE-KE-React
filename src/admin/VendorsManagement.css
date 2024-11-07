@@ -297,6 +297,7 @@ body {
     .vendors-management-page {
         padding: 5px;
         padding-top: 10px;
+        margin-top: -5px;
     }
     #vendor-details-tabs .nav-link {
         font-size: 0.9rem; /* Adjust font size for smaller screens */
