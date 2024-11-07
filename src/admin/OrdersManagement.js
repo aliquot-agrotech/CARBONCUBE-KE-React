@@ -166,122 +166,173 @@ const OrdersManagement = () => {
 
 
                                 <Card.Body className="p-0 table-container">
-                                    <div className="table-responsive orders-table-container">
-                                        <Table hover className="orders-table text-center">
-                                            <thead className="table-header">
-                                                <tr>
-                                                    <th>Order ID</th>
-                                                    <th>Purchaser</th>
-                                                    <th>Products</th>
-                                                    <th>Quantity</th>
-                                                    <th>Total&nbsp;<em className="product-price-label" style={{ fontSize: "13px"}}>(Kshs:)</em></th>
-                                                    <th>Date Ordered</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {orders.length > 0 ? (
-                                                orders.map((order) => (
-                                                    <tr
-                                                    key={order.id}
-                                                    onClick={(e) => {
-                                                        if (e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON') return; // Prevent modal opening on status change or delete button click
-                                                        handleRowClick(order.id);
-                                                    }}
-                                                    style={{ cursor: 'pointer' }}
-                                                    >
-                                                    <td>{order.id}</td>
-                                                    <td>{order.purchaser?.fullname || 'Unknown'}</td>
-                                                    <td>
-                                                        {order.order_items
-                                                            .slice(0, 3) // Limit to the first 3 products
-                                                            .map((item, index, array) => {
-                                                            const title = item.product?.title || 'Unknown';
-                                                            // Limit the title to 3 words
-                                                            const truncatedTitle = title.split(' ').slice(0, 3).join(' ');
-                                                            // Add a comma after each item except the last one
-                                                            return `${truncatedTitle}${index < array.length - 1 ? ',' : ''}`;
-                                                            })
-                                                            .join(' ')}
-                                                        {order.order_items.length > 3 && ', ...'} {/* Add ellipsis if more than 3 products */}
-                                                    </td>
+    <div className="orders-table-container">
+        {/* Snap 1: Order ID & Purchaser */}
+        <div className="snap-column">
+            <Table hover className="orders-table text-center">
+                <thead className="table-header">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Purchaser</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {orders.length > 0 ? (
+                        orders.map((order) => (
+                            <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td>{order.purchaser?.fullname || 'Unknown'}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="2">No data available</td>
+                        </tr>
+                    )}
+                </tbody>
+            </Table>
+        </div>
 
-                                                    <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
-                                                    <td className="price-container text-success">
-                                                        <strong>
-                                                            {order.total_amount ? parseFloat(order.total_amount).toFixed(2).split('.').map((part, index) => (
-                                                                <React.Fragment key={index}>
-                                                                    {index === 0 ? (
-                                                                        <span className="price-integer">
-                                                                            {parseInt(part, 10).toLocaleString()} {/* Format the integer part with commas */}
-                                                                        </span>
-                                                                    ) : (
-                                                                        <>
-                                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                                            <span className="price-decimal">{part}</span>
-                                                                        </>
-                                                                    )}
-                                                                </React.Fragment>
-                                                            )) : 'N/A'}
-                                                        </strong>
-                                                    </td>
-                                                    <td>{order.order_date || 'N/A'}</td>
-                                                    <td>
-                                                        <Form.Control
-                                                            className="form-select-admin align-middle"
-                                                            as="select"
-                                                            value={order.status}
-                                                            onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                                                            id="button"
-                                                            style={{
-                                                                verticalAlign: 'middle',
-                                                                display: 'inline-block',
-                                                                width: '60%',
-                                                                height: '40px', 
-                                                                backgroundColor: 
-                                                                    order.status === 'Cancelled' ? '#FF0000' :  // Red
-                                                                    order.status === 'Dispatched' ? '#007BFF' : // Blue
-                                                                    order.status === 'In-Transit' ? '#80CED7' : // Orange
-                                                                    order.status === 'Returned' ? '#6C757D' :  // Grey
-                                                                    order.status === 'Processing' ? '#FFC107' : // Yellow
-                                                                    order.status === 'Delivered' ? '#008000' : '', // Green
-                                                                color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status) 
-                                                                    ? 'white' : 'black', // White text for specific statuses
-                                                            }}
-                                                        >
-                                                            <option className="text-center mb-1" value="Processing">Processing</option>
-                                                            <option className="text-center mb-1" value="Dispatched">Dispatched</option>
-                                                            <option className="text-center mb-1" value="In-Transit">In-Transit</option>
-                                                            <option className="text-center mb-1" value="Delivered">Delivered</option>
-                                                            <option className="text-center mb-1" value="Cancelled">Cancelled</option>
-                                                            <option className="text-center mb-1" value="Returned">Returned</option>
-                                                        </Form.Control>
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                        className="btn btn-link p-0"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleDeleteOrder(order.id);
-                                                        }}
-                                                        title="Delete Order"
-                                                        >
-                                                        <Trash className="text-danger" />
-                                                        </button>
-                                                    </td>
-                                                    </tr>
-                                                ))
+        {/* Snap 2: Products */}
+        <div className="snap-column">
+            <Table hover className="orders-table text-center">
+                <thead className="table-header">
+                    <tr>
+                        <th>Products</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {orders.length > 0 ? (
+                        orders.map((order) => (
+                            <tr key={order.id}>
+                                <td>
+                                    {order.order_items.slice(0, 3).map(item => item.product?.title || 'Unknown').join(', ')}
+                                    {order.order_items.length > 3 && ', ...'}
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="1">No data available</td>
+                        </tr>
+                    )}
+                </tbody>
+            </Table>
+        </div>
+
+        {/* Snap 3: Quantity & Total */}
+        <div className="snap-column">
+            <Table hover className="orders-table text-center">
+                <thead className="table-header">
+                    <tr>
+                        <th>Quantity</th>
+                        <th>Total<em className="product-price-label">Kshs: </em></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {orders.length > 0 ? (
+                        orders.map((order) => (
+                            <tr key={order.id}>
+                                <td>{order.order_items.reduce((sum, item) => sum + item.quantity, 0)}</td>
+                                <td className="text-success">
+                                    <strong>
+                                        {order.total_amount ? parseFloat(order.total_amount).toFixed(2).split('.').map((part, index) => (
+                                            <React.Fragment key={index}>
+                                                {index === 0 ? (
+                                                    <span className="price-integer">
+                                                        {parseInt(part, 10).toLocaleString()}
+                                                    </span>
                                                 ) : (
-                                                <tr>
-                                                    <td colSpan="8">No data available</td>
-                                                </tr>
+                                                    <>
+                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                        <span className="price-decimal">{part}</span>
+                                                    </>
                                                 )}
-                                            </tbody>
-                                        </Table>
-                                    </div>
-                                    
-                                </Card.Body>
+                                            </React.Fragment>
+                                        )) : 'N/A'}
+                                    </strong>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="2">No data available</td>
+                        </tr>
+                    )}
+                </tbody>
+            </Table>
+        </div>
+
+        {/* Snap 4: Date Ordered, Status, & Action */}
+        <div className="snap-column">
+            <Table hover className="orders-table text-center">
+                <thead className="table-header">
+                    <tr>
+                        <th>Date Ordered</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {orders.length > 0 ? (
+                        orders.map((order) => (
+                            <tr key={order.id}>
+                                <td>{order.order_date || 'N/A'}</td>
+                                <td>
+                                    <Form.Control
+                                        className="form-select-admin align-middle"
+                                        as="select"
+                                        value={order.status}
+                                        onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                                        style={{
+                                            verticalAlign: 'middle',
+                                            display: 'inline-block',
+                                            width: '60%',
+                                            height: '40px',
+                                            backgroundColor:
+                                                order.status === 'Cancelled' ? '#FF0000' :
+                                                order.status === 'Dispatched' ? '#007BFF' :
+                                                order.status === 'In-Transit' ? '#80CED7' :
+                                                order.status === 'Returned' ? '#6C757D' :
+                                                order.status === 'Processing' ? '#FFC107' :
+                                                order.status === 'Delivered' ? '#008000' : '',
+                                            color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status)
+                                                ? 'white' : 'black',
+                                        }}
+                                    >
+                                        <option className="text-center mb-1" value="Processing">Processing</option>
+                                        <option className="text-center mb-1" value="Dispatched">Dispatched</option>
+                                        <option className="text-center mb-1" value="In-Transit">In-Transit</option>
+                                        <option className="text-center mb-1" value="Delivered">Delivered</option>
+                                        <option className="text-center mb-1" value="Cancelled">Cancelled</option>
+                                        <option className="text-center mb-1" value="Returned">Returned</option>
+                                    </Form.Control>
+                                </td>
+                                <td>
+                                    <button
+                                        className="btn btn-link p-0"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteOrder(order.id);
+                                        }}
+                                        title="Delete Order"
+                                    >
+                                        <Trash className="text-danger" />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="3">No data available</td>
+                        </tr>
+                    )}
+                </tbody>
+            </Table>
+        </div>
+    </div>
+</Card.Body>
+
                                 <Card.Footer>
                                 </Card.Footer>
                             </Card>
