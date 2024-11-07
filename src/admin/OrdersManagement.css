@@ -169,6 +169,7 @@ body {
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         display: flex;
+        scroll-padding: 50%;
     }
 
     /* Scroll snap items */
