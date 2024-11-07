@@ -157,11 +157,25 @@ body {
     font-size: 12px;
 }
 
+/* Scroll snap container */
+.orders-table-container {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    display: flex;
+}
+
+/* Scroll snap items */
+.orders-table th, .orders-table td {
+    scroll-snap-align: start;
+    min-width: 200px; /* Adjust as needed */
+}
+
+
 
 @media screen and (max-width: 767px) {
     .orders-management-page {
         padding-left: 0;
         padding-right: 5px;
-        margin-top : -5px;
+        margin-top : -15px;
     }
 }
