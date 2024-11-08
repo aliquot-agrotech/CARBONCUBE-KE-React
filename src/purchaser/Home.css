@@ -152,12 +152,12 @@
     }
 
     .categories-overlay {
-        position: static;
+        position: relative;
         padding-top: 15px;
         margin-left: -50px;
         margin-right: -50px;
-        margin-top: -150px;
-        /* z-index: 4; */
+        margin-top: -590px;
+        z-index: 4;
     }
 
     .categories-overlay .footer {

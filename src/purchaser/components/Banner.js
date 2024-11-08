@@ -35,9 +35,6 @@ const Banner = () => {
                                 className="carousel-image"
                                 style={{
                                     backgroundImage: `url(${src})`,
-                                    // backgroundSize: 'cover',
-                                    // backgroundPosition: 'center',
-                                    // height: '70vh', // Adjust height as needed
                                 }}
                             />
                         </Carousel.Item>
