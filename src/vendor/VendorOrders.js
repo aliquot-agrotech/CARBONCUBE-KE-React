@@ -92,14 +92,11 @@ const VendorOrders = () => {
     //             },
     //             body: JSON.stringify({ status }),
     //         });
-
     //         if (!response.ok) {
     //             throw new Error('Network response was not ok');
     //         }
-
     //         const updatedOrder = await response.json();
     //         console.log('Updated order:', updatedOrder);
-
     //         setOrders(prevOrders =>
     //             prevOrders.map(order =>
     //                 order.id === orderId ? updatedOrder : order
@@ -109,12 +106,10 @@ const VendorOrders = () => {
     //         console.error('Error updating order status:', error);
     //     }
     // };
-
     // const handleStatusChange = (orderId, event) => {
     //     event.stopPropagation();
     //     handleUpdateStatus(orderId, event.target.value);
     // };
-
     // const getStatusColor = (status) => {
     //     switch (status) {
     //         case 'On-Transit':
