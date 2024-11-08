@@ -52,4 +52,10 @@
   transform: scale(1.01);
 }
 
+@media screen and (max-width: 767px) {
+  .products-details-page {
+    margin-top: -15px;
+  }
+}
+
   
