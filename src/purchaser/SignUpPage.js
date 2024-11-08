@@ -293,7 +293,7 @@ function PurchaserSignUpPage({ onSignup }) {
                   </Row>      
                   
                   <Form.Group className="mb-3">
-                    <Form.Check
+                    <Form.Switch
                       type="checkbox"
                       label="Agree to Terms and Conditions and receiving of SMS, emails and promotion notifications."
                       isInvalid={!!errors.terms}

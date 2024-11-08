@@ -85,7 +85,7 @@ const LoginForm = ({ onLogin }) => {
             </Form.Group>
 
             <Form.Group controlId="formRememberMe" className="d-flex justify-content-between align-items-center">
-              <Form.Check type="checkbox" label="Remember me" />
+              <Form.Switch type="checkbox" label="Remember me" />
               <a href="/" className="text-muted">Forget Password?</a>
             </Form.Group>
 
