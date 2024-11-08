@@ -317,51 +317,53 @@ const ContentManagement = () => {
                                         FAQs
                                     </Card.Header>
                                     <Card.Body className='p-0 table-container'>
-                                    <Table hover className="faqs-table text-center">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Question</th>
-                                                <th>Answer</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {faqsData.length > 0 ? (
-                                                faqsData.map((faq) => (
-                                                    <tr key={faq.id}>
-                                                        <td>{faq.id}</td>
-                                                        <td>{faq.question}</td>
-                                                        <td>{faq.answer}</td>
-                                                        <td>
-                                                            <Button
-                                                                variant="warning"
-                                                                onClick={() => handleEditClick('faqs', faq)}
-                                                                id="button"
-                                                            >
-                                                                <Pencil />
-                                                                </Button>
-                                                        </td>
-                                                        <td>
-                                                            
-                                                            <Button
-                                                                variant="danger"
-                                                                onClick={() => handleDeleteFaq(faq.id)}
-                                                                id="button"
-                                                            >
-                                                                <Trash />
-                                                            </Button>
-                                                        </td>
+                                        <div className="table-responsive orders-table-container">
+                                            <Table hover className="orders-table text-center ">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Question</th>
+                                                        <th>Answer</th>
+                                                        <th>Edit</th>
+                                                        <th>Delete</th>
                                                     </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="4">No data available</td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                                </thead>
+                                                <tbody>
+                                                    {faqsData.length > 0 ? (
+                                                        faqsData.map((faq) => (
+                                                            <tr key={faq.id}>
+                                                                <td>{faq.id}</td>
+                                                                <td>{faq.question}</td>
+                                                                <td>{faq.answer}</td>
+                                                                <td>
+                                                                    <Button
+                                                                        variant="warning"
+                                                                        onClick={() => handleEditClick('faqs', faq)}
+                                                                        id="button"
+                                                                    >
+                                                                        <Pencil />
+                                                                        </Button>
+                                                                </td>
+                                                                <td>
+                                                                    
+                                                                    <Button
+                                                                        variant="danger"
+                                                                        onClick={() => handleDeleteFaq(faq.id)}
+                                                                        id="button"
+                                                                    >
+                                                                        <Trash />
+                                                                    </Button>
+                                                                </td>
+                                                            </tr>
+                                                        ))
+                                                    ) : (
+                                                        <tr>
+                                                            <td colSpan="4">No data available</td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </Table>
+                                        </div>
                                     </Card.Body>
                                     <Card.Footer className="text-center p-0 p-lg-1">
                                     </Card.Footer>
