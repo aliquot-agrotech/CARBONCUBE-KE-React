@@ -195,7 +195,7 @@ const Home = () => {
             <Card.Body className="cat-body">
                 <Row>
                     {products.slice(0, 6).map(product => (
-                        <Col xs={12} sm={6} md={2} key={product.id}>
+                        <Col xs={6} sm={6} md={2} key={product.id}>
                             <Card className="product-card">
                                 <Card.Img 
                                     variant="top" 
