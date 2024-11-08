@@ -1,16 +1,18 @@
 import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
-const PrivateRoute = ({ role }) => {
-  const token = sessionStorage.getItem('token');
-  const userRole = sessionStorage.getItem('userRole'); // Use the correct key for user role
+const PrivateRoute = ({ isAuthenticated, role, userRole }) => {
+  const navigate = useNavigate();
 
-  // Check if the user is authenticated and has the required role
-  if (!token || userRole !== role) {
-    return <Navigate to="/login" />;
-  }
+  useEffect(() => {
+    if (!isAuthenticated || userRole !== role) {
+      alert("You need to be logged in with the correct role to access this page.");
+      navigate('/login');
+    }
+  }, [isAuthenticated, role, userRole, navigate]);
 
-  return <Outlet />;
+  return isAuthenticated && userRole === role ? <Outlet /> : null;
 };
 
 export default PrivateRoute;

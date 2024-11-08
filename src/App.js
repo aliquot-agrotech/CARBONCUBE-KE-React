@@ -44,14 +44,14 @@ function App() {
 
   const handleLogin = (token, user) => {
     sessionStorage.setItem('token', token);
-    sessionStorage.setItem('userRole', user.role); // Use 'userRole' here
+    sessionStorage.setItem('userRole', user.role);
     setUserRole(user.role);
     setIsAuthenticated(true);
   };
 
   const handleLogout = () => {
     sessionStorage.removeItem('token');
-    sessionStorage.removeItem('userRole'); // Use 'userRole' here
+    sessionStorage.removeItem('userRole');
     setUserRole(null);
     setIsAuthenticated(false);
   };
@@ -79,8 +79,9 @@ function App() {
         <Route path="/home" element={<Home onLogout={handleLogout} />} />
         <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         <Route path="/vendorsignup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
+
         {isAuthenticated && userRole === 'admin' && (
-          <Route path="/admin/*" element={<PrivateRoute role="admin" userRole={userRole} />}>
+          <Route path="/admin/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="admin" userRole={userRole} />}>
             <Route path="analytics-reporting" element={<AnalyticsReporting onLogout={handleLogout} />} />
             <Route path="content-management" element={<ContentManagement onLogout={handleLogout} />} />
             <Route path="purchasers-management" element={<PurchasersManagement onLogout={handleLogout} />} />
@@ -93,8 +94,9 @@ function App() {
             <Route path="categories-management" element={<CategoriesManagement onLogout={handleLogout} />} />
           </Route>
         )}
+
         {isAuthenticated && userRole === 'vendor' && (
-          <Route path="/vendor/*" element={<PrivateRoute role="vendor" userRole={userRole} />}>
+          <Route path="/vendor/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="vendor" userRole={userRole} />}>
             <Route path="vendor-analytics" element={<VendorAnalytics onLogout={handleLogout} />} />
             <Route path="vendor-orders" element={<VendorOrders onLogout={handleLogout} />} />
             <Route path="vendor-products" element={<VendorProducts onLogout={handleLogout} />} />
@@ -103,8 +105,9 @@ function App() {
             <Route path="profile" element={<VendorProfile onLogout={handleLogout} />} />
           </Route>
         )}
+
         {isAuthenticated && userRole === 'purchaser' && (
-          <Route path="/purchaser/*" element={<PrivateRoute role="purchaser" userRole={userRole} />}>
+          <Route path="/purchaser/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="purchaser" userRole={userRole} />}>
             <Route path="home" element={<Home onLogout={handleLogout} />} />
             <Route path="orders" element={<Orders onLogout={handleLogout} />} />
             <Route path="bookmarks" element={<Bookmarks onLogout={handleLogout} />} />
