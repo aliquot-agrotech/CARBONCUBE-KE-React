@@ -257,7 +257,7 @@ const PurchasersManagement = () => {
                           </Col>
                         </Row>
 
-                        <Card className="section m-0 mt-2 ">
+                        <Card className="section m-0 mt-2 custom-card">
                             <Card.Header className='justify-content-center m-0 p-1 p-lg-1'>
                               <h4 className="mb-0">Orders</h4>
                             </Card.Header>
@@ -265,8 +265,8 @@ const PurchasersManagement = () => {
                             <Card.Body className="p-0 table-container">
                             {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
                             
-                            <div className="table-responsive">
-                              <Table hover className="orders-table text-center">
+                            <div className="table-responsive orders-table-container">
+                              <Table hover className="orders-table text-center transparent-table transparent-table-striped">
                                 <thead className='table-head'>
                                   <tr>
                                     <th>Order ID</th>
@@ -345,7 +345,7 @@ const PurchasersManagement = () => {
                                         </tr>
                                         <tr id={`details-${order.id}`} className="d-none sub-table">
                                           <td colSpan="5">
-                                            <Table bordered hover>
+                                            <Table bordered hover className="custom-card">
                                               <thead className='table-head'>
                                                 <tr>
                                                   <th>Product Name</th>

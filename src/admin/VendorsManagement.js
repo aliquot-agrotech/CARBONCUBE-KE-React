@@ -435,10 +435,10 @@ const VendorsManagement = () => {
                                             </Tab>
                                             <Tab eventKey="orders" title="Orders">
                                                 {/* <h5 className="text-center">Orders</h5> */}
-                                                <div className='section mt-1'>
+                                                <div className='section mt-1 custom-card'>
                                                     <div className='table-container'>
-                                                        <div className="table-responsive">
-                                                            <Table hover className="orders-table text-center">
+                                                        <div className="table-responsive orders-table-container">
+                                                            <Table hover className="orders-table text-center transparent-table transparent-table-striped">
                                                                 <thead className='table-head'>
                                                                     <tr>
                                                                         <th>Order ID</th>

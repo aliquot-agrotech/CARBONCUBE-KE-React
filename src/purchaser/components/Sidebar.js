@@ -1,25 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
 import { BookmarkDash, Person, XCircle, ArrowRight, Cart4, ChatSquareText, BagCheck, HouseGear } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false); // Default to closed on initial load
   const location = useLocation();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsOpen(window.innerWidth >= 1024); // Open by default on larger screens
+    };
+
+    // Set initial state based on screen width when component mounts
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
-      <Button 
-        variant="warning" 
-        className={`toggle-button ${isOpen ? 'open' : 'collapsed'}`} 
+      <Button
+        variant="warning"
+        className={`toggle-button ${isOpen ? 'open' : 'collapsed'}`}
         onClick={toggleSidebar}
         id="button"
-        aria-label="Toggle Sidebar" // Accessibility
+        aria-label="Toggle Sidebar"
       >
         {isOpen ? <XCircle size={15} /> : <ArrowRight size={15} />}
       </Button>
@@ -50,11 +62,6 @@ const Sidebar = () => {
             className={location.pathname === '/purchaser/messages' ? 'active' : ''}>
             <ChatSquareText className="icon" /> {isOpen && 'Messages'}
           </Nav.Link>
-          {/* <Nav.Link
-            href="/purchaser/notifications"
-            className={location.pathname === '/purchaser/notifications' ? 'active' : ''}>
-            <Bell className="icon" /> {isOpen && 'Notifications'}
-          </Nav.Link> */}
           <Nav.Link
             href="/purchaser/profile"
             className={location.pathname === '/purchaser/profile' ? 'active' : ''}>

@@ -5,30 +5,24 @@ import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
-  const location = useLocation(); // Get the current URL path
+  const [isOpen, setIsOpen] = useState(false); // Default to closed on initial load
+  const location = useLocation();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  // Effect to auto-expand sidebar on large screens
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 769 && !isOpen) {
-        setIsOpen(true);
-      }
+      setIsOpen(window.innerWidth >= 1024); // Open by default on larger screens
     };
 
+    // Set initial state based on screen width when component mounts
+    handleResize();
     window.addEventListener('resize', handleResize);
 
-    // Initial check when the component mounts
-    if (window.innerWidth >= 769) {
-      setIsOpen(true);
-    }
-
     return () => window.removeEventListener('resize', handleResize);
-  }, [isOpen]);
+  }, []);
 
   return (
     <>

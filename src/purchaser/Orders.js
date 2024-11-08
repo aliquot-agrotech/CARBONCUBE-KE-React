@@ -232,7 +232,7 @@ const Orders = () => {
                                 <Modal.Header className="justify-content-center p-1 p-lg-2">
                                     <Modal.Title>Order Details</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body>
+                                <Modal.Body className="px-1 px-lg-3 py-1 py-lg-3">
                                     {selectedOrder ? (
                                         <>
                                             <Row>
