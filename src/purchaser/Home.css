@@ -25,7 +25,7 @@
 
 .categories-overlay {
     position: absolute;
-    top: 20em;
+    top: 26em;
     left: 0;
     right: 0;
     z-index: 2;
@@ -156,7 +156,7 @@
         padding-top: 15px;
         margin-left: -50px;
         margin-right: -50px;
-        margin-top: -590px;
+        top: -17rem;
         z-index: 4;
     }
 
