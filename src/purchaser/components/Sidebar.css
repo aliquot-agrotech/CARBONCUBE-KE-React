@@ -1,6 +1,6 @@
 .sidebar {
   background-color: #333;
-  opacity: 90%;
+  opacity: 95%;
   color: #fff;
   min-height: 100vh;
   padding: 1rem;
@@ -109,18 +109,20 @@
   }
 
   .toggle-button {
-    top: 70px;
+    top: 60px;
     width: 40px;
     height: 40px;
   }
 
   .toggle-button.open {
     left: 180px;
+    opacity: 60%;
   }
 
   .toggle-button.collapsed {
     left: 0px;
-    top: 67px;
+    top: 60px;
+    opacity: 60%;
   }
 }
 
