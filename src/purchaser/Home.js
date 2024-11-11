@@ -340,7 +340,7 @@ const Home = () => {
                 <Sidebar isOpen={sidebarOpen} />
                 <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
                     {!isSearching && searchResults.length === 0 && <Banner />}
-                    <Container fluid className="">
+                    <Container fluid className="mb-0">
                         {isSearching ? (
                             <div className="centered-loader">
                                 <Spinner variant="warning" animation="border" />

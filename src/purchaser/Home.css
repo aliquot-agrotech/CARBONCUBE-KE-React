@@ -26,6 +26,7 @@
 .categories-overlay {
     position: absolute;
     top: 26em;
+    bottom: 20rem;
     left: 0;
     right: 0;
     z-index: 2;
@@ -133,6 +134,10 @@
     color: #ffc107; /* Optional hover color */
 }
 
+.lorem{
+    position: rel;
+}
+
 
 
 /* For screens with max width 767px (mobile devices) */
@@ -156,7 +161,7 @@
         padding-top: 15px;
         margin-left: -50px;
         margin-right: -50px;
-        top: -17rem;
+        margin-top: -42rem;
         z-index: 4;
     }
 
@@ -219,6 +224,6 @@
 /* Adjust the margin for screens between 992px and 1199px */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .lorem {
-        margin-top: 300px;
+        margin-top: 350px;
     }
 }
