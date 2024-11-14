@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { House, Box, Truck, Person, FileText, Percent, Envelope, GraphUp, XCircle, ArrowRight, List } from 'react-bootstrap-icons';
+import { Shop, Box, BagCheck, PersonCheck, FileText, Percent, Envelope, GraphUp, XCircle, ArrowRight, List } from 'react-bootstrap-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMotorcycle } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -45,7 +47,7 @@ const Sidebar = () => {
           <Nav.Link
             href="/admin/orders-management"
             className={location.pathname === '/admin/orders-management' ? 'active' : ''}>
-            <Truck className="icon" /> {isOpen && 'Orders'}
+            <BagCheck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
             href="/admin/products-management"
@@ -60,12 +62,19 @@ const Sidebar = () => {
           <Nav.Link
             href="/admin/vendors-management"
             className={location.pathname === '/admin/vendors-management' ? 'active' : ''}>
-            <House className="icon" /> {isOpen && 'Vendors'}
+            <Shop className="icon" /> {isOpen && 'Vendors'}
           </Nav.Link>
+          <Nav.Link
+            href="/admin/riders-management"
+            className={location.pathname === '/admin/riders-management' ? 'active' : ''}
+            >
+            <FontAwesomeIcon icon={faMotorcycle} className="icon" /> {isOpen && 'Riders'}
+          </Nav.Link>
+
           <Nav.Link
             href="/admin/purchasers-management"
             className={location.pathname === '/admin/purchasers-management' ? 'active' : ''}>
-            <Person className="icon" /> {isOpen && 'Purchasers'}
+            <PersonCheck className="icon" /> {isOpen && 'Purchasers'}
           </Nav.Link>
           <Nav.Link
             href="/admin/content-management"
