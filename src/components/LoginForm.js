@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import './LoginForm.css';
 
 const LoginForm = ({ onLogin }) => {
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');  // Changed from 'email' to 'identifier'
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const LoginForm = ({ onLogin }) => {
 
     try {
       const response = await axios.post('https://carboncube-ke-rails-4xo3.onrender.com/auth/login', {
-          email,
+          identifier,  // Use identifier instead of email
           password,
       });
   
@@ -36,6 +36,9 @@ const LoginForm = ({ onLogin }) => {
           case 'vendor':
               navigate('/vendor/vendor-analytics');
               break;
+          case 'rider':
+              navigate('/rider/home');
+              break;
           case 'admin':
               navigate('/admin/analytics-reporting');
               break;
@@ -45,7 +48,7 @@ const LoginForm = ({ onLogin }) => {
     } catch (error) {
         console.error(error);
         if (error.response) {
-            setError(error.response.data.message || 'Invalid email or password');
+            setError(error.response.data.message || 'Invalid identifier or password');
         } else {
             setError('Network error. Please try again later.');
         }
@@ -59,17 +62,17 @@ const LoginForm = ({ onLogin }) => {
     <Container fluid className="login-container" style={{ minHeight: `${window.innerHeight}px` }}>
       <Row className="justify-content-center">
         <Col md={12} lg={12} className="text-center login-box">
-          <h2 className="mb-4">Welcome Back!</h2>
+          <h2 className="mb-3">Sign In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleLogin}>
-            <Form.Group controlId="formEmail">
+            <Form.Group controlId="formIdentifier">
               <Form.Control
-                type="email"
-                placeholder="Email/Username"
-                className="mb-3 text-center"
-                id="button"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"  // Changed from "email" to "text" to support email, phone, or ID number
+                placeholder="Email, Phone Number, or ID Number"
+                className="mb-3 text-center rounded-pill"
+                id="identifier"
+                value={identifier}  // Updated state variable
+                onChange={(e) => setIdentifier(e.target.value)}  // Updated state handling
               />
             </Form.Group>
 
@@ -77,8 +80,8 @@ const LoginForm = ({ onLogin }) => {
               <Form.Control
                 type="password"
                 placeholder="Password"
-                className="mb-3 text-center"
-                id="button"
+                className="mb-3 text-center rounded-pill"
+                // id="button"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -89,7 +92,7 @@ const LoginForm = ({ onLogin }) => {
               <a href="/" className="text-muted">Forget Password?</a>
             </Form.Group>
 
-            <Button variant="warning" type="submit" id="button" className="w-100 mt-3" disabled={loading}>
+            <Button variant="warning" type="submit" className="w-100 mt-3 rounded-pill" disabled={loading}>
               {loading ? 'Signing In...' : 'Sign In'}
             </Button>
 
@@ -110,10 +113,10 @@ const LoginForm = ({ onLogin }) => {
             <div className="text-center mt-2 signup-form">
               Don't have an account? 
               <div className="d-flex justify-content-center mt-2">
-                <Button variant="secondary" id="button" className="w-40 mx-2 signup-btn" onClick={() => navigate('/purchasersignup')}>
+                <Button variant="secondary" className="w-40 mx-2 signup-btn rounded-pill" onClick={() => navigate('/purchasersignup')}>
                   Purchaser SignUp
                 </Button>
-                <Button variant="secondary" id="button" className="w-40 mx-2 signup-btn" onClick={() => navigate('/vendorsignup')}>
+                <Button variant="secondary" className="w-40 mx-2 signup-btn rounded-pill" onClick={() => navigate('/vendorsignup')}>
                   Vendor SignUp
                 </Button>
               </div>
