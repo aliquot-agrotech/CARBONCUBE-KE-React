@@ -111,33 +111,33 @@ const LoginForm = ({ onLogin }) => {
             </div>
 
             <div className="text-center mt-2 signup-form">
-              Don't have an account?
+              Don't have an account? Sign-up Below
               <Row className="justify-content-center mt-2">
-                <Col xs={4} sm={4} className="mb-2">
+                <Col xs={12} sm={4} className="mb-2">
                   <Button
                     variant="secondary"
                     className="w-100 signup-btn rounded-pill"
                     onClick={() => navigate('/purchasersignup')}
                   >
-                    Purchaser SignUp
+                    Purchaser
                   </Button>
                 </Col>
-                <Col xs={4} sm={4} className="mb-2">
+                <Col xs={12} sm={4} className="mb-2">
                   <Button
                     variant="secondary"
                     className="w-100 signup-btn rounded-pill"
                     onClick={() => navigate('/vendorsignup')}
                   >
-                    Vendor SignUp
+                    Vendor
                   </Button>
                 </Col>
-                <Col xs={4} sm={4} className="mb-2">
+                <Col xs={12} sm={4} className="mb-2">
                   <Button
                     variant="secondary"
                     className="w-100 signup-btn rounded-pill"
                     onClick={() => navigate('/ridersignup')}
                   >
-                    Rider SignUp
+                    Rider
                   </Button>
                 </Col>
               </Row>
