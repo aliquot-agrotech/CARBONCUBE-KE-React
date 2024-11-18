@@ -176,17 +176,22 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
   <Row className="d-flex justify-content-between">
     <Col className="text-end">
       <Button variant="warning" href="/login" className="ms-2" id="button">
-        Vendors
+        Rider
+      </Button>
+    </Col>
+    <Col className="text-end">
+      <Button variant="warning" href="/login" className="ms-2" id="button">
+        Vendor
       </Button>
     </Col>
     <Col className="text-start">
       {isLoggedIn ? (
         <Button variant="warning" onClick={handleLogout} className="ms-2" id="button">
-          Logout
+          SignOut
         </Button>
       ) : (
         <Button variant="outline-warning" href="/login" className="ms-2" id="button">
-          Login
+          SignIn
         </Button>
       )}
     </Col>
