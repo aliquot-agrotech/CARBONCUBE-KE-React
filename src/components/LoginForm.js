@@ -113,7 +113,7 @@ const LoginForm = ({ onLogin }) => {
             <div className="text-center mt-2 signup-form">
               Don't have an account? Sign-up Below
               <Row className="justify-content-center mt-2">
-                <Col xs={12} sm={4} className="mb-2">
+                <Col xs={4} sm={4} className="mb-2">
                   <Button
                     variant="secondary"
                     className="w-100 signup-btn rounded-pill"
@@ -122,7 +122,7 @@ const LoginForm = ({ onLogin }) => {
                     Purchaser
                   </Button>
                 </Col>
-                <Col xs={12} sm={4} className="mb-2">
+                <Col xs={4} sm={4} className="mb-2">
                   <Button
                     variant="secondary"
                     className="w-100 signup-btn rounded-pill"
@@ -131,7 +131,7 @@ const LoginForm = ({ onLogin }) => {
                     Vendor
                   </Button>
                 </Col>
-                <Col xs={12} sm={4} className="mb-2">
+                <Col xs={4} sm={4} className="mb-2">
                   <Button
                     variant="secondary"
                     className="w-100 signup-btn rounded-pill"
