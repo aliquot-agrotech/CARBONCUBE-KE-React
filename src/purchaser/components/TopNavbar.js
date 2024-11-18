@@ -173,31 +173,30 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
           </Form>
           {/* Navigation buttons for Vendors and Login/Logout */}
           <Nav className="ms-auto">
-  <Row className="d-flex justify-content-between">
-    <Col className="text-end">
-      <Button variant="warning" href="/login" className="ms-2" id="button">
-        Rider
-      </Button>
-    </Col>
-    <Col className="text-end">
-      <Button variant="warning" href="/login" className="ms-2" id="button">
-        Vendor
-      </Button>
-    </Col>
-    <Col className="text-start">
-      {isLoggedIn ? (
-        <Button variant="warning" onClick={handleLogout} className="ms-2" id="button">
-          SignOut
-        </Button>
-      ) : (
-        <Button variant="outline-warning" href="/login" className="ms-2" id="button">
-          SignIn
-        </Button>
-      )}
-    </Col>
-  </Row>
-</Nav>
-
+            <Row className="d-flex justify-content-center">
+              <Col className="text-center">
+                <Button variant="warning" href="/login" className="ms-2" id="button">
+                  Rider
+                </Button>
+              </Col>
+              <Col className="text-center">
+                <Button variant="warning" href="/login" className="ms-2" id="button">
+                  Vendor
+                </Button>
+              </Col>
+              <Col className="text-center">
+                {isLoggedIn ? (
+                  <Button variant="warning" onClick={handleLogout} className="ms-2" id="button">
+                    SignOut
+                  </Button>
+                ) : (
+                  <Button variant="outline-warning" href="/login" className="ms-2" id="button">
+                    SignIn
+                  </Button>
+                )}
+              </Col>
+            </Row>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

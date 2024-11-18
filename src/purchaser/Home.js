@@ -135,7 +135,7 @@ const Home = () => {
         const randomizedSubcategories = shuffleArray(subcategories).slice(0, 4);
     
         return (
-            <Card className="section bg-transparent mb-4 m-5">
+            <Card className="section bg-transparent mb-3 m-5 my-xs-0 mx-5">
                 <Card.Header className="category-header justify-content-start">
                     <h4 className='m-0'>{title}</h4>
                 </Card.Header>
@@ -188,9 +188,9 @@ const Home = () => {
     };
 
     const PopularProductsSection = ({ products, onProductClick }) => (
-        <Card className="section bg-transparent mb-4 m-5">
-            <Card.Header className="d-flex justify-content-start popular-products-header">
-                <h3>Best Sellers</h3>
+        <Card className="section bg-transparent mb-3 m-4 mx-5">
+            <Card.Header className="d-flex justify-content-start popular-products-header ">
+                <h3 className='mb-0'>Best Sellers</h3>
             </Card.Header>
             <Card.Body className="cat-body">
                 <Row>
@@ -220,7 +220,7 @@ const Home = () => {
                 <Row>
                     {results.map(product => (
                         <Col xs={12} sm={6} md={2} key={product.id}>
-                            <Card className="product-card mb-4">
+                            <Card className="product-card mb-3">
                                 <Card.Img
                                     variant="top"
                                     src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
