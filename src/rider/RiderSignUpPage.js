@@ -3,23 +3,26 @@ import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './VendorSignUpPage.css';
+// import './VendorSignUpPage.css';
 
 function RiderSignUpPage({ onSignup }) {
   const [formData, setFormData] = useState({
-    fullname: '',
-    username: '',
+    full_name: '',
     phone_number: '',
+    date_of_birth: '',
     email: '',
-    location: '',
-    business_registration_number: '',
-    enterprise_name: '',
+    id_number: '',
+    driving_license: '',
+    vehicle_type: '',
+    license_plate: '',
+    physical_address: '',
+    gender: '',
+    kin_full_name: '',
+    kin_relationship: '',
+    kin_phone_number: '',
     password: '',
     password_confirmation: '',
-    birthdate: '',
-    gender: '',
-    city: '',
-    zipcode: ''
+    
   });
   
   const [errors, setErrors] = useState({});
@@ -69,7 +72,7 @@ function RiderSignUpPage({ onSignup }) {
     console.log("Form Data before submission:", payload);
   
     try {
-      const response = await axios.post('https://carboncube-ke-rails-4xo3.onrender.com/vendor/signup', payload, {
+      const response = await axios.post('https://carboncube-ke-rails-4xo3.onrender.com/rider/signup', payload, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
@@ -113,26 +116,26 @@ function RiderSignUpPage({ onSignup }) {
                           name="fullname"
                           id="button"
                           className="mb-3 text-center"
-                          value={formData.fullname}
+                          value={formData.full_name}
                           onChange={handleChange}
-                          isInvalid={!!errors.fullname}
+                          isInvalid={!!errors.full_name}
                         />
-                        <Form.Control.Feedback type="invalid">{errors.fullname}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">{errors.full_name}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
-                          placeholder="Username"
-                          name="username"
+                          placeholder="Phone Number"
+                          name="phone_number"
                           id="button"
                           className="mb-3 text-center"
-                          value={formData.username}
+                          value={formData.phone_number}
                           onChange={handleChange}
-                          isInvalid={!!errors.username}
+                          isInvalid={!!errors.phone_number}
                         />
-                        <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">{errors.phone_number}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
@@ -141,8 +144,8 @@ function RiderSignUpPage({ onSignup }) {
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
-                          type="text"
-                          placeholder="Phone Number"
+                          type="date"
+                          placeholder="Date of Birth"
                           name="phone_number"
                           id="button"
                           className="mb-3 text-center"
@@ -175,30 +178,30 @@ function RiderSignUpPage({ onSignup }) {
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
-                          placeholder="Location"
-                          name="location"
+                          placeholder="ID Number"
+                          name="id_number"
                           id="button"
                           className="mb-3 text-center"
-                          value={formData.location}
+                          value={formData.id_number}
                           onChange={handleChange}
-                          isInvalid={!!errors.location}
+                          isInvalid={!!errors.id_number}
                         />
-                        <Form.Control.Feedback type="invalid">{errors.location}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">{errors.id_number}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
-                          placeholder="Business Registration Number"
-                          name="business_registration_number"
+                          placeholder="Driving Licence"
+                          name="driving_license"
                           id="button"
                           className="mb-3 text-center"
-                          value={formData.business_registration_number}
+                          value={formData.driving_license}
                           onChange={handleChange}
-                          isInvalid={!!errors.business_registration_number}
+                          isInvalid={!!errors.driving_license}
                         />
-                        <Form.Control.Feedback type="invalid">{errors.business_registration_number}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">{errors.driving_license}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
@@ -208,34 +211,17 @@ function RiderSignUpPage({ onSignup }) {
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
-                          placeholder="Enterprise Name"
-                          name="enterprise_name"
+                          placeholder="Physical Address"
+                          name="physical_address"
                           id="button"
                           className="mb-3 text-center"
-                          value={formData.enterprise_name}
+                          value={formData.physical_address}
                           onChange={handleChange}
-                          isInvalid={!!errors.enterprise_name}
+                          isInvalid={!!errors.physical_address}
                         />
-                        <Form.Control.Feedback type="invalid">{errors.enterprise_name}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">{errors.physical_address}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
-                        <Form.Control
-                          type="date"
-                          name="birthdate"
-                          id="button"
-                          className="mb-3 text-center"
-                          value={formData.birthdate}
-                          onChange={handleChange}
-                          isInvalid={!!errors.birthdate}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.birthdate}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  
-                  <Row>
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
@@ -247,58 +233,102 @@ function RiderSignUpPage({ onSignup }) {
                           onChange={handleChange}
                           isInvalid={!!errors.gender}
                         >
-                          <option value="">Select Gender</option>
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
-                          <option value="Other">Other</option>
+                          <option value="" disabled hidden>
+                            Select Gender
+                          </option>
+                          {["Male", "Female", "Other"].map((gender) => (
+                            <option key={gender} value={gender}>
+                              {gender}
+                            </option>
+                          ))}
                         </Form.Control>
-                        <Form.Control.Feedback type="invalid">{errors.gender}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.gender}
+                        </Form.Control.Feedback>
                       </Form.Group>
                     </Col>
+
+                  </Row>
+                  
+                  <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Control
+                        as="select"
+                        name="vehicle_type"
+                        id="button"
+                        className="mb-3 text-center"
+                        value={formData.vehicle_type}
+                        onChange={handleChange}
+                        isInvalid={!!errors.vehicle_type}
+                      >
+                        <option value="" disabled hidden>
+                          Select Vehicle Type
+                        </option>
+                        {["Motorbike", "Tuk-Tuk", "Car", "Pick-Up", "Van"].map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </Form.Control>
+                      <Form.Control.Feedback type="invalid">
+                        {errors.vehicle_type}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Col>
+
+
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
-                          placeholder="City"
-                          name="city"
+                          placeholder="License Plate"
+                          name="license_plate"
                           id="button"
                           className="mb-3 text-center"
-                          value={formData.city}
+                          value={formData.license_plate}
                           onChange={handleChange}
-                          isInvalid={!!errors.city}
+                          isInvalid={!!errors.license_plate}
                         />
-                        <Form.Control.Feedback type="invalid">{errors.city}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">{errors.license_plate}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
+
+                  <Row className="justify-content-center mb-0">
+                    <Col md="auto">
+                      <h4 className="text-center">Next of Kin</h4>
+                    </Col>
+                  </Row>
+
 
                   <Row>
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
-                          placeholder="Zip Code"
-                          name="zipcode"
+                          placeholder="Full Name"
+                          name="kin_full_name"
                           id="button"
                           className="mb-3 text-center"
-                          value={formData.zipcode}
+                          value={formData.kin_full_name}
                           onChange={handleChange}
-                          isInvalid={!!errors.zipcode}
+                          isInvalid={!!errors.kin_full_name}
                         />
-                        <Form.Control.Feedback type="invalid">{errors.zipcode}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">{errors.kin_full_name}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
-                          type="password"
-                          placeholder="Password"
-                          name="password"
+                          type="text"
+                          placeholder="RelationShip"
+                          name="kin_relationship"
                           id="button"
                           className="mb-3 text-center"
-                          value={formData.password}
+                          value={formData.kin_relationship}
                           onChange={handleChange}
-                          isInvalid={!!errors.password}
+                          isInvalid={!!errors.kin_relationship}
                         />
                         <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                       </Form.Group>
@@ -309,16 +339,16 @@ function RiderSignUpPage({ onSignup }) {
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
-                          type="password"
-                          placeholder="Confirm Password"
-                          name="password_confirmation"
+                          type="text"
+                          placeholder="Phone Number"
+                          name="kin_phone_number"
                           id="button"
                           className="mb-3 text-center"
-                          value={formData.password_confirmation}
+                          value={formData.kin_phone_number}
                           onChange={handleChange}
-                          isInvalid={!!errors.password_confirmation}
+                          isInvalid={!!errors.kin_phone_number}
                         />
-                        <Form.Control.Feedback type="invalid">{errors.password_confirmation}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">{errors.kin_phone_number}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>

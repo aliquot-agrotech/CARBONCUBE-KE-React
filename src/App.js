@@ -27,6 +27,7 @@ import PurchaserMessages from './purchaser/PurchaserMessages';
 import PurchaserNotifications from './purchaser/PurchaserNotifications';
 import PurchaserSignUpPage from './purchaser/SignUpPage';
 import ProfilePage from './purchaser/Profile';
+import RiderSignUpPage from './rider/RiderSignUpPage';
 import PrivateRoute from './components/PrivateRoute';
 
 function App() {
@@ -68,6 +69,11 @@ function App() {
     sessionStorage.setItem('userRole', 'vendor'); // Use 'userRole' here
   };
 
+  const handleRiderSignup = () => {
+    setIsAuthenticated(true);
+    setUserRole('rider');
+    sessionStorage.setItem('userRole', 'rider'); // Use 'userRole' here
+  }
   return (
     <Router>
       <Routes>
@@ -79,6 +85,7 @@ function App() {
         <Route path="/home" element={<Home onLogout={handleLogout} />} />
         <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         <Route path="/vendorsignup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
+        <Route path="/ridersignup" element={<RiderSignUpPage onSignup={handleRiderSignup} />} />
 
         {isAuthenticated && userRole === 'admin' && (
           <Route path="/admin/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="admin" userRole={userRole} />}>
