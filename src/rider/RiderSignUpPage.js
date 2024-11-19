@@ -197,7 +197,7 @@ function RiderSignUpPage({ onSignup }) {
                       <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
-                          placeholder="Driving Licence"
+                          placeholder="Driving License"
                           name="driving_license"
                           id="button"
                           className="text-center"
@@ -251,11 +251,44 @@ function RiderSignUpPage({ onSignup }) {
                         </Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-
                   </Row>
+
+                  <Row>
+                    <Col xs={6} md={6}>
+                      <Form.Group className="mb-2">
+                        <Form.Control
+                          type="password"
+                          placeholder="Password"
+                          name="password"
+                          id="button"
+                          className="text-center"
+                          value={formData.password}
+                          onChange={handleChange}
+                          isInvalid={!!errors.password}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={6} md={6}>
+                      <Form.Group className="mb-2">
+                        <Form.Control
+                          type="password"
+                          placeholder="Confirm Password"
+                          name="password_confirmation"
+                          id="button"
+                          className="text-center"
+                          value={formData.password_confirmation}
+                          onChange={handleChange}
+                          isInvalid={!!errors.password_confirmation}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.password_confirmation}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  
                   <Row className="justify-content-center mb-0">
                     <Col md="auto">
-                      <h4 className="text-center">Vehicle Information</h4>
+                      <h5 className="text-center">Vehicle Information</h5>
                     </Col>
                   </Row>
                   <Row>
@@ -305,7 +338,7 @@ function RiderSignUpPage({ onSignup }) {
 
                   <Row className="justify-content-center mb-0">
                     <Col md="auto">
-                      <h4 className="text-center">Next of Kin</h4>
+                      <h5 className="text-center">Next of Kin</h5>
                     </Col>
                   </Row>
 
@@ -371,9 +404,9 @@ function RiderSignUpPage({ onSignup }) {
                     <Form.Control.Feedback type="invalid">{errors.terms}</Form.Control.Feedback>
                   </Form.Group>
 
-                  <Button variant="warning" type="submit" id="button" className="w-100 mb-3">Sign Up</Button>
+                  <Button variant="warning" type="submit" id="button" className="w-100 mb-0">Sign Up</Button>
 
-                  <div className="divider">
+                  <div className="divider my-1">
                     <span>or continue with</span>
                   </div>
                   

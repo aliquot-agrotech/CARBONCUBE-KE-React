@@ -25,7 +25,7 @@
   
   .form-container {
     background-color: #e0e0e0;
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: 8px; /* Optional: Add some border radius for a better look */
     box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional: Add a shadow effect */
     max-width: 100%; /* Ensure it doesn't exceed container width */
