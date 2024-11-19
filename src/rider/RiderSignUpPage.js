@@ -379,45 +379,45 @@ function RiderSignUpPage({ onSignup }) {
                       </Form.Group>
                     </Col>
                     <Col xs={6} md={6}>
-  <Form.Group className="mb-2">
-    <div className="dropdown-container">
-      <Form.Control
-        as="select"
-        placeholder="Relationship"
-        name="kin_relationship"
-        id="button"
-        className="text-center"
-        value={formData.kin_relationship}
-        onChange={handleChange}
-        isInvalid={!!errors.kin_relationship}
-      >
-        <option value="" disabled hidden>
-          Select Relationship
-        </option>
-        {[
-          "Parent",
-          "Sibling",
-          "Spouse",
-          "Child",
-          "Cousin",
-          "Uncle",
-          "Aunt",
-          "Grandparent",
-          "Friend",
-          "Guardian",
-        ].map((relation) => (
-          <option key={relation} value={relation}>
-            {relation}
-          </option>
-        ))}
-      </Form.Control>
-    </div>
-    <Form.Control.Feedback type="invalid">
-      {errors.kin_relationship}
-    </Form.Control.Feedback>
-  </Form.Group>
-</Col>
-
+                      <Form.Group className="mb-2">
+                        <div className="dropdown-container">
+                          <Form.Control
+                            as="select"
+                            placeholder="Relationship"
+                            name="kin_relationship"
+                            id="button"
+                            className="text-center"
+                            value={formData.kin_relationship}
+                            onChange={handleChange}
+                            isInvalid={!!errors.kin_relationship}
+                          >
+                            <option value="" disabled hidden>
+                              Select Relationship
+                            </option>
+                            {[
+                              "Parent",
+                              "Sibling",
+                              "Spouse",
+                              "Child",
+                              "Cousin",
+                              "Uncle",
+                              "Aunt",
+                              "Grandparent",
+                              "Friend",
+                              "Guardian",
+                              "Colleague",
+                            ].map((relation) => (
+                              <option key={relation} value={relation}>
+                                {relation}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </div>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.kin_relationship}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
                   </Row>
 
                   <Form.Group className="mb-2">
