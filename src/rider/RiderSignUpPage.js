@@ -108,14 +108,14 @@ function RiderSignUpPage({ onSignup }) {
                   {errors.general && <Alert variant="danger">{errors.general}</Alert>}
                   
                   <Row>
-                    <Col md={6}>
-                      <Form.Group>
+                    <Col md={12}>
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="Full Name"
-                          name="fullname"
+                          name="full_name"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.full_name}
                           onChange={handleChange}
                           isInvalid={!!errors.full_name}
@@ -128,13 +128,13 @@ function RiderSignUpPage({ onSignup }) {
                   
                   <Row>
                     <Col xs={6} md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="Phone Number"
                           name="phone_number"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.phone_number}
                           onChange={handleChange}
                           isInvalid={!!errors.phone_number}
@@ -143,13 +143,13 @@ function RiderSignUpPage({ onSignup }) {
                       </Form.Group>
                     </Col>
                     <Col xs={6} md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="date"
                           placeholder="Date of Birth"
                           name="phone_number"
                           id="button"
-                          className="mb-3 text-center"
+                          className=" text-center"
                           value={formData.phone_number}
                           onChange={handleChange}
                           isInvalid={!!errors.phone_number}
@@ -160,14 +160,14 @@ function RiderSignUpPage({ onSignup }) {
                   </Row>
 
                   <Row>
-                  <Col md={6}>
-                      <Form.Group className="mb-3">
+                  <Col md={12}>
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="email"
                           placeholder="Email"
                           name="email"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.email}
                           onChange={handleChange}
                           isInvalid={!!errors.email}
@@ -179,13 +179,13 @@ function RiderSignUpPage({ onSignup }) {
 
                   <Row>
                     <Col xs={6} md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="ID Number"
                           name="id_number"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.id_number}
                           onChange={handleChange}
                           isInvalid={!!errors.id_number}
@@ -194,13 +194,13 @@ function RiderSignUpPage({ onSignup }) {
                       </Form.Group>
                     </Col>
                     <Col xs={6} md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="Driving Licence"
                           name="driving_license"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.driving_license}
                           onChange={handleChange}
                           isInvalid={!!errors.driving_license}
@@ -211,14 +211,14 @@ function RiderSignUpPage({ onSignup }) {
                   </Row>
 
                   <Row>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
+                    <Col xs={6} md={6}>
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="Physical Address"
                           name="physical_address"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.physical_address}
                           onChange={handleChange}
                           isInvalid={!!errors.physical_address}
@@ -226,13 +226,13 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.physical_address}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
+                    <Col xs={6} md={6}>
+                      <Form.Group className="mb-2">
                         <Form.Control
                           as="select"
                           name="gender"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.gender}
                           onChange={handleChange}
                           isInvalid={!!errors.gender}
@@ -260,12 +260,12 @@ function RiderSignUpPage({ onSignup }) {
                   </Row>
                   <Row>
                   <Col xs={6} md={6}>
-                    <Form.Group className="mb-1">
+                    <Form.Group className="mb-2">
                       <Form.Control
                         as="select"
                         name="vehicle_type"
                         id="button"
-                        className="mb-3 text-center"
+                        className="text-center"
                         value={formData.vehicle_type}
                         onChange={handleChange}
                         isInvalid={!!errors.vehicle_type}
@@ -287,13 +287,13 @@ function RiderSignUpPage({ onSignup }) {
 
 
                     <Col xs ={6} md={6}>
-                      <Form.Group className="mb-1">
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="License Plate"
                           name="license_plate"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.license_plate}
                           onChange={handleChange}
                           isInvalid={!!errors.license_plate}
@@ -312,13 +312,13 @@ function RiderSignUpPage({ onSignup }) {
 
                   <Row>
                     <Col md={12}>
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="Full Name"
                           name="kin_full_name"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.kin_full_name}
                           onChange={handleChange}
                           isInvalid={!!errors.kin_full_name}
@@ -331,13 +331,13 @@ function RiderSignUpPage({ onSignup }) {
 
                   <Row>
                     <Col xs={6} md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="Phone Number"
                           name="kin_phone_number"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.kin_phone_number}
                           onChange={handleChange}
                           isInvalid={!!errors.kin_phone_number}
@@ -346,13 +346,13 @@ function RiderSignUpPage({ onSignup }) {
                       </Form.Group>
                     </Col>
                     <Col xs={6} md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="RelationShip"
                           name="kin_relationship"
                           id="button"
-                          className="mb-3 text-center"
+                          className="text-center"
                           value={formData.kin_relationship}
                           onChange={handleChange}
                           isInvalid={!!errors.kin_relationship}
@@ -362,7 +362,7 @@ function RiderSignUpPage({ onSignup }) {
                     </Col>
                   </Row>
 
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Switch
                       type="checkbox"
                       label="Agree to Terms and Conditions and receiving of SMS, emails and promotion notifications."
