@@ -147,14 +147,14 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control
                           type="date"
                           placeholder="Date of Birth"
-                          name="phone_number"
+                          name="date_of_birth"
                           id="button"
                           className=" text-center"
-                          value={formData.phone_number}
+                          value={formData.date_of_birth}
                           onChange={handleChange}
-                          isInvalid={!!errors.phone_number}
+                          isInvalid={!!errors.date_of_birth}
                         />
-                        <Form.Control.Feedback type="invalid">{errors.phone_number}</Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">{errors.date_of_birth}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>                    
                   </Row>
