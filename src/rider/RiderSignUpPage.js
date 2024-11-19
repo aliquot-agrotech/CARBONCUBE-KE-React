@@ -103,7 +103,7 @@ function RiderSignUpPage({ onSignup }) {
           <Col className="form-container align-items-center center">
             <Container className="d-flex justify-content-center">
               <Col xs={12} sm={10} md={12} lg={10}>
-                <h2 className="form-title text-center mb-4">Rider Sign Up</h2>
+                <h2 className="form-title text-center mb-2">Rider Sign Up</h2>
                 <Form onSubmit={handleSubmit}>
                   {errors.general && <Alert variant="danger">{errors.general}</Alert>}
                   
@@ -123,7 +123,11 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.full_name}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col md={6}>
+                    
+                  </Row>
+                  
+                  <Row>
+                    <Col xs={6} md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
@@ -138,10 +142,7 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.phone_number}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                  </Row>
-                  
-                  <Row>
-                    <Col md={6}>
+                    <Col xs={6} md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="date"
@@ -155,8 +156,11 @@ function RiderSignUpPage({ onSignup }) {
                         />
                         <Form.Control.Feedback type="invalid">{errors.phone_number}</Form.Control.Feedback>
                       </Form.Group>
-                    </Col>
-                    <Col md={6}>
+                    </Col>                    
+                  </Row>
+
+                  <Row>
+                  <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="email"
@@ -174,7 +178,7 @@ function RiderSignUpPage({ onSignup }) {
                   </Row>
 
                   <Row>
-                    <Col md={6}>
+                    <Col xs={6} md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
@@ -189,7 +193,7 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.id_number}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col md={6}>
+                    <Col xs={6} md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
@@ -249,10 +253,14 @@ function RiderSignUpPage({ onSignup }) {
                     </Col>
 
                   </Row>
-                  
+                  <Row className="justify-content-center mb-0">
+                    <Col md="auto">
+                      <h4 className="text-center">Vehicle Information</h4>
+                    </Col>
+                  </Row>
                   <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
+                  <Col xs={6} md={6}>
+                    <Form.Group className="mb-1">
                       <Form.Control
                         as="select"
                         name="vehicle_type"
@@ -278,8 +286,8 @@ function RiderSignUpPage({ onSignup }) {
                   </Col>
 
 
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
+                    <Col xs ={6} md={6}>
+                      <Form.Group className="mb-1">
                         <Form.Control
                           type="text"
                           placeholder="License Plate"
@@ -303,7 +311,7 @@ function RiderSignUpPage({ onSignup }) {
 
 
                   <Row>
-                    <Col md={6}>
+                    <Col md={12}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
@@ -318,25 +326,11 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.kin_full_name}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
-                        <Form.Control
-                          type="text"
-                          placeholder="RelationShip"
-                          name="kin_relationship"
-                          id="button"
-                          className="mb-3 text-center"
-                          value={formData.kin_relationship}
-                          onChange={handleChange}
-                          isInvalid={!!errors.kin_relationship}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
+                   
                   </Row>
 
                   <Row>
-                    <Col md={6}>
+                    <Col xs={6} md={6}>
                       <Form.Group className="mb-3">
                         <Form.Control
                           type="text"
@@ -349,6 +343,21 @@ function RiderSignUpPage({ onSignup }) {
                           isInvalid={!!errors.kin_phone_number}
                         />
                         <Form.Control.Feedback type="invalid">{errors.kin_phone_number}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={6} md={6}>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          type="text"
+                          placeholder="RelationShip"
+                          name="kin_relationship"
+                          id="button"
+                          className="mb-3 text-center"
+                          value={formData.kin_relationship}
+                          onChange={handleChange}
+                          isInvalid={!!errors.kin_relationship}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
