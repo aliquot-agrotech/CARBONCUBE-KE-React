@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_blue.css';
 import { useNavigate } from 'react-router-dom';
 // import './VendorSignUpPage.css';
 
@@ -114,8 +116,8 @@ function RiderSignUpPage({ onSignup }) {
                           type="text"
                           placeholder="Full Name"
                           name="full_name"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.full_name}
                           onChange={handleChange}
                           isInvalid={!!errors.full_name}
@@ -128,13 +130,13 @@ function RiderSignUpPage({ onSignup }) {
                   
                   <Row>
                     <Col xs={6} md={6}>
-                      <Form.Group className="mb-2">
+                      <Form.Group className="mb-2 rounded-pill">
                         <Form.Control
                           type="text"
                           placeholder="Phone Number"
                           name="phone_number"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.phone_number}
                           onChange={handleChange}
                           isInvalid={!!errors.phone_number}
@@ -144,30 +146,33 @@ function RiderSignUpPage({ onSignup }) {
                     </Col>
                     <Col xs={6} md={6}>
                       <Form.Group className="mb-2">
-                        <Form.Control
-                          type="date"
+                        <Flatpickr
+                          options={{ dateFormat: 'm/d/Y' }}
+                          className="form-control text-center rounded-pill mb-0"
                           placeholder="Date of Birth"
-                          name="date_of_birth"
-                          id="button"
-                          className=" text-center"
                           value={formData.date_of_birth}
-                          onChange={handleChange}
-                          isInvalid={!!errors.date_of_birth}
+                          onChange={([date]) =>
+                            handleChange({
+                              target: { name: 'date_of_birth', value: date.toISOString().split('T')[0] },
+                            })
+                          }
                         />
-                        <Form.Control.Feedback type="invalid">{errors.date_of_birth}</Form.Control.Feedback>
+                        {errors.date_of_birth && (
+                          <div className="invalid-feedback">{errors.date_of_birth}</div>
+                        )}
                       </Form.Group>
-                    </Col>                    
+                    </Col>
                   </Row>
 
                   <Row>
-                  <Col md={12}>
+                    <Col md={12}>
                       <Form.Group className="mb-2">
                         <Form.Control
                           type="email"
                           placeholder="Email"
                           name="email"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.email}
                           onChange={handleChange}
                           isInvalid={!!errors.email}
@@ -184,8 +189,8 @@ function RiderSignUpPage({ onSignup }) {
                           type="text"
                           placeholder="ID Number"
                           name="id_number"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.id_number}
                           onChange={handleChange}
                           isInvalid={!!errors.id_number}
@@ -199,8 +204,8 @@ function RiderSignUpPage({ onSignup }) {
                           type="text"
                           placeholder="Driving License"
                           name="driving_license"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.driving_license}
                           onChange={handleChange}
                           isInvalid={!!errors.driving_license}
@@ -217,8 +222,8 @@ function RiderSignUpPage({ onSignup }) {
                           type="text"
                           placeholder="Physical Address"
                           name="physical_address"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.physical_address}
                           onChange={handleChange}
                           isInvalid={!!errors.physical_address}
@@ -231,8 +236,8 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control
                           as="select"
                           name="gender"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.gender}
                           onChange={handleChange}
                           isInvalid={!!errors.gender}
@@ -260,8 +265,8 @@ function RiderSignUpPage({ onSignup }) {
                           type="password"
                           placeholder="Password"
                           name="password"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.password}
                           onChange={handleChange}
                           isInvalid={!!errors.password}
@@ -275,8 +280,8 @@ function RiderSignUpPage({ onSignup }) {
                           type="password"
                           placeholder="Confirm Password"
                           name="password_confirmation"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.password_confirmation}
                           onChange={handleChange}
                           isInvalid={!!errors.password_confirmation}
@@ -297,8 +302,8 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control
                           as="select"
                           name="vehicle_type"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.vehicle_type}
                           onChange={handleChange}
                           isInvalid={!!errors.vehicle_type}
@@ -323,8 +328,8 @@ function RiderSignUpPage({ onSignup }) {
                           type="text"
                           placeholder="License Plate"
                           name="license_plate"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.license_plate}
                           onChange={handleChange}
                           isInvalid={!!errors.license_plate}
@@ -347,8 +352,8 @@ function RiderSignUpPage({ onSignup }) {
                           type="text"
                           placeholder="Full Name"
                           name="kin_full_name"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.kin_full_name}
                           onChange={handleChange}
                           isInvalid={!!errors.kin_full_name}
@@ -366,8 +371,8 @@ function RiderSignUpPage({ onSignup }) {
                           type="text"
                           placeholder="Phone Number"
                           name="kin_phone_number"
-                          id="button"
-                          className="text-center"
+                          
+                          className="text-center rounded-pill mb-0"
                           value={formData.kin_phone_number}
                           onChange={handleChange}
                           isInvalid={!!errors.kin_phone_number}
@@ -382,8 +387,8 @@ function RiderSignUpPage({ onSignup }) {
                             as="select"
                             placeholder="Relationship"
                             name="kin_relationship"
-                            id="button"
-                            className="text-center"
+                            
+                            className="text-center rounded-pill mb-0"
                             value={formData.kin_relationship}
                             onChange={handleChange}
                             isInvalid={!!errors.kin_relationship}
@@ -426,7 +431,7 @@ function RiderSignUpPage({ onSignup }) {
                     <Form.Control.Feedback type="invalid">{errors.terms}</Form.Control.Feedback>
                   </Form.Group>
 
-                  <Button variant="warning" type="submit" id="button" className="w-100 mb-0">Sign Up</Button>
+                  <Button variant="warning" type="submit"  className="w-100 mb-0 rounded-pill mb-0">Sign Up</Button>
 
                   <div className="divider my-1">
                     <span>or continue with</span>

@@ -125,6 +125,11 @@
       transform: translateY(-50%);
       pointer-events: none; /* Prevent interfering with clicks */
     }
+
+    .flatpickr-input {
+      border-radius: 50px !important; /* Ensures rounded-pill effect */
+    }
+    
     
     
     @media (min-width: 768px) {
