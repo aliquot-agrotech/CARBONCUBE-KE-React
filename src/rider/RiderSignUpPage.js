@@ -161,7 +161,7 @@ function RiderSignUpPage({ onSignup }) {
                           <div className="invalid-feedback">{errors.date_of_birth}</div>
                         )}
                       </Form.Group>
-                    </Col>
+                    </Col>                    
                   </Row>
 
                   <Row>
