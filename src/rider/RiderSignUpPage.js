@@ -61,12 +61,22 @@ function RiderSignUpPage({ onSignup }) {
     return isValid;
   };
 
-  let datepickerRef;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return; 
+    }
+  
     if (!validatePassword()) {
-      return;
+      return; 
+    }
+    
+    try {
+    
+      console.log("Form submitted successfully:", formData);
+    
+    } catch (error) {
+      console.error("Error during submission:", error);
     }
   
     const payload = {
@@ -101,6 +111,21 @@ function RiderSignUpPage({ onSignup }) {
       }
     }
   };
+
+
+  const validateForm = () => {
+    const newErrors = {};
+  
+    if (!formData.terms) {
+      newErrors.terms = "You must agree to the terms and conditions.";
+    }
+  
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
+  
+
+  let datepickerRef;
 
   return (
     <Container fluid className="p-0 vendor-signup-page">
@@ -455,12 +480,27 @@ function RiderSignUpPage({ onSignup }) {
                     <Form.Switch
                       type="checkbox"
                       label="Agree to Terms and Conditions and receiving of SMS, emails and promotion notifications."
+                      name="terms"
+                      checked={formData.terms || false} // Bind the checkbox to formData
+                      onChange={(e) =>
+                        handleChange({
+                          target: { name: 'terms', value: e.target.checked },
+                        })
+                      }
                       isInvalid={!!errors.terms}
                     />
                     <Form.Control.Feedback type="invalid">{errors.terms}</Form.Control.Feedback>
                   </Form.Group>
 
-                  <Button variant="warning" type="submit"  className="w-100 mb-0 rounded-pill mb-0">Sign Up</Button>
+                  <Button
+                    variant="warning"
+                    type="submit"
+                    className="w-100 mb-0 rounded-pill"
+                    disabled={!formData.terms} // Disable the button until terms are agreed to
+                  >
+                    Sign Up
+                  </Button>
+
 
                   <div className="divider my-1">
                     <span>or continue with</span>
