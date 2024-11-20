@@ -61,6 +61,8 @@ function RiderSignUpPage({ onSignup }) {
     return isValid;
   };
 
+  let datepickerRef;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validatePassword()) {
@@ -146,39 +148,47 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.phone_number}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col xs={6} md={6}>  {/* Make sure the column is full width */}
+                    <Col xs={6} md={6}>
                       <Form.Group className="mb-2">
                         <div className="position-relative">
                           <ReactDatePicker
+                            ref={(el) => (datepickerRef = el)}
                             selected={formData.date_of_birth ? new Date(formData.date_of_birth) : null}
                             onChange={(date) =>
                               handleChange({
                                 target: { name: 'date_of_birth', value: date ? date.toISOString().split('T')[0] : '' },
                               })
                             }
-                            className="form-control text-center rounded-pill mb-0 pr-5"  // Added padding-right for the icon space
-                            placeholderText="Date of Birth" // Placeholder for the input field
-                            dateFormat="MM/dd/yyyy" // Format for the displayed date
+                            className="form-control text-center rounded-pill mb-0 pr-5"
+                            placeholderText="Date of Birth"
+                            dateFormat="MM/dd/yyyy"
                             showMonthDropdown
                             showYearDropdown
                             dropdownMode="select"
                           />
-                          <FontAwesomeIcon
-                            icon={faCalendarAlt}
-                            className="position-absolute"
-                            style={{
+                          <div 
+                            onClick={() => datepickerRef.setOpen(true)}
+                            style={{ 
+                              position: 'absolute',
                               top: '50%',
-                              right: '20px',  // Position the icon on the right side
+                              right: '10px',
                               transform: 'translateY(-50%)',
-                              color: '#aaa',
+                              cursor: 'pointer'
                             }}
-                          />
+                          >
+                            <FontAwesomeIcon
+                              icon={faCalendarAlt}
+                              style={{
+                                color: '#aaa',
+                              }}
+                            />
+                          </div>
+                          {errors.date_of_birth && (
+                            <div className="invalid-feedback">{errors.date_of_birth}</div>
+                          )}
                         </div>
-                        {errors.date_of_birth && (
-                          <div className="invalid-feedback">{errors.date_of_birth}</div>
-                        )}
                       </Form.Group>
-                    </Col>       
+                    </Col>     
                   </Row>
 
                   <Row>
@@ -250,24 +260,25 @@ function RiderSignUpPage({ onSignup }) {
                     </Col>
                     <Col xs={6} md={6}>
                       <Form.Group className="mb-2">
-                        <Form.Control
-                          as="select"
-                          name="gender"
-                          
-                          className="text-center rounded-pill mb-0"
-                          value={formData.gender}
-                          onChange={handleChange}
-                          isInvalid={!!errors.gender}
-                        >
-                          <option value="" disabled hidden>
-                            Select Gender
-                          </option>
-                          {["Male", "Female", "Other"].map((gender) => (
-                            <option key={gender} value={gender}>
-                              {gender}
+                        <div className="dropdown-container">
+                          <Form.Control
+                            as="select"
+                            name="gender"
+                            className="text-center rounded-pill mb-0"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            isInvalid={!!errors.gender}
+                          >
+                            <option value="" disabled hidden>
+                              Gender
                             </option>
-                          ))}
-                        </Form.Control>
+                            {["Male", "Female", "Other"].map((gender) => (
+                              <option key={gender} value={gender}>
+                                {gender}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </div>
                         <Form.Control.Feedback type="invalid">
                           {errors.gender}
                         </Form.Control.Feedback>
@@ -316,24 +327,25 @@ function RiderSignUpPage({ onSignup }) {
                   <Row>
                     <Col xs={6} md={6}>
                       <Form.Group className="mb-2">
-                        <Form.Control
-                          as="select"
-                          name="vehicle_type"
-                          
-                          className="text-center rounded-pill mb-0"
-                          value={formData.vehicle_type}
-                          onChange={handleChange}
-                          isInvalid={!!errors.vehicle_type}
-                        >
-                          <option value="" disabled hidden>
-                            Select Vehicle Type
-                          </option>
-                          {["Motorbike", "Tuk-Tuk", "Car", "Pick-Up", "Van"].map((type) => (
-                            <option key={type} value={type}>
-                              {type}
+                        <div className="dropdown-container">
+                          <Form.Control
+                            as="select"
+                            name="vehicle_type"
+                            className="text-center rounded-pill mb-0"
+                            value={formData.vehicle_type}
+                            onChange={handleChange}
+                            isInvalid={!!errors.vehicle_type}
+                          >
+                            <option value="" disabled hidden>
+                              Vehicle Type
                             </option>
-                          ))}
-                        </Form.Control>
+                            {["Motorbike", "Tuk-Tuk", "Car", "Pick-Up", "Van"].map((type) => (
+                              <option key={type} value={type}>
+                                {type}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </div>
                         <Form.Control.Feedback type="invalid">
                           {errors.vehicle_type}
                         </Form.Control.Feedback>
@@ -411,7 +423,7 @@ function RiderSignUpPage({ onSignup }) {
                             isInvalid={!!errors.kin_relationship}
                           >
                             <option value="" disabled hidden>
-                              Select Relationship
+                              Relationship
                             </option>
                             {[
                               "Parent",
