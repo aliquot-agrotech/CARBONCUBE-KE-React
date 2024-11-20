@@ -55,8 +55,20 @@ function PurchaserSignUpPage({ onSignup }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return; 
+    }
+  
     if (!validatePassword()) {
-      return;
+      return; 
+    }
+    
+    try {
+    
+      console.log("Form submitted successfully:", formData);
+    
+    } catch (error) {
+      console.error("Error during submission:", error);
     }
   
     const payload = {
@@ -92,6 +104,16 @@ function PurchaserSignUpPage({ onSignup }) {
     }
   };
   
+  const validateForm = () => {
+    const newErrors = {};
+  
+    if (!formData.terms) {
+      newErrors.terms = "You must agree to the terms and conditions.";
+    }
+  
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
 
 
   return (
@@ -101,7 +123,7 @@ function PurchaserSignUpPage({ onSignup }) {
           <Col className="form-container align-items-center center">
             <Container className="d-flex justify-content-center">
               <Col xs={12} sm={10} md={12} lg={10}>
-                <h2 className="form-title text-center mb-4">Sign Up Now</h2>
+                <h2 className="form-title text-center mb-4">Purchaser Sign Up</h2>
                 <Form onSubmit={handleSubmit}>
                   {errors.general && <Alert variant="danger">{errors.general}</Alert>}
                   
@@ -292,16 +314,28 @@ function PurchaserSignUpPage({ onSignup }) {
                     </Col>
                   </Row>      
                   
-                  <Form.Group className="mb-3">
+                  <Form.Group className="mb-2">
                     <Form.Switch
                       type="checkbox"
                       label="Agree to Terms and Conditions and receiving of SMS, emails and promotion notifications."
+                      name="terms"
+                      checked={formData.terms || false} // Bind the checkbox to formData
+                      onChange={(e) =>
+                        handleChange({
+                          target: { name: 'terms', value: e.target.checked },
+                        })
+                      }
                       isInvalid={!!errors.terms}
                     />
                     <Form.Control.Feedback type="invalid">{errors.terms}</Form.Control.Feedback>
                   </Form.Group>
-                  
-                  <Button variant="warning" type="submit" id="button" className="btn-sign-in w-100 mb-3">
+
+                  <Button
+                    variant="warning"
+                    type="submit"
+                    className="w-100 mb-0 rounded-pill"
+                    disabled={!formData.terms} // Disable the button until terms are agreed to
+                  >
                     Sign Up
                   </Button>
                   
