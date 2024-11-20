@@ -64,7 +64,7 @@ function RiderSignUpPage({ onSignup }) {
     }
   
     const payload = {
-      vendor: {
+      rider: {
         ...formData
       }
     };
@@ -292,33 +292,31 @@ function RiderSignUpPage({ onSignup }) {
                     </Col>
                   </Row>
                   <Row>
-                  <Col xs={6} md={6}>
-                    <Form.Group className="mb-2">
-                      <Form.Control
-                        as="select"
-                        name="vehicle_type"
-                        id="button"
-                        className="text-center"
-                        value={formData.vehicle_type}
-                        onChange={handleChange}
-                        isInvalid={!!errors.vehicle_type}
-                      >
-                        <option value="" disabled hidden>
-                          Select Vehicle Type
-                        </option>
-                        {["Motorbike", "Tuk-Tuk", "Car", "Pick-Up", "Van"].map((type) => (
-                          <option key={type} value={type}>
-                            {type}
+                    <Col xs={6} md={6}>
+                      <Form.Group className="mb-2">
+                        <Form.Control
+                          as="select"
+                          name="vehicle_type"
+                          id="button"
+                          className="text-center"
+                          value={formData.vehicle_type}
+                          onChange={handleChange}
+                          isInvalid={!!errors.vehicle_type}
+                        >
+                          <option value="" disabled hidden>
+                            Select Vehicle Type
                           </option>
-                        ))}
-                      </Form.Control>
-                      <Form.Control.Feedback type="invalid">
-                        {errors.vehicle_type}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                  </Col>
-
-
+                          {["Motorbike", "Tuk-Tuk", "Car", "Pick-Up", "Van"].map((type) => (
+                            <option key={type} value={type}>
+                              {type}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.vehicle_type}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
                     <Col xs ={6} md={6}>
                       <Form.Group className="mb-2">
                         <Form.Control
@@ -341,7 +339,6 @@ function RiderSignUpPage({ onSignup }) {
                       <h5 className="text-center">Next of Kin</h5>
                     </Col>
                   </Row>
-
 
                   <Row>
                     <Col md={12}>
