@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/themes/material_blue.css';
+import ReactDatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 // import './VendorSignUpPage.css';
 
@@ -146,23 +146,25 @@ function RiderSignUpPage({ onSignup }) {
                     </Col>
                     <Col xs={6} md={6}>
                       <Form.Group className="mb-2">
-                        <Flatpickr
-                          options={{ dateFormat: 'm/d/Y' }}
-                          className="form-control text-center rounded-pill mb-0"
-                          type="date"
-                          placeholderText="Date of Birth"
-                          value={formData.date_of_birth}
-                          onChange={([date]) =>
+                        <ReactDatePicker
+                          selected={formData.date_of_birth ? new Date(formData.date_of_birth) : null}
+                          onChange={(date) =>
                             handleChange({
-                              target: { name: 'date_of_birth', value: date.toISOString().split('T')[0] },
+                              target: { name: 'date_of_birth', value: date ? date.toISOString().split('T')[0] : '' },
                             })
                           }
+                          className="form-control text-center rounded-pill mb-0"
+                          placeholderText="Date of Birth" // Placeholder for the input field
+                          dateFormat="MM/dd/yyyy" // Format for the displayed date
+                          showMonthDropdown
+                          showYearDropdown
+                          dropdownMode="select"
                         />
                         {errors.date_of_birth && (
                           <div className="invalid-feedback">{errors.date_of_birth}</div>
                         )}
                       </Form.Group>
-                    </Col>                    
+                    </Col>          
                   </Row>
 
                   <Row>
