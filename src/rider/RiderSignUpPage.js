@@ -4,6 +4,8 @@ import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 // import './VendorSignUpPage.css';
 
@@ -130,7 +132,7 @@ function RiderSignUpPage({ onSignup }) {
                   
                   <Row>
                     <Col xs={6} md={6}>
-                      <Form.Group className="mb-2 rounded-pill">
+                      <Form.Group className="mb-2">
                         <Form.Control
                           type="text"
                           placeholder="Phone Number"
@@ -144,27 +146,39 @@ function RiderSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.phone_number}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col xs={6} md={6}>
+                    <Col xs={6} md={6}>  {/* Make sure the column is full width */}
                       <Form.Group className="mb-2">
-                        <ReactDatePicker
-                          selected={formData.date_of_birth ? new Date(formData.date_of_birth) : null}
-                          onChange={(date) =>
-                            handleChange({
-                              target: { name: 'date_of_birth', value: date ? date.toISOString().split('T')[0] : '' },
-                            })
-                          }
-                          className="form-control text-center rounded-pill mb-0"
-                          placeholderText="Date of Birth" // Placeholder for the input field
-                          dateFormat="MM/dd/yyyy" // Format for the displayed date
-                          showMonthDropdown
-                          showYearDropdown
-                          dropdownMode="select"
-                        />
+                        <div className="position-relative">
+                          <ReactDatePicker
+                            selected={formData.date_of_birth ? new Date(formData.date_of_birth) : null}
+                            onChange={(date) =>
+                              handleChange({
+                                target: { name: 'date_of_birth', value: date ? date.toISOString().split('T')[0] : '' },
+                              })
+                            }
+                            className="form-control text-center rounded-pill mb-0 pr-5"  // Added padding-right for the icon space
+                            placeholderText="Date of Birth" // Placeholder for the input field
+                            dateFormat="MM/dd/yyyy" // Format for the displayed date
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode="select"
+                          />
+                          <FontAwesomeIcon
+                            icon={faCalendarAlt}
+                            className="position-absolute"
+                            style={{
+                              top: '50%',
+                              right: '20px',  // Position the icon on the right side
+                              transform: 'translateY(-50%)',
+                              color: '#aaa',
+                            }}
+                          />
+                        </div>
                         {errors.date_of_birth && (
                           <div className="invalid-feedback">{errors.date_of_birth}</div>
                         )}
                       </Form.Group>
-                    </Col>          
+                    </Col>       
                   </Row>
 
                   <Row>

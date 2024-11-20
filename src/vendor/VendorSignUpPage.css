@@ -126,8 +126,14 @@
       pointer-events: none; /* Prevent interfering with clicks */
     }
 
-    .flatpickr-input {
+    .react-datepicker-wrapper {
+      width: 100%;
+    }
+    
+    .react-datepicker__input-container input {
       border-radius: 50px !important; /* Ensures rounded-pill effect */
+      height: 40px; /* Matches other input fields */
+      text-align: center;
     }
     
     
