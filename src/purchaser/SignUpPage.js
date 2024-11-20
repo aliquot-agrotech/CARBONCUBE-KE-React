@@ -3,7 +3,10 @@ import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from './utils/formatDate';
+import ReactDatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import './SignUpPage.css';
 
 function PurchaserSignUpPage({ onSignup }) {
@@ -115,6 +118,7 @@ function PurchaserSignUpPage({ onSignup }) {
     return Object.keys(newErrors).length === 0; // Return true if no errors
   };
 
+  let datepickerRef;
 
   return (
     <Container fluid className="p-0 purchaser-signup-page">
@@ -242,40 +246,74 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.zipcode}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col md={6}>
-                    <Form.Group className="mb-3">
-                        <Form.Control
-                          type="date"
-                          name="birthdate"
-                          id="button"
-                          className="mb-3 text-center"  
-                          value={formatDate(formData.birthdate) || ''}
-                          onChange={handleChange}
-                          isInvalid={!!errors.birthdate}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.birthdate}</Form.Control.Feedback>
+                    <Col xs={6} md={6}>
+                      <Form.Group className="mb-2">
+                        <div className="position-relative">
+                          <ReactDatePicker
+                            ref={(el) => (datepickerRef = el)}
+                            selected={formData.birthdate ? new Date(formData.birthdate) : null}
+                            onChange={(date) =>
+                              handleChange({
+                                target: { name: 'birthdate', value: date ? date.toISOString().split('T')[0] : '' },
+                              })
+                            }
+                            className="form-control text-center rounded-pill mb-0 pr-5"
+                            placeholderText="Date of Birth"
+                            dateFormat="MM/dd/yyyy"
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode="select"
+                          />
+                          <div 
+                            onClick={() => datepickerRef.setOpen(true)}
+                            style={{ 
+                              position: 'absolute',
+                              top: '50%',
+                              right: '10px',
+                              transform: 'translateY(-50%)',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faCalendarAlt}
+                              style={{
+                                color: '#aaa',
+                              }}
+                            />
+                          </div>
+                          {errors.birthdate && (
+                            <div className="invalid-feedback">{errors.birthdate}</div>
+                          )}
+                        </div>
                       </Form.Group>
                     </Col>
                   </Row>
                   
                   <Row>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
-                        <Form.Control
-                          as="select"
-                          name="gender"
-                          id="button"
-                          className="mb-3 text-center"  
-                          value={formData.gender}
-                          onChange={handleChange}
-                          isInvalid={!!errors.gender}
-                        >
-                          <option value="">Select Gender</option>
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
-                          <option value="Other">Other</option>
-                        </Form.Control>
-                        <Form.Control.Feedback type="invalid">{errors.gender}</Form.Control.Feedback>
+                  <Col xs={6} md={6}>
+                      <Form.Group className="mb-2">
+                        <div className="dropdown-container">
+                          <Form.Control
+                            as="select"
+                            name="gender"
+                            className="text-center rounded-pill mb-0"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            isInvalid={!!errors.gender}
+                          >
+                            <option value="" disabled hidden>
+                              Gender
+                            </option>
+                            {["Male", "Female", "Other"].map((gender) => (
+                              <option key={gender} value={gender}>
+                                {gender}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </div>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.gender}
+                        </Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     
