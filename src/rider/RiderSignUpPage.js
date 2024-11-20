@@ -149,6 +149,7 @@ function RiderSignUpPage({ onSignup }) {
                         <Flatpickr
                           options={{ dateFormat: 'm/d/Y' }}
                           className="form-control text-center rounded-pill mb-0"
+                          type="date"
                           placeholderText="Date of Birth"
                           value={formData.date_of_birth}
                           onChange={([date]) =>
