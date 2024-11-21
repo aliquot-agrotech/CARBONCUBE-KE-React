@@ -199,39 +199,7 @@ function VendorSignUpPage({ onSignup }) {
                     </Col>
                   </Row>
 
-                  <Row>
-                    <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          placeholder="Enterprise Name"
-                          name="enterprise_name"
-                          id="button"
-                          className="mb-2 text-center"
-                          value={formData.enterprise_name}
-                          onChange={handleChange}
-                          isInvalid={!!errors.enterprise_name}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.enterprise_name}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          placeholder="Business Registration Number"
-                          name="business_registration_number"
-                          id="button"
-                          className="mb-2 text-center"
-                          value={formData.business_registration_number}
-                          onChange={handleChange}
-                          isInvalid={!!errors.business_registration_number}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.business_registration_number}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-
+                  
                   <Row>
                     <Col xs={6} md={6}>
                       <Form.Group >
@@ -303,7 +271,40 @@ function VendorSignUpPage({ onSignup }) {
                   </Row>
 
                   <Row>
-                    <Col md={6}>
+                    <Col xs={12} md={12}>
+                      <Form.Group>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enterprise Name"
+                          name="enterprise_name"
+                          id="button"
+                          className="mb-2 text-center"
+                          value={formData.enterprise_name}
+                          onChange={handleChange}
+                          isInvalid={!!errors.enterprise_name}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.enterprise_name}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={12} md={12}>
+                      <Form.Group>
+                        <Form.Control
+                          type="text"
+                          placeholder="Business Registration Number"
+                          name="business_registration_number"
+                          id="button"
+                          className="mb-2 text-center"
+                          value={formData.business_registration_number}
+                          onChange={handleChange}
+                          isInvalid={!!errors.business_registration_number}
+                        />
+                        <Form.Control.Feedback type="invalid">{errors.business_registration_number}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col md={12}>
                       <Form.Group>
                         <Form.Control
                           type="text"

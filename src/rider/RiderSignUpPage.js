@@ -134,7 +134,7 @@ function RiderSignUpPage({ onSignup }) {
           <Col className="form-container align-items-center center">
             <Container className="d-flex justify-content-center">
               <Col xs={12} sm={10} md={12} lg={10}>
-                <h2 className="form-title text-center mb-2">Rider Sign Up</h2>
+                <h2 className="form-title text-center mb-2">Rider Sign-Up</h2>
                 <Form onSubmit={handleSubmit}>
                   {errors.general && <Alert variant="danger">{errors.general}</Alert>}
                   
