@@ -5,6 +5,7 @@ import AnalyticsReporting from './admin/AnalyticsReporting';
 import ContentManagement from './admin/ContentManagement';
 import PurchasersManagement from './admin/PurchasersManagement';
 import OrdersManagement from './admin/OrdersManagement';
+import RidersManagement from './admin/RidersManagement';
 import VendorsManagement from './admin/VendorsManagement';
 import ProductsManagement from './admin/ProductsManagement';
 import Messages from './admin/Messages';
@@ -94,6 +95,7 @@ function App() {
             <Route path="purchasers-management" element={<PurchasersManagement onLogout={handleLogout} />} />
             <Route path="orders-management" element={<OrdersManagement onLogout={handleLogout} />} />
             <Route path="vendors-management" element={<VendorsManagement onLogout={handleLogout} />} />
+            <Route path="riders-management" element={<RidersManagement onLogout={handleLogout} />} />
             <Route path="products-management" element={<ProductsManagement onLogout={handleLogout} />} />
             <Route path="messages" element={<Messages onLogout={handleLogout} />} />
             <Route path="promotions-discount" element={<PromotionsDiscount onLogout={handleLogout} />} />
