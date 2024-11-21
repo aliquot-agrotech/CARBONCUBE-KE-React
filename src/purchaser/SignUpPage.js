@@ -321,7 +321,7 @@ function PurchaserSignUpPage({ onSignup }) {
                   </Row>
 
                   <Row>
-                    <Col md={6}>
+                    <Col md={12}>
                       <Form.Group>
                         <Form.Control
                           type="password"
@@ -336,7 +336,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col md={6}>
+                    <Col md={12}>
                       <Form.Group>
                         <Form.Control
                           type="password"
