@@ -9,17 +9,17 @@ import './VendorsManagement.css';  // Custom CSS
 
 const RidersManagement = () => {
     const [showModal, setShowModal] = useState(false);
-    const [selectedVendor, setSelectedVendor] = useState(null);
-    const [vendors, setVendors] = useState([]);
+    const [selectedRider, setSelectedRider] = useState(null);
+    const [riders, setRiders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedTab, setSelectedTab] = useState('profile');    
     const [searchQuery, setSearchQuery] = useState(''); 
 
     useEffect(() => {
-        const fetchVendors = async () => {
+        const fetchRiders = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors?search_query=${searchQuery}`, {
+                const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders?search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -30,61 +30,61 @@ const RidersManagement = () => {
                 }
 
                 const data = await response.json();
-                console.log('Fetched vendors:', data); // Add this line
+                console.log('Fetched riders:', data); // Add this line
                 data.sort((a, b) => a.id - b.id);
-                setVendors(data);
+                setRiders(data);
             } catch (error) {
-                console.error('Error fetching vendors:', error);
-                setError('Error fetching vendors');
+                console.error('Error fetching riders:', error);
+                setError('Error fetching riders');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchVendors();
+        fetchRiders();
     }, [searchQuery]); // Depend on searchQuery so it refetches when the query changes
 
 
-    const handleRowClick = async (vendorId) => {
+    const handleRowClick = async (riderId) => {
         try {
-            const [vendorResponse, ordersResponse, productsResponse, reviewsResponse] = await Promise.all([
-                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}`, {
+            const [riderResponse, ordersResponse, productsResponse, reviewsResponse] = await Promise.all([
+                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/orders`, {
+                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}/orders`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/products`, {
+                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}/products`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/reviews`, {
+                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}/reviews`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 })
             ]);
     
-            if (!vendorResponse.ok || !ordersResponse.ok || !productsResponse.ok || !reviewsResponse.ok) {
+            if (!riderResponse.ok || !ordersResponse.ok || !productsResponse.ok || !reviewsResponse.ok) {
                 throw new Error('Network response was not ok');
             }
     
-            const vendorData = await vendorResponse.json();
+            const riderData = await riderResponse.json();
             const ordersData = await ordersResponse.json();
             const productsData = await productsResponse.json();
             const reviewsData = await reviewsResponse.json();
-            const analytics = await fetchVendorAnalytics(vendorId);
+            const analytics = await fetchRiderAnalytics(riderId);
     
-            setSelectedVendor({ ...vendorData, orders: ordersData, products: productsData, reviews: reviewsData, analytics });
+            setSelectedRider({ ...riderData, orders: ordersData, products: productsData, reviews: reviewsData, analytics });
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
-            console.error('Error fetching vendor details:', error);
+            console.error('Error fetching rider details:', error);
         }
     };
     
@@ -92,12 +92,12 @@ const RidersManagement = () => {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        setSelectedVendor(null);
+        setSelectedRider(null);
     };
 
-    const handleUpdateStatus = async (vendorId, status) => {
+    const handleUpdateStatus = async (riderId, status) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/${status}`, {
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}/${status}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -107,27 +107,27 @@ const RidersManagement = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('Error updating vendor status:', errorData);
+                console.error('Error updating rider status:', errorData);
                 return;
             }
 
-            setVendors(prevVendors =>
-                prevVendors.map(vendor =>
-                    vendor.id === vendorId ? { ...vendor, blocked: status === 'block' } : vendor
+            setRiders(prevRiders =>
+                prevRiders.map(rider =>
+                    rider.id === riderId ? { ...rider, blocked: status === 'block' } : rider
                 )
             );
 
-            if (selectedVendor && selectedVendor.id === vendorId) {
-                setSelectedVendor(prevVendor => ({ ...prevVendor, blocked: status === 'block' }));
+            if (selectedRider && selectedRider.id === riderId) {
+                setSelectedRider(prevRider => ({ ...prevRider, blocked: status === 'block' }));
             }
         } catch (error) {
-            console.error('Error updating vendor status:', error);
+            console.error('Error updating rider status:', error);
         }
     };
 
-    const fetchVendorAnalytics = async (vendorId) => {
+    const fetchRiderAnalytics = async (riderId) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/vendors/${vendorId}/analytics`, {
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}/analytics`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -139,7 +139,7 @@ const RidersManagement = () => {
 
             return await response.json();
         } catch (error) {
-            console.error('Error fetching vendor analytics:', error);
+            console.error('Error fetching rider analytics:', error);
             return {};
         }
     };
@@ -184,13 +184,13 @@ const RidersManagement = () => {
                             <Sidebar />
                         </Col>
                         <Col xs={12} md={10} lg={9} className="p-0">
-                            {/* <h2 className="mb-4 text-center">Vendors Management</h2> */}
+                            {/* <h2 className="mb-4 text-center">Riders Management</h2> */}
                             <Card className="section"> 
                                 <Card.Header className="text-center orders-header p-1 p-lg-2">
                                     <Container fluid>
                                         <Row className="d-flex flex-row flex-md-row justify-content-between align-items-center">
                                             <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3 ps-4">
-                                                <h4 className="mb-0 align-self-center">Vendors</h4>
+                                                <h4 className="mb-0 align-self-center">Riders</h4>
                                             </Col>
                                             <Col xs="auto" className="d-flex align-items-center">
                                                 <div className="search-container d-flex align-items-center">
@@ -198,7 +198,7 @@ const RidersManagement = () => {
                                                         <Form.Group controlId="searchPhoneNumberOrID">
                                                             <Form.Control
                                                                 type="text"
-                                                                placeholder="Search (Vendor ID)"
+                                                                placeholder="Search (Rider ID)"
                                                                 className="form-control"
                                                                 value={searchQuery}
                                                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -215,40 +215,40 @@ const RidersManagement = () => {
                                     <Table hover className="orders-table text-center">
                                         <thead>
                                             <tr>
-                                                <th>Vendor ID</th>
+                                                <th>Rider ID</th>
                                                 <th>Name</th>
-                                                <th>Contact</th>
+                                                <th>Phone Number</th>
+                                                <th>Number Plate</th>
                                                 <th>Email</th>
-                                                <th>Enterprise</th>
                                                 <th>Location</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {vendors.length > 0 ? (
-                                                vendors.map((vendor) => (
+                                            {riders.length > 0 ? (
+                                                riders.map((rider) => (
                                                     <tr
-                                                        key={vendor.id}
-                                                        onClick={() => handleRowClick(vendor.id)}
-                                                        className={`vendor-row ${vendor.blocked ? 'blocked' : ''}`}
+                                                        key={rider.id}
+                                                        onClick={() => handleRowClick(rider.id)}
+                                                        className={`rider-row ${rider.blocked ? 'blocked' : ''}`}
                                                         style={{ cursor: 'pointer' }}
                                                     >
-                                                        <td>{vendor.id}</td>
-                                                        <td>{vendor.fullname}</td>
-                                                        <td>{vendor.phone_number}</td>
-                                                        <td>{vendor.email}</td>
-                                                        <td>{vendor.enterprise_name}</td>
-                                                        <td>{vendor.location}</td>
+                                                        <td>{rider.id}</td>
+                                                        <td>{rider.full_name}</td>
+                                                        <td>{rider.phone_number}</td>
+                                                        <td>{rider.license_plate}</td>
+                                                        <td>{rider.email}</td>
+                                                        <td>{rider.physical_address}</td>
                                                         <td>
                                                             <Button
-                                                                variant={vendor.blocked ? 'danger' : 'warning'}
+                                                                variant={rider.blocked ? 'danger' : 'warning'}
                                                                 id="button"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
-                                                                    handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
+                                                                    handleUpdateStatus(rider.id, rider.blocked ? 'unblock' : 'block');
                                                                 }}
                                                             >
-                                                                <FontAwesomeIcon icon={vendor.blocked ? faKey : faUserShield} />
+                                                                <FontAwesomeIcon icon={rider.blocked ? faKey : faUserShield} />
                                                                 
                                                             </Button>
                                                         </td>
@@ -272,10 +272,10 @@ const RidersManagement = () => {
 
                             <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
                                 <Modal.Header className="justify-content-center p-1 p-lg-1">
-                                    <Modal.Title>Vendor Info</Modal.Title>
+                                    <Modal.Title>Rider Info</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body className="m-0 p-1">
-                                    {selectedVendor ? (
+                                    {selectedRider ? (
                                         <Tabs
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
@@ -291,7 +291,7 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.fullname}
+                                                                    {selectedRider.fullname}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -299,7 +299,7 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Email</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.email}
+                                                                    {selectedRider.email}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -310,7 +310,7 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Phone</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.phone_number}
+                                                                    {selectedRider.phone_number}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -318,7 +318,7 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Enterprise</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.enterprise_name}
+                                                                    {selectedRider.enterprise_name}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -329,7 +329,7 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Location</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.location}
+                                                                    {selectedRider.location}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -337,7 +337,7 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Status</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.blocked ? 'Blocked' : 'Active'}
+                                                                    {selectedRider.blocked ? 'Blocked' : 'Active'}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -348,7 +348,7 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Categories</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.category_names ? selectedVendor.category_names.join(', ') : 'No categories available'}
+                                                                    {selectedRider.category_names ? selectedRider.category_names.join(', ') : 'No categories available'}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -359,14 +359,14 @@ const RidersManagement = () => {
 
                                             <Tab eventKey="analytics" title="Analytics">
                                                 {/* <h5 className="text-center">Analytics</h5> */}
-                                                {selectedVendor.analytics ? (
+                                                {selectedRider.analytics ? (
                                                     <Container className="profile-cards text-center">
                                                         <Row>
                                                             <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Orders</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_orders}
+                                                                        {selectedRider.analytics.total_orders}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -374,7 +374,7 @@ const RidersManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Products Sold</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_products_sold}
+                                                                        {selectedRider.analytics.total_products_sold}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -388,7 +388,7 @@ const RidersManagement = () => {
                                                                         <Card.Text className="total-revenue m-0 text-center">
                                                                             <span><em className='product-price-label text-success'>Kshs: </em></span>
                                                                             <strong className="price text-danger">
-                                                                            {selectedVendor.analytics.total_revenue ? parseFloat(selectedVendor.analytics.total_revenue).toFixed(2).split('.').map((part, index) => (
+                                                                            {selectedRider.analytics.total_revenue ? parseFloat(selectedRider.analytics.total_revenue).toFixed(2).split('.').map((part, index) => (
                                                                                 <React.Fragment key={index}>
                                                                                 {index === 0 ? (
                                                                                     <span className="price-integer">
@@ -411,7 +411,7 @@ const RidersManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Reviews</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_reviews}
+                                                                        {selectedRider.analytics.total_reviews}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -422,8 +422,8 @@ const RidersManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Mean Rating</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        <StarRating rating={selectedVendor.analytics.mean_rating} />
-                                                                        <p className='m-0'>{selectedVendor.analytics.mean_rating}/5</p>
+                                                                        <StarRating rating={selectedRider.analytics.mean_rating} />
+                                                                        <p className='m-0'>{selectedRider.analytics.mean_rating}/5</p>
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -451,8 +451,8 @@ const RidersManagement = () => {
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    {selectedVendor && selectedVendor.orders && selectedVendor.orders.length > 0 ? (
-                                                                        selectedVendor.orders.map((order) => (
+                                                                    {selectedRider && selectedRider.orders && selectedRider.orders.length > 0 ? (
+                                                                        selectedRider.orders.map((order) => (
                                                                             order.order_items.map((item) => (
                                                                                 <tr key={`${order.id}-${item.product.id}`}>
                                                                                     <td>{order.id}</td>
@@ -523,8 +523,8 @@ const RidersManagement = () => {
                                             <Tab eventKey="products" title="Products">
                                                 {/* <h5 className="text-center">Products</h5> */}
                                                 <div className="card-container">
-                                                    {selectedVendor.products && selectedVendor.products.length > 0 ? (
-                                                        selectedVendor.products.map((product) => (
+                                                    {selectedRider.products && selectedRider.products.length > 0 ? (
+                                                        selectedRider.products.map((product) => (
                                                             <Col key={product.id} xs={12} md={12} lg={12} className="mb-1">
                                                                 <Card className="product-card-vendor">
                                                                     <Card.Img
@@ -565,9 +565,9 @@ const RidersManagement = () => {
 
                                             <Tab eventKey="reviews" title="Reviews">
                                                 {/* <h5 className="text-center" id="reviews">Reviews</h5> */}
-                                                {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
+                                                {selectedRider.reviews && selectedRider.reviews.length > 0 ? (
                                                     <Row>
-                                                    {selectedVendor.reviews.map((review) => (
+                                                    {selectedRider.reviews.map((review) => (
                                                         <Col lg={6} key={review.id} className=" justify-content-center">
                                                         <div className="reviews-container text-center p-0 p-lg-2 ">
                                                             <div className="review-card p-1">
