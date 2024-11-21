@@ -127,19 +127,19 @@ function PurchaserSignUpPage({ onSignup }) {
           <Col className="form-container align-items-center center">
             <Container className="d-flex justify-content-center">
               <Col xs={12} sm={10} md={12} lg={10}>
-                <h2 className="form-title text-center mb-2">Purchaser Sign-Up</h2>
+                <h2 className="form-title text-center mb-2  ">Purchaser Sign-Up</h2>
                 <Form onSubmit={handleSubmit}>
                   {errors.general && <Alert variant="danger">{errors.general}</Alert>}
                   
                   <Row>
-                    <Col md={6}>
+                    <Col xs={6} md={6}>
                       <Form.Group>
                         <Form.Control
                           type="text"
                           placeholder="Full name"
                           name="fullname"
                           id="button"
-                          className="mb-3 text-center"
+                          className="mb-2 text-center"
                           value={formData.fullname}
                           onChange={handleChange}
                           isInvalid={!!errors.fullname}
@@ -147,14 +147,14 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.fullname}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
+                    <Col xs={6} md={6}>
+                      <Form.Group>
                         <Form.Control
                           type="text"
                           placeholder="Username"
                           name="username"
                           id="button"
-                          className="mb-3 text-center"
+                          className="mb-2 text-center"
                           value={formData.username}
                           onChange={handleChange}
                           isInvalid={!!errors.username}
@@ -166,13 +166,13 @@ function PurchaserSignUpPage({ onSignup }) {
                   
                   <Row>
                     <Col md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group>
                         <Form.Control
                           type="text"
                           placeholder="Phone Number"
                           name="phone_number"
                           id="button"
-                          className="mb-3 text-center"
+                          className="mb-2 text-center"
                           value={formData.phone_number}
                           onChange={handleChange}
                           isInvalid={!!errors.phone_number}
@@ -181,13 +181,13 @@ function PurchaserSignUpPage({ onSignup }) {
                       </Form.Group>
                     </Col>
                     <Col md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group>
                         <Form.Control
                           type="email"
                           placeholder="Email"
                           name="email"
                           id="button"
-                          className="mb-3 text-center"
+                          className="mb-2 text-center"
                           value={formData.email}
                           onChange={handleChange}
                           isInvalid={!!errors.email}
@@ -198,14 +198,14 @@ function PurchaserSignUpPage({ onSignup }) {
                   </Row>
                   
                   <Row>
-                    <Col md={6}>
-                      <Form.Group className="mb-3">
+                    <Col md={12}>
+                      <Form.Group>
                         <Form.Control
                           type="text"
                           placeholder="Physical Address"
                           name="location"
                           id="button"
-                          className="mb-3 text-center"
+                          className="mb-2 text-center"
                           value={formData.location}
                           onChange={handleChange}
                           isInvalid={!!errors.location}
@@ -213,14 +213,18 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.location}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col md={6}>
-                    <Form.Group className="mb-3">
+                    
+                  </Row>
+                  
+                  <Row>
+                    <Col xs={6} md={6}>
+                    <Form.Group>
                         <Form.Control
                           type="text"
                           placeholder="City"
                           name="city"
                           id="button"
-                          className="mb-3 text-center"  
+                          className="mb-2 text-center"  
                           value={formData.city}
                           onChange={handleChange}
                           isInvalid={!!errors.city}
@@ -228,17 +232,14 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.city}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                  </Row>
-                  
-                  <Row>
-                    <Col md={6}>
-                    <Form.Group className="mb-3">
+                    <Col xs={6} md={6}>
+                    <Form.Group>
                         <Form.Control
                           type="text"
                           placeholder="Zip Code"
                           name="zipcode"
                           id="button"
-                          className="mb-3 text-center"  
+                          className="mb-2 text-center"  
                           value={formData.zipcode}
                           onChange={handleChange}
                           isInvalid={!!errors.zipcode}
@@ -246,8 +247,38 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.zipcode}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
+                    
+                  </Row>
+                  
+                  <Row>
                     <Col xs={6} md={6}>
-                      <Form.Group className="mb-2">
+                      <Form.Group>
+                        <div className="dropdown-container">
+                          <Form.Control
+                            as="select"
+                            name="gender"
+                            className="text-center rounded-pill mb-2"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            isInvalid={!!errors.gender}
+                          >
+                            <option value="" disabled hidden>
+                              Gender
+                            </option>
+                            {["Male", "Female", "Other"].map((gender) => (
+                              <option key={gender} value={gender}>
+                                {gender}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </div>
+                        <Form.Control.Feedback type="invalid">
+                          {errors.gender}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={6} md={6}>
+                      <Form.Group>
                         <div className="position-relative">
                           <ReactDatePicker
                             ref={(el) => (datepickerRef = el)}
@@ -288,46 +319,16 @@ function PurchaserSignUpPage({ onSignup }) {
                       </Form.Group>
                     </Col>
                   </Row>
-                  
-                  <Row>
-                  <Col xs={6} md={6}>
-                      <Form.Group className="mb-2">
-                        <div className="dropdown-container">
-                          <Form.Control
-                            as="select"
-                            name="gender"
-                            className="text-center rounded-pill mb-0"
-                            value={formData.gender}
-                            onChange={handleChange}
-                            isInvalid={!!errors.gender}
-                          >
-                            <option value="" disabled hidden>
-                              Gender
-                            </option>
-                            {["Male", "Female", "Other"].map((gender) => (
-                              <option key={gender} value={gender}>
-                                {gender}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </div>
-                        <Form.Control.Feedback type="invalid">
-                          {errors.gender}
-                        </Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    
-                  </Row>
 
                   <Row>
                     <Col md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group>
                         <Form.Control
                           type="password"
                           placeholder="Password"
                           name="password"
                           id="button"
-                          className="mb-3 text-center"
+                          className="mb-2 text-center"
                           value={formData.password}
                           onChange={handleChange}
                           isInvalid={!!errors.password}
@@ -336,13 +337,13 @@ function PurchaserSignUpPage({ onSignup }) {
                       </Form.Group>
                     </Col>
                     <Col md={6}>
-                      <Form.Group className="mb-3">
+                      <Form.Group>
                         <Form.Control
                           type="password"
                           placeholder="Confirm Password"
                           name="password_confirmation"
                           id="button"
-                          className="mb-3 text-center"
+                          className="mb-2 text-center"
                           value={formData.password_confirmation}
                           onChange={handleChange}
                           isInvalid={!!errors.password_confirmation}

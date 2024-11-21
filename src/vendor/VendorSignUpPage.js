@@ -308,7 +308,7 @@ function VendorSignUpPage({ onSignup }) {
                       <Form.Group>
                         <Form.Control
                           type="text"
-                          placeholder="Location"
+                          placeholder="Physical Address"
                           name="location"
                           id="button"
                           className="mb-2 text-center"
