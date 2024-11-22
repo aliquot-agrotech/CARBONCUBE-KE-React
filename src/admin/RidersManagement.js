@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Row, Col, Tabs, Tab, Card, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserShield, faKey, faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
+import { faUserShield, faKey,  } from '@fortawesome/free-solid-svg-icons';
+// faStar, faStarHalfAlt, faStar as faStarEmpty
 import Sidebar from './components/Sidebar';
 import TopNavbar from './components/TopNavbar';
 import Spinner from "react-spinkit";
@@ -47,40 +48,22 @@ const RidersManagement = () => {
 
     const handleRowClick = async (riderId) => {
         try {
-            const [riderResponse, ordersResponse, productsResponse, reviewsResponse] = await Promise.all([
+            const [riderResponse] = await Promise.all([
                 fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                }),
-                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}/orders`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                }),
-                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}/products`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                }),
-                fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}/reviews`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 })
             ]);
     
-            if (!riderResponse.ok || !ordersResponse.ok || !productsResponse.ok || !reviewsResponse.ok) {
+            if (!riderResponse.ok) {
                 throw new Error('Network response was not ok');
             }
     
             const riderData = await riderResponse.json();
-            const ordersData = await ordersResponse.json();
-            const productsData = await productsResponse.json();
-            const reviewsData = await reviewsResponse.json();
             const analytics = await fetchRiderAnalytics(riderId);
     
-            setSelectedRider({ ...riderData, orders: ordersData, products: productsData, reviews: reviewsData, analytics });
+            setSelectedRider({ ...riderData, analytics });
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
@@ -144,23 +127,23 @@ const RidersManagement = () => {
         }
     };
 
-    const StarRating = ({ rating }) => {
-        const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 >= 0.5;
-        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    // const StarRating = ({ rating }) => {
+    //     const fullStars = Math.floor(rating);
+    //     const halfStar = rating % 1 >= 0.5;
+    //     const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
     
-        return (
-            <span className="star-rating">
-                {[...Array(fullStars)].map((_, index) => (
-                    <FontAwesomeIcon key={index} icon={faStar} className="star filled" />
-                ))}
-                {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="star half-filled" />}
-                {[...Array(emptyStars)].map((_, index) => (
-                    <FontAwesomeIcon key={index} icon={faStarEmpty} className="star empty" />
-                ))}
-            </span>
-        );
-    };
+    //     return (
+    //         <span className="star-rating">
+    //             {[...Array(fullStars)].map((_, index) => (
+    //                 <FontAwesomeIcon key={index} icon={faStar} className="star filled" />
+    //             ))}
+    //             {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="star half-filled" />}
+    //             {[...Array(emptyStars)].map((_, index) => (
+    //                 <FontAwesomeIcon key={index} icon={faStarEmpty} className="star empty" />
+    //             ))}
+    //         </span>
+    //     );
+    // };
 
     if (loading) {
         return (
@@ -291,7 +274,7 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedRider.fullname}
+                                                                    {selectedRider.full_name}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -306,7 +289,7 @@ const RidersManagement = () => {
                                                     </Row>
 
                                                     <Row>
-                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                        <Col xs={6} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Phone</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -314,11 +297,11 @@ const RidersManagement = () => {
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
-                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                        <Col xs={6} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
-                                                                <Card.Header as="h6" className="justify-content-center">Enterprise</Card.Header>
+                                                                <Card.Header as="h6" className="justify-content-center">ID Number</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedRider.enterprise_name}
+                                                                    {selectedRider.id_number}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -329,7 +312,7 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Location</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedRider.location}
+                                                                    {selectedRider.physical_address}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -343,22 +326,45 @@ const RidersManagement = () => {
                                                         </Col>
                                                     </Row>
 
+                                                    
+
                                                     <Row>
-                                                        <Col xs={12} className="px-1 px-lg-2">
+                                                        <h4>Next of Kin</h4>
+                                                    </Row>
+
+                                                    <Row>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
-                                                                <Card.Header as="h6" className="justify-content-center">Categories</Card.Header>
+                                                                <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedRider.category_names ? selectedRider.category_names.join(', ') : 'No categories available'}
+                                                                    {selectedRider.kin_full_name}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Phone Number</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedRider.kin_phone_number}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                        
+                                                        <Col xs={12} className="px-1 px-lg-2">
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Relationship</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedRider.kin_relationship}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                    
                                                     </Row>
 
                                                 </Container>
                                             </Tab>
 
-                                            <Tab eventKey="analytics" title="Analytics">
-                                                {/* <h5 className="text-center">Analytics</h5> */}
+                                            {/* <Tab eventKey="analytics" title="Analytics">
                                                 {selectedRider.analytics ? (
                                                     <Container className="profile-cards text-center">
                                                         <Row>
@@ -392,7 +398,7 @@ const RidersManagement = () => {
                                                                                 <React.Fragment key={index}>
                                                                                 {index === 0 ? (
                                                                                     <span className="price-integer">
-                                                                                    {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                                    {parseInt(part, 10).toLocaleString()} 
                                                                                     </span>
                                                                                 ) : (
                                                                                     <>
@@ -432,9 +438,9 @@ const RidersManagement = () => {
                                                 ) : (
                                                     <p>Loading analytics data...</p>
                                                 )}
-                                            </Tab>
-                                            <Tab eventKey="orders" title="Orders">
-                                                {/* <h5 className="text-center">Orders</h5> */}
+                                            </Tab> */}
+                                            {/* <Tab eventKey="orders" title="Orders">
+                                                
                                                 <div className='section mt-1 custom-card'>
                                                     <div className='table-container'>
                                                         <div className="table-responsive orders-table-container">
@@ -492,7 +498,7 @@ const RidersManagement = () => {
                                                                                                 <React.Fragment key={index}>
                                                                                                     {index === 0 ? (
                                                                                                         <span className="price-integer">
-                                                                                                            {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                                                            {parseInt(part, 10).toLocaleString()} 
                                                                                                         </span>
                                                                                                     ) : (
                                                                                                         <>
@@ -518,10 +524,9 @@ const RidersManagement = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </Tab>                                           
+                                            </Tab>                                            */}
 
-                                            <Tab eventKey="products" title="Products">
-                                                {/* <h5 className="text-center">Products</h5> */}
+                                            {/* <Tab eventKey="products" title="Products">
                                                 <div className="card-container">
                                                     {selectedRider.products && selectedRider.products.length > 0 ? (
                                                         selectedRider.products.map((product) => (
@@ -541,7 +546,7 @@ const RidersManagement = () => {
                                                                                 <React.Fragment key={index}>
                                                                                     {index === 0 ? (
                                                                                     <span className="price-integer">
-                                                                                        {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                                        {parseInt(part, 10).toLocaleString()} 
                                                                                     </span>
                                                                                     ) : (
                                                                                     <>
@@ -561,10 +566,10 @@ const RidersManagement = () => {
                                                         <p className="text-center">No products available</p>
                                                     )}
                                                 </div>
-                                            </Tab>
+                                            </Tab> */}
 
-                                            <Tab eventKey="reviews" title="Reviews">
-                                                {/* <h5 className="text-center" id="reviews">Reviews</h5> */}
+                                            {/* <Tab eventKey="reviews" title="Reviews">
+                                                
                                                 {selectedRider.reviews && selectedRider.reviews.length > 0 ? (
                                                     <Row>
                                                     {selectedRider.reviews.map((review) => (
@@ -572,7 +577,7 @@ const RidersManagement = () => {
                                                         <div className="reviews-container text-center p-0 p-lg-2 ">
                                                             <div className="review-card p-1">
                                                             <p className="review-comment"><em>"{review.review}"</em></p>
-                                                            <StarRating rating={review.rating} /> {/* Assuming StarRating component is defined elsewhere */}
+                                                            <StarRating rating={review.rating} /> 
                                                             <p className="review-product"><strong>{review.product_title}</strong></p>
                                                             <p className="reviewer-name"><strong><em>{review.purchaser_name}</em></strong></p>
                                                             </div>
@@ -583,7 +588,7 @@ const RidersManagement = () => {
                                                 ) : (
                                                     <p className="text-center">No reviews available</p>
                                                 )}
-                                            </Tab>
+                                            </Tab> */}
 
                                         </Tabs>
                                     ) : (
