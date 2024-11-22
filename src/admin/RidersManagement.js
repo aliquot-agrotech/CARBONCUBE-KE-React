@@ -308,9 +308,28 @@ const RidersManagement = () => {
                                                     </Row>
 
                                                     <Row>
+                                                        <Col xs={6} md={6} className="px-1 px-lg-2">
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Gender</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedRider.gender}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                        <Col xs={6} md={6} className="px-1 px-lg-2">
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Date of Birth</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedRider.date_of_birth}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                    </Row>
+
+                                                    <Row>
                                                         <Col xs={12} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
-                                                                <Card.Header as="h6" className="justify-content-center">Location</Card.Header>
+                                                                <Card.Header as="h6" className="justify-content-center">Physical Address</Card.Header>
                                                                 <Card.Body className="text-center">
                                                                     {selectedRider.physical_address}
                                                                 </Card.Body>
@@ -333,7 +352,7 @@ const RidersManagement = () => {
                                                     </Row>
 
                                                     <Row>
-                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                        <Col xs={12} md={12} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -341,7 +360,7 @@ const RidersManagement = () => {
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
-                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                        <Col xs={6} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Phone Number</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -349,8 +368,7 @@ const RidersManagement = () => {
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
-                                                        
-                                                        <Col xs={12} className="px-1 px-lg-2">
+                                                        <Col xs={6} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Relationship</Card.Header>
                                                                 <Card.Body className="text-center">
