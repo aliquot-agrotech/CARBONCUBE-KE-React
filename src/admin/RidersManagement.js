@@ -327,15 +327,15 @@ const RidersManagement = () => {
                                                     </Row>
 
                                                     <Row>
-                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                        <Col xs={6} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
-                                                                <Card.Header as="h6" className="justify-content-center">Physical Address</Card.Header>
+                                                                <Card.Header as="h6" className="justify-content-center">Driving License</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedRider.physical_address}
+                                                                    {selectedRider.driving_license}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
-                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                        <Col xs={6} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Status</Card.Header>
                                                                 <Card.Body className="text-center">
@@ -345,7 +345,16 @@ const RidersManagement = () => {
                                                         </Col>
                                                     </Row>
 
-                                                    
+                                                    <Row>
+                                                    <Col xs={12} md={12} className="px-1 px-lg-2">
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Physical Address</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedRider.physical_address}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                    </Row>
 
                                                     <Row>
                                                         <h4>Next of Kin</h4>
@@ -379,6 +388,31 @@ const RidersManagement = () => {
                                                     
                                                     </Row>
 
+                                                </Container>
+                                            </Tab>
+
+
+                                            <Tab eventKey="vehicleinfo" title="Vehicle Info">
+                                                {/* <h5 className="text-center">Profile</h5> */}
+                                                <Container className="profile-cards text-center">
+                                                    <Row>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Type</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedRider.vehicle_type}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                        <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                            <Card className="mb-2 custom-card">
+                                                                <Card.Header as="h6" className="justify-content-center">Number Plate</Card.Header>
+                                                                <Card.Body className="text-center">
+                                                                    {selectedRider.license_plate}
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                    </Row>
                                                 </Container>
                                             </Tab>
 
