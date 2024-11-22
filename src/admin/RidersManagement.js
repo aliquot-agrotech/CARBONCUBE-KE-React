@@ -186,7 +186,7 @@ const RidersManagement = () => {
                                                 <th>Phone Number</th>
                                                 <th>Number Plate</th>
                                                 <th>Email</th>
-                                                <th>Location</th>
+                                                <th>Physical Address</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
