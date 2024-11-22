@@ -61,9 +61,9 @@ const RidersManagement = () => {
             }
     
             const riderData = await riderResponse.json();
-            const analytics = await fetchRiderAnalytics(riderId);
+            // const analytics = await fetchRiderAnalytics(riderId);
     
-            setSelectedRider({ ...riderData, analytics });
+            setSelectedRider({ ...riderData});
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
@@ -108,24 +108,7 @@ const RidersManagement = () => {
         }
     };
 
-    const fetchRiderAnalytics = async (riderId) => {
-        try {
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/riders/${riderId}/analytics`, {
-                headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching rider analytics:', error);
-            return {};
-        }
-    };
+    
 
     // const StarRating = ({ rating }) => {
     //     const fullStars = Math.floor(rating);
@@ -398,7 +381,7 @@ const RidersManagement = () => {
                                                     <Row>
                                                         <Col xs={12} md={6} className="px-1 px-lg-2">
                                                             <Card className="mb-2 custom-card">
-                                                                <Card.Header as="h6" className="justify-content-center">Type</Card.Header>
+                                                                <Card.Header as="h6" className="justify-content-center">Vehicle Type</Card.Header>
                                                                 <Card.Body className="text-center">
                                                                     {selectedRider.vehicle_type}
                                                                 </Card.Body>
