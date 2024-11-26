@@ -68,10 +68,10 @@ function PurchaserSignUpPage({ onSignup }) {
     
     try {
     
-      console.log("Form submitted successfully:", formData);
+      // console.log("Form submitted successfully:", formData);
     
     } catch (error) {
-      console.error("Error during submission:", error);
+      // console.error("Error during submission:", error);
     }
   
     const payload = {
@@ -80,7 +80,7 @@ function PurchaserSignUpPage({ onSignup }) {
       }
     };
   
-    console.log("Form Data before submission:", payload);
+    // console.log("Form Data before submission:", payload);
   
     try {
       const response = await axios.post('https://carboncube-ke-rails-4xo3.onrender.com/purchaser/signup', payload, {

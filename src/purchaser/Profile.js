@@ -35,7 +35,7 @@ const ProfilePage = () => {
     // Fetch profile data from the backend API
     useEffect(() => {
         if (!token) {
-        console.error('No auth token found');
+        // console.error('No auth token found');
         return;
         }
 
@@ -48,9 +48,9 @@ const ProfilePage = () => {
             setProfile(response.data);
         })
         .catch(error => {
-            console.error('Error fetching profile data:', error);
+            // console.error('Error fetching profile data:', error);
             if (error.response.status === 401) {
-            console.error('Unauthorized access. Please login again.');
+            // console.error('Unauthorized access. Please login again.');
             }
         });
     }, [token]);
@@ -71,7 +71,7 @@ const ProfilePage = () => {
     // Handle form submission to save updated profile
     const handleSaveClick = () => {
         if (!token) {
-        console.error('No auth token found');
+        // console.error('No auth token found');
         return;
         }
 
@@ -85,7 +85,7 @@ const ProfilePage = () => {
             setEditMode(false);
         })
         .catch(error => {
-            console.error('Error saving profile data:', error);
+            // console.error('Error saving profile data:', error);
         });
     };
 

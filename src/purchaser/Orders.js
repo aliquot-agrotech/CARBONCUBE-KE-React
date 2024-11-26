@@ -70,11 +70,11 @@ const Orders = () => {
             }
 
             const data = await response.json();
-            console.log('Fetched order details:', data);
+            // console.log('Fetched order details:', data);
             setSelectedOrder(data);
             setShowModal(true);
         } catch (error) {
-            console.error('Error fetching order details:', error);
+            // console.error('Error fetching order details:', error);
         }
     };
 

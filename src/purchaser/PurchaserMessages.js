@@ -37,7 +37,7 @@ const PurchaserMessages = () => {
         const sortedMessages = Array.isArray(data) ? data.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) : [];
         setMessages(sortedMessages);
         } catch (error) {
-        console.error('Error fetching messages:', error);
+        // console.error('Error fetching messages:', error);
         } finally {
         setLoadingMessages(false);
         }
@@ -86,7 +86,7 @@ const PurchaserMessages = () => {
 
         setNewMessage('');
         } catch (error) {
-        console.error('Error sending message:', error);
+        // console.error('Error sending message:', error);
         }
     };
 

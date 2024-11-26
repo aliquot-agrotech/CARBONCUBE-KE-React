@@ -72,7 +72,7 @@ const ProductDetailsPage = () => {
                 const data = await response.json();
                 setRelatedProducts(data);
             } catch (error) {
-                console.error('Error fetching related products:', error);
+                // console.error('Error fetching related products:', error);
                 setError('Error fetching related products.');
             }
         };
@@ -87,7 +87,7 @@ const ProductDetailsPage = () => {
 
     const handleSearch = () => {
         // Implement search functionality here
-        console.log('Search for:', searchQuery);
+        // console.log('Search for:', searchQuery);
     };
     const handleAddToWishlist = async () => {
         if (!product) return;
@@ -162,7 +162,7 @@ const ProductDetailsPage = () => {
     
     const renderRatingStars = (rating, reviewCount) => {
         if (typeof rating !== 'number' || rating < 0) {
-            console.error('Invalid rating value:', rating);
+            // console.error('Invalid rating value:', rating);
             return <div className="rating-stars">Invalid rating</div>;
         }
     

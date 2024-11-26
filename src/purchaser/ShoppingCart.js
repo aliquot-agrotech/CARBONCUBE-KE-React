@@ -37,10 +37,10 @@ const ShoppingCart = () => {
             if (data && data.cart_items) {
                 setCartItems(data.cart_items);
             } else {
-                console.error("Invalid data format:", data);
+                // console.error("Invalid data format:", data);
             }
         } catch (error) {
-            console.error("Error fetching cart items:", error);
+            // console.error("Error fetching cart items:", error);
         }
     }, []);
 
@@ -125,7 +125,7 @@ const ShoppingCart = () => {
             });
             setCartItems(cartItems.filter((item) => item.id !== itemId));
         } catch (error) {
-            console.error("Error removing item:", error);
+            // console.error("Error removing item:", error);
         }
     };
 
@@ -151,7 +151,7 @@ const ShoppingCart = () => {
                 )
             );
         } catch (error) {
-            console.error("Error updating quantity:", error);
+            // console.error("Error updating quantity:", error);
         }
     };
 
@@ -188,7 +188,7 @@ const ShoppingCart = () => {
                 alert(`Error: ${data.error}`);
             }
         } catch (error) {
-            console.error("Error during checkout:", error);
+            // console.error("Error during checkout:", error);
             alert("An error occurred during checkout.");
         }
     };

@@ -34,7 +34,7 @@ const PurchaserNotifications = () => {
                     const data = await response.json();
                     setPurchaserId(data.purchaser_id);
                 } catch (error) {
-                    console.error('Error fetching purchaser ID:', error);
+                    // console.error('Error fetching purchaser ID:', error);
                     setError('Error fetching purchaser ID');
                 } finally {
                     setLoading(false);

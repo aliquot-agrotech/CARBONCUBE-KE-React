@@ -22,14 +22,14 @@ const Bookmarks = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("Fetched bookmarks data:", data); // Log the response data
+        // console.log("Fetched bookmarks data:", data); // Log the response data
         if (data && Array.isArray(data)) {
           setBookmarks(data);
         } else {
-          console.error("Invalid data format:", data);
+          // console.error("Invalid data format:", data);
         }
       } catch (error) {
-        console.error("Error fetching bookmarks:", error);
+        // console.error("Error fetching bookmarks:", error);
       }
     };
     
@@ -48,7 +48,7 @@ const Bookmarks = () => {
       });
       setBookmarks(bookmarks.filter((bookmark) => bookmark.product.id !== productId));
     } catch (error) {
-      console.error("Error deleting bookmark:", error);
+      // console.error("Error deleting bookmark:", error);
     }
   };
 
@@ -64,7 +64,7 @@ const Bookmarks = () => {
       });
       window.alert("Product added to cart!");
     } catch (error) {
-      console.error("Error adding to cart:", error);
+      // console.error("Error adding to cart:", error);
     }
   };
 

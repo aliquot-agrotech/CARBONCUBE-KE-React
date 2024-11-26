@@ -92,7 +92,7 @@ const Home = () => {
         if (productId) {
         navigate(`/products/${productId}`);
         } else {
-        console.error('Invalid productId');
+        // console.error('Invalid productId');
         }
     };
 
@@ -115,7 +115,7 @@ const Home = () => {
             const results = await response.json();
             setSearchResults(results);
         } catch (error) {
-            console.error('Error searching products:', error);
+            // console.error('Error searching products:', error);
             setError('Error searching products');
         } finally {
             setIsSearching(false);
