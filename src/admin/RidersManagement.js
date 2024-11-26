@@ -31,11 +31,11 @@ const RidersManagement = () => {
                 }
 
                 const data = await response.json();
-                console.log('Fetched riders:', data); // Add this line
+                // console.log('Fetched riders:', data); // Add this line
                 data.sort((a, b) => a.id - b.id);
                 setRiders(data);
             } catch (error) {
-                console.error('Error fetching riders:', error);
+                // console.error('Error fetching riders:', error);
                 setError('Error fetching riders');
             } finally {
                 setLoading(false);
@@ -67,7 +67,7 @@ const RidersManagement = () => {
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
-            console.error('Error fetching rider details:', error);
+            // console.error('Error fetching rider details:', error);
         }
     };
     
@@ -104,7 +104,7 @@ const RidersManagement = () => {
                 setSelectedRider(prevRider => ({ ...prevRider, blocked: status === 'block' }));
             }
         } catch (error) {
-            console.error('Error updating rider status:', error);
+            // console.error('Error updating rider status:', error);
         }
     };
 

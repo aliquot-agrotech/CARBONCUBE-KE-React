@@ -30,11 +30,11 @@ const VendorsManagement = () => {
                 }
 
                 const data = await response.json();
-                console.log('Fetched vendors:', data); // Add this line
+                // console.log('Fetched vendors:', data); // Add this line
                 data.sort((a, b) => a.id - b.id);
                 setVendors(data);
             } catch (error) {
-                console.error('Error fetching vendors:', error);
+                // console.error('Error fetching vendors:', error);
                 setError('Error fetching vendors');
             } finally {
                 setLoading(false);
@@ -84,7 +84,7 @@ const VendorsManagement = () => {
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
-            console.error('Error fetching vendor details:', error);
+            // console.error('Error fetching vendor details:', error);
         }
     };
     
@@ -121,7 +121,7 @@ const VendorsManagement = () => {
                 setSelectedVendor(prevVendor => ({ ...prevVendor, blocked: status === 'block' }));
             }
         } catch (error) {
-            console.error('Error updating vendor status:', error);
+            // console.error('Error updating vendor status:', error);
         }
     };
 
@@ -139,7 +139,7 @@ const VendorsManagement = () => {
 
             return await response.json();
         } catch (error) {
-            console.error('Error fetching vendor analytics:', error);
+            // console.error('Error fetching vendor analytics:', error);
             return {};
         }
     };

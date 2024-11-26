@@ -39,7 +39,7 @@ const ProductsManagement = () => {
             setFlaggedProducts(flagged);
             setNonFlaggedProducts(non_flagged);
         } catch (error) {
-            console.error('Error fetching products:', error);
+            // console.error('Error fetching products:', error);
             setError(`Error fetching products: ${error.message}`);
         } finally {
             setLoading(false);
@@ -62,7 +62,7 @@ const ProductsManagement = () => {
             // Assuming subcategories are included with categories in the response
             setCategories(data || []);
         } catch (error) {
-            console.error('Error fetching categories:', error);
+            // console.error('Error fetching categories:', error);
         }
     };
       
@@ -124,7 +124,7 @@ const ProductsManagement = () => {
             setSelectedProduct(data);
             setShowDetailsModal(true);
         } catch (error) {
-            console.error('Error fetching product details:', error);
+            // console.error('Error fetching product details:', error);
         }
     };
 
@@ -154,7 +154,7 @@ const ProductsManagement = () => {
             handleModalClose();
             await fetchProducts(); // Refresh product list
         } catch (error) {
-            console.error('Error sending notification:', error);
+            // console.error('Error sending notification:', error);
         }
     };
 
@@ -182,7 +182,7 @@ const ProductsManagement = () => {
 
             await fetchProducts(); // Refresh product list
         } catch (error) {
-            console.error('Error flagging product:', error);
+            // console.error('Error flagging product:', error);
         }
     };
 
@@ -201,13 +201,13 @@ const ProductsManagement = () => {
 
             await fetchProducts(); // Refresh product list
         } catch (error) {
-            console.error('Error restoring product:', error);
+            // console.error('Error restoring product:', error);
         }
     };
 
     const renderRatingStars = (rating) => {
         if (typeof rating !== 'number' || rating < 0) {
-            console.error('Invalid rating value:', rating);
+            // console.error('Invalid rating value:', rating);
             return <div className="rating-stars">Invalid rating</div>;
         }
     

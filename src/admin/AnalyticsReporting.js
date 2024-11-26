@@ -25,7 +25,7 @@ const AnalyticsReporting = () => {
         setLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching analytics data:', error);
+        // console.error('Error fetching analytics data:', error);
         setLoading(false);
       });
   }, []);

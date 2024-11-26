@@ -29,7 +29,7 @@ const CategoriesManagement = () => {
             const data = await response.json();
             setCategories(data);
         } catch (error) {
-            console.error('Error fetching categories:', error);
+            // console.error('Error fetching categories:', error);
             setError('Error fetching categories');
         } finally {
             setLoading(false);
@@ -150,7 +150,7 @@ const CategoriesManagement = () => {
             // Re-fetch categories after saving
             await fetchCategories();
         } catch (error) {
-            console.error('Error saving category or subcategory:', error.message);
+            // console.error('Error saving category or subcategory:', error.message);
             setError(`Error saving category or subcategory: ${error.message}`);
         }
     };

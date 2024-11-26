@@ -32,11 +32,11 @@ const PromotionsDiscount = () => {
             if (Array.isArray(data)) {
                 setPromotions(data);
             } else {
-                console.error('Fetched data is not an array:', data);
+                // console.error('Fetched data is not an array:', data);
                 setPromotions([]);
             }
         } catch (error) {
-            console.error('Failed to fetch promotions:', error);
+            // console.error('Failed to fetch promotions:', error);
             setPromotions([]);
         }
         finally {
@@ -60,7 +60,7 @@ const PromotionsDiscount = () => {
             setShowModal(false);
             fetchPromotions();
         } else {
-            console.error('Failed to save promotion');
+            // console.error('Failed to save promotion');
         }
     };
 
@@ -95,7 +95,7 @@ const PromotionsDiscount = () => {
         if (response.ok) {
             fetchPromotions();
         } else {
-            console.error('Failed to delete promotion');
+            // console.error('Failed to delete promotion');
         }
     };
 

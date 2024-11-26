@@ -32,7 +32,7 @@ const OrdersManagement = () => {
                 data.sort((a, b) => a.id - b.id);
                 setOrders(data);
             } catch (error) {
-                console.error('Error fetching orders:', error);
+                // console.error('Error fetching orders:', error);
                 setError('Error fetching orders');
             } finally {
                 setLoading(false);
@@ -59,7 +59,7 @@ const OrdersManagement = () => {
             setSelectedOrder(data);
             setShowModal(true);
         } catch (error) {
-            console.error('Error fetching order details:', error);
+            // console.error('Error fetching order details:', error);
         }
     };
 
@@ -90,7 +90,7 @@ const OrdersManagement = () => {
                 )
             );
         } catch (error) {
-            console.error('Error updating order status:', error);
+            // console.error('Error updating order status:', error);
         }
     };
 
@@ -109,7 +109,7 @@ const OrdersManagement = () => {
 
             setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
         } catch (error) {
-            console.error('Error deleting order:', error);
+            // console.error('Error deleting order:', error);
         }
     };
 

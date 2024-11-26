@@ -32,7 +32,7 @@ const PurchasersManagement = () => {
               const data = await response.json();
               setPurchasers(data);
           } catch (error) {
-              console.error('Error fetching purchasers:', error);
+              // console.error('Error fetching purchasers:', error);
               setError('Error fetching purchasers');
           } finally {
               setLoading(false);
@@ -59,7 +59,7 @@ const PurchasersManagement = () => {
       setSelectedPurchaser(data);
       setShowModal(true);
     } catch (error) {
-      console.error('Error fetching purchaser details:', error);
+      // console.error('Error fetching purchaser details:', error);
     }
   };
 
@@ -75,7 +75,7 @@ const PurchasersManagement = () => {
   
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Error updating purchaser status:', errorData);
+        // console.error('Error updating purchaser status:', errorData);
         return;
       }
   
@@ -89,7 +89,7 @@ const PurchasersManagement = () => {
         setSelectedPurchaser(prevPurchaser => ({ ...prevPurchaser, blocked: status === 'block' }));
       }
     } catch (error) {
-      console.error('Error updating purchaser status:', error);
+      // console.error('Error updating purchaser status:', error);
     }
   };
   
