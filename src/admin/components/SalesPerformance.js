@@ -5,8 +5,8 @@ import { Doughnut } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const SalesPerformance = ({ data, totalRevenue }) => {
-  console.log('Sales Performance Data:', data);
-  console.log('Total Revenue (All Time):', totalRevenue);
+  // console.log('Sales Performance Data:', data);
+  // console.log('Total Revenue (All Time):', totalRevenue);
 
   // Sort months chronologically
   const months = Object.keys(data)
@@ -17,7 +17,7 @@ const SalesPerformance = ({ data, totalRevenue }) => {
     const monthRevenue = parseFloat(data[month]);
     const percentage = (monthRevenue / totalRevenue) * 100;
 
-    console.log(`${month} Revenue:`, monthRevenue, 'Percentage:', percentage);
+    // console.log(`${month} Revenue:`, monthRevenue, 'Percentage:', percentage);
 
     return {
       labels: [month, 'Other'],
