@@ -444,10 +444,10 @@ const VendorsManagement = () => {
                                                                         <th>Order ID</th>
                                                                         <th>Purchaser</th>
                                                                         <th>Product</th>
-                                                                        <th>Quantity</th>
-                                                                        <th>Status</th>
+                                                                        <th>Quantity</th>                                                                        
                                                                         <th>Total <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:) </em></th>
                                                                         <th>Date Ordered</th>
+                                                                        <th>Status</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -459,6 +459,26 @@ const VendorsManagement = () => {
                                                                                     <td>{order.purchaser.fullname}</td>
                                                                                     <td>{item.product.title}</td>
                                                                                     <td>{item.quantity}</td>
+                                                                                    
+                                                                                    <td className="price-container">
+                                                                                        <strong className="text-success">
+                                                                                            {((item.quantity * item.product.price).toFixed(2)).split('.').map((part, index) => (
+                                                                                                <React.Fragment key={index}>
+                                                                                                    {index === 0 ? (
+                                                                                                        <span className="price-integer">
+                                                                                                            {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                                                                                        </span>
+                                                                                                    ) : (
+                                                                                                        <>
+                                                                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                            <span className="price-decimal">{part}</span>
+                                                                                                        </>
+                                                                                                    )}
+                                                                                                </React.Fragment>
+                                                                                            ))}
+                                                                                        </strong>
+                                                                                    </td>
+                                                                                    <td>{new Date(order.created_at).toLocaleDateString()}</td>
                                                                                     <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
                                                                                         <Form.Control
                                                                                             className="form-select-admin text-center" // Custom class for removing arrow
@@ -486,25 +506,6 @@ const VendorsManagement = () => {
                                                                                             <option value={order.status}>{order.status}</option>
                                                                                         </Form.Control>
                                                                                     </td>
-                                                                                    <td className="price-container">
-                                                                                        <strong className="text-success">
-                                                                                            {((item.quantity * item.product.price).toFixed(2)).split('.').map((part, index) => (
-                                                                                                <React.Fragment key={index}>
-                                                                                                    {index === 0 ? (
-                                                                                                        <span className="price-integer">
-                                                                                                            {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                                                                                        </span>
-                                                                                                    ) : (
-                                                                                                        <>
-                                                                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                                                                            <span className="price-decimal">{part}</span>
-                                                                                                        </>
-                                                                                                    )}
-                                                                                                </React.Fragment>
-                                                                                            ))}
-                                                                                        </strong>
-                                                                                    </td>
-                                                                                    <td>{new Date(order.created_at).toLocaleDateString()}</td>
                                                                                 </tr>
                                                                             ))
                                                                         ))
