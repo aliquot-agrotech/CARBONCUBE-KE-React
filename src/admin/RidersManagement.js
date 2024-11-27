@@ -322,7 +322,9 @@ const RidersManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Status</Card.Header>
                                                                 <Card.Body className="text-center">
+                                                                <span className={selectedRider.blocked ? 'text-danger' : 'text-success'}>
                                                                     {selectedRider.blocked ? 'Blocked' : 'Active'}
+                                                                </span>
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>

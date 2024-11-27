@@ -337,7 +337,9 @@ const VendorsManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Status</Card.Header>
                                                                 <Card.Body className="text-center">
+                                                                <span className={selectedVendor.blocked ? 'text-danger' : 'text-success'}>
                                                                     {selectedVendor.blocked ? 'Blocked' : 'Active'}
+                                                                </span>
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
