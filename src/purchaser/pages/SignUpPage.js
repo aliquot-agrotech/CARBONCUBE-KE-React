@@ -127,7 +127,7 @@ function PurchaserSignUpPage({ onSignup }) {
           <Col className="form-container align-items-center center">
             <Container className="d-flex justify-content-center">
               <Col xs={12} sm={10} md={12} lg={10}>
-                <h2 className="form-title text-center mb-2  ">Purchaser Sign-Up</h2>
+                <h2 className="form-title text-center mb-2  ">Purchaser Sign Up</h2>
                 <Form onSubmit={handleSubmit}>
                   {errors.general && <Alert variant="danger">{errors.general}</Alert>}
                   
@@ -383,19 +383,19 @@ function PurchaserSignUpPage({ onSignup }) {
                   </div>
                   
                   <div className="d-flex justify-content-around">
-                    <Button variant="outline-secondary" className="social-btn">
-                      <Google size={20} /> Google
+                    <Button variant="warning rounded-pill" className="social-btn">
+                      <Google size={25} />
                     </Button>
-                    <Button variant="outline-secondary" className="social-btn">
-                      <Facebook size={20} /> Facebook
+                    <Button variant="warning rounded-pill" className="social-btn">
+                      <Facebook size={25} />
                     </Button>
-                    <Button variant="outline-secondary" className="social-btn">
-                      <Apple size={20} /> Apple
+                    <Button variant="warning rounded-pill" className="social-btn">
+                      <Apple size={25} />
                     </Button>
                   </div>
                   
                   <div className="text-center mt-2">
-                    Already have an account? <a href="./login" className="login-link">Log in</a>
+                    Already have an account? <a href="./login" className="login-link">Sign In</a>
                   </div>
                 </Form>
               </Col>
