@@ -99,20 +99,20 @@ const LoginForm = ({ onLogin }) => {
             <div className="separator my-4">or continue with</div>
 
             <div className="d-flex justify-content-around">
-              <Button variant="outline-secondary" className="social-btn">
-                <Google size={20} /> Google
+              <Button variant="warning rounded-pill" className="social-btn">
+                <Google size={25} />
               </Button>
-              <Button variant="outline-secondary" className="social-btn">
-                <Facebook size={20} /> Facebook
+              <Button variant="warning rounded-pill" className="social-btn">
+                <Facebook size={25} />
               </Button>
-              <Button variant="outline-secondary" className="social-btn">
-                <Apple size={20} /> Apple
+              <Button variant="warning rounded-pill" className="social-btn">
+                <Apple size={25} />
               </Button>
             </div>
 
-            <div className="text-center mt-2 signup-form">
-              Don't have an account? Sign-up Below
-              <Row className="justify-content-center mt-2">
+            <div className="text-center mt-3 signup-form">
+              Don't have an account?
+              <Row className="justify-content-center mt-1">
                 <Col xs={4} sm={4} className="mb-2">
                   <Button
                     variant="secondary"
