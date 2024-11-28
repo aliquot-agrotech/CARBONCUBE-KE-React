@@ -40,50 +40,50 @@ const Sidebar = () => {
       <div className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
         <Nav className="flex-column">
           <Nav.Link
-            href="/admin/analytics-reporting"
-            className={location.pathname === '/admin/analytics-reporting' ? 'active' : ''}>
+            href="/admin/analytics"
+            className={location.pathname === '/admin/analytics' ? 'active' : ''}>
             <GraphUp className="icon" /> {isOpen && 'Analytics'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/orders-management"
-            className={location.pathname === '/admin/orders-management' ? 'active' : ''}>
+            href="/admin/orders"
+            className={location.pathname === '/admin/orders' ? 'active' : ''}>
             <BagCheck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/products-management"
-            className={location.pathname === '/admin/products-management' ? 'active' : ''}>
+            href="/admin/products"
+            className={location.pathname === '/admin/products' ? 'active' : ''}>
             <Box className="icon" /> {isOpen && 'Products'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/categories-management"
-            className={location.pathname === '/admin/categories-management' ? 'active' : ''}>
+            href="/admin/categories"
+            className={location.pathname === '/admin/categories' ? 'active' : ''}>
             <List className="icon" /> {isOpen && 'Categories'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/vendors-management"
-            className={location.pathname === '/admin/vendors-management' ? 'active' : ''}>
+            href="/admin/vendors"
+            className={location.pathname === '/admin/vendors' ? 'active' : ''}>
             <Shop className="icon" /> {isOpen && 'Vendors'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/riders-management"
-            className={location.pathname === '/admin/riders-management' ? 'active' : ''}
+            href="/admin/riders"
+            className={location.pathname === '/admin/riders' ? 'active' : ''}
             >
             <FontAwesomeIcon icon={faMotorcycle} className="icon" /> {isOpen && 'Riders'}
           </Nav.Link>
 
           <Nav.Link
-            href="/admin/purchasers-management"
-            className={location.pathname === '/admin/purchasers-management' ? 'active' : ''}>
+            href="/admin/purchasers"
+            className={location.pathname === '/admin/purchasers' ? 'active' : ''}>
             <PersonCheck className="icon" /> {isOpen && 'Purchasers'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/content-management"
-            className={location.pathname === '/admin/content-management' ? 'active' : ''}>
+            href="/admin/content"
+            className={location.pathname === '/admin/content' ? 'active' : ''}>
             <FileText className="icon" /> {isOpen && 'CMS'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/promotions-discount"
-            className={location.pathname === '/admin/promotions-discount' ? 'active' : ''}>
+            href="/admin/promotions"
+            className={location.pathname === '/admin/promotions' ? 'active' : ''}>
             <Percent className="icon" /> {isOpen && 'Promotions'}
           </Nav.Link>
           <Nav.Link
