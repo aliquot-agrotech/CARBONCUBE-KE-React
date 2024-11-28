@@ -75,7 +75,7 @@ const PurchasersManagement = () => {
   
       if (!response.ok) {
         const errorData = await response.json();
-        // console.error('Error updating purchaser status:', errorData);
+        window.alert ('Error updating purchaser status:', errorData);
         return;
       }
   
@@ -208,16 +208,9 @@ const PurchasersManagement = () => {
                   {selectedPurchaser ? (
                     <div>
                       <div className="purchaser-details mb-4  text-center">
+
                         <Row>
-                          <Col xs={12} md={6}>
-                              <Card className="mb-2 custom-card">
-                                  <Card.Header as="h6" className="justify-content-center">Purchaser ID</Card.Header>
-                                  <Card.Body className="text-center">
-                                      {selectedPurchaser.id}
-                                  </Card.Body>
-                              </Card>
-                          </Col>
-                          <Col xs={12} md={6}>
+                          <Col xs={12} md={12}>
                               <Card className="mb-2 custom-card">
                                   <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
                                   <Card.Body className="text-center">
@@ -226,9 +219,16 @@ const PurchasersManagement = () => {
                               </Card>
                           </Col>
                         </Row>
-
                         <Row>
-                          <Col xs={12} md={6}>
+                          <Col xs={6} md={6}>
+                              <Card className="mb-2 custom-card">
+                                  <Card.Header as="h6" className="justify-content-center">Purchaser ID</Card.Header>
+                                  <Card.Body className="text-center">
+                                      {selectedPurchaser.id}
+                                  </Card.Body>
+                              </Card>
+                          </Col>
+                          <Col xs={6} md={6}>
                               <Card className="mb-2 custom-card">
                                   <Card.Header as="h6" className="justify-content-center">Contact</Card.Header>
                                   <Card.Body className="text-center">
@@ -236,22 +236,28 @@ const PurchasersManagement = () => {
                                   </Card.Body>
                               </Card>
                           </Col>
-                          <Col xs={12} md={6}>
+                        </Row>
+                        
+
+                        <Row>
+                          
+                          <Col xs={12}>
                               <Card className="mb-2 custom-card">
-                                  <Card.Header as="h6" className="justify-content-center">Address</Card.Header>
+                                  <Card.Header as="h6" className="justify-content-center">Email</Card.Header>
                                   <Card.Body className="text-center">
-                                      {selectedPurchaser.location}
+                                      {selectedPurchaser.email}
                                   </Card.Body>
                               </Card>
                           </Col>
                         </Row>
 
                         <Row>
-                          <Col xs={12}>
+                          
+                          <Col xs={12} md={12}>
                               <Card className="mb-2 custom-card">
-                                  <Card.Header as="h6" className="justify-content-center">Email</Card.Header>
+                                  <Card.Header as="h6" className="justify-content-center">Address</Card.Header>
                                   <Card.Body className="text-center">
-                                      {selectedPurchaser.email}
+                                      {selectedPurchaser.location}
                                   </Card.Body>
                               </Card>
                           </Col>
