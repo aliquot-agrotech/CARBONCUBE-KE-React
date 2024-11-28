@@ -53,9 +53,9 @@ const Sidebar = () => {
             <BookmarkDash className="icon" /> {isOpen && 'Bookmarks'}
           </Nav.Link>
           <Nav.Link
-            href="/purchaser/shopping-cart"
-            className={location.pathname === '/purchaser/shopping-cart' ? 'active' : ''}>
-            <Cart4 className="icon" /> {isOpen && 'Shopping Cart'}
+            href="/purchaser/cart"
+            className={location.pathname === '/purchaser/cart' ? 'active' : ''}>
+            <Cart4 className="icon" /> {isOpen && 'Cart'}
           </Nav.Link>
           <Nav.Link
             href="/purchaser/messages"

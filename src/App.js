@@ -120,7 +120,7 @@ function App() {
             <Route path="home" element={<Home onLogout={handleLogout} />} />
             <Route path="orders" element={<Orders onLogout={handleLogout} />} />
             <Route path="bookmarks" element={<Bookmarks onLogout={handleLogout} />} />
-            <Route path="shopping-cart" element={<ShoppingCart onLogout={handleLogout} />} />
+            <Route path="cart" element={<ShoppingCart onLogout={handleLogout} />} />
             <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
             <Route path="notifications" element={<PurchaserNotifications onLogout={handleLogout} />} />
             <Route path="profile" element={<ProfilePage onLogout={handleLogout} />} />

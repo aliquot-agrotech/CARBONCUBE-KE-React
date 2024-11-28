@@ -38,18 +38,18 @@ const Sidebar = () => {
       <div className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
         <Nav className="flex-column">
           <Nav.Link
-            href="/vendor/vendor-analytics"
-            className={location.pathname === '/vendor/vendor-analytics' ? 'active' : ''}>
+            href="/vendor/analytics"
+            className={location.pathname === '/vendor/analytics' ? 'active' : ''}>
             <GraphUp className="icon" /> {isOpen && 'Analytics'}
           </Nav.Link>
           <Nav.Link
-            href="/vendor/vendor-orders"
-            className={location.pathname === '/vendor/vendor-orders' ? 'active' : ''}>
+            href="/vendor/orders"
+            className={location.pathname === '/vendor/orders' ? 'active' : ''}>
             <BagCheck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
-            href="/vendor/vendor-products"
-            className={location.pathname === '/vendor/vendor-products' ? 'active' : ''}>
+            href="/vendor/products"
+            className={location.pathname === '/vendor/products' ? 'active' : ''}>
             <Box className="icon" /> {isOpen && 'Products'}
           </Nav.Link>
           <Nav.Link
