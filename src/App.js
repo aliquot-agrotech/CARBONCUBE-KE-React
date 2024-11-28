@@ -90,27 +90,27 @@ function App() {
 
         {isAuthenticated && userRole === 'admin' && (
           <Route path="/admin/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="admin" userRole={userRole} />}>
-            <Route path="analytics-reporting" element={<AnalyticsReporting onLogout={handleLogout} />} />
-            <Route path="content-management" element={<ContentManagement onLogout={handleLogout} />} />
-            <Route path="purchasers-management" element={<PurchasersManagement onLogout={handleLogout} />} />
-            <Route path="orders-management" element={<OrdersManagement onLogout={handleLogout} />} />
-            <Route path="vendors-management" element={<VendorsManagement onLogout={handleLogout} />} />
-            <Route path="riders-management" element={<RidersManagement onLogout={handleLogout} />} />
-            <Route path="products-management" element={<ProductsManagement onLogout={handleLogout} />} />
+            <Route path="analytics" element={<AnalyticsReporting onLogout={handleLogout} />} />
+            <Route path="content" element={<ContentManagement onLogout={handleLogout} />} />
+            <Route path="purchasers" element={<PurchasersManagement onLogout={handleLogout} />} />
+            <Route path="orders" element={<OrdersManagement onLogout={handleLogout} />} />
+            <Route path="vendors" element={<VendorsManagement onLogout={handleLogout} />} />
+            <Route path="riders" element={<RidersManagement onLogout={handleLogout} />} />
+            <Route path="products" element={<ProductsManagement onLogout={handleLogout} />} />
             <Route path="messages" element={<Messages onLogout={handleLogout} />} />
-            <Route path="promotions-discount" element={<PromotionsDiscount onLogout={handleLogout} />} />
+            <Route path="promotions" element={<PromotionsDiscount onLogout={handleLogout} />} />
             <Route path="notifications" element={<Notifications onLogout={handleLogout} />} />
-            <Route path="categories-management" element={<CategoriesManagement onLogout={handleLogout} />} />
+            <Route path="categories" element={<CategoriesManagement onLogout={handleLogout} />} />
           </Route>
         )}
 
         {isAuthenticated && userRole === 'vendor' && (
           <Route path="/vendor/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="vendor" userRole={userRole} />}>
-            <Route path="vendor-analytics" element={<VendorAnalytics onLogout={handleLogout} />} />
-            <Route path="vendor-orders" element={<VendorOrders onLogout={handleLogout} />} />
-            <Route path="vendor-products" element={<VendorProducts onLogout={handleLogout} />} />
+            <Route path="analytics" element={<VendorAnalytics onLogout={handleLogout} />} />
+            <Route path="orders" element={<VendorOrders onLogout={handleLogout} />} />
+            <Route path="products" element={<VendorProducts onLogout={handleLogout} />} />
             <Route path="messages" element={<VendorMessages onLogout={handleLogout} />} />
-            <Route path="vendor-notifications" element={<VendorNotifications onLogout={handleLogout} />} />
+            <Route path="notifications" element={<VendorNotifications onLogout={handleLogout} />} />
             <Route path="profile" element={<VendorProfile onLogout={handleLogout} />} />
           </Route>
         )}

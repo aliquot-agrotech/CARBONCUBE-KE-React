@@ -34,13 +34,13 @@ const LoginForm = ({ onLogin }) => {
               navigate('/purchaser/home');
               break;
           case 'vendor':
-              navigate('/vendor/vendor-analytics');
+              navigate('/vendor/analytics');
               break;
           case 'rider':
               navigate('/rider/home');
               break;
           case 'admin':
-              navigate('/admin/analytics-reporting');
+              navigate('/admin/analytics');
               break;
           default:
               setError('Unexpected user role.');
