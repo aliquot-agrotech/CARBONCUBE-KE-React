@@ -1,14 +1,14 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import './CustomerInsights.css'; // Import the CSS file
+import './PurchaserInsights.css'; // Import the CSS file
 
-const CustomerInsights = ({ data }) => {
+const PurchaserInsights = ({ data }) => {
   return (
     <Table striped bordered hover className='text-center transparent-table'>
       <thead>
         <tr>
           <th>#</th>
-          <th>Customer Name</th>
+          <th>Purchaser Name</th>
           <th>Total Orders</th>
         </tr>
       </thead>
@@ -25,4 +25,4 @@ const CustomerInsights = ({ data }) => {
   );
 };
 
-export default CustomerInsights;
+export default PurchaserInsights;

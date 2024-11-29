@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
+
+// Admin Imports
 import AnalyticsReporting from './admin/pages/AnalyticsReporting';
 import ContentManagement from './admin/pages/ContentManagement';
 import PurchasersManagement from './admin/pages/PurchasersManagement';
@@ -12,6 +14,8 @@ import Messages from './admin/pages/Messages';
 import PromotionsDiscount from './admin/pages/PromotionsDiscount';
 import Notifications from './admin/pages/Notifications'; 
 import CategoriesManagement from './admin/pages/CategoriesManagement';
+
+// Vendor Imports
 import VendorSignUpPage from './vendor/pages/VendorSignUpPage';
 import VendorAnalytics from './vendor/pages/VendorAnalytics';
 import VendorOrders from './vendor/pages/VendorOrders';
@@ -19,6 +23,8 @@ import VendorProducts from './vendor/pages/VendorProducts';
 import VendorMessages from './vendor/pages/Messages';
 import VendorNotifications from './vendor/pages/VendorNotifications';
 import VendorProfile from './vendor/pages/Profile';
+
+// Purchaser Imports
 import Home from './purchaser/pages/Home';
 import ProductDetailsPage from './purchaser/pages/ProductDetailsPage';
 import Orders from './purchaser/pages/Orders';

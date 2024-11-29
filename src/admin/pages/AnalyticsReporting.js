@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import SalesPerformance from '../components/SalesPerformance';
 import TopSellingProducts from '../components/TopSellingProducts';
-import CustomerInsights from '../components/CustomerInsights';
+import PurchaserInsights from '../components/PurchaserInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics'; // Ensure this is imported
 import Spinner from "react-spinkit";
 import '../css/AnalyticsReporting.css';
@@ -201,11 +201,11 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Customer Insights
+                    Purchaser Insights
                   </Card.Header>
                   <Card.Body>
-                    {/* <Card.Title className="text-center">Customer Insights</Card.Title> */}
-                    <CustomerInsights data={analyticsData.purchasers_insights} />
+                    {/* <Card.Title className="text-center">Purchaser Insights</Card.Title> */}
+                    <PurchaserInsights data={analyticsData.purchasers_insights} />
                   </Card.Body>
                 </Card>
               </Col>
