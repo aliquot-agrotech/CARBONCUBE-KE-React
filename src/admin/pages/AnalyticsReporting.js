@@ -5,6 +5,7 @@ import TopNavbar from '../components/TopNavbar';
 import SalesPerformance from '../components/SalesPerformance';
 import TopSellingProducts from '../components/TopSellingProducts';
 import PurchaserInsights from '../components/PurchaserInsights';
+import VendorInsights from '../components/VendorInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics'; // Ensure this is imported
 import Spinner from "react-spinkit";
 import '../css/AnalyticsReporting.css';
@@ -105,6 +106,7 @@ const AnalyticsReporting = () => {
                 </Card>
               </Col>
             </Row>
+
             <Row>
               <Col xs={6} md={3}>
                 <Card className="mb-2 mb-lg-4 custom-card">
@@ -163,6 +165,7 @@ const AnalyticsReporting = () => {
                 </Card>
               </Col>
             </Row>
+
             <Row>
               <Col xs={12} md={6}>
               <Card className="mb-2 mb-lg-4 custom-card">
@@ -186,8 +189,9 @@ const AnalyticsReporting = () => {
                 </Card>
               </Col>
             </Row>
+
             <Row>
-              <Col xs={12} md={6}>
+              <Col xs={12} md={12}>
                 <Card className="mb-4 custom-card">
                 <Card.Header className="justify-content-center">
                     Top Selling Products
@@ -198,6 +202,9 @@ const AnalyticsReporting = () => {
                   </Card.Body>
                 </Card>
               </Col>
+            </Row>
+
+            <Row>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header className="justify-content-center">
@@ -206,6 +213,17 @@ const AnalyticsReporting = () => {
                   <Card.Body>
                     {/* <Card.Title className="text-center">Purchaser Insights</Card.Title> */}
                     <PurchaserInsights data={analyticsData.purchasers_insights} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Vendor Insights
+                  </Card.Header>
+                  <Card.Body>
+                    {/* <Card.Title className="text-center">Purchaser Insights</Card.Title> */}
+                    <VendorInsights data={analyticsData.vendors_insights} />
                   </Card.Body>
                 </Card>
               </Col>
