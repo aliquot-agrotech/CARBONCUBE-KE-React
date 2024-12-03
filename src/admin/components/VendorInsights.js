@@ -49,12 +49,12 @@ const VendorInsightsTable = () => {
               <th>Vendor Name</th>
               <th>
                 <Form.Control
-                  className="rounded-pill mb-0 text-center p-1"
+                  className="rounded-pill mb-0 text-center p-1 fw-bold"
                   as="select"
                   value={selectedMetric}
                   onChange={handleMetricChange}
                 >
-                  <option>Total Orders</option>
+                  <option >Total Orders</option>
                   <option>Total Revenue</option>
                   <option>Rating</option>
                 </Form.Control>
