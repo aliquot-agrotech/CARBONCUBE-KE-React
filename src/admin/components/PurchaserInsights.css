@@ -13,7 +13,6 @@
     background-color: rgba(255, 255, 255, 0.15) !important; /* Optional: Adds slight transparency to the header */
     border-color: transparent !important; /* Make header borders transparent */
   }
-  
 
   .transparent-table th select {
     border: none;

@@ -49,7 +49,7 @@ const VendorInsightsTable = () => {
               <th>Vendor Name</th>
               <th>
                 <Form.Control
-                  className="rounded-pill mb-0 text-center p-1 fw-bold"
+                  className="rounded-pill mb-0 text-center p-0 fw-bold"
                   as="select"
                   value={selectedMetric}
                   onChange={handleMetricChange}
@@ -69,7 +69,8 @@ const VendorInsightsTable = () => {
                 <td>
                   {selectedMetric === 'Total Orders' && vendor.total_orders}
                   {selectedMetric === 'Total Revenue' && formatCurrency(vendor.total_revenue)}
-                  {selectedMetric === 'Rating' && (vendor.mean_rating?.toFixed(2) || 'N/A')}
+                  {selectedMetric === 'Rating' && (typeof vendor.mean_rating === 'number' ? vendor.mean_rating.toFixed(2) : 'N/A')}
+
                 </td>
               </tr>
             ))}

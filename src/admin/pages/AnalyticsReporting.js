@@ -169,7 +169,7 @@ const AnalyticsReporting = () => {
                   <Card.Header className="justify-content-center">
                     Purchaser Insights
                   </Card.Header>
-                  <Card.Body>
+                  <Card.Body className="px-2">
                     <PurchaserInsights data={analyticsData.purchasers_insights} />
                   </Card.Body>
                 </Card>
@@ -179,7 +179,7 @@ const AnalyticsReporting = () => {
                   <Card.Header className="justify-content-center">
                     Vendor Insights
                   </Card.Header>
-                  <Card.Body>
+                  <Card.Body className="px-2">
                     <VendorInsights data={analyticsData.vendors_insights} />
                   </Card.Body>
                 </Card>
