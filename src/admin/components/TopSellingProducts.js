@@ -6,7 +6,7 @@ const TopSellingProducts = ({ data }) => {
   return (
     <Row>
       {data.map((product) => (
-        <Col xs={6} md={6} lg={2} key={product.product_id} className="mb-4">
+        <Col xs={6} md={6} lg={2} key={product.product_id} className="mb-2  p-1 p-lg-2">
           <Card className="h-100">
             <Card.Img
               className="analytics-card-img-top product-image"

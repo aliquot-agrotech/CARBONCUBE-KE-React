@@ -155,7 +155,7 @@ const AnalyticsReporting = () => {
                 <Card.Header className="justify-content-center">
                     Top Selling Products
                   </Card.Header>
-                  <Card.Body>
+                  <Card.Body className='p-3'>
                     {/* <Card.Title className="text-center">Top Selling Products</Card.Title> */}
                     <TopSellingProducts data={analyticsData.best_selling_products} />
                   </Card.Body>
