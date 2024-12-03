@@ -14,3 +14,12 @@
     border-color: transparent !important; /* Make header borders transparent */
   }
   
+
+  .transparent-table th select {
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 14px;
+    width: 100%;
+  }
+  

@@ -39,16 +39,6 @@ const VendorInsightsTable = () => {
 
   return (
     <div>
-      <Form.Control
-        className="rounded-pill mb-3 text-center p-1"
-        as="select"
-        value={selectedMetric}
-        onChange={handleMetricChange}
-      >
-        <option>Total Orders</option>
-        <option>Total Revenue</option>
-        <option>Rating</option>
-      </Form.Control>
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -57,7 +47,18 @@ const VendorInsightsTable = () => {
             <tr>
               <th>#</th>
               <th>Vendor Name</th>
-              <th>{selectedMetric}</th>
+              <th>
+                <Form.Control
+                  className="rounded-pill mb-0 text-center p-1"
+                  as="select"
+                  value={selectedMetric}
+                  onChange={handleMetricChange}
+                >
+                  <option>Total Orders</option>
+                  <option>Total Revenue</option>
+                  <option>Rating</option>
+                </Form.Control>
+              </th>
             </tr>
           </thead>
           <tbody>
