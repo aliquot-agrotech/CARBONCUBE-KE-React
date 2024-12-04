@@ -524,47 +524,49 @@ const VendorsManagement = () => {
                                             </Tab>                                           
 
                                             <Tab eventKey="products" title="Products">
-                                                {/* <h5 className="text-center">Products</h5> */}
                                                 <div className="card-container">
                                                     {selectedVendor.products && selectedVendor.products.length > 0 ? (
-                                                        selectedVendor.products.map((product) => (
-                                                            <Col key={product.id} xs={12} md={12} lg={12} className="mb-1">
-                                                                <Card className="product-card-vendor">
-                                                                    <Card.Img
-                                                                        className="analytics-card-img-top product-image"
-                                                                        variant="top"
-                                                                        src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                                                    />
-                                                                    <Card.Body className='p-2'>
-                                                                        <Card.Title className="mb-0" style={{ fontSize: '18px' }}>{product.title}</Card.Title>
-                                                                        <Card.Text className="price-container">
-                                                                            <span><em className='product-price-label text-success'>Kshs: </em></span>
-                                                                            <strong className='text-danger'>
-                                                                                {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
-                                                                                <React.Fragment key={index}>
-                                                                                    {index === 0 ? (
-                                                                                    <span className="price-integer">
-                                                                                        {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                                                                    </span>
-                                                                                    ) : (
-                                                                                    <>
-                                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                                        <span className="price-decimal">{part}</span>
-                                                                                    </>
-                                                                                    )}
-                                                                                </React.Fragment>
-                                                                                )) : 'N/A'}
-                                                                            </strong>                                                                                
-                                                                        </Card.Text>
-                                                                    </Card.Body>
-                                                                </Card>
-                                                            </Col>
-                                                        ))
+                                                        <Row>
+                                                            {selectedVendor.products.map((product) => (
+                                                                <Col key={product.id} xs={6} md={4} lg={3} className="mb-2 px-1">
+                                                                    <Card className="product-card-vendor">
+                                                                        <Card.Img
+                                                                            className="analytics-card-img-top product-image"
+                                                                            variant="top"
+                                                                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                                                        />
+                                                                        <Card.Body className='p-2'>
+                                                                            <Card.Title className="mb-0 product-title" style={{ fontSize: '18px' }}>{product.title}</Card.Title>
+                                                                            <Card.Text className="price-container">
+                                                                                <span><em className='product-price-label text-success'>Kshs: </em></span>
+                                                                                <strong className='text-danger'>
+                                                                                    {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
+                                                                                        <React.Fragment key={index}>
+                                                                                            {index === 0 ? (
+                                                                                                <span className="price-integer">
+                                                                                                    {parseInt(part, 10).toLocaleString()}
+                                                                                                </span>
+                                                                                            ) : (
+                                                                                                <>
+                                                                                                    <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                    <span className="price-decimal">{part}</span>
+                                                                                                </>
+                                                                                            )}
+                                                                                        </React.Fragment>
+                                                                                    )) : 'N/A'}
+                                                                                </strong>
+                                                                            </Card.Text>
+                                                                        </Card.Body>
+                                                                    </Card>
+                                                                </Col>
+                                                            ))}
+                                                        </Row>
                                                     ) : (
                                                         <p className="text-center">No products available</p>
                                                     )}
                                                 </div>
                                             </Tab>
+
 
                                             <Tab eventKey="reviews" title="Reviews">
                                                 {/* <h5 className="text-center" id="reviews">Reviews</h5> */}

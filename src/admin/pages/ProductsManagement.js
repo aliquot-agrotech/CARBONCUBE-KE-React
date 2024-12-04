@@ -333,15 +333,15 @@ const ProductsManagement = () => {
                             <Row>
                                 {filteredNonFlaggedProducts.length > 0 ? (
                                     filteredNonFlaggedProducts.map(product => (
-                                        <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
+                                        <Col key={product.id} xs={6} md={6} lg={3} className="mb-2 mb-lg-4 px-2">
                                             <Card>
                                             <Card.Img 
                                                 variant="top" 
                                                 className="product-image"
                                                 src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
                                             />
-                                                <Card.Body className="py-1 px-2 chill-body">
-                                                    <Card.Title className="d-flex justify-content-start mb-1">{product.title}</Card.Title>
+                                                <Card.Body className="py-0 py-lg-1 px-2 chill-body">
+                                                <Card.Title className="d-flex justify-content-start mb-1 product-title">{product.title}</Card.Title>
                                                     <Card.Text className="price-container d-flex justify-content-start" style={{ fontSize: '18px' }}>
                                                         <span>
                                                             <em className="product-price-label text-success" style={{ fontSize: '13px' }}>Kshs:&nbsp;</em>
@@ -364,7 +364,7 @@ const ProductsManagement = () => {
                                                         </strong>
                                                     </Card.Text>
 
-                                                    <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)}>
+                                                    <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)} className="p-1">
                                                         View Details
                                                     </Button>
                                                     <FontAwesomeIcon
@@ -388,15 +388,21 @@ const ProductsManagement = () => {
                                 <h3 className="mb-4 text-center">Flagged Products</h3>
                                 {flaggedProducts.length > 0 ? (
                                     flaggedProducts.map(product => (
-                                        <Col key={product.id} xs={12} md={6} lg={3} className="mb-4">
+                                        <Col key={product.id} xs={6} md={6} lg={3} className="mb-4">
                                             <Card>
-                                            <Card.Img 
-                                                variant="top"
-                                                className="product-image" 
-                                                src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
-                                            />
+                                                <Card.Img 
+                                                    variant="top"
+                                                    className="product-image" 
+                                                    src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
+                                                />
                                                 <Card.Body className="py-1 px-2 chill-body">
-                                                    <Card.Title className='d-flex justify-content-start'>{product.title}</Card.Title>
+                                                    <Card.Title 
+                                                        className="d-flex justify-content-start product-title" 
+                                                        style={{ fontSize: '18px' }}
+                                                    >
+                                                        {product.title}
+                                                    </Card.Title>
+
                                                     <Card.Text className="price-container d-flex justify-content-start">
                                                         <span><em className='product-price-label text-success'>Kshs: </em></span>
                                                         <strong style={{ fontSize: '18px' }} className="text-danger">

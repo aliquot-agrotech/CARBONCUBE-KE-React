@@ -250,6 +250,14 @@ body {
     margin-left: 2px;
 }
 
+.product-title {
+    white-space: nowrap; /* Prevents the text from wrapping to a new line */
+    overflow: hidden;    /* Hides any text that overflows the container */
+    text-overflow: ellipsis; /* Adds ellipsis (...) for overflowing text */
+    display: block; /* Ensures the element respects block-level overflow settings */
+}
+
+
 #button {
     border-radius: 1.5rem;
 }
