@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Form } from 'react-bootstrap';
 
-const VendorInsightsTable = () => {
+const VendorInsights = () => {
   const [selectedMetric, setSelectedMetric] = useState('Total Orders');
   const [vendorsData, setVendorsData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -110,4 +110,4 @@ const VendorInsightsTable = () => {
   );
 };
 
-export default VendorInsightsTable;
+export default VendorInsights;
