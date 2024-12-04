@@ -34,9 +34,6 @@ const VendorInsightsTable = () => {
     fetchVendorsData(selectedMetric);
   }, [selectedMetric]); // Initial fetch
 
-  const formatCurrency = (value) =>
-    value?.toLocaleString('en-US', { style: 'currency', currency: 'KES' }) || 'Ksh 0';
-
   return (
     <div>
       {loading ? (
@@ -54,7 +51,7 @@ const VendorInsightsTable = () => {
                   value={selectedMetric}
                   onChange={handleMetricChange}
                 >
-                  <option >Total Orders</option>
+                  <option>Total Orders</option>
                   <option>Total Revenue</option>
                   <option>Rating</option>
                 </Form.Control>
@@ -67,9 +64,42 @@ const VendorInsightsTable = () => {
                 <td>{index + 1}</td>
                 <td>{vendor.fullname}</td>
                 <td>
-                  {selectedMetric === 'Total Orders' && vendor.total_orders}
-                  {selectedMetric === 'Total Revenue' && formatCurrency(vendor.total_revenue)}
-                  {selectedMetric === 'Rating' && vendor.mean_rating}  
+                  {selectedMetric === 'Total Orders' && (
+                    <strong className=" text-success fw-bold">{vendor.total_orders}</strong>
+                  )}
+                  {selectedMetric === 'Total Revenue' && (
+                    <>
+                      {/* <span className="text-success">
+                        <em style={{ fontSize: '13px' }}>Kshs: &nbsp;</em>
+                      </span> */}
+                      <strong style={{ fontSize: '16px' }} className="text-success">
+                        {Number(vendor.total_revenue || 0)
+                          .toFixed(2)
+                          .split('.')
+                          .map((part, index) => (
+                            <React.Fragment key={index}>
+                              {index === 0 ? (
+                                <span className="analytics-price-integer">
+                                  {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
+                                </span>
+                              ) : (
+                                <>
+                                  <span style={{ fontSize: '10px' }}>.</span>
+                                  <span className="analytics-price-decimal">
+                                    {(part || '00').padEnd(2, '0').slice(0, 2)} {/* Ensure two decimal points */}
+                                  </span>
+                                </>
+                              )}
+                            </React.Fragment>
+                          ))}
+                      </strong>
+                    </>
+                  )}
+                  {selectedMetric === 'Rating' && (
+                    <strong className="text-success fw-bold">
+                      {vendor.mean_rating ? parseFloat(vendor.mean_rating).toFixed(2) : '0.00'}
+                    </strong>
+                  )}               
                 </td>
               </tr>
             ))}
