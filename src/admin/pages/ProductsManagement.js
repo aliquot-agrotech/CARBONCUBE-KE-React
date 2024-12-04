@@ -340,8 +340,8 @@ const ProductsManagement = () => {
                                                 className="product-image"
                                                 src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
                                             />
-                                                <Card.Body className="py-0 py-lg-1 px-2 chill-body">
-                                                <Card.Title className="d-flex justify-content-start mb-1 product-title">{product.title}</Card.Title>
+                                                <Card.Body className="py-0 py-lg-1 px-2 chill-body mb-1">
+                                                <Card.Title className="d-flex justify-content-start mb-0 product-title">{product.title}</Card.Title>
                                                     <Card.Text className="price-container d-flex justify-content-start" style={{ fontSize: '18px' }}>
                                                         <span>
                                                             <em className="product-price-label text-success" style={{ fontSize: '13px' }}>Kshs:&nbsp;</em>
@@ -364,15 +364,21 @@ const ProductsManagement = () => {
                                                         </strong>
                                                     </Card.Text>
 
-                                                    <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)} className="p-1">
-                                                        View Details
-                                                    </Button>
-                                                    <FontAwesomeIcon
-                                                        icon={faTrash}
-                                                        className="delete-icon"
-                                                        onClick={() => handleFlagProduct(product.id)}
-                                                        title="Flag Product"
-                                                    />
+                                                    <Row className="align-middle">
+                                                        <Col xs={9} md={6} lg={3}>
+                                                            <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)} className="py-1">
+                                                                View Details
+                                                            </Button>
+                                                        </Col>
+                                                        <Col xs={3} md={6} lg={3}>
+                                                        <FontAwesomeIcon
+                                                                icon={faTrash}
+                                                                className="delete-icon"
+                                                                onClick={() => handleFlagProduct(product.id)}
+                                                                title="Flag Product"
+                                                            />
+                                                        </Col>
+                                                    </Row>
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -397,7 +403,7 @@ const ProductsManagement = () => {
                                                 />
                                                 <Card.Body className="py-1 px-2 chill-body">
                                                     <Card.Title 
-                                                        className="d-flex justify-content-start product-title" 
+                                                        className="d-flex justify-content-start product-title mb-0" 
                                                         style={{ fontSize: '18px' }}
                                                     >
                                                         {product.title}
@@ -421,7 +427,7 @@ const ProductsManagement = () => {
                                                         </strong>
 
                                                     </Card.Text>
-                                                    <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)}>
+                                                    <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)} className="py-1">
                                                         Notify Vendor
                                                     </Button>
                                                     <FontAwesomeIcon
