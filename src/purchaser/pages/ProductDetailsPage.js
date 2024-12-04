@@ -364,11 +364,11 @@ const ProductDetailsPage = () => {
                                 <h3 className="related-products-title">Related Products</h3>
                                 <Row className="related-products">
                                     {relatedProducts.slice(0, 4).map((relatedProduct) => (
-                                    <Col key={relatedProduct.id} md={3} className="mb-4">
+                                    <Col key={relatedProduct.id} xs={6} md={3} className="mb-4">
                                         <Card onClick={() => window.location.href = `/products/${relatedProduct.id}`}>
                                         <Card.Img className='product-image' variant="top" src={relatedProduct.media_urls[0] || 'default-image-url'} />
                                         <Card.Body className="px-2 py-1">
-                                            <Card.Title className="mb-0 mb-lg-1">{relatedProduct.title}</Card.Title>
+                                            <Card.Title className="mb-0 mb-lg-1 product-title">{relatedProduct.title}</Card.Title>
                                             <Card.Text>
                                                 <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
                                                 <strong style={{ fontSize: '20px' }} className="text-danger">
