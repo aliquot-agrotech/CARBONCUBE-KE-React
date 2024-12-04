@@ -67,13 +67,13 @@ const PurchaserInsights = () => {
                   {selectedMetric === 'Total Orders' && (
                     <strong className=" text-success fw-bold">{purchaser.total_orders}</strong>
                   )}
-                  {selectedMetric === 'Total Revenue' && (
+                  {selectedMetric === 'Total Expenditure' && (
                     <>
                       {/* <span className="text-success">
                         <em style={{ fontSize: '13px' }}>Kshs: &nbsp;</em>
                       </span> */}
                       <strong style={{ fontSize: '16px' }} className="text-success">
-                        {Number(purchaser.total_revenue || 0)
+                        {Number(purchaser.total_expenditure || 0)
                           .toFixed(2)
                           .split('.')
                           .map((part, index) => (
