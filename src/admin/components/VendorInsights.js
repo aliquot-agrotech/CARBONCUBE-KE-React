@@ -69,8 +69,7 @@ const VendorInsightsTable = () => {
                 <td>
                   {selectedMetric === 'Total Orders' && vendor.total_orders}
                   {selectedMetric === 'Total Revenue' && formatCurrency(vendor.total_revenue)}
-                  {selectedMetric === 'Rating' && (typeof vendor.mean_rating === 'number' ? vendor.mean_rating.toFixed(2) : 'N/A')}
-
+                  {selectedMetric === 'Rating' && vendor.mean_rating}  
                 </td>
               </tr>
             ))}
