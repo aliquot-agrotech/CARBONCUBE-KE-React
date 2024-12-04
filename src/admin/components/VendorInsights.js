@@ -40,7 +40,7 @@ const VendorInsightsTable = () => {
   return (
     <div>
       {loading ? (
-        <p>Loading...</p>
+        <p className="text-center">Loading...</p>
       ) : (
         <Table striped bordered hover className="text-center transparent-table">
           <thead>
