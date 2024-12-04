@@ -20,8 +20,8 @@ const TopNavbar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             {/* <Nav.Link href="/profile">Profile</Nav.Link> */}
-            <Button variant="warning" href="/login" className="ms-2" id="button">
-                Logout
+            <Button variant="warning" href="/login" className="ms-2 w-100" id="button">
+                Sign out
             </Button>
           </Nav>
         </Navbar.Collapse>

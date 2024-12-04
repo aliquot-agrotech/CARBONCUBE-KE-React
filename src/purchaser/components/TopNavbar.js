@@ -180,18 +180,18 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
                 </Button>
               </Col>
               <Col className="text-center">
-                <Button variant="warning" href="/login" className="ms-2" id="button">
+                <Button variant="warning" href="/login" className="ms-2 w-100" id="button">
                   Vendor
                 </Button>
               </Col>
               <Col className="text-center">
                 {isLoggedIn ? (
-                  <Button variant="warning" onClick={handleLogout} className="ms-2" id="button">
-                    SignOut
+                  <Button variant="warning" onClick={handleLogout} className="ms-2 w-100" id="button">
+                    Sign out
                   </Button>
                 ) : (
-                  <Button variant="outline-warning" href="/login" className="ms-2" id="button">
-                    SignIn
+                  <Button variant="outline-warning" href="/login" className="ms-2 w-100" id="button">
+                    Sign in
                   </Button>
                 )}
               </Col>
