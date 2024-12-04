@@ -26,7 +26,7 @@ import VendorProfile from './vendor/pages/Profile';
 
 // Purchaser Imports
 import Home from './purchaser/pages/Home';
-import ProductDetailsPage from './purchaser/pages/ProductDetailsPage';
+import ProductDetails from './purchaser/pages/ProductDetails';
 import Orders from './purchaser/pages/Orders';
 import Bookmarks from './purchaser/pages/Bookmarks';
 import ShoppingCart from './purchaser/pages/ShoppingCart';
@@ -84,7 +84,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/products/:productId" element={<ProductDetailsPage />} />
+        <Route path="/products/:productId" element={<ProductDetails />} />
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/admin" element={<Navigate to="/login" />} />
         <Route path="/vendor" element={<Navigate to="/login" />} />

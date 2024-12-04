@@ -9,9 +9,9 @@ import Sidebar from '../components/Sidebar';      // Import your Sidebar compone
 import { motion } from 'framer-motion'; // For animations
 import Spinner from "react-spinkit";
 import axios from 'axios';  // Assuming you're using axios
-import '../css/ProductDetailsPage.css';    // Custom styling for the page
+import '../css/ProductDetails.css';    // Custom styling for the page
 
-const ProductDetailsPage = () => {
+const ProductDetails = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -451,4 +451,4 @@ const ProductDetailsPage = () => {
     );
 };
 
-export default ProductDetailsPage;
+export default ProductDetails;
