@@ -365,13 +365,13 @@ const ProductsManagement = () => {
                                                     </Card.Text>
 
                                                     <Row className="align-middle">
-                                                        <Col xs={9} md={6} lg={3}>
+                                                        <Col xs={9} md={6} lg={6}>
                                                             <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)} className="py-1">
                                                                 View Details
                                                             </Button>
                                                         </Col>
-                                                        <Col xs={3} md={6} lg={3}>
-                                                        <FontAwesomeIcon
+                                                        <Col xs={3} md={6} lg={6}>
+                                                            <FontAwesomeIcon
                                                                 icon={faTrash}
                                                                 className="delete-icon"
                                                                 onClick={() => handleFlagProduct(product.id)}
@@ -427,15 +427,21 @@ const ProductsManagement = () => {
                                                         </strong>
 
                                                     </Card.Text>
-                                                    <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)} className="py-1">
-                                                        Notify Vendor
-                                                    </Button>
-                                                    <FontAwesomeIcon
-                                                        icon={faTrashRestore}
-                                                        className="restore-icon"
-                                                        onClick={() => handleRestoreProduct(product.id)}
-                                                        title="Restore Product"
-                                                    />
+                                                    <Row className="align-middle">
+                                                        <Col xs={9} md={6} lg={6}>
+                                                            <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)} className="py-1">
+                                                                Notify Vendor
+                                                            </Button>
+                                                        </Col>
+                                                        <Col xs={3} md={6} lg={6}>
+                                                            <FontAwesomeIcon
+                                                                icon={faTrashRestore}
+                                                                className="restore-icon"
+                                                                onClick={() => handleRestoreProduct(product.id)}
+                                                                title="Restore Product"
+                                                            />
+                                                        </Col>
+                                                    </Row>
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -531,7 +537,7 @@ const ProductsManagement = () => {
                                     </Row>
 
                                     <Row>
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Quantity Sold</Card.Header>
                                                 <Card.Body className="text-center">
@@ -539,7 +545,7 @@ const ProductsManagement = () => {
                                                 </Card.Body>
                                             </Card>
                                         </Col>
-                                        <Col xs={12} md={6}>
+                                        <Col xs={6} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Rating</Card.Header>
                                                 <Card.Body className="text-center">
