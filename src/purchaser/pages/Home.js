@@ -366,7 +366,6 @@ const Home = () => {
                     </Container>
                     
                 </div>
-               
             </div>
             <div className='lorem'>
                 <Footer />
