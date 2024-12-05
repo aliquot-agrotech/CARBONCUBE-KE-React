@@ -211,14 +211,14 @@ const Home = () => {
     );
     
     const SearchResultSection = ({ results }) => (
-        <Card className="section-search mb-4">
+        <Card className="section-search mb-4 mt-2">
             <Card.Header className="d-flex justify-content-center align-items-center">
-                <h3>Search Results</h3>
+                <h3 className="mb-0">Search Results</h3>
             </Card.Header>
             <Card.Body>
                 <Row>
                     {results.map(product => (
-                        <Col xs={12} sm={6} md={2} key={product.id}>
+                        <Col xs={6} sm={6} md={2} key={product.id} className="">
                             <Card className="product-card mb-3">
                                 <Card.Img
                                     variant="top"
@@ -227,7 +227,7 @@ const Home = () => {
                                     className="product-image"
                                     onClick={() => handleProductClick(product.id)} // Handle image click
                                 />
-                                <Card.Body className="text-start">
+                                <Card.Body className="text-start bg-gray">
                                     <Card.Title className="mb-0">{product.title}</Card.Title>
                                     <Card.Text>
                                         <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
