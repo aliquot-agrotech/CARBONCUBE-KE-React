@@ -463,10 +463,10 @@ const VendorProducts = () => {
     };
 
     const renderProductCard = (product) => (
-        <Col xs={6} md={6} lg={3} key={product.id} className="mb-2 px-1 px-md-2">
+        <Col xs={6} md={6} lg={3} key={product.id} className="mb-3 px-2 px-md-2">
             <Card>
-                <Card.Img variant="top" src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}/> 
-                <Card.Body className="px-2 py-0 py-md-2 bookmark-body">
+                <Card.Img variant="top" className="product-image" src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}/> 
+                <Card.Body className="px-2 py-1 py-md-2 bookmark-body">
                     <Card.Title className="mb-0 product-title">{product.title}</Card.Title>
                     <Card.Text>
                         <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
