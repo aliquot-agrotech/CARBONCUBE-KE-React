@@ -118,7 +118,7 @@ const AnalyticsReporting = () => {
                   <Card.Body>
                     <Card.Text className="analytics-price-container text-center">
                       <span><em className='analytics-product-price-label text-success'>Kshs: </em></span>
-                      <strong style={{ fontSize: '18px' }} className="text-danger">
+                      <strong style={{ fontSize: '16px' }} className="text-danger">
                         {formatCurrency(analyticsData.total_revenue)}
                       </strong>
                     </Card.Text>
