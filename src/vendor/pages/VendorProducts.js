@@ -463,11 +463,11 @@ const VendorProducts = () => {
     };
 
     const renderProductCard = (product) => (
-        <Col xs={12} md={6} lg={3} key={product.id} className="mb-4">
+        <Col xs={6} md={6} lg={3} key={product.id} className="mb-2 px-1">
             <Card>
                 <Card.Img variant="top" src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}/> 
-                <Card.Body className="p-2 bookmark-body">
-                    <Card.Title className="mb-0">{product.title}</Card.Title>
+                <Card.Body className="px-2 py-0 bookmark-body">
+                    <Card.Title className="mb-0 product-title">{product.title}</Card.Title>
                     <Card.Text>
                         <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
                         <strong style={{ fontSize: '20px' }} className="text-danger">
@@ -492,7 +492,7 @@ const VendorProducts = () => {
                                 id="button"
                                 onClick={() => handleViewDetailsClick(product)}
                             >
-                                View Details
+                                Details
                             </Button>
                         </div>
                         <div className="d-flex ml-2">
