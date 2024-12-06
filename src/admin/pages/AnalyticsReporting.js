@@ -7,6 +7,7 @@ import TopSellingProducts from '../components/TopSellingProducts';
 import PurchaserInsights from '../components/PurchaserInsights';
 import VendorInsights from '../components/VendorInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics';
+import OrderStatus from '../components/OrderStatus';
 import Spinner from "react-spinkit";
 import '../css/AnalyticsReporting.css';
 
@@ -181,6 +182,19 @@ const AnalyticsReporting = () => {
                   </Card.Header>
                   <Card.Body className="px-2">
                     <VendorInsights data={analyticsData.vendors_insights} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+
+            <Row>
+            <Col xs={12} md={12}>
+                <Card className="mb-2 mb-lg-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Order Status Insights
+                  </Card.Header>
+                  <Card.Body>
+                    <OrderStatus data={analyticsData.order_counts_by_status} />
                   </Card.Body>
                 </Card>
               </Col>
