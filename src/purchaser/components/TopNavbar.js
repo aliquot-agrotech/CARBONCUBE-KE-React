@@ -186,7 +186,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               </Col>
               <Col className="text-center">
                 {isLoggedIn ? (
-                  <Button variant="warning" onClick={handleLogout} className="ms-2 w-100" id="button">
+                  <Button variant="warning" onClick={handleLogout} className="ms-2 w-100" id="button" style={{ whiteSpace: 'nowrap' }}>
                     Sign out
                   </Button>
                 ) : (
