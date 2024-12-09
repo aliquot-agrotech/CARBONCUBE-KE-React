@@ -28,7 +28,7 @@ import VendorProfile from './vendor/pages/Profile';
 import Home from './purchaser/pages/Home';
 import ProductDetails from './purchaser/pages/ProductDetails';
 import Orders from './purchaser/pages/Orders';
-import Bookmarks from './purchaser/pages/Bookmarks';
+import WishList from './purchaser/pages/WishLists';
 import ShoppingCart from './purchaser/pages/ShoppingCart';
 import PurchaserMessages from './purchaser/pages/PurchaserMessages';
 import PurchaserNotifications from './purchaser/pages/PurchaserNotifications';
@@ -125,7 +125,7 @@ function App() {
           <Route path="/purchaser/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="purchaser" userRole={userRole} />}>
             <Route path="home" element={<Home onLogout={handleLogout} />} />
             <Route path="orders" element={<Orders onLogout={handleLogout} />} />
-            <Route path="bookmarks" element={<Bookmarks onLogout={handleLogout} />} />
+            <Route path="wishlists" element={<WishList onLogout={handleLogout} />} />
             <Route path="cart" element={<ShoppingCart onLogout={handleLogout} />} />
             <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
             <Route path="notifications" element={<PurchaserNotifications onLogout={handleLogout} />} />

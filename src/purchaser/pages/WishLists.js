@@ -3,16 +3,16 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Trash, CartPlus } from "react-bootstrap-icons";
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
-import '../css/Bookmarks.css';
+import '../css/WishLists.css';
 
-const Bookmarks = () => {
-  const [bookmarks, setBookmarks] = useState([]);
+const WishList = () => {
+  const [wish_lists, setWishLists] = useState([]);
 
   useEffect(() => {
-    const fetchBookmarks = async () => {
+    const fetchWishLists = async () => {
       try {
         const token = sessionStorage.getItem('token');
-        const response = await fetch("https://carboncube-ke-rails-4xo3.onrender.com/purchaser/bookmarks", {
+        const response = await fetch("https://carboncube-ke-rails-4xo3.onrender.com/purchaser/wish_lists", {
           headers: {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
@@ -22,33 +22,33 @@ const Bookmarks = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        // console.log("Fetched bookmarks data:", data); // Log the response data
+        // console.log("Fetched wish_lists data:", data); // Log the response data
         if (data && Array.isArray(data)) {
-          setBookmarks(data);
+          setWishLists(data);
         } else {
           // console.error("Invalid data format:", data);
         }
       } catch (error) {
-        // console.error("Error fetching bookmarks:", error);
+        // console.error("Error fetching wish_lists:", error);
       }
     };
     
 
-    fetchBookmarks();
+    fetchWishLists();
   }, []);
 
-  const handleDeleteBookmark = async (productId) => {
+  const handleDeleteWishList = async (productId) => {
     try {
-      await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/bookmarks/${productId}`, {
+      await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/wish_lists/${productId}`, {
         method: 'DELETE',
         headers: {
           "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
           "Content-Type": "application/json"
         }
       });
-      setBookmarks(bookmarks.filter((bookmark) => bookmark.product.id !== productId));
+      setWishLists(wish_lists.filter((wish_list) => wish_list.product.id !== productId));
     } catch (error) {
-      // console.error("Error deleting bookmark:", error);
+      // console.error("Error deleting wish_list:", error);
     }
   };
 
@@ -71,7 +71,7 @@ const Bookmarks = () => {
   return (
     <>
       <TopNavbar />
-      <div className="bookmarks-page">
+      <div className="wish_lists-page">
         <Container fluid className="p-0">
           <Row>
             <Col xs={12} md={2} className="p-0">
@@ -79,21 +79,21 @@ const Bookmarks = () => {
             </Col>
             <Col xs={12} md={10} className="p-2">
               <Container>
-                <h2>Bookmarked Products</h2>
+                <h2>Wishlist Products</h2>
                 <Row>
-                  {bookmarks.length === 0 ? (
-                    <p>No bookmarks found.</p>
+                  {wish_lists.length === 0 ? (
+                    <p>No wishlists products found.</p>
                   ) : (
-                    bookmarks.map((bookmark) => (
-                      <Col key={bookmark.product.id} md={3} className="mb-4">
+                    wish_lists.map((wish_list) => (
+                      <Col key={wish_list.product.id} md={3} className="mb-4">
                         <Card>
-                          <Card.Img variant="top" src={bookmark.product.first_media_url} />
-                          <Card.Body className="p-2 bookmark-body">
-                            <Card.Title>{bookmark.product.title}</Card.Title>
+                          <Card.Img variant="top" src={wish_list.product.first_media_url} />
+                          <Card.Body className="p-2 wish_list-body">
+                            <Card.Title>{wish_list.product.title}</Card.Title>
                             <Card.Text >
                               <em className='product-price-label' style={{ fontSize: '13px' }}>Kshs: </em>
                               <strong className="text-success">
-                                {bookmark.product.price ? parseFloat(bookmark.product.price).toFixed(2).split('.').map((part, index) => (
+                                {wish_list.product.price ? parseFloat(wish_list.product.price).toFixed(2).split('.').map((part, index) => (
                                   <React.Fragment key={index}>
                                     {index === 0 ? (
                                       <span className="price-integer">
@@ -112,15 +112,15 @@ const Bookmarks = () => {
                               <br />
                               {/* Rating: 
                               <span className="stars">
-                                {"★".repeat(bookmark.product.rating)}{" "}
-                                {"☆".repeat(5 - bookmark.product.rating)}
+                                {"★".repeat(wish_list.product.rating)}{" "}
+                                {"☆".repeat(5 - wish_list.product.rating)}
                               </span> */}
                             </Card.Text>
                             <div className="d-flex justify-content-between">
-                              <Button variant="danger" id="button" onClick={() => handleDeleteBookmark(bookmark.product.id)}>
+                              <Button variant="danger" id="button" onClick={() => handleDeleteWishList(wish_list.product.id)}>
                                 <Trash />
                               </Button>
-                              <Button variant="warning" id="button" onClick={() => handleAddToCart(bookmark.product.id)}>
+                              <Button variant="warning" id="button" onClick={() => handleAddToCart(wish_list.product.id)}>
                                 <CartPlus />
                               </Button>
                             </div>
@@ -139,4 +139,4 @@ const Bookmarks = () => {
   );
 };
 
-export default Bookmarks;
+export default WishList;

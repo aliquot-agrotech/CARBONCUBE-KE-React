@@ -19,8 +19,8 @@ const ProductDetails = () => {
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);  // Manage sidebar state
     const [searchQuery, setSearchQuery] = useState('');     // Manage search query state
-    const [bookmarkLoading, setBookmarkLoading] = React.useState(false);
-    const [bookmarkError, setBookmarkError] = React.useState(null);
+    const [wish_listLoading, setBookmarkLoading] = React.useState(false);
+    const [wish_listError, setBookmarkError] = React.useState(null);
     const [showModal, setShowModal] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [loadingReviews, setLoadingReviews] = useState(false);
@@ -107,7 +107,7 @@ const ProductDetails = () => {
     
             // API call to add the product to the wishlist
             const response = await axios.post(
-                `https://carboncube-ke-rails-4xo3.onrender.com/purchaser/bookmarks`,
+                `https://carboncube-ke-rails-4xo3.onrender.com/purchaser/wish_lists`,
                 { product_id: product.id },
                 {
                     headers: {
@@ -118,13 +118,13 @@ const ProductDetails = () => {
     
             // Check if the response is successful
             if (response.status === 201) {
-                window.alert('Product bookmarked successfully!');
+                window.alert('Product successfully added to the Wish List');
             } else {
                 window.alert('Something went wrong. Please try again.');
             }
         } catch (error) {
-            setBookmarkError('Failed to bookmark the product. Please try again.');
-            window.alert('Failed to bookmark the product. Please try again.');
+            setBookmarkError('Failed to wish list the product. Please try again.');
+            window.alert('Failed to wish list the product. Please try again.');
         } finally {
             setBookmarkLoading(false);
         }
@@ -337,15 +337,15 @@ const ProductDetails = () => {
                                                         variant="dark"
                                                         className="modern-btn-dark px-4 py-2"
                                                         id="button"
-                                                        disabled={!product || bookmarkLoading}
+                                                        disabled={!product || wish_listLoading}
                                                         onClick={handleAddToWishlist}
                                                     >
-                                                        {bookmarkLoading ? (
+                                                        {wish_listLoading ? (
                                                             <Spinner animation="border" size="sm" className="me-2" />
                                                         ) : (
                                                             <Heart className="me-2" />
                                                         )}
-                                                        Add to Wishlist
+                                                        Add to Wish List
                                                     </Button>
                                                 </motion.div>
                                             </Container>
@@ -356,7 +356,7 @@ const ProductDetails = () => {
                                                 </Row>
                                             </Container>
 
-                                            {bookmarkError && <div className="text-danger text-center mt-3">{bookmarkError}</div>}
+                                            {wish_listError && <div className="text-danger text-center mt-3">{wish_listError}</div>}
                                         </Col>
                                     </Row>
                                 )}
