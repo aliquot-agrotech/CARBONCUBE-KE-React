@@ -25,6 +25,9 @@ const ProductDetails = () => {
     const [reviews, setReviews] = useState([]);
     const [loadingReviews, setLoadingReviews] = useState(false);
     const [reviewsError, setReviewsError] = useState(null);
+    const [vendor, setVendor] = useState(null);
+    const [showVendorDetails, setShowVendorDetails] = useState(false); // State to toggle visibility
+
 
     const handleShowModal = async () => {
         setShowModal(true);
@@ -45,6 +48,7 @@ const ProductDetails = () => {
     const handleCloseModal = () => setShowModal(false);
 
 
+    
     useEffect(() => {
         if (!productId) {
             setError('Product ID is missing.');
@@ -52,6 +56,7 @@ const ProductDetails = () => {
             return;
         }
 
+        // Fetch Product Details
         const fetchProductDetails = async () => {
             try {
                 const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products/${productId}`);
@@ -65,6 +70,7 @@ const ProductDetails = () => {
             }
         };
 
+        // Fetch Related Products
         const fetchRelatedProducts = async () => {
             try {
                 const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products/${productId}/related`);
@@ -72,14 +78,56 @@ const ProductDetails = () => {
                 const data = await response.json();
                 setRelatedProducts(data);
             } catch (error) {
-                // console.error('Error fetching related products:', error);
                 setError('Error fetching related products.');
             }
         };
 
+        // Fetch all data
         fetchProductDetails();
         fetchRelatedProducts();
     }, [productId]);
+
+    const fetchVendorDetails = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products/${productId}/vendor`, {
+                // Add timeout and potentially other configuration
+                signal: AbortSignal.timeout(10000) // 10-second timeout
+            });
+            
+            if (!response.ok) {
+                // More detailed error logging
+                const errorText = await response.text();
+                console.error('Fetch error:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    body: errorText
+                });
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+            
+            const data = await response.json();
+            setVendor(data);
+        } catch (error) {
+            console.error('Detailed error:', {
+                message: error.message,
+                name: error.name,
+                stack: error.stack
+            });
+            
+            // More informative error message
+            setError(`Failed to fetch vendor details: ${error.message}`);
+        } finally {
+            setLoading(false);
+        }
+    };
+    const handleRevealVendorDetails = () => {
+        console.log('Button clicked, productId:', productId);
+        if (!vendor) {
+            fetchVendorDetails();
+        }
+        setShowVendorDetails(true);
+    };
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!sidebarOpen);  // Toggle the sidebar open state
@@ -313,41 +361,78 @@ const ProductDetails = () => {
                                                 </Card.Body>
                                             </Card>
 
-                                            <Container className="mt-3 d-flex justify-content-center">
-                                                <motion.div
-                                                    whileHover={{ scale: 1.1 }}
-                                                    whileTap={{ scale: 0.9 }}
-                                                >
-                                                    <Button 
-                                                        variant="warning" 
-                                                        className="modern-btn me-3 px-4 py-2"
-                                                        id="button" 
-                                                        disabled={!product} 
-                                                        onClick={() => handleAddToCart(product.id)}
-                                                    >
-                                                        <Cart4 className="me-2" /> Add to cart
-                                                    </Button>
-                                                </motion.div>
+                                            <Container className="mt-3 justify-content-center">
+                                                <Row>
+                                                    <Col xs={6} md={12} lg={6}>
+                                                        <motion.div
+                                                            whileHover={{ scale: 1.1 }}
+                                                            whileTap={{ scale: 0.9 }}
+                                                        >
+                                                            <Button 
+                                                                variant="warning" 
+                                                                className="modern-btn me-3 px-4 py-2"
+                                                                id="button" 
+                                                                disabled={!product} 
+                                                                onClick={() => handleAddToCart(product.id)}
+                                                            >
+                                                                <Cart4 className="me-2" /> Add to cart
+                                                            </Button>
+                                                        </motion.div>
+                                                    </Col>
+                                                
+                                                    <Col xs={6} md={12} lg={6}>
+                                                        <motion.div
+                                                            whileHover={{ scale: 1.1 }}
+                                                            whileTap={{ scale: 0.9 }}
+                                                        >
+                                                            <Button
+                                                                variant="warning"
+                                                                className="modern-btn-dark px-4 py-2"
+                                                                id="button"
+                                                                disabled={!product || wish_listLoading}
+                                                                onClick={handleAddToWishlist}
+                                                            >
+                                                                {wish_listLoading ? (
+                                                                    <Spinner animation="border" size="sm" className="me-2" />
+                                                                ) : (
+                                                                    <Heart className="me-2" />
+                                                                )}
+                                                                Add to Wish List
+                                                            </Button>
+                                                        </motion.div>
+                                                    </Col> 
+                                                </Row>
 
-                                                <motion.div
-                                                    whileHover={{ scale: 1.1 }}
-                                                    whileTap={{ scale: 0.9 }}
-                                                >
-                                                    <Button
-                                                        variant="dark"
-                                                        className="modern-btn-dark px-4 py-2"
-                                                        id="button"
-                                                        disabled={!product || wish_listLoading}
-                                                        onClick={handleAddToWishlist}
-                                                    >
-                                                        {wish_listLoading ? (
-                                                            <Spinner animation="border" size="sm" className="me-2" />
-                                                        ) : (
-                                                            <Heart className="me-2" />
-                                                        )}
-                                                        Add to Wish List
-                                                    </Button>
-                                                </motion.div>
+                                                <Row className="mt-2 d-flex justify-content-center align-items-center">
+                                                    <Col xs={12} md={12} className="d-flex justify-content-center">
+                                                        <motion.div
+                                                            whileHover={{ scale: 1.1 }}
+                                                            whileTap={{ scale: 0.9 }}
+                                                        >
+                                                            <Button
+                                                                variant="dark"
+                                                                className="modern-btn-dark px-4 py-2"
+                                                                id="button"
+                                                                onClick={(e) => {
+                                                                    e.preventDefault(); // Prevent page reload
+                                                                    handleRevealVendorDetails();
+                                                                }}
+                                                            >
+                                                                {/* Display loading spinner inside the button when fetching */}
+                                                                {loading ? (
+                                                                    <Spinner animation="border" size="sm" className="me-2" />
+                                                                ) : showVendorDetails && vendor ? (
+                                                                    // Display vendor name and phone number inside the button after it's revealed
+                                                                    <span>
+                                                                        {vendor.enterprise_name} | {vendor.phone_number}
+                                                                    </span>
+                                                                ) : (
+                                                                    'View Vendor' // Default text before clicking
+                                                                )}
+                                                            </Button>
+                                                        </motion.div>
+                                                    </Col>
+                                                </Row>
                                             </Container>
                                             <Container className="mt-2">
                                                 <Row>
@@ -364,7 +449,7 @@ const ProductDetails = () => {
                                 <h3 className="related-products-title">Related Products</h3>
                                 <Row className="related-products">
                                     {relatedProducts.slice(0, 4).map((relatedProduct) => (
-                                    <Col key={relatedProduct.id} xs={6} md={3} className="mb-4">
+                                    <Col key={relatedProduct.id} xs={6} md={3} className="mb-4 px-1">
                                         <Card onClick={() => window.location.href = `/products/${relatedProduct.id}`}>
                                         <Card.Img className='product-image' variant="top" src={relatedProduct.media_urls[0] || 'default-image-url'} />
                                         <Card.Body className="px-2 py-1">
