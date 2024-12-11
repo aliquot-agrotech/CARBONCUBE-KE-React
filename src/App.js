@@ -29,6 +29,7 @@ import Home from './purchaser/pages/Home';
 import ProductDetails from './purchaser/pages/ProductDetails';
 import Orders from './purchaser/pages/Orders';
 import WishList from './purchaser/pages/WishLists';
+import BuyForMeOrderCart from './purchaser/pages/BuyForMeOrderCart';
 import ShoppingCart from './purchaser/pages/ShoppingCart';
 import PurchaserMessages from './purchaser/pages/PurchaserMessages';
 import PurchaserNotifications from './purchaser/pages/PurchaserNotifications';
@@ -127,6 +128,7 @@ function App() {
             <Route path="orders" element={<Orders onLogout={handleLogout} />} />
             <Route path="wishlists" element={<WishList onLogout={handleLogout} />} />
             <Route path="cart" element={<ShoppingCart onLogout={handleLogout} />} />
+            <Route path="buyforme" element={<BuyForMeOrderCart onLogout={handleLogout} />} />
             <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
             <Route path="notifications" element={<PurchaserNotifications onLogout={handleLogout} />} />
             <Route path="profile" element={<ProfilePage onLogout={handleLogout} />} />

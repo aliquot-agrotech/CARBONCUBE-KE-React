@@ -58,6 +58,11 @@ const Sidebar = () => {
             <Cart4 className="icon" /> {isOpen && 'Cart'}
           </Nav.Link>
           <Nav.Link
+            href="/purchaser/buyforme"
+            className={location.pathname === '/purchaser/buyforme' ? 'active' : ''}>
+            <Cart4 className="icon" /> {isOpen && 'Buy For Me'}
+          </Nav.Link>
+          <Nav.Link
             href="/purchaser/messages"
             className={location.pathname === '/purchaser/messages' ? 'active' : ''}>
             <ChatSquareText className="icon" /> {isOpen && 'Messages'}
