@@ -9,8 +9,8 @@ import Sidebar from '../components/Sidebar';
 import LipaNaMpesa from '../components/Mpesa.png';
 import '../css/ShoppingCart.css';
 
-const BuyForMeCart = () => {
-    const [cartItems, setCartItems] = useState([]);
+const BuyForMeOrderCart = () => {
+    const [buyformeordercartItems, setBuyForMeOrderCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
     const deliveryFee = 150;
     const [total, setTotal] = useState(0);
@@ -21,10 +21,10 @@ const BuyForMeCart = () => {
     // const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
 
 
-    const fetchCartItems = useCallback(async () => {
+    const fetchBuyForMeOrderCartItems = useCallback(async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const response = await fetch("https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items", {
+            const response = await fetch("https://carboncube-ke-rails-4xo3.onrender.com/purchaser/buy_for_me_order_cart_items", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -34,8 +34,8 @@ const BuyForMeCart = () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            if (data && data.cart_items) {
-                setCartItems(data.cart_items);
+            if (data && data.buy_for_me_order_cart_items) {
+                setBuyForMeOrderCartItems(data.buy_for_me_order_cart_items);
             } else {
                 // console.error("Invalid data format:", data);
             }
@@ -78,7 +78,7 @@ const BuyForMeCart = () => {
     const calculateTotals = useCallback(() => {
         let processingFeeTotal = 0;
     
-        const subTotal = cartItems.reduce((acc, item) => {
+        const subTotal = buyformeordercartItems.reduce((acc, item) => {
             const itemTotal = item.price * item.quantity; // Total product price (price * quantity)
             const mpesaFee = calculateMpesaFee(itemTotal); // Mpesa fee based on total price
             const productCharge = 0.02 * itemTotal; // 2% charge on total product price
@@ -96,12 +96,12 @@ const BuyForMeCart = () => {
         setSubtotal(subTotal);  // Subtotal reflects just the item costs
         setProcessingFee(processingFeeTotal);  // Set processing fee total separately
         setTotal(subTotal + processingFeeTotal + deliveryFee);  // Total includes processing fees
-    }, [cartItems]);
+    }, [buyformeordercartItems]);
     
 
     useEffect(() => {
-        fetchCartItems();
-    }, [fetchCartItems]);
+        fetchBuyForMeOrderCartItems();
+    }, [fetchBuyForMeOrderCartItems]);
 
     useEffect(() => {
         calculateTotals();
@@ -110,14 +110,14 @@ const BuyForMeCart = () => {
     const handleRemoveItem = async (itemId) => {
         try {
             const token = sessionStorage.getItem('token');
-            await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items/${itemId}`, {
+            await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/buy_for_me_order_cart_items/${itemId}`, {
                 method: 'DELETE',
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
                 }
             });
-            setCartItems(cartItems.filter((item) => item.id !== itemId));
+            setBuyForMeOrderCartItems(buyformeordercartItems.filter((item) => item.id !== itemId));
         } catch (error) {
             // console.error("Error removing item:", error);
         }
@@ -127,7 +127,7 @@ const BuyForMeCart = () => {
         if (newQuantity < 1) return;
         try {
             const token = sessionStorage.getItem('token');
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items/${itemId}`, {
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/buy_for_me_order_cart_items/${itemId}`, {
                 method: 'PUT',
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -139,7 +139,7 @@ const BuyForMeCart = () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const updatedItem = await response.json();
-            setCartItems((prevItems) =>
+            setBuyForMeOrderCartItems((prevItems) =>
                 prevItems.map((item) =>
                     item.id === itemId ? { ...item, quantity: updatedItem.quantity } : item
                 )
@@ -159,7 +159,7 @@ const BuyForMeCart = () => {
         }
     
         try {
-            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/purchaser/orders', {
+            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/purchaser/buy_for_me_orders', {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -205,10 +205,10 @@ const BuyForMeCart = () => {
                                         <Card className='cart'>
                                             <Card.Header className="d-flex justify-content-between align-items-center">
                                                 <h3 className="mb-0">Shopping Cart</h3>
-                                                <span>{cartItems.length} Items</span>
+                                                <span>{buyformeordercartItems.length} Items</span>
                                             </Card.Header>
                                             <Card.Body className='cart2'>
-                                                {cartItems.map((item) => (
+                                                {buyformeordercartItems.map((item) => (
                                                     <Row key={item.id} className="mb-3 align-items-center product-item">
                                                         <Col xl={2} xs={2}>
                                                             {item.product.media && item.product.media.length > 0 ? (
@@ -387,4 +387,4 @@ const BuyForMeCart = () => {
     );
 };
 
-export default BuyForMeCart;
+export default BuyForMeOrderCart;
