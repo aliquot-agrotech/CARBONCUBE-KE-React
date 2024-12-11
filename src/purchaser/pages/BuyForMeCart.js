@@ -9,7 +9,7 @@ import Sidebar from '../components/Sidebar';
 import LipaNaMpesa from '../components/Mpesa.png';
 import '../css/ShoppingCart.css';
 
-const ShoppingCart = () => {
+const BuyForMeCart = () => {
     const [cartItems, setCartItems] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
     const deliveryFee = 150;
@@ -387,4 +387,4 @@ const ShoppingCart = () => {
     );
 };
 
-export default ShoppingCart;
+export default BuyForMeCart;
