@@ -204,7 +204,7 @@ const BuyForMeOrderCart = () => {
                                     <Col md={8} className="p-2 cart-column">
                                         <Card className='cart'>
                                             <Card.Header className="d-flex justify-content-between align-items-center">
-                                                <h3 className="mb-0">Shopping Cart</h3>
+                                                <h3 className="mb-0">Buy For Me Cart</h3>
                                                 <span>{buyformeordercartItems.length} Items</span>
                                             </Card.Header>
                                             <Card.Body className='cart2'>
@@ -359,7 +359,7 @@ const BuyForMeOrderCart = () => {
                                                 </p>
 
                                                 <Button variant="warning" id="button" className="w-100" onClick={handleCheckout}>
-                                                    Checkout
+                                                    Confirm Buy For Me
                                                 </Button>
                                                 <div className="mt-3">
                                                     <p className="mb-1 text-center"><strong>Payment Platforms</strong></p>
