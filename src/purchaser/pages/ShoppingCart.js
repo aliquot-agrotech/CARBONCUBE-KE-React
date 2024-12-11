@@ -80,7 +80,7 @@ const ShoppingCart = () => {
     
         const subTotal = cartItems.reduce((acc, item) => {
             const itemTotal = item.price * item.quantity; // Total product price (price * quantity)
-            const mpesaFee = calculateMpesaFee(itemTotal); // Mpesa fee based on total price
+            const mpesaFee = calculateMpesaFee(itemTotal) * 2; // Mpesa fee based on total price
             const productCharge = 0.02 * itemTotal; // 2% charge on total product price
     
             // Add item total
