@@ -103,23 +103,57 @@ const Home = () => {
     const handleSearch = async (e, category = 'All', subcategory = 'All') => {
         e.preventDefault();
         setIsSearching(true);
+    
         try {
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, {
-                headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                },
-            });
+            // Fetch search results
+            const response = await fetch(
+                `https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, 
+                {
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                    },
+                }
+            );
+    
             if (!response.ok) throw new Error('Failed to fetch search results');
     
             const results = await response.json();
             setSearchResults(results);
+    
+            // Log the product search to the backend
+            await logProductSearch(searchQuery, category, subcategory);
+    
         } catch (error) {
-            // console.error('Error searching products:', error);
             setError('Error searching products');
         } finally {
             setIsSearching(false);
         }
     };
+    
+    // Function to log the product search
+    const logProductSearch = async (query, category, subcategory) => {
+        try {
+            const logResponse = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/product_searches', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: JSON.stringify({
+                    search_term: query,
+                    category: category,
+                    subcategory: subcategory,
+                }),
+            });
+    
+            if (!logResponse.ok) {
+                console.warn('Failed to log product search');
+            }
+        } catch (logError) {
+            console.error('Error logging product search:', logError);
+        }
+    };
+    
     
     const CategorySection = ({ title, subcategories }) => {
         // Function to shuffle an array
