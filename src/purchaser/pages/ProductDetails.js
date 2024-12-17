@@ -124,12 +124,46 @@ const ProductDetails = () => {
         }
     };
 
-    const handleRevealVendorDetails = () => {
+    const handleRevealVendorDetails = async () => {
         console.log('Button clicked, productId:', productId);
+    
+        // Step 1: Log the 'View Vendor' button click event
+        await logClickEventRevealVendorDetails(productId, 'Reveal-Vendor-Details');
+    
+        // Fetch vendor details if not already fetched
         if (!vendor) {
             fetchVendorDetails();
         }
+    
+        // Show vendor details
         setShowVendorDetails(true);
+    };
+    
+    // Function to log button click events
+    const logClickEventRevealVendorDetails = async (productId, eventType) => {
+        const purchaserId = sessionStorage.getItem('purchaser_id'); // Assuming you store the purchaser's ID
+
+        try {
+            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: JSON.stringify({
+                    product_id: productId,  // Directly sending the parameters
+                    event_type: eventType,
+                    purchaser_id: purchaserId, // Assuming it's available in sessionStorage
+                    metadata: {} // Optional metadata, you can add custom info here
+                }),
+            });
+
+            if (!response.ok) {
+                console.warn('Failed to log event:', eventType);
+            }
+        } catch (error) {
+            console.error('Error logging event:', eventType, error);
+        }
     };
 
     const handleSidebarToggle = () => {
@@ -479,32 +513,28 @@ const ProductDetails = () => {
                                                         </Col>
                                                     
                                                         <Col xs={6} md={12} lg={6}>
-    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-        <Button
-            variant="warning"
-            className="modern-btn-dark px-4 py-2"
-            id="button"
-            disabled={!product || wish_listLoading}
-            onClick={handleAddToWishlist}
-        >
-            {wish_listLoading ? (
-                <Spinner animation="border" size="sm" className="me-2" />
-            ) : (
-                <Heart className="me-2" />
-            )}
-            Add to Wish List
-        </Button>
-    </motion.div>
-</Col>
-
+                                                            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                                                                <Button
+                                                                    variant="warning"
+                                                                    className="modern-btn-dark px-4 py-2"
+                                                                    id="button"
+                                                                    disabled={!product || wish_listLoading}
+                                                                    onClick={handleAddToWishlist}
+                                                                >
+                                                                    {wish_listLoading ? (
+                                                                        <Spinner animation="border" size="sm" className="me-2" />
+                                                                    ) : (
+                                                                        <Heart className="me-2" />
+                                                                    )}
+                                                                    Add to Wish List
+                                                                </Button>
+                                                            </motion.div>
+                                                        </Col>
                                                     </Row>
 
                                                     <Row className="mt-2 d-flex justify-content-center align-items-center">
                                                         <Col xs={12} md={12} className="d-flex justify-content-center">
-                                                            <motion.div
-                                                                whileHover={{ scale: 1.1 }}
-                                                                whileTap={{ scale: 0.9 }}
-                                                            >
+                                                            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                                                 <Button
                                                                     variant="dark"
                                                                     className="modern-btn-dark px-4 py-2"
@@ -530,6 +560,7 @@ const ProductDetails = () => {
                                                         </Col>
                                                     </Row>
                                                 </Container>
+
                                                 <Container className="mt-2">
                                                     <Row>
                                                         <h3>Description</h3>
