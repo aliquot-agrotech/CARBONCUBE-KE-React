@@ -86,14 +86,49 @@ const Home = () => {
         setSelectedProduct(product);
         setShowModal(true);
     };
-
-    const handleProductClick = (productId) => {
-        if (productId) {
-        navigate(`/products/${productId}`);
-        } else {
-        // console.error('Invalid productId');
+    const handleProductClick = async (productId) => {
+        if (!productId) {
+            console.error('Invalid productId');
+            return;
+        }
+    
+        try {
+            // Log the 'Product-Click' event before navigating
+            await logClickEvent(productId, 'Product-Click');
+    
+            // Navigate to the product details page
+            navigate(`/products/${productId}`);
+        } catch (error) {
+            console.error('Error logging product click:', error);
+    
+            // Proceed with navigation even if logging fails
+            navigate(`/products/${productId}`);
         }
     };
+    
+    // Function to log a click event
+    const logClickEvent = async (productId, eventType) => {
+        try {
+            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    event_type: eventType, // e.g., 'Product-Click'
+                }),
+            });
+    
+            if (!response.ok) {
+                console.warn('Failed to log click event');
+            }
+        } catch (error) {
+            console.error('Error logging click event:', error);
+        }
+    };
+    
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -262,7 +297,7 @@ const Home = () => {
                                     onClick={() => handleProductClick(product.id)} // Handle image click
                                 />
                                 <Card.Body className="text-start bg-gray">
-                                    <Card.Title className="mb-0">{product.title}</Card.Title>
+                                    <Card.Title className="mb-0 product-title">{product.title}</Card.Title>
                                     <Card.Text>
                                         <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
                                         <strong style={{ fontSize: '20px' }} className="text-danger">
