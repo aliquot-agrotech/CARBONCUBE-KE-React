@@ -141,23 +141,20 @@ const ProductDetails = () => {
     
     // Function to log button click events
     const logClickEventRevealVendorDetails = async (productId, eventType) => {
-        const purchaserId = sessionStorage.getItem('purchaser_id'); // Assuming you store the purchaser's ID
-
         try {
             const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // Only send token
                 },
                 body: JSON.stringify({
-                    product_id: productId,  // Directly sending the parameters
+                    product_id: productId,
                     event_type: eventType,
-                    purchaser_id: purchaserId, // Assuming it's available in sessionStorage
-                    metadata: {} // Optional metadata, you can add custom info here
+                    metadata: {} // Optional metadata
                 }),
             });
-
+    
             if (!response.ok) {
                 console.warn('Failed to log event:', eventType);
             }
@@ -165,6 +162,8 @@ const ProductDetails = () => {
             console.error('Error logging event:', eventType, error);
         }
     };
+    
+    
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!sidebarOpen);  // Toggle the sidebar open state
