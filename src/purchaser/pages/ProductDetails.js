@@ -157,7 +157,10 @@ const ProductDetails = () => {
             setBookmarkLoading(true);
             setBookmarkError(null);
     
-            // API call to add the product to the wishlist
+            // Step 1: Log the 'Add-to-Wishlist' event
+            await logClickEventAddtoWishList(product.id, 'Add-to-Wish-List');
+    
+            // Step 2: API call to add the product to the wishlist
             const response = await axios.post(
                 `https://carboncube-ke-rails-4xo3.onrender.com/purchaser/wish_lists`,
                 { product_id: product.id },
@@ -175,12 +178,36 @@ const ProductDetails = () => {
                 window.alert('Something went wrong. Please try again.');
             }
         } catch (error) {
-            setBookmarkError('Failed to wish list the product. Please try again.');
-            window.alert('Failed to wish list the product. Please try again.');
+            setBookmarkError('Failed to add product to the wishlist. Please try again.');
+            window.alert('Failed to add product to the wishlist. Please try again.');
         } finally {
             setBookmarkLoading(false);
         }
     };
+    
+    // Function to log button click events
+    const logClickEventAddtoWishList = async (productId, eventType) => {
+        try {
+            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    event_type: eventType, // 'Add-to-Wishlist'
+                }),
+            });
+    
+            if (!response.ok) {
+                console.warn('Failed to log event:', eventType);
+            }
+        } catch (error) {
+            console.error('Error logging event:', eventType, error);
+        }
+    };
+    
 
     const handleAddToCart = async (productId) => {
         const token = sessionStorage.getItem('token');
@@ -452,26 +479,24 @@ const ProductDetails = () => {
                                                         </Col>
                                                     
                                                         <Col xs={6} md={12} lg={6}>
-                                                            <motion.div
-                                                                whileHover={{ scale: 1.1 }}
-                                                                whileTap={{ scale: 0.9 }}
-                                                            >
-                                                                <Button
-                                                                    variant="warning"
-                                                                    className="modern-btn-dark px-4 py-2"
-                                                                    id="button"
-                                                                    disabled={!product || wish_listLoading}
-                                                                    onClick={handleAddToWishlist}
-                                                                >
-                                                                    {wish_listLoading ? (
-                                                                        <Spinner animation="border" size="sm" className="me-2" />
-                                                                    ) : (
-                                                                        <Heart className="me-2" />
-                                                                    )}
-                                                                    Add to Wish List
-                                                                </Button>
-                                                            </motion.div>
-                                                        </Col> 
+    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+        <Button
+            variant="warning"
+            className="modern-btn-dark px-4 py-2"
+            id="button"
+            disabled={!product || wish_listLoading}
+            onClick={handleAddToWishlist}
+        >
+            {wish_listLoading ? (
+                <Spinner animation="border" size="sm" className="me-2" />
+            ) : (
+                <Heart className="me-2" />
+            )}
+            Add to Wish List
+        </Button>
+    </motion.div>
+</Col>
+
                                                     </Row>
 
                                                     <Row className="mt-2 d-flex justify-content-center align-items-center">
