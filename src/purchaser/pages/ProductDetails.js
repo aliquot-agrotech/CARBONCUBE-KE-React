@@ -9,6 +9,7 @@ import Sidebar from '../components/Sidebar';      // Import your Sidebar compone
 import { motion } from 'framer-motion'; // For animations
 import Spinner from "react-spinkit";
 import axios from 'axios';  // Assuming you're using axios
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../css/ProductDetails.css';    // Custom styling for the page
 
 const ProductDetails = () => {
@@ -27,6 +28,7 @@ const ProductDetails = () => {
     const [reviewsError, setReviewsError] = useState(null);
     const [vendor, setVendor] = useState(null);
     const [showVendorDetails, setShowVendorDetails] = useState(false); // State to toggle visibility
+    const navigate = useNavigate(); // Initialize useNavigate
 
 
     const handleShowModal = async () => {
@@ -234,9 +236,49 @@ const ProductDetails = () => {
         );
     };
     
+    const handleProductClick = async (productId) => {
+        if (!productId) {
+            console.error('Invalid productId');
+            return;
+        }
     
+        try {
+            // Log the 'Product-Click' event before navigating
+            await logClickEvent(productId, 'Product-Click');
     
-
+            // Navigate to the product details page
+            navigate(`/products/${productId}`);
+        } catch (error) {
+            console.error('Error logging product click:', error);
+    
+            // Proceed with navigation even if logging fails
+            navigate(`/products/${productId}`);
+        }
+    };
+    
+    // Function to log a click event
+    const logClickEvent = async (productId, eventType) => {
+        try {
+            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    event_type: eventType, // e.g., 'Product-Click'
+                }),
+            });
+    
+            if (!response.ok) {
+                console.warn('Failed to log click event');
+            }
+        } catch (error) {
+            console.error('Error logging click event:', error);
+        }
+    };
+    
     const renderCarousel = () => {
         if (!product.media_urls || product.media_urls.length === 0) {
         return (
@@ -247,7 +289,6 @@ const ProductDetails = () => {
             />
         );
         }
-
         return (
         <Carousel>
             {product.media_urls.map((url, index) => (
@@ -277,261 +318,275 @@ const ProductDetails = () => {
 
     return (
         <>
-        {/* Top Navbar */}
-        <TopNavbar
-            onSidebarToggle={handleSidebarToggle}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            handleSearch={handleSearch}
-        />
-        <div className="products-details-page">
-            <Container fluid>
-                <Row> 
-                    <Col xs={12} md={2} className="p-0">
-                        <Sidebar isOpen={sidebarOpen} />
-                    </Col>
-                    <Col xs={12} md={10} lg={9} className="p-0 p-lg-1">
-                        {/* Main Content Area */}
-                        <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
-                            <div className="product-details-page container">
-                                {product && (
-                                    <Row className="product-details mt-1 p-1 shadow-lg rounded border">
-                                        <Col xs={12} md={7} className="d-flex flex-column justify-content-center text-center">
-                                            <motion.div
-                                                initial={{ opacity: 0, scale: 0.9 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                transition={{ duration: 0.5 }}
-                                            >
-                                                {renderCarousel()}
-                                            </motion.div>
-                                        </Col>
-
-                                        <Col xs={12} md={4} className="d-flex flex-column justify-content-center p-0 ">
-                                            <h3 className="display-6 text-dark mb-0 px-2"><strong>{product.title}</strong></h3>
-                                            <div className="p-2">
-                                                <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>
-                                                <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {product.manufacturer}</p>
-                                                <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
-                                                <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
-                                            </div>
-                                            <Row 
-                                                onClick={handleShowModal} 
-                                                style={{ cursor: 'pointer' }} 
-                                                className="link-hover px-2"
+            {/* Top Navbar */}
+            <TopNavbar
+                onSidebarToggle={handleSidebarToggle}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                handleSearch={handleSearch}
+            />
+            <div className="products-details-page">
+                <Container fluid>
+                    <Row> 
+                        <Col xs={12} md={2} className="p-0">
+                            <Sidebar isOpen={sidebarOpen} />
+                        </Col>
+                        <Col xs={12} md={10} lg={9} className="p-0 p-lg-1">
+                            {/* Main Content Area */}
+                            <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
+                                <div className="product-details-page container">
+                                    {product && (
+                                        <Row className="product-details mt-1 p-1 shadow-lg rounded border">
+                                            <Col xs={12} md={7} className="d-flex flex-column justify-content-center text-center">
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.9 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    transition={{ duration: 0.5 }}
                                                 >
-                                                <span className="star-rating">
-                                                    {renderRatingStars(product.mean_rating, product.review_count)}
-                                                </span>
-                                            </Row>
+                                                    {renderCarousel()}
+                                                </motion.div>
+                                            </Col>
+
+                                            <Col xs={12} md={4} className="d-flex flex-column justify-content-center p-0 ">
+                                                <h3 className="display-6 text-dark mb-0 px-2"><strong>{product.title}</strong></h3>
+                                                <div className="p-2">
+                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>
+                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {product.manufacturer}</p>
+                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
+                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
+                                                </div>
+                                                <Row 
+                                                    onClick={handleShowModal} 
+                                                    style={{ cursor: 'pointer' }} 
+                                                    className="link-hover px-2"
+                                                    >
+                                                    <span className="star-rating">
+                                                        {renderRatingStars(product.mean_rating, product.review_count)}
+                                                    </span>
+                                                </Row>
 
 
-                                            <h4 className="product-price my-1 px-2">
-                                                <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
-                                                <strong className="text-danger display-6">
-                                                    {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
-                                                        <React.Fragment key={index}>
-                                                            {index === 0 ? (
-                                                                <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                                            ) : (
-                                                                <>
-                                                                    <span style={{ fontSize: '16px' }}>.</span>
-                                                                    <span className="price-decimal">{part}</span>
-                                                                </>
-                                                            )}
-                                                        </React.Fragment>
-                                                    )) : 'N/A'}
-                                                </strong>
-                                            </h4>
+                                                <h4 className="product-price my-1 px-2">
+                                                    <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
+                                                    <strong className="text-danger display-6">
+                                                        {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        )) : 'N/A'}
+                                                    </strong>
+                                                </h4>
 
-                                            <Card className="mt-2 border-0 shadow custom-card">
-                                                <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
-                                                <Card.Body>
+                                                <Card className="mt-2 border-0 shadow custom-card">
+                                                    <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
+                                                    <Card.Body>
+                                                        <Row>
+                                                            <Col xs={6} md={6} lg={6}>
+                                                                <p><strong>Height:</strong> {product.item_height} cm</p>
+                                                                <p><strong>Width:</strong> {product.item_width} cm</p>
+                                                            </Col>
+                                                            <Col xs={6} md={6} lg={6}>
+                                                                <p><strong>Length:</strong> {product.item_length} cm</p>
+                                                                <p>
+                                                                    <strong>Weight:</strong> {product.item_weight} {product.weight_unit}
+                                                                </p>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card.Body>
+                                                </Card>
+
+                                                <Container className="mt-3 justify-content-center">
                                                     <Row>
-                                                        <Col xs={6} md={6} lg={6}>
-                                                            <p><strong>Height:</strong> {product.item_height} cm</p>
-                                                            <p><strong>Width:</strong> {product.item_width} cm</p>
+                                                        <Col xs={6} md={12} lg={6}>
+                                                            <motion.div
+                                                                whileHover={{ scale: 1.1 }}
+                                                                whileTap={{ scale: 0.9 }}
+                                                            >
+                                                                <Button 
+                                                                    variant="warning" 
+                                                                    className="modern-btn me-3 px-4 py-2"
+                                                                    id="button" 
+                                                                    disabled={!product} 
+                                                                    onClick={() => handleAddToCart(product.id)}
+                                                                >
+                                                                    <Cart4 className="me-2" /> Add to cart
+                                                                </Button>
+                                                            </motion.div>
                                                         </Col>
-                                                        <Col xs={6} md={6} lg={6}>
-                                                            <p><strong>Length:</strong> {product.item_length} cm</p>
-                                                            <p>
-                                                                <strong>Weight:</strong> {product.item_weight} {product.weight_unit}
-                                                            </p>
+                                                    
+                                                        <Col xs={6} md={12} lg={6}>
+                                                            <motion.div
+                                                                whileHover={{ scale: 1.1 }}
+                                                                whileTap={{ scale: 0.9 }}
+                                                            >
+                                                                <Button
+                                                                    variant="warning"
+                                                                    className="modern-btn-dark px-4 py-2"
+                                                                    id="button"
+                                                                    disabled={!product || wish_listLoading}
+                                                                    onClick={handleAddToWishlist}
+                                                                >
+                                                                    {wish_listLoading ? (
+                                                                        <Spinner animation="border" size="sm" className="me-2" />
+                                                                    ) : (
+                                                                        <Heart className="me-2" />
+                                                                    )}
+                                                                    Add to Wish List
+                                                                </Button>
+                                                            </motion.div>
+                                                        </Col> 
+                                                    </Row>
+
+                                                    <Row className="mt-2 d-flex justify-content-center align-items-center">
+                                                        <Col xs={12} md={12} className="d-flex justify-content-center">
+                                                            <motion.div
+                                                                whileHover={{ scale: 1.1 }}
+                                                                whileTap={{ scale: 0.9 }}
+                                                            >
+                                                                <Button
+                                                                    variant="dark"
+                                                                    className="modern-btn-dark px-4 py-2"
+                                                                    id="button"
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault(); // Prevent page reload
+                                                                        handleRevealVendorDetails();
+                                                                    }}
+                                                                >
+                                                                    {/* Display loading spinner inside the button when fetching */}
+                                                                    {loading ? (
+                                                                        <Spinner animation="border" size="sm" className="me-2" />
+                                                                    ) : showVendorDetails && vendor ? (
+                                                                        // Display vendor name and phone number inside the button after it's revealed
+                                                                        <span>
+                                                                            {vendor.enterprise_name} | {vendor.phone_number}
+                                                                        </span>
+                                                                    ) : (
+                                                                        'View Vendor' // Default text before clicking
+                                                                    )}
+                                                                </Button>
+                                                            </motion.div>
                                                         </Col>
                                                     </Row>
-                                                </Card.Body>
-                                            </Card>
+                                                </Container>
+                                                <Container className="mt-2">
+                                                    <Row>
+                                                        <h3>Description</h3>
+                                                        <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{product.description}</p>
+                                                    </Row>
+                                                </Container>
 
-                                            <Container className="mt-3 justify-content-center">
-                                                <Row>
-                                                    <Col xs={6} md={12} lg={6}>
-                                                        <motion.div
-                                                            whileHover={{ scale: 1.1 }}
-                                                            whileTap={{ scale: 0.9 }}
-                                                        >
-                                                            <Button 
-                                                                variant="warning" 
-                                                                className="modern-btn me-3 px-4 py-2"
-                                                                id="button" 
-                                                                disabled={!product} 
-                                                                onClick={() => handleAddToCart(product.id)}
-                                                            >
-                                                                <Cart4 className="me-2" /> Add to cart
-                                                            </Button>
-                                                        </motion.div>
-                                                    </Col>
-                                                
-                                                    <Col xs={6} md={12} lg={6}>
-                                                        <motion.div
-                                                            whileHover={{ scale: 1.1 }}
-                                                            whileTap={{ scale: 0.9 }}
-                                                        >
-                                                            <Button
-                                                                variant="warning"
-                                                                className="modern-btn-dark px-4 py-2"
-                                                                id="button"
-                                                                disabled={!product || wish_listLoading}
-                                                                onClick={handleAddToWishlist}
-                                                            >
-                                                                {wish_listLoading ? (
-                                                                    <Spinner animation="border" size="sm" className="me-2" />
-                                                                ) : (
-                                                                    <Heart className="me-2" />
-                                                                )}
-                                                                Add to Wish List
-                                                            </Button>
-                                                        </motion.div>
-                                                    </Col> 
-                                                </Row>
+                                                {wish_listError && <div className="text-danger text-center mt-3">{wish_listError}</div>}
+                                            </Col>
+                                        </Row>
+                                    )}
 
-                                                <Row className="mt-2 d-flex justify-content-center align-items-center">
-                                                    <Col xs={12} md={12} className="d-flex justify-content-center">
-                                                        <motion.div
-                                                            whileHover={{ scale: 1.1 }}
-                                                            whileTap={{ scale: 0.9 }}
-                                                        >
-                                                            <Button
-                                                                variant="dark"
-                                                                className="modern-btn-dark px-4 py-2"
-                                                                id="button"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault(); // Prevent page reload
-                                                                    handleRevealVendorDetails();
-                                                                }}
-                                                            >
-                                                                {/* Display loading spinner inside the button when fetching */}
-                                                                {loading ? (
-                                                                    <Spinner animation="border" size="sm" className="me-2" />
-                                                                ) : showVendorDetails && vendor ? (
-                                                                    // Display vendor name and phone number inside the button after it's revealed
-                                                                    <span>
-                                                                        {vendor.enterprise_name} | {vendor.phone_number}
-                                                                    </span>
-                                                                ) : (
-                                                                    'View Vendor' // Default text before clicking
-                                                                )}
-                                                            </Button>
-                                                        </motion.div>
-                                                    </Col>
-                                                </Row>
-                                            </Container>
-                                            <Container className="mt-2">
-                                                <Row>
-                                                    <h3>Description</h3>
-                                                    <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{product.description}</p>
-                                                </Row>
-                                            </Container>
-
-                                            {wish_listError && <div className="text-danger text-center mt-3">{wish_listError}</div>}
-                                        </Col>
+                                    <h3 className="related-products-title">Related Products</h3>
+                                    <Row className="related-products">
+                                        {relatedProducts.slice(0, 4).map((relatedProduct) => (
+                                            <Col key={relatedProduct.id} xs={6} md={3} className="mb-4 px-1">
+                                                <Card onClick={() => handleProductClick(relatedProduct.id)}>
+                                                    <Card.Img
+                                                        className="product-image"
+                                                        variant="top"
+                                                        src={relatedProduct.media_urls[0] || 'default-image-url'}
+                                                        alt={relatedProduct.title}
+                                                    />
+                                                    <Card.Body className="px-2 py-1">
+                                                        <Card.Title className="mb-0 mb-lg-1 product-title">{relatedProduct.title}</Card.Title>
+                                                        <Card.Text>
+                                                            <span className="text-success" style={{ fontSize: '15px' }}>
+                                                                <em>Kshs: </em>
+                                                            </span>
+                                                            <strong style={{ fontSize: '20px' }} className="text-danger">
+                                                                {relatedProduct.price
+                                                                    ? Number(relatedProduct.price)
+                                                                        .toFixed(2)
+                                                                        .split('.')
+                                                                        .map((part, index) => (
+                                                                            <React.Fragment key={index}>
+                                                                                {index === 0 ? (
+                                                                                    <span className="price-integer">
+                                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                                    </span>
+                                                                                ) : (
+                                                                                    <>
+                                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                                        <span className="price-decimal">{part}</span>
+                                                                                    </>
+                                                                                )}
+                                                                            </React.Fragment>
+                                                                        ))
+                                                                    : 'N/A'}
+                                                            </strong>
+                                                        </Card.Text>
+                                                    </Card.Body>
+                                                </Card>
+                                            </Col>
+                                        ))}
                                     </Row>
-                                )}
-
-                                <h3 className="related-products-title">Related Products</h3>
-                                <Row className="related-products">
-                                    {relatedProducts.slice(0, 4).map((relatedProduct) => (
-                                    <Col key={relatedProduct.id} xs={6} md={3} className="mb-4 px-1">
-                                        <Card onClick={() => window.location.href = `/products/${relatedProduct.id}`}>
-                                        <Card.Img className='product-image' variant="top" src={relatedProduct.media_urls[0] || 'default-image-url'} />
-                                        <Card.Body className="px-2 py-1">
-                                            <Card.Title className="mb-0 mb-lg-1 product-title">{relatedProduct.title}</Card.Title>
-                                            <Card.Text>
-                                                <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
-                                                <strong style={{ fontSize: '20px' }} className="text-danger">
-                                                    {relatedProduct.price ? Number(relatedProduct.price).toFixed(2).split('.').map((part, index) => (
-                                                        <React.Fragment key={index}>
-                                                            {index === 0 ? (
-                                                                <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                                            ) : (
-                                                                <>
-                                                                    <span style={{ fontSize: '16px' }}>.</span>
-                                                                    <span className="price-decimal">{part}</span>
-                                                                </>
-                                                            )}
-                                                        </React.Fragment>
-                                                    )) : 'N/A'}
-                                                </strong>
-                                            </Card.Text>
-                                        </Card.Body>
-                                        </Card>
-                                    </Col>
-                                    ))}
-                                </Row>
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </Container>
-
-            <Modal centered show={showModal} onHide={handleCloseModal}>
-                <Modal.Header className="justify-content-center p-1 p-lg-2">
-                    <Modal.Title>Product Ratings</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="px-1 px-lg-2 py-0">
-                    {loadingReviews ? (
-                    <div className="text-center">
-                        <Spinner animation="border" />
-                        <p>Loading reviews...</p>
-                    </div>
-                    ) : reviewsError ? (
-                    <div className="text-danger">{reviewsError}</div>
-                    ) : reviews.length === 0 ? (
-                    <p>No reviews available for this product.</p>
-                    ) : (
-                    <div>
-                        {reviews.map((review, index) => {
-                        // Determine full stars, half stars, and empty stars based on the review rating
-                        const fullStars = Math.floor(review.rating);
-                        const halfStar = review.rating % 1 !== 0;
-                        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-
-                        return (
-                            <Card key={index} className="my-2 my-lg-3 custom-card">
-                            <Card.Body className="py-2">
-                                <Card.Title>{review.purchaser.name}</Card.Title>
-                                <Card.Text>{review.review}</Card.Text>
-                                <div className="rating-stars d-flex align-items-center">
-                                {[...Array(fullStars)].map((_, i) => (
-                                    <FontAwesomeIcon key={i} icon={faStar} className="rating-star filled" />
-                                ))}
-                                {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="rating-star half-filled" />}
-                                {[...Array(emptyStars)].map((_, i) => (
-                                    <FontAwesomeIcon key={i} icon={faStarEmpty} className="rating-star empty text-white" />
-                                ))}
                                 </div>
-                            </Card.Body>
-                            </Card>
-                        );
-                        })}
-                    </div>
-                    )}
-                </Modal.Body>
-                <Modal.Footer className="p-0 p-lg-1">
-                    <Button variant="danger" onClick={handleCloseModal}>
-                    Close
-                    </Button>
-                </Modal.Footer>
-            </Modal> 
-        </div>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+
+                <Modal centered show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header className="justify-content-center p-1 p-lg-2">
+                        <Modal.Title>Product Ratings</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="px-1 px-lg-2 py-0">
+                        {loadingReviews ? (
+                        <div className="text-center">
+                            <Spinner animation="border" />
+                            <p>Loading reviews...</p>
+                        </div>
+                        ) : reviewsError ? (
+                        <div className="text-danger">{reviewsError}</div>
+                        ) : reviews.length === 0 ? (
+                        <p>No reviews available for this product.</p>
+                        ) : (
+                        <div>
+                            {reviews.map((review, index) => {
+                            // Determine full stars, half stars, and empty stars based on the review rating
+                            const fullStars = Math.floor(review.rating);
+                            const halfStar = review.rating % 1 !== 0;
+                            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+                            return (
+                                <Card key={index} className="my-2 my-lg-3 custom-card">
+                                <Card.Body className="py-2">
+                                    <Card.Title>{review.purchaser.name}</Card.Title>
+                                    <Card.Text>{review.review}</Card.Text>
+                                    <div className="rating-stars d-flex align-items-center">
+                                    {[...Array(fullStars)].map((_, i) => (
+                                        <FontAwesomeIcon key={i} icon={faStar} className="rating-star filled" />
+                                    ))}
+                                    {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="rating-star half-filled" />}
+                                    {[...Array(emptyStars)].map((_, i) => (
+                                        <FontAwesomeIcon key={i} icon={faStarEmpty} className="rating-star empty text-white" />
+                                    ))}
+                                    </div>
+                                </Card.Body>
+                                </Card>
+                            );
+                            })}
+                        </div>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer className="p-0 p-lg-1">
+                        <Button variant="danger" onClick={handleCloseModal}>
+                        Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal> 
+            </div>
         </>
     );
 };
