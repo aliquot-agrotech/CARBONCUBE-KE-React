@@ -123,6 +123,7 @@ const ProductDetails = () => {
             setLoading(false);
         }
     };
+
     const handleRevealVendorDetails = () => {
         console.log('Button clicked, productId:', productId);
         if (!vendor) {
@@ -139,6 +140,7 @@ const ProductDetails = () => {
         // Implement search functionality here
         // console.log('Search for:', searchQuery);
     };
+
     const handleAddToWishlist = async () => {
         if (!product) return;
     
@@ -179,37 +181,65 @@ const ProductDetails = () => {
             setBookmarkLoading(false);
         }
     };
-    
-    
+
     const handleAddToCart = async (productId) => {
         const token = sessionStorage.getItem('token');
     
         if (!token) {
-        // Token not found, show alert to log in
+            // Token not found, show alert to log in
             window.alert("You need to log in to add items to your cart.");
-        return; // Exit function early if no token
+            return; // Exit function early if no token
         }
     
         try {
-        const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items`, {
-            method: 'POST',
-            headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ product_id: productId })
-        });
+            // Step 1: Log the 'Add-to-Cart' event
+            await logClickEventAddtoCart(productId, 'Add-to-Cart');
     
-        if (response.ok) {
-            window.alert("Product added to cart!");
-        } else {
-            window.alert("Failed to add product to cart. Please try again.");
-        }
+            // Step 2: Add product to cart
+            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items`, {
+                method: 'POST',
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ product_id: productId })
+            });
+    
+            if (response.ok) {
+                window.alert("Product added to cart!");
+            } else {
+                window.alert("Failed to add product to cart. Please try again.");
+            }
         } catch (error) {
             window.alert("An error occurred. Please try again later.");
+            console.error("Error:", error);
         }
     };
     
+    // Function to log button click events
+    const logClickEventAddtoCart = async (productId, eventType) => {
+        try {
+            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    event_type: eventType, // 'Add-to-Cart'
+                }),
+            });
+    
+            if (!response.ok) {
+                console.warn('Failed to log event:', eventType);
+            }
+        } catch (error) {
+            console.error('Error logging event:', eventType, error);
+        }
+    };
+    
+
     const renderRatingStars = (rating, reviewCount) => {
         if (typeof rating !== 'number' || rating < 0) {
             // console.error('Invalid rating value:', rating);
@@ -235,7 +265,7 @@ const ProductDetails = () => {
             </div>
         );
     };
-    
+
     const handleProductClick = async (productId) => {
         if (!productId) {
             console.error('Invalid productId');
@@ -255,7 +285,7 @@ const ProductDetails = () => {
             navigate(`/products/${productId}`);
         }
     };
-    
+
     // Function to log a click event
     const logClickEvent = async (productId, eventType) => {
         try {
@@ -278,7 +308,7 @@ const ProductDetails = () => {
             console.error('Error logging click event:', error);
         }
     };
-    
+
     const renderCarousel = () => {
         if (!product.media_urls || product.media_urls.length === 0) {
         return (
