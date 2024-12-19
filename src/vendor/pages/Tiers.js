@@ -12,8 +12,14 @@ const TierPage = () => {
   const vendorId = sessionStorage.getItem('vendor_id');
 
   useEffect(() => {
+    const token = sessionStorage.getItem('token'); // Replace 'token' with your actual key for the stored token.
+  
     axios
-      .get('https://carboncube-ke-rails-4xo3.onrender.com/vendor/tiers')
+      .get('https://carboncube-ke-rails-4xo3.onrender.com/vendor/tiers', {
+        headers: {
+          Authorization: `Bearer ${token}`, // Attach the token in the Authorization header.
+        },
+      })
       .then((response) => {
         setTiers(response.data || []);
         setLoading(false);
@@ -24,17 +30,28 @@ const TierPage = () => {
         setLoading(false);
       });
   }, []);
+  
 
   const handleSelectTier = (tierId) => {
+    const token = sessionStorage.getItem('token'); // Get the token from session storage.
+  
     if (!vendorId) {
       console.error("Vendor ID not found in session storage.");
       return;
     }
-
+  
     setSelectedTier(tierId);
-
+  
     axios
-      .put(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/${vendorId}/tier`, { tier_id: tierId })
+      .put(
+        `https://carboncube-ke-rails-4xo3.onrender.com/vendor/${vendorId}/tier`,
+        { tier_id: tierId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Attach the token in the Authorization header.
+          },
+        }
+      )
       .then(() => {
         console.log('Tier updated successfully!');
       })
@@ -42,6 +59,7 @@ const TierPage = () => {
         console.error('Error updating tier:', err);
       });
   };
+  
 
   if (loading) {
     return (
