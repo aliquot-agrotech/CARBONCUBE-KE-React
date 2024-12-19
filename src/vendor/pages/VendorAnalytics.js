@@ -114,15 +114,9 @@ const VendorAnalytics = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Average Rating</Card.Header>
                   <Card.Body>
-                    {tierId >= 2 ? (
-                      <Card.Text className="text-center">
-                        <strong>{average_rating.toFixed(1)}</strong>
-                      </Card.Text>
-                    ) : (
-                      <Card.Text className="text-center text-warning">
-                        Upgrade to Tier 2
-                      </Card.Text>
-                    )}
+                    <Card.Text className="text-center">
+                      <strong>{average_rating.toFixed(1)}</strong>
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
@@ -148,10 +142,10 @@ const VendorAnalytics = () => {
                   <Card.Body>
                     {tierId >= 3 ? (
                       <Card.Text className="text-center">
-                        <strong>${parseFloat(total_revenue).toLocaleString()}</strong>
+                        <strong>Kshs: {parseFloat(total_revenue).toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
-                      <Card.Text className="text-center text-warning">
+                      <Card.Text className="text-center text-secondary">
                         Upgrade to Tier 3
                       </Card.Text>
                     )}
