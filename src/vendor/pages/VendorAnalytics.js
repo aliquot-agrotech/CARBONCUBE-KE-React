@@ -129,7 +129,7 @@ const VendorAnalytics = () => {
                         <strong>{total_products.toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
-                      <Card.Text className="text-center text-warning">
+                      <Card.Text className="text-center text-secondary">
                         Upgrade to Tier 2
                       </Card.Text>
                     )}
@@ -161,7 +161,7 @@ const VendorAnalytics = () => {
                         <strong>{total_reviews.toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
-                      <Card.Text className="text-center text-warning">
+                      <Card.Text className="text-center text-secondary">
                         Upgrade to Tier 3
                       </Card.Text>
                     )}
@@ -177,7 +177,7 @@ const VendorAnalytics = () => {
                     {tierId >= 3 ? (
                       <SalesPerformance data={sales_performance} totalRevenue={total_revenue} />
                     ) : (
-                      <div className="text-warning text-center">
+                      <div className="text-secondary text-center">
                         Upgrade to Tier 3
                       </div>
                     )}
@@ -191,7 +191,7 @@ const VendorAnalytics = () => {
                     {tierId >= 4 ? (
                       <TopSellingProducts data={best_selling_products} />
                     ) : (
-                      <div className="text-warning text-center">
+                      <div className="text-secondary text-center">
                         Upgrade to Tier 4
                       </div>
                     )}
