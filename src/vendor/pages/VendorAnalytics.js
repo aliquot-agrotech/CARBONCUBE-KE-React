@@ -9,7 +9,7 @@ import '../css/VendorAnalytics.css';
 
 const VendorAnalytics = () => {
   const [analyticsData, setAnalyticsData] = useState(null);
-  const [currentTier, setCurrentTier] = useState(null);
+  const [tierId, setTierId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -21,37 +21,37 @@ const VendorAnalytics = () => {
             'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
           },
         });
-    
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-    
+
         const data = await response.json();
         console.log('API Response:', data);
-    
-        // Validate response structure and set defaults for missing fields
+
         const validatedAnalytics = {
+          tier_id: data.tier_id || 1,
           total_orders: data.total_orders || 0,
           total_products: data.total_products || 0,
           total_reviews: data.total_reviews || 0,
           average_rating: data.average_rating || 0,
-          total_revenue: data.total_revenue || 0.0,
+          total_revenue: data.total_revenue || '0.0',
+          sales_performance: data.sales_performance || {},
+          best_selling_products: data.best_selling_products || [],
         };
-    
+
+        setTierId(validatedAnalytics.tier_id);
         setAnalyticsData(validatedAnalytics);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching analytics data:', err.message);
+        setError(err.message);
         setLoading(false);
       }
     };
-    
-    
 
     fetchAnalytics();
   }, []);
-
-  const canAccess = (tierRequirement) => currentTier >= tierRequirement;
 
   if (loading) {
     return (
@@ -87,13 +87,7 @@ const VendorAnalytics = () => {
     );
   }
 
-  // Safe fallback values
-  const totalOrders = parseInt(analyticsData.total_orders, 10) || 0;
-  const averageRating = parseInt(analyticsData.average_rating, 10) || 0;
-  const totalProducts = parseInt(analyticsData.total_products, 10) || 0;
-  const totalReviews = parseInt(analyticsData.total_reviews, 10) || 0;
-  const totalRevenue = parseFloat(analyticsData.total_revenue) || 0;
-  // const formattedRevenue = totalRevenue.toFixed(2);
+  const { total_orders, average_rating, total_products, total_reviews, total_revenue, sales_performance, best_selling_products } = analyticsData;
 
   return (
     <>
@@ -103,75 +97,78 @@ const VendorAnalytics = () => {
           <Col xs={12} lg={2} className="p-0">
             <Sidebar />
           </Col>
-          <Col xs={12} lg={9} className="content-area">
+          <Col xs={12} lg={10} className="content-area">
             <Row>
+              {/* Analytics Cards */}
               <Col xs={6} md={3}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Total Orders
-                  </Card.Header>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Total Orders</Card.Header>
                   <Card.Body>
-                    {canAccess(1) ? (
+                    <Card.Text className="text-center">
+                      <strong>{total_orders.toLocaleString()}</strong>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={6} md={3}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Average Rating</Card.Header>
+                  <Card.Body>
+                    {tierId >= 2 ? (
                       <Card.Text className="text-center">
-                        <strong>{totalOrders.toLocaleString()}</strong>
+                        <strong>{average_rating.toFixed(1)}</strong>
                       </Card.Text>
                     ) : (
-                      <Card.Text className="text-center text-gray">
-                        Upgrade to Tier 1 to view this data
+                      <Card.Text className="text-center text-warning">
+                        Upgrade to Tier 2
                       </Card.Text>
                     )}
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={6} md={3}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Average Rating
-                  </Card.Header>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Total Products</Card.Header>
                   <Card.Body>
-                    {canAccess(2) ? (
+                    {tierId >= 2 ? (
                       <Card.Text className="text-center">
-                        <strong>{averageRating.toLocaleString()}</strong>
+                        <strong>{total_products.toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
                       <Card.Text className="text-center text-warning">
-                        Upgrade to Tier 2 to view this data
+                        Upgrade to Tier 2
                       </Card.Text>
                     )}
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={6} md={3}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Total Products
-                  </Card.Header>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Total Revenue</Card.Header>
                   <Card.Body>
-                    {canAccess(2) ? (
+                    {tierId >= 3 ? (
                       <Card.Text className="text-center">
-                        <strong>{totalProducts.toLocaleString()}</strong>
+                        <strong>${parseFloat(total_revenue).toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
                       <Card.Text className="text-center text-warning">
-                        Upgrade to Tier 2 to view this data
+                        Upgrade to Tier 3
                       </Card.Text>
                     )}
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={6} md={3}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Total Reviews
-                  </Card.Header>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Total Reviews</Card.Header>
                   <Card.Body>
-                    {canAccess(3) ? (
+                    {tierId >= 3 ? (
                       <Card.Text className="text-center">
-                        <strong>{totalReviews.toLocaleString()}</strong>
+                        <strong>{total_reviews.toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
                       <Card.Text className="text-center text-warning">
-                        Upgrade to Tier 3 to view this data
+                        Upgrade to Tier 3
                       </Card.Text>
                     )}
                   </Card.Body>
@@ -180,32 +177,28 @@ const VendorAnalytics = () => {
             </Row>
             <Row>
               <Col xs={12} md={6}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Sales Performance (Last 3 Months)
-                  </Card.Header>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Sales Performance (Last 3 Months)</Card.Header>
                   <Card.Body>
-                    {canAccess(3) ? (
-                      <SalesPerformance data={analyticsData.sales_performance || {}} totalRevenue={totalRevenue} />
+                    {tierId >= 3 ? (
+                      <SalesPerformance data={sales_performance} totalRevenue={total_revenue} />
                     ) : (
                       <div className="text-warning text-center">
-                        Upgrade to Tier 3 to access sales performance analytics.
+                        Upgrade to Tier 3
                       </div>
                     )}
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={12} md={6}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Top Selling Products
-                  </Card.Header>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Top Selling Products</Card.Header>
                   <Card.Body>
-                    {canAccess(3) ? (
-                      <TopSellingProducts data={analyticsData.best_selling_products || []} />
+                    {tierId >= 4 ? (
+                      <TopSellingProducts data={best_selling_products} />
                     ) : (
                       <div className="text-warning text-center">
-                        Upgrade to Tier 3 to access top-selling products data.
+                        Upgrade to Tier 4
                       </div>
                     )}
                   </Card.Body>

@@ -8,14 +8,17 @@ const SalesPerformance = ({ data, totalRevenue }) => {
   console.log('Sales Performance Data:', data);
   console.log('Total Revenue (All Time):', totalRevenue);
 
+  // Ensure totalRevenue is valid
+  const totalRevenueValue = parseFloat(totalRevenue) || 0;
+
   // Sort months chronologically
   const months = Object.keys(data)
     .slice(-3)
     .sort((a, b) => new Date(a) - new Date(b));
 
   const createChartData = (month) => {
-    const monthRevenue = parseFloat(data[month]);
-    const percentage = (monthRevenue / totalRevenue) * 100;
+    const monthRevenue = parseFloat(data[month]) || 0;
+    const percentage = totalRevenueValue > 0 ? (monthRevenue / totalRevenueValue) * 100 : 0;
 
     console.log(`${month} Revenue:`, monthRevenue, 'Percentage:', percentage);
 
