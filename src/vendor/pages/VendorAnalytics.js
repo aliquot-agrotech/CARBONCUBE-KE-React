@@ -130,7 +130,7 @@ const VendorAnalytics = () => {
                       </Card.Text>
                     ) : (
                       <Card.Text className="text-center text-secondary">
-                        Upgrade to Tier 2
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Basic Tier
                       </Card.Text>
                     )}
                   </Card.Body>
@@ -146,7 +146,7 @@ const VendorAnalytics = () => {
                       </Card.Text>
                     ) : (
                       <Card.Text className="text-center text-secondary">
-                        Upgrade to Tier 3
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
                       </Card.Text>
                     )}
                   </Card.Body>
@@ -162,7 +162,7 @@ const VendorAnalytics = () => {
                       </Card.Text>
                     ) : (
                       <Card.Text className="text-center text-secondary">
-                        Upgrade to Tier 3
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
                       </Card.Text>
                     )}
                   </Card.Body>
@@ -178,7 +178,7 @@ const VendorAnalytics = () => {
                       <SalesPerformance data={sales_performance} totalRevenue={total_revenue} />
                     ) : (
                       <div className="text-secondary text-center">
-                        Upgrade to Tier 3
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
                       </div>
                     )}
                   </Card.Body>
@@ -192,7 +192,7 @@ const VendorAnalytics = () => {
                       <TopSellingProducts data={best_selling_products} />
                     ) : (
                       <div className="text-secondary text-center">
-                        Upgrade to Tier 4
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Premium Tier
                       </div>
                     )}
                   </Card.Body>

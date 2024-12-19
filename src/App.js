@@ -23,6 +23,7 @@ import VendorProducts from './vendor/pages/VendorProducts';
 import VendorMessages from './vendor/pages/Messages';
 import VendorNotifications from './vendor/pages/VendorNotifications';
 import VendorProfile from './vendor/pages/Profile';
+import TierPage from './vendor/pages/Tiers';
 
 // Purchaser Imports
 import Home from './purchaser/pages/Home';
@@ -94,6 +95,7 @@ function App() {
         <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         <Route path="/vendorsignup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
         <Route path="/ridersignup" element={<RiderSignUpPage onSignup={handleRiderSignup} />} />
+        <Route path="/tiers" element={<TierPage onLogout={handleLogout} />} />
 
         {isAuthenticated && userRole === 'admin' && (
           <Route path="/admin/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="admin" userRole={userRole} />}>
@@ -119,6 +121,7 @@ function App() {
             <Route path="messages" element={<VendorMessages onLogout={handleLogout} />} />
             <Route path="notifications" element={<VendorNotifications onLogout={handleLogout} />} />
             <Route path="profile" element={<VendorProfile onLogout={handleLogout} />} />
+            <Route path="tiers" element={<TierPage onLogout={handleLogout} />} />
           </Route>
         )}
 
