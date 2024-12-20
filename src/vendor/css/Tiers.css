@@ -1,137 +1,164 @@
+/* General Styles */
+body {
+  background-color: #f2f2f2; /* Neutral grey background */
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
 /* Pricing Page */
 .pricing-page {
-    padding: 40px 20px;
-  }
-  
-  /* Hero Section */
-  .hero-section {
-    background-color: #f8f9fa;
-    padding: 50px 20px;
-    margin-bottom: 30px;
-  }
-  
-  .hero-section h1 {
-    font-size: 3rem;
-    margin-bottom: 15px;
-  }
-  
-  .hero-section .lead {
-    font-size: 1.25rem;
-    color: #6c757d;
-  }
-  
-  /* Pricing Section */
-  .pricing-section {
-    margin-bottom: 40px;
-  }
-  
-  .tier-box {
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .tier-box.selected {
-    border: 2px solid #28a745;
-    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
-  }
-  
-  .tier-box .tier-title {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-  }
-  
-  .tier-box .tier-description {
-    font-size: 1.1rem;
-    color: #6c757d;
-  }
-  
-  .tier-box .tier-features {
-    text-align: left;
-    margin-bottom: 20px;
-  }
-  
-  .tier-box .pricing-details {
-    margin-bottom: 20px;
-  }
-  
-  .tier-box .pricing-option {
-    font-size: 1.1rem;
-    margin: 5px 0;
-  }
-  
-  /* Feature Breakdown */
-  .feature-breakdown {
-    margin-bottom: 40px;
-  }
-  
-  .feature-box {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .feature-box h4 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-  }
-  
-  .feature-box ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  
-  .feature-box li {
-    font-size: 1.1rem;
-  }
-  
-  /* Pricing Comparison Table */
-  .pricing-comparison {
-    margin-bottom: 40px;
-  }
-  
-  .comparison-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .comparison-table th, .comparison-table td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ddd;
-  }
-  
-  .comparison-table th {
-    background-color: #f1f1f1;
-  }
-  
-  /* FAQs Section */
-  .faqs {
-    margin-bottom: 40px;
-  }
-  
-  /* Call to Action Section */
-  .cta {
-    background-color: #28a745;
-    color: white;
-    padding: 40px;
-    text-align: center;
-  }
-  
-  .cta h2 {
-    font-size: 2rem;
-    margin-bottom: 15px;
-  }
-  
-  .cta p {
-    font-size: 1.25rem;
-    margin-bottom: 30px;
-  }
-  
-  .cta .btn-lg {
-    font-size: 1.2rem;
-  }
-  
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #00695c, #00acc1);
+  color: white;
+  padding: 60px 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hero-section h1 {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.hero-section .lead {
+  font-size: 1.3rem;
+  color: #e0f7fa;
+}
+
+/* Pricing Section */
+.pricing-section {
+  margin-bottom: 40px;
+}
+
+.tier-box {
+  border: 1px solid #e0e0e0;
+  background: white;
+  border-radius: 12px;
+  text-align: center;
+  padding: 25px 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.tier-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tier-box.selected {
+  border: 2px solid #43a047;
+  box-shadow: 0 4px 6px rgba(67, 160, 71, 0.3);
+}
+
+.tier-box .tier-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #00695c;
+}
+
+.tier-box .tier-description {
+  font-size: 1rem;
+  color: #757575;
+}
+
+.tier-box .tier-features {
+  text-align: left;
+  margin: 15px 0;
+}
+
+.tier-box .tier-features li {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.tier-box .pricing-details {
+  margin-bottom: 20px;
+}
+
+.tier-box .pricing-option {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.tier-box button {
+  width: 100%;
+  font-size: 1rem;
+  border-radius: 25px;
+  padding: 10px 15px;
+}
+
+/* Feature Breakdown */
+.feature-breakdown {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.feature-box {
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+/* Comparison Table */
+.comparison-table {
+  margin: 20px 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.comparison-table th, 
+.comparison-table td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.comparison-table th {
+  background-color: #00acc1;
+  color: white;
+}
+
+/* CTA Section */
+.cta {
+  background: linear-gradient(135deg, #43a047, #1b5e20);
+  color: white;
+  padding: 40px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.cta h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.cta p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.cta button {
+  background-color: #1b5e20;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  transition: background-color 0.3s ease;
+}
+
+.cta button:hover {
+  background-color: #388e3c;
+}
