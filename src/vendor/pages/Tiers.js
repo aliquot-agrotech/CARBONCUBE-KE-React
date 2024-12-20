@@ -65,7 +65,7 @@ const TierPage = () => {
   }
 
   return (
-    <div className="pricing-page p-2">
+    <div className="pricing-page px-0 py-0">
       {/* Hero Section */}
       <section className="hero-section text-center mb-3 mb-lg-5 custom-card">
         <Container>
@@ -78,32 +78,34 @@ const TierPage = () => {
       </section>
 
       {/* Pricing Section */}
-      <section className="pricing-section p-0">
+      <section className="pricing-section p-2">
         <Container>
           <Row className="mb-4">
             {tiers.map((tier) => (
-              <Col lg={3} md={6} sm={12} key={tier.id} className="p-0 p-lg-2">
-                <Card className={`tier-box ${selectedTier === tier.id ? 'selected' : ''}`}>
-                  <Card.Body className="align-items-center p-1 px-1">
-                    <Card.Title className="tier-title">{tier.name}</Card.Title>
-                    <Card.Subtitle className="tier-description mb-3">Ads: {tier.ads_limit}</Card.Subtitle>
-                    <ul className="tier-features list-unstyled mb-3">
-                      {(tier.tier_features || []).map((feature) => (
-                        <li key={feature.id}>✔ {feature.feature_name}</li>
-                      ))}
-                    </ul>
-                    <div className="pricing-details">
-                      {(tier.tier_pricings || []).map((pricing) => (
-                        <div key={pricing.id} className="pricing-option">
-                          <span>
-                            {pricing.duration_months} months: {pricing.price} KES
-                          </span>
-                        </div>
-                      ))}
+              <Col lg={3} md={6} sm={12} key={tier.id} className="p-0 p-lg-2 mb-3">
+                <Card className={`tier-box ${selectedTier === tier.id ? 'selected' : ''} h-100 d-flex flex-column`}>
+                  <Card.Body className="flex-grow-1 d-flex flex-column justify-content-between">
+                    <div>
+                      <Card.Title className="tier-title">{tier.name}</Card.Title>
+                      <Card.Subtitle className="tier-description mb-3">Ads: {tier.ads_limit}</Card.Subtitle>
+                      <ul className="tier-features list-unstyled mb-3">
+                        {(tier.tier_features || []).map((feature) => (
+                          <li key={feature.id}>✔ {feature.feature_name}</li>
+                        ))}
+                      </ul>
+                      <div className="pricing-details text-center">
+                        {(tier.tier_pricings || []).map((pricing) => (
+                          <div key={pricing.id} className="pricing-option">
+                            <span>
+                              <strong>{pricing.duration_months}</strong> months: {pricing.price} KES
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                     <Button
-                      variant={selectedTier === tier.id ? 'success' : 'primary'}
-                      className="w-100 rounded-pill"
+                      style={{ backgroundColor: 'black', borderColor: 'black' }}
+                      className="w-100 rounded-pill text-white mt-3"
                       onClick={() => handleSelectTier(tier.id)}
                     >
                       {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
@@ -200,7 +202,7 @@ const TierPage = () => {
           <h2>Ready to Get Started?</h2>
           <p>Choose your plan and start growing your business today!</p>
           <Button
-            variant="success"
+            variant="success rounded-pill"
             size="lg"
             className="px-5"
             onClick={() => handleSelectTier(selectedTier)}

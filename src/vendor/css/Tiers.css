@@ -1,6 +1,6 @@
 /* General Styling */
 body {
-  font-family: 'Inter', sans-serif; /* Use a clean, modern font */
+  
   line-height: 1.6;
   color: #333;
   background-color: #f4f4f9; /* Subtle light grey background for better readability */
@@ -10,6 +10,9 @@ body {
 
 .pricing-page {
   padding: 20px;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* Hero Section */
@@ -18,7 +21,7 @@ body {
   color: black;
   padding: 80px 20px;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 0 0 10px 10px;
   margin-bottom: 30px;
 }
 
@@ -34,6 +37,7 @@ body {
 }
 
 /* Pricing Section */
+/* General Tier Box Styles */
 .pricing-section .tier-box {
   border: none;
   background: white;
@@ -41,6 +45,10 @@ body {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Modern shadow effect */
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .pricing-section .tier-box:hover {
@@ -53,6 +61,7 @@ body {
   background: #e6ffe6;
 }
 
+/* Title and Description Styles */
 .tier-title {
   font-size: 1.8rem;
   font-weight: bold;
@@ -66,6 +75,7 @@ body {
   color: #555;
 }
 
+/* Features List */
 .tier-features {
   text-align: left;
   margin-bottom: 15px;
@@ -79,6 +89,7 @@ body {
   padding: 5px 0;
 }
 
+/* Pricing Details */
 .pricing-details {
   margin-bottom: 20px;
 }
@@ -90,12 +101,19 @@ body {
   margin: 8px 0;
 }
 
+/* Button Styles */
 .pricing-section .btn {
   font-size: 1rem;
   font-weight: bold;
   padding: 10px 15px;
   border-radius: 8px;
+  background-color: black;
+  border-color: black;
+  color: white;
 }
+
+
+
 
 /* Feature Breakdown */
 .feature-breakdown {
@@ -182,14 +200,14 @@ body {
 }
 
 .accordion-button {
-  background: #007bff !important;
+  background: #000000 !important;
   color: white !important;
   font-weight: bold;
   border-radius: 5px;
 }
 
 .accordion-button:not(.collapsed) {
-  background: #6610f2 !important;
+  background: #007bff !important;
 }
 
 .accordion-body {
@@ -198,10 +216,10 @@ body {
 
 /* CTA Section */
 .cta {
-  background: linear-gradient(to right, #28a745, #007bff);
-  color: white;
+  background: linear-gradient(135deg, #fff69a, #cbcbcb); /* Gradient from two colors */
+  color: black;
   padding: 40px 20px;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
 }
 
 .cta h2 {
@@ -230,6 +248,15 @@ body {
 
   .pricing-section .tier-box {
       margin-bottom: 20px;
+      padding: 15px;
+  }
+
+  .tier-title {
+    font-size: 1.5rem;
+  }
+
+  .pricing-option {
+    font-size: 0.9rem;
   }
 
   .feature-box {
