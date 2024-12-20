@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Row, Col, Button, Accordion, Spinner } from 'react-bootstrap';
-import '../css/Tiers.css'; // Custom CSS for enhanced design
+import { Row, Col, Button, Accordion, Spinner, Container, Card } from 'react-bootstrap';
+import '../css/Tiers.css';
 
 const TierPage = () => {
   const [tiers, setTiers] = useState([]);
@@ -12,13 +12,10 @@ const TierPage = () => {
   const vendorId = sessionStorage.getItem('vendor_id');
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token'); // Replace 'token' with your actual key for the stored token.
-  
+    const token = sessionStorage.getItem('token');
     axios
       .get('https://carboncube-ke-rails-4xo3.onrender.com/vendor/tiers', {
-        headers: {
-          Authorization: `Bearer ${token}`, // Attach the token in the Authorization header.
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         setTiers(response.data || []);
@@ -30,130 +27,126 @@ const TierPage = () => {
         setLoading(false);
       });
   }, []);
-  
 
   const handleSelectTier = (tierId) => {
-    const token = sessionStorage.getItem('token'); // Get the token from session storage.
-  
+    const token = sessionStorage.getItem('token');
     if (!vendorId) {
       console.error("Vendor ID not found in session storage.");
       return;
     }
-  
+
     setSelectedTier(tierId);
-  
     axios
       .put(
         `https://carboncube-ke-rails-4xo3.onrender.com/vendor/${vendorId}/tier`,
         { tier_id: tierId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Attach the token in the Authorization header.
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       )
-      .then(() => {
-        console.log('Tier updated successfully!');
-      })
-      .catch((err) => {
-        console.error('Error updating tier:', err);
-      });
+      .then(() => console.log('Tier updated successfully!'))
+      .catch((err) => console.error('Error updating tier:', err));
   };
-  
 
   if (loading) {
     return (
-      <div className="loading-container text-center">
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-        <p>Loading tiers, please wait...</p>
+      <div className="loading-container d-flex flex-column align-items-center justify-content-center">
+        <Spinner animation="border" role="status" />
+        <p className="mt-3">Loading tiers, please wait...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="error-container text-center">
-        <h2>Error</h2>
+      <Container className="text-center my-5">
+        <h2 className="text-danger">Error</h2>
         <p>{error}</p>
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div className="pricing-page">
+    <div className="pricing-page p-2">
       {/* Hero Section */}
-      <section className="hero-section text-center">
-        <h1 className="display-4">Choose the Perfect Plan for Your Business</h1>
-        <p className="lead">
-          Whether you're just starting out or ready to scale, we have a plan that fits your needs. Explore our tiered
-          options below.
-        </p>
+      <section className="hero-section text-center mb-3 mb-lg-5 custom-card">
+        <Container>
+          <h1 className="display-4 fw-bold">Choose the Perfect Plan for Your Business</h1>
+          <p className="lead">
+            Whether you're just starting out or ready to scale, we have a plan that fits your needs. Explore our tiered
+            options below.
+          </p>
+        </Container>
       </section>
 
       {/* Pricing Section */}
-      <section className="pricing-section">
-        <Row className="g-4">
-          {tiers.map((tier) => (
-            <Col md={4} sm={12} key={tier.id}>
-              <div className={`tier-box ${selectedTier === tier.id ? 'selected' : ''}`}>
-                <h3 className="tier-title">{tier.name}</h3>
-                <p className="tier-description">Ads: {tier.ads_limit}</p>
-                <ul className="tier-features">
-                  {(tier.tier_features || []).map((feature) => (
-                    <li key={feature.id}>{feature.feature_name}</li>
-                  ))}
-                </ul>
-                <div className="pricing-details">
-                  {(tier.tier_pricings || []).map((pricing) => (
-                    <div key={pricing.id} className="pricing-option">
-                      <span>
-                        {pricing.duration_months} months: {pricing.price} KES
-                      </span>
+      <section className="pricing-section p-0">
+        <Container>
+          <Row className="mb-4">
+            {tiers.map((tier) => (
+              <Col lg={3} md={6} sm={12} key={tier.id} className="p-0 p-lg-2">
+                <Card className={`tier-box ${selectedTier === tier.id ? 'selected' : ''}`}>
+                  <Card.Body className="align-items-center p-1 px-1">
+                    <Card.Title className="tier-title">{tier.name}</Card.Title>
+                    <Card.Subtitle className="tier-description mb-3">Ads: {tier.ads_limit}</Card.Subtitle>
+                    <ul className="tier-features list-unstyled mb-3">
+                      {(tier.tier_features || []).map((feature) => (
+                        <li key={feature.id}>✔ {feature.feature_name}</li>
+                      ))}
+                    </ul>
+                    <div className="pricing-details">
+                      {(tier.tier_pricings || []).map((pricing) => (
+                        <div key={pricing.id} className="pricing-option">
+                          <span>
+                            {pricing.duration_months} months: {pricing.price} KES
+                          </span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-                <Button
-                  variant={selectedTier === tier.id ? 'success' : 'primary'}
-                  block
-                  onClick={() => handleSelectTier(tier.id)}
-                >
-                  {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
-                </Button>
-              </div>
-            </Col>
-          ))}
-        </Row>
+                    <Button
+                      variant={selectedTier === tier.id ? 'success' : 'primary'}
+                      className="w-100 rounded-pill"
+                      onClick={() => handleSelectTier(tier.id)}
+                    >
+                      {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
       </section>
 
-      {/* Feature Breakdown */}
-      <section className="feature-breakdown text-center">
-        <h2>What's Included in Each Tier</h2>
-        <p>Each tier comes with a set of features to help your business grow. Below is a detailed breakdown.</p>
-        <Row>
-          {tiers.map((tier) => (
-            <Col md={6} sm={12} key={tier.id}>
-              <div className="feature-box">
-                <h4>{tier.name}</h4>
-                <ul>
-                  {(tier.tier_features || []).map((feature) => (
-                    <li key={feature.id}>{feature.feature_name}</li>
-                  ))}
-                </ul>
-              </div>
-            </Col>
-          ))}
-        </Row>
-      </section>
+      {/* Feature Breakdown
+      <section className="feature-breakdown my-5">
+        <Container>
+          <h2 className="text-center">What's Included in Each Tier</h2>
+          <p className="text-center">Each tier comes with a set of features to help your business grow.</p>
+          <Row className="g-4">
+            {tiers.map((tier) => (
+              <Col md={6} sm={12} key={tier.id}>
+                <Card className="feature-box">
+                  <Card.Body>
+                    <Card.Title>{tier.name}</Card.Title>
+                    <ul className="list-unstyled">
+                      {(tier.tier_features || []).map((feature) => (
+                        <li key={feature.id}>✔ {feature.feature_name}</li>
+                      ))}
+                    </ul>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section> */}
 
       {/* Pricing Comparison Table */}
       {tiers.length > 0 && tiers[0].tier_features && (
-        <section className="pricing-comparison">
-          <h2 className="text-center">Pricing Comparison</h2>
-          <div className="comparison-table">
-            <table>
-              <thead>
+        <section className="pricing-comparison my-5">
+          <Container>
+            <h2 className="text-center">Pricing Comparison</h2>
+            <table className="table table-bordered comparison-table mt-4">
+              <thead className="table-light">
                 <tr>
                   <th>Feature</th>
                   {tiers.map((tier) => (
@@ -174,38 +167,47 @@ const TierPage = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+          </Container>
         </section>
       )}
 
       {/* FAQs Section */}
-      <section className="faqs">
-        <h2>Frequently Asked Questions</h2>
-        <Accordion defaultActiveKey="0">
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>What happens if I upgrade or downgrade my tier?</Accordion.Header>
-            <Accordion.Body>
-              When you upgrade or downgrade, your billing will be adjusted according to the selected tier. Your features
-              will change accordingly, and you'll have access to the additional benefits of the higher tier.
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>Can I change my tier anytime?</Accordion.Header>
-            <Accordion.Body>
-              Yes, you can change your tier at any time. We offer flexibility, so you can choose a plan that fits your
-              evolving business needs.
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
+      <section className="faqs my-5">
+        <Container>
+          <h2 className="text-center mb-4">Frequently Asked Questions</h2>
+          <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>What happens if I upgrade or downgrade my tier?</Accordion.Header>
+              <Accordion.Body>
+                When you upgrade or downgrade, your billing will be adjusted accordingly. Your features will change to
+                match the selected tier.
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>Can I change my tier anytime?</Accordion.Header>
+              <Accordion.Body>
+                Yes, you can change your tier anytime. We provide flexibility so you can choose what fits your evolving
+                needs.
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
+        </Container>
       </section>
 
-      {/* Call to Action Section */}
-      <section className="cta text-center">
-        <h2>Ready to Get Started?</h2>
-        <p>Choose your plan and start growing your business today! Select a tier and unlock the full potential of the marketplace.</p>
-        <Button variant="success" size="lg" onClick={() => handleSelectTier(selectedTier)}>
-          Select Your Plan
-        </Button>
+      {/* Call to Action */}
+      <section className="cta text-center py-5">
+        <Container>
+          <h2>Ready to Get Started?</h2>
+          <p>Choose your plan and start growing your business today!</p>
+          <Button
+            variant="success"
+            size="lg"
+            className="px-5"
+            onClick={() => handleSelectTier(selectedTier)}
+          >
+            Select Your Plan
+          </Button>
+        </Container>
       </section>
     </div>
   );

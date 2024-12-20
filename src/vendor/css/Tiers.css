@@ -1,164 +1,255 @@
-/* General Styles */
+/* General Styling */
 body {
-  background-color: #f2f2f2; /* Neutral grey background */
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif; /* Use a clean, modern font */
+  line-height: 1.6;
   color: #333;
+  background-color: #f4f4f9; /* Subtle light grey background for better readability */
+  margin: 0;
+  padding: 0;
 }
 
-/* Pricing Page */
 .pricing-page {
-  padding: 40px 20px;
-  background-color: #f9f9f9;
+  padding: 20px;
 }
 
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(135deg, #00695c, #00acc1);
-  color: white;
-  padding: 60px 20px;
+  background: linear-gradient(135deg, #fff69a, #cbcbcb); /* Gradient from two colors */
+  color: black;
+  padding: 80px 20px;
+  text-align: center;
   border-radius: 10px;
   margin-bottom: 30px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .hero-section h1 {
-  font-size: 2.8rem;
-  margin-bottom: 15px;
+  font-size: 2.5rem;
   font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .hero-section .lead {
-  font-size: 1.3rem;
-  color: #e0f7fa;
+  font-size: 1.2rem;
+  margin-bottom: 0;
 }
 
 /* Pricing Section */
-.pricing-section {
-  margin-bottom: 40px;
-}
-
-.tier-box {
-  border: 1px solid #e0e0e0;
+.pricing-section .tier-box {
+  border: none;
   background: white;
   border-radius: 12px;
-  text-align: center;
-  padding: 25px 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Modern shadow effect */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  padding: 20px;
 }
 
-.tier-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+.pricing-section .tier-box:hover {
+  transform: translateY(-10px); /* Lift effect on hover */
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
 }
 
-.tier-box.selected {
-  border: 2px solid #43a047;
-  box-shadow: 0 4px 6px rgba(67, 160, 71, 0.3);
+.pricing-section .tier-box.selected {
+  border: 2px solid #28a745;
+  background: #e6ffe6;
 }
 
-.tier-box .tier-title {
-  font-size: 1.5rem;
+.tier-title {
+  font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #00695c;
+  color: #007bff;
 }
 
-.tier-box .tier-description {
+.tier-description {
   font-size: 1rem;
-  color: #757575;
+  margin-bottom: 15px;
+  color: #555;
 }
 
-.tier-box .tier-features {
+.tier-features {
   text-align: left;
-  margin: 15px 0;
+  margin-bottom: 15px;
+  padding-left: 0;
+  list-style: none;
 }
 
-.tier-box .tier-features li {
+.tier-features li {
   font-size: 0.9rem;
-  margin-bottom: 5px;
+  color: #333;
+  padding: 5px 0;
 }
 
-.tier-box .pricing-details {
+.pricing-details {
   margin-bottom: 20px;
 }
 
-.tier-box .pricing-option {
+.pricing-option {
   font-size: 1rem;
-  margin: 5px 0;
+  font-weight: 500;
+  color: #555;
+  margin: 8px 0;
 }
 
-.tier-box button {
-  width: 100%;
+.pricing-section .btn {
   font-size: 1rem;
-  border-radius: 25px;
+  font-weight: bold;
   padding: 10px 15px;
+  border-radius: 8px;
 }
 
 /* Feature Breakdown */
 .feature-breakdown {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 10px;
-  margin-bottom: 40px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin: 40px 0;
+  text-align: center;
+}
+
+.feature-breakdown h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.feature-breakdown p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 30px;
 }
 
 .feature-box {
+  background: #ffffff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  text-align: left;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* Comparison Table */
+.feature-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature-box h4 {
+  font-size: 1.3rem;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+.feature-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.feature-box li {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #555;
+}
+
+/* Pricing Comparison Table */
 .comparison-table {
-  margin: 20px 0;
   width: 100%;
+  margin: 0 auto;
   border-collapse: collapse;
+  text-align: center;
 }
 
-.comparison-table th, 
-.comparison-table td {
-  padding: 12px;
-  text-align: center;
+.comparison-table th, .comparison-table td {
+  padding: 15px;
   border: 1px solid #ddd;
 }
 
 .comparison-table th {
-  background-color: #00acc1;
-  color: white;
+  background: #f8f9fa;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #555;
+}
+
+.comparison-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.comparison-table td {
+  font-size: 0.9rem;
+}
+
+/* FAQs Section */
+.faqs h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.accordion-button {
+  background: #007bff !important;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.accordion-button:not(.collapsed) {
+  background: #6610f2 !important;
+}
+
+.accordion-body {
+  background: #f8f9fa;
 }
 
 /* CTA Section */
 .cta {
-  background: linear-gradient(135deg, #43a047, #1b5e20);
+  background: linear-gradient(to right, #28a745, #007bff);
   color: white;
-  padding: 40px;
-  text-align: center;
+  padding: 40px 20px;
   border-radius: 10px;
 }
 
 .cta h2 {
   font-size: 2rem;
-  margin-bottom: 15px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .cta p {
   font-size: 1.2rem;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
-.cta button {
-  background-color: #1b5e20;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  font-size: 1.1rem;
-  border-radius: 25px;
-  transition: background-color 0.3s ease;
+.cta .btn {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 10px 30px;
+  border-radius: 8px;
 }
 
-.cta button:hover {
-  background-color: #388e3c;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section h1 {
+      font-size: 2rem;
+  }
+
+  .pricing-section .tier-box {
+      margin-bottom: 20px;
+  }
+
+  .feature-box {
+      margin-bottom: 20px;
+  }
+
+  .cta {
+      padding: 30px 15px;
+  }
+
+  .cta h2 {
+      font-size: 1.5rem;
+  }
+
+  .cta p {
+      font-size: 1rem;
+  }
+
+  .comparison-table th, .comparison-table td {
+      font-size: 0.8rem;
+      padding: 10px;
+  }
 }
