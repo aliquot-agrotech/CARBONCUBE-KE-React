@@ -39,7 +39,7 @@ body {
 /* Pricing Section */
 /* General Tier Box Styles */
 .pricing-section .tier-box {
-  border: none;
+  border: 1px solid #000000;
   background: white;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Modern shadow effect */
