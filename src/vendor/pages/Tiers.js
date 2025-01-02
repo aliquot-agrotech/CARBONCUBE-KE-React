@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Row, Col, Button, Accordion, Spinner, Container, Card } from 'react-bootstrap';
 import '../css/Tiers.css';
+import { jwtDecode } from 'jwt-decode';
+
 
 const TierPage = () => {
   const [tiers, setTiers] = useState([]);
-  const [selectedTier, setSelectedTier] = useState(null);
+  const [selectedTier] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const vendorId = sessionStorage.getItem('vendor_id');
+  // const vendorId = sessionStorage.getItem('vendor_id');
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -28,23 +30,48 @@ const TierPage = () => {
       });
   }, []);
 
-  const handleSelectTier = (tierId) => {
-    const token = sessionStorage.getItem('token');
+  const handleSelectTier = async (tierId) => {
+    const vendorId = getVendorIdFromToken();
     if (!vendorId) {
-      console.error("Vendor ID not found in session storage.");
+      console.error('Vendor ID not found in session storage.');
       return;
     }
-
-    setSelectedTier(tierId);
-    axios
-      .put(
-        `https://carboncube-ke-rails-4xo3.onrender.com/vendor/${vendorId}/tier`,
-        { tier_id: tierId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then(() => console.log('Tier updated successfully!'))
-      .catch((err) => console.error('Error updating tier:', err));
+  
+    try {
+      const response = await fetch(`/https://carboncube-ke-rails-4xo3.onrender.com/vendor/tiers/${tierId}/update_tier`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`, // Send token
+        },
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Tier updated successfully:', data.message);
+      } else {
+        console.error('Failed to update tier:', data.error);
+      }
+    } catch (error) {
+      console.error('Error updating tier:', error);
+    }
   };
+  
+  function getVendorIdFromToken() {
+    const token = sessionStorage.getItem('token'); // Adjust if stored differently
+    if (!token) {
+      console.error('Token not found in session storage');
+      return null;
+    }
+  
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.vendor_id; // Ensure this matches your token structure
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  }
 
   if (loading) {
     return (
