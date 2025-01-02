@@ -169,11 +169,11 @@ const TierPage = () => {
         </Container>
       </section> */}
 
-      {/* Pricing Comparison Table */}
-      {tiers.length > 0 && tiers[0].tier_features && (
+      {/* Feature Comparison Table */}
+      {tiers.length > 0 && (
         <section className="pricing-comparison my-5">
           <Container>
-            <h2 className="text-center">Pricing Comparison</h2>
+            <h2 className="text-center">Features Comparison</h2>
             <table className="table table-bordered comparison-table mt-4">
               <thead className="table-light">
                 <tr>
@@ -184,16 +184,27 @@ const TierPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {tiers[0].tier_features.map((feature, index) => (
-                  <tr key={index}>
-                    <td>{feature.feature_name}</td>
-                    {tiers.map((tier) => (
-                      <td key={tier.id}>
-                        {tier.tier_features.find((f) => f.id === feature.id) ? '✔' : '✘'}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
+                {/* Create a unique set of all features across all tiers */}
+                {[...new Set(tiers.flatMap((tier) => tier.tier_features.map((f) => f.feature_name)))].map(
+                  (featureName, index) => (
+                    <tr key={index}>
+                      <td>{featureName}</td>
+                      {tiers.map((tier, tierIndex) => {
+                        // Determine if the feature is available in this tier or any tier below it
+                        const isAvailable = tiers
+                          .slice(0, tierIndex + 1) // Include this tier and all previous tiers
+                          .some((t) =>
+                            t.tier_features.some((f) => f.feature_name === featureName)
+                          );
+                          return (
+                            <td key={tier.id} style={{ color: isAvailable ? 'green' : 'red' }}>
+                              {isAvailable ? '✔' : '✘'}
+                            </td>
+                          );
+                      })}
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           </Container>
@@ -229,7 +240,7 @@ const TierPage = () => {
           <h2>Ready to Get Started?</h2>
           <p>Choose your plan and start growing your business today!</p>
           <Button
-            variant="success rounded-pill"
+            variant="secondary rounded-pill"
             size="lg"
             className="px-5"
             onClick={() => handleSelectTier(selectedTier)}
