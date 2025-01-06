@@ -18,7 +18,7 @@ const VendorOrders = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/orders?vendor_id=${vendorId}&search_query=${searchQuery}`, {
+                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/orders?vendor_id=${vendorId}&search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -58,7 +58,7 @@ const VendorOrders = () => {
 
     const handleRowClick = async (orderId) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/orders/${orderId}`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/orders/${orderId}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -84,7 +84,7 @@ const VendorOrders = () => {
 
     // const handleUpdateStatus = async (orderId, status) => {
     //     try {
-    //         const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/vendor/orders/${orderId}/update_status`, {
+    //         const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/orders/${orderId}/update_status`, {
     //             method: 'PUT',
     //             headers: {
     //                 'Content-Type': 'application/json',

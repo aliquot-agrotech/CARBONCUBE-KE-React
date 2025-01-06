@@ -26,7 +26,7 @@ const Home = () => {
     useEffect(() => {
         const fetchCategoriesAndProducts = async () => {
             try {
-                const categoryResponse = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/purchaser/categories', {
+                const categoryResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/categories', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -35,7 +35,7 @@ const Home = () => {
 
                 const categoryData = await categoryResponse.json();
 
-                const subcategoryResponse = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/purchaser/subcategories', {
+                const subcategoryResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/subcategories', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -51,7 +51,7 @@ const Home = () => {
 
                 setCategories(categoriesWithSubcategories);
 
-                const productResponse = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products', {
+                const productResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/products', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -109,7 +109,7 @@ const Home = () => {
     // Function to log a click event
     const logClickEvent = async (productId, eventType) => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ const Home = () => {
         try {
             // Fetch search results
             const response = await fetch(
-                `https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, 
+                `https://carboncube-ke-rails-cu22.onrender.com/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, 
                 {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -168,7 +168,7 @@ const Home = () => {
     // Function to log the product search
     const logProductSearch = async (query, category, subcategory) => {
         try {
-            const logResponse = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/product_searches', {
+            const logResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/product_searches', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

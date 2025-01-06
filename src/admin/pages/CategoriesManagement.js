@@ -16,7 +16,7 @@ const CategoriesManagement = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/admin/categories`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/categories`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -62,8 +62,8 @@ const CategoriesManagement = () => {
     const handleSaveCategory = async () => {
         const method = isEditing ? 'PUT' : 'POST';
         const url = isEditing 
-            ? `https://carboncube-ke-rails-4xo3.onrender.com/admin/categories/${selectedCategory.id}` 
-            : 'https://carboncube-ke-rails-4xo3.onrender.com/admin/categories';
+            ? `https://carboncube-ke-rails-cu22.onrender.com/admin/categories/${selectedCategory.id}` 
+            : 'https://carboncube-ke-rails-cu22.onrender.com/admin/categories';
     
         try {
             // Save or update the category
@@ -92,8 +92,8 @@ const CategoriesManagement = () => {
             for (const subcategory of newCategory.subcategories) {
                 const subcategoryMethod = subcategory.id ? 'PUT' : 'POST';
                 const subcategoryUrl = subcategory.id
-                    ? `https://carboncube-ke-rails-4xo3.onrender.com/admin/subcategories/${subcategory.id}`
-                    : `https://carboncube-ke-rails-4xo3.onrender.com/admin/subcategories`;
+                    ? `https://carboncube-ke-rails-cu22.onrender.com/admin/subcategories/${subcategory.id}`
+                    : `https://carboncube-ke-rails-cu22.onrender.com/admin/subcategories`;
     
                 const subcategoryResponse = await fetch(subcategoryUrl, {
                     method: subcategoryMethod,
@@ -128,7 +128,7 @@ const CategoriesManagement = () => {
             );
     
             for (const subcategoryId of subcategoriesToDelete) {
-                const subcategoryUrl = `https://carboncube-ke-rails-4xo3.onrender.com/admin/subcategories/${subcategoryId}`;
+                const subcategoryUrl = `https://carboncube-ke-rails-cu22.onrender.com/admin/subcategories/${subcategoryId}`;
     
                 const deleteResponse = await fetch(subcategoryUrl, {
                     method: 'DELETE',

@@ -27,7 +27,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
       try {
         console.log('Token:', sessionStorage.getItem('token'));
 
-        const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/purchaser/categories', {
+        const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/categories', {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('token'),
           }, 
@@ -36,7 +36,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
 
         const categoryData = await response.json();
 
-        const subcategoryResponse = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/purchaser/subcategories', {
+        const subcategoryResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/subcategories', {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('token'),
           },

@@ -12,7 +12,7 @@ const WishList = () => {
     const fetchWishLists = async () => {
       try {
         const token = sessionStorage.getItem('token');
-        const response = await fetch("https://carboncube-ke-rails-4xo3.onrender.com/purchaser/wish_lists", {
+        const response = await fetch("https://carboncube-ke-rails-cu22.onrender.com/purchaser/wish_lists", {
           headers: {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
@@ -39,7 +39,7 @@ const WishList = () => {
 
   const handleDeleteWishList = async (productId) => {
     try {
-      await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/wish_lists/${productId}`, {
+      await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/wish_lists/${productId}`, {
         method: 'DELETE',
         headers: {
           "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
@@ -54,7 +54,7 @@ const WishList = () => {
 
   const handleAddToCart = async (productId) => {
     try {
-      await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items`, {
+      await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/cart_items`, {
         method: 'POST',
         headers: {
           "Authorization": `Bearer ${sessionStorage.getItem('token')}`,

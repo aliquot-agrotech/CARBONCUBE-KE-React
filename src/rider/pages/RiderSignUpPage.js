@@ -88,7 +88,7 @@ function RiderSignUpPage({ onSignup }) {
     // console.log("Form Data before submission:", payload);
   
     try {
-      const response = await axios.post('https://carboncube-ke-rails-4xo3.onrender.com/rider/signup', payload, {
+      const response = await axios.post('https://carboncube-ke-rails-cu22.onrender.com/rider/signup', payload, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

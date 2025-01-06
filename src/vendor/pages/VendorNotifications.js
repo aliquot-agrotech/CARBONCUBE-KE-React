@@ -20,7 +20,7 @@ const VendorNotifications = () => {
             const token = sessionStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/vendor/identify', {
+                    const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/identify', {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json', // Ensure Content-Type is set if needed
@@ -73,7 +73,7 @@ const VendorNotifications = () => {
     useEffect(() => {
         const fetchNotifications = async () => {
             const token = sessionStorage.getItem('token');
-            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/vendor/notifications', {
+            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/notifications', {
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 },

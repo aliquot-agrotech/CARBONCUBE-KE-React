@@ -36,7 +36,7 @@ const ProductDetails = () => {
         setLoadingReviews(true);
         
         try {
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/products/${productId}/reviews`);
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/products/${productId}/reviews`);
             if (!response.ok) throw new Error('Failed to fetch reviews');
             const data = await response.json();
             setReviews(data);
@@ -61,7 +61,7 @@ const ProductDetails = () => {
         // Fetch Product Details
         const fetchProductDetails = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products/${productId}`);
+                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/products/${productId}`);
                 if (!response.ok) throw new Error('Failed to fetch product details');
                 const data = await response.json();
                 setProduct(data);
@@ -75,7 +75,7 @@ const ProductDetails = () => {
         // Fetch Related Products
         const fetchRelatedProducts = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products/${productId}/related`);
+                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/products/${productId}/related`);
                 if (!response.ok) throw new Error('Failed to fetch related products');
                 const data = await response.json();
                 setRelatedProducts(data);
@@ -92,7 +92,7 @@ const ProductDetails = () => {
     const fetchVendorDetails = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/products/${productId}/vendor`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/products/${productId}/vendor`, {
                 // Add timeout and potentially other configuration
                 signal: AbortSignal.timeout(10000) // 10-second timeout
             });
@@ -142,7 +142,7 @@ const ProductDetails = () => {
     // Function to log button click events
     const logClickEventRevealVendorDetails = async (productId, eventType) => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -195,7 +195,7 @@ const ProductDetails = () => {
     
             // Step 2: API call to add the product to the wishlist
             const response = await axios.post(
-                `https://carboncube-ke-rails-4xo3.onrender.com/purchaser/wish_lists`,
+                `https://carboncube-ke-rails-cu22.onrender.com/purchaser/wish_lists`,
                 { product_id: product.id },
                 {
                     headers: {
@@ -221,7 +221,7 @@ const ProductDetails = () => {
     // Function to log button click events
     const logClickEventAddtoWishList = async (productId, eventType) => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -256,7 +256,7 @@ const ProductDetails = () => {
             await logClickEventAddtoCart(productId, 'Add-to-Cart');
     
             // Step 2: Add product to cart
-            const response = await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/cart_items`, {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -279,7 +279,7 @@ const ProductDetails = () => {
     // Function to log button click events
     const logClickEventAddtoCart = async (productId, eventType) => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -349,7 +349,7 @@ const ProductDetails = () => {
     // Function to log a click event
     const logClickEvent = async (productId, eventType) => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-4xo3.onrender.com/click_events', {
+            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -52,7 +52,7 @@ const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
     
             // Replace this with your actual API endpoint
             const response = await axios.post(
-                `https://carboncube-ke-rails-4xo3.onrender.com/purchaser/bookmarks`,
+                `https://carboncube-ke-rails-cu22.onrender.com/purchaser/bookmarks`,
                 { product_id: product.id },
                 {
                     headers: {
@@ -77,7 +77,7 @@ const ProductDetailsModal = ({ show, onHide, product, loading, error }) => {
     
     const handleAddToCart = async (productId) => {
         try {
-          await fetch(`https://carboncube-ke-rails-4xo3.onrender.com/purchaser/cart_items`, {
+          await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/cart_items`, {
             method: 'POST',
             headers: {
               "Authorization": `Bearer ${sessionStorage.getItem('token')}`,

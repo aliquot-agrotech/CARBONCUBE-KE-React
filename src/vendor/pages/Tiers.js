@@ -16,7 +16,7 @@ const TierPage = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     axios
-      .get('https://carboncube-ke-rails-4xo3.onrender.com/vendor/tiers', {
+      .get('https://carboncube-ke-rails-cu22.onrender.com/vendor/tiers', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -38,7 +38,7 @@ const TierPage = () => {
     }
   
     try {
-      const response = await fetch(`/https://carboncube-ke-rails-4xo3.onrender.com/vendor/tiers/${tierId}/update_tier`, {
+      const response = await fetch(`/https://carboncube-ke-rails-cu22.onrender.com/vendor/tiers/${tierId}/update_tier`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
