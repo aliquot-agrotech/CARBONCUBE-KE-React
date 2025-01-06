@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Container, Row, Col, Card, Form } from 'react-bootstrap';
+import { Trash } from 'react-bootstrap-icons'; // Import Trash icon
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
@@ -213,7 +214,10 @@ const TiersManagement = () => {
                         <Form>
                             {/* Tier Name */}
                             <Form.Group>
-                                <Form.Label>Name</Form.Label>
+                            <Row className="justify-content-center text-center">
+                                <Form.Label><h5><strong>Name</strong></h5></Form.Label>
+                            </Row>
+                                
                                 <Form.Control
                                     type="text"
                                     value={newTier.name}
@@ -225,7 +229,9 @@ const TiersManagement = () => {
 
                             {/* Ads Limit */}
                             <Form.Group>
-                                <Form.Label>Ads Limit</Form.Label>
+                                <Row className="justify-content-center text-center">
+                                    <Form.Label><h5><strong>Ads Limit</strong></h5></Form.Label>
+                                </Row>
                                 <Form.Control
                                     type="number"
                                     value={newTier.ads_limit}
@@ -237,7 +243,9 @@ const TiersManagement = () => {
 
                             {/* Features */}
                             <Form.Group>
-                                <Form.Label>Features</Form.Label>
+                                <Row className="justify-content-center text-center">
+                                    <Form.Label><h4><strong>Features</strong></h4></Form.Label>
+                                </Row>
                                 {newTier.features.map((feature, index) => (
                                     <Row key={index} className="mb-2">
                                         <Col xs={10}>
@@ -255,6 +263,7 @@ const TiersManagement = () => {
                                         <Col xs={2}>
                                             <Button
                                                 variant="danger"
+                                                className="rounded-pill"
                                                 onClick={() => {
                                                     const updatedFeatures = newTier.features.filter(
                                                         (_, i) => i !== index
@@ -262,7 +271,7 @@ const TiersManagement = () => {
                                                     setNewTier({ ...newTier, features: updatedFeatures });
                                                 }}
                                             >
-                                                -
+                                                <Trash size={20} /> {/* Use Trash icon */}
                                             </Button>
                                         </Col>
                                     </Row>
@@ -283,9 +292,21 @@ const TiersManagement = () => {
 
                             {/* Pricing */}
                             <Form.Group>
-                                <Form.Label>Pricing</Form.Label>
+                                <Row className="justify-content-center text-center">
+                                    <Form.Label><h4><strong>Pricing</strong></h4></Form.Label>
+                                </Row>
+                                <Row className="mb-3">
+                                    {/* Column Headings */}
+                                    <Col xs={5} className="text-center">
+                                        <strong>Months</strong>
+                                    </Col>
+                                    <Col xs={5} className="text-center">
+                                        <strong>Price</strong>
+                                    </Col>
+                                    <Col xs={2} />
+                                </Row>
                                 {newTier.pricings.map((pricing, index) => (
-                                    <Row key={index} className="mb-2">
+                                    <Row key={index} className="mb-3 align-items-center">
                                         <Col xs={5}>
                                             <Form.Control
                                                 type="number"
@@ -296,6 +317,7 @@ const TiersManagement = () => {
                                                     updatedPricings[index].duration_months = e.target.value;
                                                     setNewTier({ ...newTier, pricings: updatedPricings });
                                                 }}
+                                                // className="form-control-lg"
                                             />
                                         </Col>
                                         <Col xs={5}>
@@ -308,11 +330,13 @@ const TiersManagement = () => {
                                                     updatedPricings[index].price = e.target.value;
                                                     setNewTier({ ...newTier, pricings: updatedPricings });
                                                 }}
+                                                // className="form-control-lg"
                                             />
                                         </Col>
-                                        <Col xs={2}>
+                                        <Col xs={2} className="d-flex justify-content-center">
                                             <Button
                                                 variant="danger"
+                                                className="rounded-pill"
                                                 onClick={() => {
                                                     const updatedPricings = newTier.pricings.filter(
                                                         (_, i) => i !== index
@@ -320,14 +344,14 @@ const TiersManagement = () => {
                                                     setNewTier({ ...newTier, pricings: updatedPricings });
                                                 }}
                                             >
-                                                -
+                                                <Trash size={20} />
                                             </Button>
                                         </Col>
                                     </Row>
                                 ))}
                                 <Button
                                     variant="primary"
-                                    className="rounded-pill"
+                                    className="rounded-pill mt-3"
                                     onClick={() =>
                                         setNewTier({
                                             ...newTier,
