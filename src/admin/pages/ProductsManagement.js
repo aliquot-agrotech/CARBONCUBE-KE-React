@@ -425,8 +425,8 @@ const ProductsManagement = () => {
                                                                 </React.Fragment>
                                                             )) : 'N/A'}
                                                         </strong>
-
                                                     </Card.Text>
+
                                                     <Row className="align-middle">
                                                         <Col xs={9} md={6} lg={6}>
                                                             <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)} className="py-1">

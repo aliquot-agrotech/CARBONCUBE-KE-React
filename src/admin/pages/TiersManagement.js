@@ -50,12 +50,11 @@ const TiersManagement = () => {
         setIsEditing(!!tier);
         setShowModal(true);
         setNewTier(
-            tier
-                ? {
-                      ...tier,
-                      features: tier.tier_features || [{ feature_name: '' }],
-                      pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
-                  }
+            tier ? {
+                        ...tier,
+                        features: tier.tier_features || [{ feature_name: '' }],
+                        pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
+                    }
                 : { name: '', ads_limit: 0, features: [{ feature_name: '' }], pricings: [{ duration_months: '', price: '' }] }
         );
     };
@@ -132,21 +131,47 @@ const TiersManagement = () => {
                                                     <Col xs={12} md={6} lg={3} key={tier.id} className="mb-4">
                                                         <Card className="custom-card">
                                                             <Card.Header className="text-center bg-warning text-white">
-                                                                <h5 className="mb-0">{tier.name}</h5>
+                                                                <h5 className="mb-0 text-dark">{tier.name}</h5>
                                                             </Card.Header>
                                                             <Card.Body>
                                                                 <p><strong>Ads Limit:</strong> {tier.ads_limit}</p>
-                                                                <h6>Features:</h6>
+                                                                <h5 className="text-center">Features:</h5>
                                                                 <ul>
                                                                     {tier.tier_features.map((feature, index) => (
-                                                                        <li key={index}>{feature.feature_name}</li>
+                                                                        <li key={index}>
+                                                                            <em>{feature.feature_name}</em>
+                                                                        </li>
                                                                     ))}
                                                                 </ul>
-                                                                <h6>Pricing:</h6>
+                                                                <h5 className="text-center">Pricing:</h5>
                                                                 <ul>
                                                                     {tier.tier_pricings.map((pricing, index) => (
-                                                                        <li key={index}>
-                                                                            {pricing.duration_months} months - Kshs {pricing.price}
+                                                                        <li key={index} className="d-flex justify-content-center align-items-center">
+                                                                            <Card.Text className="price-container d-flex justify-content-center align-items-center mb-0">
+                                                                                <span className="me-2">{pricing.duration_months} months -</span>
+                                                                                <span>
+                                                                                    <em className="product-price-label text-success">Kshs: </em>
+                                                                                </span>
+                                                                                <strong style={{ fontSize: '17px' }} className="text-danger ms-1">
+                                                                                    {pricing.price
+                                                                                        ? parseFloat(pricing.price)
+                                                                                            .toFixed(2)
+                                                                                            .split('.')
+                                                                                            .map((part, i) => (
+                                                                                                <React.Fragment key={i}>
+                                                                                                    {i === 0 ? (
+                                                                                                        <span>{parseInt(part).toLocaleString()}</span> // Integer part with comma
+                                                                                                    ) : (
+                                                                                                        <>
+                                                                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                            <span className="price-decimal">{part}</span>
+                                                                                                        </>
+                                                                                                    )}
+                                                                                                </React.Fragment>
+                                                                                            ))
+                                                                                        : 'N/A'}
+                                                                                </strong>
+                                                                            </Card.Text>
                                                                         </li>
                                                                     ))}
                                                                 </ul>
@@ -154,7 +179,7 @@ const TiersManagement = () => {
                                                             <Card.Footer className="text-center">
                                                                 <Button
                                                                     variant="warning"
-                                                                    className="rounded-pill"
+                                                                    className="rounded-pill py-1 my-0"
                                                                     onClick={() => handleShowModal(tier)}
                                                                 >
                                                                     Edit
@@ -180,8 +205,8 @@ const TiersManagement = () => {
                 </Container>
 
                 {/* Modal */}
-                <Modal centered show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header closeButton>
+                <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
+                    <Modal.Header>
                         <Modal.Title>{isEditing ? 'Edit Tier' : 'Add New Tier'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -244,6 +269,7 @@ const TiersManagement = () => {
                                 ))}
                                 <Button
                                     variant="primary"
+                                    className="rounded-pill"
                                     onClick={() =>
                                         setNewTier({
                                             ...newTier,
@@ -301,6 +327,7 @@ const TiersManagement = () => {
                                 ))}
                                 <Button
                                     variant="primary"
+                                    className="rounded-pill"
                                     onClick={() =>
                                         setNewTier({
                                             ...newTier,
@@ -316,7 +343,7 @@ const TiersManagement = () => {
                             </Form.Group>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer className="p-0 p-lg-1">
                         <Button variant="danger" onClick={handleCloseModal}>
                             Close
                         </Button>
