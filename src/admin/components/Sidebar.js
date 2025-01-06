@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { Shop, Box, BagCheck, PersonCheck, FileText, Percent, Envelope, GraphUp, XCircle, ArrowRight, List } from 'react-bootstrap-icons';
+import { Shop, Box, BagCheck, PersonCheck, FileText, Percent, Envelope, GraphUp, XCircle, ArrowRight, List, Union } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMotorcycle } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
@@ -58,6 +58,11 @@ const Sidebar = () => {
             href="/admin/categories"
             className={location.pathname === '/admin/categories' ? 'active' : ''}>
             <List className="icon" /> {isOpen && 'Categories'}
+          </Nav.Link>
+          <Nav.Link
+            href="/admin/tiers"
+            className={location.pathname === '/admin/tiers' ? 'active' : ''}>
+            <Union className="icon" /> {isOpen && 'Tiers'}
           </Nav.Link>
           <Nav.Link
             href="/admin/vendors"

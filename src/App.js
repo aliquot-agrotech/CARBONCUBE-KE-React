@@ -14,6 +14,7 @@ import Messages from './admin/pages/Messages';
 import PromotionsDiscount from './admin/pages/PromotionsDiscount';
 import Notifications from './admin/pages/Notifications'; 
 import CategoriesManagement from './admin/pages/CategoriesManagement';
+import TiersManagement from './admin/pages/TiersManagement';
 
 // Vendor Imports
 import VendorSignUpPage from './vendor/pages/VendorSignUpPage';
@@ -110,6 +111,7 @@ function App() {
             <Route path="promotions" element={<PromotionsDiscount onLogout={handleLogout} />} />
             <Route path="notifications" element={<Notifications onLogout={handleLogout} />} />
             <Route path="categories" element={<CategoriesManagement onLogout={handleLogout} />} />
+            <Route path="tiers" element={<TiersManagement onLogout={handleLogout} />} />
           </Route>
         )}
 
