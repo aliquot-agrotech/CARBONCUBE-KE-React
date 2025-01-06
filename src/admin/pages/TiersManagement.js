@@ -3,7 +3,7 @@ import { Modal, Button, Container, Row, Col, Card, Form } from 'react-bootstrap'
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
-// import '../css/TiersManagement.css'; // Custom CSS for Tiers
+import '../css/TiersManagement.css'; // Custom CSS for additional styling
 
 const TiersManagement = () => {
     const [tiers, setTiers] = useState([]);
@@ -12,8 +12,14 @@ const TiersManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [newTier, setNewTier] = useState({ name: '', description: '', duration: '', price: 0 });
+    const [newTier, setNewTier] = useState({
+        name: '',
+        ads_limit: 0,
+        features: [{ feature_name: '' }],
+        pricings: [{ duration_months: '', price: '' }],
+    });
 
+    // Fetch Tiers
     const fetchTiers = async () => {
         try {
             const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/tiers`, {
@@ -43,13 +49,21 @@ const TiersManagement = () => {
         setSelectedTier(tier);
         setIsEditing(!!tier);
         setShowModal(true);
-        setNewTier(tier || { name: '', description: '', duration: '', price: 0 });
+        setNewTier(
+            tier
+                ? {
+                      ...tier,
+                      features: tier.tier_features || [{ feature_name: '' }],
+                      pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
+                  }
+                : { name: '', ads_limit: 0, features: [{ feature_name: '' }], pricings: [{ duration_months: '', price: '' }] }
+        );
     };
 
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedTier(null);
-        setNewTier({ name: '', description: '', duration: '', price: 0 });
+        setNewTier({ name: '', ads_limit: 0, features: [{ feature_name: '' }], pricings: [{ duration_months: '', price: '' }] });
     };
 
     const handleSaveTier = async () => {
@@ -59,46 +73,28 @@ const TiersManagement = () => {
             : 'https://carboncube-ke-rails-cu22.onrender.com/admin/tiers';
 
         try {
-            const response = await fetch(url, {
+            const tierResponse = await fetch(url, {
                 method: method,
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newTier),
+                body: JSON.stringify({
+                    name: newTier.name,
+                    ads_limit: newTier.ads_limit,
+                    features: newTier.features,
+                    pricings: newTier.pricings,
+                }),
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Failed to save tier: ${response.status} - ${errorText}`);
+            if (!tierResponse.ok) {
+                throw new Error('Failed to save tier');
             }
 
-            handleCloseModal();
-            setLoading(true);
             await fetchTiers();
+            handleCloseModal();
         } catch (error) {
             setError(`Error saving tier: ${error.message}`);
-        }
-    };
-
-    const handleDeleteTier = async (id) => {
-        try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/tiers/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                },
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Failed to delete tier: ${response.status} - ${errorText}`);
-            }
-
-            setLoading(true);
-            await fetchTiers();
-        } catch (error) {
-            setError(`Error deleting tier: ${error.message}`);
         }
     };
 
@@ -125,94 +121,210 @@ const TiersManagement = () => {
                         </Col>
                         <Col xs={12} md={10} lg={9} className="p-2 d-flex flex-column">
                             <Card className="section">
-                                <Card.Header>
+                                <Card.Header className="justify-content-center">
                                     <h3 className="mb-0">Tiers Management</h3>
                                 </Card.Header>
                                 <Card.Body>
                                     {tiers.length > 0 ? (
-                                        <Row>
-                                            {tiers.map((tier) => (
-                                                <Col xs={12} md={6} key={tier.id} className="mb-3">
-                                                    <Card className="custom-card">
-                                                        <Card.Header>
-                                                            <h4>{tier.name}</h4>
-                                                        </Card.Header>
-                                                        <Card.Body>
-                                                            <p><strong>Description:</strong> {tier.description}</p>
-                                                            <p><strong>Duration:</strong> {tier.duration}</p>
-                                                            <p><strong>Price:</strong> ${tier.price}</p>
-                                                        </Card.Body>
-                                                        <Card.Footer className="d-flex justify-content-between">
-                                                            <Button variant="warning" onClick={() => handleShowModal(tier)}>Edit</Button>
-                                                            <Button variant="danger" onClick={() => handleDeleteTier(tier.id)}>Delete</Button>
-                                                        </Card.Footer>
-                                                    </Card>
-                                                </Col>
-                                            ))}
-                                        </Row>
+                                        <Container>
+                                            <Row>
+                                                {tiers.map((tier) => (
+                                                    <Col xs={12} md={6} lg={3} key={tier.id} className="mb-4">
+                                                        <Card className="custom-card">
+                                                            <Card.Header className="text-center bg-warning text-white">
+                                                                <h5 className="mb-0">{tier.name}</h5>
+                                                            </Card.Header>
+                                                            <Card.Body>
+                                                                <p><strong>Ads Limit:</strong> {tier.ads_limit}</p>
+                                                                <h6>Features:</h6>
+                                                                <ul>
+                                                                    {tier.tier_features.map((feature, index) => (
+                                                                        <li key={index}>{feature.feature_name}</li>
+                                                                    ))}
+                                                                </ul>
+                                                                <h6>Pricing:</h6>
+                                                                <ul>
+                                                                    {tier.tier_pricings.map((pricing, index) => (
+                                                                        <li key={index}>
+                                                                            {pricing.duration_months} months - Kshs {pricing.price}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            </Card.Body>
+                                                            <Card.Footer className="text-center">
+                                                                <Button
+                                                                    variant="warning"
+                                                                    className="rounded-pill"
+                                                                    onClick={() => handleShowModal(tier)}
+                                                                >
+                                                                    Edit
+                                                                </Button>
+                                                            </Card.Footer>
+                                                        </Card>
+                                                    </Col>
+                                                ))}
+                                            </Row>
+                                        </Container>
                                     ) : (
-                                        <p>No tiers available</p>
+                                        <p>No tiers available.</p>
                                     )}
                                 </Card.Body>
                                 <Card.Footer className="text-center">
-                                    <Button variant="success" onClick={() => handleShowModal()}>
+                                    <Button variant="warning" className="rounded-pill" onClick={() => handleShowModal()}>
                                         Add New Tier
                                     </Button>
                                 </Card.Footer>
                             </Card>
-                            <Modal centered show={showModal} onHide={handleCloseModal}>
-                                <Modal.Header>
-                                    <Modal.Title>{isEditing ? 'Edit Tier' : 'Add New Tier'}</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <Form>
-                                        <Form.Group controlId="tierName">
-                                            <Form.Label>Name</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                value={newTier.name}
-                                                onChange={(e) => setNewTier({ ...newTier, name: e.target.value })}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="tierDescription">
-                                            <Form.Label>Description</Form.Label>
-                                            <Form.Control
-                                                as="textarea"
-                                                rows={3}
-                                                value={newTier.description}
-                                                onChange={(e) => setNewTier({ ...newTier, description: e.target.value })}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="tierDuration">
-                                            <Form.Label>Duration</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                value={newTier.duration}
-                                                onChange={(e) => setNewTier({ ...newTier, duration: e.target.value })}
-                                            />
-                                        </Form.Group>
-                                        <Form.Group controlId="tierPrice">
-                                            <Form.Label>Price</Form.Label>
-                                            <Form.Control
-                                                type="number"
-                                                value={newTier.price}
-                                                onChange={(e) => setNewTier({ ...newTier, price: parseFloat(e.target.value) })}
-                                            />
-                                        </Form.Group>
-                                    </Form>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <Button variant="primary" onClick={handleSaveTier}>
-                                        Save Changes
-                                    </Button>
-                                    <Button variant="secondary" onClick={handleCloseModal}>
-                                        Close
-                                    </Button>
-                                </Modal.Footer>
-                            </Modal>
                         </Col>
                     </Row>
                 </Container>
+
+                {/* Modal */}
+                <Modal centered show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{isEditing ? 'Edit Tier' : 'Add New Tier'}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            {/* Tier Name */}
+                            <Form.Group>
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    value={newTier.name}
+                                    onChange={(e) =>
+                                        setNewTier({ ...newTier, name: e.target.value })
+                                    }
+                                />
+                            </Form.Group>
+
+                            {/* Ads Limit */}
+                            <Form.Group>
+                                <Form.Label>Ads Limit</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    value={newTier.ads_limit}
+                                    onChange={(e) =>
+                                        setNewTier({ ...newTier, ads_limit: e.target.value })
+                                    }
+                                />
+                            </Form.Group>
+
+                            {/* Features */}
+                            <Form.Group>
+                                <Form.Label>Features</Form.Label>
+                                {newTier.features.map((feature, index) => (
+                                    <Row key={index} className="mb-2">
+                                        <Col xs={10}>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder={`Feature ${index + 1}`}
+                                                value={feature.feature_name}
+                                                onChange={(e) => {
+                                                    const updatedFeatures = [...newTier.features];
+                                                    updatedFeatures[index].feature_name = e.target.value;
+                                                    setNewTier({ ...newTier, features: updatedFeatures });
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col xs={2}>
+                                            <Button
+                                                variant="danger"
+                                                onClick={() => {
+                                                    const updatedFeatures = newTier.features.filter(
+                                                        (_, i) => i !== index
+                                                    );
+                                                    setNewTier({ ...newTier, features: updatedFeatures });
+                                                }}
+                                            >
+                                                -
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                ))}
+                                <Button
+                                    variant="primary"
+                                    onClick={() =>
+                                        setNewTier({
+                                            ...newTier,
+                                            features: [...newTier.features, { feature_name: '' }],
+                                        })
+                                    }
+                                >
+                                    Add Feature
+                                </Button>
+                            </Form.Group>
+
+                            {/* Pricing */}
+                            <Form.Group>
+                                <Form.Label>Pricing</Form.Label>
+                                {newTier.pricings.map((pricing, index) => (
+                                    <Row key={index} className="mb-2">
+                                        <Col xs={5}>
+                                            <Form.Control
+                                                type="number"
+                                                placeholder="Months"
+                                                value={pricing.duration_months}
+                                                onChange={(e) => {
+                                                    const updatedPricings = [...newTier.pricings];
+                                                    updatedPricings[index].duration_months = e.target.value;
+                                                    setNewTier({ ...newTier, pricings: updatedPricings });
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col xs={5}>
+                                            <Form.Control
+                                                type="number"
+                                                placeholder="Price"
+                                                value={pricing.price}
+                                                onChange={(e) => {
+                                                    const updatedPricings = [...newTier.pricings];
+                                                    updatedPricings[index].price = e.target.value;
+                                                    setNewTier({ ...newTier, pricings: updatedPricings });
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col xs={2}>
+                                            <Button
+                                                variant="danger"
+                                                onClick={() => {
+                                                    const updatedPricings = newTier.pricings.filter(
+                                                        (_, i) => i !== index
+                                                    );
+                                                    setNewTier({ ...newTier, pricings: updatedPricings });
+                                                }}
+                                            >
+                                                -
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                ))}
+                                <Button
+                                    variant="primary"
+                                    onClick={() =>
+                                        setNewTier({
+                                            ...newTier,
+                                            pricings: [
+                                                ...newTier.pricings,
+                                                { duration_months: '', price: '' },
+                                            ],
+                                        })
+                                    }
+                                >
+                                    Add Pricing
+                                </Button>
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleCloseModal}>
+                            Close
+                        </Button>
+                        <Button variant="warning" onClick={handleSaveTier}>
+                            Save
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </>
     );
