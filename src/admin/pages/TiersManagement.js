@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Container, Row, Col, Card, Form } from 'react-bootstrap';
-import { Trash, Pencil } from 'react-bootstrap-icons';
+import { Trash, Pencil, Plus } from 'react-bootstrap-icons';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
@@ -287,174 +287,211 @@ const TiersManagement = () => {
                     </Row>
                 </Container>
 
-                {/* Modal */}
-                <Modal centered show={showModal} onHide={handleCloseModal} size="lg">
-                    <Modal.Header>
-                        <Modal.Title>{isEditing ? 'Edit Tier' : 'Add New Tier'}</Modal.Title>
+               {/* ====================================== ADD & EDIT TIER MODAL ====================================== */}
+                <Modal 
+                    centered 
+                    show={showModal} 
+                    onHide={handleCloseModal} 
+                    size="lg"
+                    contentClassName="border-0 shadow-lg"
+                >
+                    <Modal.Header className="border-bottom-0 rounded-top p-2">
+                        <div className="d-flex align-items-center">
+                            <Modal.Title className="fw-bold text-dark">
+                                {isEditing ? 'Edit Tier' : 'Add New Tier'}
+                            </Modal.Title>
+                        </div>
                     </Modal.Header>
-                    <Modal.Body>
+
+                    <Modal.Body className="p-4">
                         <Form>
                             {/* Tier Name */}
-                            <Form.Group>
-                            <Row className="justify-content-center text-center">
-                                <Form.Label><h5><strong>Name</strong></h5></Form.Label>
-                            </Row>
-                                
+                            <Form.Group className="mb-4">
+                                <Form.Label className="fw-semibold text-dark">Name</Form.Label>
                                 <Form.Control
                                     type="text"
+                                    className="form-control-lg"
                                     value={newTier.name}
-                                    onChange={(e) =>
-                                        setNewTier({ ...newTier, name: e.target.value })
-                                    }
+                                    onChange={(e) => setNewTier({ ...newTier, name: e.target.value })}
+                                    placeholder="Enter tier name"
+                                    style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
                                 />
                             </Form.Group>
 
                             {/* Ads Limit */}
-                            <Form.Group>
-                                <Row className="justify-content-center text-center">
-                                    <Form.Label><h5><strong>Ads Limit</strong></h5></Form.Label>
-                                </Row>
+                            <Form.Group className="mb-4">
+                                <Form.Label className="fw-semibold text-dark">Ads Limit</Form.Label>
                                 <Form.Control
                                     type="number"
+                                    className="form-control-lg"
                                     value={newTier.ads_limit}
-                                    onChange={(e) =>
-                                        setNewTier({ ...newTier, ads_limit: e.target.value })
-                                    }
+                                    onChange={(e) => setNewTier({ ...newTier, ads_limit: e.target.value })}
+                                    placeholder="Enter ads limit"
+                                    style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
                                 />
                             </Form.Group>
 
                             {/* Features */}
-                            <Form.Group>
-                                <Row className="justify-content-center text-center">
-                                    <Form.Label><h4><strong>Features</strong></h4></Form.Label>
-                                </Row>
-                                {newTier.features.map((feature, index) => (
-                                    <Row key={index} className="mb-2">
-                                        <Col xs={10}>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder={`Feature ${index + 1}`}
-                                                value={feature.feature_name}
-                                                onChange={(e) => {
-                                                    const updatedFeatures = [...newTier.features];
-                                                    updatedFeatures[index].feature_name = e.target.value;
-                                                    setNewTier({ ...newTier, features: updatedFeatures });
-                                                }}
-                                            />
-                                        </Col>
-                                        <Col xs={2}>
-                                            <Button
-                                                variant="danger"
-                                                className="rounded-pill"
-                                                onClick={() => {
-                                                    const updatedFeatures = newTier.features.filter(
-                                                        (_, i) => i !== index
-                                                    );
-                                                    setNewTier({ ...newTier, features: updatedFeatures });
-                                                }}
-                                            >
-                                                <Trash size={20} /> {/* Use Trash icon */}
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                ))}
-                                <Button
-                                    variant="primary"
-                                    className="rounded-pill"
-                                    onClick={() =>
-                                        setNewTier({
+                            `<Form.Group className="mb-4">
+                                <Form.Label className="fw-semibold d-flex align-items-center text-dark">
+                                    <h5 className="me-2">Features</h5>
+                                    <span className="badge bg-primary rounded-pill">
+                                        {newTier.features.length}
+                                    </span>
+                                </Form.Label>
+                                
+                                {/* Features Wrapper */}
+                                <div className="features-wrapper">
+                                    {newTier.features.map((feature, index) => (
+                                        <div key={index} className="mb-3 px-2 py-1 bg-white rounded shadow-sm d-flex align-items-center">
+                                            <Row className="w-100 g-2">
+                                                <Col md={11} className="d-flex align-items-center">
+                                                    <Form.Control
+                                                        type="text"
+                                                        placeholder="Enter feature description"
+                                                        className="mt-2 mb-1"
+                                                        value={feature.feature_name}
+                                                        onChange={(e) => {
+                                                            const updatedFeatures = [...newTier.features];
+                                                            updatedFeatures[index].feature_name = e.target.value;
+                                                            setNewTier({ ...newTier, features: updatedFeatures });
+                                                        }}
+                                                        style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
+                                                    />
+                                                </Col>
+                                                <Col md={1} className="d-flex align-items-center justify-content-center">
+                                                    <Button
+                                                        variant="danger"
+                                                        className="w-100 rounded-pill mt-2 mb-1"
+                                                        style={{ borderRadius: '8px' }}
+                                                        onClick={() => {
+                                                            const updatedFeatures = newTier.features.filter(
+                                                                (_, i) => i !== index
+                                                            );
+                                                            setNewTier({ ...newTier, features: updatedFeatures });
+                                                        }}
+                                                    >
+                                                        <Trash size={18} />
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Add Feature Button */}
+                                <div className="d-flex justify-content-center mt-3">
+                                    <Button
+                                        variant="outline-primary"
+                                        className="w-50 rounded-pill"
+                                        style={{ borderRadius: '8px' }}
+                                        onClick={() => setNewTier({
                                             ...newTier,
-                                            features: [...newTier.features, { feature_name: '' }],
-                                        })
-                                    }
-                                >
-                                    Add Feature
-                                </Button>
+                                            features: [
+                                                ...newTier.features,
+                                                { feature_name: '' },
+                                            ],
+                                        })}
+                                    >
+                                        <Plus size={18} className="me-1" />
+                                        Add Feature
+                                    </Button>
+                                </div>
                             </Form.Group>
 
                             {/* Pricing */}
-                            <Form.Group>
-                                <Row className="justify-content-center text-center">
-                                    <Form.Label><h4><strong>Pricing</strong></h4></Form.Label>
-                                </Row>
-                                <Row className="mb-3">
-                                    {/* Column Headings */}
-                                    <Col xs={5} className="text-center">
-                                        <strong>Months</strong>
-                                    </Col>
-                                    <Col xs={5} className="text-center">
-                                        <strong>Price</strong>
-                                    </Col>
-                                    <Col xs={2} />
-                                </Row>
-                                {newTier.pricings.map((pricing, index) => (
-                                    <Row key={index} className="mb-3 align-items-center">
-                                        <Col xs={5}>
-                                            <Form.Control
-                                                type="number"
-                                                placeholder="Months"
-                                                value={pricing.duration_months}
-                                                onChange={(e) => {
-                                                    const updatedPricings = [...newTier.pricings];
-                                                    updatedPricings[index].duration_months = e.target.value;
-                                                    setNewTier({ ...newTier, pricings: updatedPricings });
-                                                }}
-                                                // className="form-control-lg"
-                                            />
-                                        </Col>
-                                        <Col xs={5}>
-                                            <Form.Control
-                                                type="number"
-                                                placeholder="Price"
-                                                value={pricing.price}
-                                                onChange={(e) => {
-                                                    const updatedPricings = [...newTier.pricings];
-                                                    updatedPricings[index].price = e.target.value;
-                                                    setNewTier({ ...newTier, pricings: updatedPricings });
-                                                }}
-                                                // className="form-control-lg"
-                                            />
-                                        </Col>
-                                        <Col xs={2} className="d-flex justify-content-center">
-                                            <Button
-                                                variant="danger"
-                                                className="rounded-pill"
-                                                onClick={() => {
-                                                    const updatedPricings = newTier.pricings.filter(
-                                                        (_, i) => i !== index
-                                                    );
-                                                    setNewTier({ ...newTier, pricings: updatedPricings });
-                                                }}
-                                            >
-                                                <Trash size={20} />
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                ))}
-                                <Button
-                                    variant="primary"
-                                    className="rounded-pill mt-3"
-                                    onClick={() =>
-                                        setNewTier({
+                            <Form.Group className="mb-4">
+                                <Form.Label className="fw-semibold d-flex align-items-center text-dark">
+                                    <h5 className="me-2">Pricing Plans</h5>
+                                    <span className="badge bg-primary rounded-pill">
+                                        {newTier.pricings.length}
+                                    </span>
+                                </Form.Label>
+                                
+                                {/* Pricing Plans Wrapper */}
+                                <div className="pricing-plans-wrapper">
+                                    {newTier.pricings.map((pricing, index) => (
+                                        <div key={index} className="mb-3 px-2 py-1 bg-white rounded shadow-sm">
+                                            <Row className="g-2 align-items-end">
+                                                <Col md={4}>
+                                                    <Form.Label className="small mb-1">Duration (Months)</Form.Label>
+                                                    <Form.Control
+                                                        type="number"
+                                                        className="mt-2 mb-1"
+                                                        value={pricing.duration_months}
+                                                        onChange={(e) => {
+                                                            const updatedPricings = [...newTier.pricings];
+                                                            updatedPricings[index].duration_months = e.target.value;
+                                                            setNewTier({ ...newTier, pricings: updatedPricings });
+                                                        }}
+                                                        style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
+                                                    />
+                                                </Col>
+                                                <Col md={7}>
+                                                    <Form.Label className="small mb-1">Price (Kshs:)</Form.Label>
+                                                    <div className="d-flex align-items-center">
+                                                        <Form.Control
+                                                            type="number"
+                                                            className="mt-2 mb-1"
+                                                            value={pricing.price}
+                                                            onChange={(e) => {
+                                                                const updatedPricings = [...newTier.pricings];
+                                                                updatedPricings[index].price = e.target.value;
+                                                                setNewTier({ ...newTier, pricings: updatedPricings });
+                                                            }}
+                                                            style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
+                                                        />
+                                                    </div>
+                                                </Col>
+                                                <Col md={1} className="d-flex align-items-center justify-content-center">
+                                                    <Button
+                                                        variant="danger"
+                                                        className="w-100 rounded-pill mt-2 mb-2"
+                                                        style={{ borderRadius: '8px' }}
+                                                        onClick={() => {
+                                                            const updatedPricings = newTier.pricings.filter(
+                                                                (_, i) => i !== index
+                                                            );
+                                                            setNewTier({ ...newTier, pricings: updatedPricings });
+                                                        }}
+                                                    >
+                                                        <Trash size={18} />
+                                                    </Button>
+                                                </Col>
+
+                                            </Row>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Add Pricing Plan Button */}
+                                <div className="d-flex justify-content-center mt-3">
+                                    <Button
+                                        variant="outline-primary"
+                                        className="w-50 rounded-pill"
+                                        style={{ borderRadius: '8px' }}
+                                        onClick={() => setNewTier({
                                             ...newTier,
                                             pricings: [
                                                 ...newTier.pricings,
                                                 { duration_months: '', price: '' },
                                             ],
-                                        })
-                                    }
-                                >
-                                    Add Pricing
-                                </Button>
+                                        })}
+                                    >
+                                        <Plus size={18} className="me-1" />
+                                        Add Pricing Plan
+                                    </Button>
+                                </div>
                             </Form.Group>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer className="p-0 p-lg-1">
-                        <Button variant="danger" onClick={handleCloseModal}>
-                            Close
+
+                    <Modal.Footer className="border-top-0 p-2">
+                        <Button variant="danger" className="rounded-pill" onClick={handleCloseModal} style={{ borderRadius: '8px' }}>
+                            Cancel
                         </Button>
-                        <Button variant="warning" onClick={handleSaveTier}>
-                            Save
+                        <Button variant="warning" className="rounded-pill" onClick={handleSaveTier} style={{ borderRadius: '8px' }}>
+                            {isEditing ? 'Update Tier' : 'Create Tier'}
                         </Button>
                     </Modal.Footer>
                 </Modal>
