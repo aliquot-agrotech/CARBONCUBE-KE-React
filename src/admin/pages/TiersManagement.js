@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Container, Row, Col, Card, Form } from 'react-bootstrap';
-import { Trash } from 'react-bootstrap-icons'; // Import Trash icon
+import { Trash } from 'react-bootstrap-icons';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
-import '../css/TiersManagement.css'; // Custom CSS for additional styling
+import '../css/TiersManagement.css';
 
 const TiersManagement = () => {
     const [tiers, setTiers] = useState([]);
@@ -20,23 +20,28 @@ const TiersManagement = () => {
         pricings: [{ duration_months: '', price: '' }],
     });
 
-    // Fetch Tiers
     const fetchTiers = async () => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/tiers`, {
+            setLoading(true);
+            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/admin/tiers', {
                 headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                 },
             });
-
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                const errorText = await response.text();
+                throw new Error(errorText || 'Failed to fetch tiers');
             }
-
             const data = await response.json();
-            setTiers(data);
+            setTiers(
+                data.map((tier) => ({
+                    ...tier,
+                    tier_features: tier.tier_features || [{ feature_name: '' }],
+                    tier_pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
+                }))
+            );
         } catch (error) {
-            setError('Error fetching tiers');
+            setError(`Error fetching tiers: ${error.message}`);
         } finally {
             setLoading(false);
         }
@@ -51,11 +56,12 @@ const TiersManagement = () => {
         setIsEditing(!!tier);
         setShowModal(true);
         setNewTier(
-            tier ? {
-                        ...tier,
-                        features: tier.tier_features || [{ feature_name: '' }],
-                        pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
-                    }
+            tier
+                ? {
+                      ...tier,
+                      features: tier.tier_features || [{ feature_name: '' }],
+                      pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
+                  }
                 : { name: '', ads_limit: 0, features: [{ feature_name: '' }], pricings: [{ duration_months: '', price: '' }] }
         );
     };
@@ -73,10 +79,10 @@ const TiersManagement = () => {
             : 'https://carboncube-ke-rails-cu22.onrender.com/admin/tiers';
 
         try {
-            const tierResponse = await fetch(url, {
-                method: method,
+            const response = await fetch(url, {
+                method,
                 headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                    Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
@@ -86,11 +92,10 @@ const TiersManagement = () => {
                     pricings: newTier.pricings,
                 }),
             });
-
-            if (!tierResponse.ok) {
-                throw new Error('Failed to save tier');
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || 'Failed to save tier');
             }
-
             await fetchTiers();
             handleCloseModal();
         } catch (error) {
@@ -107,7 +112,7 @@ const TiersManagement = () => {
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return <div className="error-message">{error}</div>;
     }
 
     return (
