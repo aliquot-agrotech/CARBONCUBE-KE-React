@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Container, Row, Col, Card, Form } from 'react-bootstrap';
-import { Trash } from 'react-bootstrap-icons';
+import { Trash, Pencil } from 'react-bootstrap-icons';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
@@ -98,24 +98,72 @@ const TiersManagement = () => {
                     pricings: newTier.pricings,
                 }),
             });
+    
             if (!response.ok) {
                 const errorText = await response.text();
                 throw new Error(errorText || 'Failed to save tier');
             }
+    
             const updatedTier = await response.json();
     
-            setTiers((prevTiers) =>
-                prevTiers.map((tier) =>
-                    tier.id === updatedTier.id
-                        ? { ...updatedTier, orderIndex: tier.orderIndex } // Preserve order index
-                        : tier
-                )
-            );
+            // Update the state with the new tier
+            if (isEditing) {
+                // If editing, update the existing tier
+                setTiers(prevTiers =>
+                    prevTiers.map(tier =>
+                        tier.id === updatedTier.id
+                            ? { ...updatedTier, orderIndex: tier.orderIndex } // Preserve order index
+                            : tier
+                    )
+                );
+            } else {
+                // If it's a new tier, add it to the state
+                setTiers(prevTiers => [...prevTiers, updatedTier]);
+            }
+    
             handleCloseModal();
         } catch (error) {
             setError(`Error saving tier: ${error.message}`);
         }
     };
+    
+
+    const deleteTier = async (tierId) => {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            alert("Authorization token is missing. Please log in again.");
+            return;
+        }
+    
+        // Check if the tier is assigned to a vendor (this will be based on your database structure)
+        const tier = tiers.find(t => t.id === tierId);
+        
+        if (tier && tier.vendor) {
+            // Tier is assigned to a vendor, prevent deletion
+            alert("This tier is already assigned to a vendor and cannot be deleted.");
+            return;
+        }
+    
+        try {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/tiers/${tierId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: 'Bearer ' + token,  // Adding the token in the header
+                },
+            });
+    
+            if (response.ok) {
+                // If the tier is deleted, update the state to remove it
+                setTiers(tiers.filter(t => t.id !== tierId));
+            } else {
+                alert("Failed to delete the tier.");
+            }
+        } catch (error) {
+            console.error("Error deleting tier:", error);
+            alert("An error occurred while deleting the tier.");
+        }
+    };
+    
 
     if (loading) {
         return (
@@ -199,15 +247,25 @@ const TiersManagement = () => {
                                                                         ))}
                                                                     </ul>
                                                                 </Card.Body>
-                                                                <Card.Footer className="text-center">
-                                                                    <Button
-                                                                        variant="warning"
-                                                                        className="rounded-pill py-1 my-0"
-                                                                        onClick={() => handleShowModal(tier)}
-                                                                    >
-                                                                        Edit
-                                                                    </Button>
-                                                                </Card.Footer>
+                                                                <Card.Footer className="d-flex justify-content-between align-items-center">
+                                                                <Button
+                                                                    variant="warning"
+                                                                    className="rounded-pill py-1 my-0"
+                                                                    onClick={() => handleShowModal(tier)}
+                                                                >
+                                                                    <Pencil size={18} />
+                                                                </Button>
+
+                                                                {/* Delete Button */}
+                                                                <Button
+                                                                    variant="danger"
+                                                                    className="rounded-pill py-1 my-0 ms-2 text-white"
+                                                                    onClick={() => deleteTier(tier.id)}
+                                                                    disabled={tier.vendor}  // Disable if tier is assigned to a vendor
+                                                                >
+                                                                    <Trash size={18} />
+                                                                </Button>
+                                                            </Card.Footer>
                                                             </Card>
                                                         </Col>
                                                     ))}
