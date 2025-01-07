@@ -345,7 +345,7 @@ const TiersManagement = () => {
                                     {newTier.features.map((feature, index) => (
                                         <div key={index} className="mb-3 px-2 py-1 bg-white rounded shadow-sm d-flex align-items-center">
                                             <Row className="w-100 g-2">
-                                                <Col md={11} className="d-flex align-items-center">
+                                                <Col md={11} xs={10}className="d-flex align-items-center">
                                                     <Form.Control
                                                         type="text"
                                                         placeholder="Enter feature description"
@@ -359,7 +359,7 @@ const TiersManagement = () => {
                                                         style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
                                                     />
                                                 </Col>
-                                                <Col md={1} className="d-flex align-items-center justify-content-center">
+                                                <Col md={1} xs={2} className="d-flex align-items-center justify-content-center">
                                                     <Button
                                                         variant="danger"
                                                         className="w-100 rounded-pill mt-2 mb-1"
@@ -413,7 +413,7 @@ const TiersManagement = () => {
                                     {newTier.pricings.map((pricing, index) => (
                                         <div key={index} className="mb-3 px-2 py-1 bg-white rounded shadow-sm">
                                             <Row className="g-2 align-items-end">
-                                                <Col md={4}>
+                                                <Col md={4} xs={4}>
                                                     <Form.Label className="small mb-1">Duration (Months)</Form.Label>
                                                     <Form.Control
                                                         type="number"
@@ -427,7 +427,7 @@ const TiersManagement = () => {
                                                         style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
                                                     />
                                                 </Col>
-                                                <Col md={7}>
+                                                <Col md={7} xs={7}>
                                                     <Form.Label className="small mb-1">Price (Kshs:)</Form.Label>
                                                     <div className="d-flex align-items-center">
                                                         <Form.Control
@@ -443,7 +443,7 @@ const TiersManagement = () => {
                                                         />
                                                     </div>
                                                 </Col>
-                                                <Col md={1} className="d-flex align-items-center justify-content-center">
+                                                <Col md={1} xs={1} className="d-flex align-items-center justify-content-center">
                                                     <Button
                                                         variant="danger"
                                                         className="w-100 rounded-pill mt-2 mb-2"
