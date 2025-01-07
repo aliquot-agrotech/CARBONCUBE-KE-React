@@ -13,6 +13,7 @@ const TiersManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // State for loading
     const [newTier, setNewTier] = useState({
         name: '',
         ads_limit: 0,
@@ -86,6 +87,7 @@ const TiersManagement = () => {
     };
 
     const handleSaveTier = async () => {
+        setIsLoading(true); // Set loading state to true when the request starts
         const method = isEditing ? 'PUT' : 'POST';
         const url = isEditing
             ? `https://carboncube-ke-rails-cu22.onrender.com/admin/tiers/${selectedTier.id}`
@@ -137,8 +139,11 @@ const TiersManagement = () => {
             handleCloseModal();
         } catch (error) {
             setError(`Error saving tier: ${error.message}`);
+        } finally {
+            setIsLoading(false); // Set loading state to false after the operation completes
         }
     };
+
     
 
     const deleteTier = async (tierId) => {
@@ -516,8 +521,14 @@ const TiersManagement = () => {
                         <Button variant="danger" className="rounded-pill" onClick={handleCloseModal} style={{ borderRadius: '8px' }}>
                             Cancel
                         </Button>
-                        <Button variant="warning" className="rounded-pill" onClick={handleSaveTier} style={{ borderRadius: '8px' }}>
-                            {isEditing ? 'Update Tier' : 'Create Tier'}
+                        <Button
+                            variant="warning"
+                            className="rounded-pill"
+                            onClick={handleSaveTier}
+                            style={{ borderRadius: '8px' }}
+                            disabled={isLoading} // Disable the button while loading
+                        >
+                            {isLoading ? (isEditing ? 'Updating...' : 'Creating...') : (isEditing ? 'Update' : 'Create')}
                         </Button>
                     </Modal.Footer>
                 </Modal>
