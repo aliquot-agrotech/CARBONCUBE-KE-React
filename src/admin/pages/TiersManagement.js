@@ -34,8 +34,9 @@ const TiersManagement = () => {
             }
             const data = await response.json();
             setTiers(
-                data.map((tier) => ({
+                data.map((tier, index) => ({
                     ...tier,
+                    orderIndex: index, // Add an order index to preserve the original position
                     tier_features: tier.tier_features || [{ feature_name: '' }],
                     tier_pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
                 }))
@@ -46,6 +47,7 @@ const TiersManagement = () => {
             setLoading(false);
         }
     };
+    
 
     useEffect(() => {
         fetchTiers();
@@ -56,13 +58,17 @@ const TiersManagement = () => {
         setIsEditing(!!tier);
         setShowModal(true);
         setNewTier(
-            tier
-                ? {
-                      ...tier,
-                      features: tier.tier_features || [{ feature_name: '' }],
-                      pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
-                  }
-                : { name: '', ads_limit: 0, features: [{ feature_name: '' }], pricings: [{ duration_months: '', price: '' }] }
+            tier ? 
+            {
+                ...tier,
+                features: tier.tier_features || [{ feature_name: '' }],
+                pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
+            }
+            : 
+            { 
+                name: '', ads_limit: 0, features: [{ feature_name: '' }], 
+                pricings: [{ duration_months: '', price: '' }] 
+            }
         );
     };
 
@@ -77,7 +83,7 @@ const TiersManagement = () => {
         const url = isEditing
             ? `https://carboncube-ke-rails-cu22.onrender.com/admin/tiers/${selectedTier.id}`
             : 'https://carboncube-ke-rails-cu22.onrender.com/admin/tiers';
-
+    
         try {
             const response = await fetch(url, {
                 method,
@@ -96,7 +102,15 @@ const TiersManagement = () => {
                 const errorText = await response.text();
                 throw new Error(errorText || 'Failed to save tier');
             }
-            await fetchTiers();
+            const updatedTier = await response.json();
+    
+            setTiers((prevTiers) =>
+                prevTiers.map((tier) =>
+                    tier.id === updatedTier.id
+                        ? { ...updatedTier, orderIndex: tier.orderIndex } // Preserve order index
+                        : tier
+                )
+            );
             handleCloseModal();
         } catch (error) {
             setError(`Error saving tier: ${error.message}`);
@@ -133,67 +147,70 @@ const TiersManagement = () => {
                                     {tiers.length > 0 ? (
                                         <Container>
                                             <Row>
-                                                {tiers.map((tier) => (
-                                                    <Col xs={12} md={6} lg={3} key={tier.id} className="mb-4">
-                                                        <Card className="custom-card">
-                                                            <Card.Header className="text-center bg-warning text-white">
-                                                                <h5 className="mb-0 text-dark">{tier.name}</h5>
-                                                            </Card.Header>
-                                                            <Card.Body>
-                                                                <p><strong>Ads Limit:</strong> {tier.ads_limit}</p>
-                                                                <h5 className="text-center">Features:</h5>
-                                                                <ul>
-                                                                    {tier.tier_features.map((feature, index) => (
-                                                                        <li key={index}>
-                                                                            <em>{feature.feature_name}</em>
-                                                                        </li>
-                                                                    ))}
-                                                                </ul>
-                                                                <h5 className="text-center">Pricing:</h5>
-                                                                <ul>
-                                                                    {tier.tier_pricings.map((pricing, index) => (
-                                                                        <li key={index} className="d-flex justify-content-center align-items-center">
-                                                                            <Card.Text className="price-container d-flex justify-content-center align-items-center mb-0">
-                                                                                <span className="me-2">{pricing.duration_months} months -</span>
-                                                                                <span>
-                                                                                    <em className="product-price-label text-success">Kshs: </em>
-                                                                                </span>
-                                                                                <strong style={{ fontSize: '17px' }} className="text-danger ms-1">
-                                                                                    {pricing.price
-                                                                                        ? parseFloat(pricing.price)
-                                                                                            .toFixed(2)
-                                                                                            .split('.')
-                                                                                            .map((part, i) => (
-                                                                                                <React.Fragment key={i}>
-                                                                                                    {i === 0 ? (
-                                                                                                        <span>{parseInt(part).toLocaleString()}</span> // Integer part with comma
-                                                                                                    ) : (
-                                                                                                        <>
-                                                                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                                                                            <span className="price-decimal">{part}</span>
-                                                                                                        </>
-                                                                                                    )}
-                                                                                                </React.Fragment>
-                                                                                            ))
-                                                                                        : 'N/A'}
-                                                                                </strong>
-                                                                            </Card.Text>
-                                                                        </li>
-                                                                    ))}
-                                                                </ul>
-                                                            </Card.Body>
-                                                            <Card.Footer className="text-center">
-                                                                <Button
-                                                                    variant="warning"
-                                                                    className="rounded-pill py-1 my-0"
-                                                                    onClick={() => handleShowModal(tier)}
-                                                                >
-                                                                    Edit
-                                                                </Button>
-                                                            </Card.Footer>
-                                                        </Card>
-                                                    </Col>
-                                                ))}
+                                                {tiers
+                                                    .slice() // Create a shallow copy to avoid mutating the original array
+                                                    .sort((a, b) => a.id - b.id) // Sort by ID in ascending order
+                                                    .map((tier) => (
+                                                        <Col xs={12} md={6} lg={3} key={tier.id} className="mb-4">
+                                                            <Card className="custom-card">
+                                                                <Card.Header className="text-center bg-warning text-white">
+                                                                    <h5 className="mb-0 text-dark">{tier.name}</h5>
+                                                                </Card.Header>
+                                                                <Card.Body>
+                                                                    <p><strong>Ads Limit:</strong> {tier.ads_limit}</p>
+                                                                    <h5 className="text-center">Features:</h5>
+                                                                    <ul>
+                                                                        {tier.tier_features.map((feature, index) => (
+                                                                            <li key={index}>
+                                                                                <em>{feature.feature_name}</em>
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                    <h5 className="text-center">Pricing:</h5>
+                                                                    <ul>
+                                                                        {tier.tier_pricings.map((pricing, index) => (
+                                                                            <li key={index} className="d-flex justify-content-center align-items-center">
+                                                                                <Card.Text className="price-container d-flex justify-content-center align-items-center mb-0">
+                                                                                    <span className="me-2">{pricing.duration_months} months -</span>
+                                                                                    <span>
+                                                                                        <em className="product-price-label text-success">Kshs: </em>
+                                                                                    </span>
+                                                                                    <strong style={{ fontSize: '17px' }} className="text-danger ms-1">
+                                                                                        {pricing.price
+                                                                                            ? parseFloat(pricing.price)
+                                                                                                .toFixed(2)
+                                                                                                .split('.')
+                                                                                                .map((part, i) => (
+                                                                                                    <React.Fragment key={i}>
+                                                                                                        {i === 0 ? (
+                                                                                                            <span>{parseInt(part).toLocaleString()}</span> // Integer part with comma
+                                                                                                        ) : (
+                                                                                                            <>
+                                                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                                <span className="price-decimal">{part}</span>
+                                                                                                            </>
+                                                                                                        )}
+                                                                                                    </React.Fragment>
+                                                                                                ))
+                                                                                            : 'N/A'}
+                                                                                    </strong>
+                                                                                </Card.Text>
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </Card.Body>
+                                                                <Card.Footer className="text-center">
+                                                                    <Button
+                                                                        variant="warning"
+                                                                        className="rounded-pill py-1 my-0"
+                                                                        onClick={() => handleShowModal(tier)}
+                                                                    >
+                                                                        Edit
+                                                                    </Button>
+                                                                </Card.Footer>
+                                                            </Card>
+                                                        </Col>
+                                                    ))}
                                             </Row>
                                         </Container>
                                     ) : (
