@@ -427,7 +427,7 @@ const TiersManagement = () => {
                                                         style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
                                                     />
                                                 </Col>
-                                                <Col md={7} xs={7}>
+                                                <Col md={7} xs={6}>
                                                     <Form.Label className="small mb-1">Price (Kshs:)</Form.Label>
                                                     <div className="d-flex align-items-center">
                                                         <Form.Control
@@ -443,7 +443,7 @@ const TiersManagement = () => {
                                                         />
                                                     </div>
                                                 </Col>
-                                                <Col md={1} xs={1} className="d-flex align-items-center justify-content-center">
+                                                <Col md={1} xs={2} className="d-flex align-items-center justify-content-center">
                                                     <Button
                                                         variant="danger"
                                                         className="w-100 rounded-pill mt-2 mb-2"
