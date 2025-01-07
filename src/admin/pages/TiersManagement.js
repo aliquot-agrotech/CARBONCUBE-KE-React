@@ -191,81 +191,83 @@ const TiersManagement = () => {
                                 <Card.Header className="justify-content-center">
                                     <h3 className="mb-0">Tiers Management</h3>
                                 </Card.Header>
-                                <Card.Body>
+                                <Card.Body className="d-flex flex-column justify-content-center">
                                     {tiers.length > 0 ? (
                                         <Container>
-                                            <Row>
+                                            <Row className="d-flex align-items-stretch">
                                                 {tiers
                                                     .slice() // Create a shallow copy to avoid mutating the original array
                                                     .sort((a, b) => a.id - b.id) // Sort by ID in ascending order
                                                     .map((tier) => (
                                                         <Col xs={12} md={6} lg={3} key={tier.id} className="mb-4">
-                                                            <Card className="custom-card">
-                                                                <Card.Header className="text-center bg-warning text-white">
-                                                                    <h5 className="mb-0 text-dark">{tier.name}</h5>
+                                                            <Card className="custom-card shadow-sm rounded-lg h-100">
+                                                                <Card.Header className="text-center bg-warning text-black">
+                                                                    <h5 className="mb-0">{tier.name}</h5>
                                                                 </Card.Header>
-                                                                <Card.Body>
-                                                                    <p><strong>Ads Limit:</strong> {tier.ads_limit}</p>
-                                                                    <h5 className="text-center">Features:</h5>
-                                                                    <ul>
-                                                                        {tier.tier_features.map((feature, index) => (
-                                                                            <li key={index}>
-                                                                                <em>{feature.feature_name}</em>
-                                                                            </li>
-                                                                        ))}
-                                                                    </ul>
-                                                                    <h5 className="text-center">Pricing:</h5>
-                                                                    <ul>
-                                                                        {tier.tier_pricings.map((pricing, index) => (
-                                                                            <li key={index} className="d-flex justify-content-center align-items-center">
-                                                                                <Card.Text className="price-container d-flex justify-content-center align-items-center mb-0">
-                                                                                    <span className="me-2">{pricing.duration_months} months -</span>
-                                                                                    <span>
-                                                                                        <em className="product-price-label text-success">Kshs: </em>
-                                                                                    </span>
-                                                                                    <strong style={{ fontSize: '17px' }} className="text-danger ms-1">
-                                                                                        {pricing.price
-                                                                                            ? parseFloat(pricing.price)
-                                                                                                .toFixed(2)
-                                                                                                .split('.')
-                                                                                                .map((part, i) => (
-                                                                                                    <React.Fragment key={i}>
-                                                                                                        {i === 0 ? (
-                                                                                                            <span>{parseInt(part).toLocaleString()}</span> // Integer part with comma
-                                                                                                        ) : (
-                                                                                                            <>
-                                                                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                                                                <span className="price-decimal">{part}</span>
-                                                                                                            </>
-                                                                                                        )}
-                                                                                                    </React.Fragment>
-                                                                                                ))
-                                                                                            : 'N/A'}
-                                                                                    </strong>
-                                                                                </Card.Text>
-                                                                            </li>
-                                                                        ))}
-                                                                    </ul>
+                                                                <Card.Body className="d-flex flex-column justify-content-between px-2">
+                                                                    <div className="d-flex flex-column justify-content-center flex-grow-1">
+                                                                        <p><strong>Ads Limit:</strong> {tier.ads_limit}</p>
+                                                                        <h5 className="text-center">Features:</h5>
+                                                                        <ul>
+                                                                            {tier.tier_features.map((feature, index) => (
+                                                                                <li key={index}>
+                                                                                    <em>{feature.feature_name}</em>
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
+                                                                        <h5 className="text-center">Pricing:</h5>
+                                                                        <ul>
+                                                                            {tier.tier_pricings.map((pricing, index) => (
+                                                                                <li key={index} className="d-flex justify-content-center align-items-center">
+                                                                                    <Card.Text className="price-container d-flex justify-content-center align-items-center mb-0">
+                                                                                        <span className="me-2">{pricing.duration_months} months -</span>
+                                                                                        <span>
+                                                                                            <em className="product-price-label text-success">Kshs: </em>
+                                                                                        </span>
+                                                                                        <strong style={{ fontSize: '17px' }} className="text-danger ms-1">
+                                                                                            {pricing.price
+                                                                                                ? parseFloat(pricing.price)
+                                                                                                    .toFixed(2)
+                                                                                                    .split('.')
+                                                                                                    .map((part, i) => (
+                                                                                                        <React.Fragment key={i}>
+                                                                                                            {i === 0 ? (
+                                                                                                                <span>{parseInt(part).toLocaleString()}</span> // Integer part with comma
+                                                                                                            ) : (
+                                                                                                                <>
+                                                                                                                    <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                                    <span className="price-decimal">{part}</span>
+                                                                                                                </>
+                                                                                                            )}
+                                                                                                        </React.Fragment>
+                                                                                                    ))
+                                                                                                : 'N/A'}
+                                                                                        </strong>
+                                                                                    </Card.Text>
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    </div>
                                                                 </Card.Body>
                                                                 <Card.Footer className="d-flex justify-content-between align-items-center">
-                                                                <Button
-                                                                    variant="warning"
-                                                                    className="rounded-pill py-1 my-0"
-                                                                    onClick={() => handleShowModal(tier)}
-                                                                >
-                                                                    <Pencil size={18} />
-                                                                </Button>
+                                                                    <Button
+                                                                        variant="warning"
+                                                                        className="rounded-pill py-1 my-0"
+                                                                        onClick={() => handleShowModal(tier)}
+                                                                    >
+                                                                        <Pencil size={18} />
+                                                                    </Button>
 
-                                                                {/* Delete Button */}
-                                                                <Button
-                                                                    variant="danger"
-                                                                    className="rounded-pill py-1 my-0 ms-2 text-white"
-                                                                    onClick={() => deleteTier(tier.id)}
-                                                                    disabled={tier.vendor}  // Disable if tier is assigned to a vendor
-                                                                >
-                                                                    <Trash size={18} />
-                                                                </Button>
-                                                            </Card.Footer>
+                                                                    {/* Delete Button */}
+                                                                    <Button
+                                                                        variant="danger"
+                                                                        className="rounded-pill py-1 my-0 ms-2 text-white"
+                                                                        onClick={() => deleteTier(tier.id)}
+                                                                        disabled={tier.vendor}  // Disable if tier is assigned to a vendor
+                                                                    >
+                                                                        <Trash size={18} />
+                                                                    </Button>
+                                                                </Card.Footer>
                                                             </Card>
                                                         </Col>
                                                     ))}

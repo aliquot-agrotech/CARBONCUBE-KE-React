@@ -34,14 +34,14 @@
 .tiers-management-page .card-header {
     background-color: #616161; /* Dark background */
     color: #ffffff; /* White text */
-    border-radius: 8px;
+    border-radius: 6px 6px 0 0;
 }
 
 
 .tiers-management-page .card-footer {
     background-color: #616161; /* Dark background */
     color: #ffffff; /* White text */
-    border-radius: 8px;
+    border-radius: 0 0 5px 5px ;
 }
 
 .tiers-management-page .custom-card{
