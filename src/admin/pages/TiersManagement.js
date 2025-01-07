@@ -61,12 +61,19 @@ const TiersManagement = () => {
             tier ? 
             {
                 ...tier,
-                features: tier.tier_features || [{ feature_name: '' }],
+                features: (tier.tier_features || [{ feature_name: '' }])
+                    .map(feature => ({
+                        id: feature.id,
+                        feature_name: feature.feature_name,
+                        _destroy: false
+                    })),
                 pricings: tier.tier_pricings || [{ duration_months: '', price: '' }],
             }
             : 
             { 
-                name: '', ads_limit: 0, features: [{ feature_name: '' }], 
+                name: '', 
+                ads_limit: 0, 
+                features: [{ feature_name: '' }], 
                 pricings: [{ duration_months: '', price: '' }] 
             }
         );
@@ -84,6 +91,13 @@ const TiersManagement = () => {
             ? `https://carboncube-ke-rails-cu22.onrender.com/admin/tiers/${selectedTier.id}`
             : 'https://carboncube-ke-rails-cu22.onrender.com/admin/tiers';
     
+        // Prepare the features data
+        const features = newTier.features.map(feature => ({
+            id: feature.id,
+            feature_name: feature.feature_name,
+            _destroy: feature._destroy
+        })).filter(feature => feature.feature_name || feature._destroy);
+    
         try {
             const response = await fetch(url, {
                 method,
@@ -92,10 +106,12 @@ const TiersManagement = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    name: newTier.name,
-                    ads_limit: newTier.ads_limit,
-                    features: newTier.features,
-                    pricings: newTier.pricings,
+                    tier: {
+                        name: newTier.name,
+                        ads_limit: newTier.ads_limit,
+                        tier_features_attributes: features,
+                        tier_pricings_attributes: newTier.pricings,
+                    }
                 }),
             });
     
@@ -106,18 +122,15 @@ const TiersManagement = () => {
     
             const updatedTier = await response.json();
     
-            // Update the state with the new tier
             if (isEditing) {
-                // If editing, update the existing tier
                 setTiers(prevTiers =>
                     prevTiers.map(tier =>
                         tier.id === updatedTier.id
-                            ? { ...updatedTier, orderIndex: tier.orderIndex } // Preserve order index
+                            ? { ...updatedTier, orderIndex: tier.orderIndex }
                             : tier
                     )
                 );
             } else {
-                // If it's a new tier, add it to the state
                 setTiers(prevTiers => [...prevTiers, updatedTier]);
             }
     
@@ -162,6 +175,22 @@ const TiersManagement = () => {
             console.error("Error deleting tier:", error);
             alert("An error occurred while deleting the tier.");
         }
+    };
+
+    const handleFeatureDelete = (index) => {
+        const updatedFeatures = newTier.features.map((feature, i) => {
+            if (i === index) {
+                if (feature.id) {
+                    // If the feature exists in the database, mark it for destruction
+                    return { ...feature, _destroy: true };
+                }
+                // If it's a new feature, we'll filter it out
+                return null;
+            }
+            return feature;
+        }).filter(feature => feature !== null);
+    
+        setNewTier({ ...newTier, features: updatedFeatures });
     };
     
 
@@ -342,10 +371,12 @@ const TiersManagement = () => {
                                 
                                 {/* Features Wrapper */}
                                 <div className="features-wrapper">
-                                    {newTier.features.map((feature, index) => (
-                                        <div key={index} className="mb-3 px-2 py-1 bg-white rounded shadow-sm d-flex align-items-center">
+                                    {newTier.features
+                                        .filter(feature => !feature._destroy)  // Only show non-destroyed features
+                                        .map((feature, index) => (
+                                        <div key={feature.id || index} className="mb-3 px-2 py-1 bg-white rounded shadow-sm d-flex align-items-center">
                                             <Row className="w-100 g-2">
-                                                <Col md={11} xs={10}className="d-flex align-items-center">
+                                                <Col md={11} xs={10} className="d-flex align-items-center">
                                                     <Form.Control
                                                         type="text"
                                                         placeholder="Enter feature description"
@@ -364,12 +395,7 @@ const TiersManagement = () => {
                                                         variant="danger"
                                                         className="w-100 rounded-pill mt-2 mb-1"
                                                         style={{ borderRadius: '8px' }}
-                                                        onClick={() => {
-                                                            const updatedFeatures = newTier.features.filter(
-                                                                (_, i) => i !== index
-                                                            );
-                                                            setNewTier({ ...newTier, features: updatedFeatures });
-                                                        }}
+                                                        onClick={() => handleFeatureDelete(index)}
                                                     >
                                                         <Trash size={18} />
                                                     </Button>
