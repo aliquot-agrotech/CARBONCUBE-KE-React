@@ -330,8 +330,8 @@ const TiersManagement = () => {
                     contentClassName="border-0 shadow-lg"
                 >
                     <Modal.Header className="border-bottom-0 rounded-top p-2">
-                        <div className="d-flex align-items-center">
-                            <Modal.Title className="fw-bold text-dark">
+                        <div className="d-flex align-items-center justify-content-center w-100">
+                            <Modal.Title className="fw-bold text-light text-center">
                                 {isEditing ? 'Edit Tier' : 'Add New Tier'}
                             </Modal.Title>
                         </div>
@@ -339,31 +339,37 @@ const TiersManagement = () => {
 
                     <Modal.Body className="p-4">
                         <Form>
-                            {/* Tier Name */}
-                            <Form.Group className="mb-4">
-                                <Form.Label className="fw-semibold text-dark">Name</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    className="form-control-lg"
-                                    value={newTier.name}
-                                    onChange={(e) => setNewTier({ ...newTier, name: e.target.value })}
-                                    placeholder="Enter tier name"
-                                    style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
-                                />
-                            </Form.Group>
+                            <Row>
+                                <Col md={6} xs={6}>
+                                    {/* Ads Limit */}
+                                    <Form.Group className="mb-4">
+                                        <Form.Label className="fw-semibold text-dark">Name</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            className="form-control-md rounded-pill"
+                                            value={newTier.name}
+                                            onChange={(e) => setNewTier({ ...newTier, name: e.target.value })}
+                                            placeholder="Enter tier name"
+                                            style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
+                                        />
+                                    </Form.Group>
+                                </Col>
 
-                            {/* Ads Limit */}
-                            <Form.Group className="mb-4">
-                                <Form.Label className="fw-semibold text-dark">Ads Limit</Form.Label>
-                                <Form.Control
-                                    type="number"
-                                    className="form-control-lg"
-                                    value={newTier.ads_limit}
-                                    onChange={(e) => setNewTier({ ...newTier, ads_limit: e.target.value })}
-                                    placeholder="Enter ads limit"
-                                    style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
-                                />
-                            </Form.Group>
+                                <Col  md={6} xs={6}>
+                                    {/* Ads Limit */}
+                                    <Form.Group className="mb-4">
+                                        <Form.Label className="fw-semibold text-dark">Ads Limit</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            className="form-control-md rounded-pill"
+                                            value={newTier.ads_limit}
+                                            onChange={(e) => setNewTier({ ...newTier, ads_limit: e.target.value })}
+                                            placeholder="Enter ads limit"
+                                            style={{ borderRadius: '8px', borderColor: '#d1d8e1' }}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
 
                             {/* Features */}
                             `<Form.Group className="mb-4">
@@ -385,7 +391,7 @@ const TiersManagement = () => {
                                                     <Form.Control
                                                         type="text"
                                                         placeholder="Enter feature description"
-                                                        className="mt-2 mb-1"
+                                                        className="mt-2 mb-1 form-control-md rounded-pill"
                                                         value={feature.feature_name}
                                                         onChange={(e) => {
                                                             const updatedFeatures = [...newTier.features];
@@ -445,10 +451,10 @@ const TiersManagement = () => {
                                         <div key={index} className="mb-3 px-2 py-1 bg-white rounded shadow-sm">
                                             <Row className="g-2 align-items-end">
                                                 <Col md={4} xs={4}>
-                                                    <Form.Label className="small mb-1">Duration (Months)</Form.Label>
+                                                    <Form.Label className="small mb-0"><strong>Duration</strong> (Months)</Form.Label>
                                                     <Form.Control
                                                         type="number"
-                                                        className="mt-2 mb-1"
+                                                        className="mt-2 mb-1 form-control-md rounded-pill"
                                                         value={pricing.duration_months}
                                                         onChange={(e) => {
                                                             const updatedPricings = [...newTier.pricings];
@@ -459,11 +465,11 @@ const TiersManagement = () => {
                                                     />
                                                 </Col>
                                                 <Col md={7} xs={6}>
-                                                    <Form.Label className="small mb-1">Price (Kshs:)</Form.Label>
+                                                    <Form.Label className="small mb-0"><strong>Price</strong> (Kshs:)</Form.Label>
                                                     <div className="d-flex align-items-center">
                                                         <Form.Control
                                                             type="number"
-                                                            className="mt-2 mb-1"
+                                                            className="mt-2 mb-1 form-control-md rounded-pill"
                                                             value={pricing.price}
                                                             onChange={(e) => {
                                                                 const updatedPricings = [...newTier.pricings];
