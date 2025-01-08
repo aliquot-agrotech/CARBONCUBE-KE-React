@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Row, Col, Button, Accordion, Container, Card } from 'react-bootstrap';
+import { Row, Col, Button, Accordion, Container, Card, Modal } from 'react-bootstrap';
 import Spinner from "react-spinkit";
 import '../css/Tiers.css';
 import { jwtDecode } from 'jwt-decode';
@@ -8,9 +8,10 @@ import { jwtDecode } from 'jwt-decode';
 
 const TierPage = () => {
   const [tiers, setTiers] = useState([]);
-  const [selectedTier] = useState(null);
+  const [selectedTier, setSelectedTier] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
 
   // const vendorId = sessionStorage.getItem('vendor_id');
 
@@ -57,6 +58,48 @@ const TierPage = () => {
       console.error('Error updating tier:', error);
     }
   };
+
+  const handleTierSelect = (tierId) => {
+    setSelectedTier(tierId); // Set the selected tier ID
+    setShowModal(true); // Show the modal for duration selection
+  };
+  
+  
+  const handleDurationSelect = async (duration) => {
+    const token = sessionStorage.getItem("token");
+  
+    if (!token) {
+      alert("You are not logged in. Please log in and try again.");
+      return;
+    }
+  
+    try {
+      const response = await axios.patch(
+        "https://carboncube-ke-rails-cu22.onrender.com/vendor/tiers/update_tier",
+        {
+          tier_id: selectedTier, // Pass the selected tier ID
+          tier_duration: duration, // Pass the selected duration
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Include the token for authentication
+        }
+      );
+  
+      console.log("Tier updated successfully:", response.data);
+      alert("Your tier and duration have been successfully updated.");
+      setShowModal(false); // Close the modal
+    } catch (error) {
+      console.error("Error updating tier:", error);
+      alert(
+        error.response?.data?.error ||
+          "An error occurred while updating your tier. Please try again."
+      );
+    }
+  };
+  
+  
+  
+  
   
   function getVendorIdFromToken() {
     const token = sessionStorage.getItem('token'); // Adjust if stored differently
@@ -74,14 +117,7 @@ const TierPage = () => {
     }
   }
 
-  // if (loading) {
-  //   return (
-  //     <div className="loading-container d-flex flex-column align-items-center justify-content-center">
-  //       <Spinner animation="border" role="status" />
-        
-  //     </div>
-  //   );
-  // }
+
 
   if (loading) {
       return (
@@ -126,7 +162,7 @@ const TierPage = () => {
                   <Card className={`tier-box ${selectedTier === tier.id ? 'selected' : ''} h-100 d-flex flex-column`}>
                     <Card.Body className="flex-grow-1 d-flex flex-column justify-content-between">
                       <div>
-                        <Card.Title className="tier-title">{tier.name}</Card.Title>
+                        <Card.Title className="tier-title text-secondary">{tier.name}</Card.Title>
                         <Card.Subtitle className="tier-description mb-3">Ads: {tier.ads_limit}</Card.Subtitle>
                         <ul className="tier-features list-unstyled mb-3">
                           {(tier.tier_features || []).map((feature) => (
@@ -146,7 +182,7 @@ const TierPage = () => {
                       <Button
                         style={{ backgroundColor: 'black', borderColor: 'black' }}
                         className="w-100 rounded-pill text-white mt-3"
-                        onClick={() => handleSelectTier(tier.id)}
+                        onClick={() => handleTierSelect(tier.id)}
                       >
                         {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
                       </Button>
@@ -289,6 +325,27 @@ const TierPage = () => {
           </Button>
         </Container>
       </section>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+  <Modal.Header closeButton>
+    <Modal.Title>Select Duration</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {tiers
+      .find((tier) => tier.id === selectedTier)
+      ?.tier_pricings.map((pricing) => (
+        <Button
+          key={pricing.id}
+          variant="outline-primary"
+          className="w-100 mb-2"
+          onClick={() => handleDurationSelect(pricing.duration_months)}
+        >
+          {pricing.duration_months} months: {pricing.price} KES
+        </Button>
+      ))}
+  </Modal.Body>
+</Modal>
+
     </div>
   );
 };
