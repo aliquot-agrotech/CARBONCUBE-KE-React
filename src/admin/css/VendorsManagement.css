@@ -204,7 +204,7 @@ body {
 
 .card-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Two equal columns */
+    /* grid-template-columns: repeat(3, 1fr); Two equal columns */
     gap: 20px; /* Space between cards */
     margin: 10px;
 }

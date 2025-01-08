@@ -528,7 +528,7 @@ const VendorsManagement = () => {
                                                     {selectedVendor.products && selectedVendor.products.length > 0 ? (
                                                         <Row>
                                                             {selectedVendor.products.map((product) => (
-                                                                <Col key={product.id} xs={6} md={4} lg={3} className="mb-2 px-1">
+                                                                <Col key={product.id} xs={6} md={12} lg={3} className="mb-2 px-1">
                                                                     <Card className="product-card-vendor">
                                                                         <Card.Img
                                                                             className="analytics-card-img-top product-image"
