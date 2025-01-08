@@ -116,47 +116,47 @@ const TierPage = () => {
 
       {/* Pricing Section */}
       <section className="pricing-section p-2">
-  <Container>
-    <Row className="mb-4">
-      {tiers
-        .slice() // Create a shallow copy of the array to avoid mutating the original state
-        .sort((a, b) => a.id - b.id) // Sort tiers by ascending ID
-        .map((tier) => (
-          <Col lg={3} md={6} sm={12} key={tier.id} className="p-0 p-lg-2 mb-3">
-            <Card className={`tier-box ${selectedTier === tier.id ? 'selected' : ''} h-100 d-flex flex-column`}>
-              <Card.Body className="flex-grow-1 d-flex flex-column justify-content-between">
-                <div>
-                  <Card.Title className="tier-title">{tier.name}</Card.Title>
-                  <Card.Subtitle className="tier-description mb-3">Ads: {tier.ads_limit}</Card.Subtitle>
-                  <ul className="tier-features list-unstyled mb-3">
-                    {(tier.tier_features || []).map((feature) => (
-                      <li key={feature.id}>✔ {feature.feature_name}</li>
-                    ))}
-                  </ul>
-                  <div className="pricing-details text-center">
-                    {(tier.tier_pricings || []).map((pricing) => (
-                      <div key={pricing.id} className="pricing-option">
-                        <span>
-                          <strong>{pricing.duration_months}</strong> months: {pricing.price} KES
-                        </span>
+        <Container>
+          <Row className="mb-4">
+            {tiers
+              .slice() // Create a shallow copy of the array to avoid mutating the original state
+              .sort((a, b) => a.id - b.id) // Sort tiers by ascending ID
+              .map((tier) => (
+                <Col lg={3} md={6} sm={12} key={tier.id} className="p-0 p-lg-2 mb-3">
+                  <Card className={`tier-box ${selectedTier === tier.id ? 'selected' : ''} h-100 d-flex flex-column`}>
+                    <Card.Body className="flex-grow-1 d-flex flex-column justify-content-between">
+                      <div>
+                        <Card.Title className="tier-title">{tier.name}</Card.Title>
+                        <Card.Subtitle className="tier-description mb-3">Ads: {tier.ads_limit}</Card.Subtitle>
+                        <ul className="tier-features list-unstyled mb-3">
+                          {(tier.tier_features || []).map((feature) => (
+                            <li key={feature.id}>✔ {feature.feature_name}</li>
+                          ))}
+                        </ul>
+                        <div className="pricing-details text-center">
+                          {(tier.tier_pricings || []).map((pricing) => (
+                            <div key={pricing.id} className="pricing-option">
+                              <span>
+                                <strong>{pricing.duration_months}</strong> months: {pricing.price} KES
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                <Button
-                  style={{ backgroundColor: 'black', borderColor: 'black' }}
-                  className="w-100 rounded-pill text-white mt-3"
-                  onClick={() => handleSelectTier(tier.id)}
-                >
-                  {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-    </Row>
-  </Container>
-</section>
+                      <Button
+                        style={{ backgroundColor: 'black', borderColor: 'black' }}
+                        className="w-100 rounded-pill text-white mt-3"
+                        onClick={() => handleSelectTier(tier.id)}
+                      >
+                        {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+          </Row>
+        </Container>
+      </section>
 
 
       {/* Feature Breakdown
@@ -183,7 +183,6 @@ const TierPage = () => {
         </Container>
       </section> */}
 
-      {/* Feature Breakdown */}
       {tiers.length > 0 && (
         <section className="pricing-comparison my-5">
           <Container>
@@ -192,7 +191,6 @@ const TierPage = () => {
               <thead className="table-light">
                 <tr>
                   <th>Feature</th>
-                  {/* Sort tiers by pricing (first month's price) */}
                   {tiers
                     .slice()
                     .sort((a, b) => {
@@ -206,8 +204,12 @@ const TierPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* Extract unique features across all tiers */}
-                {[...new Set(tiers.flatMap((tier) => tier.tier_features.map((f) => f.feature_name)))]
+                {/* Extract unique feature names from tier_features */}
+                {[
+                  ...new Set(
+                    tiers.flatMap((tier) => tier.tier_features.map((feature) => feature.feature_name))
+                  ),
+                ]
                   .sort((a, b) => a.localeCompare(b)) // Sort features alphabetically
                   .map((featureName, index) => (
                     <tr key={index}>
@@ -220,31 +222,33 @@ const TierPage = () => {
                           return priceA - priceB;
                         })
                         .map((tier, tierIndex) => {
-                          const isAvailable = tier.tier_features.some(
-                            (f) => f.feature_name === featureName
+                          const isFeatureInCurrentTier = tier.tier_features.some(
+                            (feature) => feature.feature_name === featureName
                           );
 
-                          // Inheritance logic: Only inherit from the immediate previous tier
-                          let isInherited = false;
-                          if (tierIndex > 0) { // Only check if it's not the first tier
-                            const prevTier = tiers[tierIndex - 1];
-
-                            // Check if the feature is in the previous tier
-                            isInherited = prevTier.tier_features.some(
-                              (f) => f.feature_name === featureName
-                            );
+                          // Determine if the feature should be ticked for each tier
+                          let shouldTick = false;
+                          if (tierIndex === 0 && isFeatureInCurrentTier) {
+                            // Tick only if the feature is in the Free tier
+                            shouldTick = true;
+                          } else if (tierIndex === 1 && isFeatureInCurrentTier) {
+                            // Tick if the feature is in the Basic tier
+                            shouldTick = true;
+                          } else if (tierIndex === 2 && (isFeatureInCurrentTier || tiers[1].tier_features.some(feature => feature.feature_name === featureName))) {
+                            // Tick if the feature is in the Standard tier or Basic tier
+                            shouldTick = true;
+                          } else if (tierIndex === 3 && (isFeatureInCurrentTier || tiers[2].tier_features.some(feature => feature.feature_name === featureName) || tiers[1].tier_features.some(feature => feature.feature_name === featureName))) { 
+                            // Tick if the feature is in the Premium tier, Standard tier, or Basic tier
+                            shouldTick = true;
                           }
 
-                          // Free tier should not inherit any features
-                          if (tier.name.toLowerCase() === 'free' || tier.name.toLowerCase() === 'by pass') {
-                            isInherited = false; // Free and By Pass should not inherit features
-                          }
-
-                          // Display tick if feature is available or inherited
-                          const displayTick = (isAvailable || isInherited) ? '✔' : '';
+                          // Display check or cross based on shouldTick status
+                          const displayTick = shouldTick ? 
+                            <span className="text-success" style={{ fontSize: '20px' }}>✔</span> : 
+                            <span className="text-danger" style={{ fontSize: '20px' }}>✘</span>;
 
                           return (
-                            <td key={tier.id} className="text-center">
+                            <td key={tier.id} className="text-center py-2 px-0">
                               {displayTick}
                             </td>
                           );
@@ -256,7 +260,6 @@ const TierPage = () => {
           </Container>
         </section>
       )}
-
 
       {/* FAQs Section */}
       <section className="faqs my-5">
