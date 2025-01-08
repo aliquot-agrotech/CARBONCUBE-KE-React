@@ -183,7 +183,7 @@ const TierPage = () => {
         </Container>
       </section> */}
 
-      {/* Feature Comparison Table */}
+      {/* Feature Breakdown */}
       {tiers.length > 0 && (
         <section className="pricing-comparison my-5">
           <Container>
@@ -192,41 +192,71 @@ const TierPage = () => {
               <thead className="table-light">
                 <tr>
                   <th>Feature</th>
+                  {/* Sort tiers by pricing (first month's price) */}
                   {tiers
-                    .slice() // Create a shallow copy to avoid mutating the original array
-                    .sort((a, b) => a.id - b.id) // Sort tiers by ascending ID
+                    .slice()
+                    .sort((a, b) => {
+                      const priceA = a.tier_pricings && a.tier_pricings[0]?.price;
+                      const priceB = b.tier_pricings && b.tier_pricings[0]?.price;
+                      return priceA - priceB;
+                    })
                     .map((tier) => (
                       <th key={tier.id}>{tier.name}</th>
                     ))}
                 </tr>
               </thead>
               <tbody>
-                {/* Create a unique set of all features across all tiers */}
-                {[...new Set(tiers.flatMap((tier) => tier.tier_features.map((f) => f.feature_name)))].map(
-                  (featureName, index) => (
+                {/* Extract unique features across all tiers */}
+                {[...new Set(tiers.flatMap((tier) => tier.tier_features.map((f) => f.feature_name)))]
+                  .sort((a, b) => a.localeCompare(b)) // Sort features alphabetically
+                  .map((featureName, index) => (
                     <tr key={index}>
                       <td>{featureName}</td>
-                      {tiers.map((tier, tierIndex) => {
-                        // Determine if the feature is available in this tier or any tier below it
-                        const isAvailable = tiers
-                          .slice(0, tierIndex + 1) // Include this tier and all previous tiers
-                          .some((t) =>
-                            t.tier_features.some((f) => f.feature_name === featureName)
+                      {tiers
+                        .slice()
+                        .sort((a, b) => {
+                          const priceA = a.tier_pricings && a.tier_pricings[0]?.price;
+                          const priceB = b.tier_pricings && b.tier_pricings[0]?.price;
+                          return priceA - priceB;
+                        })
+                        .map((tier, tierIndex) => {
+                          const isAvailable = tier.tier_features.some(
+                            (f) => f.feature_name === featureName
                           );
-                        return (
-                          <td key={tier.id} style={{ color: isAvailable ? 'green' : 'red' }}>
-                            {isAvailable ? '✔' : '✘'}
-                          </td>
-                        );
-                      })}
+
+                          // Inheritance logic: Only inherit from the immediate previous tier
+                          let isInherited = false;
+                          if (tierIndex > 0) { // Only check if it's not the first tier
+                            const prevTier = tiers[tierIndex - 1];
+
+                            // Check if the feature is in the previous tier
+                            isInherited = prevTier.tier_features.some(
+                              (f) => f.feature_name === featureName
+                            );
+                          }
+
+                          // Free tier should not inherit any features
+                          if (tier.name.toLowerCase() === 'free' || tier.name.toLowerCase() === 'by pass') {
+                            isInherited = false; // Free and By Pass should not inherit features
+                          }
+
+                          // Display tick if feature is available or inherited
+                          const displayTick = (isAvailable || isInherited) ? '✔' : '';
+
+                          return (
+                            <td key={tier.id} className="text-center">
+                              {displayTick}
+                            </td>
+                          );
+                        })}
                     </tr>
-                  )
-                )}
+                  ))}
               </tbody>
             </table>
           </Container>
         </section>
       )}
+
 
       {/* FAQs Section */}
       <section className="faqs my-5">
