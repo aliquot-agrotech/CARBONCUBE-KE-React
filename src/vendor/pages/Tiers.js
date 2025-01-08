@@ -158,31 +158,7 @@ const TierPage = () => {
         </Container>
       </section>
 
-
-      {/* Feature Breakdown
-      <section className="feature-breakdown my-5">
-        <Container>
-          <h2 className="text-center">What's Included in Each Tier</h2>
-          <p className="text-center">Each tier comes with a set of features to help your business grow.</p>
-          <Row className="g-4">
-            {tiers.map((tier) => (
-              <Col md={6} sm={12} key={tier.id}>
-                <Card className="feature-box">
-                  <Card.Body>
-                    <Card.Title>{tier.name}</Card.Title>
-                    <ul className="list-unstyled">
-                      {(tier.tier_features || []).map((feature) => (
-                        <li key={feature.id}>✔ {feature.feature_name}</li>
-                      ))}
-                    </ul>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </section> */}
-
+      {/* Feature Breakdown */}
       {tiers.length > 0 && (
         <section className="pricing-comparison my-5">
           <Container>
@@ -205,12 +181,14 @@ const TierPage = () => {
               </thead>
               <tbody>
                 {/* Extract unique feature names from tier_features */}
-                {[
-                  ...new Set(
-                    tiers.flatMap((tier) => tier.tier_features.map((feature) => feature.feature_name))
-                  ),
-                ]
-                  .sort((a, b) => a.localeCompare(b)) // Sort features alphabetically
+                {tiers
+                  .flatMap((tier) => tier.tier_features.map((feature) => feature.feature_name)) // Gather all features
+                  .reduce((uniqueFeatures, feature) => {
+                    if (!uniqueFeatures.includes(feature)) {
+                      uniqueFeatures.push(feature); // Add unique features
+                    }
+                    return uniqueFeatures;
+                  }, []) // Reduce to unique features list
                   .map((featureName, index) => (
                     <tr key={index}>
                       <td>{featureName}</td>
@@ -228,17 +206,28 @@ const TierPage = () => {
 
                           // Determine if the feature should be ticked for each tier
                           let shouldTick = false;
+
+                          // Free tier: Only tick its own features
                           if (tierIndex === 0 && isFeatureInCurrentTier) {
-                            // Tick only if the feature is in the Free tier
                             shouldTick = true;
-                          } else if (tierIndex === 1 && isFeatureInCurrentTier) {
-                            // Tick if the feature is in the Basic tier
+                          }
+                          // Basic tier: Tick if feature is in Basic tier
+                          else if (tierIndex === 1 && isFeatureInCurrentTier) {
                             shouldTick = true;
-                          } else if (tierIndex === 2 && (isFeatureInCurrentTier || tiers[1].tier_features.some(feature => feature.feature_name === featureName))) {
-                            // Tick if the feature is in the Standard tier or Basic tier
+                          }
+                          // Standard tier: Tick if feature is in Standard or Basic tier
+                          else if (tierIndex === 2 && (
+                            isFeatureInCurrentTier || 
+                            tiers[1].tier_features.some(feature => feature.feature_name === featureName)
+                          )) {
                             shouldTick = true;
-                          } else if (tierIndex === 3 && (isFeatureInCurrentTier || tiers[2].tier_features.some(feature => feature.feature_name === featureName) || tiers[1].tier_features.some(feature => feature.feature_name === featureName))) { 
-                            // Tick if the feature is in the Premium tier, Standard tier, or Basic tier
+                          }
+                          // Premium tier: Tick if feature is in Premium, Standard, or Basic tier
+                          else if (tierIndex === 3 && (
+                            isFeatureInCurrentTier || 
+                            tiers[2].tier_features.some(feature => feature.feature_name === featureName) || 
+                            tiers[1].tier_features.some(feature => feature.feature_name === featureName)
+                          )) {
                             shouldTick = true;
                           }
 
@@ -260,6 +249,7 @@ const TierPage = () => {
           </Container>
         </section>
       )}
+
 
       {/* FAQs Section */}
       <section className="faqs my-5">
