@@ -66,8 +66,7 @@ const TierPage = () => {
     setSelectedTier(tierId); // Set the selected tier ID
     setShowModal(true); // Show the modal for duration selection
   };
-  
-  
+
   const handleDurationSelect = async (duration) => {
     const token = sessionStorage.getItem("token");
   
@@ -77,20 +76,23 @@ const TierPage = () => {
     }
   
     try {
+      const durationString = `${duration} months`;
+  
       const response = await axios.patch(
         "https://carboncube-ke-rails-cu22.onrender.com/vendor/tiers/update_tier",
         {
           tier_id: selectedTier, // Pass the selected tier ID
-          tier_duration: duration, // Pass the selected duration
+          tier_duration: durationString, // Pass the selected duration
         },
         {
-          headers: { Authorization: `Bearer ${token}` }, // Include the token for authentication
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
   
       console.log("Tier updated successfully:", response.data);
       alert("Your tier and duration have been successfully updated.");
       setShowModal(false); // Close the modal
+      setSelectedTier(null); // Reset the selected tier after duration selection
     } catch (error) {
       console.error("Error updating tier:", error);
       alert(
@@ -100,10 +102,7 @@ const TierPage = () => {
     }
   };
   
-  
-  
-  
-  
+
   function getVendorIdFromToken() {
     const token = sessionStorage.getItem('token'); // Adjust if stored differently
     if (!token) {
@@ -154,9 +153,9 @@ const TierPage = () => {
           {/* Home Button */}
           <Button
             onClick={() => navigate("/vendor/analytics")}
-            className="btn btn-primary mt-4 rounded-pill" // Bootstrap classes for styling
+            className="btn btn-dark mt-4 rounded-pill" // Bootstrap classes for styling
           >
-            Home
+            Back to Home
           </Button>
         </Container>
       </section>
@@ -171,7 +170,10 @@ const TierPage = () => {
               .sort((a, b) => a.id - b.id) // Sort tiers by ascending ID
               .map((tier) => (
                 <Col lg={3} md={6} sm={12} key={tier.id} className="p-0 p-lg-2 mb-3">
-                  <Card className={`tier-box ${selectedTier === tier.id ? 'selected' : ''} h-100 d-flex flex-column`}>
+                  <Card
+                    className={`tier-box h-100 d-flex flex-column ${selectedTier === tier.id ? 'selected-tier' : ''}`}
+                  >
+                  
                     <Card.Body className="flex-grow-1 d-flex flex-column justify-content-between">
                       <div>
                         <Card.Title className="tier-title text-secondary">{tier.name}</Card.Title>
@@ -339,24 +341,25 @@ const TierPage = () => {
       </section>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Select Duration</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {tiers
-            .find((tier) => tier.id === selectedTier)
-            ?.tier_pricings.map((pricing) => (
-              <Button
-                key={pricing.id}
-                variant="outline-primary"
-                className="w-100 mb-2"
-                onClick={() => handleDurationSelect(pricing.duration_months)}
-              >
-                {pricing.duration_months} months: {pricing.price} KES
-              </Button>
-            ))}
-        </Modal.Body>
-      </Modal>
+  <Modal.Header closeButton>
+    <Modal.Title>Select Duration</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {tiers
+      .find((tier) => tier.id === selectedTier)
+      ?.tier_pricings.map((pricing) => (
+        <Button
+          key={pricing.id}
+          variant="outline-primary"
+          className="w-100 mb-2"
+          onClick={() => handleDurationSelect(pricing.duration_months)} // Capturing the duration as a number
+        >
+          {`${pricing.duration_months} months: ${pricing.price} KES`} {/* Displaying duration as '6 months' */}
+        </Button>
+      ))}
+  </Modal.Body>
+</Modal>
+
     </div>
   );
 };

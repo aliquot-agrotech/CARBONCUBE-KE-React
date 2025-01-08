@@ -240,6 +240,18 @@ body {
   border-radius: 8px;
 }
 
+/* Add this in your CSS */
+.selected-tier {
+  border: 2px solid #007bff; /* Blue border for the selected card */
+  background-color: #e3f2fd; /* Light blue background for selected card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow for selected card */
+}
+
+.selected-tier .tier-title {
+  color: #007bff; /* Change title color to blue for selected tier */
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-section h1 {
