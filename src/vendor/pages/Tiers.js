@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Row, Col, Button, Accordion, Spinner, Container, Card } from 'react-bootstrap';
+import { Row, Col, Button, Accordion, Container, Card } from 'react-bootstrap';
+import Spinner from "react-spinkit";
 import '../css/Tiers.css';
 import { jwtDecode } from 'jwt-decode';
 
@@ -73,13 +74,22 @@ const TierPage = () => {
     }
   }
 
+  // if (loading) {
+  //   return (
+  //     <div className="loading-container d-flex flex-column align-items-center justify-content-center">
+  //       <Spinner animation="border" role="status" />
+        
+  //     </div>
+  //   );
+  // }
+
   if (loading) {
-    return (
-      <div className="loading-container d-flex flex-column align-items-center justify-content-center">
-        <Spinner animation="border" role="status" />
-        <p className="mt-3">Loading tiers, please wait...</p>
-      </div>
-    );
+      return (
+          <div className="centered-loader">
+              <Spinner variant="warning" name="cube-grid" style={{ width: 100, height: 100 }} />
+              {/* <p className="mt-3">Loading tiers, please wait...</p> */}
+          </div>
+      );
   }
 
   if (error) {
@@ -106,44 +116,48 @@ const TierPage = () => {
 
       {/* Pricing Section */}
       <section className="pricing-section p-2">
-        <Container>
-          <Row className="mb-4">
-            {tiers.map((tier) => (
-              <Col lg={3} md={6} sm={12} key={tier.id} className="p-0 p-lg-2 mb-3">
-                <Card className={`tier-box ${selectedTier === tier.id ? 'selected' : ''} h-100 d-flex flex-column`}>
-                  <Card.Body className="flex-grow-1 d-flex flex-column justify-content-between">
-                    <div>
-                      <Card.Title className="tier-title">{tier.name}</Card.Title>
-                      <Card.Subtitle className="tier-description mb-3">Ads: {tier.ads_limit}</Card.Subtitle>
-                      <ul className="tier-features list-unstyled mb-3">
-                        {(tier.tier_features || []).map((feature) => (
-                          <li key={feature.id}>✔ {feature.feature_name}</li>
-                        ))}
-                      </ul>
-                      <div className="pricing-details text-center">
-                        {(tier.tier_pricings || []).map((pricing) => (
-                          <div key={pricing.id} className="pricing-option">
-                            <span>
-                              <strong>{pricing.duration_months}</strong> months: {pricing.price} KES
-                            </span>
-                          </div>
-                        ))}
+  <Container>
+    <Row className="mb-4">
+      {tiers
+        .slice() // Create a shallow copy of the array to avoid mutating the original state
+        .sort((a, b) => a.id - b.id) // Sort tiers by ascending ID
+        .map((tier) => (
+          <Col lg={3} md={6} sm={12} key={tier.id} className="p-0 p-lg-2 mb-3">
+            <Card className={`tier-box ${selectedTier === tier.id ? 'selected' : ''} h-100 d-flex flex-column`}>
+              <Card.Body className="flex-grow-1 d-flex flex-column justify-content-between">
+                <div>
+                  <Card.Title className="tier-title">{tier.name}</Card.Title>
+                  <Card.Subtitle className="tier-description mb-3">Ads: {tier.ads_limit}</Card.Subtitle>
+                  <ul className="tier-features list-unstyled mb-3">
+                    {(tier.tier_features || []).map((feature) => (
+                      <li key={feature.id}>✔ {feature.feature_name}</li>
+                    ))}
+                  </ul>
+                  <div className="pricing-details text-center">
+                    {(tier.tier_pricings || []).map((pricing) => (
+                      <div key={pricing.id} className="pricing-option">
+                        <span>
+                          <strong>{pricing.duration_months}</strong> months: {pricing.price} KES
+                        </span>
                       </div>
-                    </div>
-                    <Button
-                      style={{ backgroundColor: 'black', borderColor: 'black' }}
-                      className="w-100 rounded-pill text-white mt-3"
-                      onClick={() => handleSelectTier(tier.id)}
-                    >
-                      {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </section>
+                    ))}
+                  </div>
+                </div>
+                <Button
+                  style={{ backgroundColor: 'black', borderColor: 'black' }}
+                  className="w-100 rounded-pill text-white mt-3"
+                  onClick={() => handleSelectTier(tier.id)}
+                >
+                  {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+    </Row>
+  </Container>
+</section>
+
 
       {/* Feature Breakdown
       <section className="feature-breakdown my-5">
@@ -178,9 +192,12 @@ const TierPage = () => {
               <thead className="table-light">
                 <tr>
                   <th>Feature</th>
-                  {tiers.map((tier) => (
-                    <th key={tier.id}>{tier.name}</th>
-                  ))}
+                  {tiers
+                    .slice() // Create a shallow copy to avoid mutating the original array
+                    .sort((a, b) => a.id - b.id) // Sort tiers by ascending ID
+                    .map((tier) => (
+                      <th key={tier.id}>{tier.name}</th>
+                    ))}
                 </tr>
               </thead>
               <tbody>
@@ -196,11 +213,11 @@ const TierPage = () => {
                           .some((t) =>
                             t.tier_features.some((f) => f.feature_name === featureName)
                           );
-                          return (
-                            <td key={tier.id} style={{ color: isAvailable ? 'green' : 'red' }}>
-                              {isAvailable ? '✔' : '✘'}
-                            </td>
-                          );
+                        return (
+                          <td key={tier.id} style={{ color: isAvailable ? 'green' : 'red' }}>
+                            {isAvailable ? '✔' : '✘'}
+                          </td>
+                        );
                       })}
                     </tr>
                   )
