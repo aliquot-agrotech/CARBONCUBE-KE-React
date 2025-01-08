@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Row, Col, Button, Accordion, Container, Card, Modal } from 'react-bootstrap';
 import Spinner from "react-spinkit";
+import { useNavigate } from "react-router-dom";
 import '../css/Tiers.css';
 import { jwtDecode } from 'jwt-decode';
+
 
 
 const TierPage = () => {
@@ -11,7 +13,8 @@ const TierPage = () => {
   const [selectedTier, setSelectedTier] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   // const vendorId = sessionStorage.getItem('vendor_id');
 
@@ -147,8 +150,17 @@ const TierPage = () => {
             Whether you're just starting out or ready to scale, we have a plan that fits your needs. Explore our tiered
             options below.
           </p>
+          
+          {/* Home Button */}
+          <Button
+            onClick={() => navigate("/vendor/analytics")}
+            className="btn btn-primary mt-4 rounded-pill" // Bootstrap classes for styling
+          >
+            Home
+          </Button>
         </Container>
       </section>
+
 
       {/* Pricing Section */}
       <section className="pricing-section p-2">
@@ -327,25 +339,24 @@ const TierPage = () => {
       </section>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-  <Modal.Header closeButton>
-    <Modal.Title>Select Duration</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    {tiers
-      .find((tier) => tier.id === selectedTier)
-      ?.tier_pricings.map((pricing) => (
-        <Button
-          key={pricing.id}
-          variant="outline-primary"
-          className="w-100 mb-2"
-          onClick={() => handleDurationSelect(pricing.duration_months)}
-        >
-          {pricing.duration_months} months: {pricing.price} KES
-        </Button>
-      ))}
-  </Modal.Body>
-</Modal>
-
+        <Modal.Header closeButton>
+          <Modal.Title>Select Duration</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {tiers
+            .find((tier) => tier.id === selectedTier)
+            ?.tier_pricings.map((pricing) => (
+              <Button
+                key={pricing.id}
+                variant="outline-primary"
+                className="w-100 mb-2"
+                onClick={() => handleDurationSelect(pricing.duration_months)}
+              >
+                {pricing.duration_months} months: {pricing.price} KES
+              </Button>
+            ))}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
