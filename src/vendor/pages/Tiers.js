@@ -300,7 +300,6 @@ const TierPage = () => {
         </section>
       )}
 
-
       {/* FAQs Section */}
       <section className="faqs my-5">
         <Container>
@@ -341,25 +340,24 @@ const TierPage = () => {
       </section>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-  <Modal.Header closeButton>
-    <Modal.Title>Select Duration</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    {tiers
-      .find((tier) => tier.id === selectedTier)
-      ?.tier_pricings.map((pricing) => (
-        <Button
-          key={pricing.id}
-          variant="outline-primary"
-          className="w-100 mb-2"
-          onClick={() => handleDurationSelect(pricing.duration_months)} // Capturing the duration as a number
-        >
-          {`${pricing.duration_months} months: ${pricing.price} KES`} {/* Displaying duration as '6 months' */}
-        </Button>
-      ))}
-  </Modal.Body>
-</Modal>
-
+        <Modal.Header closeButton>
+          <Modal.Title>Select Duration</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {tiers
+            .find((tier) => tier.id === selectedTier)
+            ?.tier_pricings.map((pricing) => (
+              <Button
+                key={pricing.id}
+                variant="outline-primary"
+                className="w-100 mb-2"
+                onClick={() => handleDurationSelect(pricing.duration_months)} // Capturing the duration as a number
+              >
+                {`${pricing.duration_months} months: ${pricing.price} KES`} {/* Displaying duration as '6 months' */}
+              </Button>
+            ))}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
