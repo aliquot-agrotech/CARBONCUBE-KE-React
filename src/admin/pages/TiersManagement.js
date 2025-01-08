@@ -337,16 +337,16 @@ const TiersManagement = () => {
                         </div>
                     </Modal.Header>
 
-                    <Modal.Body className="p-4">
+                    <Modal.Body className="px-4 py-2">
                         <Form>
                             <Row>
                                 <Col md={6} xs={6}>
                                     {/* Ads Limit */}
-                                    <Form.Group className="mb-4">
+                                    <Form.Group className="mb-2">
                                         <Form.Label className="fw-semibold text-dark">Name</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            className="form-control-md rounded-pill"
+                                            className="form-control-md rounded-pill mb-0"
                                             value={newTier.name}
                                             onChange={(e) => setNewTier({ ...newTier, name: e.target.value })}
                                             placeholder="Enter tier name"
@@ -357,11 +357,11 @@ const TiersManagement = () => {
 
                                 <Col  md={6} xs={6}>
                                     {/* Ads Limit */}
-                                    <Form.Group className="mb-4">
+                                    <Form.Group className="mb-2">
                                         <Form.Label className="fw-semibold text-dark">Ads Limit</Form.Label>
                                         <Form.Control
                                             type="number"
-                                            className="form-control-md rounded-pill"
+                                            className="form-control-md rounded-pill mb-0"
                                             value={newTier.ads_limit}
                                             onChange={(e) => setNewTier({ ...newTier, ads_limit: e.target.value })}
                                             placeholder="Enter ads limit"
@@ -372,7 +372,7 @@ const TiersManagement = () => {
                             </Row>
 
                             {/* Features */}
-                            `<Form.Group className="mb-4">
+                            `<Form.Group className="mb-2">
                                 <Form.Label className="fw-semibold d-flex align-items-center text-dark">
                                     <h5 className="me-2">Features</h5>
                                     <span className="badge bg-primary rounded-pill">
@@ -437,7 +437,7 @@ const TiersManagement = () => {
                             </Form.Group>
 
                             {/* Pricing */}
-                            <Form.Group className="mb-4">
+                            <Form.Group className="mb-2">
                                 <Form.Label className="fw-semibold d-flex align-items-center text-dark">
                                     <h5 className="me-2">Pricing Plans</h5>
                                     <span className="badge bg-primary rounded-pill">
