@@ -97,7 +97,7 @@ const VendorAnalytics = () => {
           <Col xs={12} lg={2} className="p-0">
             <Sidebar />
           </Col>
-          <Col xs={12} lg={10} className="content-area">
+          <Col xs={12} lg={9} className="content-area">
             <Row>
               {/* Analytics Cards */}
               <Col xs={6} md={3}>
