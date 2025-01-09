@@ -82,10 +82,10 @@ const Home = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    const handleShowModal = (product) => {
-        setSelectedProduct(product);
-        setShowModal(true);
-    };
+    // const handleShowModal = (product) => {
+    //     setSelectedProduct(product);
+    //     setShowModal(true);
+    // };
     const handleProductClick = async (productId) => {
         if (!productId) {
             console.error('Invalid productId');
@@ -214,7 +214,7 @@ const Home = () => {
                                 <SubcategorySection
                                     subcategory={subcategory.name}
                                     products={products[subcategory.id] || []}
-                                    onProductClick={handleShowModal}
+                                    // onProductClick={handleShowModal}
                                 />
                             </Col>
                         ))}
@@ -226,14 +226,13 @@ const Home = () => {
 
     const getBorderColor = (tierId) => {
         const tierColors = {
-            2: '#000000',  // Basic (Black)
-            3: '#eeeeee',  // Standard (Silver-like grey)
-            4: '#FFC107',  // Premium  (Gold-like yellow)
+            2: '#FF5733',  // Basic (Red-Orange)
+            3: '#28A745',  // Standard (Bright Green)
+            4: '#FFC107',  // Premium (Gold-like yellow)
         };
         return tierColors[tierId] || 'transparent'; // No border color for Free tier
-    };
-    
-    
+    };    
+
     const SubcategorySection = ({ subcategory, products, onProductClick }) => {
         const displayedProducts = products.slice(0, 4);
         return (
@@ -245,7 +244,7 @@ const Home = () => {
                                 <Card
                                     className="product-card h-100"
                                     style={{
-                                        border: `2px solid ${getBorderColor(product.vendor_tier)}`,
+                                        border: `1px solid ${getBorderColor(product.vendor_tier)}`,
                                     }}
                                 >
                                     <Card.Img
@@ -284,7 +283,7 @@ const Home = () => {
                             <Card
                                 className="product-card"
                                 style={{
-                                    border: `2px solid ${getBorderColor(product.vendor_tier)}`,
+                                    border: `1px solid ${getBorderColor(product.vendor_tier)}`,
                                 }}
                             >
                                 <Card.Img 
@@ -317,7 +316,7 @@ const Home = () => {
                             <Card
                                 className="product-card mb-3"
                                 style={{
-                                    border: `2px solid ${getBorderColor(product.vendor_tier)}`,
+                                    border: `1px solid ${getBorderColor(product.vendor_tier)}`,
                                 }}
                             >
                                 <Card.Img
