@@ -188,7 +188,15 @@ const Home = () => {
             console.error('Error logging product search:', logError);
         }
     };
-    
+
+    const getBorderColor = (tierId) => {
+        const tierColors = {
+            2: '#FF5733',  // Basic (Red-Orange)
+            3: '#28A745',  // Standard (Bright Green)
+            4: '#FFC107',  // Premium (Gold-like yellow)
+        };
+        return tierColors[tierId] || 'transparent'; // No border color for Free tier
+    };
     
     const CategorySection = ({ title, subcategories }) => {
         // Function to shuffle an array
@@ -234,7 +242,12 @@ const Home = () => {
                     <Row className="g-2">
                         {displayedProducts.map(product => (
                             <Col xs={6} key={product.id}>
-                                <Card className="product-card h-100">
+                                <Card 
+                                    className="product-card h-100"
+                                    style={{
+                                        border: `1px solid ${getBorderColor(product.vendor_tier)}`,
+                                    }}
+                                >
                                     <Card.Img
                                         variant="top"
                                         loading="lazy"
@@ -264,7 +277,12 @@ const Home = () => {
                 <Row>
                     {products.slice(0, 6).map(product => (
                         <Col xs={6} sm={6} md={2} key={product.id}>
-                            <Card className="product-card">
+                            <Card 
+                                className="product-card"
+                                style={{
+                                    border: `1px solid ${getBorderColor(product.vendor_tier)}`,
+                                }}
+                            >
                                 <Card.Img 
                                     variant="top" 
                                     src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
@@ -294,6 +312,9 @@ const Home = () => {
                                     src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                     alt={product.title}
                                     className="product-image"
+                                    style={{
+                                        border: `1px solid ${getBorderColor(product.vendor_tier)}`,
+                                    }}
                                     onClick={() => handleProductClick(product.id)} // Handle image click
                                 />
                                 <Card.Body className="text-start bg-gray">
