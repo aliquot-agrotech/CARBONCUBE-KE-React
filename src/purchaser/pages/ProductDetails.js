@@ -394,15 +394,6 @@ const ProductDetails = () => {
         );
     };
 
-    const getBorderColor = (tierId) => {
-        const tierColors = {
-            2: '#FF5733',  // Basic (Red-Orange)
-            3: '#28A745',  // Standard (Bright Green)
-            4: '#FFC107',  // Premium (Gold-like yellow)
-        };
-        return tierColors[tierId] || 'transparent'; // No border color for Free tier
-    };    
-
     if (loading) {
         return (
             <div className="centered-loader">
@@ -591,9 +582,6 @@ const ProductDetails = () => {
                                                         variant="top"
                                                         src={relatedProduct.media_urls[0] || 'default-image-url'}
                                                         alt={relatedProduct.title}
-                                                        style={{
-                                                            border: `1px solid ${getBorderColor(product.vendor_tier)}`,
-                                                        }}
                                                     />
                                                     <Card.Body className="px-2 py-1">
                                                         <Card.Title className="mb-0 mb-lg-1 product-title">{relatedProduct.title}</Card.Title>

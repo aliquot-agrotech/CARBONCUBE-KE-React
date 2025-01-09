@@ -82,10 +82,10 @@ const Home = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    // const handleShowModal = (product) => {
-    //     setSelectedProduct(product);
-    //     setShowModal(true);
-    // };
+    const handleShowModal = (product) => {
+        setSelectedProduct(product);
+        setShowModal(true);
+    };
     const handleProductClick = async (productId) => {
         if (!productId) {
             console.error('Invalid productId');
@@ -214,7 +214,7 @@ const Home = () => {
                                 <SubcategorySection
                                     subcategory={subcategory.name}
                                     products={products[subcategory.id] || []}
-                                    // onProductClick={handleShowModal}
+                                    onProductClick={handleShowModal}
                                 />
                             </Col>
                         ))}
@@ -223,15 +223,8 @@ const Home = () => {
             </Card>
         );
     };
+    
 
-    const getBorderColor = (tierId) => {
-        const tierColors = {
-            2: '#FF5733',  // Basic (Red-Orange)
-            3: '#28A745',  // Standard (Bright Green)
-            4: '#FFC107',  // Premium (Gold-like yellow)
-        };
-        return tierColors[tierId] || 'transparent'; // No border color for Free tier
-    };    
 
     const SubcategorySection = ({ subcategory, products, onProductClick }) => {
         const displayedProducts = products.slice(0, 4);
@@ -241,23 +234,14 @@ const Home = () => {
                     <Row className="g-2">
                         {displayedProducts.map(product => (
                             <Col xs={6} key={product.id}>
-                                <Card
-                                    className="product-card h-100"
-                                    style={{
-                                        border: `1px solid ${getBorderColor(product.vendor_tier)}`,
-                                    }}
-                                >
+                                <Card className="product-card h-100">
                                     <Card.Img
                                         variant="top"
                                         loading="lazy"
-                                        src={
-                                            product.media_urls && product.media_urls.length > 0
-                                                ? product.media_urls[0]
-                                                : 'default-image-url'
-                                        }
+                                        src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                         alt={product.title}
                                         className="product-image"
-                                        onClick={() => onProductClick(product.id)}
+                                        onClick={() => handleProductClick(product.id)}
                                     />
                                 </Card>
                             </Col>
@@ -265,34 +249,25 @@ const Home = () => {
                     </Row>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-start">
-                    <h5 className="m-0">{subcategory}</h5>
+                    <h5 className='m-0'>{subcategory}</h5>
                 </Card.Footer>
             </Card>
         );
     };
-    
+
     const PopularProductsSection = ({ products, onProductClick }) => (
         <Card className="section bg-transparent mb-3 m-4 mx-5">
-            <Card.Header className="d-flex justify-content-start popular-products-header">
-                <h3 className="mb-0">Best Sellers</h3>
+            <Card.Header className="d-flex justify-content-start popular-products-header ">
+                <h3 className='mb-0'>Best Sellers</h3>
             </Card.Header>
             <Card.Body className="cat-body">
                 <Row>
                     {products.slice(0, 6).map(product => (
                         <Col xs={6} sm={6} md={2} key={product.id}>
-                            <Card
-                                className="product-card"
-                                style={{
-                                    border: `1px solid ${getBorderColor(product.vendor_tier)}`,
-                                }}
-                            >
+                            <Card className="product-card">
                                 <Card.Img 
                                     variant="top" 
-                                    src={
-                                        product.media_urls && product.media_urls.length > 0
-                                            ? product.media_urls[0]
-                                            : 'default-image-url'
-                                    }
+                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                     className="product-image"
                                     onClick={() => onProductClick(product.id)} 
                                 />
@@ -313,22 +288,13 @@ const Home = () => {
                 <Row>
                     {results.map(product => (
                         <Col xs={6} sm={6} md={2} key={product.id} className="">
-                            <Card
-                                className="product-card mb-3"
-                                style={{
-                                    border: `1px solid ${getBorderColor(product.vendor_tier)}`,
-                                }}
-                            >
+                            <Card className="product-card mb-3">
                                 <Card.Img
                                     variant="top"
-                                    src={
-                                        product.media_urls && product.media_urls.length > 0
-                                            ? product.media_urls[0]
-                                            : 'default-image-url'
-                                    }
+                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
                                     alt={product.title}
                                     className="product-image"
-                                    onClick={() => handleProductClick(product.id)}
+                                    onClick={() => handleProductClick(product.id)} // Handle image click
                                 />
                                 <Card.Body className="text-start bg-gray">
                                     <Card.Title className="mb-0 product-title">{product.title}</Card.Title>
@@ -357,7 +323,6 @@ const Home = () => {
             </Card.Body>
         </Card>
     );
-    
 
     const Footer = () => (
         <footer className="footer">
