@@ -138,11 +138,11 @@ const VendorAnalytics = () => {
               </Col>
               <Col xs={6} md={3}>
                 <Card className="mb-4 custom-card">
-                  <Card.Header>Total Revenue</Card.Header>
+                  <Card.Header>Total Reviews</Card.Header>
                   <Card.Body>
                     {tierId >= 3 ? (
                       <Card.Text className="text-center">
-                        <strong>Kshs: {parseFloat(total_revenue).toLocaleString()}</strong>
+                        <strong>{total_reviews.toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
                       <Card.Text className="text-center text-secondary">
@@ -154,11 +154,25 @@ const VendorAnalytics = () => {
               </Col>
               <Col xs={6} md={3}>
                 <Card className="mb-4 custom-card">
-                  <Card.Header>Total Reviews</Card.Header>
+                  <Card.Header>Total Revenue</Card.Header>
                   <Card.Body>
                     {tierId >= 3 ? (
                       <Card.Text className="text-center">
-                        <strong>{total_reviews.toLocaleString()}</strong>
+                        <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                        <strong style={{ fontSize: '16px' }} className="text-danger">
+                          {total_revenue ? Number(total_revenue).toFixed(2).split('.').map((part, index) => (
+                            <React.Fragment key={index}>
+                              {index === 0 ? (
+                                <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                              ) : (
+                                <>
+                                  <span style={{ fontSize: '16px' }}>.</span>
+                                  <span className="price-decimal">{part}</span>
+                                </>
+                              )}
+                            </React.Fragment>
+                          )) : 'N/A'}
+                        </strong>
                       </Card.Text>
                     ) : (
                       <Card.Text className="text-center text-secondary">
