@@ -223,9 +223,17 @@ const Home = () => {
             </Card>
         );
     };
+
+    const getBorderColor = (tierId) => {
+        const tierColors = {
+            2: '#000000',  // Basic (Black)
+            3: '#eeeeee',  // Standard (Silver-like grey)
+            4: '#FFC107',  // Premium  (Gold-like yellow)
+        };
+        return tierColors[tierId] || 'transparent'; // No border color for Free tier
+    };
     
-
-
+    
     const SubcategorySection = ({ subcategory, products, onProductClick }) => {
         const displayedProducts = products.slice(0, 4);
         return (
@@ -234,14 +242,23 @@ const Home = () => {
                     <Row className="g-2">
                         {displayedProducts.map(product => (
                             <Col xs={6} key={product.id}>
-                                <Card className="product-card h-100">
+                                <Card
+                                    className="product-card h-100"
+                                    style={{
+                                        border: `2px solid ${getBorderColor(product.vendor_tier)}`,
+                                    }}
+                                >
                                     <Card.Img
                                         variant="top"
                                         loading="lazy"
-                                        src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                        src={
+                                            product.media_urls && product.media_urls.length > 0
+                                                ? product.media_urls[0]
+                                                : 'default-image-url'
+                                        }
                                         alt={product.title}
                                         className="product-image"
-                                        onClick={() => handleProductClick(product.id)}
+                                        onClick={() => onProductClick(product.id)}
                                     />
                                 </Card>
                             </Col>
@@ -249,25 +266,34 @@ const Home = () => {
                     </Row>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-start">
-                    <h5 className='m-0'>{subcategory}</h5>
+                    <h5 className="m-0">{subcategory}</h5>
                 </Card.Footer>
             </Card>
         );
     };
-
+    
     const PopularProductsSection = ({ products, onProductClick }) => (
         <Card className="section bg-transparent mb-3 m-4 mx-5">
-            <Card.Header className="d-flex justify-content-start popular-products-header ">
-                <h3 className='mb-0'>Best Sellers</h3>
+            <Card.Header className="d-flex justify-content-start popular-products-header">
+                <h3 className="mb-0">Best Sellers</h3>
             </Card.Header>
             <Card.Body className="cat-body">
                 <Row>
                     {products.slice(0, 6).map(product => (
                         <Col xs={6} sm={6} md={2} key={product.id}>
-                            <Card className="product-card">
+                            <Card
+                                className="product-card"
+                                style={{
+                                    border: `2px solid ${getBorderColor(product.vendor_tier)}`,
+                                }}
+                            >
                                 <Card.Img 
                                     variant="top" 
-                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                    src={
+                                        product.media_urls && product.media_urls.length > 0
+                                            ? product.media_urls[0]
+                                            : 'default-image-url'
+                                    }
                                     className="product-image"
                                     onClick={() => onProductClick(product.id)} 
                                 />
@@ -288,13 +314,22 @@ const Home = () => {
                 <Row>
                     {results.map(product => (
                         <Col xs={6} sm={6} md={2} key={product.id} className="">
-                            <Card className="product-card mb-3">
+                            <Card
+                                className="product-card mb-3"
+                                style={{
+                                    border: `2px solid ${getBorderColor(product.vendor_tier)}`,
+                                }}
+                            >
                                 <Card.Img
                                     variant="top"
-                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                    src={
+                                        product.media_urls && product.media_urls.length > 0
+                                            ? product.media_urls[0]
+                                            : 'default-image-url'
+                                    }
                                     alt={product.title}
                                     className="product-image"
-                                    onClick={() => handleProductClick(product.id)} // Handle image click
+                                    onClick={() => handleProductClick(product.id)}
                                 />
                                 <Card.Body className="text-start bg-gray">
                                     <Card.Title className="mb-0 product-title">{product.title}</Card.Title>
@@ -323,6 +358,7 @@ const Home = () => {
             </Card.Body>
         </Card>
     );
+    
 
     const Footer = () => (
         <footer className="footer">

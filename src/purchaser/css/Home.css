@@ -61,7 +61,7 @@
 }
 
 .product-card {
-    border: none;
+    /* border: none; */
     overflow: hidden;
     height: 100%;
     background-color: white;
