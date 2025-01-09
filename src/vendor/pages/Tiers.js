@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import '../css/Tiers.css';
 import { jwtDecode } from 'jwt-decode';
 
-
-
 const TierPage = () => {
   const [tiers, setTiers] = useState([]);
   const [selectedTier, setSelectedTier] = useState(null);
