@@ -592,7 +592,7 @@ const ProductDetails = () => {
                                                         src={relatedProduct.media_urls[0] || 'default-image-url'}
                                                         alt={relatedProduct.title}
                                                         style={{
-                                                            border: `1px solid ${getBorderColor(product.vendor_tier)}`,
+                                                            border: `1px solid ${getBorderColor(relatedProduct.vendor_tier)}`,
                                                         }}
                                                     />
                                                     <Card.Body className="px-2 py-1">
