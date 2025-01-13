@@ -400,14 +400,21 @@ const VendorProducts = () => {
             }
         }
     };
-    
-
-
 
     const handleFileSelect = async (files) => {
         if (files.length > 0) {
             try {
                 const fileArray = Array.from(files);
+    
+                // Check if any file exceeds the 1MB limit
+                for (const file of fileArray) {
+                    console.log(`File name: ${file.name}, size: ${file.size} bytes`);
+                    if (file.size >= 1024 * 1024) { // Includes files exactly 1MB
+                        alert('File size exceeds the 1MB limit. Please select a smaller image.');
+                        return; // Stop further processing if a file is too large
+                    }
+                }
+    
                 const uploadPromises = fileArray.map(file => handleImageUpload(file));
     
                 // Upload all images
@@ -417,7 +424,7 @@ const VendorProducts = () => {
                 const updatedMedia = [...editedProduct.media, ...imageUrls];
                 setEditedProduct(prev => ({
                     ...prev,
-                    media: updatedMedia
+                    media: updatedMedia,
                 }));
     
                 console.log('Images uploaded and added successfully');
@@ -426,8 +433,6 @@ const VendorProducts = () => {
             }
         }
     };
-    
-    
 
     const handleDeleteImage = async (index) => {
         try {
@@ -1092,12 +1097,27 @@ const VendorProducts = () => {
                                         <div className="upload-section">
                                             <div className="upload-icon">&#8689;</div>
                                             <Button variant="light" className="custom-upload-btn">
-                                                <input type="file" accept="image/*" multiple />
-                                                
+                                                {/* Add onChange to handle file selection */}
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    multiple
+                                                    onChange={(e) => handleFileSelect(e.target.files)}
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: 0,
+                                                        left: 0,
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        opacity: 0,
+                                                        cursor: 'pointer',
+                                                    }}
+                                                />
                                             </Button>
                                             <div className="upload-instructions">or Drag and Drop files Here</div>
                                         </div>
                                     </Form.Group>
+
                                 </Col>
 
                                 <Col md={4}>
