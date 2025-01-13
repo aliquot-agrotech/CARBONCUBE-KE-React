@@ -927,8 +927,6 @@ const VendorProducts = () => {
                                 </Col>
                             </Row>
 
-                            
-                            
                             <Form.Group className="d-flex flex-column align-items-center mb-1 mb-lg-3">
                                 <Form.Label className="text-center mb-0 fw-bold">Add Images</Form.Label>
                                 <Form.Control 
