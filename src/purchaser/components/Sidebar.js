@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { BookmarkDash, PersonCheck, XCircle, ArrowRight, Cart4, ChatSquareText, BagCheck, HouseGear } from 'react-bootstrap-icons';
+import { BookmarkDash, PersonCheck, XCircle, ArrowRight, ChatSquareText, BagCheck, HouseGear } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -52,7 +52,7 @@ const Sidebar = () => {
             className={location.pathname === '/purchaser/wish_lists' ? 'active' : ''}>
             <BookmarkDash className="icon" /> {isOpen && 'Wish List'}
           </Nav.Link>
-          <Nav.Link
+          {/* <Nav.Link
             href="/purchaser/cart"
             className={location.pathname === '/purchaser/cart' ? 'active' : ''}>
             <Cart4 className="icon" /> {isOpen && 'Cart'}
@@ -61,7 +61,7 @@ const Sidebar = () => {
             href="/purchaser/buyforme"
             className={location.pathname === '/purchaser/buyforme' ? 'active' : ''}>
             <Cart4 className="icon" /> {isOpen && 'Buy For Me'}
-          </Nav.Link>
+          </Nav.Link> */}
           <Nav.Link
             href="/purchaser/messages"
             className={location.pathname === '/purchaser/messages' ? 'active' : ''}>
