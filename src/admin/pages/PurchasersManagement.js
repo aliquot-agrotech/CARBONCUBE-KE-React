@@ -277,7 +277,7 @@ const PurchasersManagement = () => {
                                   <tr>
                                     <th>Order ID</th>
                                     <th>Order Date</th>
-                                    <th>Total <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:)</em></th>
+                                    <th>Total <em className='ad-price-label' style={{ fontSize: '13px' }}>(Kshs:)</em></th>
                                     <th>Status</th>
                                     <th>Details</th>
                                   </tr>
@@ -354,19 +354,19 @@ const PurchasersManagement = () => {
                                             <Table bordered hover className="custom-card">
                                               <thead className='table-head'>
                                                 <tr>
-                                                  <th>Product Name</th>
+                                                  <th>Ad Name</th>
                                                   <th>Quantity</th>
-                                                  <th>Price <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:)</em></th>
+                                                  <th>Price <em className='ad-price-label' style={{ fontSize: '13px' }}>(Kshs:)</em></th>
                                                 </tr>
                                               </thead>
                                               <tbody>
                                                 {order.order_items.map(item => (
-                                                  <tr key={item.product.id}>
-                                                    <td>{item.product.title}</td>
+                                                  <tr key={item.ad.id}>
+                                                    <td>{item.ad.title}</td>
                                                     <td>{item.quantity}</td>
                                                     <td className="price-container text-success">
                                                       <strong>
-                                                        {((item.product.price * item.quantity).toFixed(2)).split('.').map((part, index) => (
+                                                        {((item.ad.price * item.quantity).toFixed(2)).split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? (
                                                                     <span className="price-integer">

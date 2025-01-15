@@ -47,7 +47,7 @@ const VendorsManagement = () => {
 
     const handleRowClick = async (vendorId) => {
         try {
-            const [vendorResponse, ordersResponse, productsResponse, reviewsResponse] = await Promise.all([
+            const [vendorResponse, ordersResponse, adsResponse, reviewsResponse] = await Promise.all([
                 fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/vendors/${vendorId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -58,7 +58,7 @@ const VendorsManagement = () => {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/vendors/${vendorId}/products`, {
+                fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/vendors/${vendorId}/ads`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -70,17 +70,17 @@ const VendorsManagement = () => {
                 })
             ]);
     
-            if (!vendorResponse.ok || !ordersResponse.ok || !productsResponse.ok || !reviewsResponse.ok) {
+            if (!vendorResponse.ok || !ordersResponse.ok || !adsResponse.ok || !reviewsResponse.ok) {
                 throw new Error('Network response was not ok');
             }
     
             const vendorData = await vendorResponse.json();
             const ordersData = await ordersResponse.json();
-            const productsData = await productsResponse.json();
+            const adsData = await adsResponse.json();
             const reviewsData = await reviewsResponse.json();
             const analytics = await fetchVendorAnalytics(vendorId);
     
-            setSelectedVendor({ ...vendorData, orders: ordersData, products: productsData, reviews: reviewsData, analytics });
+            setSelectedVendor({ ...vendorData, orders: ordersData, ads: adsData, reviews: reviewsData, analytics });
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
@@ -374,9 +374,9 @@ const VendorsManagement = () => {
                                                             </Col>
                                                             <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
-                                                                    <Card.Header as="h6" className="justify-content-center">Total Products Sold</Card.Header>
+                                                                    <Card.Header as="h6" className="justify-content-center">Total Ads Sold</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_products_sold}
+                                                                        {selectedVendor.analytics.total_ads_sold}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -388,7 +388,7 @@ const VendorsManagement = () => {
                                                                     <Card.Header as="h6" className="justify-content-center">Total Revenue</Card.Header>
                                                                     <Card.Body className="text-center price-container">
                                                                         <Card.Text className="total-revenue m-0 text-center">
-                                                                            <span><em className='product-price-label text-success'>Kshs: </em></span>
+                                                                            <span><em className='ad-price-label text-success'>Kshs: </em></span>
                                                                             <strong className="price text-danger">
                                                                             {selectedVendor.analytics.total_revenue ? parseFloat(selectedVendor.analytics.total_revenue).toFixed(2).split('.').map((part, index) => (
                                                                                 <React.Fragment key={index}>
@@ -445,9 +445,9 @@ const VendorsManagement = () => {
                                                                     <tr>
                                                                         <th>Order ID</th>
                                                                         <th>Purchaser</th>
-                                                                        <th>Product</th>
+                                                                        <th>Ad</th>
                                                                         <th>Quantity</th>                                                                        
-                                                                        <th>Total <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:) </em></th>
+                                                                        <th>Total <em className='ad-price-label' style={{ fontSize: '13px' }}>(Kshs:) </em></th>
                                                                         <th>Date Ordered</th>
                                                                         <th>Status</th>
                                                                     </tr>
@@ -456,15 +456,15 @@ const VendorsManagement = () => {
                                                                     {selectedVendor && selectedVendor.orders && selectedVendor.orders.length > 0 ? (
                                                                         selectedVendor.orders.map((order) => (
                                                                             order.order_items.map((item) => (
-                                                                                <tr key={`${order.id}-${item.product.id}`}>
+                                                                                <tr key={`${order.id}-${item.ad.id}`}>
                                                                                     <td>{order.id}</td>
                                                                                     <td>{order.purchaser.fullname}</td>
-                                                                                    <td>{item.product.title}</td>
+                                                                                    <td>{item.ad.title}</td>
                                                                                     <td>{item.quantity}</td>
                                                                                     
                                                                                     <td className="price-container">
                                                                                         <strong className="text-success">
-                                                                                            {((item.quantity * item.product.price).toFixed(2)).split('.').map((part, index) => (
+                                                                                            {((item.quantity * item.ad.price).toFixed(2)).split('.').map((part, index) => (
                                                                                                 <React.Fragment key={index}>
                                                                                                     {index === 0 ? (
                                                                                                         <span className="price-integer">
@@ -523,24 +523,24 @@ const VendorsManagement = () => {
                                                 </div>
                                             </Tab>                                           
 
-                                            <Tab eventKey="products" title="Products">
+                                            <Tab eventKey="ads" title="Ads">
                                                 <div className="card-container">
-                                                    {selectedVendor.products && selectedVendor.products.length > 0 ? (
+                                                    {selectedVendor.ads && selectedVendor.ads.length > 0 ? (
                                                         <Row>
-                                                            {selectedVendor.products.map((product) => (
-                                                                <Col key={product.id} xs={6} md={12} lg={3} className="mb-2 px-1">
-                                                                    <Card className="product-card-vendor">
+                                                            {selectedVendor.ads.map((ad) => (
+                                                                <Col key={ad.id} xs={6} md={12} lg={3} className="mb-2 px-1">
+                                                                    <Card className="ad-card-vendor">
                                                                         <Card.Img
-                                                                            className="analytics-card-img-top product-image"
+                                                                            className="analytics-card-img-top ad-image"
                                                                             variant="top"
-                                                                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                                                            src={ad.media_urls && ad.media_urls.length > 0 ? ad.media_urls[0] : 'default-image-url'}
                                                                         />
                                                                         <Card.Body className='p-2'>
-                                                                            <Card.Title className="mb-0 product-title" style={{ fontSize: '18px' }}>{product.title}</Card.Title>
+                                                                            <Card.Title className="mb-0 ad-title" style={{ fontSize: '18px' }}>{ad.title}</Card.Title>
                                                                             <Card.Text className="price-container">
-                                                                                <span><em className='product-price-label text-success'>Kshs: </em></span>
+                                                                                <span><em className='ad-price-label text-success'>Kshs: </em></span>
                                                                                 <strong className='text-danger'>
-                                                                                    {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
+                                                                                    {ad.price ? parseFloat(ad.price).toFixed(2).split('.').map((part, index) => (
                                                                                         <React.Fragment key={index}>
                                                                                             {index === 0 ? (
                                                                                                 <span className="price-integer">
@@ -562,7 +562,7 @@ const VendorsManagement = () => {
                                                             ))}
                                                         </Row>
                                                     ) : (
-                                                        <p className="text-center">No products available</p>
+                                                        <p className="text-center">No ads available</p>
                                                     )}
                                                 </div>
                                             </Tab>
@@ -578,7 +578,7 @@ const VendorsManagement = () => {
                                                             <div className="review-card p-1">
                                                             <p className="review-comment"><em>"{review.review}"</em></p>
                                                             <StarRating rating={review.rating} /> {/* Assuming StarRating component is defined elsewhere */}
-                                                            <p className="review-product"><strong>{review.product_title}</strong></p>
+                                                            <p className="review-ad"><strong>{review.ad_title}</strong></p>
                                                             <p className="reviewer-name"><strong><em>{review.purchaser_name}</em></strong></p>
                                                             </div>
                                                         </div>

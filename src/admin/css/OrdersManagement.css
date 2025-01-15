@@ -138,8 +138,8 @@ body {
     display: block; /* Ensures the label is on its own line */
 }
 
-/* Product Container Styles */
-.product-container {
+/* Ad Container Styles */
+.ad-container {
     margin-top: 10px;
     white-space: nowrap
 }

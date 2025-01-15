@@ -60,7 +60,7 @@ const SalesPerformance = ({ data, totalRevenue }) => {
           </div>
           <p style={{ marginTop: '10px' }}>{month}</p>
           <p style={{ fontWeight: 'bold' }}>
-            <em className='analytics-product-price-label text-success'>Kshs: </em>
+            <em className='analytics-ad-price-label text-success'>Kshs: </em>
             <strong style={{ fontSize: '18px' }} className="text-danger">
             {data[month].toString().split('.').map((part, index) => (
               <React.Fragment key={index}>

@@ -5,11 +5,11 @@ import { faTrash, faTrashRestore, faStar, faStarHalfAlt, faStar as faStarEmpty, 
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
-import '../css/ProductsManagement.css';
+import '../css/AdsManagement.css';
 
-const ProductsManagement = () => {
-    const [flaggedProducts, setFlaggedProducts] = useState([]);
-    const [nonFlaggedProducts, setNonFlaggedProducts] = useState([]);
+const AdsManagement = () => {
+    const [flaggedAds, setFlaggedAds] = useState([]);
+    const [nonFlaggedAds, setNonFlaggedAds] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [selectedSubcategory, setSelectedSubcategory] = useState('All');
@@ -18,13 +18,13 @@ const ProductsManagement = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [showNotifyVendorModal, setShowNotifyVendorModal] = useState(false);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedAd, setSelectedAd] = useState(null);
     const [notificationOptions, setNotificationOptions] = useState([]);
     const [notes, setNotes] = useState('');
     
-    const fetchProducts = async () => {
+    const fetchAds = async () => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/admin/products', {
+            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/admin/ads', {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -36,11 +36,11 @@ const ProductsManagement = () => {
 
             const data = await response.json();
             const { flagged = [], non_flagged = [] } = data;
-            setFlaggedProducts(flagged);
-            setNonFlaggedProducts(non_flagged);
+            setFlaggedAds(flagged);
+            setNonFlaggedAds(non_flagged);
         } catch (error) {
-            // console.error('Error fetching products:', error);
-            setError(`Error fetching products: ${error.message}`);
+            // console.error('Error fetching ads:', error);
+            setError(`Error fetching ads: ${error.message}`);
         } finally {
             setLoading(false);
         }
@@ -70,7 +70,7 @@ const ProductsManagement = () => {
     
 
     useEffect(() => {
-        fetchProducts();
+        fetchAds();
         fetchCategories();
     }, []);
 
@@ -90,27 +90,27 @@ const ProductsManagement = () => {
 
     const searchTerms = searchTerm.toLowerCase().split(' ').filter(term => term.length > 0);
 
-    const filteredNonFlaggedProducts = nonFlaggedProducts
-    .filter(product => selectedCategory === 'All' || product.category_id === selectedCategory)
-    .filter(product => selectedSubcategory === 'All' || product.subcategory_id === selectedSubcategory)
-    .filter(product => {
-        const titleMatches = searchTerms.every(term => product.title.toLowerCase().includes(term));
-        const descriptionMatches = searchTerms.every(term => product.description.toLowerCase().includes(term));
+    const filteredNonFlaggedAds = nonFlaggedAds
+    .filter(ad => selectedCategory === 'All' || ad.category_id === selectedCategory)
+    .filter(ad => selectedSubcategory === 'All' || ad.subcategory_id === selectedSubcategory)
+    .filter(ad => {
+        const titleMatches = searchTerms.every(term => ad.title.toLowerCase().includes(term));
+        const descriptionMatches = searchTerms.every(term => ad.description.toLowerCase().includes(term));
         return titleMatches || descriptionMatches;
     })
     .sort((a, b) => a.price - b.price); // Sort by price in ascending order
 
 
-    const handleNotifyClick = (product) => {
-        setSelectedProduct(product);
+    const handleNotifyClick = (ad) => {
+        setSelectedAd(ad);
         setNotificationOptions([]);
         setNotes('');
         setShowNotifyVendorModal(true);
     };
 
-    const handleViewDetailsClick = async (product) => {
+    const handleViewDetailsClick = async (ad) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/products/${product.id}`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/ads/${ad.id}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -121,10 +121,10 @@ const ProductsManagement = () => {
             }
 
             const data = await response.json();
-            setSelectedProduct(data);
+            setSelectedAd(data);
             setShowDetailsModal(true);
         } catch (error) {
-            // console.error('Error fetching product details:', error);
+            // console.error('Error fetching ad details:', error);
         }
     };
 
@@ -135,7 +135,7 @@ const ProductsManagement = () => {
 
     const handleSendNotification = async () => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/products/${selectedProduct.id}/notify`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/ads/${selectedAd.id}/notify`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -152,7 +152,7 @@ const ProductsManagement = () => {
             }
 
             handleModalClose();
-            await fetchProducts(); // Refresh product list
+            await fetchAds(); // Refresh ad list
         } catch (error) {
             // console.error('Error sending notification:', error);
         }
@@ -167,9 +167,9 @@ const ProductsManagement = () => {
         );
     };
 
-    const handleFlagProduct = async (id) => {
+    const handleFlagAd = async (id) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/products/${id}/flag`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/ads/${id}/flag`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -180,15 +180,15 @@ const ProductsManagement = () => {
                 throw new Error(`Network response was not ok. Status: ${response.status}`);
             }
 
-            await fetchProducts(); // Refresh product list
+            await fetchAds(); // Refresh ad list
         } catch (error) {
-            // console.error('Error flagging product:', error);
+            // console.error('Error flagging ad:', error);
         }
     };
 
-    const handleRestoreProduct = async (id) => {
+    const handleRestoreAd = async (id) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/products/${id}/restore`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/ads/${id}/restore`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -199,9 +199,9 @@ const ProductsManagement = () => {
                 throw new Error(`Network response was not ok. Status: ${response.status}`);
             }
 
-            await fetchProducts(); // Refresh product list
+            await fetchAds(); // Refresh ad list
         } catch (error) {
-            // console.error('Error restoring product:', error);
+            // console.error('Error restoring ad:', error);
         }
     };
 
@@ -260,7 +260,7 @@ const ProductsManagement = () => {
     return (
         <>
             <TopNavbar />
-            <div className="products-management-page">
+            <div className="ads-management-page">
                 <Container fluid className="p-0">
                     <Row>
                         <Col xs={12} md={2} className="p-0">
@@ -318,8 +318,8 @@ const ProductsManagement = () => {
                                             </Dropdown.Menu>
                                         </Dropdown>
                                         <FormControl
-                                            placeholder="Search products..."
-                                            aria-label="Search products"
+                                            placeholder="Search ads..."
+                                            aria-label="Search ads"
                                             aria-describedby="search-icon"
                                             id="button"
                                             value={searchTerm}
@@ -331,23 +331,23 @@ const ProductsManagement = () => {
                             </Row>
 
                             <Row>
-                                {filteredNonFlaggedProducts.length > 0 ? (
-                                    filteredNonFlaggedProducts.map(product => (
-                                        <Col key={product.id} xs={6} md={6} lg={3} className="mb-2 mb-lg-4 px-2">
+                                {filteredNonFlaggedAds.length > 0 ? (
+                                    filteredNonFlaggedAds.map(ad => (
+                                        <Col key={ad.id} xs={6} md={6} lg={3} className="mb-2 mb-lg-4 px-2">
                                             <Card>
                                             <Card.Img 
                                                 variant="top" 
-                                                className="product-image"
-                                                src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
+                                                className="ad-image"
+                                                src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'} 
                                             />
                                                 <Card.Body className="py-0 py-lg-1 px-2 chill-body mb-1">
-                                                <Card.Title className="d-flex justify-content-start mb-0 product-title">{product.title}</Card.Title>
+                                                <Card.Title className="d-flex justify-content-start mb-0 ad-title">{ad.title}</Card.Title>
                                                     <Card.Text className="price-container d-flex justify-content-start" style={{ fontSize: '18px' }}>
                                                         <span>
-                                                            <em className="product-price-label text-success" style={{ fontSize: '13px' }}>Kshs:&nbsp;</em>
+                                                            <em className="ad-price-label text-success" style={{ fontSize: '13px' }}>Kshs:&nbsp;</em>
                                                         </span>
                                                         <strong  className="text-danger">
-                                                            {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
+                                                            {ad.price ? parseFloat(ad.price).toFixed(2).split('.').map((part, index) => (
                                                                 <React.Fragment key={index}>
                                                                     {index === 0 ? (
                                                                         <span className="price-integer">
@@ -366,7 +366,7 @@ const ProductsManagement = () => {
 
                                                     <Row className="align-middle">
                                                         <Col xs={9} md={6} lg={6}>
-                                                            <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(product)} className="py-1">
+                                                            <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(ad)} className="py-1">
                                                                 View Details
                                                             </Button>
                                                         </Col>
@@ -374,8 +374,8 @@ const ProductsManagement = () => {
                                                             <FontAwesomeIcon
                                                                 icon={faTrash}
                                                                 className="delete-icon"
-                                                                onClick={() => handleFlagProduct(product.id)}
-                                                                title="Flag Product"
+                                                                onClick={() => handleFlagAd(ad.id)}
+                                                                title="Flag Ad"
                                                             />
                                                         </Col>
                                                     </Row>
@@ -385,34 +385,34 @@ const ProductsManagement = () => {
                                     ))
                                 ) : (
                                     <Col>
-                                        <p>No non-flagged products found</p>
+                                        <p>No non-flagged ads found</p>
                                     </Col>
                                 )}
                             </Row>
 
                             <Row>
-                                <h3 className="mb-4 text-center">Flagged Products</h3>
-                                {flaggedProducts.length > 0 ? (
-                                    flaggedProducts.map(product => (
-                                        <Col key={product.id} xs={6} md={6} lg={3} className="mb-4">
+                                <h3 className="mb-4 text-center">Flagged Ads</h3>
+                                {flaggedAds.length > 0 ? (
+                                    flaggedAds.map(ad => (
+                                        <Col key={ad.id} xs={6} md={6} lg={3} className="mb-4">
                                             <Card>
                                                 <Card.Img 
                                                     variant="top"
-                                                    className="product-image" 
-                                                    src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'} 
+                                                    className="ad-image" 
+                                                    src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'} 
                                                 />
                                                 <Card.Body className="py-1 px-2 chill-body">
                                                     <Card.Title 
-                                                        className="d-flex justify-content-start product-title mb-0" 
+                                                        className="d-flex justify-content-start ad-title mb-0" 
                                                         style={{ fontSize: '18px' }}
                                                     >
-                                                        {product.title}
+                                                        {ad.title}
                                                     </Card.Title>
 
                                                     <Card.Text className="price-container d-flex justify-content-start">
-                                                        <span><em className='product-price-label text-success'>Kshs: </em></span>
+                                                        <span><em className='ad-price-label text-success'>Kshs: </em></span>
                                                         <strong style={{ fontSize: '18px' }} className="text-danger">
-                                                            {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
+                                                            {ad.price ? parseFloat(ad.price).toFixed(2).split('.').map((part, index) => (
                                                                 <React.Fragment key={index}>
                                                                     {index === 0 ? (
                                                                         <span>{part}</span> // Integer part
@@ -429,7 +429,7 @@ const ProductsManagement = () => {
 
                                                     <Row className="align-middle">
                                                         <Col xs={9} md={6} lg={6}>
-                                                            <Button variant="warning" id="button" onClick={() => handleNotifyClick(product)} className="py-1">
+                                                            <Button variant="warning" id="button" onClick={() => handleNotifyClick(ad)} className="py-1">
                                                                 Notify Vendor
                                                             </Button>
                                                         </Col>
@@ -437,8 +437,8 @@ const ProductsManagement = () => {
                                                             <FontAwesomeIcon
                                                                 icon={faTrashRestore}
                                                                 className="restore-icon"
-                                                                onClick={() => handleRestoreProduct(product.id)}
-                                                                title="Restore Product"
+                                                                onClick={() => handleRestoreAd(ad.id)}
+                                                                title="Restore Ad"
                                                             />
                                                         </Col>
                                                     </Row>
@@ -448,7 +448,7 @@ const ProductsManagement = () => {
                                     ))
                                 ) : (
                                     <Col>
-                                        <p>No flagged products found</p>
+                                        <p>No flagged ads found</p>
                                     </Col>
                                 )}
                             </Row>
@@ -458,19 +458,19 @@ const ProductsManagement = () => {
 
                 <Modal centered show={showDetailsModal} onHide={handleModalClose} size="xl">
                     <Modal.Header className='justify-content-center'>
-                        <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
+                        <Modal.Title>{selectedAd?.title || 'Ad Details'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="px-1 py-1">
-                        {selectedProduct && (
+                        {selectedAd && (
                             <>
                             <Carousel className='mb-4'>
-                                    {selectedProduct.media && selectedProduct.media.length > 0 ? (
-                                        selectedProduct.media.map((image, index) => (
+                                    {selectedAd.media && selectedAd.media.length > 0 ? (
+                                        selectedAd.media.map((image, index) => (
                                             <Carousel.Item key={index} className="position-relative">
                                                 <img
-                                                    className="d-block w-100 product-image"
+                                                    className="d-block w-100 ad-image"
                                                     src={image}
-                                                    alt={`Product ${selectedProduct.title} - view ${index + 1}`} // Updated alt text
+                                                    alt={`Ad ${selectedAd.title} - view ${index + 1}`} // Updated alt text
                                                     style={{ height: '300px', objectFit: 'contain' }}  // Adjust the height as needed
                                                 />
                                             </Carousel.Item>
@@ -481,15 +481,15 @@ const ProductsManagement = () => {
                                         </Carousel.Item>
                                     )}
                                 </Carousel>
-                                <Container className="product-details mb-4">
+                                <Container className="ad-details mb-4">
                                     <Row>
                                         <Col xs={12} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Price</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    <em className='product-price-label'>Kshs: </em>
+                                                    <em className='ad-price-label'>Kshs: </em>
                                                     <strong className="text-success">
-                                                        {selectedProduct.price ? parseFloat(selectedProduct.price).toFixed(2).split('.').map((part, index) => (
+                                                        {selectedAd.price ? parseFloat(selectedAd.price).toFixed(2).split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? (
                                                                     <span className="price-integer">
@@ -511,7 +511,7 @@ const ProductsManagement = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Vendor</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.vendor?.fullname || 'Unknown'}
+                                                    {selectedAd.vendor?.fullname || 'Unknown'}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -522,7 +522,7 @@ const ProductsManagement = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Category</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.category?.name || 'N/A'}
+                                                    {selectedAd.category?.name || 'N/A'}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -530,7 +530,7 @@ const ProductsManagement = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Sold Out</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.sold_out ? 'Yes' : 'No'}
+                                                    {selectedAd.sold_out ? 'Yes' : 'No'}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -541,7 +541,7 @@ const ProductsManagement = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Quantity Sold</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.quantity_sold || 0}
+                                                    {selectedAd.quantity_sold || 0}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -550,7 +550,7 @@ const ProductsManagement = () => {
                                                 <Card.Header as="h6" className="justify-content-center">Rating</Card.Header>
                                                 <Card.Body className="text-center">
                                                     <span className="star-rating">
-                                                        {renderRatingStars(selectedProduct.mean_rating)}
+                                                        {renderRatingStars(selectedAd.mean_rating)}
                                                     </span>
                                                 </Card.Body>
                                             </Card>
@@ -562,16 +562,16 @@ const ProductsManagement = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Description</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.description}
+                                                    {selectedAd.description}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
                                     </Row>
                                 </Container>
                                 <h5 className="text-center" id="reviews">Reviews</h5>
-                                    {selectedProduct && selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
+                                    {selectedAd && selectedAd.reviews && selectedAd.reviews.length > 0 ? (
                                     <div className="reviews-container text-center px-0 px-lg-1 py-0">
-                                        {selectedProduct.reviews.map((review, index) => (
+                                        {selectedAd.reviews.map((review, index) => (
                                             <div className="review-card py-2 px-2" key={index}>
                                                 <p className="review-comment"><em>"{review.review}"</em></p>
                                                 <StarRating rating={review.rating} />
@@ -647,4 +647,4 @@ const ProductsManagement = () => {
     );
 };
 
-export default ProductsManagement;
+export default AdsManagement;

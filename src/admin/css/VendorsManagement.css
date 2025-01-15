@@ -215,7 +215,7 @@ body {
     color: #fff;
 }
 
-.product-card {
+.ad-card {
     display: flex;
     flex-direction: column;
     height: auto; /* Adjust height as needed */
@@ -224,12 +224,12 @@ body {
     overflow: hidden;
 }
 
-.product-card .card-img {
+.ad-card .card-img {
     height: 33%; /* Image section occupies one-third of the card */
     object-fit: cover;
 }
 
-.product-card .card-body {
+.ad-card .card-body {
     height: 67%; /* Content section occupies the remaining two-thirds of the card */
     padding: 15px;
     display: flex;
@@ -238,19 +238,19 @@ body {
 }
 
 
-.product-card .price-container {
+.ad-card .price-container {
     font-size: 16px;
     margin-top: auto;
     display: flex;
     align-items: center;
 }
 
-.product-card .price-decimal {
+.ad-card .price-decimal {
     font-size: 14px; /* Adjust font size for decimal part */
     margin-left: 2px;
 }
 
-.product-title {
+.ad-title {
     white-space: nowrap; /* Prevents the text from wrapping to a new line */
     overflow: hidden;    /* Hides any text that overflows the container */
     text-overflow: ellipsis; /* Adds ellipsis (...) for overflowing text */
@@ -287,7 +287,7 @@ body {
     margin-bottom: 10px;
 }
 
-.review-product {
+.review-ad {
     font-size: 14px;
     color: #6c757d;
     margin-bottom: 5px;

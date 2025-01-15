@@ -5,10 +5,10 @@ import 'chart.js/auto';
 import './CategoryAnalytics.css'; // Ensure this file contains your CSS
 
 const CategoryAnalytics = ({ data }) => {
-  const totalProductsSold = data.reduce((sum, category) => sum + category.total_sold, 0);
+  const totalAdsSold = data.reduce((sum, category) => sum + category.total_sold, 0);
 
   const chartData = (category) => {
-    const percentageSold = ((category.total_sold / totalProductsSold) * 100).toFixed(2);
+    const percentageSold = ((category.total_sold / totalAdsSold) * 100).toFixed(2);
     return {
       labels: ['Sold', 'Remaining'],
       datasets: [
@@ -44,7 +44,7 @@ const CategoryAnalytics = ({ data }) => {
             </div>
             <div className="chart-label">
               <span><strong className="text-danger">
-                {((category.total_sold / totalProductsSold) * 100).toFixed(2)} %
+                {((category.total_sold / totalAdsSold) * 100).toFixed(2)} %
               </strong></span>
             </div>
           </div>

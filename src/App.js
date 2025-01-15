@@ -9,7 +9,7 @@ import PurchasersManagement from './admin/pages/PurchasersManagement';
 import OrdersManagement from './admin/pages/OrdersManagement';
 import RidersManagement from './admin/pages/RidersManagement';
 import VendorsManagement from './admin/pages/VendorsManagement';
-import ProductsManagement from './admin/pages/ProductsManagement';
+import AdsManagement from './admin/pages/AdsManagement';
 import Messages from './admin/pages/Messages';
 import PromotionsDiscount from './admin/pages/PromotionsDiscount';
 import Notifications from './admin/pages/Notifications'; 
@@ -20,7 +20,7 @@ import TiersManagement from './admin/pages/TiersManagement';
 import VendorSignUpPage from './vendor/pages/VendorSignUpPage';
 import VendorAnalytics from './vendor/pages/VendorAnalytics';
 import VendorOrders from './vendor/pages/VendorOrders';
-import VendorProducts from './vendor/pages/VendorProducts';
+import VendorAds from './vendor/pages/VendorAds';
 import VendorMessages from './vendor/pages/Messages';
 import VendorNotifications from './vendor/pages/VendorNotifications';
 import VendorProfile from './vendor/pages/Profile';
@@ -28,7 +28,7 @@ import TierPage from './vendor/pages/Tiers';
 
 // Purchaser Imports
 import Home from './purchaser/pages/Home';
-import ProductDetails from './purchaser/pages/ProductDetails';
+import AdDetails from './purchaser/pages/AdDetails';
 import Orders from './purchaser/pages/Orders';
 import WishList from './purchaser/pages/WishLists';
 import BuyForMeOrderCart from './purchaser/pages/BuyForMeOrderCart';
@@ -87,7 +87,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/products/:productId" element={<ProductDetails />} />
+        <Route path="/ads/:adId" element={<AdDetails />} />
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/admin" element={<Navigate to="/login" />} />
         <Route path="/vendor" element={<Navigate to="/login" />} />
@@ -106,7 +106,7 @@ function App() {
             <Route path="orders" element={<OrdersManagement onLogout={handleLogout} />} />
             <Route path="vendors" element={<VendorsManagement onLogout={handleLogout} />} />
             <Route path="riders" element={<RidersManagement onLogout={handleLogout} />} />
-            <Route path="products" element={<ProductsManagement onLogout={handleLogout} />} />
+            <Route path="ads" element={<AdsManagement onLogout={handleLogout} />} />
             <Route path="messages" element={<Messages onLogout={handleLogout} />} />
             <Route path="promotions" element={<PromotionsDiscount onLogout={handleLogout} />} />
             <Route path="notifications" element={<Notifications onLogout={handleLogout} />} />
@@ -119,7 +119,7 @@ function App() {
           <Route path="/vendor/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="vendor" userRole={userRole} />}>
             <Route path="analytics" element={<VendorAnalytics onLogout={handleLogout} />} />
             <Route path="orders" element={<VendorOrders onLogout={handleLogout} />} />
-            <Route path="products" element={<VendorProducts onLogout={handleLogout} />} />
+            <Route path="ads" element={<VendorAds onLogout={handleLogout} />} />
             <Route path="messages" element={<VendorMessages onLogout={handleLogout} />} />
             <Route path="notifications" element={<VendorNotifications onLogout={handleLogout} />} />
             <Route path="profile" element={<VendorProfile onLogout={handleLogout} />} />

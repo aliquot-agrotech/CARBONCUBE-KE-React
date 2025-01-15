@@ -3,7 +3,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import SalesPerformance from '../components/SalesPerformance';
-import TopSellingProducts from '../components/TopSellingProducts';
+import TopSellingAds from '../components/TopSellingAds';
 import PurchaserInsights from '../components/PurchaserInsights';
 import VendorInsights from '../components/VendorInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics';
@@ -72,7 +72,7 @@ const AnalyticsReporting = () => {
                 { title: "Total Vendors", value: analyticsData.total_vendors },
                 { title: "Total Purchasers", value: analyticsData.total_purchasers },
                 { title: "Total Orders", value: analyticsData.total_orders },
-                { title: "Total Products", value: analyticsData.total_products },
+                { title: "Total Ads", value: analyticsData.total_ads },
               ].map(({ title, value }, index) => (
                 <Col xs={6} md={3} key={index}>
                   <Card className="mb-2 mb-lg-4 custom-card">
@@ -103,10 +103,10 @@ const AnalyticsReporting = () => {
               <Col xs={6} md={3}>
                 <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Total Products Sold
+                    Total Ads Sold
                   </Card.Header>
                   <Card.Body>
-                    <Card.Text className="text-center"><strong>{analyticsData.total_products_sold_out}</strong></Card.Text>
+                    <Card.Text className="text-center"><strong>{analyticsData.total_ads_sold_out}</strong></Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
@@ -117,7 +117,7 @@ const AnalyticsReporting = () => {
                   </Card.Header>
                   <Card.Body>
                     <Card.Text className="analytics-price-container text-center">
-                      <span><em className='analytics-product-price-label text-success'>Kshs: </em></span>
+                      <span><em className='analytics-ad-price-label text-success'>Kshs: </em></span>
                       <strong style={{ fontSize: '16px' }} className="text-danger">
                         {formatCurrency(analyticsData.total_revenue)}
                       </strong>
@@ -154,11 +154,11 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={12}>
                 <Card className="mb-4 custom-card">
                 <Card.Header className="justify-content-center">
-                    Top Selling Products
+                    Top Selling Ads
                   </Card.Header>
                   <Card.Body className='p-3'>
-                    {/* <Card.Title className="text-center">Top Selling Products</Card.Title> */}
-                    <TopSellingProducts data={analyticsData.best_selling_products} />
+                    {/* <Card.Title className="text-center">Top Selling Ads</Card.Title> */}
+                    <TopSellingAds data={analyticsData.best_selling_ads} />
                   </Card.Body>
                 </Card>
               </Col>

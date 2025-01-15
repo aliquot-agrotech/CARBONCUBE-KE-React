@@ -50,9 +50,9 @@ const Sidebar = () => {
             <BagCheck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/products"
-            className={location.pathname === '/admin/products' ? 'active' : ''}>
-            <Box className="icon" /> {isOpen && 'Products'}
+            href="/admin/ads"
+            className={location.pathname === '/admin/ads' ? 'active' : ''}>
+            <Box className="icon" /> {isOpen && 'Ads'}
           </Nav.Link>
           <Nav.Link
             href="/admin/categories"

@@ -172,9 +172,9 @@ const OrdersManagement = () => {
                                                 <tr>
                                                     <th>Order ID</th>
                                                     <th>Purchaser</th>
-                                                    <th>Products</th>
+                                                    <th>Ads</th>
                                                     <th>Quantity</th>
-                                                    <th>Total&nbsp;<em className="product-price-label" style={{ fontSize: "13px"}}>(Kshs:)</em></th>
+                                                    <th>Total&nbsp;<em className="ad-price-label" style={{ fontSize: "13px"}}>(Kshs:)</em></th>
                                                     <th>Date Ordered</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
@@ -195,16 +195,16 @@ const OrdersManagement = () => {
                                                     <td>{order.purchaser?.fullname || 'Unknown'}</td>
                                                     <td>
                                                         {order.order_items
-                                                            .slice(0, 3) // Limit to the first 3 products
+                                                            .slice(0, 3) // Limit to the first 3 ads
                                                             .map((item, index, array) => {
-                                                            const title = item.product?.title || 'Unknown';
+                                                            const title = item.ad?.title || 'Unknown';
                                                             // Limit the title to 3 words
                                                             const truncatedTitle = title.split(' ').slice(0, 3).join(' ');
                                                             // Add a comma after each item except the last one
                                                             return `${truncatedTitle}${index < array.length - 1 ? ',' : ''}`;
                                                             })
                                                             .join(' ')}
-                                                        {order.order_items.length > 3 && ', ...'} {/* Add ellipsis if more than 3 products */}
+                                                        {order.order_items.length > 3 && ', ...'} {/* Add ellipsis if more than 3 ads */}
                                                     </td>
 
                                                     <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
@@ -352,15 +352,15 @@ const OrdersManagement = () => {
                                         
                                             <Card className="mt-2 mt-lg-4 custom-card">
                                                 <Card.Header className="justify-content-center text-center pb-1">
-                                                    <h4 className="mb-0">Products</h4>
+                                                    <h4 className="mb-0">Ads</h4>
                                                 </Card.Header>
                                                 <Card.Body>
-                                                    <div className="product-container text-center">
+                                                    <div className="ad-container text-center">
                                                         <div className="table-responsive p-1">
                                                             <Table bordered hover className="transparent-table transparent-table-striped">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>Product Name</th>
+                                                                        <th>Ad Name</th>
                                                                         <th>Vendor</th>
                                                                         <th>Quantity</th>
                                                                         <th>Price <em style={{ fontSize: '12px' }}>(Kshs)</em></th>
@@ -369,16 +369,16 @@ const OrdersManagement = () => {
                                                                 <tbody>
                                                                     {selectedOrder.order_items && selectedOrder.order_items.length > 0 ? (
                                                                         selectedOrder.order_items.map(item => (
-                                                                            <tr key={item.product?.id || 'unknown'}>
-                                                                                <td className="text-start">{item.product?.title || 'Unknown'}</td>
-                                                                                <td>{item.product?.vendor?.fullname || 'Unknown'}</td>
+                                                                            <tr key={item.ad?.id || 'unknown'}>
+                                                                                <td className="text-start">{item.ad?.title || 'Unknown'}</td>
+                                                                                <td>{item.ad?.vendor?.fullname || 'Unknown'}</td>
                                                                                 <td>{item.quantity || '0'}</td>
                                                                                 <td className="price-container">
-                                                                                    {/* <em className="product-price-label">Kshs: </em> */}
+                                                                                    {/* <em className="ad-price-label">Kshs: </em> */}
                                                                                     <strong>
                                                                                         <span className="price text-success">
-                                                                                            {item.product?.price && item.quantity ? (
-                                                                                                (item.product.price * item.quantity).toFixed(2).split('.').map((part, index) => (
+                                                                                            {item.ad?.price && item.quantity ? (
+                                                                                                (item.ad.price * item.quantity).toFixed(2).split('.').map((part, index) => (
                                                                                                     <React.Fragment key={index}>
                                                                                                         {index === 0 ? (
                                                                                                             <span className="price-integer">
@@ -400,7 +400,7 @@ const OrdersManagement = () => {
                                                                         ))
                                                                     ) : (
                                                                         <tr>
-                                                                            <td colSpan="4">No products available</td>
+                                                                            <td colSpan="4">No ads available</td>
                                                                         </tr>
                                                                     )}
                                                                     <tr>

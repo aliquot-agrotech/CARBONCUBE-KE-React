@@ -256,7 +256,7 @@ const TiersManagement = () => {
                                                                                     <Card.Text className="price-container d-flex justify-content-center align-items-center mb-0">
                                                                                         <span className="me-2">{pricing.duration_months} months -</span>
                                                                                         <span>
-                                                                                            <em className="product-price-label text-success">Kshs: </em>
+                                                                                            <em className="ad-price-label text-success">Kshs: </em>
                                                                                         </span>
                                                                                         <strong style={{ fontSize: '17px' }} className="text-danger ms-1">
                                                                                             {pricing.price

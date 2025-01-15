@@ -37,7 +37,7 @@
   justify-content: flex-start; /* Ensure the price is aligned to the left */
 }
 
-.analytics-product-price-label {
+.analytics-ad-price-label {
   font-style: italic;
   font-size: 0.75rem;
   margin-right: 0.25rem;

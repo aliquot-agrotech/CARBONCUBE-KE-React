@@ -1,24 +1,24 @@
 import React from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import './TopSellingProducts.css';
+import './TopSellingAds.css';
 
-const TopSellingProducts = ({ data }) => {
+const TopSellingAds = ({ data }) => {
   return (
     <Row>
-      {data.map((product) => (
-        <Col xs={6} md={6} lg={2} key={product.product_id} className="mb-2  p-1 p-lg-2">
+      {data.map((ad) => (
+        <Col xs={6} md={6} lg={2} key={ad.ad_id} className="mb-2  p-1 p-lg-2">
           <Card className="h-100">
             <Card.Img
-              className="analytics-card-img-top product-image"
+              className="analytics-card-img-top ad-image"
               variant="top"
-              src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}
+              src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'}
             />
             <Card.Body className="analytics-card-body p-0 mx-2">
-              <Card.Title className='mb-0 d-flex justify-content-start' style={{ fontSize: '17px' }}>{product.product_title}</Card.Title>
+              <Card.Title className='mb-0 d-flex justify-content-start' style={{ fontSize: '17px' }}>{ad.ad_title}</Card.Title>
               <Card.Text className="analytics-price-container justify-content-start">
                 <span className="text-success"><em>Kshs:</em></span>
                 <strong style={{ fontSize: '18px' }} className="text-danger">
-                  {product.product_price.split('.').map((part, index) => (
+                  {ad.ad_price.split('.').map((part, index) => (
                     <React.Fragment key={index}>
                       {index === 0 ? (
                         <span className="analytics-price-integer">
@@ -37,7 +37,7 @@ const TopSellingProducts = ({ data }) => {
                 </strong>
               </Card.Text>
               <Card.Text className="d-flex justify-content-start">
-                <strong>Sold:&nbsp;</strong> {product.total_sold}
+                <strong>Sold:&nbsp;</strong> {ad.total_sold}
               </Card.Text>
 
             </Card.Body>
@@ -48,4 +48,4 @@ const TopSellingProducts = ({ data }) => {
   );
 };
 
-export default TopSellingProducts;
+export default TopSellingAds;

@@ -415,9 +415,9 @@ const RidersManagement = () => {
                                                             </Col>
                                                             <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
-                                                                    <Card.Header as="h6" className="justify-content-center">Total Products Sold</Card.Header>
+                                                                    <Card.Header as="h6" className="justify-content-center">Total Ads Sold</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedRider.analytics.total_products_sold}
+                                                                        {selectedRider.analytics.total_ads_sold}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -429,7 +429,7 @@ const RidersManagement = () => {
                                                                     <Card.Header as="h6" className="justify-content-center">Total Revenue</Card.Header>
                                                                     <Card.Body className="text-center price-container">
                                                                         <Card.Text className="total-revenue m-0 text-center">
-                                                                            <span><em className='product-price-label text-success'>Kshs: </em></span>
+                                                                            <span><em className='ad-price-label text-success'>Kshs: </em></span>
                                                                             <strong className="price text-danger">
                                                                             {selectedRider.analytics.total_revenue ? parseFloat(selectedRider.analytics.total_revenue).toFixed(2).split('.').map((part, index) => (
                                                                                 <React.Fragment key={index}>
@@ -486,10 +486,10 @@ const RidersManagement = () => {
                                                                     <tr>
                                                                         <th>Order ID</th>
                                                                         <th>Purchaser</th>
-                                                                        <th>Product</th>
+                                                                        <th>Ad</th>
                                                                         <th>Quantity</th>
                                                                         <th>Status</th>
-                                                                        <th>Total <em className='product-price-label' style={{ fontSize: '13px' }}>(Kshs:) </em></th>
+                                                                        <th>Total <em className='ad-price-label' style={{ fontSize: '13px' }}>(Kshs:) </em></th>
                                                                         <th>Date Ordered</th>
                                                                     </tr>
                                                                 </thead>
@@ -497,10 +497,10 @@ const RidersManagement = () => {
                                                                     {selectedRider && selectedRider.orders && selectedRider.orders.length > 0 ? (
                                                                         selectedRider.orders.map((order) => (
                                                                             order.order_items.map((item) => (
-                                                                                <tr key={`${order.id}-${item.product.id}`}>
+                                                                                <tr key={`${order.id}-${item.ad.id}`}>
                                                                                     <td>{order.id}</td>
                                                                                     <td>{order.purchaser.fullname}</td>
-                                                                                    <td>{item.product.title}</td>
+                                                                                    <td>{item.ad.title}</td>
                                                                                     <td>{item.quantity}</td>
                                                                                     <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
                                                                                         <Form.Control
@@ -531,7 +531,7 @@ const RidersManagement = () => {
                                                                                     </td>
                                                                                     <td className="price-container">
                                                                                         <strong className="text-success">
-                                                                                            {((item.quantity * item.product.price).toFixed(2)).split('.').map((part, index) => (
+                                                                                            {((item.quantity * item.ad.price).toFixed(2)).split('.').map((part, index) => (
                                                                                                 <React.Fragment key={index}>
                                                                                                     {index === 0 ? (
                                                                                                         <span className="price-integer">
@@ -563,23 +563,23 @@ const RidersManagement = () => {
                                                 </div>
                                             </Tab>                                            */}
 
-                                            {/* <Tab eventKey="products" title="Products">
+                                            {/* <Tab eventKey="ads" title="Ads">
                                                 <div className="card-container">
-                                                    {selectedRider.products && selectedRider.products.length > 0 ? (
-                                                        selectedRider.products.map((product) => (
-                                                            <Col key={product.id} xs={12} md={12} lg={12} className="mb-1">
-                                                                <Card className="product-card-vendor">
+                                                    {selectedRider.ads && selectedRider.ads.length > 0 ? (
+                                                        selectedRider.ads.map((ad) => (
+                                                            <Col key={ad.id} xs={12} md={12} lg={12} className="mb-1">
+                                                                <Card className="ad-card-vendor">
                                                                     <Card.Img
-                                                                        className="analytics-card-img-top product-image"
+                                                                        className="analytics-card-img-top ad-image"
                                                                         variant="top"
-                                                                        src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                                                        src={ad.media_urls && ad.media_urls.length > 0 ? ad.media_urls[0] : 'default-image-url'}
                                                                     />
                                                                     <Card.Body className='p-2'>
-                                                                        <Card.Title className="mb-0" style={{ fontSize: '18px' }}>{product.title}</Card.Title>
+                                                                        <Card.Title className="mb-0" style={{ fontSize: '18px' }}>{ad.title}</Card.Title>
                                                                         <Card.Text className="price-container">
-                                                                            <span><em className='product-price-label text-success'>Kshs: </em></span>
+                                                                            <span><em className='ad-price-label text-success'>Kshs: </em></span>
                                                                             <strong className='text-danger'>
-                                                                                {product.price ? parseFloat(product.price).toFixed(2).split('.').map((part, index) => (
+                                                                                {ad.price ? parseFloat(ad.price).toFixed(2).split('.').map((part, index) => (
                                                                                 <React.Fragment key={index}>
                                                                                     {index === 0 ? (
                                                                                     <span className="price-integer">
@@ -600,7 +600,7 @@ const RidersManagement = () => {
                                                             </Col>
                                                         ))
                                                     ) : (
-                                                        <p className="text-center">No products available</p>
+                                                        <p className="text-center">No ads available</p>
                                                     )}
                                                 </div>
                                             </Tab> */}
@@ -615,7 +615,7 @@ const RidersManagement = () => {
                                                             <div className="review-card p-1">
                                                             <p className="review-comment"><em>"{review.review}"</em></p>
                                                             <StarRating rating={review.rating} /> 
-                                                            <p className="review-product"><strong>{review.product_title}</strong></p>
+                                                            <p className="review-ad"><strong>{review.ad_title}</strong></p>
                                                             <p className="reviewer-name"><strong><em>{review.purchaser_name}</em></strong></p>
                                                             </div>
                                                         </div>
