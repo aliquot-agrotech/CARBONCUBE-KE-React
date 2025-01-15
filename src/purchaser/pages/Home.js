@@ -231,8 +231,6 @@ const Home = () => {
             </Card>
         );
     };
-    
-
 
     const SubcategorySection = ({ subcategory, products, onProductClick }) => {
         const displayedProducts = products.slice(0, 4);
@@ -240,25 +238,47 @@ const Home = () => {
             <Card className="subcategory-section h-100">
                 <Card.Body className="p-2">
                     <Row className="g-2">
-                        {displayedProducts.map(product => (
-                            <Col xs={6} key={product.id}>
-                                <Card 
-                                    className="product-card h-100"
-                                    style={{
-                                        border: `1px solid ${getBorderColor(product.vendor_tier)}`,
-                                    }}
-                                >
-                                    <Card.Img
-                                        variant="top"
-                                        loading="lazy"
-                                        src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                        alt={product.title}
-                                        className="product-image"
-                                        onClick={() => handleProductClick(product.id)}
-                                    />
-                                </Card>
-                            </Col>
-                        ))}
+                        {displayedProducts.map(product => {
+                            const borderColor = getBorderColor(product.vendor_tier); // Get the border color
+                            return (
+                                <Col xs={6} key={product.id}>
+                                    <Card 
+                                        className="product-card h-100"
+                                        style={{
+                                            border: `2px solid ${borderColor}`,
+                                        }}
+                                    >
+                                        <div style={{ position: 'relative' }}>
+                                            {/* Tier label */}
+                                            <div
+                                                className="tier-label text-dark"
+                                                style={{
+                                                    position: 'absolute',
+                                                    top: '0px',
+                                                    left: '0px',
+                                                    padding: '0px 5px',
+                                                    fontSize: '12px',
+                                                    backgroundColor: borderColor, // Match background to border color
+                                                    borderRadius: '4px',
+                                                    zIndex: 20,
+                                                }}
+                                            >
+                                                {product.tier_name}
+                                            </div>
+        
+                                            <Card.Img
+                                                variant="top"
+                                                loading="lazy"
+                                                src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                                alt={product.title}
+                                                className="product-image"
+                                                onClick={() => onProductClick(product.id)}
+                                            />
+                                        </div>
+                                    </Card>
+                                </Col>
+                            );
+                        })}
                     </Row>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-start">
@@ -270,33 +290,55 @@ const Home = () => {
 
     const PopularProductsSection = ({ products, onProductClick }) => (
         <Card className="section bg-transparent mb-3 m-4 mx-5">
-            <Card.Header className="d-flex justify-content-start popular-products-header ">
+            <Card.Header className="d-flex justify-content-start popular-products-header">
                 <h3 className='mb-0'>Best Sellers</h3>
             </Card.Header>
             <Card.Body className="cat-body">
                 <Row>
-                    {products.slice(0, 6).map(product => (
-                        <Col xs={6} sm={6} md={2} key={product.id}>
-                            <Card 
-                                className="product-card"
-                                style={{
-                                    border: `1px solid ${getBorderColor(product.vendor_tier)}`,
-                                }}
-                            >
-                                <Card.Img 
-                                    variant="top" 
-                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                    className="product-image"
-                                    onClick={() => onProductClick(product.id)} 
-                                />
-                            </Card>
-                        </Col>
-                    ))}
+                    {products.slice(0, 6).map(product => {
+                        const borderColor = getBorderColor(product.vendor_tier); // Get the border color
+                        return (
+                            <Col xs={6} sm={6} md={2} key={product.id}>
+                                <Card
+                                    className="product-card"
+                                    style={{
+                                        border: `2px solid ${borderColor}`,
+                                    }}
+                                >
+                                    <div style={{ position: 'relative' }}>
+                                        {/* Tier label */}
+                                        <div
+                                            className="tier-label text-dark"
+                                            style={{
+                                                position: 'absolute',
+                                                top: '0px',
+                                                left: '0px',
+                                                padding: '0px 5px',
+                                                fontSize: '12px',
+                                                backgroundColor: borderColor, // Match background to border color
+                                                borderRadius: '4px',
+                                                zIndex: 20,
+                                            }}
+                                        >
+                                            {product.tier_name}
+                                        </div>
+                                        
+                                        <Card.Img 
+                                            variant="top" 
+                                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                            className="product-image"
+                                            onClick={() => onProductClick(product.id)} 
+                                        />
+                                    </div>
+                                </Card>
+                            </Col>
+                        );
+                    })}
                 </Row>
             </Card.Body>
         </Card>
     );
-    
+
     const SearchResultSection = ({ results }) => (
         <Card className="section-search mb-4 mt-2">
             <Card.Header className="d-flex justify-content-center align-items-center">
@@ -304,46 +346,68 @@ const Home = () => {
             </Card.Header>
             <Card.Body>
                 <Row>
-                    {results.map(product => (
-                        <Col xs={6} sm={6} md={2} key={product.id} className="">
-                            <Card className="product-card mb-3">
-                                <Card.Img
-                                    variant="top"
-                                    src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                    alt={product.title}
-                                    className="product-image"
-                                    style={{
-                                        border: `1px solid ${getBorderColor(product.vendor_tier)}`,
-                                    }}
-                                    onClick={() => handleProductClick(product.id)} // Handle image click
-                                />
-                                <Card.Body className="text-start bg-gray">
-                                    <Card.Title className="mb-0 product-title">{product.title}</Card.Title>
-                                    <Card.Text>
-                                        <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
-                                        <strong style={{ fontSize: '20px' }} className="text-danger">
-                                            {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
-                                                <React.Fragment key={index}>
-                                                    {index === 0 ? (
-                                                        <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                                    ) : (
-                                                        <>
-                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                            <span className="price-decimal">{part}</span>
-                                                        </>
-                                                    )}
-                                                </React.Fragment>
-                                            )) : 'N/A'}
-                                        </strong>
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    ))}
+                    {results.map(product => {
+                        const borderColor = getBorderColor(product.vendor_tier); // Get the border color
+                        return (
+                            <Col xs={6} sm={6} md={2} key={product.id} className="">
+                                <Card className="product-card mb-3">
+                                    <div style={{ position: 'relative' }}>
+                                        {/* Tier label */}
+                                        <div
+                                            className="tier-label text-dark"
+                                            style={{
+                                                position: 'absolute',
+                                                top: '0px',
+                                                left: '0px',
+                                                padding: '0px 5px',
+                                                fontSize: '12px',
+                                                backgroundColor: borderColor, // Match background to border color
+                                                borderRadius: '4px',
+                                                zIndex: 20,
+                                            }}
+                                        >
+                                            {product.tier_name}
+                                        </div>
+                                        
+                                        <Card.Img
+                                            variant="top"
+                                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
+                                            alt={product.title}
+                                            className="product-image"
+                                            style={{
+                                                border: `2px solid ${borderColor}`,
+                                            }}
+                                            onClick={() => handleProductClick(product.id)} // Handle image click
+                                        />
+                                    </div>
+                                    <Card.Body className="text-start bg-gray">
+                                        <Card.Title className="mb-0 product-title">{product.title}</Card.Title>
+                                        <Card.Text>
+                                            <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                                            <strong style={{ fontSize: '20px' }} className="text-danger">
+                                                {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
+                                                    <React.Fragment key={index}>
+                                                        {index === 0 ? (
+                                                            <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                                        ) : (
+                                                            <>
+                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                <span className="price-decimal">{part}</span>
+                                                            </>
+                                                        )}
+                                                    </React.Fragment>
+                                                )) : 'N/A'}
+                                            </strong>
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        );
+                    })}
                 </Row>
             </Card.Body>
         </Card>
-    );
+    );    
 
     const Footer = () => (
         <footer className="footer">
