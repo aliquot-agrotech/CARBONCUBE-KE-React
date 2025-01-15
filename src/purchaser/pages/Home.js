@@ -82,10 +82,10 @@ const Home = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    const handleShowModal = (product) => {
-        setSelectedProduct(product);
-        setShowModal(true);
-    };
+    // const handleShowModal = (product) => {
+    //     setSelectedProduct(product);
+    //     setShowModal(true);
+    // };
     const handleProductClick = async (productId) => {
         if (!productId) {
             console.error('Invalid productId');
@@ -222,7 +222,7 @@ const Home = () => {
                                 <SubcategorySection
                                     subcategory={subcategory.name}
                                     products={products[subcategory.id] || []}
-                                    onProductClick={handleShowModal}
+                                    onProductClick={handleProductClick}
                                 />
                             </Col>
                         ))}
