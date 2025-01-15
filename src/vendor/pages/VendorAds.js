@@ -6,15 +6,15 @@ import Sidebar from '../components/Sidebar';
 import Spinner from "react-spinkit";
 import TopNavbar from '../components/TopNavbar';
 import { Cloudinary } from 'cloudinary-core';
-import '../css/VendorProducts.css'; 
+import '../css/VendorAds.css'; 
 
-const VendorProducts = () => {
-    const [products, setProducts] = useState([]);
+const VendorAds = () => {
+    const [ads, setAds] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedAd, setSelectedAd] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [showAddModal, setShowAddModal] = useState(false);
     const [categories, setCategories] = useState([]);
@@ -25,13 +25,13 @@ const VendorProducts = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [weightUnit, setWeightUnit] = useState('Grams');
     // const [files, setFiles] = useState([]);
-    const [editedProduct, setEditedProduct] = useState({
+    const [editedAd, setEditedAd] = useState({
         item_length: '',
         item_width: '',
         item_height: '',
         item_weight: '',
         weight_unit: 'Grams', // Default weight unit
-        media: []  // Assuming 'images' holds the URLs of the product images
+        media: []  // Assuming 'images' holds the URLs of the ad images
     });
 
     const [formValues, setFormValues] = useState({
@@ -53,9 +53,9 @@ const VendorProducts = () => {
     const vendorId = sessionStorage.getItem('vendorId');
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchAds = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/products?vendor_id=${vendorId}`, {
+                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads?vendor_id=${vendorId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -66,16 +66,16 @@ const VendorProducts = () => {
                 }
 
                 const data = await response.json();
-                setProducts(data);
+                setAds(data);
             } catch (error) {
-                console.error('Error fetching products:', error);
-                setError('Error fetching products');
+                console.error('Error fetching ads:', error);
+                setError('Error fetching ads');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchProducts();
+        fetchAds();
     }, [vendorId]);
 
 
@@ -107,8 +107,8 @@ const VendorProducts = () => {
                     const data = await response.json();
                     setSubcategories(data);
     
-                    // Set the selected subcategory to the one stored in the product data
-                    setSelectedSubcategory(editedProduct.subcategory_id);
+                    // Set the selected subcategory to the one stored in the ad data
+                    setSelectedSubcategory(editedAd.subcategory_id);
                 } catch (error) {
                     console.error('Error fetching subcategories:', error);
                 }
@@ -116,14 +116,14 @@ const VendorProducts = () => {
     
             fetchSubcategories();
         }
-    }, [selectedCategory, editedProduct.subcategory_id]);  // Dependency on both selectedCategory and editedProduct.subcategory_id
+    }, [selectedCategory, editedAd.subcategory_id]);  // Dependency on both selectedCategory and editedAd.subcategory_id
     
 
     const handleCategoryChange = (event) => {
         const category_id = event.target.value;
         setSelectedCategory(category_id);
         setSelectedSubcategory(''); // Reset subcategory when a new category is selected
-        setEditedProduct(prevState => ({
+        setEditedAd(prevState => ({
             ...prevState,
             category_id,  // Use category_id to match the server expectation
             subcategory_id: '' // Clear subcategory_id
@@ -133,14 +133,14 @@ const VendorProducts = () => {
     const handleSubcategoryChange = (event) => {
         const subcategory_id = event.target.value;
         setSelectedSubcategory(subcategory_id);
-        setEditedProduct(prevState => ({
+        setEditedAd(prevState => ({
             ...prevState,
             subcategory_id // Update subcategory_id
         }));
     };
 
     const handleWeightUnitChange = (unit) => {
-        setEditedProduct((prev) => ({
+        setEditedAd((prev) => ({
             ...prev,
             weight_unit: unit,
         }));
@@ -171,7 +171,7 @@ const VendorProducts = () => {
     };
     
 
-    const handleAddNewProduct = async () => {
+    const handleAddNewAd = async () => {
         const { title, description, price, quantity, brand, manufacturer, item_length, item_width, item_height, item_weight } = formValues;
     
         if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !item_length || !item_width || !item_height || !item_weight) {
@@ -190,7 +190,7 @@ const VendorProducts = () => {
         }
     
         // Assuming you have a state variable for weight unit, e.g. `weightUnit`
-        const newProduct = {
+        const newAd = {
             title,
             description,
             category_id: selectedCategory,
@@ -203,18 +203,18 @@ const VendorProducts = () => {
             item_width: parseInt(item_width),
             item_height: parseInt(item_height),
             item_weight: parseInt(item_weight),
-            weight_unit: weightUnit, // Include the weight unit in the product object
+            weight_unit: weightUnit, // Include the weight unit in the ad object
             media: mediaUrls // Store all the uploaded image URLs
         };
     
         try {
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/products', {
+            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/ads', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
-                body: JSON.stringify(newProduct),
+                body: JSON.stringify(newAd),
             });
     
             if (!response.ok) {
@@ -222,10 +222,10 @@ const VendorProducts = () => {
             }
     
             const result = await response.json();
-            console.log('Product added successfully:', result);
+            console.log('Ad added successfully:', result);
     
-            // Update the products state to include the new product
-            setProducts(prevProducts => [...prevProducts, result]);
+            // Update the ads state to include the new ad
+            setAds(prevAds => [...prevAds, result]);
     
             // Optionally clear form fields
             setFormValues({
@@ -245,37 +245,37 @@ const VendorProducts = () => {
             setWeightUnit('Grams'); // Reset to default if needed
             setShowAddModal(false);
         } catch (error) {
-            console.error('Error adding product:', error);
-            alert('Failed to add product. Please try again.');
+            console.error('Error adding ad:', error);
+            alert('Failed to add ad. Please try again.');
         }
     };
     
 
-    const handleViewDetailsClick = (product) => {
-        setSelectedProduct(product);
+    const handleViewDetailsClick = (ad) => {
+        setSelectedAd(ad);
         setShowDetailsModal(true);
     };
 
-    const handleEditProduct = (productId) => {
-        const product = products.find(p => p.id === productId);
-        setSelectedProduct(product);
-        setEditedProduct({ ...product });
+    const handleEditAd = (adId) => {
+        const ad = ads.find(p => p.id === adId);
+        setSelectedAd(ad);
+        setEditedAd({ ...ad });
         
-        // Set selected category and subcategory from the product data
-        setSelectedCategory(product.category_id);
-        setSelectedSubcategory(product.subcategory_id);
+        // Set selected category and subcategory from the ad data
+        setSelectedCategory(ad.category_id);
+        setSelectedSubcategory(ad.subcategory_id);
         setShowEditModal(true);
     };
     
 
-    const handleDeleteProduct = async (productId) => {
-        console.log('Delete product clicked for product ID:', productId);
+    const handleDeleteAd = async (adId) => {
+        console.log('Delete ad clicked for ad ID:', adId);
         
-        const confirmed = window.confirm("Are you sure you want to delete this product?");
+        const confirmed = window.confirm("Are you sure you want to delete this ad?");
         if (!confirmed) return; // Exit if the user cancels the deletion
         
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/products/${productId}`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${adId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -283,16 +283,16 @@ const VendorProducts = () => {
             });
     
             if (!response.ok) {
-                throw new Error('Failed to delete the product.');
+                throw new Error('Failed to delete the ad.');
             }
     
-            // If the product was successfully deleted, remove it from the local state
-            setProducts(prevProducts => prevProducts.filter(product => product.id !== productId));
+            // If the ad was successfully deleted, remove it from the local state
+            setAds(prevAds => prevAds.filter(ad => ad.id !== adId));
     
-            console.log('Product deleted successfully');
+            console.log('Ad deleted successfully');
         } catch (error) {
-            console.error('Error deleting product:', error);
-            alert('There was an error deleting the product. Please try again.');
+            console.error('Error deleting ad:', error);
+            alert('There was an error deleting the ad. Please try again.');
         }
     };
     
@@ -301,8 +301,8 @@ const VendorProducts = () => {
         setSearchTerm(e.target.value);
     };
 
-    const filteredProducts = products.filter(product =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredAds = ads.filter(ad =>
+        ad.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const handleModalClose = () => {
@@ -314,28 +314,28 @@ const VendorProducts = () => {
     const handleSaveEdit = async () => {
         setIsSaving(true);
         try {
-        const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/products/${editedProduct.id}`, {
+        const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
             method: 'PUT',
             headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             },
-            body: JSON.stringify({ product: {
-            title: editedProduct.title,
-            description: editedProduct.description,
-            category_id: editedProduct.category_id, // Ensure it's category_id
-            subcategory_id: editedProduct.subcategory_id, // Ensure it's subcategory_id
-            price: editedProduct.price,
-            quantity: editedProduct.quantity,
-            brand: editedProduct.brand,
-            manufacturer: editedProduct.manufacturer,
-            item_length: editedProduct.item_length,
-            item_width: editedProduct.item_width,
-            item_height: editedProduct.item_height,
-            item_weight: editedProduct.item_weight,
-            weight_unit: editedProduct.weight_unit,
-            flagged: editedProduct.flagged,
-            media: editedProduct.media // Only include media if applicable
+            body: JSON.stringify({ ad: {
+            title: editedAd.title,
+            description: editedAd.description,
+            category_id: editedAd.category_id, // Ensure it's category_id
+            subcategory_id: editedAd.subcategory_id, // Ensure it's subcategory_id
+            price: editedAd.price,
+            quantity: editedAd.quantity,
+            brand: editedAd.brand,
+            manufacturer: editedAd.manufacturer,
+            item_length: editedAd.item_length,
+            item_width: editedAd.item_width,
+            item_height: editedAd.item_height,
+            item_weight: editedAd.item_weight,
+            weight_unit: editedAd.weight_unit,
+            flagged: editedAd.flagged,
+            media: editedAd.media // Only include media if applicable
             } }),
         });
     
@@ -343,8 +343,8 @@ const VendorProducts = () => {
             throw new Error('Network response was not ok');
         }
     
-        const updatedProduct = await response.json();
-        setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+        const updatedAd = await response.json();
+        setAds(ads.map(p => p.id === updatedAd.id ? updatedAd : p));
         setShowEditModal(false);
         } catch (error) {
         console.error('Error saving changes:', error);
@@ -355,7 +355,7 @@ const VendorProducts = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setEditedProduct(prevState => ({
+        setEditedAd(prevState => ({
             ...prevState,
             [name]: value,
         }));
@@ -369,28 +369,28 @@ const VendorProducts = () => {
                 const imageUrl = await handleImageUpload(newImageUrl);
                 
                 // Append new image URL to media array
-                const updatedMedia = [...editedProduct.media, imageUrl];
+                const updatedMedia = [...editedAd.media, imageUrl];
     
-                // Update the product's media array on the server
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/products/${editedProduct.id}`, {
+                // Update the ad's media array on the server
+                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
-                    body: JSON.stringify({ product: { media: updatedMedia } }),
+                    body: JSON.stringify({ ad: { media: updatedMedia } }),
                 });
     
                 if (!response.ok) {
-                    throw new Error('Failed to update product');
+                    throw new Error('Failed to update ad');
                 }
     
-                const updatedProduct = await response.json();
+                const updatedAd = await response.json();
     
-                // Update the product in the local state
-                setEditedProduct(updatedProduct);
-                setProducts(prevProducts => 
-                    prevProducts.map(p => p.id === updatedProduct.id ? updatedProduct : p)
+                // Update the ad in the local state
+                setEditedAd(updatedAd);
+                setAds(prevAds => 
+                    prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
                 );
     
                 setNewImageUrl('');
@@ -421,8 +421,8 @@ const VendorProducts = () => {
                 const imageUrls = await Promise.all(uploadPromises);
     
                 // Add the image URLs to the media array
-                const updatedMedia = [...editedProduct.media, ...imageUrls];
-                setEditedProduct(prev => ({
+                const updatedMedia = [...editedAd.media, ...imageUrls];
+                setEditedAd(prev => ({
                     ...prev,
                     media: updatedMedia,
                 }));
@@ -437,28 +437,28 @@ const VendorProducts = () => {
     const handleDeleteImage = async (index) => {
         try {
             // Filter out the image at the specific index
-            const updatedMedia = editedProduct.media.filter((_, i) => i !== index);
+            const updatedMedia = editedAd.media.filter((_, i) => i !== index);
 
-            // Send a PATCH request to update the product's media array in the database
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/products/${editedProduct.id}`, {
+            // Send a PATCH request to update the ad's media array in the database
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
-                body: JSON.stringify({ product: { media: updatedMedia } }),
+                body: JSON.stringify({ ad: { media: updatedMedia } }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to update product');
+                throw new Error('Failed to update ad');
             }
 
-            const updatedProduct = await response.json();
+            const updatedAd = await response.json();
 
-            // Update the product in the local state
-            setEditedProduct(updatedProduct);
-            setProducts(prevProducts => 
-                prevProducts.map(p => p.id === updatedProduct.id ? updatedProduct : p)
+            // Update the ad in the local state
+            setEditedAd(updatedAd);
+            setAds(prevAds => 
+                prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
             );
 
             console.log('Image deleted successfully');
@@ -467,16 +467,16 @@ const VendorProducts = () => {
         }
     };
 
-    const renderProductCard = (product) => (
-        <Col xs={6} md={6} lg={3} key={product.id} className="mb-3 px-2 px-md-2">
+    const renderAdCard = (ad) => (
+        <Col xs={6} md={6} lg={3} key={ad.id} className="mb-3 px-2 px-md-2">
             <Card>
-                <Card.Img variant="top" className="product-image" src={product.media && product.media.length > 0 ? product.media[0] : 'default-image-url'}/> 
+                <Card.Img variant="top" className="ad-image" src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'}/> 
                 <Card.Body className="px-2 py-1 py-md-2 bookmark-body">
-                    <Card.Title className="mb-0 product-title">{product.title}</Card.Title>
+                    <Card.Title className="mb-0 ad-title">{ad.title}</Card.Title>
                     <Card.Text>
                         <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
                         <strong style={{ fontSize: '20px' }} className="text-danger">
-                            {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
+                            {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
                                 <React.Fragment key={index}>
                                     {index === 0 ? (
                                         <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
@@ -495,7 +495,7 @@ const VendorProducts = () => {
                             <Button
                                 variant="warning"
                                 id="button"
-                                onClick={() => handleViewDetailsClick(product)}
+                                onClick={() => handleViewDetailsClick(ad)}
                             >
                                 Details
                             </Button>
@@ -505,24 +505,24 @@ const VendorProducts = () => {
                                 variant="secondary"
                                 className="me-2"
                                 id="button"
-                                onClick={() => handleEditProduct(product.id)}
+                                onClick={() => handleEditAd(ad.id)}
                             >
                                 <FontAwesomeIcon
                                     icon={faPencilAlt}
                                     className="edit-icon"
-                                    title="Edit Product"
+                                    title="Edit Ad"
                                 />
                             </Button>
                             <Button
                                 variant="danger"
                                 className="d-flex justify-content-center align-items-center"
                                 id="button"
-                                onClick={() => handleDeleteProduct(product.id)}
+                                onClick={() => handleDeleteAd(ad.id)}
                             >
                                 <FontAwesomeIcon
                                     icon={faTrash}
                                     className="edit-icon"
-                                    title="Delete Product"
+                                    title="Delete Ad"
                                 />
                             </Button>
                         </div>
@@ -589,7 +589,7 @@ const VendorProducts = () => {
     return (
         <>
             <TopNavbar />
-            <div className="products-management-page">
+            <div className="ads-management-page">
                 <Container fluid className="p-0">
                     <Row>
                         <Col xs={12} md={2} className="p-0">
@@ -600,8 +600,8 @@ const VendorProducts = () => {
                                 <Col xs={7} md={8} lg={6} className="mb-1 mb-md-3 pt-2 pt-md-3 justify-content-end">
                                     <div className="search-container d-flex align-items-center">
                                         <FormControl
-                                            placeholder="Search products..."
-                                            aria-label="Search products"
+                                            placeholder="Search ads..."
+                                            aria-label="Search ads"
                                             aria-describedby="search-icon"
                                             value={searchTerm}
                                             onChange={handleSearchChange}
@@ -611,17 +611,17 @@ const VendorProducts = () => {
                                 </Col>
                                 <Col xs={5} md={4} lg={3} className="mb-1 mb-md-3 pt-2 pt-md-3 d-flex justify-content-start">
                                     <Button id="button" variant="warning" onClick={() => setShowAddModal(true)}>
-                                        Add New Product
+                                        Add New Ad
                                     </Button>
                                 </Col>
                             </Row>
 
                             <Row>
-                                {filteredProducts.length > 0 ? (
-                                    filteredProducts.map(renderProductCard)
+                                {filteredAds.length > 0 ? (
+                                    filteredAds.map(renderAdCard)
                                 ) : (
                                     <Col>
-                                        <p>No products found</p>
+                                        <p>No ads found</p>
                                     </Col>
                                 )}
                             </Row>
@@ -633,19 +633,19 @@ const VendorProducts = () => {
 
                 <Modal centered show={showDetailsModal} onHide={handleModalClose} size="xl">
                     <Modal.Header className='justify-content-center p-1 p-lg-2'>
-                        <Modal.Title>{selectedProduct?.title || 'Product Details'}</Modal.Title>
+                        <Modal.Title>{selectedAd?.title || 'Ad Details'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="p-0 p-lg-2">
-                        {selectedProduct && (
+                        {selectedAd && (
                             <>
                                 <Carousel className='mb-4'>
-                                    {selectedProduct.media && selectedProduct.media.length > 0 ? (
-                                        selectedProduct.media.map((image, index) => (
+                                    {selectedAd.media && selectedAd.media.length > 0 ? (
+                                        selectedAd.media.map((image, index) => (
                                             <Carousel.Item key={index} className="position-relative">
                                                 <img
-                                                    className="d-block w-100 product-image"
+                                                    className="d-block w-100 ad-image"
                                                     src={image}
-                                                    alt={`Product ${selectedProduct.title} - view ${index + 1}`} // Updated alt text
+                                                    alt={`Ad ${selectedAd.title} - view ${index + 1}`} // Updated alt text
                                                     style={{ height: '300px', objectFit: 'contain' }}  // Adjust the height as needed
                                                 />
                                             </Carousel.Item>
@@ -656,17 +656,17 @@ const VendorProducts = () => {
                                         </Carousel.Item>
                                     )}
                                 </Carousel>
-                                <Container className="product-details mb-4 p-1 p-lg-2">
+                                <Container className="ad-details mb-4 p-1 p-lg-2">
                                     <Row>
                                         <Col xs={6} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Price</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    <em className='product-price-label'>Kshs: </em>
+                                                    <em className='ad-price-label'>Kshs: </em>
                                                     <strong className="text-success">
-                                                        {selectedProduct.price ? (
+                                                        {selectedAd.price ? (
                                                             (() => {
-                                                                const formattedPrice = parseFloat(selectedProduct.price).toFixed(2);
+                                                                const formattedPrice = parseFloat(selectedAd.price).toFixed(2);
                                                                 const [integerPart, decimalPart] = formattedPrice.split('.');
                                                                 return (
                                                                     <>
@@ -689,7 +689,7 @@ const VendorProducts = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Category</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.category?.name || 'N/A'}
+                                                    {selectedAd.category?.name || 'N/A'}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -700,7 +700,7 @@ const VendorProducts = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Quantity Sold</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.quantity_sold || 0}
+                                                    {selectedAd.quantity_sold || 0}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -708,7 +708,7 @@ const VendorProducts = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Sold Out</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.sold_out ? 'Yes' : 'No'}
+                                                    {selectedAd.sold_out ? 'Yes' : 'No'}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -721,7 +721,7 @@ const VendorProducts = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Description</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedProduct.description}
+                                                    {selectedAd.description}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -733,7 +733,7 @@ const VendorProducts = () => {
                                                 <Card.Header as="h6" className="justify-content-center">Rating</Card.Header>
                                                 <Card.Body className="text-center">
                                                     <span className="star-rating">
-                                                        {renderRatingStars(selectedProduct.mean_rating || 0)}
+                                                        {renderRatingStars(selectedAd.mean_rating || 0)}
                                                     </span>
                                                 </Card.Body>
                                             </Card>
@@ -744,12 +744,12 @@ const VendorProducts = () => {
                                                 <Card.Body className="text-center">
                                                     <Row>
                                                     <Col xs={6} md={6}>
-                                                            <p><strong>Height:</strong> {selectedProduct.item_height} cm</p>
-                                                            <p><strong>Width:</strong> {selectedProduct.item_width} cm</p>
+                                                            <p><strong>Height:</strong> {selectedAd.item_height} cm</p>
+                                                            <p><strong>Width:</strong> {selectedAd.item_width} cm</p>
                                                         </Col>
                                                         <Col xs={6} md={6}>
-                                                            <p><strong>Length:</strong> {selectedProduct.item_length} cm</p>
-                                                            <p><strong>Weight:</strong> {selectedProduct.item_weight} {selectedProduct.weight_unit}</p>
+                                                            <p><strong>Length:</strong> {selectedAd.item_length} cm</p>
+                                                            <p><strong>Weight:</strong> {selectedAd.item_weight} {selectedAd.weight_unit}</p>
                                                         </Col>
                                                     </Row>
                                                 </Card.Body>
@@ -759,9 +759,9 @@ const VendorProducts = () => {
                                     </Row>
                                 </Container>
                                 <h5 className="text-center" id="reviews">Reviews</h5>
-                                {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
+                                {selectedAd.reviews && selectedAd.reviews.length > 0 ? (
                                     <div className="reviews-container text-center p-1 p-lg-2">
-                                        {selectedProduct.reviews.map((review, index) => (
+                                        {selectedAd.reviews.map((review, index) => (
                                             <div className="custom-card p-2" key={index}>
                                                 <p className="review-comment"><em>"{review.review}"</em></p>
                                                 <StarRating rating={review.rating} />
@@ -785,20 +785,20 @@ const VendorProducts = () => {
 
                 <Modal centered show={showEditModal} onHide={handleModalClose} size="xl">
                     <Modal.Header className='justify-content-center p-1 p-lg-2'>
-                        <Modal.Title>{selectedProduct ? `Edit ${selectedProduct.title}` : 'Edit Product'}</Modal.Title>
+                        <Modal.Title>{selectedAd ? `Edit ${selectedAd.title}` : 'Edit Ad'}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="p-1 p-lg-2">
                         <Form>
 
                             <Form.Group className="mb-3">
-                                {editedProduct.media && editedProduct.media.length > 0 ? (
+                                {editedAd.media && editedAd.media.length > 0 ? (
                                     <Carousel>
-                                    {editedProduct.media.map((image, index) => (
+                                    {editedAd.media.map((image, index) => (
                                         <Carousel.Item key={index} className="position-relative">
                                             <img
                                                 className="d-block w-100"
                                                 src={image}
-                                                alt={`Product - view ${index + 1}`}
+                                                alt={`Ad - view ${index + 1}`}
                                                 style={{ height: '300px', objectFit: 'contain' }}
                                             />
                                             <Button 
@@ -822,10 +822,10 @@ const VendorProducts = () => {
                                         <Form.Label className="text-center mb-0 fw-bold">Title</Form.Label>
                                         <Form.Control 
                                             type="text" 
-                                            placeholder="Enter product title" 
+                                            placeholder="Enter ad title" 
                                             name="title"
                                             id="button"
-                                            value={editedProduct.title || ''} 
+                                            value={editedAd.title || ''} 
                                             onChange={handleInputChange} 
                                         />
                                     </Form.Group>
@@ -875,10 +875,10 @@ const VendorProducts = () => {
                                         <Form.Label className="text-center mb-0 fw-bold">Price</Form.Label>
                                         <Form.Control 
                                             type="number" 
-                                            placeholder="Enter product price" 
+                                            placeholder="Enter ad price" 
                                             name="price"
                                             id="button"
-                                            value={editedProduct.price || ''} 
+                                            value={editedAd.price || ''} 
                                             onChange={handleInputChange} 
                                         />
                                     </Form.Group>
@@ -891,7 +891,7 @@ const VendorProducts = () => {
                                             placeholder="Enter quantity in stock" 
                                             name="quantity"
                                             id="button"
-                                            value={editedProduct.quantity || ''} 
+                                            value={editedAd.quantity || ''} 
                                             onChange={handleInputChange} 
                                         />
                                     </Form.Group>
@@ -904,10 +904,10 @@ const VendorProducts = () => {
                                         <Form.Label className=" text-center mb-0 fw-bold">Brand</Form.Label>
                                         <Form.Control 
                                             type="text" 
-                                            placeholder="Enter product brand" 
+                                            placeholder="Enter ad brand" 
                                             name="brand"
                                             id="button"
-                                            value={editedProduct.brand || ''} 
+                                            value={editedAd.brand || ''} 
                                             onChange={handleInputChange} 
                                         />
                                     </Form.Group>
@@ -917,10 +917,10 @@ const VendorProducts = () => {
                                         <Form.Label className="text-center mb-0 fw-bold">Manufacturer</Form.Label>
                                         <Form.Control 
                                             type="text" 
-                                            placeholder="Enter product manufacturer" 
+                                            placeholder="Enter ad manufacturer" 
                                             name="manufacturer"
                                             id="button"
-                                            value={editedProduct.manufacturer || ''} 
+                                            value={editedAd.manufacturer || ''} 
                                             onChange={handleInputChange} 
                                         />
                                     </Form.Group>
@@ -951,9 +951,9 @@ const VendorProducts = () => {
                                 <Form.Control 
                                     as="textarea" 
                                     rows={3} 
-                                    placeholder="Enter product description" 
+                                    placeholder="Enter ad description" 
                                     name="description"
-                                    value={editedProduct.description || ''} 
+                                    value={editedAd.description || ''} 
                                     onChange={handleInputChange} 
                                 />
                             </Form.Group>
@@ -967,9 +967,9 @@ const VendorProducts = () => {
                                                 <Form.Label className="text-center mb-0 fw-bold">Length</Form.Label>
                                                 <Form.Control 
                                                     type="number" 
-                                                    placeholder="Enter product length" 
+                                                    placeholder="Enter ad length" 
                                                     name="item_length"
-                                                    value={editedProduct.item_length || ''} 
+                                                    value={editedAd.item_length || ''} 
                                                     onChange={handleInputChange} 
                                                 />
                                             </Form.Group>
@@ -979,9 +979,9 @@ const VendorProducts = () => {
                                                 <Form.Label className="text-center mb-0 fw-bold">Width</Form.Label>
                                                 <Form.Control 
                                                     type="number" 
-                                                    placeholder="Enter product width" 
+                                                    placeholder="Enter ad width" 
                                                     name="item_width"
-                                                    value={editedProduct.item_width || ''} 
+                                                    value={editedAd.item_width || ''} 
                                                     onChange={handleInputChange} 
                                                 />
                                             </Form.Group>
@@ -994,9 +994,9 @@ const VendorProducts = () => {
                                                 <Form.Label className="text-center mb-0 fw-bold">Height</Form.Label>
                                                 <Form.Control 
                                                     type="number" 
-                                                    placeholder="Enter product height" 
+                                                    placeholder="Enter ad height" 
                                                     name="item_height"
-                                                    value={editedProduct.item_height || ''} 
+                                                    value={editedAd.item_height || ''} 
                                                     onChange={handleInputChange} 
                                                 />
                                             </Form.Group>
@@ -1006,9 +1006,9 @@ const VendorProducts = () => {
                                                 <Form.Label className="text-center mb-0 fw-bold">Weight</Form.Label>
                                                 <Form.Control 
                                                     type="number" 
-                                                    placeholder="Enter product weight" 
+                                                    placeholder="Enter ad weight" 
                                                     name="item_weight"
-                                                    value={editedProduct.item_weight || ''} 
+                                                    value={editedAd.item_weight || ''} 
                                                     onChange={handleInputChange} 
                                                 />
                                             </Form.Group>
@@ -1024,7 +1024,7 @@ const VendorProducts = () => {
                                                         type="checkbox"
                                                         name="weight_unit"
                                                         label="Grams"
-                                                        checked={editedProduct.weight_unit === 'Grams'}
+                                                        checked={editedAd.weight_unit === 'Grams'}
                                                         onChange={() => handleWeightUnitChange('Grams')}
                                                     />
                                                 </Col>
@@ -1033,7 +1033,7 @@ const VendorProducts = () => {
                                                         type="checkbox"
                                                         name="weight_unit"
                                                         label="Kilograms"
-                                                        checked={editedProduct.weight_unit === 'Kilograms'}
+                                                        checked={editedAd.weight_unit === 'Kilograms'}
                                                         onChange={() => handleWeightUnitChange('Kilograms')}
                                                     />
                                                 </Col>
@@ -1059,7 +1059,7 @@ const VendorProducts = () => {
 
                 <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="xl" centered className="custom-modal">
                     <Modal.Header className="custom-modal-header justify-content-center p-1 p-lg-2">
-                        <Modal.Title>Add Product</Modal.Title>
+                        <Modal.Title>Add Ad</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="custom-modal-body">
                         <Form>
@@ -1070,7 +1070,7 @@ const VendorProducts = () => {
                                         <Form.Control
                                             id="title"
                                             type="text"
-                                            placeholder="Enter product title"
+                                            placeholder="Enter ad title"
                                             value={formValues.title}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1 rounded-pill"
@@ -1083,7 +1083,7 @@ const VendorProducts = () => {
                                             id="description"
                                             as="textarea"
                                             rows={10}
-                                            placeholder="Enter product description"
+                                            placeholder="Enter ad description"
                                             value={formValues.description}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1"
@@ -1160,7 +1160,7 @@ const VendorProducts = () => {
                                         <Form.Control
                                             id="price"
                                             type="text"
-                                            placeholder="Enter product price"
+                                            placeholder="Enter ad price"
                                             value={formValues.price}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1 rounded-pill"
@@ -1284,8 +1284,8 @@ const VendorProducts = () => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer className="p-0 p-lg-1">
-                        <Button variant="warning" onClick={handleAddNewProduct} >
-                            Add Product
+                        <Button variant="warning" onClick={handleAddNewAd} >
+                            Add Ad
                         </Button>
                         <Button variant="danger" onClick={() => setShowAddModal(false)}>
                             Close
@@ -1297,4 +1297,4 @@ const VendorProducts = () => {
     );
 };
 
-export default VendorProducts;
+export default VendorAds;

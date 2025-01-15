@@ -3,7 +3,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import SalesPerformance from '../components/SalesPerformance';
-import TopSellingProducts from '../components/TopSellingProducts';
+import TopSellingAds from '../components/TopSellingAds';
 import Spinner from "react-spinkit";
 import '../css/VendorAnalytics.css';
 
@@ -32,12 +32,12 @@ const VendorAnalytics = () => {
         const validatedAnalytics = {
           tier_id: data.tier_id || 1,
           total_orders: data.total_orders || 0,
-          total_products: data.total_products || 0,
+          total_ads: data.total_ads || 0,
           total_reviews: data.total_reviews || 0,
           average_rating: data.average_rating || 0,
           total_revenue: data.total_revenue || '0.0',
           sales_performance: data.sales_performance || {},
-          best_selling_products: data.best_selling_products || [],
+          best_selling_ads: data.best_selling_ads || [],
         };
 
         setTierId(validatedAnalytics.tier_id);
@@ -87,7 +87,7 @@ const VendorAnalytics = () => {
     );
   }
 
-  const { total_orders, average_rating, total_products, total_reviews, total_revenue, sales_performance, best_selling_products } = analyticsData;
+  const { total_orders, average_rating, total_ads, total_reviews, total_revenue, sales_performance, best_selling_ads } = analyticsData;
 
   return (
     <>
@@ -122,11 +122,11 @@ const VendorAnalytics = () => {
               </Col>
               <Col xs={6} md={3}>
                 <Card className="mb-4 custom-card">
-                  <Card.Header>Total Products</Card.Header>
+                  <Card.Header>Total Ads</Card.Header>
                   <Card.Body>
                     {tierId >= 2 ? (
                       <Card.Text className="text-center">
-                        <strong>{total_products.toLocaleString()}</strong>
+                        <strong>{total_ads.toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
                       <Card.Text className="text-center text-secondary">
@@ -200,10 +200,10 @@ const VendorAnalytics = () => {
               </Col>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
-                  <Card.Header>Top Selling Products</Card.Header>
+                  <Card.Header>Top Selling Ads</Card.Header>
                   <Card.Body>
                     {tierId >= 4 ? (
-                      <TopSellingProducts data={best_selling_products} />
+                      <TopSellingAds data={best_selling_ads} />
                     ) : (
                       <div className="text-secondary text-center">
                         <a href="/tiers" className="text-primary">Upgrade</a> to Premium Tier

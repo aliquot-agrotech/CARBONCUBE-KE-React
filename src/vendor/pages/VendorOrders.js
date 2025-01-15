@@ -175,9 +175,9 @@ const VendorOrders = () => {
                                         <thead className="table-header">
                                             <tr>
                                                 <th>Order ID</th>
-                                                <th>Products</th>
+                                                <th>Ads</th>
                                                 <th>Quantity</th>
-                                                <th>Total<em className="product-price-label" style={{ fontSize: '14px' }}> (Kshs:) </em></th>
+                                                <th>Total<em className="ad-price-label" style={{ fontSize: '14px' }}> (Kshs:) </em></th>
                                                 <th>Date Ordered</th>
                                                 <th>Status</th>
                                             </tr>
@@ -197,16 +197,16 @@ const VendorOrders = () => {
                                                         <td>{order.id}</td>
                                                         <td>
                                                             {order.order_items
-                                                                .slice(0, 3) // Limit to the first 3 products
+                                                                .slice(0, 3) // Limit to the first 3 ads
                                                                 .map((item, index, array) => {
-                                                                const productTitle = item.product_title || 'Unknown';
-                                                                // Limit the product title to 3 words
-                                                                const truncatedTitle = productTitle.split(' ').slice(0, 3).join(' ');
+                                                                const adTitle = item.ad_title || 'Unknown';
+                                                                // Limit the ad title to 3 words
+                                                                const truncatedTitle = adTitle.split(' ').slice(0, 3).join(' ');
                                                                 // Add a comma after each item except the last one
                                                                 return `${truncatedTitle}${index < array.length - 1 ? ',' : ''}`;
                                                                 })
                                                                 .join(' ')}
-                                                            {order.order_items.length > 3 && '...'} {/* Add ellipsis if more than 3 products */}
+                                                            {order.order_items.length > 3 && '...'} {/* Add ellipsis if more than 3 ads */}
                                                         </td>
 
                                                         <td>{order.order_items.map(item => item.quantity || 0).reduce((a, b) => a + b, 0)}</td>
@@ -313,22 +313,22 @@ const VendorOrders = () => {
                                             <Row>
                                                 <Col xs={12}>
                                                     <Card className="mb-2 custom-card-vendor">
-                                                        <Card.Header as="h6" className='text-center'>Products</Card.Header>
+                                                        <Card.Header as="h6" className='text-center'>Ads</Card.Header>
                                                         <Card.Body className='p-2'>
                                                             {selectedOrder?.order_items?.length > 0 ? (
                                                                 <Table className="transparent-table transparent-table-striped justify-content-start" style={{ backgroundColor: 'transparent' }}>
                                                                     <thead>
                                                                         <tr>
-                                                                            <th>Product</th>
+                                                                            <th>Ad</th>
                                                                             <th>Quantity</th>
                                                                             <th>Price <span style={{ fontSize: '14px' }}>(@ item)</span></th>
-                                                                            <th>Product Total</th>
+                                                                            <th>Ad Total</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
                                                                         {selectedOrder.order_items.map(item => (
                                                                             <tr key={item.id}>
-                                                                                <td>{item.product_title || 'Unknown Product'}</td>
+                                                                                <td>{item.ad_title || 'Unknown Ad'}</td>
                                                                                 <td>{item.quantity}</td>
                                                                                 <td className='text-success'>
                                                                                 {item.price ? (
@@ -400,7 +400,7 @@ const VendorOrders = () => {
                                                                     </tfoot>
                                                                 </Table>
                                                             ) : (
-                                                                <p>No products available</p>
+                                                                <p>No ads available</p>
                                                             )}
                                                         </Card.Body>
                                                     </Card>

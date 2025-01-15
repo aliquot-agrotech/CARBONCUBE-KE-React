@@ -48,9 +48,9 @@ const Sidebar = () => {
             <BagCheck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
-            href="/vendor/products"
-            className={location.pathname === '/vendor/products' ? 'active' : ''}>
-            <Box className="icon" /> {isOpen && 'Products'}
+            href="/vendor/ads"
+            className={location.pathname === '/vendor/ads' ? 'active' : ''}>
+            <Box className="icon" /> {isOpen && 'Ads'}
           </Nav.Link>
           <Nav.Link
             href="/vendor/messages"
