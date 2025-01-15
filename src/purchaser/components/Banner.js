@@ -4,7 +4,7 @@ import Carousel from 'react-bootstrap/Carousel';
 
 const Banner = () => {
     const [images, setImages] = useState([]);
-    const [premiumProducts, setPremiumProducts] = useState([]);
+    const [premiumAds, setPremiumAds] = useState([]);
 
     useEffect(() => {
         const fetchBannerImages = async () => {
@@ -23,30 +23,30 @@ const Banner = () => {
             }
         };
 
-        const fetchPremiumProducts = async () => {
+        const fetchPremiumAds = async () => {
             try {
-                const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/products');
+                const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/ads');
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch products');
+                    throw new Error('Failed to fetch ads');
                 }
 
-                const products = await response.json();
-                // Filter for products with `vendor_tier` === 4
-                const premium = products.filter((product) => product.vendor_tier === 4);
+                const ads = await response.json();
+                // Filter for ads with `vendor_tier` === 4
+                const premium = ads.filter((ad) => ad.vendor_tier === 4);
 
-                // Shuffle and pick 3 random products
+                // Shuffle and pick 3 random ads
                 const shuffled = premium.sort(() => 0.5 - Math.random());
-                setPremiumProducts(shuffled.slice(0, 3));
+                setPremiumAds(shuffled.slice(0, 3));
 
-                console.log('Premium Products:', premium); // Debugging line
+                console.log('Premium Ads:', premium); // Debugging line
             } catch (error) {
-                console.error('Error fetching premium products:', error);
+                console.error('Error fetching premium ads:', error);
             }
         };
 
         fetchBannerImages();
-        fetchPremiumProducts();
+        fetchPremiumAds();
     }, []);
 
     return (
@@ -62,22 +62,22 @@ const Banner = () => {
                                 }}
                             >
                                 {/* Add overlay for the last banner */}
-                                {index === images.length - 1 && premiumProducts.length > 0 && (
-                                    <div className="premium-products-overlay">
-                                        {premiumProducts.map((product) => {
-                                            const productImage = 
-                                                product.first_media_url 
-                                                    ? product.first_media_url
-                                                    : (product.media_urls[0] || 'default-image-url');
+                                {index === images.length - 1 && premiumAds.length > 0 && (
+                                    <div className="premium-ads-overlay">
+                                        {premiumAds.map((ad) => {
+                                            const adImage = 
+                                                ad.first_media_url 
+                                                    ? ad.first_media_url
+                                                    : (ad.media_urls[0] || 'default-image-url');
                                                 
-                                            console.log('Product Image URL:', productImage); // Debugging line
+                                            console.log('Ad Image URL:', adImage); // Debugging line
                                             
                                             return (
-                                                <div key={product.id} className="product-image-container">
+                                                <div key={ad.id} className="ad-image-container">
                                                     <img
-                                                        src={productImage}
-                                                        alt={product.title}
-                                                        className="premium-product-image"
+                                                        src={adImage}
+                                                        alt={ad.title}
+                                                        className="premium-ad-image"
                                                     />
                                                 </div>
                                             );

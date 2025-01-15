@@ -138,9 +138,9 @@ const Orders = () => {
                                         <thead className="table-header">
                                             <tr>
                                             <th>Order ID</th>
-                                            <th>Products</th>
+                                            <th>Ads</th>
                                             <th>Quantity</th>
-                                            <th>Total<em className="product-price-label" style={{ fontSize : '14px' }}>(Kshs:) </em></th>
+                                            <th>Total<em className="ad-price-label" style={{ fontSize : '14px' }}>(Kshs:) </em></th>
                                             <th>Date Ordered</th>
                                             <th>Status</th>
                                             </tr>
@@ -156,10 +156,10 @@ const Orders = () => {
                                                 <td>{order.id}</td>
                                                 <td>
                                                     {order.order_items
-                                                    .slice(0, 3) // Limit to the first 3 products
+                                                    .slice(0, 3) // Limit to the first 3 ads
                                                     .map((item, index, array) => {
-                                                        const productName = item.product_name || 'Unknown';
-                                                        const truncatedName = productName.split(' ').slice(0, 3).join(' ');
+                                                        const adName = item.ad_name || 'Unknown';
+                                                        const truncatedName = adName.split(' ').slice(0, 3).join(' ');
                                                         return `${truncatedName}${index < array.length - 1 ? ',' : ''}`;
                                                     })
                                                     .join(' ')}
@@ -256,13 +256,13 @@ const Orders = () => {
                                             <Row>
                                                 <Col xs={12}>
                                                     <Card className="mb-2 custom-card-vendor">
-                                                        <Card.Header as="h6" className="text-center">Products</Card.Header>
+                                                        <Card.Header as="h6" className="text-center">Ads</Card.Header>
                                                         <Card.Body>
                                                             {selectedOrder?.order_items?.length > 0 ? (
                                                             <Table striped bordered hover className="transparent-table transparent-table-striped">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>Product Name</th>
+                                                                        <th>Ad Name</th>
                                                                         <th>Price</th>
                                                                         <th>Quantity</th>
                                                                         <th>Total Price</th>
@@ -271,7 +271,7 @@ const Orders = () => {
                                                                 <tbody>
                                                                     {selectedOrder.order_items.map(item => (
                                                                         <tr key={item.id}>
-                                                                            <td>{item.product_name || 'Unknown Product'}</td>
+                                                                            <td>{item.ad_name || 'Unknown Ad'}</td>
                                                                             <td className='text-success'>
                                                                                 {item.price ? parseFloat(item.price).toFixed(2).split('.').map((part, index) => (
                                                                                     <React.Fragment key={index}>
@@ -418,7 +418,7 @@ const Orders = () => {
                                                                 </tbody>
                                                             </Table>
                                                             ) : (
-                                                            <p>No products available</p>
+                                                            <p>No ads available</p>
                                                             )}
                                                         </Card.Body>
                                                     </Card>

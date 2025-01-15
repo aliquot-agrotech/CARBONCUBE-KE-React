@@ -1,4 +1,4 @@
-.products-details-page{
+.ads-details-page{
     background-color: #e0e0e0;
     font-family: "Fira Sans Extra Condensed", sans-serif;
     font-weight: 400;
@@ -16,31 +16,31 @@
     margin-left: 250px; /* Adjust based on your sidebar width */
   }
   
-  .product-details-page {
+  .ad-details-page {
     padding: 20px;
   }
   
-  .product-details img {
+  .ad-details img {
     max-width: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
-  .related-products-title {
+  .related-ads-title {
     margin-top: 40px;
     font-weight: bold;
   }
   
-  .related-products .card {
+  .related-ads .card {
     cursor: pointer;
     transition: transform 0.3s;
   }
   
-  .related-products .card:hover {
+  .related-ads .card:hover {
     transform: translateY(-10px);
   }
 
-  .product-price {
+  .ad-price {
     font-size: 1.8rem;
     color: #ff6633;
     font-weight: bold;
@@ -53,7 +53,7 @@
 }
 
 @media screen and (max-width: 767px) {
-  .products-details-page {
+  .ads-details-page {
     margin-top: -15px;
   }
 }

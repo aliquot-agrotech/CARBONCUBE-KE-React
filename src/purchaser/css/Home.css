@@ -40,7 +40,7 @@
 }
 
 .section .category-header,
-.section .popular-products-header,
+.section .popular-ads-header,
 .section-search .card-header {
     background-color: rgba(51, 51, 51, 0.8); /* Semi-transparent dark */
     color: white;
@@ -60,7 +60,7 @@
     border-radius: 8px;
 }
 
-.product-card {
+.ad-card {
     /* border: none; */
     overflow: hidden;
     height: 100%;
@@ -68,12 +68,12 @@
     border-radius: 8px;
 }
 
-.product-card:hover {
+.ad-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.product-image {
+.ad-image {
     object-fit: contain;
     width: 100%;
     aspect-ratio: 5 / 3.5;
@@ -175,7 +175,7 @@
     }
 
     .section .category-header h4,
-    .section .popular-products-header h3,
+    .section .popular-ads-header h3,
     .section-search .card-header h3 {
         font-size: 1.25rem;
     }

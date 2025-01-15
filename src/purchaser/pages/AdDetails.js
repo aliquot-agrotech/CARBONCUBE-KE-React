@@ -10,13 +10,13 @@ import { motion } from 'framer-motion'; // For animations
 import Spinner from "react-spinkit";
 import axios from 'axios';  // Assuming you're using axios
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import '../css/ProductDetails.css';    // Custom styling for the page
+import '../css/AdDetails.css';    // Custom styling for the page
 
-const ProductDetails = () => {
-    const { productId } = useParams();
-    const [product, setProduct] = useState(null);
+const AdDetails = () => {
+    const { adId } = useParams();
+    const [ad, setAd] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [relatedProducts, setRelatedProducts] = useState([]);
+    const [relatedAds, setRelatedAds] = useState([]);
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);  // Manage sidebar state
     const [searchQuery, setSearchQuery] = useState('');     // Manage search query state
@@ -36,7 +36,7 @@ const ProductDetails = () => {
         setLoadingReviews(true);
         
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/products/${productId}/reviews`);
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/ads/${adId}/reviews`);
             if (!response.ok) throw new Error('Failed to fetch reviews');
             const data = await response.json();
             setReviews(data);
@@ -52,47 +52,47 @@ const ProductDetails = () => {
 
     
     useEffect(() => {
-        if (!productId) {
-            setError('Product ID is missing.');
+        if (!adId) {
+            setError('Ad ID is missing.');
             setLoading(false);
             return;
         }
 
-        // Fetch Product Details
-        const fetchProductDetails = async () => {
+        // Fetch Ad Details
+        const fetchAdDetails = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/products/${productId}`);
-                if (!response.ok) throw new Error('Failed to fetch product details');
+                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/ads/${adId}`);
+                if (!response.ok) throw new Error('Failed to fetch ad details');
                 const data = await response.json();
-                setProduct(data);
+                setAd(data);
             } catch (error) {
-                setError('Error loading product details.');
+                setError('Error loading ad details.');
             } finally {
                 setLoading(false);
             }
         };
 
-        // Fetch Related Products
-        const fetchRelatedProducts = async () => {
+        // Fetch Related Ads
+        const fetchRelatedAds = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/products/${productId}/related`);
-                if (!response.ok) throw new Error('Failed to fetch related products');
+                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/ads/${adId}/related`);
+                if (!response.ok) throw new Error('Failed to fetch related ads');
                 const data = await response.json();
-                setRelatedProducts(data);
+                setRelatedAds(data);
             } catch (error) {
-                setError('Error fetching related products.');
+                setError('Error fetching related ads.');
             }
         };
 
         // Fetch all data
-        fetchProductDetails();
-        fetchRelatedProducts();
-    }, [productId]);
+        fetchAdDetails();
+        fetchRelatedAds();
+    }, [adId]);
 
     const fetchVendorDetails = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/products/${productId}/vendor`, {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/ads/${adId}/vendor`, {
                 // Add timeout and potentially other configuration
                 signal: AbortSignal.timeout(10000) // 10-second timeout
             });
@@ -125,10 +125,10 @@ const ProductDetails = () => {
     };
 
     const handleRevealVendorDetails = async () => {
-        console.log('Button clicked, productId:', productId);
+        console.log('Button clicked, adId:', adId);
     
         // Step 1: Log the 'View Vendor' button click event
-        await logClickEventRevealVendorDetails(productId, 'Reveal-Vendor-Details');
+        await logClickEventRevealVendorDetails(adId, 'Reveal-Vendor-Details');
     
         // Fetch vendor details if not already fetched
         if (!vendor) {
@@ -140,7 +140,7 @@ const ProductDetails = () => {
     };
     
     // Function to log button click events
-    const logClickEventRevealVendorDetails = async (productId, eventType) => {
+    const logClickEventRevealVendorDetails = async (adId, eventType) => {
         try {
             const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
@@ -149,7 +149,7 @@ const ProductDetails = () => {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // Only send token
                 },
                 body: JSON.stringify({
-                    product_id: productId,
+                    ad_id: adId,
                     event_type: eventType,
                     metadata: {} // Optional metadata
                 }),
@@ -175,7 +175,7 @@ const ProductDetails = () => {
     };
 
     const handleAddToWishlist = async () => {
-        if (!product) return;
+        if (!ad) return;
     
         // Check if the token is available
         const token = sessionStorage.getItem('token');
@@ -191,12 +191,12 @@ const ProductDetails = () => {
             setBookmarkError(null);
     
             // Step 1: Log the 'Add-to-Wishlist' event
-            await logClickEventAddtoWishList(product.id, 'Add-to-Wish-List');
+            await logClickEventAddtoWishList(ad.id, 'Add-to-Wish-List');
     
-            // Step 2: API call to add the product to the wishlist
+            // Step 2: API call to add the ad to the wishlist
             const response = await axios.post(
                 `https://carboncube-ke-rails-cu22.onrender.com/purchaser/wish_lists`,
-                { product_id: product.id },
+                { ad_id: ad.id },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -206,20 +206,20 @@ const ProductDetails = () => {
     
             // Check if the response is successful
             if (response.status === 201) {
-                window.alert('Product successfully added to the Wish List');
+                window.alert('Ad successfully added to the Wish List');
             } else {
                 window.alert('Something went wrong. Please try again.');
             }
         } catch (error) {
-            setBookmarkError('Failed to add product to the wishlist. Please try again.');
-            window.alert('Failed to add product to the wishlist. Please try again.');
+            setBookmarkError('Failed to add ad to the wishlist. Please try again.');
+            window.alert('Failed to add ad to the wishlist. Please try again.');
         } finally {
             setBookmarkLoading(false);
         }
     };
     
     // Function to log button click events
-    const logClickEventAddtoWishList = async (productId, eventType) => {
+    const logClickEventAddtoWishList = async (adId, eventType) => {
         try {
             const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
@@ -228,7 +228,7 @@ const ProductDetails = () => {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({
-                    product_id: productId,
+                    ad_id: adId,
                     event_type: eventType, // 'Add-to-Wishlist'
                 }),
             });
@@ -242,7 +242,7 @@ const ProductDetails = () => {
     };
     
 
-    const handleAddToCart = async (productId) => {
+    const handleAddToCart = async (adId) => {
         const token = sessionStorage.getItem('token');
     
         if (!token) {
@@ -253,22 +253,22 @@ const ProductDetails = () => {
     
         try {
             // Step 1: Log the 'Add-to-Cart' event
-            await logClickEventAddtoCart(productId, 'Add-to-Cart');
+            await logClickEventAddtoCart(adId, 'Add-to-Cart');
     
-            // Step 2: Add product to cart
+            // Step 2: Add ad to cart
             const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/cart_items`, {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ product_id: productId })
+                body: JSON.stringify({ ad_id: adId })
             });
     
             if (response.ok) {
-                window.alert("Product added to cart!");
+                window.alert("Ad added to cart!");
             } else {
-                window.alert("Failed to add product to cart. Please try again.");
+                window.alert("Failed to add ad to cart. Please try again.");
             }
         } catch (error) {
             window.alert("An error occurred. Please try again later.");
@@ -277,7 +277,7 @@ const ProductDetails = () => {
     };
     
     // Function to log button click events
-    const logClickEventAddtoCart = async (productId, eventType) => {
+    const logClickEventAddtoCart = async (adId, eventType) => {
         try {
             const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
@@ -286,7 +286,7 @@ const ProductDetails = () => {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({
-                    product_id: productId,
+                    ad_id: adId,
                     event_type: eventType, // 'Add-to-Cart'
                 }),
             });
@@ -326,28 +326,28 @@ const ProductDetails = () => {
         );
     };
 
-    const handleProductClick = async (productId) => {
-        if (!productId) {
-            console.error('Invalid productId');
+    const handleAdClick = async (adId) => {
+        if (!adId) {
+            console.error('Invalid adId');
             return;
         }
     
         try {
-            // Log the 'Product-Click' event before navigating
-            await logClickEvent(productId, 'Product-Click');
+            // Log the 'Ad-Click' event before navigating
+            await logClickEvent(adId, 'Ad-Click');
     
-            // Navigate to the product details page
-            navigate(`/products/${productId}`);
+            // Navigate to the ad details page
+            navigate(`/ads/${adId}`);
         } catch (error) {
-            console.error('Error logging product click:', error);
+            console.error('Error logging ad click:', error);
     
             // Proceed with navigation even if logging fails
-            navigate(`/products/${productId}`);
+            navigate(`/ads/${adId}`);
         }
     };
 
     // Function to log a click event
-    const logClickEvent = async (productId, eventType) => {
+    const logClickEvent = async (adId, eventType) => {
         try {
             const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
@@ -356,8 +356,8 @@ const ProductDetails = () => {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({
-                    product_id: productId,
-                    event_type: eventType, // e.g., 'Product-Click'
+                    ad_id: adId,
+                    event_type: eventType, // e.g., 'Ad-Click'
                 }),
             });
     
@@ -370,21 +370,21 @@ const ProductDetails = () => {
     };
 
     const renderCarousel = () => {
-        if (!product.media_urls || product.media_urls.length === 0) {
+        if (!ad.media_urls || ad.media_urls.length === 0) {
         return (
             <img
             src="default-image-url"
             alt="default"
-            className="product-image img-fluid"
+            className="ad-image img-fluid"
             />
         );
         }
         return (
         <Carousel>
-            {product.media_urls.map((url, index) => (
+            {ad.media_urls.map((url, index) => (
             <Carousel.Item key={index}>
                 <img
-                className="d-block h-50 product-image"
+                className="d-block h-50 ad-image"
                 src={url}
                 alt={`Slide ${index}`}
                 />
@@ -424,7 +424,7 @@ const ProductDetails = () => {
                 setSearchQuery={setSearchQuery}
                 handleSearch={handleSearch}
             />
-            <div className="products-details-page">
+            <div className="ads-details-page">
                 <Container fluid>
                     <Row> 
                         <Col xs={12} md={2} className="p-0">
@@ -433,9 +433,9 @@ const ProductDetails = () => {
                         <Col xs={12} md={10} lg={9} className="p-0 p-lg-1">
                             {/* Main Content Area */}
                             <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
-                                <div className="product-details-page container">
-                                    {product && (
-                                        <Row className="product-details mt-1 p-1 shadow-lg rounded border">
+                                <div className="ad-details-page container">
+                                    {ad && (
+                                        <Row className="ad-details mt-1 p-1 shadow-lg rounded border">
                                             <Col xs={12} md={7} className="d-flex flex-column justify-content-center text-center">
                                                 <motion.div
                                                     initial={{ opacity: 0, scale: 0.9 }}
@@ -447,12 +447,12 @@ const ProductDetails = () => {
                                             </Col>
 
                                             <Col xs={12} md={4} className="d-flex flex-column justify-content-center p-0 ">
-                                                <h3 className="display-6 text-dark mb-0 px-2"><strong>{product.title}</strong></h3>
+                                                <h3 className="display-6 text-dark mb-0 px-2"><strong>{ad.title}</strong></h3>
                                                 <div className="p-2">
-                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {product.brand}</p>
-                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {product.manufacturer}</p>
-                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {product.category_name}</p>
-                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {product.subcategory_name}</p>
+                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {ad.brand}</p>
+                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {ad.manufacturer}</p>
+                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {ad.category_name}</p>
+                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {ad.subcategory_name}</p>
                                                 </div>
                                                 <Row 
                                                     onClick={handleShowModal} 
@@ -460,15 +460,15 @@ const ProductDetails = () => {
                                                     className="link-hover px-2"
                                                     >
                                                     <span className="star-rating">
-                                                        {renderRatingStars(product.mean_rating, product.review_count)}
+                                                        {renderRatingStars(ad.mean_rating, ad.review_count)}
                                                     </span>
                                                 </Row>
 
 
-                                                <h4 className="product-price my-1 px-2">
+                                                <h4 className="ad-price my-1 px-2">
                                                     <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
                                                     <strong className="text-danger display-6">
-                                                        {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
+                                                        {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
                                                             <React.Fragment key={index}>
                                                                 {index === 0 ? (
                                                                     <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
@@ -488,13 +488,13 @@ const ProductDetails = () => {
                                                     <Card.Body>
                                                         <Row>
                                                             <Col xs={6} md={6} lg={6}>
-                                                                <p><strong>Height:</strong> {product.item_height} cm</p>
-                                                                <p><strong>Width:</strong> {product.item_width} cm</p>
+                                                                <p><strong>Height:</strong> {ad.item_height} cm</p>
+                                                                <p><strong>Width:</strong> {ad.item_width} cm</p>
                                                             </Col>
                                                             <Col xs={6} md={6} lg={6}>
-                                                                <p><strong>Length:</strong> {product.item_length} cm</p>
+                                                                <p><strong>Length:</strong> {ad.item_length} cm</p>
                                                                 <p>
-                                                                    <strong>Weight:</strong> {product.item_weight} {product.weight_unit}
+                                                                    <strong>Weight:</strong> {ad.item_weight} {ad.weight_unit}
                                                                 </p>
                                                             </Col>
                                                         </Row>
@@ -512,8 +512,8 @@ const ProductDetails = () => {
                                                                     variant="warning" 
                                                                     className="modern-btn me-3 px-4 py-2"
                                                                     id="button" 
-                                                                    disabled={!product} 
-                                                                    onClick={() => handleAddToCart(product.id)}
+                                                                    disabled={!ad} 
+                                                                    onClick={() => handleAddToCart(ad.id)}
                                                                 >
                                                                     <Cart4 className="me-2" /> Add to cart
                                                                 </Button>
@@ -526,7 +526,7 @@ const ProductDetails = () => {
                                                                     variant="warning"
                                                                     className="modern-btn-dark px-4 py-2"
                                                                     id="button"
-                                                                    disabled={!product || wish_listLoading}
+                                                                    disabled={!ad || wish_listLoading}
                                                                     onClick={handleAddToWishlist}
                                                                 >
                                                                     {wish_listLoading ? (
@@ -572,7 +572,7 @@ const ProductDetails = () => {
                                                 <Container className="mt-2">
                                                     <Row>
                                                         <h3>Description</h3>
-                                                        <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{product.description}</p>
+                                                        <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{ad.description}</p>
                                                     </Row>
                                                 </Container>
 
@@ -581,29 +581,29 @@ const ProductDetails = () => {
                                         </Row>
                                     )}
 
-                                    <h3 className="related-products-title">Related Products</h3>
-                                    <Row className="related-products">
-                                        {relatedProducts.slice(0, 4).map((relatedProduct) => (
-                                            <Col key={relatedProduct.id} xs={6} md={3} className="mb-4 px-1">
-                                                <Card onClick={() => handleProductClick(relatedProduct.id)}>
+                                    <h3 className="related-ads-title">Related Ads</h3>
+                                    <Row className="related-ads">
+                                        {relatedAds.slice(0, 4).map((relatedAd) => (
+                                            <Col key={relatedAd.id} xs={6} md={3} className="mb-4 px-1">
+                                                <Card onClick={() => handleAdClick(relatedAd.id)}>
                                                     <Card.Img
-                                                        className="product-image"
+                                                        className="ad-image"
                                                         variant="top"
-                                                        src={relatedProduct.media_urls[0] || 'default-image-url'}
-                                                        alt={relatedProduct.title}
+                                                        src={relatedAd.media_urls[0] || 'default-image-url'}
+                                                        alt={relatedAd.title}
                                                         style={{
-                                                            border: `2px solid ${getBorderColor(relatedProduct.vendor_tier)}`,
+                                                            border: `2px solid ${getBorderColor(relatedAd.vendor_tier)}`,
                                                         }}
                                                     />
                                                     <Card.Body className="px-2 py-1">
-                                                        <Card.Title className="mb-0 mb-lg-1 product-title">{relatedProduct.title}</Card.Title>
+                                                        <Card.Title className="mb-0 mb-lg-1 ad-title">{relatedAd.title}</Card.Title>
                                                         <Card.Text>
                                                             <span className="text-success" style={{ fontSize: '15px' }}>
                                                                 <em>Kshs: </em>
                                                             </span>
                                                             <strong style={{ fontSize: '20px' }} className="text-danger">
-                                                                {relatedProduct.price
-                                                                    ? Number(relatedProduct.price)
+                                                                {relatedAd.price
+                                                                    ? Number(relatedAd.price)
                                                                         .toFixed(2)
                                                                         .split('.')
                                                                         .map((part, index) => (
@@ -636,7 +636,7 @@ const ProductDetails = () => {
 
                 <Modal centered show={showModal} onHide={handleCloseModal}>
                     <Modal.Header className="justify-content-center p-1 p-lg-2">
-                        <Modal.Title>Product Ratings</Modal.Title>
+                        <Modal.Title>Ad Ratings</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="px-1 px-lg-2 py-0">
                         {loadingReviews ? (
@@ -647,7 +647,7 @@ const ProductDetails = () => {
                         ) : reviewsError ? (
                         <div className="text-danger">{reviewsError}</div>
                         ) : reviews.length === 0 ? (
-                        <p>No reviews available for this product.</p>
+                        <p>No reviews available for this ad.</p>
                         ) : (
                         <div>
                             {reviews.map((review, index) => {
@@ -688,4 +688,4 @@ const ProductDetails = () => {
     );
 };
 
-export default ProductDetails;
+export default AdDetails;

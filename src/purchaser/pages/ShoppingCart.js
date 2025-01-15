@@ -79,15 +79,15 @@ const ShoppingCart = () => {
         let processingFeeTotal = 0;
     
         const subTotal = cartItems.reduce((acc, item) => {
-            const itemTotal = item.price * item.quantity; // Total product price (price * quantity)
+            const itemTotal = item.price * item.quantity; // Total ad price (price * quantity)
             const mpesaFee = calculateMpesaFee(itemTotal) * 2; // Mpesa fee based on total price
-            const productCharge = 0.02 * itemTotal; // 2% charge on total product price
+            const adCharge = 0.02 * itemTotal; // 2% charge on total ad price
     
             // Add item total
             const newAcc = acc + itemTotal;
     
             // Calculate total processing fee for this item
-            const processingFee = mpesaFee + productCharge;
+            const processingFee = mpesaFee + adCharge;
             processingFeeTotal += processingFee; // Accumulate processing fees
     
             return newAcc;
@@ -209,17 +209,17 @@ const ShoppingCart = () => {
                                             </Card.Header>
                                             <Card.Body className='cart2'>
                                                 {cartItems.map((item) => (
-                                                    <Row key={item.id} className="mb-3 align-items-center product-item">
+                                                    <Row key={item.id} className="mb-3 align-items-center ad-item">
                                                         <Col xl={2} xs={2}>
-                                                            {item.product.media && item.product.media.length > 0 ? (
-                                                                <img src={item.product.media[0]} alt={item.product.title} className="img-fluid" />
+                                                            {item.ad.media && item.ad.media.length > 0 ? (
+                                                                <img src={item.ad.media[0]} alt={item.ad.title} className="img-fluid" />
                                                             ) : (
                                                                 <span>No Image Available</span>
                                                             )}
                                                         </Col>
                                                         <Col xl={5} xs={4}>
-                                                            <h6>{item.product.title}</h6>
-                                                            <p className="text-muted small">{item.product.description}</p>
+                                                            <h6>{item.ad.title}</h6>
+                                                            <p className="text-muted small">{item.ad.description}</p>
                                                         </Col>
                                                         <Col xl={3} xs={2} className="text-center quantity-container">
                                                             <Button
@@ -240,7 +240,7 @@ const ShoppingCart = () => {
                                                             </Button>
                                                         </Col>
                                                         <Col xl={2} xs={4} className="text-end">
-                                                            {/* <em className='product-price-label' style={{ fontSize: '13px' }}>Kshs: </em> */}
+                                                            {/* <em className='ad-price-label' style={{ fontSize: '13px' }}>Kshs: </em> */}
                                                             <strong className="text-success">
                                                                 {item.price ? parseFloat(item.price).toFixed(2).split('.').map((part, index) => (
                                                                     <React.Fragment key={index}>

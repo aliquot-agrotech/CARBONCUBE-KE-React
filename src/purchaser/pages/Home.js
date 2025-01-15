@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Banner from '../components/Banner';
 import Spinner from "react-spinkit";
-import ProductDetailsModal from '../components/ProductDetailsModal';
+import AdDetailsModal from '../components/AdDetailsModal';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -12,7 +12,7 @@ import '../css/Home.css';
 
 const Home = () => {
     const [categories, setCategories] = useState([]);
-    const [products, setProducts] = useState({});
+    const [ads, setAds] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,11 +20,11 @@ const Home = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showModal, setShowModal] = useState(false); // State for modal visibility
-    const [selectedProduct, setSelectedProduct] = useState(null); // State for selected product
+    const [selectedAd, setSelectedAd] = useState(null); // State for selected ad
     const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
-        const fetchCategoriesAndProducts = async () => {
+        const fetchCategoriesAndAds = async () => {
             try {
                 const categoryResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/categories', {
                     headers: {
@@ -51,23 +51,23 @@ const Home = () => {
 
                 setCategories(categoriesWithSubcategories);
 
-                const productResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/products', {
+                const adResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/ads', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
-                if (!productResponse.ok) throw new Error('Failed to fetch products');
+                if (!adResponse.ok) throw new Error('Failed to fetch ads');
 
-                const productData = await productResponse.json();
+                const adData = await adResponse.json();
 
-                const productsBySubcategory = {};
+                const adsBySubcategory = {};
                 subcategoryData.forEach(subcategory => {
-                    productsBySubcategory[subcategory.id] = productData
-                        .filter(product => product.subcategory_id === subcategory.id)
+                    adsBySubcategory[subcategory.id] = adData
+                        .filter(ad => ad.subcategory_id === subcategory.id)
                         .sort(() => 0.5 - Math.random());
                 });
 
-                setProducts(productsBySubcategory);
+                setAds(adsBySubcategory);
             } catch (error) {
                 setError('Error fetching data');
             } finally {
@@ -75,39 +75,39 @@ const Home = () => {
             }
         };
 
-        fetchCategoriesAndProducts();
+        fetchCategoriesAndAds();
     }, []);
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    // const handleShowModal = (product) => {
-    //     setSelectedProduct(product);
+    // const handleShowModal = (ad) => {
+    //     setSelectedAd(ad);
     //     setShowModal(true);
     // };
-    const handleProductClick = async (productId) => {
-        if (!productId) {
-            console.error('Invalid productId');
+    const handleAdClick = async (adId) => {
+        if (!adId) {
+            console.error('Invalid adId');
             return;
         }
     
         try {
-            // Log the 'Product-Click' event before navigating
-            await logClickEvent(productId, 'Product-Click');
+            // Log the 'Ad-Click' event before navigating
+            await logClickEvent(adId, 'Ad-Click');
     
-            // Navigate to the product details page
-            navigate(`/products/${productId}`);
+            // Navigate to the ad details page
+            navigate(`/ads/${adId}`);
         } catch (error) {
-            console.error('Error logging product click:', error);
+            console.error('Error logging ad click:', error);
     
             // Proceed with navigation even if logging fails
-            navigate(`/products/${productId}`);
+            navigate(`/ads/${adId}`);
         }
     };
     
     // Function to log a click event
-    const logClickEvent = async (productId, eventType) => {
+    const logClickEvent = async (adId, eventType) => {
         try {
             const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
@@ -116,8 +116,8 @@ const Home = () => {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({
-                    product_id: productId,
-                    event_type: eventType, // e.g., 'Product-Click'
+                    ad_id: adId,
+                    event_type: eventType, // e.g., 'Ad-Click'
                 }),
             });
     
@@ -132,7 +132,7 @@ const Home = () => {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        setSelectedProduct(null);
+        setSelectedAd(null);
     };
 
     const handleSearch = async (e, category = 'All', subcategory = 'All') => {
@@ -142,7 +142,7 @@ const Home = () => {
         try {
             // Fetch search results
             const response = await fetch(
-                `https://carboncube-ke-rails-cu22.onrender.com/purchaser/products/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, 
+                `https://carboncube-ke-rails-cu22.onrender.com/purchaser/ads/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, 
                 {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -155,20 +155,20 @@ const Home = () => {
             const results = await response.json();
             setSearchResults(results);
     
-            // Log the product search to the backend
-            await logProductSearch(searchQuery, category, subcategory);
+            // Log the ad search to the backend
+            await logAdSearch(searchQuery, category, subcategory);
     
         } catch (error) {
-            setError('Error searching products');
+            setError('Error searching ads');
         } finally {
             setIsSearching(false);
         }
     };
     
-    // Function to log the product search
-    const logProductSearch = async (query, category, subcategory) => {
+    // Function to log the ad search
+    const logAdSearch = async (query, category, subcategory) => {
         try {
-            const logResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/product_searches', {
+            const logResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/ad_searches', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -182,10 +182,10 @@ const Home = () => {
             });
     
             if (!logResponse.ok) {
-                console.warn('Failed to log product search');
+                console.warn('Failed to log ad search');
             }
         } catch (logError) {
-            console.error('Error logging product search:', logError);
+            console.error('Error logging ad search:', logError);
         }
     };
 
@@ -221,8 +221,8 @@ const Home = () => {
                             <Col xs={12} sm={6} md={3} key={subcategory.id}>
                                 <SubcategorySection
                                     subcategory={subcategory.name}
-                                    products={products[subcategory.id] || []}
-                                    onProductClick={handleProductClick}
+                                    ads={ads[subcategory.id] || []}
+                                    onAdClick={handleAdClick}
                                 />
                             </Col>
                         ))}
@@ -232,18 +232,18 @@ const Home = () => {
         );
     };
 
-    const SubcategorySection = ({ subcategory, products, onProductClick }) => {
-        const displayedProducts = products.slice(0, 4);
+    const SubcategorySection = ({ subcategory, ads, onAdClick }) => {
+        const displayedAds = ads.slice(0, 4);
         return (
             <Card className="subcategory-section h-100">
                 <Card.Body className="p-2">
                     <Row className="g-2">
-                        {displayedProducts.map(product => {
-                            const borderColor = getBorderColor(product.vendor_tier); // Get the border color
+                        {displayedAds.map(ad => {
+                            const borderColor = getBorderColor(ad.vendor_tier); // Get the border color
                             return (
-                                <Col xs={6} key={product.id}>
+                                <Col xs={6} key={ad.id}>
                                     <Card 
-                                        className="product-card h-100"
+                                        className="ad-card h-100"
                                         style={{
                                             border: `2px solid ${borderColor}`,
                                         }}
@@ -263,16 +263,16 @@ const Home = () => {
                                                     zIndex: 20,
                                                 }}
                                             >
-                                                {product.tier_name}
+                                                {ad.tier_name}
                                             </div>
         
                                             <Card.Img
                                                 variant="top"
                                                 loading="lazy"
-                                                src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                                alt={product.title}
-                                                className="product-image"
-                                                onClick={() => onProductClick(product.id)}
+                                                src={ad.media_urls && ad.media_urls.length > 0 ? ad.media_urls[0] : 'default-image-url'}
+                                                alt={ad.title}
+                                                className="ad-image"
+                                                onClick={() => onAdClick(ad.id)}
                                             />
                                         </div>
                                     </Card>
@@ -288,19 +288,19 @@ const Home = () => {
         );
     };
 
-    const PopularProductsSection = ({ products, onProductClick }) => (
+    const PopularAdsSection = ({ ads, onAdClick }) => (
         <Card className="section bg-transparent mb-3 m-4 mx-5">
-            <Card.Header className="d-flex justify-content-start popular-products-header">
+            <Card.Header className="d-flex justify-content-start popular-ads-header">
                 <h3 className='mb-0'>Best Sellers</h3>
             </Card.Header>
             <Card.Body className="cat-body">
                 <Row>
-                    {products.slice(0, 6).map(product => {
-                        const borderColor = getBorderColor(product.vendor_tier); // Get the border color
+                    {ads.slice(0, 6).map(ad => {
+                        const borderColor = getBorderColor(ad.vendor_tier); // Get the border color
                         return (
-                            <Col xs={6} sm={6} md={2} key={product.id}>
+                            <Col xs={6} sm={6} md={2} key={ad.id}>
                                 <Card
-                                    className="product-card"
+                                    className="ad-card"
                                     style={{
                                         border: `2px solid ${borderColor}`,
                                     }}
@@ -320,14 +320,14 @@ const Home = () => {
                                                 zIndex: 20,
                                             }}
                                         >
-                                            {product.tier_name}
+                                            {ad.tier_name}
                                         </div>
                                         
                                         <Card.Img 
                                             variant="top" 
-                                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                            className="product-image"
-                                            onClick={() => onProductClick(product.id)} 
+                                            src={ad.media_urls && ad.media_urls.length > 0 ? ad.media_urls[0] : 'default-image-url'}
+                                            className="ad-image"
+                                            onClick={() => onAdClick(ad.id)} 
                                         />
                                     </div>
                                 </Card>
@@ -346,11 +346,11 @@ const Home = () => {
             </Card.Header>
             <Card.Body>
                 <Row>
-                    {results.map(product => {
-                        const borderColor = getBorderColor(product.vendor_tier); // Get the border color
+                    {results.map(ad => {
+                        const borderColor = getBorderColor(ad.vendor_tier); // Get the border color
                         return (
-                            <Col xs={6} sm={6} md={2} key={product.id} className="">
-                                <Card className="product-card mb-3">
+                            <Col xs={6} sm={6} md={2} key={ad.id} className="">
+                                <Card className="ad-card mb-3">
                                     <div style={{ position: 'relative' }}>
                                         {/* Tier label */}
                                         <div
@@ -366,26 +366,26 @@ const Home = () => {
                                                 zIndex: 20,
                                             }}
                                         >
-                                            {product.tier_name}
+                                            {ad.tier_name}
                                         </div>
                                         
                                         <Card.Img
                                             variant="top"
-                                            src={product.media_urls && product.media_urls.length > 0 ? product.media_urls[0] : 'default-image-url'}
-                                            alt={product.title}
-                                            className="product-image"
+                                            src={ad.media_urls && ad.media_urls.length > 0 ? ad.media_urls[0] : 'default-image-url'}
+                                            alt={ad.title}
+                                            className="ad-image"
                                             style={{
                                                 border: `2px solid ${borderColor}`,
                                             }}
-                                            onClick={() => handleProductClick(product.id)} // Handle image click
+                                            onClick={() => handleAdClick(ad.id)} // Handle image click
                                         />
                                     </div>
                                     <Card.Body className="text-start bg-gray">
-                                        <Card.Title className="mb-0 product-title">{product.title}</Card.Title>
+                                        <Card.Title className="mb-0 ad-title">{ad.title}</Card.Title>
                                         <Card.Text>
                                             <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
                                             <strong style={{ fontSize: '20px' }} className="text-danger">
-                                                {product.price ? Number(product.price).toFixed(2).split('.').map((part, index) => (
+                                                {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
                                                     <React.Fragment key={index}>
                                                         {index === 0 ? (
                                                             <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
@@ -510,9 +510,9 @@ const Home = () => {
                                         subcategories={category.subcategories}
                                     />
                                 ))}
-                                <PopularProductsSection
-                                    products={Object.values(products).flat()}
-                                    onProductClick={handleProductClick}
+                                <PopularAdsSection
+                                    ads={Object.values(ads).flat()}
+                                    onAdClick={handleAdClick}
                                 />
                                 </div>
                             </>
@@ -524,10 +524,10 @@ const Home = () => {
             <div className='lorem'>
                 <Footer />
             </div>
-            <ProductDetailsModal
+            <AdDetailsModal
                     show={showModal}
                     onHide={handleCloseModal}
-                    product={selectedProduct}
+                    ad={selectedAd}
                 /> 
                 
         </>

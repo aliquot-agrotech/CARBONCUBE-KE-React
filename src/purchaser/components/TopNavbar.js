@@ -161,7 +161,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
             </Dropdown>
             <FormControl
               type="text"
-              placeholder="Search products..."
+              placeholder="Search ads..."
               className="me-sm-2 me-2"
               value={searchQuery}
               id="button"
