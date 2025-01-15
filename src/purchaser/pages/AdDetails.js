@@ -464,7 +464,6 @@ const AdDetails = () => {
                                                     </span>
                                                 </Row>
 
-
                                                 <h4 className="ad-price my-1 px-2">
                                                     <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
                                                     <strong className="text-danger display-6">
@@ -519,7 +518,7 @@ const AdDetails = () => {
                                                                 </Button>
                                                             </motion.div>
                                                         </Col>
-                                                    
+
                                                         <Col xs={6} md={12} lg={6}>
                                                             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                                                 <Button
@@ -583,50 +582,74 @@ const AdDetails = () => {
 
                                     <h3 className="related-ads-title">Related Ads</h3>
                                     <Row className="related-ads">
-                                        {relatedAds.slice(0, 4).map((relatedAd) => (
-                                            <Col key={relatedAd.id} xs={6} md={3} className="mb-4 px-1">
-                                                <Card onClick={() => handleAdClick(relatedAd.id)}>
-                                                    <Card.Img
-                                                        className="ad-image"
-                                                        variant="top"
-                                                        src={relatedAd.media_urls[0] || 'default-image-url'}
-                                                        alt={relatedAd.title}
-                                                        style={{
-                                                            border: `2px solid ${getBorderColor(relatedAd.vendor_tier)}`,
-                                                        }}
-                                                    />
-                                                    <Card.Body className="px-2 py-1">
-                                                        <Card.Title className="mb-0 mb-lg-1 ad-title">{relatedAd.title}</Card.Title>
-                                                        <Card.Text>
-                                                            <span className="text-success" style={{ fontSize: '15px' }}>
-                                                                <em>Kshs: </em>
-                                                            </span>
-                                                            <strong style={{ fontSize: '20px' }} className="text-danger">
-                                                                {relatedAd.price
-                                                                    ? Number(relatedAd.price)
-                                                                        .toFixed(2)
-                                                                        .split('.')
-                                                                        .map((part, index) => (
-                                                                            <React.Fragment key={index}>
-                                                                                {index === 0 ? (
-                                                                                    <span className="price-integer">
-                                                                                        {parseInt(part, 10).toLocaleString()}
-                                                                                    </span>
-                                                                                ) : (
-                                                                                    <>
-                                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                                        <span className="price-decimal">{part}</span>
-                                                                                    </>
-                                                                                )}
-                                                                            </React.Fragment>
-                                                                        ))
-                                                                    : 'N/A'}
-                                                            </strong>
-                                                        </Card.Text>
-                                                    </Card.Body>
-                                                </Card>
-                                            </Col>
-                                        ))}
+                                        {relatedAds.slice(0, 4).map((relatedAd) => {
+                                            const borderColor = getBorderColor(relatedAd.vendor_tier); // Get the border color based on the tier
+
+                                            return (
+                                                <Col key={relatedAd.id} xs={6} md={3} className="mb-4 px-1">
+                                                    <Card 
+                                                        onClick={() => handleAdClick(relatedAd.id)} 
+                                                        style={{ border: `2px solid ${borderColor}` }}
+                                                    >
+                                                        <div style={{ position: 'relative' }}>
+                                                            {/* Tier Label */}
+                                                            <div
+                                                                className="tier-label text-dark"
+                                                                style={{
+                                                                    position: 'absolute',
+                                                                    top: '0px',
+                                                                    left: '0px',
+                                                                    padding: '0px 5px',
+                                                                    fontSize: '12px',
+                                                                    backgroundColor: borderColor, // Match background color to the tier's border color
+                                                                    borderRadius: '4px',
+                                                                    zIndex: 20,
+                                                                }}
+                                                            >
+                                                                {relatedAd.tier_name}
+                                                            </div>
+
+                                                            {/* Ad Image */}
+                                                            <Card.Img
+                                                                className="ad-image"
+                                                                variant="top"
+                                                                src={relatedAd.media_urls[0] || 'default-image-url'}
+                                                                alt={relatedAd.title}
+                                                            />
+                                                        </div>
+                                                        <Card.Body className="px-2 py-1">
+                                                            <Card.Title className="mb-0 mb-lg-1 ad-title">{relatedAd.title}</Card.Title>
+                                                            <Card.Text>
+                                                                <span className="text-success" style={{ fontSize: '15px' }}>
+                                                                    <em>Kshs: </em>
+                                                                </span>
+                                                                <strong style={{ fontSize: '20px' }} className="text-danger">
+                                                                    {relatedAd.price
+                                                                        ? Number(relatedAd.price)
+                                                                            .toFixed(2)
+                                                                            .split('.')
+                                                                            .map((part, index) => (
+                                                                                <React.Fragment key={index}>
+                                                                                    {index === 0 ? (
+                                                                                        <span className="price-integer">
+                                                                                            {parseInt(part, 10).toLocaleString()}
+                                                                                        </span>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                                                            <span className="price-decimal">{part}</span>
+                                                                                        </>
+                                                                                    )}
+                                                                                </React.Fragment>
+                                                                            ))
+                                                                        : 'N/A'}
+                                                                </strong>
+                                                            </Card.Text>
+                                                        </Card.Body>
+                                                    </Card>
+                                                </Col>
+                                            );
+                                        })}
                                     </Row>
                                 </div>
                             </div>
