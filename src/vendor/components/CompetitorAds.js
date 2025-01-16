@@ -14,7 +14,6 @@ const CompetitorAds = ({ data }) => {
                             src={ad.media && ad.media.length > 0 ? ad.media[0] : 'https://via.placeholder.com/150'} // Placeholder URL if no image
                             alt={ad.ad_title} // Add alt text for accessibility
                         />
-
                         <Card.Body className="analytics-card-body p-0 mx-2">
                             <Card.Title className='d-flex justify-content-start mb-0' style={{ fontSize: '17px' }}>
                                 {ad.ad_title}
