@@ -1,4 +1,5 @@
 import React from 'react';
+import CompetitorAds from './CompetitorAds'; 
 
 const CompetitorStats = ({ data }) => {
     if (!data) return <div>No competitor stats available</div>;
@@ -6,25 +7,33 @@ const CompetitorStats = ({ data }) => {
     const { revenue_share, top_competitor_ads, competitor_average_price } = data;
 
     return (
-        <div>
-            <h4>Revenue Share in Category</h4>
-            <div>
-                Vendor Revenue: ${revenue_share.vendor_revenue} <br />
-                Total Category Revenue: ${revenue_share.total_category_revenue} <br />
-                Vendor Revenue Share: {revenue_share.revenue_share}%
+        <div className="container mt-4">
+            <div className="card shadow-sm mb-4">
+                <div className="card-body">
+                    <h5 className="card-title">Revenue Share in Category</h5>
+                    <p className="card-text">
+                        <strong>Vendor Revenue:</strong>Kshs{revenue_share.vendor_revenue} <br />
+                        <strong>Total Category Revenue:</strong>Kshs{revenue_share.total_category_revenue} <br />
+                        <strong>Vendor Revenue Share:</strong> {revenue_share.revenue_share}% 
+                    </p>
+                </div>
+            </div>
+            
+            <div className="card shadow-sm mb-4">
+                <div className="card-body">
+                    <h5 className="card-title">Top Competitor Ads</h5>
+                    <CompetitorAds data={top_competitor_ads} />
+                </div>
             </div>
 
-            <h4>Top Competitor Ads</h4>
-            <ul>
-                {top_competitor_ads.map((ad, index) => (
-                <li key={index}>
-                    {ad.ad_title} - {ad.total_sold} units sold at ${ad.ad_price} each
-                </li>
-                ))}
-            </ul>
-
-            <h4>Competitor Average Selling Price</h4>
-            <div>Competitor Average Price: ${competitor_average_price}</div>
+            <div className="card shadow-sm mb-4">
+                <div className="card-body">
+                    <h5 className="card-title">Competitor Average Selling Price</h5>
+                    <p className="card-text">
+                        <strong>Competitor Average Price:</strong> ${competitor_average_price}
+                    </p>
+                </div>
+            </div>
         </div>
     );
 };
