@@ -4,6 +4,8 @@ import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import SalesPerformance from '../components/SalesPerformance';
 import TopSellingAds from '../components/TopSellingAds';
+import WishListStats from '../components/WishListStats';
+import CompetitorStats from '../components/CompetitorStats';
 import Spinner from "react-spinkit";
 import '../css/VendorAnalytics.css';
 
@@ -38,7 +40,22 @@ const VendorAnalytics = () => {
           total_revenue: data.total_revenue || '0.0',
           sales_performance: data.sales_performance || {},
           best_selling_ads: data.best_selling_ads || [],
+          wishlist_stats: data.wishlist_stats || {
+            top_wishlisted_products: [],
+            wishlist_conversion_rate: 0,
+            wishlist_trends: []
+          },
+          competitor_stats: data.competitor_stats || {
+            revenue_share: {
+              vendor_revenue: 0,
+              total_category_revenue: 0,
+              revenue_share: 0
+            },
+            top_competitor_ads: [],
+            competitor_average_price: 0
+          }
         };
+        
 
         setTierId(validatedAnalytics.tier_id);
         setAnalyticsData(validatedAnalytics);
@@ -213,6 +230,21 @@ const VendorAnalytics = () => {
                 </Card>
               </Col>
             </Row>
+            <Row>
+              <Col xs={12} md={6}>
+                <div>
+                  <h2>Wishlist Stats</h2>
+                  <WishListStats data={analyticsData.wishlist_stats} />
+                </div>
+              </Col>
+              <Col xs={12} md={6}>
+                <div>
+                  <h2>Competitor Stats</h2>
+                  <CompetitorStats data={analyticsData.competitor_stats} />
+                </div>
+              </Col>
+            </Row>
+            
           </Col>
         </Row>
       </Container>
