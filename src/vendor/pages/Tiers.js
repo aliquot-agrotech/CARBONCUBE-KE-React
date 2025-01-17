@@ -182,14 +182,39 @@ const TierPage = () => {
                           ))}
                         </ul>
                         <div className="pricing-details text-center">
-                          {(tier.tier_pricings || []).map((pricing) => (
-                            <div key={pricing.id} className="pricing-option">
-                              <span>
-                                <strong>{pricing.duration_months}</strong> months: {pricing.price} KES
-                              </span>
-                            </div>
-                          ))}
+                          {tier.id !== 1 ? ( // Only render pricing if the tier is not the free tier
+                            (tier.tier_pricings || []).map((pricing) => (
+                              <div key={pricing.id} className="pricing-option">
+                                <span>
+                                  <strong>{pricing.duration_months}</strong> months: 
+                                  <em className="ad-price-label text-success"> Kshs: </em>
+                                  <strong style={{ fontSize: '17px' }} className="text-danger ms-1">
+                                    {pricing.price
+                                      ? parseFloat(pricing.price)
+                                          .toFixed(2)
+                                          .split('.')
+                                          .map((part, index) => (
+                                            <React.Fragment key={index}>
+                                              {index === 0 ? (
+                                                <span>{parseInt(part, 10).toLocaleString()}</span> // Integer part with commas
+                                              ) : (
+                                                <>
+                                                  <span style={{ fontSize: '16px' }}>.</span>
+                                                  <span className="price-decimal">{part}</span>
+                                                </>
+                                              )}
+                                            </React.Fragment>
+                                          ))
+                                      : 'N/A'}
+                                  </strong>
+                                </span>
+                              </div>
+                            ))
+                          ) : (
+                            <p className="text-center text-muted">Free Tier</p> // Message for the free tier
+                          )}
                         </div>
+
                       </div>
                       <Button
                         style={{ backgroundColor: 'black', borderColor: 'black' }}
