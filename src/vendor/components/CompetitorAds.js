@@ -11,7 +11,7 @@ const CompetitorAds = ({ data }) => {
                         <Card.Img
                             className="ad-image"
                             variant="top"
-                            src={ad.media && ad.media.length > 0 ? ad.media[0] : 'https://via.placeholder.com/150'} // Placeholder URL if no image
+                            src={ad.ad_media && ad.ad_media.length > 0 ? ad.ad_media[0] : 'https://via.placeholder.com/150'} // Placeholder URL if no image
                             alt={ad.ad_title} // Add alt text for accessibility
                         />
                         <Card.Body className="analytics-card-body p-0 mx-2">
