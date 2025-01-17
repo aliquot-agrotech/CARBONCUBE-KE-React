@@ -9,8 +9,8 @@ const CompetitorStats = ({ data }) => {
 
     return (
         <div className="container mt-2 px-0">
-            <div className="card shadow-sm mb-2">
-                <div className="card-body">
+            <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
+                <div className="card-body py-2 px-3">
                     <h5 className="card-title">Revenue Share in Category</h5>
                     <p className="card-text">
                     <Row>
@@ -58,15 +58,15 @@ const CompetitorStats = ({ data }) => {
                 </div>
             </div>
             
-            <div className="card shadow-sm mb-2">
-                <div className="card-body">
+            <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
+                <div className="card-body py-2 px-3">
                     <h5 className="card-title">Top Competitor Ads</h5>
                     <CompetitorAds data={top_competitor_ads} />
                 </div>
             </div>
 
-            <div className="card shadow-sm mb-2">
-                <div className="card-body">
+            <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
+                <div className="card-body py-2 px-3">
                     <h5 className="card-title">Competitor Average Selling Price</h5>
                     <p className="card-text">
                         <strong>Competitor Average Price:</strong> ${competitor_average_price}
