@@ -234,7 +234,7 @@ const VendorAnalytics = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>WishList Stats</Card.Header>
-                  <Card.Body>
+                  <Card.Body className="py-1">
                     <div>
                       <WishListStats data={analyticsData.wishlist_stats} />
                     </div>

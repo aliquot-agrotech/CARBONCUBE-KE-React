@@ -7,9 +7,9 @@ const WishListStats = ({ data }) => {
     const { top_wishlisted_products, wishlist_conversion_rate, wishlist_trends } = data;
 
     return (
-        <div className="container mt-2">
+        <div className="container mt-2 px-0">
             <div className="card shadow-sm">
-                <div className="card-body">
+                <div className="card-body px-2">
                     <h4 className="card-title">Top 3 Wishlisted Ads</h4>
                     <ul className="list-group list-group-flush">
                         {top_wishlisted_products.map((product, index) => (
@@ -23,7 +23,7 @@ const WishListStats = ({ data }) => {
             </div>
 
             <div className="card shadow-sm mt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
-                <div className="card-body">
+                <div className="card-body px-2">
                     <h5 className="card-title">Wishlist Conversion Rate</h5>
                     <ul className="list-group list-group-flush" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}>
                     {wishlist_conversion_rate.map((product, index) => (
@@ -40,10 +40,8 @@ const WishListStats = ({ data }) => {
                 </div>
             </div>
 
-
-
             <div className="card shadow-sm mt-2">
-                <div className="card-body">
+                <div className="card-body px-2">
                     <h5 className="card-title">Wishlist Trends (Last 6 Months)</h5>
                     <ul className="list-group list-group-flush">
                         {Array.isArray(wishlist_trends) && wishlist_trends.length > 0 ? (
