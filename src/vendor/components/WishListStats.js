@@ -8,7 +8,7 @@ const WishListStats = ({ data }) => {
 
     return (
         <div className="container mt-2 px-0">
-            <div className="card shadow-sm">
+            <div className="card shadow-sm"  style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                 <div className="card-body px-2">
                     <h4 className="card-title">Top 3 Wishlisted Ads</h4>
                     <ul className="list-group list-group-flush">
@@ -40,18 +40,18 @@ const WishListStats = ({ data }) => {
                 </div>
             </div>
 
-            <div className="card shadow-sm mt-2">
-                <div className="card-body px-2">
+            <div className="card shadow-sm mt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
+                <div className="card-body px-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                     <h5 className="card-title">Wishlist Trends (Last 6 Months)</h5>
-                    <ul className="list-group list-group-flush">
+                    <ul className="list-group list-group-flush"  style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                         {Array.isArray(wishlist_trends) && wishlist_trends.length > 0 ? (
                         wishlist_trends.map((trend, index) => (
-                            <li key={index} className="list-group-item">
+                            <li key={index} className="list-group-item"  style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                             {trend.month} - {trend.ad_title}: <span className="fw-bold">{trend.count} wishlists</span>
                             </li>
                         ))
                         ) : (
-                        <li className="list-group-item">No trends available</li>
+                        <li className="list-group-item"  style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>No trends available</li>
                         )}
                     </ul>
                 </div>
