@@ -239,7 +239,7 @@ const TiersManagement = () => {
                                                                     <h5 className="mb-0">{tier.name}</h5>
                                                                 </Card.Header>
                                                                 <Card.Body className="d-flex flex-column justify-content-between px-2">
-                                                                    <div className="d-flex flex-column justify-content-center flex-grow-1">
+                                                                    <div className="d-flex flex-column flex-grow-1">
                                                                         <p><strong>Ads Limit:</strong> {tier.ads_limit}</p>
                                                                         <h5 className="text-center">Features:</h5>
                                                                         <ul>
@@ -250,37 +250,41 @@ const TiersManagement = () => {
                                                                             ))}
                                                                         </ul>
                                                                         <h5 className="text-center">Pricing:</h5>
-                                                                        <ul>
-                                                                            {tier.tier_pricings.map((pricing, index) => (
-                                                                                <li key={index} className="d-flex justify-content-center align-items-center">
-                                                                                    <Card.Text className="price-container d-flex justify-content-center align-items-center mb-0">
-                                                                                        <span className="me-2">{pricing.duration_months} months -</span>
-                                                                                        <span>
-                                                                                            <em className="ad-price-label text-success">Kshs: </em>
-                                                                                        </span>
-                                                                                        <strong style={{ fontSize: '17px' }} className="text-danger ms-1">
-                                                                                            {pricing.price
-                                                                                                ? parseFloat(pricing.price)
-                                                                                                    .toFixed(2)
-                                                                                                    .split('.')
-                                                                                                    .map((part, i) => (
-                                                                                                        <React.Fragment key={i}>
-                                                                                                            {i === 0 ? (
-                                                                                                                <span>{parseInt(part).toLocaleString()}</span> // Integer part with comma
-                                                                                                            ) : (
-                                                                                                                <>
-                                                                                                                    <span style={{ fontSize: '16px' }}>.</span>
-                                                                                                                    <span className="price-decimal">{part}</span>
-                                                                                                                </>
-                                                                                                            )}
-                                                                                                        </React.Fragment>
-                                                                                                    ))
-                                                                                                : 'N/A'}
-                                                                                        </strong>
-                                                                                    </Card.Text>
-                                                                                </li>
-                                                                            ))}
-                                                                        </ul>
+                                                                        {tier.id !== 1 ? ( // Only render the pricing list if the tier_id is not 1
+                                                                            <ul>
+                                                                                {tier.tier_pricings.map((pricing, index) => (
+                                                                                    <li key={index} className="d-flex justify-content-center align-items-center">
+                                                                                        <Card.Text className="price-container d-flex justify-content-center align-items-center mb-0">
+                                                                                            <span className="me-2">{pricing.duration_months} months -</span>
+                                                                                            <span>
+                                                                                                <em className="ad-price-label text-success">Kshs: </em>
+                                                                                            </span>
+                                                                                            <strong style={{ fontSize: '17px' }} className="text-danger ms-1">
+                                                                                                {pricing.price
+                                                                                                    ? parseFloat(pricing.price)
+                                                                                                        .toFixed(2)
+                                                                                                        .split('.')
+                                                                                                        .map((part, i) => (
+                                                                                                            <React.Fragment key={i}>
+                                                                                                                {i === 0 ? (
+                                                                                                                    <span>{parseInt(part, 10).toLocaleString()}</span> // Integer part with commas
+                                                                                                                ) : (
+                                                                                                                    <>
+                                                                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                                                                        <span className="price-decimal">{part}</span>
+                                                                                                                    </>
+                                                                                                                )}
+                                                                                                            </React.Fragment>
+                                                                                                        ))
+                                                                                                    : 'N/A'}
+                                                                                            </strong>
+                                                                                        </Card.Text>
+                                                                                    </li>
+                                                                                ))}
+                                                                            </ul>
+                                                                        ) : (
+                                                                            <p className="text-center text-muted">Free Tier</p> // Message for the free tier
+                                                                        )}
                                                                     </div>
                                                                 </Card.Body>
                                                                 <Card.Footer className="d-flex justify-content-between align-items-center">

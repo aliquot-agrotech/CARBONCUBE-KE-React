@@ -233,6 +233,16 @@ const VendorAnalytics = () => {
             <Row>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
+                  <Card.Header>Competitor Stats</Card.Header>
+                  <Card.Body className="py-1 px-3">
+                    <div>
+                      <CompetitorStats data={analyticsData.competitor_stats} />
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
                   <Card.Header>WishList Stats</Card.Header>
                   <Card.Body className="py-1 px-3">
                     <div>
@@ -241,19 +251,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>Competitor Stats</Card.Header>
-                  <Card.Body className="py-1 px-3">
-                    <div>
-                      <CompetitorStats data={analyticsData.competitor_stats} />
-                    </div>
-                  </Card.Body>
-                </Card>
-                
-              </Col>
             </Row>
-            
           </Col>
         </Row>
       </Container>
