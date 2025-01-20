@@ -139,6 +139,7 @@ const TierPage = () => {
 
   return (
     <div className="pricing-page px-0 py-0">
+
       {/* Hero Section */}
       <section className="hero-section text-center mb-3 mb-lg-5 custom-card">
         <Container>
@@ -158,7 +159,6 @@ const TierPage = () => {
         </Container>
       </section>
 
-
       {/* Pricing Section */}
       <section className="pricing-section p-2">
         <Container>
@@ -171,7 +171,6 @@ const TierPage = () => {
                   <Card
                     className={`tier-box h-100 d-flex flex-column ${selectedTier === tier.id ? 'selected-tier' : ''}`}
                   >
-                  
                     <Card.Body className="flex-grow-1 d-flex flex-column justify-content-between">
                       <div>
                         <Card.Title className="tier-title text-secondary">{tier.name}</Card.Title>
