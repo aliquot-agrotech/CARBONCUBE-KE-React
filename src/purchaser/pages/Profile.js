@@ -163,7 +163,7 @@ const ProfilePage = () => {
                                         {/* Right Side: Profile Picture and Username */}
                                         <Col xs={4} md={6} lg={6} className="d-flex justify-content-end">
                                             <div className="text-right">
-                                                <img src={profile.profilepicture} alt="Profile" className="profile-pic" />
+                                                <img src={profile.profile_picture} alt="Profile" className="profile-pic" />
                                                 <p>@{profile.username}</p>
                                             </div>
                                         </Col>
