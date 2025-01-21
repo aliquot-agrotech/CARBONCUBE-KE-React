@@ -6,6 +6,7 @@ import SalesPerformance from '../components/SalesPerformance';
 import TopSellingAds from '../components/TopSellingAds';
 import WishListStats from '../components/WishListStats';
 import CompetitorStats from '../components/CompetitorStats';
+import CountDownDisplay from '../components/CountDownDisplay';
 import Spinner from "react-spinkit";
 import '../css/VendorAnalytics.css';
 
@@ -117,7 +118,10 @@ const VendorAnalytics = () => {
           <Col xs={12} lg={9} className="content-area">
             <Row>
               {/* Analytics Cards */}
-              <Col xs={6} md={3}>
+              <Col xs={12} md={4}>
+                <CountDownDisplay />
+              </Col>
+              <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Total Orders</Card.Header>
                   <Card.Body>
@@ -127,7 +131,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={6} md={3}>
+              <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Average Rating</Card.Header>
                   <Card.Body>
@@ -137,7 +141,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={6} md={3}>
+              <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Total Ads</Card.Header>
                   <Card.Body>
@@ -153,7 +157,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={6} md={3}>
+              <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Total Reviews</Card.Header>
                   <Card.Body>
@@ -169,7 +173,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={6} md={3}>
+              <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Total Revenue</Card.Header>
                   <Card.Body>
