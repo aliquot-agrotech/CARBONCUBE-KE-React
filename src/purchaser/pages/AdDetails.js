@@ -8,6 +8,7 @@ import TopNavbar from '../components/TopNavbar';  // Import your TopNavbar compo
 import Sidebar from '../components/Sidebar';      // Import your Sidebar component
 import { motion } from 'framer-motion'; // For animations
 import Spinner from "react-spinkit";
+import AlertModal from '../components/AlertModal';
 import axios from 'axios';  // Assuming you're using axios
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../css/AdDetails.css';    // Custom styling for the page
@@ -23,6 +24,8 @@ const AdDetails = () => {
     const [wish_listLoading, setBookmarkLoading] = React.useState(false);
     const [wish_listError, setBookmarkError] = React.useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showAlertModal, setShowAlertModal] = useState(false);
+    const [alertModal, setAlertModal] = useState('');
     const [reviews, setReviews] = useState([]);
     const [loadingReviews, setLoadingReviews] = useState(false);
     const [reviewsError, setReviewsError] = useState(null);
@@ -89,50 +92,71 @@ const AdDetails = () => {
         fetchRelatedAds();
     }, [adId]);
 
+    const handleCloseAlertModal = () => {
+        setShowAlertModal(false); // Close the modal
+    };
+
     const fetchVendorDetails = async () => {
         setLoading(true);
         try {
+            const token = sessionStorage.getItem('token'); // Retrieve the token
+    
+            if (!token) {
+                throw new Error('You must be logged in to view vendor details.');
+            }
+    
             const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/ads/${adId}/vendor`, {
-                // Add timeout and potentially other configuration
-                signal: AbortSignal.timeout(10000) // 10-second timeout
+                signal: AbortSignal.timeout(10000), // 10-second timeout
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Include token in the headers
+                },
             });
-            
+    
             if (!response.ok) {
-                // More detailed error logging
                 const errorText = await response.text();
                 console.error('Fetch error:', {
                     status: response.status,
                     statusText: response.statusText,
-                    body: errorText
+                    body: errorText,
                 });
                 throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
             }
-            
+    
             const data = await response.json();
             setVendor(data);
         } catch (error) {
             console.error('Detailed error:', {
                 message: error.message,
                 name: error.name,
-                stack: error.stack
+                stack: error.stack,
             });
-            
-            // More informative error message
+    
+            if (error.message.includes('logged in')) {
+                alert(error.message); // Notify the user they need to log in
+            }
+    
             setError(`Failed to fetch vendor details: ${error.message}`);
         } finally {
             setLoading(false);
         }
     };
-
+    
     const handleRevealVendorDetails = async () => {
         console.log('Button clicked, adId:', adId);
     
-        // Step 1: Log the 'View Vendor' button click event
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            setShowAlertModal(true); // Inform the user
+            setAlertModal("You must be logged in to view vendor details.");
+            return; // Exit the function early
+        }
+    
+        // Log the button click event
         await logClickEventRevealVendorDetails(adId, 'Reveal-Vendor-Details');
     
         // Fetch vendor details if not already fetched
         if (!vendor) {
-            fetchVendorDetails();
+            await fetchVendorDetails();
         }
     
         // Show vendor details
@@ -142,16 +166,23 @@ const AdDetails = () => {
     // Function to log button click events
     const logClickEventRevealVendorDetails = async (adId, eventType) => {
         try {
+            const token = sessionStorage.getItem('token'); // Retrieve the token
+    
+            if (!token) {
+                console.warn('Cannot log event without a valid session.');
+                return;
+            }
+    
             const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // Only send token
+                    'Authorization': `Bearer ${token}`, // Include token in the headers
                 },
                 body: JSON.stringify({
                     ad_id: adId,
                     event_type: eventType,
-                    metadata: {} // Optional metadata
+                    metadata: {}, // Optional metadata
                 }),
             });
     
@@ -162,6 +193,7 @@ const AdDetails = () => {
             console.error('Error logging event:', eventType, error);
         }
     };
+    
     
     
 
@@ -181,8 +213,9 @@ const AdDetails = () => {
         const token = sessionStorage.getItem('token');
     
         if (!token) {
-            // Token not found, show alert to log in
-            window.alert("You need to log in to add items to your wishlist.");
+            // Token not found, show the AlertModal
+            setShowAlertModal(true);
+            setAlertModal("You need to log in to add items to your wishlist.");
             return; // Exit the function early if no token
         }
     
@@ -206,17 +239,21 @@ const AdDetails = () => {
     
             // Check if the response is successful
             if (response.status === 201) {
-                window.alert('Ad successfully added to the Wish List');
+                setShowAlertModal(true);
+                setAlertModal('Ad successfully added to the Wish List');
             } else {
-                window.alert('Something went wrong. Please try again.');
+                setShowAlertModal(true);
+                setAlertModal('Something went wrong. Please try again.');
             }
         } catch (error) {
             setBookmarkError('Failed to add ad to the wishlist. Please try again.');
-            window.alert('Failed to add ad to the wishlist. Please try again.');
+            setShowAlertModal(true);
+            setAlertModal('Failed to add ad to the wishlist. Please try again.');
         } finally {
             setBookmarkLoading(false);
         }
     };
+    
     
     // Function to log button click events
     const logClickEventAddtoWishList = async (adId, eventType) => {
@@ -526,7 +563,7 @@ const AdDetails = () => {
                                                                     className="modern-btn-dark px-4 py-2"
                                                                     id="button"
                                                                     disabled={!ad || wish_listLoading}
-                                                                    onClick={handleAddToWishlist}
+                                                                    onClick={handleAddToWishlist} // Trigger handleAddToWishlist
                                                                 >
                                                                     {wish_listLoading ? (
                                                                         <Spinner animation="border" size="sm" className="me-2" />
@@ -539,33 +576,43 @@ const AdDetails = () => {
                                                         </Col>
                                                     </Row>
 
-                                                    <Row className="mt-2 d-flex justify-content-center align-items-center">
-                                                        <Col xs={12} md={12} className="d-flex justify-content-center">
-                                                            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                                                                <Button
-                                                                    variant="dark"
-                                                                    className="modern-btn-dark px-4 py-2"
-                                                                    id="button"
-                                                                    onClick={(e) => {
-                                                                        e.preventDefault(); // Prevent page reload
-                                                                        handleRevealVendorDetails();
-                                                                    }}
-                                                                >
-                                                                    {/* Display loading spinner inside the button when fetching */}
-                                                                    {loading ? (
-                                                                        <Spinner animation="border" size="sm" className="me-2" />
-                                                                    ) : showVendorDetails && vendor ? (
-                                                                        // Display vendor name and phone number inside the button after it's revealed
-                                                                        <span>
-                                                                            {vendor.enterprise_name} | {vendor.phone_number}
-                                                                        </span>
-                                                                    ) : (
-                                                                        'View Vendor' // Default text before clicking
-                                                                    )}
-                                                                </Button>
-                                                            </motion.div>
-                                                        </Col>
-                                                    </Row>
+                                                    <div>
+                                                        <Row className="mt-2 d-flex justify-content-center align-items-center">
+                                                            <Col xs={12} md={12} className="d-flex justify-content-center">
+                                                                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                                                                    <Button
+                                                                        variant="dark"
+                                                                        className="modern-btn-dark px-4 py-2"
+                                                                        id="button"
+                                                                        onClick={(e) => {
+                                                                            e.preventDefault(); // Prevent page reload
+                                                                            handleRevealVendorDetails();
+                                                                        }}
+                                                                    >
+                                                                        {/* Display loading spinner inside the button when fetching */}
+                                                                        {loading ? (
+                                                                            <Spinner animation="border" size="sm" className="me-2" />
+                                                                        ) : showVendorDetails && vendor ? (
+                                                                            // Display vendor name and phone number inside the button after it's revealed
+                                                                            <span>
+                                                                                {vendor.enterprise_name} | {vendor.phone_number}
+                                                                            </span>
+                                                                        ) : (
+                                                                            'View Vendor' // Default text before clicking
+                                                                        )}
+                                                                    </Button>
+                                                                </motion.div>
+                                                            </Col>
+                                                        </Row>
+
+                                                        {/* Render the Login Modal */}
+                                                        <AlertModal 
+                                                            isVisible={showAlertModal} 
+                                                            message={alertModal} 
+                                                            onClose={handleCloseAlertModal} 
+                                                            loading={false} 
+                                                        />
+                                                    </div>
                                                 </Container>
 
                                                 <Container className="mt-2">
