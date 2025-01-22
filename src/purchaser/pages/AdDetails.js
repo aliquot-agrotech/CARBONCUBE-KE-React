@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {  Row, Col, Card, Carousel, Container, Button, Modal } from 'react-bootstrap';
-import { Cart4, Heart } from 'react-bootstrap-icons';
+import {  Heart } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
 import TopNavbar from '../components/TopNavbar';  // Import your TopNavbar component
@@ -147,7 +147,7 @@ const AdDetails = () => {
         const token = sessionStorage.getItem('token');
         if (!token) {
             setShowAlertModal(true); // Inform the user
-            setAlertModal("You must be logged in to view vendor details.");
+            setAlertModal("You must be Signed In to view vendor details.");
             return; // Exit the function early
         }
     
@@ -215,7 +215,7 @@ const AdDetails = () => {
         if (!token) {
             // Token not found, show the AlertModal
             setShowAlertModal(true);
-            setAlertModal("You need to log in to add items to your wishlist.");
+            setAlertModal("You need to Signed In to add items to your wishlist.");
             return; // Exit the function early if no token
         }
     
@@ -279,62 +279,62 @@ const AdDetails = () => {
     };
     
 
-    const handleAddToCart = async (adId) => {
-        const token = sessionStorage.getItem('token');
+    // const handleAddToCart = async (adId) => {
+    //     const token = sessionStorage.getItem('token');
     
-        if (!token) {
-            // Token not found, show alert to log in
-            window.alert("You need to log in to add items to your cart.");
-            return; // Exit function early if no token
-        }
+    //     if (!token) {
+    //         // Token not found, show alert to log in
+    //         window.alert("You need to log in to add items to your cart.");
+    //         return; // Exit function early if no token
+    //     }
     
-        try {
-            // Step 1: Log the 'Add-to-Cart' event
-            await logClickEventAddtoCart(adId, 'Add-to-Cart');
+    //     try {
+    //         // Step 1: Log the 'Add-to-Cart' event
+    //         await logClickEventAddtoCart(adId, 'Add-to-Cart');
     
-            // Step 2: Add ad to cart
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/cart_items`, {
-                method: 'POST',
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ ad_id: adId })
-            });
+    //         // Step 2: Add ad to cart
+    //         const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/cart_items`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 "Authorization": `Bearer ${token}`,
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({ ad_id: adId })
+    //         });
     
-            if (response.ok) {
-                window.alert("Ad added to cart!");
-            } else {
-                window.alert("Failed to add ad to cart. Please try again.");
-            }
-        } catch (error) {
-            window.alert("An error occurred. Please try again later.");
-            console.error("Error:", error);
-        }
-    };
+    //         if (response.ok) {
+    //             window.alert("Ad added to cart!");
+    //         } else {
+    //             window.alert("Failed to add ad to cart. Please try again.");
+    //         }
+    //     } catch (error) {
+    //         window.alert("An error occurred. Please try again later.");
+    //         console.error("Error:", error);
+    //     }
+    // };
     
     // Function to log button click events
-    const logClickEventAddtoCart = async (adId, eventType) => {
-        try {
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                },
-                body: JSON.stringify({
-                    ad_id: adId,
-                    event_type: eventType, // 'Add-to-Cart'
-                }),
-            });
+    // const logClickEventAddtoCart = async (adId, eventType) => {
+    //     try {
+    //         const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+    //             },
+    //             body: JSON.stringify({
+    //                 ad_id: adId,
+    //                 event_type: eventType, // 'Add-to-Cart'
+    //             }),
+    //         });
     
-            if (!response.ok) {
-                console.warn('Failed to log event:', eventType);
-            }
-        } catch (error) {
-            console.error('Error logging event:', eventType, error);
-        }
-    };
+    //         if (!response.ok) {
+    //             console.warn('Failed to log event:', eventType);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error logging event:', eventType, error);
+    //     }
+    // };
     
 
     const renderRatingStars = (rating, reviewCount) => {
@@ -539,19 +539,28 @@ const AdDetails = () => {
 
                                                 <Container className="mt-3 justify-content-center">
                                                     <Row>
-                                                        <Col xs={6} md={12} lg={6}>
-                                                            <motion.div
-                                                                whileHover={{ scale: 1.1 }}
-                                                                whileTap={{ scale: 0.9 }}
-                                                            >
-                                                                <Button 
-                                                                    variant="warning" 
-                                                                    className="modern-btn me-3 px-4 py-2"
-                                                                    id="button" 
-                                                                    disabled={!ad} 
-                                                                    onClick={() => handleAddToCart(ad.id)}
+                                                        <Col xs={6} md={12} lg={6} className="d-flex justify-content-center">
+                                                            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                                                                <Button
+                                                                    variant="dark"
+                                                                    className="modern-btn-dark px-4 py-2"
+                                                                    id="button"
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault(); // Prevent page reload
+                                                                        handleRevealVendorDetails();
+                                                                    }}
                                                                 >
-                                                                    <Cart4 className="me-2" /> Add to cart
+                                                                    {/* Display loading spinner inside the button when fetching */}
+                                                                    {loading ? (
+                                                                        <Spinner animation="border" size="sm" className="me-2" />
+                                                                    ) : showVendorDetails && vendor ? (
+                                                                        // Display vendor name and phone number inside the button after it's revealed
+                                                                        <span>
+                                                                            {vendor.enterprise_name} | {vendor.phone_number}
+                                                                        </span>
+                                                                    ) : (
+                                                                        'View Vendor' // Default text before clicking
+                                                                    )}
                                                                 </Button>
                                                             </motion.div>
                                                         </Col>
@@ -565,45 +574,31 @@ const AdDetails = () => {
                                                                     disabled={!ad || wish_listLoading}
                                                                     onClick={handleAddToWishlist} // Trigger handleAddToWishlist
                                                                 >
-                                                                    {wish_listLoading ? (
-                                                                        <Spinner animation="border" size="sm" className="me-2" />
-                                                                    ) : (
-                                                                        <Heart className="me-2" />
-                                                                    )}
-                                                                    Add to Wish List
+                                                                    <Heart className="me-2" /> Add to Wish List
                                                                 </Button>
                                                             </motion.div>
                                                         </Col>
                                                     </Row>
 
                                                     <div>
-                                                        <Row className="mt-2 d-flex justify-content-center align-items-center">
-                                                            <Col xs={12} md={12} className="d-flex justify-content-center">
-                                                                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                                                                    <Button
-                                                                        variant="dark"
-                                                                        className="modern-btn-dark px-4 py-2"
-                                                                        id="button"
-                                                                        onClick={(e) => {
-                                                                            e.preventDefault(); // Prevent page reload
-                                                                            handleRevealVendorDetails();
-                                                                        }}
+                                                        {/* <Row className="mt-2 d-flex justify-content-center align-items-center">
+                                                            <Col xs={12} md={12}>
+                                                                <motion.div
+                                                                    whileHover={{ scale: 1.1 }}
+                                                                    whileTap={{ scale: 0.9 }}
+                                                                >
+                                                                    <Button 
+                                                                        variant="warning" 
+                                                                        className="modern-btn me-3 px-4 py-2"
+                                                                        id="button" 
+                                                                        disabled={!ad} 
+                                                                        onClick={() => handleAddToCart(ad.id)}
                                                                     >
-                                                                        {/* Display loading spinner inside the button when fetching */}
-                                                                        {loading ? (
-                                                                            <Spinner animation="border" size="sm" className="me-2" />
-                                                                        ) : showVendorDetails && vendor ? (
-                                                                            // Display vendor name and phone number inside the button after it's revealed
-                                                                            <span>
-                                                                                {vendor.enterprise_name} | {vendor.phone_number}
-                                                                            </span>
-                                                                        ) : (
-                                                                            'View Vendor' // Default text before clicking
-                                                                        )}
+                                                                        <Cart4 className="me-2" /> Add to cart
                                                                     </Button>
                                                                 </motion.div>
                                                             </Col>
-                                                        </Row>
+                                                        </Row> */}
 
                                                         {/* Render the Login Modal */}
                                                         <AlertModal 

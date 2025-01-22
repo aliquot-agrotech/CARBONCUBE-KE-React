@@ -36,9 +36,9 @@ const LoginForm = ({ onLogin }) => {
           case 'vendor':
               navigate('/vendor/analytics');
               break;
-          case 'rider':
-              navigate('/rider/home');
-              break;
+          // case 'rider':
+          //     navigate('/rider/home');
+          //     break;
           case 'admin':
               navigate('/admin/analytics');
               break;
@@ -131,7 +131,7 @@ const LoginForm = ({ onLogin }) => {
                     Vendor
                   </Button>
                 </Col>
-                <Col xs={4} sm={4} className="mb-2">
+                {/* <Col xs={4} sm={4} className="mb-2">
                   <Button
                     variant="secondary"
                     className="w-100 signup-btn rounded-pill"
@@ -139,7 +139,7 @@ const LoginForm = ({ onLogin }) => {
                   >
                     Rider
                   </Button>
-                </Col>
+                </Col> */}
               </Row>
             </div>
           </Form>

@@ -17,7 +17,7 @@ const AlertModal = ({ isVisible, message, onClose, loading }) => {
                         <p>Loading...</p>
                     </div>
                 ) : (
-                    <p className="mb-0">{message}</p>
+                    <h4 className="mb-0">{message}</h4>
                 )}
             </Modal.Body>
             <Modal.Footer className="p-0 py-lg-0">

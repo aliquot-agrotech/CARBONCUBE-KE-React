@@ -174,11 +174,11 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
           {/* Navigation buttons for Vendors and Login/Logout */}
           <Nav className="ms-auto">
             <Row className="d-flex justify-content-center">
-              <Col className="text-center">
+              {/* <Col className="text-center">
                 <Button variant="secondary" href="/login" className="ms-2 w-100" id="button">
                   Rider
                 </Button>
-              </Col>
+              </Col> */}
               <Col className="text-center">
                 <Button variant="warning" href="/login" className="ms-2 w-100" id="button">
                   Vendor
