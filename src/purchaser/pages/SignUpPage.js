@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
@@ -21,10 +21,40 @@ function PurchaserSignUpPage({ onSignup }) {
     birthdate: '',
     gender: '',
     city: '',
-    zipcode: ''
+    zipcode: '',
+    income_id: '',
+    sector_id: '',
+    education_id: '',
+    employment_id: ''
   });
   const [errors, setErrors] = useState({});
+  const [options, setOptions] = useState({ incomes: [], sectors: [], educations: [], employments: [] });
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    // Fetch options for dropdowns from the API
+    const fetchOptions = async () => {
+      try {
+        const [incomeRes, sectorRes, educationRes, employmentRes] = await Promise.all([
+          axios.get('https://carboncube-ke-rails-cu22.onrender.com/incomes'),
+          axios.get('https://carboncube-ke-rails-cu22.onrender.com/sectors'),
+          axios.get('https://carboncube-ke-rails-cu22.onrender.com/educations'),
+          axios.get('https://carboncube-ke-rails-cu22.onrender.com/employments'),
+        ]);
+        setOptions({
+          incomes: incomeRes.data,
+          sectors: sectorRes.data,
+          educations: educationRes.data,
+          employments: employmentRes.data,
+        });
+      } catch (error) {
+        console.error('Error fetching dropdown options:', error);
+      }
+    };
+
+    fetchOptions();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -316,6 +346,93 @@ function PurchaserSignUpPage({ onSignup }) {
                             <div className="invalid-feedback">{errors.birthdate}</div>
                           )}
                         </div>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                  <Col xs={6} md={6}>
+                      <Form.Group>
+                        <Form.Control
+                          as="select"
+                          name="education_id"
+                          className="text-center rounded-pill mb-2"
+                          value={formData.education_id || ""}
+                          onChange={handleChange}
+                          isInvalid={!!errors.education_id}
+                        >
+                          <option value="" disabled hidden>Select Education</option>
+                          {options.educations.map((education) => (
+                            <option key={education.id} value={education.id}>
+                              {education.level}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">{errors.education_id}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+
+                    <Col xs={6} md={6}>
+                      <Form.Group>
+                        <Form.Control
+                          as="select"
+                          name="employment_id"
+                          className="text-center rounded-pill mb-2"
+                          value={formData.employment_id}
+                          onChange={handleChange}
+                          isInvalid={!!errors.employment_id}
+                        >
+                          <option value="" disabled hidden>Select Employment</option>
+                          {options.employments.map((employment) => (
+                            <option key={employment.id} value={employment.id}>
+                              {employment.status}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">{errors.employment_id}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col xs={6} md={6}>
+                      <Form.Group>
+                        <Form.Control
+                          as="select"
+                          name="sector_id"
+                          className="text-center rounded-pill mb-2"
+                          value={formData.sector_id}
+                          onChange={handleChange}
+                          isInvalid={!!errors.sector_id}
+                        >
+                          <option value="" disabled hidden>Select Sector</option>
+                          {options.sectors.map((sector) => (
+                            <option key={sector.id} value={sector.id}>
+                              {sector.name}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">{errors.sector_id}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={6} md={6}>
+                      <Form.Group>
+                        <Form.Control
+                          as="select"
+                          name="income_id"
+                          className="text-center rounded-pill mb-2"
+                          value={formData.income_id}
+                          onChange={handleChange}
+                          isInvalid={!!errors.income_id}
+                        >
+                          <option value="" disabled hidden>Select Income</option>
+                          {options.incomes.map((income) => (
+                            <option key={income.id} value={income.id}>
+                              {income.range}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        <Form.Control.Feedback type="invalid">{errors.income_id}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
