@@ -10,14 +10,14 @@ const AlertModal = ({ isVisible, message, onClose, loading }) => {
             <Modal.Header className="justify-content-center p-1 py-lg-1">
                 <Modal.Title>Alert</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="px-1 px-lg-2 py-0 py-lg-4 custom-card text-center">
+            <Modal.Body className="px-lg-2 py-0 py-lg-4 px-sm-3 py-lg-2 custom-card text-center">
                 {loading ? (
                     <div className="text-center">
                         <Spinner animation="border" />
                         <p>Loading...</p>
                     </div>
                 ) : (
-                    <h4 className="mb-0">{message}</h4>
+                    <h5 className="mb-0">{message}</h5>
                 )}
             </Modal.Body>
             <Modal.Footer className="p-0 py-lg-0">
