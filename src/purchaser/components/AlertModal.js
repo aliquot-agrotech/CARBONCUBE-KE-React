@@ -10,7 +10,7 @@ const AlertModal = ({ isVisible, message, onClose, loading }) => {
             <Modal.Header className="justify-content-center p-1 py-lg-1">
                 <Modal.Title>Alert</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="px-lg-2 py-0 py-lg-4 px-sm-3 py-lg-2 custom-card text-center">
+            <Modal.Body className="px-lg-2 py-sm-3 py-lg-4 px-sm-3 py-lg-2 custom-card text-center">
                 {loading ? (
                     <div className="text-center">
                         <Spinner animation="border" />
