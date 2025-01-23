@@ -7,6 +7,7 @@ import TopSellingAds from '../components/TopSellingAds';
 import WishListStats from '../components/WishListStats';
 import CompetitorStats from '../components/CompetitorStats';
 import CountDownDisplay from '../components/CountDownDisplay';
+import PurchaserStats from "../components/PurchaserStats";
 import Spinner from "react-spinkit";
 import '../css/VendorAnalytics.css';
 
@@ -31,20 +32,31 @@ const VendorAnalytics = () => {
 
         const data = await response.json();
         console.log('API Response:', data);
-
         const validatedAnalytics = {
           tier_id: data.tier_id || 1,
           total_orders: data.total_orders || 0,
           total_ads: data.total_ads || 0,
           total_reviews: data.total_reviews || 0,
-          average_rating: data.average_rating || 0,
+          average_rating: data.average_rating || 0.0,
           total_revenue: data.total_revenue || '0.0',
           sales_performance: data.sales_performance || {},
           best_selling_ads: data.best_selling_ads || [],
+          demographic_stats: data.demographic_stats || {
+            age_groups: [],
+            income_ranges: [],
+            education_levels: [],
+            employment_statuses: [],
+            sectors: []
+          },
           wishlist_stats: data.wishlist_stats || {
             top_wishlisted_products: [],
             wishlist_conversion_rate: 0,
-            wishlist_trends: []
+            wishlist_trends: [],
+            wishlist_by_age_groups: [],
+            wishlist_by_income_ranges: [],
+            wishlist_by_education_levels: [],
+            wishlist_by_employment_statuses: [],
+            wishlist_by_sectors: []
           },
           competitor_stats: data.competitor_stats || {
             revenue_share: {
@@ -56,6 +68,7 @@ const VendorAnalytics = () => {
             competitor_average_price: 0
           }
         };
+        
         
 
         setTierId(validatedAnalytics.tier_id);
@@ -119,7 +132,8 @@ const VendorAnalytics = () => {
             <Row>
               {/* Analytics Cards */}
               <Col xs={12} md={4}>
-                <CountDownDisplay />
+              <CountDownDisplay />
+
               </Col>
               <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
@@ -256,6 +270,20 @@ const VendorAnalytics = () => {
                 </Card>
               </Col>
             </Row>
+              <Col xs={12}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Purchaser Demographics</Card.Header>
+                  <Card.Body>
+                    {tierId >= 3 ? (
+                      <PurchaserStats data={analyticsData.demographic_stats} />
+                    ) : (
+                      <div className="text-secondary text-center">
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
+                      </div>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
           </Col>
         </Row>
       </Container>

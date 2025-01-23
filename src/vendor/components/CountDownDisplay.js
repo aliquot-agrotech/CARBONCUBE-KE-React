@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Spinner from 'react-spinkit';
 import { Card } from 'react-bootstrap';
 
-const CountdownDisplay = () => {
+const CountDownDisplay = ({ vendorId }) => {
     const [countdownData, setCountdownData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ const CountdownDisplay = () => {
     useEffect(() => {
         const fetchCountdownData = async () => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/countdown', {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/vendor_tiers/${vendorId}`, {
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             },
@@ -28,7 +28,7 @@ const CountdownDisplay = () => {
         }
         };
         fetchCountdownData();
-    }, []);
+    }, [vendorId]);
 
     if (loading) {
         return (
@@ -60,20 +60,18 @@ const CountdownDisplay = () => {
         );
     }
 
-    const { days, hours, minutes, seconds } = countdownData;
+    const { subscription_countdown } = countdownData;
 
     return (
         <Card className="mb-4 custom-card">
             <Card.Header>Countdown Timer</Card.Header>
-                <Card.Body>
-                    <div className="text-center">
-                    <h5>
-                        {days}d {hours}h {minutes}m {seconds}s
-                    </h5>
-                    </div>
-                </Card.Body>
+            <Card.Body>
+                <div className="text-center">
+                    <h5>{subscription_countdown}</h5>
+                </div>
+            </Card.Body>
         </Card>
     );
 };
 
-export default CountdownDisplay;
+export default CountDownDisplay;
