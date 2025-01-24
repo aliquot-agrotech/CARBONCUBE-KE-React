@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Col, Spinner, Alert } from 'react-bootstrap';
+import React, { useEffect, useState, useRef } from 'react';
+import { Spinner, Alert } from 'react-bootstrap';
 
 const CountDownDisplay = () => {
   const [countdown, setCountdown] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     const fetchCountdown = async () => {
       try {
-        // Decode the vendor ID from the JWT token stored in sessionStorage
         const token = sessionStorage.getItem('token');
-        const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decoding the token
+        const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode the token
         const vendorId = decodedToken.user_id;
 
-        // Fetch the countdown from the backend API
-        const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/vendor_tiers/${vendorId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `https://carboncube-ke-rails-cu22.onrender.com/vendor/vendor_tiers/${vendorId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error('Failed to fetch countdown');
@@ -41,37 +43,111 @@ const CountDownDisplay = () => {
     fetchCountdown();
   }, []);
 
-  const renderCountdown = () => {
-    if (!countdown) return null;
+  useEffect(() => {
+    if (countdown && !countdown.expired) {
+      intervalRef.current = setInterval(() => {
+        setCountdown((prev) => {
+          if (!prev) return null;
 
-    // If subscription is expired
-    if (countdown.expired) {
-      return <h5>Subscription expired</h5>;
+          const { months, weeks, days, hours, minutes, seconds } = prev;
+
+          let newSeconds = seconds - 1;
+          let newMinutes = minutes;
+          let newHours = hours;
+          let newDays = days;
+          let newWeeks = weeks;
+          let newMonths = months;
+
+          if (newSeconds < 0) {
+            newSeconds = 59;
+            newMinutes -= 1;
+          }
+          if (newMinutes < 0) {
+            newMinutes = 59;
+            newHours -= 1;
+          }
+          if (newHours < 0) {
+            newHours = 23;
+            newDays -= 1;
+          }
+          if (newDays < 0) {
+            newDays = 6;
+            newWeeks -= 1;
+          }
+          if (newWeeks < 0) {
+            newWeeks = 3;
+            newMonths -= 1;
+          }
+
+          if (
+            newMonths <= 0 &&
+            newWeeks <= 0 &&
+            newDays <= 0 &&
+            newHours <= 0 &&
+            newMinutes <= 0 &&
+            newSeconds <= 0
+          ) {
+            clearInterval(intervalRef.current);
+            return { expired: true };
+          }
+
+          return {
+            ...prev,
+            months: newMonths,
+            weeks: newWeeks,
+            days: newDays,
+            hours: newHours,
+            minutes: newMinutes,
+            seconds: newSeconds,
+          };
+        });
+      }, 1000);
+
+      return () => clearInterval(intervalRef.current);
     }
+  }, [countdown]);
 
-    return (
-      <div>
-        <h5>{`${countdown.months} Months, ${countdown.weeks} Weeks, ${countdown.days} Days, ${countdown.hours} Hours, ${countdown.minutes} Minutes, ${countdown.seconds} Seconds`}</h5>
-      </div>
-    );
-  };
+  if (loading) {
+    return <Spinner animation="border" />;
+  }
+
+  if (error) {
+    return <Alert variant="danger">{error}</Alert>;
+  }
+
+  if (countdown?.expired) {
+    return <strong>Subscription expired</strong>;
+  }
 
   return (
-    <Col xs={12} md={4}>
-      <Card>
-        <Card.Body>
-          <Card.Title>Subscription Countdown</Card.Title>
-          {loading ? (
-            <Spinner animation="border" />
-          ) : error ? (
-            <Alert variant="danger">{error}</Alert>
-          ) : (
-            renderCountdown()
-          )}
-        </Card.Body>
-      </Card>
-    </Col>
+    <div style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+      <span >
+        {countdown.months} <span style={{ fontSize: '0.9rem', color: '#007bff' }}><em>M</em></span>
+      </span>
+      <span>:</span>
+      <span >
+        {countdown.weeks} <span style={{ fontSize: '0.9rem', color: '#28a745' }}><em>W</em></span>
+      </span>
+      <span>:</span>
+      <span >
+        {countdown.days} <span style={{ fontSize: '0.9rem', color: '#ffc107' }}><em>D</em></span>
+      </span>
+      <span>:</span>
+      <span >
+        {countdown.hours} <span style={{ fontSize: '0.9rem', color: '#dc3545' }}><em>H</em></span>
+      </span>
+      <span>:</span>
+      <span >
+        {countdown.minutes} <span style={{ fontSize: '0.9rem', color: '#17a2b8' }}><em>M</em></span>
+      </span>
+      <span>:</span>
+      <span >
+        {countdown.seconds} <span style={{ fontSize: '0.9rem', color: '#6610f2' }}><em>S</em></span>
+      </span>
+    </div>
   );
+  
+  
 };
 
 export default CountDownDisplay;

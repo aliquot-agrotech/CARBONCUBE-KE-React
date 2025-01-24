@@ -132,14 +132,18 @@ const VendorAnalytics = () => {
             <Row>
               {/* Analytics Cards */}
               <Col xs={12} md={4}>
-              <CountDownDisplay />
-
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Subscription Countdown</Card.Header>
+                  <Card.Body className="text-center">
+                    <CountDownDisplay />
+                  </Card.Body>
+                </Card>
               </Col>
               <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Total Orders</Card.Header>
                   <Card.Body>
-                    <Card.Text className="text-center">
+                    <Card.Text className="text-center" style={{ fontSize: '1.3rem'}}>
                       <strong>{total_orders.toLocaleString()}</strong>
                     </Card.Text>
                   </Card.Body>
@@ -149,7 +153,7 @@ const VendorAnalytics = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Average Rating</Card.Header>
                   <Card.Body>
-                    <Card.Text className="text-center">
+                    <Card.Text className="text-center" style={{ fontSize: '1.3rem'}}>
                       <strong>{average_rating.toFixed(1)}</strong>
                     </Card.Text>
                   </Card.Body>
@@ -160,7 +164,7 @@ const VendorAnalytics = () => {
                   <Card.Header>Total Ads</Card.Header>
                   <Card.Body>
                     {tierId >= 2 ? (
-                      <Card.Text className="text-center">
+                      <Card.Text className="text-center" style={{ fontSize: '1.3rem'}}>
                         <strong>{total_ads.toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
@@ -176,7 +180,7 @@ const VendorAnalytics = () => {
                   <Card.Header>Total Reviews</Card.Header>
                   <Card.Body>
                     {tierId >= 3 ? (
-                      <Card.Text className="text-center">
+                      <Card.Text className="text-center" style={{ fontSize: '1.3rem'}}>
                         <strong>{total_reviews.toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
@@ -201,7 +205,7 @@ const VendorAnalytics = () => {
                                 <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
                               ) : (
                                 <>
-                                  <span style={{ fontSize: '16px' }}>.</span>
+                                  <span style={{ fontSize: '19px' }}>.</span>
                                   <span className="price-decimal">{part}</span>
                                 </>
                               )}
