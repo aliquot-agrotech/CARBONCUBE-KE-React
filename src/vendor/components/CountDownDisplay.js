@@ -120,7 +120,7 @@ const CountDownDisplay = () => {
   }
 
   return (
-    <div style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+    <div style={{ fontSize: '1.35rem', fontWeight: 'bold', display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
       <span >
         {countdown.months} <span style={{ fontSize: '0.9rem', color: '#007bff' }}><em>M</em></span>
       </span>
@@ -130,7 +130,7 @@ const CountDownDisplay = () => {
       </span>
       <span>:</span>
       <span >
-        {countdown.days} <span style={{ fontSize: '0.9rem', color: '#ffc107' }}><em>D</em></span>
+        {countdown.days} <span style={{ fontSize: '0.9rem', color: '#964b00' }}><em>D</em></span>
       </span>
       <span>:</span>
       <span >
