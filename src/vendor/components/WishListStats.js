@@ -1,10 +1,35 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+
+// Register necessary chart components
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const WishListStats = ({ data }) => {
     if (!data) return <div className="alert alert-warning">No wishlist stats available</div>;
 
-    const { top_wishlisted_products = [], wishlist_conversion_rate = [], wishlist_trends = [] } = data;
+    const { top_wishlisted_products = [], wishlist_trends = [] } = data;
+
+    // Ensure we are only showing the last 5 months
+    const latestTrends = wishlist_trends.slice(0, 5);
+
+    // Get the maximum wishlist count for setting the y-axis max value
+    const maxWishlistCount = Math.max(...latestTrends.map(trend => trend.wishlist_count));
+
+    // Prepare data for the Bar chart
+    const chartData = {
+        labels: latestTrends.map(trend => trend.month), // X-axis labels (months)
+        datasets: [
+            {
+                label: 'Wishlist Count',
+                data: latestTrends.map(trend => trend.wishlist_count), // Y-axis values (wishlist count)
+                backgroundColor: 'rgba(75, 192, 192, 0.7)', // Bar color
+                borderColor: 'rgba(75, 192, 192, 1)', // Border color
+                borderWidth: 1,
+            }
+        ]
+    };
 
     return (
         <div className="container mt-2 px-0">
@@ -23,55 +48,40 @@ const WishListStats = ({ data }) => {
                 </div>
             </div>
 
-            {/* Wishlist Conversion Rate */}
+            {/* Wishlist Trends Chart (Bar chart) */}
             <div className="card shadow-sm mt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                 <div className="card-body px-2">
-                    <h5 className="card-title">Wishlist Engagement Stats</h5>
-                    <ul className="list-group list-group-flush" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}>
-                        {Array.isArray(wishlist_conversion_rate) && wishlist_conversion_rate.length > 0 ? (
-                            wishlist_conversion_rate.map((product, index) => (
-                                <li
-                                    key={index}
-                                    className="list-group-item d-flex justify-content-between align-items-center"
-                                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}
-                                >
-                                    {product.ad_title}
-                                    <span
-                                        className={`badge ${
-                                            product.wishlist_count === 0 ? 'bg-secondary' : 'bg-success'
-                                        }`}
-                                    >
-                                        {product.wishlist_count === 0
-                                            ? '0% conversion rate'
-                                            : ((product.purchase_count / product.wishlist_count) * 100).toFixed(2) +
-                                        '%'}
-                                    </span>
-                                </li>
-                            ))
+                    <h5 className="card-title">Wishlist Trends (Last 5 Months)</h5>
+                    <div>
+                        {Array.isArray(latestTrends) && latestTrends.length > 0 ? (
+                            <Bar data={chartData} options={{
+                                responsive: true,
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Wishlist Trends Over the Last 5 Months'
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: (tooltipItem) => `Wishlist Count: ${tooltipItem.raw}`,
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        min: 0, // Ensure the y-axis starts at 0
+                                        max: Math.ceil(maxWishlistCount / 10) * 10, // Round up the max value to the next multiple of 10
+                                        ticks: {
+                                            stepSize: 10, // Set step size to 10
+                                        }
+                                    }
+                                }
+                            }} />
                         ) : (
-                            <li className="list-group-item" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
-                                No conversion data available
-                            </li>
+                            <div>No trends available</div>
                         )}
-                    </ul>
-                </div>
-            </div>
-
-            {/* Wishlist Trends */}
-            <div className="card shadow-sm mt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
-                <div className="card-body px-2">
-                    <h5 className="card-title">Wishlist Trends (Last 6 Months)</h5>
-                    <ul className="list-group list-group-flush">
-                        {Array.isArray(wishlist_trends) && wishlist_trends.length > 0 ? (
-                            wishlist_trends.map((trend, index) => (
-                                <li key={index} className="list-group-item">
-                                    {trend.month} - {trend.ad_title}: <span className="fw-bold">{trend.count} wishlists</span>
-                                </li>
-                            ))
-                        ) : (
-                            <li className="list-group-item">No trends available</li>
-                        )}
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
