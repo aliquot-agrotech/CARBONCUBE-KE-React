@@ -26,7 +26,7 @@ const WishListStats = ({ data }) => {
             {/* Wishlist Conversion Rate */}
             <div className="card shadow-sm mt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                 <div className="card-body px-2">
-                    <h5 className="card-title">Wishlist Conversion Rate</h5>
+                    <h5 className="card-title">Wishlist Engagement Stats</h5>
                     <ul className="list-group list-group-flush" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}>
                         {Array.isArray(wishlist_conversion_rate) && wishlist_conversion_rate.length > 0 ? (
                             wishlist_conversion_rate.map((product, index) => (
