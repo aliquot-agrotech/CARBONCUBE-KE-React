@@ -38,10 +38,10 @@ const WishListStats = ({ data }) => {
                 <div className="card-body px-2">
                     <h4 className="card-title">Top 3 Wishlisted Ads</h4>
                     <ul className="list-group list-group-flush">
-                        {top_wishlisted_products.map((product, index) => (
+                        {top_wishlisted_products.map((ad, index) => (
                             <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                {product.ad_title}
-                                <span className="badge bg-primary">{product.wishlist_count} wishes</span>
+                                {ad.ad_title}
+                                <span className="badge bg-primary">{ad.wishlist_count} wishes</span>
                             </li>
                         ))}
                     </ul>
