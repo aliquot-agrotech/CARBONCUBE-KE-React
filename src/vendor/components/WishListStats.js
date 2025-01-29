@@ -57,10 +57,6 @@ const WishListStats = ({ data }) => {
                             <Bar data={chartData} options={{
                                 responsive: true,
                                 plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'Wishlist Trends Over the Last 5 Months'
-                                    },
                                     tooltip: {
                                         callbacks: {
                                             label: (tooltipItem) => `Wishlist Count: ${tooltipItem.raw}`,

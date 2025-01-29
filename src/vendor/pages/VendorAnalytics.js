@@ -7,7 +7,7 @@ import TopSellingAds from '../components/TopSellingAds';
 import WishListStats from '../components/WishListStats';
 import CompetitorStats from '../components/CompetitorStats';
 import CountDownDisplay from '../components/CountDownDisplay';
-import PurchaserStats from "../components/PurchaserStats";
+import PurchaserDemographics from "../components/PurchaserDemographics";
 import Spinner from "react-spinkit";
 import '../css/VendorAnalytics.css';
 
@@ -278,7 +278,7 @@ const VendorAnalytics = () => {
                   <Card.Header>Purchaser Demographics</Card.Header>
                   <Card.Body>
                     {tierId >= 3 ? (
-                      <PurchaserStats data={analyticsData.demographic_stats} />
+                      <PurchaserDemographics data={analyticsData.click_events_stats} />
                     ) : (
                       <div className="text-secondary text-center">
                         <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier

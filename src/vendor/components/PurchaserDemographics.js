@@ -1,6 +1,7 @@
 import React from "react";
+import "./PurchaserDemographics.css";
 
-const PurchaserStats = ({ data }) => {
+const PurchaserDemographics = ({ data }) => {
   // Helper function to parse keys and group data by event type
   const parseDemographicData = (demographicData) => {
     const groupedData = {};
@@ -63,4 +64,4 @@ const PurchaserStats = ({ data }) => {
   );
 };
 
-export default PurchaserStats;
+export default PurchaserDemographics;
