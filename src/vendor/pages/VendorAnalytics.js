@@ -41,7 +41,7 @@ const VendorAnalytics = () => {
           total_revenue: data.total_revenue || '0.0',
           sales_performance: data.sales_performance || {},
           best_selling_ads: data.best_selling_ads || [],
-          demographic_stats: data.demographic_stats || {
+          click_events_stats: data.click_events_stats || {
             age_groups: [],
             income_ranges: [],
             education_levels: [],
@@ -49,14 +49,13 @@ const VendorAnalytics = () => {
             sectors: []
           },
           wishlist_stats: data.wishlist_stats || {
+            top_age_groups: [],
+            top_income_ranges: [],
+            top_education_levels: [],
+            top_employment_statuses: [],
+            top_by_sectors: [],
             top_wishlisted_products: [],
-            wishlist_conversion_rate: 0,
-            wishlist_trends: [],
-            wishlist_by_age_groups: [],
-            wishlist_by_income_ranges: [],
-            wishlist_by_education_levels: [],
-            wishlist_by_employment_statuses: [],
-            wishlist_by_sectors: []
+            wishlist_trends: []
           },
           competitor_stats: data.competitor_stats || {
             revenue_share: {

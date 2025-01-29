@@ -4,25 +4,28 @@ const PurchaserStats = ({ data }) => {
   // Helper function to parse keys and group data by event type
   const parseDemographicData = (demographicData) => {
     const groupedData = {};
-  
+
     Object.entries(demographicData).forEach(([key, value]) => {
       try {
         const parsedKey = JSON.parse(key.replace(/(\w+):/g, '"$1":')); // Parse the key as JSON
         const { event_type, ...attributes } = parsedKey;
-  
+
         if (!groupedData[event_type]) {
           groupedData[event_type] = [];
         }
-  
+
         groupedData[event_type].push({ ...attributes, count: value });
       } catch (error) {
         console.error("Failed to parse key:", key, error);
       }
     });
-  
+
     return groupedData;
   };
-  
+
+  if (!data) {
+    return <div>Loading...</div>; // Optionally handle the case where data is not available yet
+  }
 
   return (
     <div className="purchaser-stats">
