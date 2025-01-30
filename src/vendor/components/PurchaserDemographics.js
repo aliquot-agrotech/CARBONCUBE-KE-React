@@ -1,5 +1,6 @@
 import React from "react";
-import PurchaserBarChart from "./PurchaserBarChart";
+import PurchaserClickEvents from "./PurchaserClickEvents";
+import PurchaserWishlistStats from "./PurchaserWishlistStats"; // Import the new component
 import "./PurchaserDemographics.css";
 
 const PurchaserDemographics = ({ data }) => {
@@ -9,7 +10,9 @@ const PurchaserDemographics = ({ data }) => {
 
   return (
     <div className="purchaser-stats">
-      <PurchaserBarChart data={data} />
+      <PurchaserClickEvents data={data} />
+      {/* Display PurchaserWishlistStats below PurchaserBarChart */}
+      <PurchaserWishlistStats data={data} />
     </div>
   );
 };

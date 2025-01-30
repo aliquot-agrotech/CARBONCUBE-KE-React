@@ -4,7 +4,7 @@ import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Lege
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const PurchaserBarChart = ({ data }) => {
+const PurchaserClickEvents = ({ data }) => {
   if (!data) {
     return <div>Loading...</div>;
   }
@@ -13,7 +13,7 @@ const PurchaserBarChart = ({ data }) => {
   
   const labels = categories.map((category) => category.replace("top_", "").replace("_clicks", "").replace("_", " ").toUpperCase());
   const eventTypes = [ "top_wishlist", "top_ad_click", "top_reveal"];
-  const colors = ["#36a2eb", "#ff6384",  "#4BC0C0"];
+  const colors = ["#FFC107", "#919191",  "#363636"];
 
   const datasets = eventTypes.map((eventType, index) => ({
     label: eventType.replace("top_", "").replace("_", " ").toUpperCase(),
@@ -56,4 +56,4 @@ const PurchaserBarChart = ({ data }) => {
   );
 };
 
-export default PurchaserBarChart;
+export default PurchaserClickEvents;

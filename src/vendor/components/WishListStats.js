@@ -24,8 +24,8 @@ const WishListStats = ({ data }) => {
             {
                 label: 'Wishlist Count',
                 data: latestTrends.map(trend => trend.wishlist_count), // Y-axis values (wishlist count)
-                backgroundColor: 'rgba(75, 192, 192, 0.7)', // Bar color
-                borderColor: 'rgba(75, 192, 192, 1)', // Border color
+                backgroundColor: '#919191', // Bar color
+                borderColor: '#919191', // Border color
                 borderWidth: 1,
             }
         ]
