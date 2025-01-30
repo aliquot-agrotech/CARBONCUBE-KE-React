@@ -3,6 +3,8 @@ import { Card, Col, Row } from 'react-bootstrap';
 import './TopWishListedAds.css';
 
 const TopWishListedAds = ({ data }) => {
+  console.log("Data received in TopWishListedAds component:", data);  // Log the data to inspect
+
   return (
     <Row>
       {data.map((ad) => (
@@ -12,11 +14,12 @@ const TopWishListedAds = ({ data }) => {
               className="ad-image"
               variant="top"
               src={ad.ad_media && ad.ad_media.length > 0 ? ad.ad_media[0] : 'https://via.placeholder.com/150'}
+              alt={ad.ad_title}
             />
             <Card.Body className="analytics-card-body p-0 mx-2">
               <Card.Title className='d-flex justify-content-start mb-0' style={{ fontSize: '17px' }}>{ad.ad_title}</Card.Title>
               <Card.Text className="analytics-price-container justify-content-start mt-0">
-                <em className="text-success" style={{ fontSize: '12px' }}>Price: </em>
+                <em className="text-success" style={{ fontSize: '12px' }}>Kshs: </em>
                 <strong style={{ fontSize: '18px' }} className="text-danger">
                   {ad.ad_price && ad.ad_price.split('.').map((part, index) => (
                     <React.Fragment key={index}>

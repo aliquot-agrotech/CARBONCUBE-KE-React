@@ -19,7 +19,7 @@ const CompetitorAds = ({ data }) => {
                                 {ad.ad_title}
                             </Card.Title>
                             <Card.Text className="analytics-price-container justify-content-start mt-0">
-                                <em className="text-success" style={{ fontSize: '12px' }}>Price: </em>
+                                <em className="text-success" style={{ fontSize: '12px' }}>Kshs: </em>
                                 <strong style={{ fontSize: '18px' }} className="text-danger">
                                 {ad.ad_price.split('.').map((part, index) => (
                                     <React.Fragment key={index}>
