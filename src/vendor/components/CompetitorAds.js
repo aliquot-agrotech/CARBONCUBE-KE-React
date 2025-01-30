@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import './TopSellingAds.css';
+import './TopWishListedAds.css';
 
 const CompetitorAds = ({ data }) => {
     return (

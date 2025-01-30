@@ -3,7 +3,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import ClickEventsStats from '../components/ClickEventsStats';
-import TopSellingAds from '../components/TopSellingAds';
+import TopWishListedAds from '../components/TopWishListedAds';
 import WishListStats from '../components/WishListStats';
 import CompetitorStats from '../components/CompetitorStats';
 import CountDownDisplay from '../components/CountDownDisplay';
@@ -32,12 +32,15 @@ const VendorAnalytics = () => {
 
         const data = await response.json();
         console.log('API Response:', data);
+
         const validatedAnalytics = {
           tier_id: data.tier_id || 1,
           total_ads: data.total_ads || 0,
           total_reviews: data.total_reviews || 0,
           average_rating: data.average_rating || 0.0,
-          best_selling_ads: data.best_selling_ads || [],
+          top_wishlisted_ads: Array.isArray(data.basic_wishlist_stats?.top_wishlisted_ads) 
+            ? data.basic_wishlist_stats.top_wishlisted_ads 
+            : [],  // Ensure it's always an array
           click_events_stats: data.click_events_stats || {
             age_groups: [],
             income_ranges: [],
@@ -56,7 +59,6 @@ const VendorAnalytics = () => {
             top_by_sectors: []
           },
           basic_wishlist_stats: data.basic_wishlist_stats || {
-            top_wishlisted_products: [],
             wishlist_trends: []
           },
           competitor_stats: data.competitor_stats || {
@@ -69,8 +71,8 @@ const VendorAnalytics = () => {
             competitor_average_price: 0
           }
         };
-        
-        
+
+        console.log('Validated Analytics:', validatedAnalytics);
 
         setTierId(validatedAnalytics.tier_id);
         setAnalyticsData(validatedAnalytics);
@@ -119,7 +121,7 @@ const VendorAnalytics = () => {
     );
   }
 
-  const {  average_rating, total_ads, total_reviews, best_selling_ads } = analyticsData;
+  const {  average_rating, total_ads, total_reviews, top_wishlisted_ads } = analyticsData;
 
   return (
     <>
@@ -188,16 +190,17 @@ const VendorAnalytics = () => {
             </Row>
 
             <Row>
-              <Col xs={12} md={6}>
+            <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
-                  <Card.Header>Top Selling Ads</Card.Header>
+                  <Card.Header>Top Wishlisted Ads</Card.Header>
                   <Card.Body>
-                    {tierId >= 4 ? (
-                      <TopSellingAds data={best_selling_ads} />
+                    {top_wishlisted_ads.length > 0 ? (
+                      <TopWishListedAds data={top_wishlisted_ads} />
                     ) : (
-                      <div className="text-secondary text-center">
-                        <a href="/tiers" className="text-primary">Upgrade</a> to Premium Tier
-                      </div>
+                      <p className="text-center text-secondary">
+                        No wishlisted ads found. <br />
+                        <small>(Make sure your ads are added to wishlists by users.)</small>
+                      </p>
                     )}
                   </Card.Body>
                 </Card>
