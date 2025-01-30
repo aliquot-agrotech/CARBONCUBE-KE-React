@@ -50,7 +50,7 @@ const PurchaserClickEvents = ({ data }) => {
 
   return (
     <div>
-      <h2>Purchaser Click Events Insights</h2>
+      <h4>Click Events Insights</h4>
       <Bar data={chartData} options={options} />
     </div>
   );

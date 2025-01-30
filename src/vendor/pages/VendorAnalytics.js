@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
-// import SalesPerformance from '../components/SalesPerformance';
+import ClickEventsStats from '../components/ClickEventsStats';
 import TopSellingAds from '../components/TopSellingAds';
 import WishListStats from '../components/WishListStats';
 import CompetitorStats from '../components/CompetitorStats';
@@ -44,6 +44,9 @@ const VendorAnalytics = () => {
             education_levels: [],
             employment_statuses: [],
             sectors: []
+          },
+          basic_click_event_stats: data.basic_click_event_stats || {
+            click_event_trends: []
           },
           wishlist_stats: data.wishlist_stats || {
             top_age_groups: [],
@@ -129,7 +132,7 @@ const VendorAnalytics = () => {
           <Col xs={12} lg={9} className="content-area">
             <Row>
               {/* Analytics Cards */}
-              <Col xs={12} md={4}>
+              <Col xs={12}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Subscription Countdown</Card.Header>
                   <Card.Body className="text-center">
@@ -137,17 +140,8 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              
-              <Col xs={6} md={4}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>Average Rating</Card.Header>
-                  <Card.Body>
-                    <Card.Text className="text-center" style={{ fontSize: '1.3rem'}}>
-                      <strong>{average_rating.toFixed(1)}</strong>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
+            </Row>
+            <Row>
               <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Total Ads</Card.Header>
@@ -164,6 +158,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
+              
               <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Total Reviews</Card.Header>
@@ -180,10 +175,19 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              {/*  */}
+              <Col xs={6} md={4}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Average Rating</Card.Header>
+                  <Card.Body>
+                    <Card.Text className="text-center" style={{ fontSize: '1.3rem'}}>
+                      <strong>{average_rating.toFixed(1)}</strong>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
             </Row>
+
             <Row>
-              
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Top Selling Ads</Card.Header>
@@ -198,49 +202,81 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-            </Row>
-            <Row>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Competitor Stats</Card.Header>
                   <Card.Body className="py-1 px-3">
-                    <div>
-                      <CompetitorStats data={analyticsData.competitor_stats} />
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>WishList Stats</Card.Header>
-                  <Card.Body className="py-1 px-3">
-                    <div>
-                      <WishListStats data={analyticsData.basic_wishlist_stats} />
-                    </div>
+                    {tierId >= 3 ? ( // Adjust the required tier level if needed
+                      <div>
+                        <CompetitorStats data={analyticsData.competitor_stats} />
+                      </div>
+                    ) : (
+                      <div className="text-secondary text-center">
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
+                      </div>
+                    )}
                   </Card.Body>
                 </Card>
               </Col>
             </Row>
-            <Col xs={12}>
-  <Card className="mb-4 custom-card">
-    <Card.Header>Purchaser Demographics</Card.Header>
-    <Card.Body>
-      {tierId >= 3 ? (
-        <PurchaserDemographics
-          data={{
-            clickEvents: analyticsData.click_events_stats,
-            wishlistStats: analyticsData.wishlist_stats,
-          }}
-        />
-      ) : (
-        <div className="text-secondary text-center">
-          <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
-        </div>
-      )}
-    </Card.Body>
-  </Card>
-</Col>
 
+            <Row>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Click Events Stats</Card.Header>
+                  <Card.Body className="py-1 px-3">
+                    {tierId >= 2 ? ( // Adjust the required tier level if needed
+                      <div>
+                        <ClickEventsStats data={analyticsData.basic_click_event_stats.click_event_trends} />
+                      </div>
+                    ) : (
+                      <div className="text-secondary text-center">
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Basic Tier
+                      </div>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Wish List Stats</Card.Header>
+                  <Card.Body className="py-1 px-3">
+                    {tierId >= 3 ? ( // Adjust the required tier level if needed
+                      <div>
+                        <WishListStats data={analyticsData.basic_wishlist_stats} />
+                      </div>
+                    ) : (
+                      <div className="text-secondary text-center">
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
+                      </div>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={12}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Purchaser Demographics</Card.Header>
+                  <Card.Body>
+                    {tierId >= 3 ? (
+                      <PurchaserDemographics
+                        data={{
+                          clickEvents: analyticsData.click_events_stats,
+                          wishlistStats: analyticsData.wishlist_stats,
+                        }}
+                      />
+                    ) : (
+                      <div className="text-secondary text-center">
+                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
+                      </div>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+              </Row>
           </Col>
         </Row>
       </Container>

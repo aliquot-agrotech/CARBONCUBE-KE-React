@@ -62,7 +62,7 @@ const PurchaserWishlistStats = ({ data }) => {
 
   return (
     <div>
-      <h2>Purchaser Wishlist Insights</h2>
+      <h4>Purchaser Wishlist Insights</h4>
       <Bar data={chartData} options={options} />
       {/* Alternatively, you could display the data in a table if you prefer */}
       {/* <table>

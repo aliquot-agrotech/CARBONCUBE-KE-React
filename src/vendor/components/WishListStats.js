@@ -22,7 +22,7 @@ const WishListStats = ({ data }) => {
         labels: latestTrends.map(trend => trend.month), // X-axis labels (months)
         datasets: [
             {
-                label: 'Wishlist Count',
+                label: 'Wish List Count',
                 data: latestTrends.map(trend => trend.wishlist_count), // Y-axis values (wishlist count)
                 backgroundColor: '#919191', // Bar color
                 borderColor: '#919191', // Border color
@@ -36,7 +36,7 @@ const WishListStats = ({ data }) => {
             {/* Top 3 Wishlisted Ads */}
             <div className="card shadow-sm" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                 <div className="card-body px-2">
-                    <h4 className="card-title">Top 3 Wishlisted Ads</h4>
+                    <h4 className="card-title">Top 3 Wish List Ads</h4>
                     <ul className="list-group list-group-flush">
                         {top_wishlisted_products.map((ad, index) => (
                             <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
@@ -51,7 +51,7 @@ const WishListStats = ({ data }) => {
             {/* Wishlist Trends Chart (Bar chart) */}
             <div className="card shadow-sm mt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                 <div className="card-body px-2">
-                    <h5 className="card-title">Wishlist Trends (Last 5 Months)</h5>
+                    <h5 className="card-title">Wish List Trends (Last 5 Months)</h5>
                     <div>
                         {Array.isArray(latestTrends) && latestTrends.length > 0 ? (
                             <Bar data={chartData} options={{
@@ -59,7 +59,7 @@ const WishListStats = ({ data }) => {
                                 plugins: {
                                     tooltip: {
                                         callbacks: {
-                                            label: (tooltipItem) => `Wishlist Count: ${tooltipItem.raw}`,
+                                            label: (tooltipItem) => `Wish List Count: ${tooltipItem.raw}`,
                                         }
                                     }
                                 },
