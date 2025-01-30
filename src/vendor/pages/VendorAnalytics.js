@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
-import SalesPerformance from '../components/SalesPerformance';
+// import SalesPerformance from '../components/SalesPerformance';
 import TopSellingAds from '../components/TopSellingAds';
 import WishListStats from '../components/WishListStats';
 import CompetitorStats from '../components/CompetitorStats';
@@ -34,12 +34,9 @@ const VendorAnalytics = () => {
         console.log('API Response:', data);
         const validatedAnalytics = {
           tier_id: data.tier_id || 1,
-          total_orders: data.total_orders || 0,
           total_ads: data.total_ads || 0,
           total_reviews: data.total_reviews || 0,
           average_rating: data.average_rating || 0.0,
-          total_revenue: data.total_revenue || '0.0',
-          sales_performance: data.sales_performance || {},
           best_selling_ads: data.best_selling_ads || [],
           click_events_stats: data.click_events_stats || {
             age_groups: [],
@@ -53,7 +50,9 @@ const VendorAnalytics = () => {
             top_income_ranges: [],
             top_education_levels: [],
             top_employment_statuses: [],
-            top_by_sectors: [],
+            top_by_sectors: []
+          },
+          basic_wishlist_stats: data.basic_wishlist_stats || {
             top_wishlisted_products: [],
             wishlist_trends: []
           },
@@ -117,7 +116,7 @@ const VendorAnalytics = () => {
     );
   }
 
-  const { total_orders, average_rating, total_ads, total_reviews, total_revenue, sales_performance, best_selling_ads } = analyticsData;
+  const {  average_rating, total_ads, total_reviews, best_selling_ads } = analyticsData;
 
   return (
     <>
@@ -138,16 +137,7 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={6} md={4}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>Total Orders</Card.Header>
-                  <Card.Body>
-                    <Card.Text className="text-center" style={{ fontSize: '1.3rem'}}>
-                      <strong>{total_orders.toLocaleString()}</strong>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
+              
               <Col xs={6} md={4}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Average Rating</Card.Header>
@@ -190,52 +180,10 @@ const VendorAnalytics = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={6} md={4}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>Total Revenue</Card.Header>
-                  <Card.Body>
-                    {tierId >= 3 ? (
-                      <Card.Text className="text-center">
-                        <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
-                        <strong style={{ fontSize: '16px' }} className="text-danger">
-                          {total_revenue ? Number(total_revenue).toFixed(2).split('.').map((part, index) => (
-                            <React.Fragment key={index}>
-                              {index === 0 ? (
-                                <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                              ) : (
-                                <>
-                                  <span style={{ fontSize: '19px' }}>.</span>
-                                  <span className="price-decimal">{part}</span>
-                                </>
-                              )}
-                            </React.Fragment>
-                          )) : 'N/A'}
-                        </strong>
-                      </Card.Text>
-                    ) : (
-                      <Card.Text className="text-center text-secondary">
-                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
-                      </Card.Text>
-                    )}
-                  </Card.Body>
-                </Card>
-              </Col>
+              {/*  */}
             </Row>
             <Row>
-              <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>Sales Performance (Last 3 Months)</Card.Header>
-                  <Card.Body>
-                    {tierId >= 3 ? (
-                      <SalesPerformance data={sales_performance} totalRevenue={total_revenue} />
-                    ) : (
-                      <div className="text-secondary text-center">
-                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
-                      </div>
-                    )}
-                  </Card.Body>
-                </Card>
-              </Col>
+              
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Top Selling Ads</Card.Header>
@@ -267,26 +215,32 @@ const VendorAnalytics = () => {
                   <Card.Header>WishList Stats</Card.Header>
                   <Card.Body className="py-1 px-3">
                     <div>
-                      <WishListStats data={analyticsData.wishlist_stats} />
+                      <WishListStats data={analyticsData.basic_wishlist_stats} />
                     </div>
                   </Card.Body>
                 </Card>
               </Col>
             </Row>
-              <Col xs={12}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>Purchaser Demographics</Card.Header>
-                  <Card.Body>
-                    {tierId >= 3 ? (
-                      <PurchaserDemographics data={analyticsData.click_events_stats} />
-                    ) : (
-                      <div className="text-secondary text-center">
-                        <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
-                      </div>
-                    )}
-                  </Card.Body>
-                </Card>
-              </Col>
+            <Col xs={12}>
+  <Card className="mb-4 custom-card">
+    <Card.Header>Purchaser Demographics</Card.Header>
+    <Card.Body>
+      {tierId >= 3 ? (
+        <PurchaserDemographics
+          data={{
+            clickEvents: analyticsData.click_events_stats,
+            wishlistStats: analyticsData.wishlist_stats,
+          }}
+        />
+      ) : (
+        <div className="text-secondary text-center">
+          <a href="/tiers" className="text-primary">Upgrade</a> to Standard Tier
+        </div>
+      )}
+    </Card.Body>
+  </Card>
+</Col>
+
           </Col>
         </Row>
       </Container>
