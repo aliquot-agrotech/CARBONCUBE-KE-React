@@ -1,15 +1,15 @@
 import React from 'react';  
 import CompetitorAds from './CompetitorAds'; 
-import { Row, Col } from 'react-bootstrap';
+// import { Row, Col } from 'react-bootstrap';
 
 const CompetitorStats = ({ data }) => {
     if (!data) return <div>No competitor stats available</div>;
 
-    const { revenue_share, top_competitor_ads, competitor_average_price } = data;
+    const {  top_competitor_ads, competitor_average_price } = data;
 
     return (
         <div className="container mt-2 px-0">
-            <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
+            {/* <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                 <div className="card-body py-2 px-3">
                     <h5 className="card-title">Revenue Share in Category</h5>
                     <p className="card-text">
@@ -56,7 +56,7 @@ const CompetitorStats = ({ data }) => {
                         <strong>Vendor Revenue Share:</strong> {revenue_share.revenue_share}%
                     </p>
                 </div>
-            </div>
+            </div> */}
             
             <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
                 <div className="card-body py-2 px-3">

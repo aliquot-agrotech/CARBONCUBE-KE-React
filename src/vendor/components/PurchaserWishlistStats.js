@@ -40,29 +40,50 @@ const PurchaserWishlistStats = ({ data }) => {
   const options = {
     responsive: true,
     plugins: {
-      legend: { position: "top" },
+      legend: { 
+        position: "top",
+        labels: {
+          font: {
+            size: 10, // Reduce legend font size
+          },
+        },
+      },
       tooltip: {
         enabled: true,
         callbacks: {
           label: (tooltipItem) => {
-            const category = categories[tooltipItem.dataIndex]; // Get category key (e.g., "top_age_group")
-            const specificData = data[category]; // Access the data object for that category (e.g., { age_group: "35.0–39.0", wishlists: 19 })
+            const category = categories[tooltipItem.dataIndex]; 
+            const specificData = data[category]; 
             
-            // Now correctly reference the values inside the specificData object
             return `${specificData.age_group || specificData.income_range || specificData.education_level || specificData.employment_status || specificData.sector} (${specificData.wishlists} wishlists)`;
           },
         },
       },
     },
     scales: {
-      y: { beginAtZero: true },
+      y: { 
+        beginAtZero: true,
+        ticks: {
+          font: {
+            size: 10, // Reduce font size for Y-axis labels
+          },
+        },
+      },
+      x: {
+        ticks: {
+          font: {
+            size: 10, // Reduce font size for X-axis labels
+          },
+        },
+      },
     },
   };
+  
   
 
   return (
     <div>
-      <h4>Purchaser Wishlist Insights</h4>
+      <h4>Wishlist Insights</h4>
       <Bar data={chartData} options={options} />
       {/* Alternatively, you could display the data in a table if you prefer */}
       {/* <table>

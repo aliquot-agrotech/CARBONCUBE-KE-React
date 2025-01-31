@@ -29,24 +29,45 @@ const PurchaserClickEvents = ({ data }) => {
   const options = {
     responsive: true,
     plugins: {
-      legend: { position: "top" },
+      legend: { 
+        position: "top",
+        labels: {
+          font: {
+            size: 10, // Reduce legend font size
+          },
+        },
+      },
       tooltip: {
         enabled: true,
         callbacks: {
           label: (tooltipItem) => {
-            const category = categories[tooltipItem.dataIndex];
-            const eventType = eventTypes[tooltipItem.datasetIndex];
-            const specificData = data[category][eventType];
-            const key = Object.keys(specificData).find((k) => k !== "clicks");
-            return `${specificData[key]} (${specificData.clicks} clicks)`;
+            const category = categories[tooltipItem.dataIndex]; 
+            const specificData = data[category]; 
+            
+            return `${specificData.age_group || specificData.income_range || specificData.education_level || specificData.employment_status || specificData.sector} (${specificData.wishlists} wishlists)`;
           },
         },
       },
     },
     scales: {
-      y: { beginAtZero: true },
+      y: { 
+        beginAtZero: true,
+        ticks: {
+          font: {
+            size: 10, // Reduce font size for Y-axis labels
+          },
+        },
+      },
+      x: {
+        ticks: {
+          font: {
+            size: 10, // Reduce font size for X-axis labels
+          },
+        },
+      },
     },
   };
+  
 
   return (
     <div>
