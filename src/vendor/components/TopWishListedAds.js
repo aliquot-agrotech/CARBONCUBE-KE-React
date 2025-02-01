@@ -39,10 +39,9 @@ const TopWishListedAds = ({ data }) => {
                   ))}
                 </strong>
               </Card.Text>
-              <Card.Text className="d-flex justify-content-between align-items-center">
-                <strong>Wishlisted:&nbsp;</strong> 
-                <span className="badge bg-primary">{ad.wishlist_count} wishes</span>
-              </Card.Text>
+              <Card.Text className="d-flex justify-content-start">
+                                <strong>Wishlisted:&nbsp;</strong> {ad.wishlist_count}
+                            </Card.Text>
             </Card.Body>
           </Card>
         </Col>
