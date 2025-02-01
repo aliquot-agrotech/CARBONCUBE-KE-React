@@ -40,8 +40,8 @@ const TopWishListedAds = ({ data }) => {
                 </strong>
               </Card.Text>
               <Card.Text className="d-flex justify-content-start">
-                                <strong>Wishlisted:&nbsp;</strong> {ad.wishlist_count}
-                            </Card.Text>
+                  <strong>Wishlisted:&nbsp;</strong> {ad.wishlist_count}
+              </Card.Text>
             </Card.Body>
           </Card>
         </Col>
