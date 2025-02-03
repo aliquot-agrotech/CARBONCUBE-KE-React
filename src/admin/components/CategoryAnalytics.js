@@ -4,16 +4,20 @@ import { Col, Row } from 'react-bootstrap';
 import 'chart.js/auto';
 import './CategoryAnalytics.css'; // Ensure this file contains your CSS
 
-const CategoryAnalytics = ({ data }) => {
-  const totalAdsSold = data.reduce((sum, category) => sum + category.total_sold, 0);
+const CategoryAnalytics = ({ data = [] }) => { // Default empty array
+  if (!data || data.length === 0) {
+    return <div className="text-center">Loading category analytics...</div>;
+  }
+
+  const totalAds = data.reduce((sum, category) => sum + (category.total_ads || 0), 0);
 
   const chartData = (category) => {
-    const percentageSold = ((category.total_sold / totalAdsSold) * 100).toFixed(2);
+    const percentageAds = totalAds > 0 ? ((category.total_ads / totalAds) * 100).toFixed(2) : 0;
     return {
-      labels: ['Sold', 'Remaining'],
+      labels: [category.category_name, 'Other Ads'],
       datasets: [
         {
-          data: [percentageSold, 100 - percentageSold],
+          data: [percentageAds, (100 - percentageAds).toFixed(2)],
           backgroundColor: ['#FFC107', '#DDDDDD'],
           hoverBackgroundColor: ['#0019ff', '#DDDDDD'],
         },
@@ -35,24 +39,22 @@ const CategoryAnalytics = ({ data }) => {
       {data.map((category, index) => (
         <Col xs={6} md={4} lg={3} className="mb-4" key={index}>
           <div className="category-analytics text-center">
-          <div className="chart-container">
-          <div >
+            <div className="chart-container">
               <Doughnut data={chartData(category)} options={chartOptions} />
             </div>
-            <div className="chart-label mt-2">
-              <p><span>{category.category_name}</span></p>
+            <div className="category-info mt-2">
+              <p><strong>{category.category_name}</strong></p>
             </div>
-            <div className="chart-label">
-              <span><strong className="text-danger">
-                {((category.total_sold / totalAdsSold) * 100).toFixed(2)} %
-              </strong></span>
+            <div className="ad-info">
+              <span><strong className="text-danger">{category.total_ads} Ads</strong></span>
+            </div>
+            <div className="percentage-info">
+              <span><strong className="text-primary">{((category.total_ads / totalAds) * 100).toFixed(2)} %</strong></span>
             </div>
           </div>
-          </div>
-            
         </Col>
       ))}
-    </Row>    
+    </Row>
   );
 };
 

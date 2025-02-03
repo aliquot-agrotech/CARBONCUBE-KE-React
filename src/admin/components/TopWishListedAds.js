@@ -14,9 +14,21 @@ const TopWishListedAds = ({ data }) => {
               src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'}
             />
             <Card.Body className="analytics-card-body p-0 mx-2">
-              <Card.Title className='mb-0 d-flex justify-content-start' style={{ fontSize: '17px' }}>{ad.ad_title}</Card.Title>
+            <Card.Title 
+                className='mb-0 d-flex justify-content-start' 
+                style={{
+                  fontSize: '17px',
+                  whiteSpace: 'nowrap',        // Keep text on a single line
+                  overflow: 'hidden',          // Hide overflow text
+                  textOverflow: 'ellipsis',    // Show ellipsis at the end
+                  maxWidth: '100%',            // Ensure it fits within the card
+                  display: 'block',            // Ensures proper behavior in some cases
+                }}
+              >
+                {ad.ad_title}
+            </Card.Title>
               <Card.Text className="analytics-price-container justify-content-start">
-                <span className="text-success"><em>Kshs:</em></span>
+                <span className="text-success"><em>Kshs:&nbsp;</em></span>
                 <strong style={{ fontSize: '18px' }} className="text-danger">
                   {ad.ad_price.split('.').map((part, index) => (
                     <React.Fragment key={index}>
@@ -37,7 +49,7 @@ const TopWishListedAds = ({ data }) => {
                 </strong>
               </Card.Text>
               <Card.Text className="d-flex justify-content-start">
-                <strong>Sold:&nbsp;</strong> {ad.total_sold}
+                <strong>Wishlisted:&nbsp;</strong> {ad.wishlist_count}
               </Card.Text>
 
             </Card.Body>

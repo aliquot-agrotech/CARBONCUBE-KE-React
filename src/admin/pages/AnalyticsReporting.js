@@ -134,7 +134,7 @@ const AnalyticsReporting = () => {
                     Category Analytics
                   </Card.Header>
                   <Card.Body>
-                    <CategoryAnalytics data={analyticsData.best_selling_categories} />
+                    <CategoryAnalytics data={analyticsData.ads_per_category} />
                   </Card.Body>
                 </Card>
               </Col>
