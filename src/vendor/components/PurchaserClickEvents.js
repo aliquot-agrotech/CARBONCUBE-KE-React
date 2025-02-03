@@ -18,7 +18,7 @@ const PurchaserClickEvents = ({ data }) => {
   const datasets = eventTypes.map((eventType, index) => ({
     label: eventType.replace("top_", "").replace("_", " ").toUpperCase(),
     backgroundColor: colors[index],
-    data: categories.map((category) => data[category][eventType]?.clicks || 0),
+    data: categories.map((category) => data[category]?.[eventType]?.clicks || 0),
   }));
 
   const chartData = {
@@ -31,43 +31,29 @@ const PurchaserClickEvents = ({ data }) => {
     plugins: {
       legend: { 
         position: "top",
-        labels: {
-          font: {
-            size: 10, // Reduce legend font size
-          },
-        },
+        labels: { font: { size: 10 } },
       },
       tooltip: {
         enabled: true,
         callbacks: {
           label: (tooltipItem) => {
-            const category = categories[tooltipItem.dataIndex]; 
-            const specificData = data[category]; 
-            
-            return `${specificData.age_group || specificData.income_range || specificData.education_level || specificData.employment_status || specificData.sector} (${specificData.wishlists} wishlists)`;
+            const category = categories[tooltipItem.dataIndex];
+            const eventType = eventTypes[tooltipItem.datasetIndex];  
+            const specificData = data[category]?.[eventType];
+  
+            if (!specificData) return "No data";
+  
+            const key = Object.keys(specificData).find((k) => k !== "clicks");
+            return key ? `${specificData[key]} (${specificData.clicks} clicks)` : `${specificData.clicks} clicks`;
           },
         },
       },
     },
     scales: {
-      y: { 
-        beginAtZero: true,
-        ticks: {
-          font: {
-            size: 10, // Reduce font size for Y-axis labels
-          },
-        },
-      },
-      x: {
-        ticks: {
-          font: {
-            size: 10, // Reduce font size for X-axis labels
-          },
-        },
-      },
+      y: { beginAtZero: true, ticks: { font: { size: 10 } } },
+      x: { ticks: { font: { size: 10 } } },
     },
   };
-  
 
   return (
     <div>
