@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
-import SalesPerformance from '../components/SalesPerformance';
+import CategoryClickEvents from '../components/CategoryClickEvents';
 import TopWishListedAds from '../components/TopWishListedAds';
 import PurchaserInsights from '../components/PurchaserInsights';
 import VendorInsights from '../components/VendorInsights';
@@ -141,10 +141,10 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Sales Performance (Last 3 Months)
+                    Category Click Events
                   </Card.Header>
                   <Card.Body>
-                    <SalesPerformance data={analyticsData.sales_performance} totalRevenue={parseFloat(analyticsData.total_revenue)} />
+                    <CategoryClickEvents data={analyticsData.category_click_events} />
                   </Card.Body>
                 </Card>
               </Col>
