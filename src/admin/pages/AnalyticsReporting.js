@@ -100,10 +100,10 @@ const AnalyticsReporting = () => {
                   </Card.Body>
                 </Card>
               </Col> */}
-              <Col xs={6} md={3}>
+              <Col xs={12} md={3}>
                 <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Total Ads Wishlisted
+                    Total Wishlists
                   </Card.Header>
                   <Card.Body>
                     <Card.Text className="text-center"><strong>{analyticsData.total_ads_wish_listed}</strong></Card.Text>
