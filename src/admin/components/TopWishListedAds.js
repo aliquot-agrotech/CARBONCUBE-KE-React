@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import './TopSellingAds.css';
+import './TopWishListedAds.css';
 
-const TopSellingAds = ({ data }) => {
+const TopWishListedAds = ({ data }) => {
   return (
     <Row>
       {data.map((ad) => (
@@ -48,4 +48,4 @@ const TopSellingAds = ({ data }) => {
   );
 };
 
-export default TopSellingAds;
+export default TopWishListedAds;

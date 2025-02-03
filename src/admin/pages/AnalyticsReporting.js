@@ -3,7 +3,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import SalesPerformance from '../components/SalesPerformance';
-import TopSellingAds from '../components/TopSellingAds';
+import TopWishListedAds from '../components/TopWishListedAds';
 import PurchaserInsights from '../components/PurchaserInsights';
 import VendorInsights from '../components/VendorInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics';
@@ -31,20 +31,20 @@ const AnalyticsReporting = () => {
       });
   }, []);
 
-  const formatCurrency = (value) => {
-    return value?.split('.').map((part, index) => (
-      <React.Fragment key={index}>
-        {index === 0 ? (
-          <span>{parseInt(part, 10).toLocaleString()}</span>
-        ) : (
-          <>
-            <span style={{ fontSize: '10px' }}>.</span>
-            <span>{(part || '00').padEnd(2, '0').slice(0, 2)}</span>
-          </>
-        )}
-      </React.Fragment>
-    )) || 'Ksh 0';
-  };
+  // const formatCurrency = (value) => {
+  //   return value?.split('.').map((part, index) => (
+  //     <React.Fragment key={index}>
+  //       {index === 0 ? (
+  //         <span>{parseInt(part, 10).toLocaleString()}</span>
+  //       ) : (
+  //         <>
+  //           <span style={{ fontSize: '10px' }}>.</span>
+  //           <span>{(part || '00').padEnd(2, '0').slice(0, 2)}</span>
+  //         </>
+  //       )}
+  //     </React.Fragment>
+  //   )) || 'Ksh 0';
+  // };
 
   if (loading) {
     return (
@@ -71,7 +71,7 @@ const AnalyticsReporting = () => {
               {[
                 { title: "Total Vendors", value: analyticsData.total_vendors },
                 { title: "Total Purchasers", value: analyticsData.total_purchasers },
-                { title: "Total Orders", value: analyticsData.total_orders },
+                { title: "Total Reviews", value: analyticsData.total_reviews },
                 { title: "Total Ads", value: analyticsData.total_ads },
               ].map(({ title, value }, index) => (
                 <Col xs={6} md={3} key={index}>
@@ -88,7 +88,7 @@ const AnalyticsReporting = () => {
             </Row>
 
             <Row>
-              <Col xs={6} md={3}>
+              {/* <Col xs={6} md={3}>
                 <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Reviews
@@ -99,18 +99,18 @@ const AnalyticsReporting = () => {
                     </Card.Text>
                   </Card.Body>
                 </Card>
-              </Col>
+              </Col> */}
               <Col xs={6} md={3}>
                 <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Total Ads Sold
+                    Total Ads Wishlisted
                   </Card.Header>
                   <Card.Body>
-                    <Card.Text className="text-center"><strong>{analyticsData.total_ads_sold_out}</strong></Card.Text>
+                    <Card.Text className="text-center"><strong>{analyticsData.total_ads_wish_listed}</strong></Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={3}>
+              {/* <Col xs={12} md={3}>
                 <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Total Revenue
@@ -124,7 +124,7 @@ const AnalyticsReporting = () => {
                     </Card.Text>
                   </Card.Body>
                 </Card>
-              </Col>
+              </Col> */}
             </Row>
 
             <Row>
@@ -154,11 +154,11 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={12}>
                 <Card className="mb-4 custom-card">
                 <Card.Header className="justify-content-center">
-                    Top Selling Ads
+                    Top Wishlisted Ads
                   </Card.Header>
                   <Card.Body className='p-3'>
-                    {/* <Card.Title className="text-center">Top Selling Ads</Card.Title> */}
-                    <TopSellingAds data={analyticsData.best_selling_ads} />
+                    {/* <Card.Title className="text-center">Top WishListed Ads</Card.Title> */}
+                    <TopWishListedAds data={analyticsData.top_wishlisted_ads} />
                   </Card.Body>
                 </Card>
               </Col>
