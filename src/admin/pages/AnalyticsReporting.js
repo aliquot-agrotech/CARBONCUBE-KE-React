@@ -131,7 +131,7 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Category Analytics
+                    Category Ads Analytics
                   </Card.Header>
                   <Card.Body>
                     <CategoryAnalytics data={analyticsData.ads_per_category} />

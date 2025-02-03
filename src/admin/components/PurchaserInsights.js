@@ -3,7 +3,7 @@ import { Table, Form } from 'react-bootstrap';
 import './PurchaserInsights.css'; // Import the CSS files
 
 const PurchaserInsights = () => {
-  const [selectedMetric, setSelectedMetric] = useState('Total Orders');
+  const [selectedMetric, setSelectedMetric] = useState('Total Wishlists');
   const [purchasersData, setPurchasersData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -52,8 +52,8 @@ const PurchaserInsights = () => {
                   value={selectedMetric}
                   onChange={handleMetricChange}
                 >
-                  <option>Total Orders</option>
-                  <option>Total Expenditure</option>
+                  <option>Total Wishlists</option>
+                  <option>Total Click Events</option>
                 </Form.Control>
               </th>
             </tr>
@@ -64,34 +64,13 @@ const PurchaserInsights = () => {
                 <td>{index + 1}</td>
                 <td>{purchaser.fullname}</td>
                 <td>
-                  {selectedMetric === 'Total Orders' && (
-                    <strong className=" text-success fw-bold">{purchaser.total_orders}</strong>
+                  {selectedMetric === 'Total Wishlists' && (
+                    <strong className=" text-success fw-bold">{purchaser.total_wishlists}</strong>
                   )}
-                  {selectedMetric === 'Total Expenditure' && (
+                  {selectedMetric === 'Total Click Events' && (
                     <>
-                      {/* <span className="text-success">
-                        <em style={{ fontSize: '13px' }}>Kshs: &nbsp;</em>
-                      </span> */}
                       <strong style={{ fontSize: '16px' }} className="text-success">
-                        {Number(purchaser.total_expenditure || 0)
-                          .toFixed(2)
-                          .split('.')
-                          .map((part, index) => (
-                            <React.Fragment key={index}>
-                              {index === 0 ? (
-                                <span className="analytics-price-integer">
-                                  {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                </span>
-                              ) : (
-                                <>
-                                  <span style={{ fontSize: '10px' }}>.</span>
-                                  <span className="analytics-price-decimal">
-                                    {(part || '00').padEnd(2, '0').slice(0, 2)} {/* Ensure two decimal points */}
-                                  </span>
-                                </>
-                              )}
-                            </React.Fragment>
-                          ))}
+                        {purchaser.total_clicks || 0}{}
                       </strong>
                     </>
                   )}           
