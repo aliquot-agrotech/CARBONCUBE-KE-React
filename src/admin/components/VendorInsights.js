@@ -42,7 +42,7 @@ const VendorInsights = () => {
         <Table striped bordered hover className="text-center transparent-table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>No:</th>
               <th>Vendor Name</th>
               <th>
                 <Form.Control
