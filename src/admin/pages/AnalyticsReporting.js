@@ -74,8 +74,13 @@ const AnalyticsReporting = () => {
                 { title: "Total Purchasers", value: analyticsData.total_purchasers },
                 { title: "Total Reviews", value: analyticsData.total_reviews },
                 { title: "Total Ads", value: analyticsData.total_ads },
-              ].map(({ title, value }, index) => (
-                <Col xs={6} md={3} key={index}>
+                { title: "Total Wishlists", value: analyticsData.total_ads_wish_listed },
+              ].map(({ title, value }, index, array) => (
+                <Col 
+                  xs={array.length % 2 !== 0 && index === array.length - 1 ? 12 : 6} 
+                  md={4} 
+                  key={index}
+                >
                   <Card className="mb-2 mb-lg-4 custom-card">
                     <Card.Header className="justify-content-center">{title}</Card.Header>
                     <Card.Body>
@@ -86,46 +91,6 @@ const AnalyticsReporting = () => {
                   </Card>
                 </Col>
               ))}
-            </Row>
-
-            <Row>
-              {/* <Col xs={6} md={3}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Total Reviews
-                  </Card.Header>
-                  <Card.Body>
-                    <Card.Text className="text-center">
-                      <strong>{parseInt(analyticsData.total_reviews, 10).toLocaleString()}</strong>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col> */}
-              <Col xs={12} md={3}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Total Wishlists
-                  </Card.Header>
-                  <Card.Body>
-                    <Card.Text className="text-center"><strong>{analyticsData.total_ads_wish_listed}</strong></Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-              {/* <Col xs={12} md={3}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Total Revenue
-                  </Card.Header>
-                  <Card.Body>
-                    <Card.Text className="analytics-price-container text-center">
-                      <span><em className='analytics-ad-price-label text-success'>Kshs: </em></span>
-                      <strong style={{ fontSize: '16px' }} className="text-danger">
-                        {formatCurrency(analyticsData.total_revenue)}
-                      </strong>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col> */}
             </Row>
 
             <Row>
