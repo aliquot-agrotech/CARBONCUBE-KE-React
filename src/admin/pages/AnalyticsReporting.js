@@ -7,6 +7,7 @@ import TopWishListedAds from '../components/TopWishListedAds';
 import PurchaserInsights from '../components/PurchaserInsights';
 import VendorInsights from '../components/VendorInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics';
+import CategoryWishlists from '../components/CategoryWishlists';
 import OrderStatus from '../components/OrderStatus';
 import Spinner from "react-spinkit";
 import '../css/AnalyticsReporting.css';
@@ -138,7 +139,18 @@ const AnalyticsReporting = () => {
                   </Card.Body>
                 </Card>
               </Col>
+              
               <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header className="justify-content-center">
+                    Category WishListed Ads
+                  </Card.Header>
+                  <Card.Body>
+                    <CategoryWishlists data={analyticsData.category_wishlist_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={12}>
                 <Card className="mb-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Category Click Events
