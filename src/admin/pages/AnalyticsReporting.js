@@ -9,6 +9,7 @@ import VendorInsights from '../components/VendorInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics';
 import CategoryWishlists from '../components/CategoryWishlists';
 import OrderStatus from '../components/OrderStatus';
+import { AgeGroupChart, GenderDistributionChart, EmploymentChart, IncomeChart, EducationChart, SectorChart } from "../components/PurchaserDemographics";
 import Spinner from "react-spinkit";
 import '../css/AnalyticsReporting.css';
 
@@ -165,13 +166,74 @@ const AnalyticsReporting = () => {
             </Row>
 
             <Row>
-            <Col xs={12} md={12}>
+              <Col xs={12} md={12}>
                 <Card className="mb-2 mb-lg-4 custom-card">
                   <Card.Header className="justify-content-center">
                     Order Status Insights
                   </Card.Header>
                   <Card.Body>
                     <OrderStatus data={analyticsData.order_counts_by_status} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+
+            {/* Purchaser Demographics Charts Section */}
+            <Row>
+              <Col xs={12}>
+                <h3 className="text-center my-4">Purchaser Demographics</h3>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Age Group Distribution</Card.Header>
+                  <Card.Body>
+                    <AgeGroupChart data={analyticsData.age_groups} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Gender Distribution</Card.Header>
+                  <Card.Body>
+                    <GenderDistributionChart data={analyticsData.gender_distribution} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Employment Status</Card.Header>
+                  <Card.Body>
+                    <EmploymentChart data={analyticsData.employment_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Income Distribution</Card.Header>
+                  <Card.Body>
+                    <IncomeChart data={analyticsData.income_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Education Level</Card.Header>
+                  <Card.Body>
+                    <EducationChart data={analyticsData.education_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Sector Distribution</Card.Header>
+                  <Card.Body>
+                    <SectorChart data={analyticsData.sector_data} />
                   </Card.Body>
                 </Card>
               </Col>
