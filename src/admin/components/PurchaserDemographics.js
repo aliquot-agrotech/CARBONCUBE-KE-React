@@ -14,8 +14,40 @@ const AgeGroupChart = ({ data }) => {
             backgroundColor: "#FFC107",
         }],
     };
-    return <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />;
+
+    const chartOptions = {
+        responsive: true,
+        scales: { 
+            y: { beginAtZero: true } 
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    boxWidth: 15,  // Width of the legend color box
+                    boxHeight: 15, // Height of the legend color box
+                    borderRadius: 50,  // Make it circular
+                    padding: 10,  // Adjust padding between the label and the chart
+                    generateLabels: function(chart) {
+                        const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
+                        const labels = original.call(this, chart);
+
+                        // Make the color boxes circular
+                        labels.forEach(label => {
+                            label.pointStyle = 'circle';
+                            label.radius = 10; // Adjust the size of the circle
+                        });
+
+                        return labels;
+                    },
+                },
+            },
+        },
+    };
+
+    return <Bar data={chartData} options={chartOptions} />;
 };
+
+
 
 // Gender Distribution Chart
 const GenderDistributionChart = ({ data }) => {
@@ -28,7 +60,7 @@ const GenderDistributionChart = ({ data }) => {
     };
 
     const chartOptions = {
-        cutout: '75%',  // Adjust the size of the hole in the middle
+        cutout: '70%',  // Adjust the size of the hole in the middle
         plugins: {
             legend: {
                 display: false,  // Hide default legend
@@ -39,7 +71,7 @@ const GenderDistributionChart = ({ data }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Doughnut data={chartData} options={chartOptions} style={{ width: '250px', height: '250px' }} />
+                <Doughnut data={chartData} options={chartOptions} style={{ width: '200px', height: '200px' }} />
             </div>
 
             {/* Custom Legend */}
@@ -73,7 +105,37 @@ const EmploymentChart = ({ data }) => {
             backgroundColor: "#4CAF50",
         }],
     };
-    return <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />;
+
+    const chartOptions = {
+        responsive: true,
+        scales: { 
+            y: { beginAtZero: true } 
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    boxWidth: 15,  // Width of the legend color box
+                    boxHeight: 15, // Height of the legend color box
+                    borderRadius: 50,  // Make it circular
+                    padding: 10,  // Adjust padding between the label and the chart
+                    generateLabels: function(chart) {
+                        const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
+                        const labels = original.call(this, chart);
+
+                        // Make the color boxes circular
+                        labels.forEach(label => {
+                            label.pointStyle = 'circle';
+                            label.radius = 10; // Adjust the size of the circle
+                        });
+
+                        return labels;
+                    },
+                },
+            },
+        },
+    };
+
+    return <Bar data={chartData} options={chartOptions} />;
 };
 
 // Income Chart
@@ -86,7 +148,37 @@ const IncomeChart = ({ data }) => {
             backgroundColor: "#FF9800",
         }],
     };
-    return <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />;
+
+    const chartOptions = {
+        responsive: true,
+        scales: { 
+            y: { beginAtZero: true } 
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    boxWidth: 15,  // Width of the legend color box
+                    boxHeight: 15, // Height of the legend color box
+                    borderRadius: 50,  // Make it circular
+                    padding: 10,  // Adjust padding between the label and the chart
+                    generateLabels: function(chart) {
+                        const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
+                        const labels = original.call(this, chart);
+
+                        // Make the color boxes circular
+                        labels.forEach(label => {
+                            label.pointStyle = 'circle';
+                            label.radius = 10; // Adjust the size of the circle
+                        });
+
+                        return labels;
+                    },
+                },
+            },
+        },
+    };
+
+    return <Bar data={chartData} options={chartOptions} />;
 };
 
 // Education Chart
@@ -113,7 +205,7 @@ const EducationChart = ({ data }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Doughnut data={chartData} options={chartOptions} style={{ width: '250px', height: '250px' }} />
+                <Doughnut data={chartData} options={chartOptions} style={{ width: '200px', height: '200px' }} />
             </div>
 
             {/* Custom Legend */}
@@ -148,8 +240,37 @@ const SectorChart = ({ data }) => {
             backgroundColor: "#9C27B0",
         }],
     };
+
+    const chartOptions = {
+        responsive: true,
+        scales: { 
+            y: { beginAtZero: true } 
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    boxWidth: 15,  // Width of the legend color box
+                    boxHeight: 15, // Height of the legend color box
+                    borderRadius: 50,  // Make it circular
+                    padding: 10,  // Adjust padding between the label and the chart
+                    generateLabels: function(chart) {
+                        const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
+                        const labels = original.call(this, chart);
+
+                        // Make the color boxes circular
+                        labels.forEach(label => {
+                            label.pointStyle = 'circle';
+                            label.radius = 10; // Adjust the size of the circle
+                        });
+
+                        return labels;
+                    },
+                },
+            },
+        },
+    };
     
-    return <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />;
+    return <Bar data={chartData} options={chartOptions} />;
 };
 
 export { AgeGroupChart, GenderDistributionChart, EmploymentChart, IncomeChart, EducationChart, SectorChart };
