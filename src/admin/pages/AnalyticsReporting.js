@@ -9,6 +9,7 @@ import VendorInsights from '../components/VendorInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics';
 import CategoryWishlists from '../components/CategoryWishlists';
 import { AgeGroupChart, GenderDistributionChart, EmploymentChart, IncomeChart, EducationChart, SectorChart } from "../components/PurchaserDemographics";
+import { VendorAgeGroupChart, VendorGenderDistributionChart, VendorCategoryChart, VendorTierChart } from "../components/VendorDemographics";
 import Spinner from "react-spinkit";
 import '../css/AnalyticsReporting.css';
 
@@ -206,6 +207,49 @@ const AnalyticsReporting = () => {
                   <Card.Header>Sector Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
                     <SectorChart data={analyticsData.sector_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+
+            {/* Vendor Demographics Charts Section */}
+            <Row>
+              <Col xs={12}>
+                <h3 className="text-center my-2 my-lg-4">Vendor Demographics</h3>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Age Group Distribution</Card.Header>
+                  <Card.Body className="px-3 py-2">
+                    <VendorAgeGroupChart data={analyticsData.vendor_age_groups} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Gender Distribution</Card.Header>
+                  <Card.Body className="px-3 py-2">
+                    <VendorGenderDistributionChart data={analyticsData.vendor_gender_distribution} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Tier Distribution</Card.Header>
+                  <Card.Body className="px-3 py-2">
+                    <VendorTierChart data={analyticsData.tier_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Category Distribution</Card.Header>
+                  <Card.Body className="px-3 py-2">
+                    <VendorCategoryChart data={analyticsData.category_data} />
                   </Card.Body>
                 </Card>
               </Col>
