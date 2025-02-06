@@ -48,9 +48,10 @@
   }
   
   .legend-color {
-    width: 20px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     margin-right: 5px;
+    border-radius: 50%;
   }
   
   .legend-label {
