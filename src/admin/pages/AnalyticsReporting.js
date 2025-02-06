@@ -195,37 +195,38 @@ const AnalyticsReporting = () => {
               </Col>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
-                  <Card.Header>Gender Distribution</Card.Header>
-                  <Card.Body>
-                    <GenderDistributionChart data={analyticsData.gender_distribution} />
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
                   <Card.Header>Employment Status</Card.Header>
                   <Card.Body>
                     <EmploymentChart data={analyticsData.employment_data} />
                   </Card.Body>
                 </Card>
               </Col>
+            </Row>
+            <Row>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
-                  <Card.Header>Income Distribution</Card.Header>
+                  <Card.Header>Gender Distribution</Card.Header>
                   <Card.Body>
-                    <IncomeChart data={analyticsData.income_data} />
+                    <GenderDistributionChart data={analyticsData.gender_distribution} />
                   </Card.Body>
                 </Card>
               </Col>
-            </Row>
-            <Row>
+              
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Education Level</Card.Header>
                   <Card.Body>
                     <EducationChart data={analyticsData.education_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+            <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Income Distribution</Card.Header>
+                  <Card.Body>
+                    <IncomeChart data={analyticsData.income_data} />
                   </Card.Body>
                 </Card>
               </Col>
