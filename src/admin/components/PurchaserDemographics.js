@@ -1,5 +1,5 @@
 import React from "react";
-import { Bar, Pie } from "react-chartjs-2";
+import { Bar, Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
@@ -26,7 +26,41 @@ const GenderDistributionChart = ({ data }) => {
             backgroundColor: ["#FF6384", "#36A2EB"],
         }],
     };
-    return <Pie data={chartData} />;
+
+    const chartOptions = {
+        cutout: '75%',  // Adjust the size of the hole in the middle
+        plugins: {
+            legend: {
+                display: false,  // Hide default legend
+            },
+        },
+    };
+
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Doughnut data={chartData} options={chartOptions} style={{ width: '250px', height: '250px' }} />
+            </div>
+
+            {/* Custom Legend */}
+            <div className="mt-4" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                {Object.keys(data).map((gender, index) => (
+                    <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '0 10px' }}>
+                        <div 
+                            style={{
+                                width: '15px',
+                                height: '15px',
+                                backgroundColor: chartData.datasets[0].backgroundColor[index],
+                                marginRight: '5px',
+                                borderRadius: '50%',  // Makes it a circle
+                            }}
+                        />
+                        <span style={{ fontSize: '12px' }}>{gender}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
 
 // Employment Chart
@@ -64,8 +98,45 @@ const EducationChart = ({ data }) => {
             backgroundColor: ["#3F51B5", "#8BC34A", "#FFEB3B", "#FF5722"],
         }],
     };
-    return <Pie data={chartData} />;
+
+    const chartOptions = {
+        cutout: '70%',  // Adjust the size of the hole in the middle (e.g., 70% of the radius)
+        plugins: {
+            legend: {
+                display: false,
+                labels: {usePointStyle: true},
+                 // Hide the default legend
+            },
+        },
+    };
+
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Doughnut data={chartData} options={chartOptions} style={{ width: '250px', height: '250px' }} />
+            </div>
+
+            {/* Custom Legend */}
+            <div className="mt-4" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                {data.map((item, index) => (
+                    <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '0 10px' }}>
+                        <div 
+                            style={{
+                                width: '15px',
+                                height: '15px',
+                                backgroundColor: chartData.datasets[0].backgroundColor[index],
+                                marginRight: '5px',
+                                borderRadius: '50%',  // Makes it a circle
+                            }}
+                        />
+                        <span style={{ fontSize: '12px' }}>{Object.keys(item)[0]}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
+
 
 // Sector Chart
 const SectorChart = ({ data }) => {
@@ -77,6 +148,7 @@ const SectorChart = ({ data }) => {
             backgroundColor: "#9C27B0",
         }],
     };
+    
     return <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />;
 };
 

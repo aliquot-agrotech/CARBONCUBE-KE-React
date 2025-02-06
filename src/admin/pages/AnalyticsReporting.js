@@ -8,7 +8,6 @@ import PurchaserInsights from '../components/PurchaserInsights';
 import VendorInsights from '../components/VendorInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics';
 import CategoryWishlists from '../components/CategoryWishlists';
-import OrderStatus from '../components/OrderStatus';
 import { AgeGroupChart, GenderDistributionChart, EmploymentChart, IncomeChart, EducationChart, SectorChart } from "../components/PurchaserDemographics";
 import Spinner from "react-spinkit";
 import '../css/AnalyticsReporting.css';
@@ -32,21 +31,6 @@ const AnalyticsReporting = () => {
         setLoading(false);
       });
   }, []);
-
-  // const formatCurrency = (value) => {
-  //   return value?.split('.').map((part, index) => (
-  //     <React.Fragment key={index}>
-  //       {index === 0 ? (
-  //         <span>{parseInt(part, 10).toLocaleString()}</span>
-  //       ) : (
-  //         <>
-  //           <span style={{ fontSize: '10px' }}>.</span>
-  //           <span>{(part || '00').padEnd(2, '0').slice(0, 2)}</span>
-  //         </>
-  //       )}
-  //     </React.Fragment>
-  //   )) || 'Ksh 0';
-  // };
 
   if (loading) {
     return (
@@ -165,30 +149,17 @@ const AnalyticsReporting = () => {
               </Col>
             </Row>
 
-            <Row>
-              <Col xs={12} md={12}>
-                <Card className="mb-2 mb-lg-4 custom-card">
-                  <Card.Header className="justify-content-center">
-                    Order Status Insights
-                  </Card.Header>
-                  <Card.Body>
-                    <OrderStatus data={analyticsData.order_counts_by_status} />
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-
             {/* Purchaser Demographics Charts Section */}
             <Row>
               <Col xs={12}>
-                <h3 className="text-center my-4">Purchaser Demographics</h3>
+                <h3 className="text-center my-2 my-lg-4">Purchaser Demographics</h3>
               </Col>
             </Row>
             <Row>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Age Group Distribution</Card.Header>
-                  <Card.Body>
+                  <Card.Body className="px-3 py-2">
                     <AgeGroupChart data={analyticsData.age_groups} />
                   </Card.Body>
                 </Card>
@@ -196,7 +167,7 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Employment Status</Card.Header>
-                  <Card.Body>
+                  <Card.Body className="px-3 py-2">
                     <EmploymentChart data={analyticsData.employment_data} />
                   </Card.Body>
                 </Card>
@@ -206,7 +177,7 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Gender Distribution</Card.Header>
-                  <Card.Body>
+                  <Card.Body className="px-3 py-2">
                     <GenderDistributionChart data={analyticsData.gender_distribution} />
                   </Card.Body>
                 </Card>
@@ -215,7 +186,7 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Education Level</Card.Header>
-                  <Card.Body>
+                  <Card.Body className="px-3 py-2">
                     <EducationChart data={analyticsData.education_data} />
                   </Card.Body>
                 </Card>
@@ -225,7 +196,7 @@ const AnalyticsReporting = () => {
             <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Income Distribution</Card.Header>
-                  <Card.Body>
+                  <Card.Body className="px-3 py-2">
                     <IncomeChart data={analyticsData.income_data} />
                   </Card.Body>
                 </Card>
@@ -233,7 +204,7 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Sector Distribution</Card.Header>
-                  <Card.Body>
+                  <Card.Body className="px-3 py-2">
                     <SectorChart data={analyticsData.sector_data} />
                   </Card.Body>
                 </Card>
