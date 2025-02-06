@@ -4,6 +4,7 @@ import { Chart as ChartJS, BarElement, ArcElement, CategoryScale, LinearScale, T
 
 ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 
+// Age Group Chart
 const AgeGroupChart = ({ data }) => {
     const chartData = {
         labels: Object.keys(data),
@@ -16,6 +17,7 @@ const AgeGroupChart = ({ data }) => {
     return <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />;
 };
 
+// Gender Distribution Chart
 const GenderDistributionChart = ({ data }) => {
     const chartData = {
         labels: Object.keys(data),
@@ -27,9 +29,9 @@ const GenderDistributionChart = ({ data }) => {
     return <Pie data={chartData} />;
 };
 
+// Employment Chart
 const EmploymentChart = ({ data }) => {
     const chartData = {
-        // Fix: Properly map through array of objects
         labels: data.map(item => Object.keys(item)[0]),
         datasets: [{
             label: "Purchasers",
@@ -40,6 +42,7 @@ const EmploymentChart = ({ data }) => {
     return <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />;
 };
 
+// Income Chart
 const IncomeChart = ({ data }) => {
     const chartData = {
         labels: data.map(i => Object.keys(i)[0]),
@@ -52,6 +55,7 @@ const IncomeChart = ({ data }) => {
     return <Bar data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />;
 };
 
+// Education Chart
 const EducationChart = ({ data }) => {
     const chartData = {
         labels: data.map(e => Object.keys(e)[0]),
@@ -63,6 +67,7 @@ const EducationChart = ({ data }) => {
     return <Pie data={chartData} />;
 };
 
+// Sector Chart
 const SectorChart = ({ data }) => {
     const chartData = {
         labels: data.map(s => Object.entries(s)[0][0]),
