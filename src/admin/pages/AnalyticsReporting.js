@@ -175,6 +175,24 @@ const AnalyticsReporting = () => {
               </Col>
             </Row>
             <Row>
+            <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Income Distribution</Card.Header>
+                  <Card.Body className="px-3 py-2">
+                    <IncomeChart data={analyticsData.income_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
+                  <Card.Header>Sector Distribution</Card.Header>
+                  <Card.Body className="px-3 py-2">
+                    <SectorChart data={analyticsData.sector_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Gender Distribution</Card.Header>
@@ -189,24 +207,6 @@ const AnalyticsReporting = () => {
                   <Card.Header>Education Level</Card.Header>
                   <Card.Body className="px-3 py-2">
                     <EducationChart data={analyticsData.education_data} />
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-            <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>Income Distribution</Card.Header>
-                  <Card.Body className="px-3 py-2">
-                    <IncomeChart data={analyticsData.income_data} />
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>Sector Distribution</Card.Header>
-                  <Card.Body className="px-3 py-2">
-                    <SectorChart data={analyticsData.sector_data} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -229,14 +229,22 @@ const AnalyticsReporting = () => {
               </Col>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
+                  <Card.Header>Category Distribution</Card.Header>
+                  <Card.Body className="px-3 py-2">
+                    <VendorCategoryChart data={analyticsData.category_data} />
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}>
+                <Card className="mb-4 custom-card">
                   <Card.Header>Gender Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
                     <VendorGenderDistributionChart data={analyticsData.vendor_gender_distribution} />
                   </Card.Body>
                 </Card>
               </Col>
-            </Row>
-            <Row>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header>Tier Distribution</Card.Header>
@@ -245,14 +253,7 @@ const AnalyticsReporting = () => {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col xs={12} md={6}>
-                <Card className="mb-4 custom-card">
-                  <Card.Header>Category Distribution</Card.Header>
-                  <Card.Body className="px-3 py-2">
-                    <VendorCategoryChart data={analyticsData.category_data} />
-                  </Card.Body>
-                </Card>
-              </Col>
+              
             </Row>
           </Col>
         </Row>

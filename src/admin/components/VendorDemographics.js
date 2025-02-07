@@ -141,45 +141,52 @@ const VendorCategoryChart = ({ data }) => {
 
 // Vendor Tier Chart
 const VendorTierChart = ({ data }) => {
+    // Extract tier names and totals correctly
+    const tierNames = data.map(obj => Object.keys(obj)[0]);  // ["Free", "Basic", "Standard", "Premium"]
+    const tierTotals = data.map(obj => Object.values(obj)[0]);  // [15, 14, 12, 9]
+
     const chartData = {
-        labels: data.map(i => Object.keys(i)[0]),
+        labels: tierNames,
         datasets: [{
-            label: "No. of Vendors",
-            data: data.map(i => Object.values(i)[0]),
-            backgroundColor: "#FF9800",
+            data: tierTotals,
+            backgroundColor: ["#FF9800", "#4CAF50", "#2196F3", "#9C27B0"],
         }],
     };
 
     const chartOptions = {
-        responsive: true,
-        scales: { 
-            y: { beginAtZero: true } 
-        },
+        cutout: '70%',
         plugins: {
-            legend: {
-                labels: {
-                    boxWidth: 15,  // Width of the legend color box
-                    boxHeight: 15, // Height of the legend color box
-                    borderRadius: 50,  // Make it circular
-                    padding: 10,  // Adjust padding between the label and the chart
-                    generateLabels: function(chart) {
-                        const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
-                        const labels = original.call(this, chart);
-
-                        // Make the color boxes circular
-                        labels.forEach(label => {
-                            label.pointStyle = 'circle';
-                            label.radius = 10; // Adjust the size of the circle
-                        });
-
-                        return labels;
-                    },
-                },
-            },
+            legend: { display: false },
         },
     };
 
-    return <Bar data={chartData} options={chartOptions} />;
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Doughnut data={chartData} options={chartOptions} style={{ width: '200px', height: '200px' }} />
+            </div>
+
+            {/* Custom Legend */}
+            <div className="mt-4" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+                {tierNames.map((tier, index) => (
+                    <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '0 10px' }}>
+                        <div 
+                            style={{
+                                width: '15px',
+                                height: '15px',
+                                backgroundColor: chartData.datasets[0].backgroundColor[index],
+                                marginRight: '5px',
+                                borderRadius: '50%',
+                            }}
+                        />
+                        <span style={{ fontSize: '12px' }}>{tier}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
+
+
 
 export { VendorAgeGroupChart, VendorGenderDistributionChart, VendorCategoryChart, VendorTierChart };
