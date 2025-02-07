@@ -419,7 +419,7 @@ const VendorsManagement = () => {
                                                                                                 selectedVendor.analytics.add_to_wish_list,
                                                                                                 selectedVendor.analytics.reveal_vendor_details
                                                                                             ],
-                                                                                            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                                                                                            backgroundColor: ['#919191', '#FFC107', '#363636']
                                                                                         }
                                                                                     ]
                                                                                 }}
