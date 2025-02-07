@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Container, Row, Col, Tabs, Tab, Card, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserShield, faKey, faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
+import { Bar, Doughnut } from "react-chartjs-2";
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
@@ -366,46 +367,29 @@ const VendorsManagement = () => {
                                                         <Row>
                                                             <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
-                                                                    <Card.Header as="h6" className="justify-content-center">Total Orders</Card.Header>
+                                                                    <Card.Header as="h6" className="justify-content-center">Total Ads</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_orders}
+                                                                        {selectedVendor.analytics.total_ads}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
                                                             <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
-                                                                    <Card.Header as="h6" className="justify-content-center">Total Ads Sold</Card.Header>
+                                                                    <Card.Header as="h6" className="justify-content-center">Total Ads Wishlisted</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_ads_sold}
+                                                                        {selectedVendor.analytics.total_ads_wishlisted}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
                                                         </Row>
 
                                                         <Row>
-                                                            <Col xs={6} md={6} className="px-1 px-lg-2">
+                                                            <Col xs={6} md={6}  className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
-                                                                    <Card.Header as="h6" className="justify-content-center">Total Revenue</Card.Header>
-                                                                    <Card.Body className="text-center price-container">
-                                                                        <Card.Text className="total-revenue m-0 text-center">
-                                                                            <span><em className='ad-price-label text-success'>Kshs: </em></span>
-                                                                            <strong className="price text-danger">
-                                                                            {selectedVendor.analytics.total_revenue ? parseFloat(selectedVendor.analytics.total_revenue).toFixed(2).split('.').map((part, index) => (
-                                                                                <React.Fragment key={index}>
-                                                                                {index === 0 ? (
-                                                                                    <span className="price-integer">
-                                                                                    {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                                                                    </span>
-                                                                                ) : (
-                                                                                    <>
-                                                                                    <span style={{ fontSize: '16px' }}>.</span>
-                                                                                    <span className="price-decimal">{part}</span>
-                                                                                    </>
-                                                                                )}
-                                                                                </React.Fragment>
-                                                                            )) : 'N/A'}
-                                                                            </strong>
-                                                                        </Card.Text>
+                                                                    <Card.Header as="h6" className="justify-content-center">Mean Rating</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        <StarRating rating={selectedVendor.analytics.mean_rating} />
+                                                                        <p className='m-0'>{selectedVendor.analytics.mean_rating}/5</p>
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -420,12 +404,113 @@ const VendorsManagement = () => {
                                                         </Row>
 
                                                         <Row>
-                                                            <Col xs={12} className="px-1 px-lg-2">
+                                                            <Col xs={12} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
-                                                                    <Card.Header as="h6" className="justify-content-center">Mean Rating</Card.Header>
+                                                                    <Card.Header as="h6" className="justify-content-center">Click Events Breakdown</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        <StarRating rating={selectedVendor.analytics.mean_rating} />
-                                                                        <p className='m-0'>{selectedVendor.analytics.mean_rating}/5</p>
+                                                                        <div style={{ width: "200px", height: "200px", margin: "0 auto" }}>
+                                                                            <Doughnut
+                                                                                data={{
+                                                                                    labels: ["Ad Clicks", "Add to Wish List", "Reveal Vendor Details"],
+                                                                                    datasets: [
+                                                                                        {
+                                                                                            label: "Click Events",
+                                                                                            data: [
+                                                                                                selectedVendor.analytics.ad_clicks,
+                                                                                                selectedVendor.analytics.add_to_wish_list,
+                                                                                                selectedVendor.analytics.reveal_vendor_details
+                                                                                            ],
+                                                                                            backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                                                                                        }
+                                                                                    ]
+                                                                                }}
+                                                                                options={{
+                                                                                    cutout: '70%',
+                                                                                    responsive: true,
+                                                                                    maintainAspectRatio: false,
+                                                                                    plugins: {
+                                                                                        legend: { display: false } // Hide default legend
+                                                                                    }
+                                                                                }}
+                                                                            />
+                                                                        </div>
+                                                                        {/* Custom Legend */}
+                                                                        <div style={{
+                                                                            display: "flex",
+                                                                            justifyContent: "center",
+                                                                            gap: "15px",
+                                                                            marginTop: "10px",
+                                                                            whiteSpace: "nowrap"
+                                                                        }}>
+                                                                            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                                                                                <span style={{ width: "12px", height: "12px", backgroundColor: "#FF6384", borderRadius: "50%" }}></span>
+                                                                                <span>Ad Clicks</span>
+                                                                            </div>
+                                                                            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                                                                                <span style={{ width: "12px", height: "12px", backgroundColor: "#36A2EB", borderRadius: "50%" }}></span>
+                                                                                <span>Add to Wish List</span>
+                                                                            </div>
+                                                                            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                                                                                <span style={{ width: "12px", height: "12px", backgroundColor: "#FFCE56", borderRadius: "50%" }}></span>
+                                                                                <span>Reveal Vendor Details</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+
+                                                            <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Rating Distribution</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        <Bar
+                                                                            data={{
+                                                                                labels: ["1★", "2★", "3★", "4★", "5★"],
+                                                                                datasets: [
+                                                                                    {
+                                                                                        label: "No. of Ratings",
+                                                                                        data: selectedVendor.analytics.rating_pie_chart.map(r => r.count),
+                                                                                        backgroundColor: "#4CAF50"
+                                                                                    }
+                                                                                ]
+                                                                            }}
+                                                                            options={{
+                                                                                responsive: true,
+                                                                                scales: {
+                                                                                    y: { beginAtZero: true }
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        </Row>
+
+                                                        <Row>
+                                                            <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Most Clicked Ad</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        {selectedVendor.analytics.most_clicked_ad ? (
+                                                                            <>
+                                                                                <p className="m-0"><strong>{selectedVendor.analytics.most_clicked_ad.title}</strong></p>
+                                                                                <p className="text-muted">Total Clicks: {selectedVendor.analytics.most_clicked_ad.total_clicks}</p>
+                                                                                <p className="text-muted">Category: {selectedVendor.analytics.most_clicked_ad.category}</p>
+                                                                            </>
+                                                                        ) : (
+                                                                            <p>No Click Data Available</p>
+                                                                        )}
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+
+                                                            <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Vendor Insights</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        <p className="m-0">Category: {selectedVendor.analytics.vendor_category}</p>
+                                                                        <p className="m-0">Last Ad Posted: {selectedVendor.analytics.last_ad_posted_at ? new Date(selectedVendor.analytics.last_ad_posted_at).toLocaleDateString() : "N/A"}</p>
+                                                                        <p className="m-0">Account Age: {selectedVendor.analytics.account_age_days} days</p>
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
