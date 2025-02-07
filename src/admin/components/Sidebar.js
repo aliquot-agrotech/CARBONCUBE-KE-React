@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { Shop, Box, BagCheck, PersonCheck, FileText, Percent, Envelope, GraphUp, XCircle, ArrowRight, List, Union } from 'react-bootstrap-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMotorcycle } from '@fortawesome/free-solid-svg-icons';
+import { Shop, Box, PersonCheck, FileText, Percent, Envelope, GraphUp, XCircle, ArrowRight, List, Union } from 'react-bootstrap-icons'; 
 import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -45,11 +43,6 @@ const Sidebar = () => {
             <GraphUp className="icon" /> {isOpen && 'Analytics'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/orders"
-            className={location.pathname === '/admin/orders' ? 'active' : ''}>
-            <BagCheck className="icon" /> {isOpen && 'Orders'}
-          </Nav.Link>
-          <Nav.Link
             href="/admin/ads"
             className={location.pathname === '/admin/ads' ? 'active' : ''}>
             <Box className="icon" /> {isOpen && 'Ads'}
@@ -68,12 +61,6 @@ const Sidebar = () => {
             href="/admin/vendors"
             className={location.pathname === '/admin/vendors' ? 'active' : ''}>
             <Shop className="icon" /> {isOpen && 'Vendors'}
-          </Nav.Link>
-          <Nav.Link
-            href="/admin/riders"
-            className={location.pathname === '/admin/riders' ? 'active' : ''}
-            >
-            <FontAwesomeIcon icon={faMotorcycle} className="icon" /> {isOpen && 'Riders'}
           </Nav.Link>
 
           <Nav.Link
@@ -96,11 +83,7 @@ const Sidebar = () => {
             className={location.pathname === '/admin/messages' ? 'active' : ''}>
             <Envelope className="icon" /> {isOpen && 'Messages'}
           </Nav.Link>
-          {/* <Nav.Link
-            href="/admin/notifications"
-            className={location.pathname === '/admin/notifications' ? 'active' : ''}>
-            <Bell className="icon" /> {isOpen && 'Notifications'}
-          </Nav.Link> */}
+          
         </Nav>
       </div>
     </>
