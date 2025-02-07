@@ -356,7 +356,6 @@ const VendorsManagement = () => {
                                                             </Card>
                                                         </Col>
                                                     </Row>
-
                                                 </Container>
                                             </Tab>
 
@@ -515,11 +514,32 @@ const VendorsManagement = () => {
                                                                 </Card>
                                                             </Col>
                                                         </Row>
+
+                                                        <Row>
+                                                            <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Total Profile Views</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        {selectedVendor.analytics.total_profile_views}
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                            <Col xs={12} md={6} className="px-1 px-lg-2">
+                                                                <Card className="mb-2 custom-card">
+                                                                    <Card.Header as="h6" className="justify-content-center">Vendor Engagement Rank</Card.Header>
+                                                                    <Card.Body className="text-center">
+                                                                        {selectedVendor.analytics.ad_performance_rank || "N/A"}
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </Col>
+                                                        </Row>
                                                     </Container>
                                                 ) : (
                                                     <p>Loading analytics data...</p>
                                                 )}
                                             </Tab>
+
+
                                             <Tab eventKey="orders" title="Orders">
                                                 {/* <h5 className="text-center">Orders</h5> */}
                                                 <div className='section mt-1 mx-2 custom-card-vendor'>
