@@ -11,7 +11,7 @@ const AgeGroupChart = ({ data }) => {
         datasets: [{
             label: "Purchasers",
             data: Object.values(data),
-            backgroundColor: "#FFC107",
+            backgroundColor: "#FF9800",
         }],
     };
 
@@ -102,7 +102,7 @@ const EmploymentChart = ({ data }) => {
         datasets: [{
             label: "Purchasers",
             data: data.map(item => Object.values(item)[0]),
-            backgroundColor: "#4CAF50",
+            backgroundColor: "#FF9800",
         }],
     };
 
@@ -187,7 +187,7 @@ const EducationChart = ({ data }) => {
         labels: data.map(e => Object.keys(e)[0]),
         datasets: [{
             data: data.map(e => Object.values(e)[0]),
-            backgroundColor: ["#3F51B5", "#8BC34A", "#FFEB3B", "#FF5722"],
+            backgroundColor: ["#3F51B5", '#919191', '#FF9800', '#363636'],
         }],
     };
 
@@ -237,7 +237,7 @@ const SectorChart = ({ data }) => {
         datasets: [{
             label: "Purchasers",
             data: data.map(s => Object.entries(s)[0][1]),
-            backgroundColor: "#9C27B0",
+            backgroundColor: "#FF9800",
         }],
     };
 

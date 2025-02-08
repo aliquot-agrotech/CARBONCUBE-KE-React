@@ -18,7 +18,7 @@ const CategoryWishlists = ({ data = [] }) => { // Default empty array
       datasets: [
         {
           data: [percentageWishlists, (100 - percentageWishlists).toFixed(2)],
-          backgroundColor: ['#FFC107', '#DDDDDD'],
+          backgroundColor: ['#FF9800', '#DDDDDD'],
           hoverBackgroundColor: ['#0019ff', '#DDDDDD'],
         },
       ],

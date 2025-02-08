@@ -26,8 +26,7 @@ const CategoryClickEvents = ({ data = [] }) => {
       datasets: [
         {
           data: [adClickPercentage, wishListClickPercentage, revealClickPercentage],
-          backgroundColor: ['#919191', '#FFC107', '#363636'],
-          hoverBackgroundColor: ['#0019ff', '#28a745', '#007bff'],
+          backgroundColor: ['#919191', '#FF9800', '#363636'],
         },
       ],
     };
@@ -96,7 +95,7 @@ const CategoryClickEvents = ({ data = [] }) => {
                 <div className="legend-label">Ad Click</div>
             </div>
             <div className="legend-item">
-                <div className="legend-color" style={{ backgroundColor: '#FFC107' }}></div>
+                <div className="legend-color" style={{ backgroundColor: '#FF9800' }}></div>
                 <div className="legend-label">Add to Wish List</div>
             </div>
             <div className="legend-item">

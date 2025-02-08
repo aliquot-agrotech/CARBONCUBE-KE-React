@@ -18,8 +18,7 @@ const CategoryAnalytics = ({ data = [] }) => { // Default empty array
       datasets: [
         {
           data: [percentageAds, (100 - percentageAds).toFixed(2)],
-          backgroundColor: ['#FFC107', '#DDDDDD'],
-          hoverBackgroundColor: ['#0019ff', '#DDDDDD'],
+          backgroundColor: ['#FF9800', '#DDDDDD'],
         },
       ],
     };

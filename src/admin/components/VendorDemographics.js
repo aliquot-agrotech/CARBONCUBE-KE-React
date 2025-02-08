@@ -11,7 +11,7 @@ const VendorAgeGroupChart = ({ data }) => {
         datasets: [{
             label: "No. of Vendors",
             data: Object.values(data),
-            backgroundColor: "#FFC107",
+            backgroundColor: "#FF9800",
         }],
     };
 
@@ -102,7 +102,7 @@ const VendorCategoryChart = ({ data }) => {
         datasets: [{
             label: "No. of Vendors",
             data: data.map(s => Object.entries(s)[0][1]),
-            backgroundColor: "#9C27B0",
+            backgroundColor: "#FF9800",
         }],
     };
 
@@ -149,7 +149,7 @@ const VendorTierChart = ({ data }) => {
         labels: tierNames,
         datasets: [{
             data: tierTotals,
-            backgroundColor: ["#FF9800", "#4CAF50", "#2196F3", "#9C27B0"],
+            backgroundColor: ["#3F51B5", '#919191', '#FF9800', '#363636'],
         }],
     };
 
