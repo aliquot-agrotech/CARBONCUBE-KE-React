@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { Box, BagCheck, Envelope, GraphUp, XCircle, ArrowRight, PersonCheck, Union } from 'react-bootstrap-icons';
+import { Box, Envelope, GraphUp, XCircle, ArrowRight, PersonCheck, Union } from 'react-bootstrap-icons';
 import { useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -41,11 +41,6 @@ const Sidebar = () => {
             href="/vendor/analytics"
             className={location.pathname === '/vendor/analytics' ? 'active' : ''}>
             <GraphUp className="icon" /> {isOpen && 'Analytics'}
-          </Nav.Link>
-          <Nav.Link
-            href="/vendor/orders"
-            className={location.pathname === '/vendor/orders' ? 'active' : ''}>
-            <BagCheck className="icon" /> {isOpen && 'Orders'}
           </Nav.Link>
           <Nav.Link
             href="/vendor/ads"
