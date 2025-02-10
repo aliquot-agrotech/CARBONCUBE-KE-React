@@ -15,9 +15,18 @@ const CompetitorAds = ({ data }) => {
                             alt={ad.ad_title} // Add alt text for accessibility
                         />
                         <Card.Body className="analytics-card-body p-0 mx-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
-                            <Card.Title className='d-flex justify-content-start mb-0' style={{ fontSize: '17px' }}>
+                            <Card.Title 
+                                className='d-flex justify-content-start mb-0' 
+                                style={{ 
+                                    fontSize: '17px', 
+                                    whiteSpace: 'nowrap', 
+                                    overflow: 'hidden', 
+                                    textOverflow: 'ellipsis' 
+                                }}
+                            >
                                 {ad.ad_title}
                             </Card.Title>
+
                             <Card.Text className="analytics-price-container justify-content-start mt-0">
                                 <em className="text-success" style={{ fontSize: '12px' }}>Kshs: </em>
                                 <strong style={{ fontSize: '18px' }} className="text-danger">
@@ -40,7 +49,7 @@ const CompetitorAds = ({ data }) => {
                                 </strong>
                             </Card.Text>
                             <Card.Text className="d-flex justify-content-start">
-                                <strong>Units Sold:&nbsp;</strong> {ad.total_sold}
+                                <strong>Ads Wishlisted:&nbsp;</strong> {ad.total_wishlists}
                             </Card.Text>
                         </Card.Body>
                     </Card>

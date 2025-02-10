@@ -65,11 +65,27 @@ const CompetitorStats = ({ data }) => {
                 </div>
             </div>
 
-            <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
+            <div 
+                className="card shadow-sm mb-2" 
+                style={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)', 
+                    border: 'none', 
+                    borderRadius: '12px', 
+                    padding: '15px', 
+                    backdropFilter: 'blur(10px)', 
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'
+                }}
+            >
                 <div className="card-body py-2 px-3">
-                    <h5 className="card-title">Competitor Average Selling Price</h5>
-                    <p className="card-text">
-                        <strong>Competitor Average Price:</strong> ${competitor_average_price}
+                    
+                    <p 
+                        className="card-text"
+                        style={{ fontSize: '16px', color: '#333', fontWeight: '500' }}
+                    >
+                        <strong>Competitor Average Price:</strong> 
+                        <span style={{ color: '#28a745', fontWeight: 'bold' }}>
+                            &nbsp; Kshs {competitor_average_price}
+                        </span>
                     </p>
                 </div>
             </div>
