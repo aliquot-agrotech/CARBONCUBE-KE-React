@@ -8,56 +8,7 @@ const CompetitorStats = ({ data }) => {
     const {  top_competitor_ads, competitor_average_price } = data;
 
     return (
-        <div className="container mt-2 px-0">
-            {/* <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
-                <div className="card-body py-2 px-3">
-                    <h5 className="card-title">Revenue Share in Category</h5>
-                    <p className="card-text">
-                    <Row>
-                        <Col xs={12} md={6}>
-                            <strong>Vendor Revenue <span className="text-success" style={{ fontSize: '10px' }}>Kshs: </span></strong>
-                            <strong style={{ fontSize: '16px' }} className="text-danger">
-                                {revenue_share.vendor_revenue
-                                ? Number(revenue_share.vendor_revenue).toFixed(2).split('.').map((part, index) => (
-                                    <React.Fragment key={index}>
-                                        {index === 0 ? (
-                                        <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                        ) : (
-                                        <>
-                                            <span style={{ fontSize: '16px' }}>.</span>
-                                            <span className="price-decimal">{part}</span>
-                                        </>
-                                        )}
-                                    </React.Fragment>
-                                    ))
-                                : 'N/A'}
-                            </strong>
-                        </Col>
-                        <Col xs={12} md={6}>
-                            <strong>Total Category Revenue <span className="text-success" style={{ fontSize: '10px' }}>Kshs: </span></strong>
-                            <strong style={{ fontSize: '16px' }} className="text-danger">
-                                {revenue_share.total_category_revenue
-                                ? Number(revenue_share.total_category_revenue).toFixed(2).split('.').map((part, index) => (
-                                    <React.Fragment key={index}>
-                                        {index === 0 ? (
-                                        <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                        ) : (
-                                        <>
-                                            <span style={{ fontSize: '16px' }}>.</span>
-                                            <span className="price-decimal">{part}</span>
-                                        </>
-                                        )}
-                                    </React.Fragment>
-                                    ))
-                                : 'N/A'}
-                            </strong>
-                        </Col>
-                    </Row>
-                        <strong>Vendor Revenue Share:</strong> {revenue_share.revenue_share}%
-                    </p>
-                </div>
-            </div> */}
-            
+        <div className="container mt-2 px-0">            
             <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
                 <div className="card-body py-2 px-3">
                     <h5 className="card-title">Top Competitor Ads</h5>
@@ -84,8 +35,26 @@ const CompetitorStats = ({ data }) => {
                     >
                         <strong>Competitor Average Price:</strong> 
                         <span style={{ color: '#28a745', fontWeight: 'bold' }}>
-                            &nbsp; Kshs {competitor_average_price}
+                            &nbsp; Kshs &nbsp;
                         </span>
+                        <strong style={{ fontSize: '18px', color: '#dc3545' }}>
+                            {competitor_average_price.toFixed(2).split('.').map((part, index) => (
+                                <React.Fragment key={index}>
+                                    {index === 0 ? (
+                                        <span className="analytics-price-integer">
+                                            {parseInt(part, 10).toLocaleString()} {/* Format integer with commas */}
+                                        </span>
+                                    ) : (
+                                        <>
+                                            <span style={{ fontSize: '10px' }}>.</span>
+                                            <span className="analytics-price-decimal">
+                                                {(part || '00').padEnd(2, '0').slice(0, 2)} {/* Ensure two decimal points */}
+                                            </span>
+                                        </>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </strong>
                     </p>
                 </div>
             </div>
