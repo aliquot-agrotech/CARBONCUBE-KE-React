@@ -13,7 +13,7 @@ const PurchaserClickEvents = ({ data }) => {
   
   const labels = categories.map((category) => category.replace("top_", "").replace("_clicks", "").replace("_", " ").toUpperCase());
   const eventTypes = [ "top_wishlist", "top_ad_click", "top_reveal"];
-  const colors = ["#FFC107", "#919191",  "#363636"];
+  const colors = ["#FF9800", "#919191",  "#363636"];
 
   const datasets = eventTypes.map((eventType, index) => ({
     label: eventType.replace("top_", "").replace("_", " ").toUpperCase(),

@@ -23,15 +23,15 @@ const WishListStats = ({ data }) => {
             {
                 label: 'Wish List Count',
                 data: latestTrends.map(trend => trend.wishlist_count), // Y-axis values (wishlist count)
-                backgroundColor: '#919191', // Bar color
-                borderColor: '#919191', // Border color
+                backgroundColor: '#FF9800', // Bar color
+                borderColor: '#FF9800', // Border color
                 borderWidth: 1,
             }
         ]
     };
 
     return (
-        <div className="container mt-2 px-0">
+        <div className="container mt-0 px-0">
             {/* Wishlist Trends Chart */}
             <div className="card shadow-sm mt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
                 <div className="card-body px-2">

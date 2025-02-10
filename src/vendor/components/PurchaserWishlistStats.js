@@ -21,7 +21,7 @@ const PurchaserWishlistStats = ({ data }) => {
   const eventTypes = ["wishlists"];
   
   // Colors for different data points
-  const colors = ["#919191"];
+  const colors = ["#FF9800"];
 
   // Datasets for the Bar Chart
   const datasets = eventTypes.map((eventType, index) => ({
