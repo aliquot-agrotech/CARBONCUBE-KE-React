@@ -77,7 +77,7 @@ const TierPage = () => {
       const durationString = `${duration} months`;
   
       const response = await axios.patch(
-        "https://carboncube-ke-rails-cu22.onrender.com/vendor/tiers/update_tier",
+        "https://carboncube-ke-rails-cu22.onrender.com/vendor/vendor_tiers/update_tier",
         {
           tier_id: selectedTier, // Pass the selected tier ID
           tier_duration: durationString, // Pass the selected duration
