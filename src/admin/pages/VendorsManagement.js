@@ -419,7 +419,7 @@ const VendorsManagement = () => {
                                                                                                 selectedVendor.analytics.add_to_wish_list,
                                                                                                 selectedVendor.analytics.reveal_vendor_details
                                                                                             ],
-                                                                                            backgroundColor: ['#919191', '#FFC107', '#363636']
+                                                                                            backgroundColor: ['#919191', '#FF9800', '#363636']
                                                                                         }
                                                                                     ]
                                                                                 }}
@@ -442,15 +442,15 @@ const VendorsManagement = () => {
                                                                             whiteSpace: "nowrap"
                                                                         }}>
                                                                             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                                                                                <span style={{ width: "12px", height: "12px", backgroundColor: "#FF6384", borderRadius: "50%" }}></span>
+                                                                                <span style={{ width: "12px", height: "12px", backgroundColor: "#919191", borderRadius: "50%" }}></span>
                                                                                 <span>Ad Clicks</span>
                                                                             </div>
                                                                             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                                                                                <span style={{ width: "12px", height: "12px", backgroundColor: "#36A2EB", borderRadius: "50%" }}></span>
+                                                                                <span style={{ width: "12px", height: "12px", backgroundColor: "#FF9800", borderRadius: "50%" }}></span>
                                                                                 <span>Add to Wish List</span>
                                                                             </div>
                                                                             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                                                                                <span style={{ width: "12px", height: "12px", backgroundColor: "#FFCE56", borderRadius: "50%" }}></span>
+                                                                                <span style={{ width: "12px", height: "12px", backgroundColor: "#363636", borderRadius: "50%" }}></span>
                                                                                 <span>Reveal Vendor Details</span>
                                                                             </div>
                                                                         </div>
@@ -469,7 +469,7 @@ const VendorsManagement = () => {
                                                                                     {
                                                                                         label: "No. of Ratings",
                                                                                         data: selectedVendor.analytics.rating_pie_chart.map(r => r.count),
-                                                                                        backgroundColor: "#4CAF50"
+                                                                                        backgroundColor: "#FF9800"
                                                                                     }
                                                                                 ]
                                                                             }}
