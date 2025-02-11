@@ -267,7 +267,7 @@
 }
 
 .star-rating .star {
-    color: #ffc107; /* Gold color for filled stars */
+    color: #FF9800; /* Gold color for filled stars */
     margin-right: 2px;
 }
 
@@ -276,7 +276,7 @@
 }
 
 .star-rating .star.half-filled {
-    color: #ffc107;
+    color: #FF9800;
     position: relative;
 }
 
@@ -287,11 +287,11 @@
     left: 0;
     width: 50%;
     overflow: hidden;
-    color: #ffc107; /* Gold color for half-filled stars */
+    color: #FF9800; /* Gold color for half-filled stars */
 }
 
 .star-rating .star.filled {
-    color: #ffc107;
+    color: #FF9800;
 }
 
 .ad-price-label {

@@ -494,7 +494,7 @@ const VendorsManagement = () => {
                                                                             <>
                                                                                 <p className="m-0"><strong>{selectedVendor.analytics.most_clicked_ad.title}</strong></p>
                                                                                 <p className="text-muted">Total Clicks: {selectedVendor.analytics.most_clicked_ad.total_clicks}</p>
-                                                                                <p className="text-muted">Category: {selectedVendor.analytics.most_clicked_ad.category}</p>
+                                                                                {/* <p className="text-muted">Category: {selectedVendor.analytics.most_clicked_ad.category}</p> */}
                                                                             </>
                                                                         ) : (
                                                                             <p>No Click Data Available</p>
