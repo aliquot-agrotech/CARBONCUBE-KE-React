@@ -269,7 +269,6 @@ const VendorsManagement = () => {
 
                                 </Card.Footer>
                             </Card>
-                            
 
                             <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
                                 <Modal.Header className="justify-content-center p-1 p-lg-1">

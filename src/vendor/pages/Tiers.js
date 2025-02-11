@@ -19,7 +19,7 @@ const TierPage = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     axios
-      .get('https://carboncube-ke-rails-cu22.onrender.com/vendor/tiers', {
+      .get('https://carboncube-ke-rails-cu22.onrender.com/vendor/vendor_tiers', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
