@@ -24,6 +24,7 @@ const VendorAds = () => {
     const [newImageUrl, setNewImageUrl] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [weightUnit, setWeightUnit] = useState('Grams');
+    const [selectedImages, setSelectedImages] = useState([]);
     // const [files, setFiles] = useState([]);
     const [editedAd, setEditedAd] = useState({
         item_length: '',
@@ -51,6 +52,10 @@ const VendorAds = () => {
     const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
 
     const vendorId = sessionStorage.getItem('vendorId');
+
+    const removeImage = (index) => {
+        setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
 
     useEffect(() => {
         const fetchAds = async () => {
@@ -1092,15 +1097,15 @@ const VendorAds = () => {
 
                                     <Form.Group className="mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Media</Form.Label>
-                                        <div className="upload-section">
+                                        <div className="upload-section position-relative">
                                             <div className="upload-icon">&#8689;</div>
-                                            <Button variant="light" className="custom-upload-btn">
-                                                {/* Add onChange to handle file selection */}
+                                            <Button variant="light" className="custom-upload-btn position-relative">
+                                                Upload Images
                                                 <input
                                                     type="file"
                                                     accept="image/*"
                                                     multiple
-                                                    onChange={(e) => handleFileSelect(e.target.files)}
+                                                    onChange={(e) => handleFileSelect(e)}
                                                     style={{
                                                         position: 'absolute',
                                                         top: 0,
@@ -1114,8 +1119,27 @@ const VendorAds = () => {
                                             </Button>
                                             <div className="upload-instructions">or Drag and Drop files Here</div>
                                         </div>
+                                        {/* Preview Uploaded Images */}
+                                        <div className="image-preview mt-2 d-flex flex-wrap">
+                                            {selectedImages.map((image, index) => (
+                                                <div key={index} className="image-container position-relative me-2 mb-2">
+                                                    <img
+                                                        src={URL.createObjectURL(image)}
+                                                        alt="preview"
+                                                        className="img-thumbnail"
+                                                        style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-sm btn-danger position-absolute top-0 end-0"
+                                                        onClick={() => removeImage(index)}
+                                                    >
+                                                        &times;
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </Form.Group>
-
                                 </Col>
 
                                 <Col md={4}>
