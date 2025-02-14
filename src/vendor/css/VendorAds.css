@@ -43,7 +43,7 @@
   }
   
   .custom-upload-btn {
-    background-color: white;
+    background-color: #FFC107;
     border: 1px solid #B0C4DE;
     border-radius: 12px;
   }
@@ -102,6 +102,33 @@
   color: #000; /* Ensure text is readable on the gradient background */
 }
 
+
+.image-preview::-webkit-scrollbar {
+  height: 6px;
+}
+
+.image-preview::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.image-preview::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.image-preview::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.btn-image {
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
 
 @media screen and (max-width: 767px) {
   .search-container .search-input {

@@ -24,7 +24,7 @@ const VendorAds = () => {
     const [newImageUrl, setNewImageUrl] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [weightUnit, setWeightUnit] = useState('Grams');
-    const [selectedImages, setSelectedImages] = useState([]);
+    // const [selectedImages, setSelectedImages] = useState([]);
     // const [files, setFiles] = useState([]);
     const [editedAd, setEditedAd] = useState({
         item_length: '',
@@ -54,7 +54,10 @@ const VendorAds = () => {
     const vendorId = sessionStorage.getItem('vendorId');
 
     const removeImage = (index) => {
-        setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+        setEditedAd(prev => ({
+            ...prev,
+            media: prev.media.filter((_, i) => i !== index)
+        }));
     };
 
     useEffect(() => {
@@ -1095,50 +1098,83 @@ const VendorAds = () => {
                                         />
                                     </Form.Group>
 
+                                    {/* Inside your modal */}
                                     <Form.Group className="mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Media</Form.Label>
                                         <div className="upload-section position-relative">
                                             <div className="upload-icon">&#8689;</div>
-                                            <Button variant="light" className="custom-upload-btn position-relative">
-                                                Upload Images
-                                                <input
-                                                    type="file"
-                                                    accept="image/*"
-                                                    multiple
-                                                    onChange={(e) => handleFileSelect(e)}
-                                                    style={{
-                                                        position: 'absolute',
-                                                        top: 0,
-                                                        left: 0,
-                                                        width: '100%',
-                                                        height: '100%',
-                                                        opacity: 0,
-                                                        cursor: 'pointer',
-                                                    }}
-                                                />
-                                            </Button>
-                                            <div className="upload-instructions">or Drag and Drop files Here</div>
-                                        </div>
-                                        {/* Preview Uploaded Images */}
-                                        <div className="image-preview mt-2 d-flex flex-wrap">
-                                            {selectedImages.map((image, index) => (
-                                                <div key={index} className="image-container position-relative me-2 mb-2">
-                                                    <img
-                                                        src={URL.createObjectURL(image)}
-                                                        alt="preview"
-                                                        className="img-thumbnail"
-                                                        style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+                                                <Button variant="warning" className="custom-upload-btn position-relative rounded-pill">
+                                                    Upload Images
+                                                    <input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        multiple
+                                                        onChange={(e) => handleFileSelect(e.target.files)}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: 0,
+                                                            left: 0,
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            opacity: 0,
+                                                            cursor: 'pointer',
+                                                        }}
                                                     />
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-sm btn-danger position-absolute top-0 end-0"
-                                                        onClick={() => removeImage(index)}
+                                                </Button>
+                                            <div className="upload-instructions">or Drag and Drop files Here</div>
+                                            <div className="image-preview mt-2" style={{ 
+                                                display: 'flex', 
+                                                flexDirection: 'row',
+                                                overflowX: 'auto',
+                                                gap: '10px',
+                                                padding: '10px 0'
+                                                }}>
+                                                {editedAd.media.map((imageUrl, index) => (
+                                                    <div 
+                                                        key={index} 
+                                                        className="image-container position-relative"
+                                                        style={{ flexShrink: 0 }}
                                                     >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-danger btn-image position-absolute d-flex justify-content-center align-items-center"
+                                                            onClick={() => removeImage(index)}
+                                                            style={{
+                                                                right: '-8px',
+                                                                top: '-8px',
+                                                                borderRadius: '50%',
+                                                                padding: 0,
+                                                                zIndex: 1,
+                                                                height: '22px',
+                                                                width: '22px',
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                                fontSize: '14px',
+                                                                lineHeight: 1,
+                                                                border: 'none'
+                                                            }}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                        <img
+                                                            src={imageUrl}
+                                                            alt={`preview ${index + 1}`}
+                                                            className="img-thumbnail"
+                                                            style={{ 
+                                                                width: '80px', 
+                                                                height: '80px', 
+                                                                objectFit: 'cover',
+                                                                margin: 0
+                                                            }}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
+                                        
+                                        {/* Preview Uploaded Images in a row at bottom */}
+                                        
                                     </Form.Group>
                                 </Col>
 
