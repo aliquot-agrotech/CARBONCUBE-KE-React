@@ -1121,7 +1121,7 @@ const VendorAds = () => {
                                                         }}
                                                     />
                                                 </Button>
-                                            <div className="upload-instructions">or Drag and Drop files Here</div>
+                                            <div className="upload-instructions">Drag and Drop files Here</div>
                                             <div className="image-preview mt-2" style={{ 
                                                 display: 'flex', 
                                                 flexDirection: 'row',
