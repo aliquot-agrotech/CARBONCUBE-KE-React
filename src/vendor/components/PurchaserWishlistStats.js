@@ -42,11 +42,10 @@ const PurchaserWishlistStats = ({ data }) => {
     plugins: {
       legend: { 
         position: "top",
-        labels: {
-          font: {
-            size: 10, // Reduce legend font size
-          },
-        },
+        labels: { font: { size: 10 } ,
+                  usePointStyle: true, // Ensures circular legend markers
+                  pointStyle: "circle", // Explicitly sets them to circles
+                },
       },
       tooltip: {
         enabled: true,

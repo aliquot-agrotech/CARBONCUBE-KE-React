@@ -31,7 +31,10 @@ const PurchaserClickEvents = ({ data }) => {
     plugins: {
       legend: { 
         position: "top",
-        labels: { font: { size: 10 } },
+        labels: { font: { size: 10 } ,
+                  usePointStyle: true, // Ensures circular legend markers
+                  pointStyle: "circle", // Explicitly sets them to circles
+                },
       },
       tooltip: {
         enabled: true,
