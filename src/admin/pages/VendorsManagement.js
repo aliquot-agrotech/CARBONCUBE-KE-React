@@ -513,9 +513,9 @@ const VendorsManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Vendor Insights</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        <p className="m-0">Category: {selectedVendor.analytics.vendor_category}</p>
-                                                                        <p className="m-0">Last Ad Posted: {selectedVendor.analytics.last_ad_posted_at ? new Date(selectedVendor.analytics.last_ad_posted_at).toLocaleDateString() : "N/A"}</p>
-                                                                        <p className="m-0">Account Age: {selectedVendor.analytics.account_age_days} days</p>
+                                                                        <p className="m-0 font-weight-bold">Category: {selectedVendor.analytics.vendor_category}</p>
+                                                                        <p className="m-0 font-weight-bold">Last Ad Posted: {selectedVendor.analytics.last_ad_posted_at ? new Date(selectedVendor.analytics.last_ad_posted_at).toLocaleDateString() : "N/A"}</p>
+                                                                        <p className="m-0 font-weight-bold">Account Age: {selectedVendor.analytics.account_age_days} days</p>
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
