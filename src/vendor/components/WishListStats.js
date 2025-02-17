@@ -60,16 +60,14 @@ const WishListStats = ({ data }) => {
     return (
         <div className="container mt-0 px-0">
             {/* Wishlist Trends Chart */}
-            <div className="card shadow-sm mt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
-                <div className="card-body px-2">
-                    <h5 className="card-title">Wish List Trends (Last 5 Months)</h5>
-                    <div>
-                        {Array.isArray(latestTrends) && latestTrends.length > 0 ? (
-                            <Bar data={chartData} options={options} />
-                        ) : (
-                            <div>No trends available</div>
-                        )}
-                    </div>
+            <div className="card-body px-2">
+                <h5 className="card-title">Wish List Trends (Last 5 Months)</h5>
+                <div>
+                    {Array.isArray(latestTrends) && latestTrends.length > 0 ? (
+                        <Bar data={chartData} options={options} />
+                    ) : (
+                        <div>No trends available</div>
+                    )}
                 </div>
             </div>
         </div>
