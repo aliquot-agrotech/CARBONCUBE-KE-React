@@ -29,7 +29,13 @@ const ClickEventsStats = ({ data }) => {
   const options = {
     responsive: true,
     plugins: {
-      legend: { position: "top" },
+      legend: {
+        position: "top",
+        labels: {
+          usePointStyle: true, // Ensures circular legend markers
+          pointStyle: "circle", // Explicitly sets them to circles
+        },
+      },
       tooltip: {
         enabled: true,
         callbacks: {
@@ -43,6 +49,7 @@ const ClickEventsStats = ({ data }) => {
       y: { beginAtZero: true },
     },
   };
+  
 
   return (
     <div>

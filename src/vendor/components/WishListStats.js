@@ -30,6 +30,33 @@ const WishListStats = ({ data }) => {
         ]
     };
 
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: "top",
+                labels: {
+                    usePointStyle: true, // Ensures circular legend markers
+                    pointStyle: "circle", // Explicitly sets them to circles
+                },
+            },
+            tooltip: {
+                callbacks: {
+                    label: (tooltipItem) => `Wish List Count: ${tooltipItem.raw}`,
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                min: 0,
+                max: Math.ceil(maxWishlistCount / 10) * 10,
+                ticks: { stepSize: 10 },
+            }
+        }
+    };
+    
+
     return (
         <div className="container mt-0 px-0">
             {/* Wishlist Trends Chart */}
@@ -38,24 +65,7 @@ const WishListStats = ({ data }) => {
                     <h5 className="card-title">Wish List Trends (Last 5 Months)</h5>
                     <div>
                         {Array.isArray(latestTrends) && latestTrends.length > 0 ? (
-                            <Bar data={chartData} options={{
-                                responsive: true,
-                                plugins: {
-                                    tooltip: {
-                                        callbacks: {
-                                            label: (tooltipItem) => `Wish List Count: ${tooltipItem.raw}`,
-                                        }
-                                    }
-                                },
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        min: 0, 
-                                        max: Math.ceil(maxWishlistCount / 10) * 10, 
-                                        ticks: { stepSize: 10 },
-                                    }
-                                }
-                            }} />
+                            <Bar data={chartData} options={options} />
                         ) : (
                             <div>No trends available</div>
                         )}
