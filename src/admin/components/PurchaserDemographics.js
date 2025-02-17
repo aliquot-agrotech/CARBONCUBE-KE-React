@@ -16,33 +16,31 @@ const AgeGroupChart = ({ data }) => {
     };
 
     const chartOptions = {
-        responsive: true,
-        scales: { 
-            y: { beginAtZero: true } 
-        },
-        plugins: {
-            legend: {
-                labels: {
-                    boxWidth: 15,  // Width of the legend color box
-                    boxHeight: 15, // Height of the legend color box
-                    borderRadius: 50,  // Make it circular
-                    padding: 10,  // Adjust padding between the label and the chart
-                    generateLabels: function(chart) {
-                        const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
-                        const labels = original.call(this, chart);
+    responsive: true,
+    scales: { 
+        y: { beginAtZero: true } 
+    },
+    plugins: {
+        legend: {
+            labels: {
+                usePointStyle: true, // Enables circular markers
+                pointStyle: "circle", // Explicitly makes them circles
+                padding: 10, // Adjust spacing between legend items
+                generateLabels: function(chart) {
+                    const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
+                    const labels = original.call(this, chart);
 
-                        // Make the color boxes circular
-                        labels.forEach(label => {
-                            label.pointStyle = 'circle';
-                            label.radius = 10; // Adjust the size of the circle
-                        });
+                    labels.forEach(label => {
+                        label.pointStyle = "circle"; // Ensure all labels are circular
+                    });
 
-                        return labels;
-                    },
+                    return labels;
                 },
             },
         },
-    };
+    },
+};
+
 
     return <Bar data={chartData} options={chartOptions} />;
 };
@@ -114,26 +112,24 @@ const EmploymentChart = ({ data }) => {
         plugins: {
             legend: {
                 labels: {
-                    boxWidth: 15,  // Width of the legend color box
-                    boxHeight: 15, // Height of the legend color box
-                    borderRadius: 50,  // Make it circular
-                    padding: 10,  // Adjust padding between the label and the chart
+                    usePointStyle: true, // Enables circular markers
+                    pointStyle: "circle", // Ensures markers are displayed as circles
+                    padding: 10, // Adjusts spacing between legend items
                     generateLabels: function(chart) {
                         const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
                         const labels = original.call(this, chart);
-
-                        // Make the color boxes circular
+    
                         labels.forEach(label => {
-                            label.pointStyle = 'circle';
-                            label.radius = 10; // Adjust the size of the circle
+                            label.pointStyle = "circle"; // Forces all labels to be circular
                         });
-
+    
                         return labels;
                     },
                 },
             },
         },
     };
+    
 
     return <Bar data={chartData} options={chartOptions} />;
 };
@@ -157,9 +153,8 @@ const IncomeChart = ({ data }) => {
         plugins: {
             legend: {
                 labels: {
-                    boxWidth: 15,  // Width of the legend color box
-                    boxHeight: 15, // Height of the legend color box
-                    borderRadius: 50,  // Make it circular
+                    usePointStyle: true, // Enables circular markers
+                    pointStyle: "circle", // Ensures markers are displayed as circles
                     padding: 10,  // Adjust padding between the label and the chart
                     generateLabels: function(chart) {
                         const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
@@ -249,9 +244,8 @@ const SectorChart = ({ data }) => {
         plugins: {
             legend: {
                 labels: {
-                    boxWidth: 15,  // Width of the legend color box
-                    boxHeight: 15, // Height of the legend color box
-                    borderRadius: 50,  // Make it circular
+                    usePointStyle: true, // Enables circular markers
+                    pointStyle: "circle", // Ensures markers are displayed as circles
                     padding: 10,  // Adjust padding between the label and the chart
                     generateLabels: function(chart) {
                         const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
