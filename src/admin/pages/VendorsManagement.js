@@ -266,7 +266,6 @@ const VendorsManagement = () => {
                                     
                                 </Card.Body>
                                 <Card.Footer>
-
                                 </Card.Footer>
                             </Card>
 
@@ -476,6 +475,14 @@ const VendorsManagement = () => {
                                                                                 responsive: true,
                                                                                 scales: {
                                                                                     y: { beginAtZero: true }
+                                                                                },
+                                                                                plugins: {
+                                                                                    legend: {
+                                                                                        labels: {
+                                                                                            usePointStyle: true, // Enables circular markers
+                                                                                            pointStyle: "circle", 
+                                                                                        },
+                                                                                    },
                                                                                 }
                                                                             }}
                                                                         />
