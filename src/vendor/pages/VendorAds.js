@@ -391,59 +391,59 @@ const VendorAds = () => {
     };
 
     // Function to add an image URL
-const handleAddImages = async () => {
-    if (newImageUrl.trim()) {
-        try {
-            const file = document.querySelector('input[type="file"]').files[0];
+    const handleAddImages = async () => {
+        if (newImageUrl.trim()) {
+            try {
+                const file = document.querySelector('input[type="file"]').files[0];
 
-            if (!file) {
-                alert("Please select an image.");
-                return;
+                if (!file) {
+                    alert("Please select an image.");
+                    return;
+                }
+
+                // Check if the image is safe
+                const isUnsafe = await checkImage(file);
+
+                if (isUnsafe) {
+                    alert("This image contains explicit content and cannot be uploaded.");
+                    return;
+                }
+
+                // Upload image to Cloudinary
+                const imageUrl = await handleImageUpload(file);
+
+                // Append new image URL to media array
+                const updatedMedia = [...editedAd.media, imageUrl];
+
+                // Update the ad's media array on the server
+                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                    },
+                    body: JSON.stringify({ ad: { media: updatedMedia } }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update ad');
+                }
+
+                const updatedAd = await response.json();
+
+                // Update the ad in the local state
+                setEditedAd(updatedAd);
+                setAds(prevAds =>
+                    prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
+                );
+
+                setNewImageUrl('');
+                console.log('Image added successfully');
+            } catch (error) {
+                console.error('Error adding image:', error);
             }
-
-            // Check if the image is safe
-            const isUnsafe = await checkImage(file);
-
-            if (isUnsafe) {
-                alert("This image contains explicit content and cannot be uploaded.");
-                return;
-            }
-
-            // Upload image to Cloudinary
-            const imageUrl = await handleImageUpload(file);
-
-            // Append new image URL to media array
-            const updatedMedia = [...editedAd.media, imageUrl];
-
-            // Update the ad's media array on the server
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                },
-                body: JSON.stringify({ ad: { media: updatedMedia } }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update ad');
-            }
-
-            const updatedAd = await response.json();
-
-            // Update the ad in the local state
-            setEditedAd(updatedAd);
-            setAds(prevAds =>
-                prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
-            );
-
-            setNewImageUrl('');
-            console.log('Image added successfully');
-        } catch (error) {
-            console.error('Error adding image:', error);
         }
-    }
-};
+    };
 
     const handleFileSelect = async (files) => {
         if (files.length > 0) {
