@@ -33,7 +33,7 @@ const ProfilePage = () => {
     const [passwordMatch, setPasswordMatch] = useState(true);
 
     // Retrieve token from sessionStorage
-    const token = sessionStorage.getItem('token'); // Adjust the key to match your app
+    const token = sessionStorage.getItem('token'); // Adjust the key to match your app token
 
     // Fetch profile data from the backend API
     useEffect(() => {
