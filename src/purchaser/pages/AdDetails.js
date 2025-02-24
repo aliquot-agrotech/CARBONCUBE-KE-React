@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {  Row, Col, Card, Carousel, Container, Button, Modal } from 'react-bootstrap';
-import {  Heart } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
 import TopNavbar from '../components/TopNavbar';  // Import your TopNavbar component
@@ -610,7 +609,7 @@ const AdDetails = () => {
                                                                         disabled={!ad || wish_listLoading}
                                                                         onClick={handleAddToWishlist} // Trigger handleAddToWishlist
                                                                     >
-                                                                        🔖 Add to Wish List
+                                                                        🖤 Add to Wish List
                                                                     </Button>
                                                                 </motion.div>
                                                             </Col>
@@ -765,10 +764,10 @@ const AdDetails = () => {
                     </Modal.Footer>
                 </Modal> 
 
-                 {/* Add this JSX right after your existing Modal component in the return statement */}
-                <Modal centered show={showReviewModal} onHide={handleCloseReviewModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Write a Review</Modal.Title>
+                {/* Add this JSX right after your existing Modal component in the return statement */}
+                <Modal centered show={showReviewModal} onHide={handleCloseReviewModal} className="futuristic-modal">
+                    <Modal.Header className="border-0 text-center p-1 p-lg-2">
+                        <Modal.Title className="modal-title">Write a Review</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div className="mb-3">
@@ -779,7 +778,6 @@ const AdDetails = () => {
                                         key={star}
                                         icon={star <= rating ? faStar : faStarEmpty}
                                         className={`rating-star ${star <= rating ? 'filled' : 'empty'}`}
-                                        style={{ cursor: 'pointer', fontSize: '24px', marginRight: '8px' }}
                                         onClick={() => handleRatingClick(star)}
                                     />
                                 ))}
@@ -788,43 +786,30 @@ const AdDetails = () => {
                         <div className="mb-3">
                             <label className="form-label">Review</label>
                             <textarea
-                                className="form-control"
-                                rows="3"
+                                className="form-control review-input"
+                                rows="5"
                                 value={reviewText}
                                 onChange={(e) => setReviewText(e.target.value)}
                                 placeholder="Write your review here..."
                             />
                         </div>
                         {submitError && (
-                            <div className="alert alert-danger" role="alert">
+                            <div className="alert alert-danger error-alert">
                                 {submitError}
                             </div>
                         )}
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseReviewModal}>
+                    <Modal.Footer className="border-0 d-flex justify-content-between p-0 p-lg-1">
+                        <Button variant="danger" className="btn-modern cancel-btn" onClick={handleCloseReviewModal}>
                             Cancel
                         </Button>
                         <Button 
-                            variant="primary" 
+                            variant="outline-warning" 
+                            className="btn-modern submit-btn" 
                             onClick={handleSubmitReview}
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? (
-                                <>
-                                    <Spinner
-                                        as="span"
-                                        animation="border"
-                                        size="sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                        className="me-2"
-                                    />
-                                    Submitting...
-                                </>
-                            ) : (
-                                'Submit Review'
-                            )}
+                            {isSubmitting ? "Submitting..." : "Submit Review"}
                         </Button>
                     </Modal.Footer>
                 </Modal>
