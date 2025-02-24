@@ -205,17 +205,24 @@ const AdDetails = () => {
                 throw new Error('Failed to submit review');
             }
     
-            // Refresh reviews after successful submission
-            handleShowModal();
+            // Close review modal first
             handleCloseReviewModal();
-            setShowAlertModal(true);
-            setAlertModal('Review submitted successfully!');
+    
+            // Show success alert after a slight delay to ensure smooth transition
+            setTimeout(() => {
+                setShowAlertModal(true);
+                setAlertModal('Review submitted successfully!');
+            }, 300);
+    
+            // Optional: Trigger a refresh of reviews here if needed
+            // fetchReviews();
         } catch (error) {
             setSubmitError('Failed to submit review. Please try again.');
         } finally {
             setIsSubmitting(false);
         }
-    };    
+    };
+        
     
     const handleRevealVendorDetails = async () => {
         console.log('Button clicked, adId:', adId);
