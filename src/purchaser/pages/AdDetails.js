@@ -276,9 +276,6 @@ const AdDetails = () => {
             console.error('Error logging event:', eventType, error);
         }
     };
-    
-    
-    
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!sidebarOpen);  // Toggle the sidebar open state
