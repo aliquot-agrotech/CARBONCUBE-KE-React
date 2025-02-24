@@ -770,21 +770,22 @@ const AdDetails = () => {
                         <Modal.Title className="modal-title">Write a Review</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="mb-3">
-                            <label className="form-label">Rating</label>
+                        <div className="mb-2">
+                            <label className="form-label">Rating:</label>
                             <div className="rating-selector">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                     <FontAwesomeIcon
                                         key={star}
                                         icon={star <= rating ? faStar : faStarEmpty}
+                                        style={{ cursor: 'pointer', fontSize: '24px', marginRight: '8px' }}
                                         className={`rating-star ${star <= rating ? 'filled' : 'empty'}`}
                                         onClick={() => handleRatingClick(star)}
                                     />
                                 ))}
                             </div>
                         </div>
-                        <div className="mb-3">
-                            <label className="form-label">Review</label>
+                        <div className="mb-2">
+                            <label className="form-label">Review:</label>
                             <textarea
                                 className="form-control review-input"
                                 rows="5"
