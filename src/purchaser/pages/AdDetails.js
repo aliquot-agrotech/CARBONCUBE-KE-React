@@ -563,7 +563,7 @@ const AdDetails = () => {
                                                         <Col xs={6} md={12} lg={6} className="d-flex justify-content-center">
                                                             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                                                 <Button
-                                                                    variant="dark"
+                                                                    variant="outline-dark"
                                                                     className="modern-btn-dark px-4 py-2"
                                                                     id="button"
                                                                     onClick={(e) => {
@@ -580,22 +580,20 @@ const AdDetails = () => {
                                                                             {vendor.enterprise_name} | {vendor.phone_number}
                                                                         </span>
                                                                     ) : (
-                                                                        'View Vendor' // Default text before clicking
+                                                                        '📞 Contact Vendor' // Default text before clicking
                                                                     )}
                                                                 </Button>
                                                             </motion.div>
                                                         </Col>
 
-                                                        <Col xs={6} md={12} lg={6}>
+                                                        <Col xs={6} md={12} lg={6} className="d-flex justify-content-center">
                                                             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                                                 <Button
-                                                                    variant="warning"
-                                                                    className="modern-btn-dark px-4 py-2"
-                                                                    id="button"
-                                                                    disabled={!ad || wish_listLoading}
-                                                                    onClick={handleAddToWishlist} // Trigger handleAddToWishlist
+                                                                    variant="outline-dark"
+                                                                    className="modern-btn-dark px-4 py-2 rounded-pill"
+                                                                    onClick={handleShowReviewModal}
                                                                 >
-                                                                    <Heart className="me-2" /> Add to Wish List
+                                                                    💬 Leave a Review
                                                                 </Button>
                                                             </motion.div>
                                                         </Col>
@@ -603,14 +601,16 @@ const AdDetails = () => {
 
                                                     <div>
                                                         <Row className="mt-2">
-                                                            <Col xs={12} className="d-flex justify-content-center">
+                                                            <Col md={12} className="d-flex justify-content-center">
                                                                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                                                     <Button
                                                                         variant="outline-dark"
-                                                                        className="modern-btn-dark px-4 py-2 rounded-pill"
-                                                                        onClick={handleShowReviewModal}
+                                                                        className="modern-btn-dark px-4 py-2"
+                                                                        id="button"
+                                                                        disabled={!ad || wish_listLoading}
+                                                                        onClick={handleAddToWishlist} // Trigger handleAddToWishlist
                                                                     >
-                                                                        Leave a Review
+                                                                        🔖 Add to Wish List
                                                                     </Button>
                                                                 </motion.div>
                                                             </Col>
