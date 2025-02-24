@@ -356,66 +356,7 @@ const AdDetails = () => {
         } catch (error) {
             console.error('Error logging event:', eventType, error);
         }
-    };
-    
-
-    // const handleAddToCart = async (adId) => {
-    //     const token = sessionStorage.getItem('token');
-    
-    //     if (!token) {
-    //         // Token not found, show alert to log in
-    //         window.alert("You need to log in to add items to your cart.");
-    //         return; // Exit function early if no token
-    //     }
-    
-    //     try {
-    //         // Step 1: Log the 'Add-to-Cart' event
-    //         await logClickEventAddtoCart(adId, 'Add-to-Cart');
-    
-    //         // Step 2: Add ad to cart
-    //         const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/cart_items`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 "Authorization": `Bearer ${token}`,
-    //                 "Content-Type": "application/json"
-    //             },
-    //             body: JSON.stringify({ ad_id: adId })
-    //         });
-    
-    //         if (response.ok) {
-    //             window.alert("Ad added to cart!");
-    //         } else {
-    //             window.alert("Failed to add ad to cart. Please try again.");
-    //         }
-    //     } catch (error) {
-    //         window.alert("An error occurred. Please try again later.");
-    //         console.error("Error:", error);
-    //     }
-    // };
-    
-    // Function to log button click events
-    // const logClickEventAddtoCart = async (adId, eventType) => {
-    //     try {
-    //         const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-    //             },
-    //             body: JSON.stringify({
-    //                 ad_id: adId,
-    //                 event_type: eventType, // 'Add-to-Cart'
-    //             }),
-    //         });
-    
-    //         if (!response.ok) {
-    //             console.warn('Failed to log event:', eventType);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error logging event:', eventType, error);
-    //     }
-    // };
-    
+    };    
 
     const renderRatingStars = (rating, reviewCount) => {
         if (typeof rating !== 'number' || rating < 0) {
