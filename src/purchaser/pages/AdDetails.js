@@ -31,6 +31,11 @@ const AdDetails = () => {
     const [reviewsError, setReviewsError] = useState(null);
     const [vendor, setVendor] = useState(null);
     const [showVendorDetails, setShowVendorDetails] = useState(false); // State to toggle visibility
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    const [reviewText, setReviewText] = useState('');
+    const [rating, setRating] = useState(0);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState(null);
     const navigate = useNavigate(); // Initialize useNavigate
 
 
@@ -52,6 +57,26 @@ const AdDetails = () => {
     
     const handleCloseModal = () => setShowModal(false);
 
+    const handleShowReviewModal = () => {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            setShowAlertModal(true);
+            setAlertModal("You must be Signed In to post a review.");
+            return;
+        }
+        setShowReviewModal(true);
+    };
+    
+    const handleCloseReviewModal = () => {
+        setShowReviewModal(false);
+        setReviewText('');
+        setRating(0);
+        setSubmitError(null);
+    };
+    
+    const handleRatingClick = (selectedRating) => {
+        setRating(selectedRating);
+    };
 
     
     useEffect(() => {
@@ -140,6 +165,57 @@ const AdDetails = () => {
             setLoading(false);
         }
     };
+
+    const handleSubmitReview = async () => {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            setSubmitError('You must be signed in to submit a review.');
+            return;
+        }
+    
+        if (rating === 0) {
+            setSubmitError('Please select a rating.');
+            return;
+        }
+    
+        if (!reviewText.trim()) {
+            setSubmitError('Please enter a review.');
+            return;
+        }
+    
+        setIsSubmitting(true);
+        setSubmitError(null);
+    
+        try {
+            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/purchaser/ads/${adId}/reviews`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    review: {
+                        rating: rating,
+                        review: reviewText
+                    }
+                })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to submit review');
+            }
+    
+            // Refresh reviews after successful submission
+            handleShowModal();
+            handleCloseReviewModal();
+            setShowAlertModal(true);
+            setAlertModal('Review submitted successfully!');
+        } catch (error) {
+            setSubmitError('Failed to submit review. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };    
     
     const handleRevealVendorDetails = async () => {
         console.log('Button clicked, adId:', adId);
@@ -581,24 +657,19 @@ const AdDetails = () => {
                                                     </Row>
 
                                                     <div>
-                                                        {/* <Row className="mt-2 d-flex justify-content-center align-items-center">
-                                                            <Col xs={12} md={12}>
-                                                                <motion.div
-                                                                    whileHover={{ scale: 1.1 }}
-                                                                    whileTap={{ scale: 0.9 }}
-                                                                >
-                                                                    <Button 
-                                                                        variant="warning" 
-                                                                        className="modern-btn me-3 px-4 py-2"
-                                                                        id="button" 
-                                                                        disabled={!ad} 
-                                                                        onClick={() => handleAddToCart(ad.id)}
+                                                        <Row className="mt-2">
+                                                            <Col xs={12} className="d-flex justify-content-center">
+                                                                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                                                                    <Button
+                                                                        variant="outline-dark"
+                                                                        className="modern-btn-dark px-4 py-2 rounded-pill"
+                                                                        onClick={handleShowReviewModal}
                                                                     >
-                                                                        <Cart4 className="me-2" /> Add to cart
+                                                                        Leave a Review
                                                                     </Button>
                                                                 </motion.div>
                                                             </Col>
-                                                        </Row> */}
+                                                        </Row>
 
                                                         {/* Render the Login Modal */}
                                                         <AlertModal 
@@ -748,6 +819,70 @@ const AdDetails = () => {
                         </Button>
                     </Modal.Footer>
                 </Modal> 
+
+                 {/* Add this JSX right after your existing Modal component in the return statement */}
+                <Modal centered show={showReviewModal} onHide={handleCloseReviewModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Write a Review</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="mb-3">
+                            <label className="form-label">Rating</label>
+                            <div className="rating-selector">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <FontAwesomeIcon
+                                        key={star}
+                                        icon={star <= rating ? faStar : faStarEmpty}
+                                        className={`rating-star ${star <= rating ? 'filled' : 'empty'}`}
+                                        style={{ cursor: 'pointer', fontSize: '24px', marginRight: '8px' }}
+                                        onClick={() => handleRatingClick(star)}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Review</label>
+                            <textarea
+                                className="form-control"
+                                rows="3"
+                                value={reviewText}
+                                onChange={(e) => setReviewText(e.target.value)}
+                                placeholder="Write your review here..."
+                            />
+                        </div>
+                        {submitError && (
+                            <div className="alert alert-danger" role="alert">
+                                {submitError}
+                            </div>
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseReviewModal}>
+                            Cancel
+                        </Button>
+                        <Button 
+                            variant="primary" 
+                            onClick={handleSubmitReview}
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? (
+                                <>
+                                    <Spinner
+                                        as="span"
+                                        animation="border"
+                                        size="sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                        className="me-2"
+                                    />
+                                    Submitting...
+                                </>
+                            ) : (
+                                'Submit Review'
+                            )}
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </>
     );
