@@ -6,7 +6,6 @@ import Sidebar from '../components/Sidebar';
 import Spinner from "react-spinkit";
 import TopNavbar from '../components/TopNavbar';
 import { Cloudinary } from 'cloudinary-core';
-import * as nsfwjs from 'nsfwjs';
 import '../css/VendorAds.css'; 
 
 const VendorAds = () => {
@@ -159,26 +158,6 @@ const VendorAds = () => {
     const handleFormChange = (e) => {
         const { id, value } = e.target;
         setFormValues(prevValues => ({ ...prevValues, [id]: value }));
-    };
-
-    const checkImage = async (file) => {
-        const img = document.createElement("img");
-        img.src = URL.createObjectURL(file);
-    
-        return new Promise((resolve, reject) => {
-            img.onload = async () => {
-                const model = await nsfwjs.load();
-                const predictions = await model.classify(img);
-    
-                const isUnsafe = predictions.some(prediction =>
-                    ["Porn", "Hentai", "Sexy"].includes(prediction.className) && prediction.probability > 0.7
-                );
-    
-                resolve(isUnsafe);
-            };
-    
-            img.onerror = (error) => reject(error);
-        });
     };
 
     const handleImageUpload = async (files) => {
@@ -394,27 +373,12 @@ const VendorAds = () => {
     const handleAddImages = async () => {
         if (newImageUrl.trim()) {
             try {
-                const file = document.querySelector('input[type="file"]').files[0];
-
-                if (!file) {
-                    alert("Please select an image.");
-                    return;
-                }
-
-                // Check if the image is safe
-                const isUnsafe = await checkImage(file);
-
-                if (isUnsafe) {
-                    alert("This image contains explicit content and cannot be uploaded.");
-                    return;
-                }
-
                 // Upload image to Cloudinary
-                const imageUrl = await handleImageUpload(file);
-
+                const imageUrl = await handleImageUpload(newImageUrl);
+                
                 // Append new image URL to media array
                 const updatedMedia = [...editedAd.media, imageUrl];
-
+    
                 // Update the ad's media array on the server
                 const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
                     method: 'PATCH',
@@ -424,19 +388,19 @@ const VendorAds = () => {
                     },
                     body: JSON.stringify({ ad: { media: updatedMedia } }),
                 });
-
+    
                 if (!response.ok) {
                     throw new Error('Failed to update ad');
                 }
-
+    
                 const updatedAd = await response.json();
-
+    
                 // Update the ad in the local state
                 setEditedAd(updatedAd);
-                setAds(prevAds =>
+                setAds(prevAds => 
                     prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
                 );
-
+    
                 setNewImageUrl('');
                 console.log('Image added successfully');
             } catch (error) {
