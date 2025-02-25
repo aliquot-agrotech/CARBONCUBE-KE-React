@@ -6,6 +6,7 @@ import Sidebar from '../components/Sidebar';
 import Spinner from "react-spinkit";
 import TopNavbar from '../components/TopNavbar';
 import { Cloudinary } from 'cloudinary-core';
+import { Filter } from "content-checker";
 import '../css/VendorAds.css'; 
 
 const VendorAds = () => {
@@ -21,7 +22,7 @@ const VendorAds = () => {
     const [subcategories, setSubcategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedSubcategory, setSelectedSubcategory] = useState('');
-    const [newImageUrl, setNewImageUrl] = useState('');
+    // const [newImageUrl, setNewImageUrl] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [weightUnit, setWeightUnit] = useState('Grams');
     // const [selectedImages, setSelectedImages] = useState([]);
@@ -52,6 +53,9 @@ const VendorAds = () => {
     const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
 
     const vendorId = sessionStorage.getItem('vendorId');
+
+    // Initialize the filter
+    const filter = new Filter();
 
     const removeImage = (index) => {
         setEditedAd(prev => ({
@@ -158,6 +162,37 @@ const VendorAds = () => {
     const handleFormChange = (e) => {
         const { id, value } = e.target;
         setFormValues(prevValues => ({ ...prevValues, [id]: value }));
+    };
+
+    // Function to convert file to base64 for moderation
+    const convertFileToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+    };
+
+    // Function to check if an image is safe
+    const checkImageBeforeUpload = async (file) => {
+        if (!file) return { safe: false, reason: "No file provided" };
+
+        try {
+            const base64 = await convertFileToBase64(file);
+            const moderationResult = filter.scan(base64); // Use scan() instead of moderateImage()
+
+            if (moderationResult.safe) {
+                console.log(`Image "${file.name}" is safe.`);
+                return { safe: true };
+            } else {
+                console.warn(`Image "${file.name}" rejected: ${moderationResult.reason}`);
+                return { safe: false, reason: moderationResult.reason };
+            }
+        } catch (error) {
+            console.error("Error moderating image:", error);
+            return { safe: false, reason: "Error in moderation" };
+        }
     };
 
     const handleImageUpload = async (files) => {
@@ -369,43 +404,59 @@ const VendorAds = () => {
         }));
     };
 
-    // Function to add an image URL
-    const handleAddImages = async () => {
-        if (newImageUrl.trim()) {
-            try {
-                // Upload image to Cloudinary
-                const imageUrl = await handleImageUpload(newImageUrl);
-                
-                // Append new image URL to media array
-                const updatedMedia = [...editedAd.media, imageUrl];
-    
-                // Update the ad's media array on the server
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                    body: JSON.stringify({ ad: { media: updatedMedia } }),
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Failed to update ad');
-                }
-    
-                const updatedAd = await response.json();
-    
-                // Update the ad in the local state
-                setEditedAd(updatedAd);
-                setAds(prevAds => 
-                    prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
-                );
-    
-                setNewImageUrl('');
-                console.log('Image added successfully');
-            } catch (error) {
-                console.error('Error adding image:', error);
+    // Function to handle adding multiple images
+    const handleAddImages = async (files) => {
+        if (!files || files.length === 0) return;
+
+        const uploadedUrls = [];
+
+        for (const file of files) {
+            const { safe, reason } = await checkImageBeforeUpload(file);
+
+            if (!safe) {
+                console.warn(`Skipping upload for "${file.name}" due to: ${reason}`);
+                continue; // Skip this image and move to the next
             }
+
+            try {
+                const imageUrl = await handleImageUpload(file);
+                uploadedUrls.push(imageUrl);
+            } catch (error) {
+                console.error(`Failed to upload "${file.name}":`, error);
+            }
+        }
+
+        if (uploadedUrls.length > 0) {
+            try {
+                const updatedMedia = [...editedAd.media, ...uploadedUrls];
+
+                // Update the ad's media array on the server
+                const response = await fetch(
+                    `https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`,
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: "Bearer " + sessionStorage.getItem("token"),
+                        },
+                        body: JSON.stringify({ ad: { media: updatedMedia } }),
+                    }
+                );
+
+                if (!response.ok) throw new Error("Failed to update ad");
+
+                const updatedAd = await response.json();
+
+                // Update local state
+                setEditedAd(updatedAd);
+                setAds((prevAds) => prevAds.map((p) => (p.id === updatedAd.id ? updatedAd : p)));
+
+                console.log("Images added successfully");
+            } catch (error) {
+                console.error("Error updating ad with new images:", error);
+            }
+        } else {
+            console.warn("No safe images were uploaded.");
         }
     };
 
