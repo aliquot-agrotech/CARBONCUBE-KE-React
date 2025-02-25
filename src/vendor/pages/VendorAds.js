@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Container, Row, Col, Card, Button, Modal, Carousel, FormControl, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +7,7 @@ import Spinner from "react-spinkit";
 import TopNavbar from '../components/TopNavbar';
 import { Cloudinary } from 'cloudinary-core';
 import * as nsfwjs from 'nsfwjs';
+import * as tf from '@tensorflow/tfjs';
 import '../css/VendorAds.css'; 
 
 const VendorAds = () => {
@@ -53,6 +54,10 @@ const VendorAds = () => {
     const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
 
     const vendorId = sessionStorage.getItem('vendorId');
+
+    const nsfwModelRef = useRef(null); 
+
+    let nsfwModel = null;
 
     const removeImage = (index) => {
         setEditedAd(prev => ({
@@ -127,6 +132,18 @@ const VendorAds = () => {
         }
     }, [selectedCategory, editedAd.subcategory_id]);  // Dependency on both selectedCategory and editedAd.subcategory_id
     
+    // Load the NSFW model when the component mounts
+    const loadNSFWModel = useCallback(async () => {
+        if (!nsfwModelRef.current) {
+            tf.enableProdMode();
+            nsfwModelRef.current = await nsfwjs.load();
+            console.log("NSFWJS Model Loaded");
+        }
+    }, []);
+
+    useEffect(() => {
+        loadNSFWModel();
+    }, [loadNSFWModel]);
 
     const handleCategoryChange = (event) => {
         const category_id = event.target.value;
@@ -161,22 +178,39 @@ const VendorAds = () => {
         setFormValues(prevValues => ({ ...prevValues, [id]: value }));
     };
 
+    // Function to check if an image is NSFW
     const checkImage = async (file) => {
+        if (!nsfwModel) {
+            await loadNSFWModel();
+        }
+
         const img = document.createElement("img");
         img.src = URL.createObjectURL(file);
-    
+
         return new Promise((resolve, reject) => {
             img.onload = async () => {
-                const model = await nsfwjs.load();
-                const predictions = await model.classify(img);
-    
-                const isUnsafe = predictions.some(prediction =>
-                    ["Porn", "Hentai", "Sexy"].includes(prediction.className) && prediction.probability > 0.7
-                );
-    
-                resolve(isUnsafe);
+                try {
+                    // Convert image to a canvas element for better classification
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
+
+                    const predictions = await nsfwModel.classify(canvas);
+                    console.log("Predictions:", predictions);
+
+                    const isUnsafe = predictions.some(prediction =>
+                        ["Porn", "Hentai", "Sexy"].includes(prediction.className) && prediction.probability > 0.6
+                    );
+
+                    resolve(isUnsafe);
+                } catch (error) {
+                    console.error("Error classifying image:", error);
+                    reject(error);
+                }
             };
-    
+
             img.onerror = (error) => reject(error);
         });
     };
@@ -390,18 +424,22 @@ const VendorAds = () => {
         }));
     };
 
-    // Function to add an image URL
+    // Function to handle adding images
     const handleAddImages = async () => {
         if (newImageUrl.trim()) {
             try {
-                const file = document.querySelector('input[type="file"]').files[0];
-
-                if (!file) {
+                const fileInput = document.querySelector('input[type="file"]');
+                if (!fileInput.files.length) {
                     alert("Please select an image.");
                     return;
                 }
 
-                // Check if the image is safe
+                const file = fileInput.files[0];
+
+                // Ensure NSFW model is loaded before checking the image
+                await loadNSFWModel();
+
+                // Check if the image is NSFW
                 const isUnsafe = await checkImage(file);
 
                 if (isUnsafe) {
@@ -431,11 +469,9 @@ const VendorAds = () => {
 
                 const updatedAd = await response.json();
 
-                // Update the ad in the local state
+                // Update local state
                 setEditedAd(updatedAd);
-                setAds(prevAds =>
-                    prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
-                );
+                setAds(prevAds => prevAds.map(p => p.id === updatedAd.id ? updatedAd : p));
 
                 setNewImageUrl('');
                 console.log('Image added successfully');
