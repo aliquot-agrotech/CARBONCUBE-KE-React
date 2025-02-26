@@ -57,8 +57,6 @@ const VendorAds = () => {
 
     const nsfwModelRef = useRef(null); 
 
-    let nsfwModel = null;
-
     const removeImage = (index) => {
         setEditedAd(prev => ({
             ...prev,
@@ -201,12 +199,20 @@ const VendorAds = () => {
                         const predictions = await nsfwModelRef.current.classify(img);
                         console.log("NSFW Predictions:", predictions);
     
-                        // Determine if any category has a high confidence score
-                        const isUnsafe = predictions.some(prediction => 
-                            (prediction.className === 'Porn' || prediction.className === 'Hentai') && prediction.probability > 0.7
-                        );
+                        // Extract prediction values
+                        const predictionMap = {};
+                        predictions.forEach(({ className, probability }) => {
+                            predictionMap[className] = probability;
+                        });
     
-                        resolve(isUnsafe);
+                        const neutralOrDrawing = (predictionMap["Neutral"] || 0) > 0.6 || (predictionMap["Drawing"] || 0) > 0.6;
+                        const isUnsafe = (predictionMap["Porn"] || 0) > 0.3 || (predictionMap["Hentai"] || 0) > 0.3 || (predictionMap["Sexy"] || 0) > 0.3;
+    
+                        if (isUnsafe || !neutralOrDrawing) {
+                            resolve(true); // Image is unsafe
+                        } else {
+                            resolve(false); // Image is safe
+                        }
                     } catch (error) {
                         console.error("Error classifying image:", error);
                         resolve(false); // Assume safe if classification fails
@@ -217,6 +223,7 @@ const VendorAds = () => {
         });
     };
     
+        
 
     const handleImageUpload = async (files) => {
         const formData = new FormData();
@@ -237,84 +244,6 @@ const VendorAds = () => {
     };
     
 
-    // const handleAddNewAd = async () => {
-    //     const { title, description, price, quantity, brand, manufacturer, item_length, item_width, item_height, item_weight } = formValues;
-    
-    //     if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !item_length || !item_width || !item_height || !item_weight) {
-    //         alert('Please fill in all required fields.');
-    //         return;
-    //     }
-    
-    //     const fileInput = document.querySelector('.custom-upload-btn input[type="file"]');
-    //     let mediaUrls = [];
-    
-    //     if (fileInput && fileInput.files.length > 0) {
-    //         for (let i = 0; i < fileInput.files.length; i++) {
-    //             const mediaUrl = await handleImageUpload(fileInput.files[i]);
-    //             mediaUrls.push(mediaUrl);
-    //         }
-    //     }
-    
-    //     // Assuming you have a state variable for weight unit, e.g. `weightUnit`
-    //     const newAd = {
-    //         title,
-    //         description,
-    //         category_id: selectedCategory,
-    //         subcategory_id: selectedSubcategory,
-    //         price: parseInt(price),
-    //         quantity: parseInt(quantity),
-    //         brand,
-    //         manufacturer,
-    //         item_length: parseInt(item_length),
-    //         item_width: parseInt(item_width),
-    //         item_height: parseInt(item_height),
-    //         item_weight: parseInt(item_weight),
-    //         weight_unit: weightUnit, // Include the weight unit in the ad object
-    //         media: mediaUrls // Store all the uploaded image URLs
-    //     };
-    
-    //     try {
-    //         const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/ads', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-    //             },
-    //             body: JSON.stringify(newAd),
-    //         });
-    
-    //         if (!response.ok) {
-    //             throw new Error('Network response was not ok');
-    //         }
-    
-    //         const result = await response.json();
-    //         console.log('Ad added successfully:', result);
-    
-    //         // Update the ads state to include the new ad
-    //         setAds(prevAds => [...prevAds, result]);
-    
-    //         // Optionally clear form fields
-    //         setFormValues({
-    //             title: '',
-    //             description: '',
-    //             price: '',
-    //             quantity: '',
-    //             brand: '',
-    //             manufacturer: '',
-    //             item_length: '',
-    //             item_width: '',
-    //             item_height: '',
-    //             item_weight: ''
-    //         });
-    //         setSelectedCategory('');
-    //         setSelectedSubcategory('');
-    //         setWeightUnit('Grams'); // Reset to default if needed
-    //         setShowAddModal(false);
-    //     } catch (error) {
-    //         console.error('Error adding ad:', error);
-    //         alert('Failed to add ad. Please try again.');
-    //     }
-    // };
     
 
     const handleAddNewAd = async () => {
@@ -326,32 +255,32 @@ const VendorAds = () => {
         }
     
         const fileInput = document.querySelector('.custom-upload-btn input[type="file"]');
-        let mediaUrls = [];
+        let safeImages = []; // Array to store safe image URLs
         let skippedImages = 0; // Counter for NSFW images
     
         if (fileInput && fileInput.files.length > 0) {
-            await loadNSFWModel(); // Ensure NSFW model is loaded
-    
+            await loadNSFWModel(); // Ensure NSFW model is ready before checking
+
+            
+
             for (let i = 0; i < fileInput.files.length; i++) {
                 const file = fileInput.files[i];
-    
-                // Check if the image is NSFW
+
                 const isUnsafe = await checkImage(file);
                 if (isUnsafe) {
-                    skippedImages++; // Track NSFW images
-                    continue; // Skip this image, continue with others
+                    console.warn("Blocked unsafe image:", file.name);
+                    continue; // Skip this image
                 }
-    
-                // Upload the safe image to Cloudinary
+
                 const mediaUrl = await handleImageUpload(file);
-                mediaUrls.push(mediaUrl);
+                safeImages.push(mediaUrl);
             }
         }
     
-        if (mediaUrls.length === 0) {
-            alert("All selected images were flagged as explicit and could not be uploaded.");
+        if (safeImages.length === 0) {
+            alert("All selected images were blocked. Please upload appropriate images.");
             return;
-        }
+        }        
     
         const newAd = {
             title,
@@ -367,7 +296,7 @@ const VendorAds = () => {
             item_height: parseInt(item_height),
             item_weight: parseInt(item_weight),
             weight_unit: weightUnit,
-            media: mediaUrls, // Store only safe image URLs
+            media: safeImages, // Store only safe image URLs
         };
     
         try {
