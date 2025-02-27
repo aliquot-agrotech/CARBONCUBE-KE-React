@@ -13,7 +13,6 @@ const PurchasersManagement = () => {
   const [purchasers, setPurchasers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeOrder, setActiveOrder] = useState(null);
   const [searchQuery, setSearchQuery] = useState(''); 
 
   useEffect(() => {
@@ -240,7 +239,6 @@ const PurchasersManagement = () => {
                         
 
                         <Row>
-                          
                           <Col xs={12}>
                               <Card className="mb-2 custom-card">
                                   <Card.Header as="h6" className="justify-content-center">Email</Card.Header>
@@ -252,7 +250,6 @@ const PurchasersManagement = () => {
                         </Row>
 
                         <Row>
-                          
                           <Col xs={12} md={12}>
                               <Card className="mb-2 custom-card">
                                   <Card.Header as="h6" className="justify-content-center">Address</Card.Header>
@@ -262,150 +259,7 @@ const PurchasersManagement = () => {
                               </Card>
                           </Col>
                         </Row>
-
-                        <Card className="section m-0 mt-2 custom-card">
-                            <Card.Header className='justify-content-center m-0 p-1 p-lg-1'>
-                              <h4 className="mb-0">Orders</h4>
-                            </Card.Header>
-                            
-                            <Card.Body className="p-0 table-container">
-                            {selectedPurchaser.orders && selectedPurchaser.orders.length > 0 ? (
-                            
-                            <div className="table-responsive orders-table-container">
-                              <Table hover className="orders-table text-center transparent-table transparent-table-striped">
-                                <thead className='table-head'>
-                                  <tr>
-                                    <th>Order ID</th>
-                                    <th>Order Date</th>
-                                    <th>Total <em className='ad-price-label' style={{ fontSize: '13px' }}>(Kshs:)</em></th>
-                                    <th>Status</th>
-                                    <th>Details</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {selectedPurchaser.orders
-                                    .sort((a, b) => a.id - b.id)  // Sort orders by order ID in ascending order
-                                    .map(order => (
-                                      <React.Fragment key={order.id}>
-                                        <tr className='table-row'>
-                                          <td>{order.id}</td>
-                                          <td>{order.order_date}</td>
-                                          <td className="text-success">
-                                            <strong>
-                                                {order.total_price ? parseFloat(order.total_price).toFixed(2).split('.').map((part, index) => (
-                                                    <React.Fragment key={index}>
-                                                        {index === 0 ? (
-                                                            <span className="price-integer">
-                                                                {parseInt(part, 10).toLocaleString()} {/* Format the integer part with commas */}
-                                                            </span>
-                                                        ) : (
-                                                            <>
-                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                <span className="price-decimal">{part}</span>
-                                                            </>
-                                                        )}
-                                                    </React.Fragment>
-                                                )) : 'N/A'}
-                                            </strong>
-                                          </td>
-
-                                          <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
-                                              <Form.Control
-                                                  className="form-select-admin text-center" // Custom class for removing arrow
-                                                  as="select"
-                                                  value={order.status}
-                                                  id="button"
-                                                  disabled
-                                                  style={{
-                                                      verticalAlign: 'middle',
-                                                      display: 'inline-block',
-                                                      width: '60%',
-                                                      height: '40px', // Adjust the height to your preference
-                                                      backgroundColor: 
-                                                          order.status === 'Cancelled' ? '#FF0000' :  // Red
-                                                          order.status === 'Dispatched' ? '#007BFF' : // Blue
-                                                          order.status === 'In-Transit' ? '#80CED7' : // Light Blue
-                                                          order.status === 'Returned' ? '#6C757D' :  // Grey
-                                                          order.status === 'Processing' ? '#FFC107' : // Yellow
-                                                          order.status === 'Delivered' ? '#008000' : '', // Green
-                                                      color: ['Delivered', 'Returned', 'Dispatched', 'Cancelled'].includes(order.status) 
-                                                          ? 'white' : 'black', // White text for specific statuses
-                                                      
-                                                  }}
-                                              >
-                                                  <option value={order.status}>{order.status}</option>
-                                              </Form.Control>
-                                          </td>
-                                          <td>
-                                            <Button
-                                              variant={activeOrder === order.id ? 'warning' : 'success'}
-                                              id="button"
-                                              onClick={() => {
-                                                document.getElementById(`details-${order.id}`).classList.toggle('d-none');
-                                                setActiveOrder(prevOrder => prevOrder === order.id ? null : order.id);
-                                              }}
-                                            >
-                                              {activeOrder === order.id ? 'Hide Details' : 'View Details'}
-                                            </Button>
-                                          </td>
-                                        </tr>
-                                        <tr id={`details-${order.id}`} className="d-none sub-table">
-                                          <td colSpan="5">
-                                            <Table bordered hover className="custom-card">
-                                              <thead className='table-head'>
-                                                <tr>
-                                                  <th>Ad Name</th>
-                                                  <th>Quantity</th>
-                                                  <th>Price <em className='ad-price-label' style={{ fontSize: '13px' }}>(Kshs:)</em></th>
-                                                </tr>
-                                              </thead>
-                                              <tbody>
-                                                {order.order_items.map(item => (
-                                                  <tr key={item.ad.id}>
-                                                    <td>{item.ad.title}</td>
-                                                    <td>{item.quantity}</td>
-                                                    <td className="price-container text-success">
-                                                      <strong>
-                                                        {((item.ad.price * item.quantity).toFixed(2)).split('.').map((part, index) => (
-                                                            <React.Fragment key={index}>
-                                                                {index === 0 ? (
-                                                                    <span className="price-integer">
-                                                                        {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                                                    </span>
-                                                                ) : (
-                                                                    <>
-                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                        <span className="price-decimal">{part}</span>
-                                                                    </>
-                                                                )}
-                                                            </React.Fragment>
-                                                        ))}
-                                                      </strong>
-
-                                                    </td>
-
-                                                  </tr>
-                                                ))}
-                                              </tbody>
-                                            </Table>
-                                          </td>
-                                        </tr>
-                                      </React.Fragment>
-                                    ))}
-                                </tbody>
-                              </Table>
-                            </div>
-                        
-                        ) : (
-                          <p className="text-center">No orders available</p>
-                        )}
-
-                        </Card.Body>
-                      </Card>
                       </div>
-                      
-                      
-                      
                     </div>
                   ) : (
                     <p>No details available</p>
