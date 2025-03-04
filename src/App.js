@@ -6,7 +6,6 @@ import LoginForm from './components/LoginForm';
 import AnalyticsReporting from './admin/pages/AnalyticsReporting';
 import ContentManagement from './admin/pages/ContentManagement';
 import PurchasersManagement from './admin/pages/PurchasersManagement';
-import OrdersManagement from './admin/pages/OrdersManagement';
 import RidersManagement from './admin/pages/RidersManagement';
 import VendorsManagement from './admin/pages/VendorsManagement';
 import AdsManagement from './admin/pages/AdsManagement';
@@ -19,7 +18,6 @@ import TiersManagement from './admin/pages/TiersManagement';
 // Vendor Imports
 import VendorSignUpPage from './vendor/pages/VendorSignUpPage';
 import VendorAnalytics from './vendor/pages/VendorAnalytics';
-import VendorOrders from './vendor/pages/VendorOrders';
 import VendorAds from './vendor/pages/VendorAds';
 import VendorMessages from './vendor/pages/Messages';
 import VendorNotifications from './vendor/pages/VendorNotifications';
@@ -29,7 +27,6 @@ import TierPage from './vendor/pages/Tiers';
 // Purchaser Imports
 import Home from './purchaser/pages/Home';
 import AdDetails from './purchaser/pages/AdDetails';
-import Orders from './purchaser/pages/Orders';
 import WishList from './purchaser/pages/WishLists';
 import BuyForMeOrderCart from './purchaser/pages/BuyForMeOrderCart';
 import ShoppingCart from './purchaser/pages/ShoppingCart';
@@ -103,7 +100,6 @@ function App() {
             <Route path="analytics" element={<AnalyticsReporting onLogout={handleLogout} />} />
             <Route path="content" element={<ContentManagement onLogout={handleLogout} />} />
             <Route path="purchasers" element={<PurchasersManagement onLogout={handleLogout} />} />
-            <Route path="orders" element={<OrdersManagement onLogout={handleLogout} />} />
             <Route path="vendors" element={<VendorsManagement onLogout={handleLogout} />} />
             <Route path="riders" element={<RidersManagement onLogout={handleLogout} />} />
             <Route path="ads" element={<AdsManagement onLogout={handleLogout} />} />
@@ -118,7 +114,6 @@ function App() {
         {isAuthenticated && userRole === 'vendor' && (
           <Route path="/vendor/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="vendor" userRole={userRole} />}>
             <Route path="analytics" element={<VendorAnalytics onLogout={handleLogout} />} />
-            <Route path="orders" element={<VendorOrders onLogout={handleLogout} />} />
             <Route path="ads" element={<VendorAds onLogout={handleLogout} />} />
             <Route path="messages" element={<VendorMessages onLogout={handleLogout} />} />
             <Route path="notifications" element={<VendorNotifications onLogout={handleLogout} />} />
@@ -130,7 +125,6 @@ function App() {
         {isAuthenticated && userRole === 'purchaser' && (
           <Route path="/purchaser/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="purchaser" userRole={userRole} />}>
             <Route path="home" element={<Home onLogout={handleLogout} />} />
-            <Route path="orders" element={<Orders onLogout={handleLogout} />} />
             <Route path="wishlists" element={<WishList onLogout={handleLogout} />} />
             <Route path="cart" element={<ShoppingCart onLogout={handleLogout} />} />
             <Route path="buyforme" element={<BuyForMeOrderCart onLogout={handleLogout} />} />
