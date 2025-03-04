@@ -298,6 +298,40 @@
     font-size: 15px;
 }
 
+.card-header {
+    background-color: #616161; /* Secondary variant */
+    font-weight: bold;
+    font-size: 20px;
+    /* text-align: center; Center text */
+    padding: 1rem; /* Adjust padding as needed */
+    color: #fff;
+}
+
+.card-footer {
+    background-color: #616161; /* Secondary variant */
+    font-weight: bold;
+    text-align: center; /* Center text */
+    padding: 1rem; /* Adjust padding as needed */
+    color: #fff;
+}
+
+.card-body {
+    padding: 0%;
+}
+
+.modal .modal-header {
+    background-color: #616161;
+    padding: 10px;
+}
+
+.modal .modal-footer {
+    background-color: #616161;
+}
+
+.modal-body .card-header {
+    background-color: #616161; /* Secondary variant */
+    color: #fff;
+}
 /* Center the loading container in the middle of the page */
 .loading-container {
     display: flex;
