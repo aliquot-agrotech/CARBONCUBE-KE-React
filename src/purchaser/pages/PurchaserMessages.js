@@ -25,7 +25,7 @@ const PurchaserMessages = () => {
     const fetchMessages = async () => {
         setLoadingMessages(true);
         try {
-        const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/messages', {
+        const response = await fetch('http://127.0.0.1:3001/purchaser/messages', {
             headers: {
             'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             },
@@ -61,7 +61,7 @@ const PurchaserMessages = () => {
         if (!newMessage.trim()) return;
 
         try {
-        const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/messages', {
+        const response = await fetch('http://127.0.0.1:3001/purchaser/messages', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

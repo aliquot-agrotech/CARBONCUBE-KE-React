@@ -20,7 +20,7 @@ const RidersManagement = () => {
     useEffect(() => {
         const fetchRiders = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/riders?search_query=${searchQuery}`, {
+                const response = await fetch(`http://127.0.0.1:3001/admin/riders?search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -49,7 +49,7 @@ const RidersManagement = () => {
     const handleRowClick = async (riderId) => {
         try {
             const [riderResponse] = await Promise.all([
-                fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/riders/${riderId}`, {
+                fetch(`http://127.0.0.1:3001/admin/riders/${riderId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -80,7 +80,7 @@ const RidersManagement = () => {
 
     const handleUpdateStatus = async (riderId, status) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/riders/${riderId}/${status}`, {
+            const response = await fetch(`http://127.0.0.1:3001/admin/riders/${riderId}/${status}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

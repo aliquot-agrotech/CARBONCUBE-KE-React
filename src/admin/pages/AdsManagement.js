@@ -24,7 +24,7 @@ const AdsManagement = () => {
     
     const fetchAds = async () => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/admin/ads', {
+            const response = await fetch('http://127.0.0.1:3001/admin/ads', {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -48,7 +48,7 @@ const AdsManagement = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/admin/categories', {
+            const response = await fetch('http://127.0.0.1:3001/admin/categories', {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -107,7 +107,7 @@ const AdsManagement = () => {
 
     const handleViewDetailsClick = async (ad) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/ads/${ad.id}`, {
+            const response = await fetch(`http://127.0.0.1:3001/admin/ads/${ad.id}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -132,7 +132,7 @@ const AdsManagement = () => {
 
     const handleSendNotification = async () => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/ads/${selectedAd.id}/notify`, {
+            const response = await fetch(`http://127.0.0.1:3001/admin/ads/${selectedAd.id}/notify`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -166,7 +166,7 @@ const AdsManagement = () => {
 
     const handleFlagAd = async (id) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/ads/${id}/flag`, {
+            const response = await fetch(`http://127.0.0.1:3001/admin/ads/${id}/flag`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -185,7 +185,7 @@ const AdsManagement = () => {
 
     const handleRestoreAd = async (id) => {
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/ads/${id}/restore`, {
+            const response = await fetch(`http://127.0.0.1:3001/admin/ads/${id}/restore`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),

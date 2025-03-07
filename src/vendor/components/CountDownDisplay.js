@@ -15,7 +15,7 @@ const CountDownDisplay = () => {
         const vendorId = decodedToken.user_id;
 
         const response = await fetch(
-          `https://carboncube-ke-rails-cu22.onrender.com/vendor/vendor_tiers/${vendorId}`,
+          `http://127.0.0.1:3001/vendor/vendor_tiers/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

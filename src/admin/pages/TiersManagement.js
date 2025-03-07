@@ -24,7 +24,7 @@ const TiersManagement = () => {
     const fetchTiers = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/admin/tiers', {
+            const response = await fetch('http://127.0.0.1:3001/admin/tiers', {
                 headers: {
                     Authorization: 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -90,8 +90,8 @@ const TiersManagement = () => {
         setIsLoading(true); // Set loading state to true when the request starts
         const method = isEditing ? 'PUT' : 'POST';
         const url = isEditing
-            ? `https://carboncube-ke-rails-cu22.onrender.com/admin/tiers/${selectedTier.id}`
-            : 'https://carboncube-ke-rails-cu22.onrender.com/admin/tiers';
+            ? `http://127.0.0.1:3001/admin/tiers/${selectedTier.id}`
+            : 'http://127.0.0.1:3001/admin/tiers';
     
         // Prepare the features data
         const features = newTier.features.map(feature => ({
@@ -163,7 +163,7 @@ const TiersManagement = () => {
         }
     
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/tiers/${tierId}`, {
+            const response = await fetch(`http://127.0.0.1:3001/admin/tiers/${tierId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: 'Bearer ' + token,  // Adding the token in the header

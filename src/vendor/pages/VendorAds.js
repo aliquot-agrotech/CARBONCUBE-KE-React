@@ -67,7 +67,7 @@ const VendorAds = () => {
     useEffect(() => {
         const fetchAds = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads?vendor_id=${vendorId}`, {
+                const response = await fetch(`http://127.0.0.1:3001/vendor/ads?vendor_id=${vendorId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -94,7 +94,7 @@ const VendorAds = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/categories');
+                const response = await fetch('http://127.0.0.1:3001/vendor/categories');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -112,7 +112,7 @@ const VendorAds = () => {
         if (selectedCategory) {
             const fetchSubcategories = async () => {
                 try {
-                    const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/subcategories?category_id=${selectedCategory}`);
+                    const response = await fetch(`http://127.0.0.1:3001/vendor/subcategories?category_id=${selectedCategory}`);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -300,7 +300,7 @@ const VendorAds = () => {
         };
     
         try {
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/ads', {
+            const response = await fetch('http://127.0.0.1:3001/vendor/ads', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -372,7 +372,7 @@ const VendorAds = () => {
         if (!confirmed) return; // Exit if the user cancels the deletion
         
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${adId}`, {
+            const response = await fetch(`http://127.0.0.1:3001/vendor/ads/${adId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -411,7 +411,7 @@ const VendorAds = () => {
     const handleSaveEdit = async () => {
         setIsSaving(true);
         try {
-        const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
+        const response = await fetch(`http://127.0.0.1:3001/vendor/ads/${editedAd.id}`, {
             method: 'PUT',
             headers: {
             'Content-Type': 'application/json',
@@ -488,7 +488,7 @@ const VendorAds = () => {
                 const updatedMedia = [...editedAd.media, imageUrl];
 
                 // Update the ad's media array on the server
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
+                const response = await fetch(`http://127.0.0.1:3001/vendor/ads/${editedAd.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -554,7 +554,7 @@ const VendorAds = () => {
             const updatedMedia = editedAd.media.filter((_, i) => i !== index);
 
             // Send a PATCH request to update the ad's media array in the database
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
+            const response = await fetch(`http://127.0.0.1:3001/vendor/ads/${editedAd.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
