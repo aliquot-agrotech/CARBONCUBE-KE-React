@@ -37,10 +37,10 @@ function PurchaserSignUpPage({ onSignup }) {
     const fetchOptions = async () => {
       try {
         const [incomeRes, sectorRes, educationRes, employmentRes] = await Promise.all([
-          axios.get('https://carboncube-ke-rails-cu22.onrender.com/incomes'),
-          axios.get('https://carboncube-ke-rails-cu22.onrender.com/sectors'),
-          axios.get('https://carboncube-ke-rails-cu22.onrender.com/educations'),
-          axios.get('https://carboncube-ke-rails-cu22.onrender.com/employments'),
+          axios.get('http://127.0.0.1:3001/incomes'),
+          axios.get('http://127.0.0.1:3001/sectors'),
+          axios.get('http://127.0.0.1:3001/educations'),
+          axios.get('http://127.0.0.1:3001/employments'),
         ]);
         setOptions({
           incomes: incomeRes.data,
@@ -113,7 +113,7 @@ function PurchaserSignUpPage({ onSignup }) {
     // console.log("Form Data before submission:", payload);
   
     try {
-      const response = await axios.post('https://carboncube-ke-rails-cu22.onrender.com/purchaser/signup', payload, {
+      const response = await axios.post('http://127.0.0.1:3001/purchaser/signup', payload, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

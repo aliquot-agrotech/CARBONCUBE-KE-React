@@ -26,7 +26,7 @@ const Home = () => {
     useEffect(() => {
         const fetchCategoriesAndAds = async () => {
             try {
-                const categoryResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/categories', {
+                const categoryResponse = await fetch('http://127.0.0.1:3001/purchaser/categories', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -35,7 +35,7 @@ const Home = () => {
 
                 const categoryData = await categoryResponse.json();
 
-                const subcategoryResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/subcategories', {
+                const subcategoryResponse = await fetch('http://127.0.0.1:3001/purchaser/subcategories', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -51,7 +51,7 @@ const Home = () => {
 
                 setCategories(categoriesWithSubcategories);
 
-                const adResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/purchaser/ads', {
+                const adResponse = await fetch('http://127.0.0.1:3001/purchaser/ads', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -109,7 +109,7 @@ const Home = () => {
     // Function to log a click event
     const logClickEvent = async (adId, eventType) => {
         try {
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/click_events', {
+            const response = await fetch('http://127.0.0.1:3001/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ const Home = () => {
         try {
             // Fetch search results
             const response = await fetch(
-                `https://carboncube-ke-rails-cu22.onrender.com/purchaser/ads/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, 
+                `http://127.0.0.1:3001/purchaser/ads/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, 
                 {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -168,7 +168,7 @@ const Home = () => {
     // Function to log the ad search
     const logAdSearch = async (query, category, subcategory) => {
         try {
-            const logResponse = await fetch('https://carboncube-ke-rails-cu22.onrender.com/ad_searches', {
+            const logResponse = await fetch('http://127.0.0.1:3001/ad_searches', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

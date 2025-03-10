@@ -9,7 +9,7 @@ const Banner = () => {
     useEffect(() => {
         const fetchBannerImages = async () => {
             try {
-                const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/banners');
+                const response = await fetch('http://127.0.0.1:3001/banners');
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch banner images');
@@ -25,7 +25,7 @@ const Banner = () => {
 
         const fetchPremiumAds = async () => {
             try {
-                const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/ads');
+                const response = await fetch('http://127.0.0.1:3001/ads');
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch ads');

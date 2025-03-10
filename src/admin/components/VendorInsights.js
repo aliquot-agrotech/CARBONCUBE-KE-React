@@ -14,7 +14,7 @@ const VendorInsights = () => {
 
   const fetchVendorsData = (metric) => {
     setLoading(true);
-    fetch(`https://carboncube-ke-rails-cu22.onrender.com/admin/analytics?metric=${metric}`, {
+    fetch(`http://127.0.0.1:3001/admin/analytics?metric=${metric}`, {
       headers: {
         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
       },

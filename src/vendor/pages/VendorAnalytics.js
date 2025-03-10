@@ -20,7 +20,7 @@ const VendorAnalytics = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/analytics', {
+        const response = await fetch('http://127.0.0.1:3001/vendor/analytics', {
           headers: {
             'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
           },

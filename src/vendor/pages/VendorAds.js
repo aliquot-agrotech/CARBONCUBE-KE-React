@@ -5,7 +5,7 @@ import { faTrash, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt } fr
 import Sidebar from '../components/Sidebar';
 import Spinner from "react-spinkit";
 import TopNavbar from '../components/TopNavbar';
-import { Cloudinary } from 'cloudinary-core';
+// import { Cloudinary } from 'cloudinary-core';
 import * as nsfwjs from 'nsfwjs';
 import * as tf from '@tensorflow/tfjs';
 import '../css/VendorAds.css'; 
@@ -23,7 +23,7 @@ const VendorAds = () => {
     const [subcategories, setSubcategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedSubcategory, setSelectedSubcategory] = useState('');
-    const [newImageUrl, setNewImageUrl] = useState('');
+    const [ setNewImageUrl] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [weightUnit, setWeightUnit] = useState('Grams');
     // const [selectedImages, setSelectedImages] = useState([]);
@@ -51,8 +51,6 @@ const VendorAds = () => {
         item_weight: ''
     });
 
-    const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
-
     const vendorId = sessionStorage.getItem('vendorId');
 
     const nsfwModelRef = useRef(null); 
@@ -67,7 +65,7 @@ const VendorAds = () => {
     useEffect(() => {
         const fetchAds = async () => {
             try {
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads?vendor_id=${vendorId}`, {
+                const response = await fetch(`http://127.0.0.1:3001/vendor/ads?vendor_id=${vendorId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -94,7 +92,7 @@ const VendorAds = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/categories');
+                const response = await fetch('http://127.0.0.1:3001/vendor/categories');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -112,7 +110,7 @@ const VendorAds = () => {
         if (selectedCategory) {
             const fetchSubcategories = async () => {
                 try {
-                    const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/subcategories?category_id=${selectedCategory}`);
+                    const response = await fetch(`http://127.0.0.1:3001/vendor/subcategories?category_id=${selectedCategory}`);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -225,27 +223,24 @@ const VendorAds = () => {
     
         
 
-    const handleImageUpload = async (files) => {
-        const formData = new FormData();
-        formData.append('file', files);
-        formData.append('upload_preset', 'carbonecom'); // Ensure this is set up in Cloudinary
+    // const handleImageUpload = async (files) => {
+    //     const formData = new FormData();
+    //     formData.append('file', files);
+    //     formData.append('upload_preset', 'carbonecom'); // Ensure this is set up in Cloudinary
     
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.config().cloud_name}/image/upload/`, {
-            method: 'POST',
-            body: formData,
-        });
+    //     const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.config().cloud_name}/image/upload/`, {
+    //         method: 'POST',
+    //         body: formData,
+    //     });
     
-        if (response.ok) {
-            const data = await response.json();
-            return data.secure_url; // The URL of the uploaded image
-        } else {
-            throw new Error('Failed to upload image');
-        }
-    };
+    //     if (response.ok) {
+    //         const data = await response.json();
+    //         return data.secure_url; // The URL of the uploaded image
+    //     } else {
+    //         throw new Error('Failed to upload image');
+    //     }
+    // };
     
-
-    
-
     const handleAddNewAd = async () => {
         const { title, description, price, quantity, brand, manufacturer, item_length, item_width, item_height, item_weight } = formValues;
     
@@ -255,25 +250,23 @@ const VendorAds = () => {
         }
     
         const fileInput = document.querySelector('.custom-upload-btn input[type="file"]');
-        let safeImages = []; // Array to store safe image URLs
-        let skippedImages = 0; // Counter for NSFW images
+        let safeImages = []; 
+        let skippedImages = 0; 
     
         if (fileInput && fileInput.files.length > 0) {
-            await loadNSFWModel(); // Ensure NSFW model is ready before checking
-
-            
-
+            await loadNSFWModel(); 
+    
             for (let i = 0; i < fileInput.files.length; i++) {
                 const file = fileInput.files[i];
-
+    
                 const isUnsafe = await checkImage(file);
                 if (isUnsafe) {
                     console.warn("Blocked unsafe image:", file.name);
-                    continue; // Skip this image
+                    skippedImages++;
+                    continue; 
                 }
-
-                const mediaUrl = await handleImageUpload(file);
-                safeImages.push(mediaUrl);
+    
+                safeImages.push(file);
             }
         }
     
@@ -282,31 +275,34 @@ const VendorAds = () => {
             return;
         }        
     
-        const newAd = {
-            title,
-            description,
-            category_id: selectedCategory,
-            subcategory_id: selectedSubcategory,
-            price: parseInt(price),
-            quantity: parseInt(quantity),
-            brand,
-            manufacturer,
-            item_length: parseInt(item_length),
-            item_width: parseInt(item_width),
-            item_height: parseInt(item_height),
-            item_weight: parseInt(item_weight),
-            weight_unit: weightUnit,
-            media: safeImages, // Store only safe image URLs
-        };
+        // Use FormData to send files
+        const formData = new FormData();
+        formData.append('ad[title]', title);
+        formData.append('ad[description]', description);
+        formData.append('ad[category_id]', selectedCategory);
+        formData.append('ad[subcategory_id]', selectedSubcategory);
+        formData.append('ad[price]', parseInt(price));
+        formData.append('ad[quantity]', parseInt(quantity));
+        formData.append('ad[brand]', brand);
+        formData.append('ad[manufacturer]', manufacturer);
+        formData.append('ad[item_length]', parseInt(item_length));
+        formData.append('ad[item_width]', parseInt(item_width));
+        formData.append('ad[item_height]', parseInt(item_height));
+        formData.append('ad[item_weight]', parseInt(item_weight));
+        formData.append('ad[weight_unit]', weightUnit);
+    
+        // Append images to FormData
+        safeImages.forEach((file, index) => {
+            formData.append(`ad[media][]`, file);
+        });
     
         try {
-            const response = await fetch('https://carboncube-ke-rails-cu22.onrender.com/vendor/ads', {
+            const response = await fetch('http://127.0.0.1:3001/vendor/ads', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
-                body: JSON.stringify(newAd),
+                body: formData, // No need for Content-Type, browser sets it automatically
             });
     
             if (!response.ok) {
@@ -316,15 +312,12 @@ const VendorAds = () => {
             const result = await response.json();
             console.log('Ad added successfully:', result);
     
-            // Update the ads state to include the new ad
             setAds(prevAds => [...prevAds, result]);
     
-            // Show a warning if any images were skipped
             if (skippedImages > 0) {
                 alert(`${skippedImages} images were flagged as explicit and were not uploaded.`);
             }
     
-            // Reset form fields
             setFormValues({
                 title: '',
                 description: '',
@@ -339,13 +332,13 @@ const VendorAds = () => {
             });
             setSelectedCategory('');
             setSelectedSubcategory('');
-            setWeightUnit('Grams'); // Reset to default if needed
+            setWeightUnit('Grams');
             setShowAddModal(false);
         } catch (error) {
             console.error('Error adding ad:', error);
             alert('Failed to add ad. Please try again.');
         }
-    };
+    };   
     
 
     const handleViewDetailsClick = (ad) => {
@@ -372,7 +365,7 @@ const VendorAds = () => {
         if (!confirmed) return; // Exit if the user cancels the deletion
         
         try {
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${adId}`, {
+            const response = await fetch(`http://127.0.0.1:3001/vendor/ads/${adId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -411,7 +404,7 @@ const VendorAds = () => {
     const handleSaveEdit = async () => {
         setIsSaving(true);
         try {
-        const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
+        const response = await fetch(`http://127.0.0.1:3001/vendor/ads/${editedAd.id}`, {
             method: 'PUT',
             headers: {
             'Content-Type': 'application/json',
@@ -458,62 +451,51 @@ const VendorAds = () => {
         }));
     };
 
-    // Function to handle adding images
+    // Function to handle adding images for edited ad
     const handleAddImages = async () => {
-        if (newImageUrl.trim()) {
-            try {
-                const fileInput = document.querySelector('input[type="file"]');
-                if (!fileInput.files.length) {
-                    alert("Please select an image.");
-                    return;
-                }
-
-                const file = fileInput.files[0];
-
-                // Ensure NSFW model is loaded before checking the image
-                await loadNSFWModel();
-
-                // Check if the image is NSFW
-                const isUnsafe = await checkImage(file);
-
-                if (isUnsafe) {
-                    alert("This image contains explicit content and cannot be uploaded.");
-                    return;
-                }
-
-                // Upload image to Cloudinary
-                const imageUrl = await handleImageUpload(file);
-
-                // Append new image URL to media array
-                const updatedMedia = [...editedAd.media, imageUrl];
-
-                // Update the ad's media array on the server
-                const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                    body: JSON.stringify({ ad: { media: updatedMedia } }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to update ad');
-                }
-
-                const updatedAd = await response.json();
-
-                // Update local state
-                setEditedAd(updatedAd);
-                setAds(prevAds => prevAds.map(p => p.id === updatedAd.id ? updatedAd : p));
-
-                setNewImageUrl('');
-                console.log('Image added successfully');
-            } catch (error) {
-                console.error('Error adding image:', error);
+        try {
+            const fileInput = document.querySelector('input[type="file"]');
+            if (!fileInput.files.length) {
+                alert("Please select an image.");
+                return;
             }
+    
+            const file = fileInput.files[0];
+    
+            await loadNSFWModel();
+            const isUnsafe = await checkImage(file);
+    
+            if (isUnsafe) {
+                alert("This image contains explicit content and cannot be uploaded.");
+                return;
+            }
+    
+            const formData = new FormData();
+            formData.append('ad[media][]', file);
+    
+            const response = await fetch(`http://127.0.0.1:3001/vendor/ads/${editedAd.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: formData, 
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to update ad');
+            }
+    
+            const updatedAd = await response.json();
+    
+            setEditedAd(updatedAd);
+            setAds(prevAds => prevAds.map(p => p.id === updatedAd.id ? updatedAd : p));
+    
+            setNewImageUrl('');
+            console.log('Image added successfully');
+        } catch (error) {
+            console.error('Error adding image:', error);
         }
-    };
+    };    
 
     const handleFileSelect = async (files) => {
         if (files.length > 0) {
@@ -529,24 +511,19 @@ const VendorAds = () => {
                     }
                 }
     
-                const uploadPromises = fileArray.map(file => handleImageUpload(file));
-    
-                // Upload all images
-                const imageUrls = await Promise.all(uploadPromises);
-    
-                // Add the image URLs to the media array
-                const updatedMedia = [...editedAd.media, ...imageUrls];
+                // Store selected images directly in the component state
                 setEditedAd(prev => ({
                     ...prev,
-                    media: updatedMedia,
+                    media: [...prev.media, ...fileArray],
                 }));
     
-                console.log('Images uploaded and added successfully');
+                console.log('Images added successfully');
             } catch (error) {
-                console.error('Error uploading images:', error);
+                console.error('Error adding images:', error);
             }
         }
     };
+    
 
     const handleDeleteImage = async (index) => {
         try {
@@ -554,7 +531,7 @@ const VendorAds = () => {
             const updatedMedia = editedAd.media.filter((_, i) => i !== index);
 
             // Send a PATCH request to update the ad's media array in the database
-            const response = await fetch(`https://carboncube-ke-rails-cu22.onrender.com/vendor/ads/${editedAd.id}`, {
+            const response = await fetch(`http://127.0.0.1:3001/vendor/ads/${editedAd.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
