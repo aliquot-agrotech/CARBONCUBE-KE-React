@@ -57,6 +57,8 @@ const LoginForm = ({ onLogin }) => {
     }  
   };
 
+  // Start of the export component
+
   return (
     <>
     <Container fluid className="login-container" style={{ minHeight: `${window.innerHeight}px` }}>
