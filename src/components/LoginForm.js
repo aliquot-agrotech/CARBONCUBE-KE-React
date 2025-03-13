@@ -19,7 +19,7 @@ const LoginForm = ({ onLogin }) => {
     setError('');
 
     try {
-      const response = await axios.post('http://127.0.0.1:3001/auth/login', {
+      const response = await axios.post('http://carboncube-backend:3001/auth/login', {
           identifier,  // Use identifier instead of email
           password,
       });

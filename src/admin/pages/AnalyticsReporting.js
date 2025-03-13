@@ -18,7 +18,7 @@ const AnalyticsReporting = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:3001/admin/analytics', {
+    fetch('http://carboncube-backend:3001/admin/analytics', {
       headers: {
         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
       },

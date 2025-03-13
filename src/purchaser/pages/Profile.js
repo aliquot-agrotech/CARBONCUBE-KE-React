@@ -39,7 +39,7 @@ const ProfilePage = () => {
         return;
         }
 
-        axios.get('http://127.0.0.1:3001/purchaser/profile', {
+        axios.get('http://carboncube-backend:3001/purchaser/profile', {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -75,7 +75,7 @@ const ProfilePage = () => {
         return;
         }
 
-        axios.put('http://127.0.0.1:3001/purchaser/profile', profile, {
+        axios.put('http://carboncube-backend:3001/purchaser/profile', profile, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -110,7 +110,7 @@ const ProfilePage = () => {
         }
     
         // Proceed with the rest of the password change logic
-        axios.post('http://127.0.0.1:3001/purchaser/profile/change-password', {
+        axios.post('http://carboncube-backend:3001/purchaser/profile/change-password', {
             currentPassword: passwordData.currentPassword,
             newPassword: passwordData.newPassword,
             confirmPassword: passwordData.confirmPassword

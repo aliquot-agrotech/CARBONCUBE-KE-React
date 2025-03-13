@@ -24,17 +24,17 @@ const ContentManagement = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const aboutResponse = await fetch('http://127.0.0.1:3001/admin/abouts', {
+                const aboutResponse = await fetch('http://carboncube-backend:3001/admin/abouts', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
-                const faqsResponse = await fetch('http://127.0.0.1:3001/admin/faqs', {
+                const faqsResponse = await fetch('http://carboncube-backend:3001/admin/faqs', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 });
-                const bannersResponse = await fetch('http://127.0.0.1:3001/admin/banners', {
+                const bannersResponse = await fetch('http://carboncube-backend:3001/admin/banners', {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -81,7 +81,7 @@ const ContentManagement = () => {
     const handleSaveChanges = async () => {
         try {
             const { type, data } = currentEdit;
-            const url = `http://127.0.0.1:3001/admin/${type}/${data.id}`;
+            const url = `http://carboncube-backend:3001/admin/${type}/${data.id}`;
             const response = await fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -113,7 +113,7 @@ const ContentManagement = () => {
 
     const handleDeleteFaq = async (faqId) => {
         try {
-            const response = await fetch(`http://127.0.0.1:3001/admin/faqs/${faqId}`, {
+            const response = await fetch(`http://carboncube-backend:3001/admin/faqs/${faqId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -162,7 +162,7 @@ const ContentManagement = () => {
             const bannerFormData = new FormData();
             bannerFormData.append('banner[image_url]', imageUrl);
         
-            const response = await fetch('http://127.0.0.1:3001/admin/banners', {
+            const response = await fetch('http://carboncube-backend:3001/admin/banners', {
                 method: 'POST',
                 headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
@@ -187,7 +187,7 @@ const ContentManagement = () => {
 
     const handleDeleteBanner = async (id) => {
         try {
-            const response = await fetch(`http://127.0.0.1:3001/admin/banners/${id}`, {
+            const response = await fetch(`http://carboncube-backend:3001/admin/banners/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),

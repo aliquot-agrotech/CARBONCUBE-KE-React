@@ -19,7 +19,7 @@ const TierPage = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     axios
-      .get('http://127.0.0.1:3001/vendor/vendor_tiers', {
+      .get('http://carboncube-backend:3001/vendor/vendor_tiers', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -41,7 +41,7 @@ const TierPage = () => {
     }
   
     try {
-      const response = await fetch(`/http://127.0.0.1:3001/vendor/tiers/${tierId}/update_tier`, {
+      const response = await fetch(`/http://carboncube-backend:3001/vendor/tiers/${tierId}/update_tier`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const TierPage = () => {
       const durationString = `${duration} months`;
   
       const response = await axios.patch(
-        "http://127.0.0.1:3001/vendor/vendor_tiers/update_tier",
+        "http://carboncube-backend:3001/vendor/vendor_tiers/update_tier",
         {
           tier_id: selectedTier, // Pass the selected tier ID
           tier_duration: durationString, // Pass the selected duration

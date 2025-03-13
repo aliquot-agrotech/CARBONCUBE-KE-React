@@ -28,7 +28,7 @@ const Messages = () => {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:3001/admin/conversations', {
+        const response = await fetch('http://carboncube-backend:3001/admin/conversations', {
           headers: {
             'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
           },
@@ -49,7 +49,7 @@ const Messages = () => {
   const fetchMessages = async (conversationId) => {
     setLoadingMessages(true); // Set loading state for messages
     try {
-      const response = await fetch(`http://127.0.0.1:3001/admin/conversations/${conversationId}/messages`, {
+      const response = await fetch(`http://carboncube-backend:3001/admin/conversations/${conversationId}/messages`, {
         headers: {
           'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
         },
@@ -84,7 +84,7 @@ const Messages = () => {
     if (!newMessage.trim()) return;
   
     try {
-      const response = await fetch(`http://127.0.0.1:3001/admin/conversations/${selectedConversation.id}/messages`, {
+      const response = await fetch(`http://carboncube-backend:3001/admin/conversations/${selectedConversation.id}/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

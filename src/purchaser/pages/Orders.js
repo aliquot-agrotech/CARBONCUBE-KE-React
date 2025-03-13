@@ -19,7 +19,7 @@ const Orders = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:3001/purchaser/orders?purchaser_id=${purchaserId}&search_query=${searchQuery}`, {
+                const response = await fetch(`http://carboncube-backend:3001/purchaser/orders?purchaser_id=${purchaserId}&search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -59,7 +59,7 @@ const Orders = () => {
 
     const handleRowClick = async (orderId) => {
         try {
-            const response = await fetch(`http://127.0.0.1:3001/purchaser/orders/${orderId}`, {
+            const response = await fetch(`http://carboncube-backend:3001/purchaser/orders/${orderId}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },

@@ -20,7 +20,7 @@ const VendorsManagement = () => {
     useEffect(() => {
         const fetchVendors = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:3001/admin/vendors?search_query=${searchQuery}`, {
+                const response = await fetch(`http://carboncube-backend:3001/admin/vendors?search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -49,22 +49,22 @@ const VendorsManagement = () => {
     const handleRowClick = async (vendorId) => {
         try {
             const [vendorResponse, ordersResponse, adsResponse, reviewsResponse] = await Promise.all([
-                fetch(`http://127.0.0.1:3001/admin/vendors/${vendorId}`, {
+                fetch(`http://carboncube-backend:3001/admin/vendors/${vendorId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`http://127.0.0.1:3001/admin/vendors/${vendorId}/orders`, {
+                fetch(`http://carboncube-backend:3001/admin/vendors/${vendorId}/orders`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`http://127.0.0.1:3001/admin/vendors/${vendorId}/ads`, {
+                fetch(`http://carboncube-backend:3001/admin/vendors/${vendorId}/ads`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`http://127.0.0.1:3001/admin/vendors/${vendorId}/reviews`, {
+                fetch(`http://carboncube-backend:3001/admin/vendors/${vendorId}/reviews`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -98,7 +98,7 @@ const VendorsManagement = () => {
 
     const handleUpdateStatus = async (vendorId, status) => {
         try {
-            const response = await fetch(`http://127.0.0.1:3001/admin/vendors/${vendorId}/${status}`, {
+            const response = await fetch(`http://carboncube-backend:3001/admin/vendors/${vendorId}/${status}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ const VendorsManagement = () => {
 
     const fetchVendorAnalytics = async (vendorId) => {
         try {
-            const response = await fetch(`http://127.0.0.1:3001/admin/vendors/${vendorId}/analytics`, {
+            const response = await fetch(`http://carboncube-backend:3001/admin/vendors/${vendorId}/analytics`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },

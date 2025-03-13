@@ -43,7 +43,7 @@ const AdDetails = () => {
         setLoadingReviews(true);
         
         try {
-            const response = await fetch(`http://127.0.0.1:3001/ads/${adId}/reviews`);
+            const response = await fetch(`http://carboncube-backend:3001/ads/${adId}/reviews`);
             if (!response.ok) throw new Error('Failed to fetch reviews');
             const data = await response.json();
             setReviews(data);
@@ -88,7 +88,7 @@ const AdDetails = () => {
         // Fetch Ad Details
         const fetchAdDetails = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:3001/purchaser/ads/${adId}`);
+                const response = await fetch(`http://carboncube-backend:3001/purchaser/ads/${adId}`);
                 if (!response.ok) throw new Error('Failed to fetch ad details');
                 const data = await response.json();
                 setAd(data);
@@ -102,7 +102,7 @@ const AdDetails = () => {
         // Fetch Related Ads
         const fetchRelatedAds = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:3001/purchaser/ads/${adId}/related`);
+                const response = await fetch(`http://carboncube-backend:3001/purchaser/ads/${adId}/related`);
                 if (!response.ok) throw new Error('Failed to fetch related ads');
                 const data = await response.json();
                 setRelatedAds(data);
@@ -129,7 +129,7 @@ const AdDetails = () => {
                 throw new Error('You must be logged in to view vendor details.');
             }
     
-            const response = await fetch(`http://127.0.0.1:3001/purchaser/ads/${adId}/vendor`, {
+            const response = await fetch(`http://carboncube-backend:3001/purchaser/ads/${adId}/vendor`, {
                 signal: AbortSignal.timeout(10000), // 10-second timeout
                 headers: {
                     'Authorization': `Bearer ${token}`, // Include token in the headers
@@ -186,7 +186,7 @@ const AdDetails = () => {
         setSubmitError(null);
     
         try {
-            const response = await fetch(`http://127.0.0.1:3001/purchaser/ads/${adId}/reviews`, {
+            const response = await fetch(`http://carboncube-backend:3001/purchaser/ads/${adId}/reviews`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -255,7 +255,7 @@ const AdDetails = () => {
                 return;
             }
     
-            const response = await fetch('http://127.0.0.1:3001/click_events', {
+            const response = await fetch('http://carboncube-backend:3001/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -307,7 +307,7 @@ const AdDetails = () => {
     
             // Step 2: API call to add the ad to the wishlist
             const response = await axios.post(
-                `http://127.0.0.1:3001/purchaser/wish_lists`,
+                `http://carboncube-backend:3001/purchaser/wish_lists`,
                 { ad_id: ad.id },
                 {
                     headers: {
@@ -337,7 +337,7 @@ const AdDetails = () => {
     // Function to log button click events
     const logClickEventAddtoWishList = async (adId, eventType) => {
         try {
-            const response = await fetch('http://127.0.0.1:3001/click_events', {
+            const response = await fetch('http://carboncube-backend:3001/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -406,7 +406,7 @@ const AdDetails = () => {
     // Function to log a click event
     const logClickEvent = async (adId, eventType) => {
         try {
-            const response = await fetch('http://127.0.0.1:3001/click_events', {
+            const response = await fetch('http://carboncube-backend:3001/click_events', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
