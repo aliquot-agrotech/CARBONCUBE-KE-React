@@ -27,7 +27,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
       try {
         console.log('Token:', sessionStorage.getItem('token'));
 
-        const response = await fetch('http://carboncube-backend:3001/purchaser/categories', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/categories`, {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('token'),
           }, 
@@ -36,7 +36,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
 
         const categoryData = await response.json();
 
-        const subcategoryResponse = await fetch('http://carboncube-backend:3001/purchaser/subcategories', {
+        const subcategoryResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/subcategories`, {
           headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('token'),
           },

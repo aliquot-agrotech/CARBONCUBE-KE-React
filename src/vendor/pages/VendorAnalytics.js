@@ -20,7 +20,7 @@ const VendorAnalytics = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await fetch('http://carboncube-backend:3001/vendor/analytics', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/analytics`, {
           headers: {
             'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
           },

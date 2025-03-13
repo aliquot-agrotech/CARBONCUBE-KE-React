@@ -24,7 +24,7 @@ const BuyForMeOrderCart = () => {
     const fetchBuyForMeOrderCartItems = useCallback(async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const response = await fetch("http://carboncube-backend:3001/purchaser/buy_for_me_order_cart_items", {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/buy_for_me_order_cart_items`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -110,7 +110,7 @@ const BuyForMeOrderCart = () => {
     const handleRemoveItem = async (itemId) => {
         try {
             const token = sessionStorage.getItem('token');
-            await fetch(`http://carboncube-backend:3001/purchaser/buy_for_me_order_cart_items/${itemId}`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/buy_for_me_order_cart_items/${itemId}`, {
                 method: 'DELETE',
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -127,7 +127,7 @@ const BuyForMeOrderCart = () => {
         if (newQuantity < 1) return;
         try {
             const token = sessionStorage.getItem('token');
-            const response = await fetch(`http://carboncube-backend:3001/purchaser/buy_for_me_order_cart_items/${itemId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/buy_for_me_order_cart_items/${itemId}`, {
                 method: 'PUT',
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -159,7 +159,7 @@ const BuyForMeOrderCart = () => {
         }
     
         try {
-            const response = await fetch('http://carboncube-backend:3001/purchaser/buy_for_me_orders', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/buy_for_me_orders`, {
                 method: 'POST',
                 headers: {
                     "Authorization": `Bearer ${token}`,

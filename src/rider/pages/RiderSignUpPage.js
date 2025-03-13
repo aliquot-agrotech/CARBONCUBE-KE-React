@@ -88,7 +88,7 @@ function RiderSignUpPage({ onSignup }) {
     // console.log("Form Data before submission:", payload);
   
     try {
-      const response = await axios.post('http://carboncube-backend:3001/rider/signup', payload, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/rider/signup`, payload, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

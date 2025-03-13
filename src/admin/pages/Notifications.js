@@ -20,7 +20,7 @@ const Notifications = () => {
             const token = sessionStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await fetch('http://carboncube-backend:3001/admin/identify', {
+                    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/identify`, {
                         headers: {
                             'Authorization': 'Bearer ' + token,
                         },
@@ -65,7 +65,7 @@ const Notifications = () => {
     useEffect(() => {
         const fetchNotifications = async () => {
             const token = sessionStorage.getItem('token');
-            const response = await fetch('http://carboncube-backend:3001/admin/notifications', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/notifications`, {
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 },

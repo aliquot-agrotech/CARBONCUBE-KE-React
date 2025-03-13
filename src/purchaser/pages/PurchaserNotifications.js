@@ -20,7 +20,7 @@ const PurchaserNotifications = () => {
             const token = sessionStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await fetch('http://carboncube-backend:3001/purchaser/identify', {
+                    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/identify`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const PurchaserNotifications = () => {
     useEffect(() => {
         const fetchNotifications = async () => {
             const token = sessionStorage.getItem('token');
-            const response = await fetch('http://carboncube-backend:3001/purchaser/notifications', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/notifications`, {
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 },

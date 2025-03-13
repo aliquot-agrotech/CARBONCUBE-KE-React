@@ -15,7 +15,7 @@ const PurchaserInsights = () => {
 
   const fetchPurchasersData = (metric) => {
     setLoading(true);
-    fetch(`http://carboncube-backend:3001/admin/analytics?metric=${metric}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/analytics?metric=${metric}`, {
       headers: {
         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
       },

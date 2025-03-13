@@ -37,10 +37,10 @@ function PurchaserSignUpPage({ onSignup }) {
     const fetchOptions = async () => {
       try {
         const [incomeRes, sectorRes, educationRes, employmentRes] = await Promise.all([
-          axios.get('http://carboncube-backend:3001/incomes'),
-          axios.get('http://carboncube-backend:3001/sectors'),
-          axios.get('http://carboncube-backend:3001/educations'),
-          axios.get('http://carboncube-backend:3001/employments'),
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/incomes`),
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/sectors`),
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/educations`),
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/employments`),
         ]);
         setOptions({
           incomes: incomeRes.data,
@@ -113,7 +113,7 @@ function PurchaserSignUpPage({ onSignup }) {
     // console.log("Form Data before submission:", payload);
   
     try {
-      const response = await axios.post('http://carboncube-backend:3001/purchaser/signup', payload, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/purchaser/signup`, payload, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

@@ -25,7 +25,7 @@ const Messages = () => {
     const fetchMessages = async () => {
         setLoadingMessages(true);
         try {
-        const response = await fetch('http://carboncube-backend:3001/vendor/messages', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/messages`, {
             headers: {
             'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
             },
@@ -61,7 +61,7 @@ const Messages = () => {
         if (!newMessage.trim()) return;
 
         try {
-        const response = await fetch('http://carboncube-backend:3001/vendor/messages', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/messages`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

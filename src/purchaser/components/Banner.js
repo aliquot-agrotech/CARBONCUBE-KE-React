@@ -9,7 +9,7 @@ const Banner = () => {
     useEffect(() => {
         const fetchBannerImages = async () => {
             try {
-                const response = await fetch('http://carboncube-backend:3001/banners');
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/banners`);
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch banner images');
@@ -25,7 +25,7 @@ const Banner = () => {
 
         const fetchPremiumAds = async () => {
             try {
-                const response = await fetch('http://carboncube-backend:3001/ads');
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/ads`);
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch ads');

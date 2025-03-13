@@ -27,7 +27,7 @@ const PromotionsDiscount = () => {
 
     const fetchPromotions = async () => {
         try {
-            const response = await fetch('http://carboncube-backend:3001/admin/promotions');
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/promotions`);
             const data = await response.json();
             if (Array.isArray(data)) {
                 setPromotions(data);
@@ -46,8 +46,8 @@ const PromotionsDiscount = () => {
 
     const handleSave = async () => {
         const url = activePromotion.id 
-            ? `http://carboncube-backend:3001/admin/promotions/${activePromotion.id}` 
-            : 'http://carboncube-backend:3001/admin/promotions';
+            ? `${process.env.REACT_APP_BACKEND_URL}/admin/promotions/${activePromotion.id}` 
+            : `${process.env.REACT_APP_BACKEND_URL}/admin/promotions`;
         const method = activePromotion.id ? 'PUT' : 'POST';
         const response = await fetch(url, {
             method: method,
@@ -89,7 +89,7 @@ const PromotionsDiscount = () => {
     };
 
     const handleDelete = async (id) => {
-        const response = await fetch(`http://carboncube-backend:3001/admin/promotions/${id}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/promotions/${id}`, {
             method: 'DELETE',
         });
         if (response.ok) {

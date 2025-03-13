@@ -85,7 +85,7 @@ function VendorSignUpPage({ onSignup }) {
     console.log("Form Data before submission:", payload);
   
     try {
-      const response = await axios.post('http://carboncube-backend:3001/vendor/signup', payload, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/vendor/signup`, payload, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

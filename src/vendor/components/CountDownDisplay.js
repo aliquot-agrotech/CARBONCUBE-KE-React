@@ -15,7 +15,7 @@ const CountDownDisplay = () => {
         const vendorId = decodedToken.user_id;
 
         const response = await fetch(
-          `http://carboncube-backend:3001/vendor/vendor_tiers/${vendorId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/vendor/vendor_tiers/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

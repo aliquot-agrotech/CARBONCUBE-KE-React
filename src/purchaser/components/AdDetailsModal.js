@@ -52,7 +52,7 @@ const AdDetailsModal = ({ show, onHide, ad, loading, error }) => {
     
             // Replace this with your actual API endpoint
             const response = await axios.post(
-                `http://carboncube-backend:3001/purchaser/bookmarks`,
+                `${process.env.REACT_APP_BACKEND_URL}/purchaser/bookmarks`,
                 { ad_id: ad.id },
                 {
                     headers: {
@@ -77,7 +77,7 @@ const AdDetailsModal = ({ show, onHide, ad, loading, error }) => {
     
     const handleAddToCart = async (adId) => {
         try {
-            await fetch(`http://carboncube-backend:3001/purchaser/cart_items`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/cart_items`, {
                 method: 'POST',
                 headers: {
                 "Authorization": `Bearer ${sessionStorage.getItem('token')}`,

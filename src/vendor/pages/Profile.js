@@ -42,7 +42,7 @@ const ProfilePage = () => {
         return;
         }
 
-        axios.get('http://carboncube-backend:3001/vendor/profile', {
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/vendor/profile`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -78,7 +78,7 @@ const ProfilePage = () => {
         return;
         }
 
-        axios.put('http://carboncube-backend:3001/vendor/profile', profile, {
+        axios.put(`${process.env.REACT_APP_BACKEND_URL}/vendor/profile`, profile, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -113,7 +113,7 @@ const ProfilePage = () => {
         }
     
         // Proceed with the rest of the password change logic
-        axios.post('http://carboncube-backend:3001/vendor/profile/change-password', {
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/vendor/profile/change-password`, {
             currentPassword: passwordData.currentPassword,
             newPassword: passwordData.newPassword,
             confirmPassword: passwordData.confirmPassword

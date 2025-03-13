@@ -18,7 +18,7 @@ const PurchasersManagement = () => {
   useEffect(() => {
       const fetchPurchasers = async () => {
           try {
-              const response = await fetch(`http://carboncube-backend:3001/admin/purchasers?search_query=${searchQuery}`, {
+              const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/purchasers?search_query=${searchQuery}`, {
                   headers: {
                       'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                   },
@@ -44,7 +44,7 @@ const PurchasersManagement = () => {
 
   const handleRowClick = async (purchaserId) => {
     try {
-      const response = await fetch(`http://carboncube-backend:3001/admin/purchasers/${purchaserId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/purchasers/${purchaserId}`, {
         headers: {
           'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // Add token if required
         },
@@ -64,7 +64,7 @@ const PurchasersManagement = () => {
 
   const handleUpdateStatus = async (purchaserId, status) => {
     try {
-      const response = await fetch(`http://carboncube-backend:3001/admin/purchasers/${purchaserId}/${status}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/purchasers/${purchaserId}/${status}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -18,7 +18,7 @@ const OrdersManagement = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch(`http://carboncube-backend:3001/admin/orders?search_query=${searchQuery}`, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/orders?search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -45,7 +45,7 @@ const OrdersManagement = () => {
 
     const handleRowClick = async (orderId) => {
         try {
-            const response = await fetch(`http://carboncube-backend:3001/admin/orders/${orderId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/orders/${orderId}`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -70,7 +70,7 @@ const OrdersManagement = () => {
 
     const handleUpdateStatus = async (orderId, status) => {
         try {
-            const response = await fetch(`http://carboncube-backend:3001/admin/orders/${orderId}/update-status`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/orders/${orderId}/update-status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ const OrdersManagement = () => {
 
     const handleDeleteOrder = async (orderId) => {
         try {
-            const response = await fetch(`http://carboncube-backend:3001/admin/orders/${orderId}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/orders/${orderId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),

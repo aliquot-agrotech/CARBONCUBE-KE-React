@@ -20,7 +20,7 @@ const VendorNotifications = () => {
             const token = sessionStorage.getItem('token');
             if (token) {
                 try {
-                    const response = await fetch('http://carboncube-backend:3001/vendor/identify', {
+                    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/identify`, {
                         headers: {
                             'Authorization': `Bearer ${token}`,
                             'Content-Type': 'application/json', // Ensure Content-Type is set if needed
@@ -56,7 +56,7 @@ const VendorNotifications = () => {
 
     useEffect(() => {
         if (vendorId) {
-            const consumer = createConsumer('ws://localhost:3000/cable');
+            const consumer = createConsumer(`ws://localhost:3000/cable`);
             const subscription = consumer.subscriptions.create(
                 { channel: 'NotificationsChannel', vendor_id: vendorId },
                 {
@@ -73,7 +73,7 @@ const VendorNotifications = () => {
     useEffect(() => {
         const fetchNotifications = async () => {
             const token = sessionStorage.getItem('token');
-            const response = await fetch('http://carboncube-backend:3001/vendor/notifications', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/notifications`, {
                 headers: {
                     'Authorization': 'Bearer ' + token,
                 },

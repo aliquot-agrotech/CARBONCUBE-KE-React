@@ -16,7 +16,7 @@ const CategoriesManagement = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch(`http://carboncube-backend:3001/admin/categories`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/categories`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -62,8 +62,8 @@ const CategoriesManagement = () => {
     const handleSaveCategory = async () => {
         const method = isEditing ? 'PUT' : 'POST';
         const url = isEditing 
-            ? `http://carboncube-backend:3001/admin/categories/${selectedCategory.id}` 
-            : 'http://carboncube-backend:3001/admin/categories';
+            ? `${process.env.REACT_APP_BACKEND_URL}/admin/categories/${selectedCategory.id}` 
+            : `${process.env.REACT_APP_BACKEND_URL}/admin/categories`;
     
         try {
             // Save or update the category
@@ -92,8 +92,8 @@ const CategoriesManagement = () => {
             for (const subcategory of newCategory.subcategories) {
                 const subcategoryMethod = subcategory.id ? 'PUT' : 'POST';
                 const subcategoryUrl = subcategory.id
-                    ? `http://carboncube-backend:3001/admin/subcategories/${subcategory.id}`
-                    : `http://carboncube-backend:3001/admin/subcategories`;
+                    ? `${process.env.REACT_APP_BACKEND_URL}/admin/subcategories/${subcategory.id}`
+                    : `${process.env.REACT_APP_BACKEND_URL}/admin/subcategories`;
     
                 const subcategoryResponse = await fetch(subcategoryUrl, {
                     method: subcategoryMethod,
@@ -128,7 +128,7 @@ const CategoriesManagement = () => {
             );
     
             for (const subcategoryId of subcategoriesToDelete) {
-                const subcategoryUrl = `http://carboncube-backend:3001/admin/subcategories/${subcategoryId}`;
+                const subcategoryUrl = `${process.env.REACT_APP_BACKEND_URL}/admin/subcategories/${subcategoryId}`;
     
                 const deleteResponse = await fetch(subcategoryUrl, {
                     method: 'DELETE',

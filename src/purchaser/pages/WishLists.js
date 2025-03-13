@@ -12,7 +12,7 @@ const WishList = () => {
     const fetchWishLists = async () => {
       try {
         const token = sessionStorage.getItem('token');
-        const response = await fetch("http://carboncube-backend:3001/purchaser/wish_lists", {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/wish_lists`, {
           headers: {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
@@ -39,7 +39,7 @@ const WishList = () => {
 
   const handleDeleteWishList = async (adId) => {
     try {
-      await fetch(`http://carboncube-backend:3001/purchaser/wish_lists/${adId}`, {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/wish_lists/${adId}`, {
         method: 'DELETE',
         headers: {
           "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
@@ -54,7 +54,7 @@ const WishList = () => {
 
   const handleAddToCart = async (adId) => {
     try {
-      await fetch(`http://carboncube-backend:3001/purchaser/cart_items`, {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/cart_items`, {
         method: 'POST',
         headers: {
           "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
