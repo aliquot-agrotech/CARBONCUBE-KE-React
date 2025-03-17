@@ -320,6 +320,7 @@ const Home = () => {
                                         <Card.Img 
                                             variant="top" 
                                             src={ad.media_urls && ad.media_urls.length > 0 ? ad.media_urls[0] : 'default-image-url'}
+                                            alt={ad.title}
                                             className="ad-image"
                                             onClick={() => onAdClick(ad.id)} 
                                         />
