@@ -26,57 +26,51 @@ const Home = () => {
     useEffect(() => {
         const fetchCategoriesAndAds = async () => {
             try {
-                const categoryResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/categories`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                });
-                if (!categoryResponse.ok) throw new Error('Failed to fetch categories');
-
-                const categoryData = await categoryResponse.json();
-
-                const subcategoryResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/subcategories`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                });
-                if (!subcategoryResponse.ok) throw new Error('Failed to fetch subcategories');
-
-                const subcategoryData = await subcategoryResponse.json();
-
+                const token = sessionStorage.getItem('token');
+                const headers = { 'Authorization': `Bearer ${token}` };
+    
+                // Fetch categories and subcategories
+                const [categoryResponse, subcategoryResponse] = await Promise.all([
+                    fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/categories`, { headers }),
+                    fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/subcategories`, { headers })
+                ]);
+    
+                if (!categoryResponse.ok || !subcategoryResponse.ok) throw new Error('Failed to fetch categories/subcategories');
+    
+                const [categoryData, subcategoryData] = await Promise.all([
+                    categoryResponse.json(),
+                    subcategoryResponse.json()
+                ]);
+    
+                // Structure categories with subcategories
                 const categoriesWithSubcategories = categoryData.map(category => ({
                     ...category,
                     subcategories: subcategoryData.filter(sub => sub.category_id === category.id),
                 }));
-
+    
                 setCategories(categoriesWithSubcategories);
-
-                const adResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                });
+    
+                // ✅ Fetch all ads with pagination
+                const adResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads?per_page=500`, { headers });
+    
                 if (!adResponse.ok) throw new Error('Failed to fetch ads');
-
+    
                 const adData = await adResponse.json();
-
-                const adsBySubcategory = {};
-                subcategoryData.forEach(subcategory => {
-                    adsBySubcategory[subcategory.id] = adData
-                        .filter(ad => ad.subcategory_id === subcategory.id)
-                        .sort(() => 0.5 - Math.random());
-                });
-
-                setAds(adsBySubcategory);
+                console.log("Ads Response:", adData);  // ✅ Debugging
+    
+                // ✅ Ensure ads are grouped correctly
+                setAds(adData);
             } catch (error) {
+                console.error("Fetch Error:", error);
                 setError('Error fetching data');
             } finally {
                 setLoading(false);
             }
         };
-
+    
         fetchCategoriesAndAds();
     }, []);
+    
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!sidebarOpen);
