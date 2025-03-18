@@ -427,7 +427,9 @@ const AdDetails = () => {
     };
 
     const renderCarousel = () => {
-        const borderColor = getBorderColor(ad.vendor_tier);
+        // Ensure vendor_tier is correctly accessed
+        const tierId = ad.vendor_tier?.id || ad.vendor_tier; 
+        const borderColor = getBorderColor(tierId);
     
         return (
             <div 
@@ -474,8 +476,7 @@ const AdDetails = () => {
                 )}
             </div>
         );
-    };
-    
+    };  
 
     const getBorderColor = (tierId) => {
         const tierColors = {
