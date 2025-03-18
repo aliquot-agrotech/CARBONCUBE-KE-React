@@ -448,7 +448,7 @@ const AdDetails = () => {
                         fontWeight: 'bold',
                         backgroundColor: borderColor,
                         borderRadius: '4px',
-                        zIndex: 20,
+                        zIndex: 2,
                     }}
                 >
                     {ad.tier_name || "Free"} {/* Show tier name, default to "Free" */}
