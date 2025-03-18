@@ -427,29 +427,55 @@ const AdDetails = () => {
     };
 
     const renderCarousel = () => {
-        if (!ad.media_urls || ad.media_urls.length === 0) {
+        const borderColor = getBorderColor(ad.vendor_tier);
+    
         return (
-            <img
-            src="default-image-url"
-            alt="default"
-            className="ad-image img-fluid"
-            />
-        );
-        }
-        return (
-        <Carousel>
-            {ad.media_urls.map((url, index) => (
-            <Carousel.Item key={index}>
-                <img
-                className="d-block h-50 ad-image"
-                src={url}
-                alt={`Slide ${index}`}
-                />
-            </Carousel.Item>
-            ))}
-        </Carousel>
+            <div 
+                className="border rounded p-2 position-relative"
+                style={{ borderColor, borderWidth: '3px', borderStyle: 'solid' }}
+            >
+                {/* Tier Label */}
+                <div
+                    className="tier-label text-dark"
+                    style={{
+                        position: 'absolute',
+                        top: '10px',
+                        left: '10px',
+                        padding: '5px 10px',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        backgroundColor: borderColor,
+                        borderRadius: '4px',
+                        zIndex: 20,
+                    }}
+                >
+                    {ad.tier_name || "Free"} {/* Show tier name, default to "Free" */}
+                </div>
+    
+                {/* Default Image Case */}
+                {!ad.media_urls || ad.media_urls.length === 0 ? (
+                    <img
+                        src="default-image-url"
+                        alt="default"
+                        className="ad-image img-fluid"
+                    />
+                ) : (
+                    <Carousel>
+                        {ad.media_urls.map((url, index) => (
+                            <Carousel.Item key={index}>
+                                <img
+                                    className="d-block h-50 ad-image"
+                                    src={url}
+                                    alt={`Slide ${index}`}
+                                />
+                            </Carousel.Item>
+                        ))}
+                    </Carousel>
+                )}
+            </div>
         );
     };
+    
 
     const getBorderColor = (tierId) => {
         const tierColors = {
