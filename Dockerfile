@@ -1,7 +1,6 @@
 # Use Node.js for building React
 FROM node:22.14.0 AS build
 
-# Set working directory
 WORKDIR /app
 
 # Copy package.json and install dependencies
@@ -19,6 +18,9 @@ FROM nginx:alpine
 
 # Copy built React app to Nginx HTML folder
 COPY --from=build /app/build /usr/share/nginx/html
+
+# Copy the custom Nginx configuration file
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
