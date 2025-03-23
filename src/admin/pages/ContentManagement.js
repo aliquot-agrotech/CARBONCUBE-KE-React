@@ -19,7 +19,7 @@ const ContentManagement = () => {
     const [showModal, setShowModal] = useState(false);
     const [file, setFile] = useState(null);
 
-    const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
+    // const cloudinary = new Cloudinary({ cloud_name: 'dyyu5fwcz', secure: true });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -138,52 +138,39 @@ const ContentManagement = () => {
     const handleUploadBanner = async () => {
         if (!file) return;
     
-        setIsUploading(true); // Set uploading to true at the start of the upload
+        setIsUploading(true);
     
-        // Upload to Cloudinary
         const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'carbonecom'); // Replace with your Cloudinary upload preset
+        formData.append('banner[image]', file);
     
         try {
-            const cloudinaryResponse = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.config().cloud_name}/image/upload`, {
-                method: 'POST',
-                body: formData,
-            });
-        
-            if (!cloudinaryResponse.ok) {
-                throw new Error('Failed to upload image to Cloudinary');
-            }
-        
-            const cloudinaryData = await cloudinaryResponse.json();
-            const imageUrl = cloudinaryData.secure_url;
-        
-            // Save the banner URL to your database
-            const bannerFormData = new FormData();
-            bannerFormData.append('banner[image_url]', imageUrl);
-        
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/banners`, {
                 method: 'POST',
                 headers: {
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
-                body: bannerFormData,
+                body: formData,
             });
-        
+    
+            const responseData = await response.json(); // Get JSON response
+    
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                console.error('Backend Error:', responseData);
+                throw new Error(responseData.error || 'Failed to upload banner');
             }
-        
-            const newBanner = await response.json();
-                setBanners([...banners, newBanner]);
-                setShowModal(false);
-                setFile(null);
-            } catch (error) {
-                setError('Error uploading banner');
-            } finally {
-                setIsUploading(false); // Reset after upload completes, regardless of success or error
-            }
+    
+            setBanners([...banners, responseData]);
+            setShowModal(false);
+            setFile(null);
+        } catch (error) {
+            console.error('Upload Error:', error.message);
+            setError(error.message); // Show actual error
+        } finally {
+            setIsUploading(false);
+        }
     };
+    
+    
 
     const handleDeleteBanner = async (id) => {
         try {
