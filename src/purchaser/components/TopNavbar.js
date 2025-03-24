@@ -113,7 +113,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto"></Nav>
-          <Form className="d-flex search-control" onSubmit={onSubmit}>
+          <Form className="d-flex align-items-center search-control w-100" onSubmit={onSubmit}>
             <Dropdown className="me-2 dropdown-filter">
               <Dropdown.Toggle variant="warning" id="button">
                 {selectedCategory === 'All' && selectedSubcategory === 'All' ? (
@@ -159,18 +159,24 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
                 ))}
               </Dropdown.Menu>
             </Dropdown>
-            <FormControl
-              type="text"
-              placeholder="Search ads..."
-              className="me-sm-2 me-2"
-              value={searchQuery}
-              id="button"
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+
+            {/* Ensure the input field has controlled width and height */}
+            <div className="d-flex align-items-center flex-grow-1">
+              <FormControl
+                type="text"
+                placeholder="Search ads..."
+                className="me-2 search-input mb-0"
+                value={searchQuery}
+                id="button"
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
             <Button variant="warning" type="submit" id="button">
               <FontAwesomeIcon icon={faSearch} />
             </Button>
           </Form>
+
           {/* Navigation buttons for Vendors and Login/Logout */}
           <Nav className="ms-auto">
             <Row className="d-flex justify-content-center">

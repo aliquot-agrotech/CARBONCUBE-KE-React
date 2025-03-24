@@ -22,6 +22,8 @@
 /* Styling for the search bar */
 .search-control {
   margin-left: auto;
+  display: flex;
+  align-items: center;
   margin-right: auto;
   width: 100%; /* Adjust width as needed */
   max-width: 800px; /* Ensure it doesn't get too wide */
@@ -54,6 +56,11 @@
   background: #5cb85c;
   outline-color: #5cb85c;
   color: #000;
+}
+
+.search-input {
+  height: 38px; /* Ensure uniform height */
+  min-width: 200px; /* Prevent it from being too small */
 }
 
 
