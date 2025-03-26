@@ -26,6 +26,8 @@ const VendorAds = () => {
     const [ setNewImageUrl] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [weightUnit, setWeightUnit] = useState('Grams');
+    const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
     // const [selectedImages, setSelectedImages] = useState([]);
     // const [files, setFiles] = useState([]);
     const [editedAd, setEditedAd] = useState({
@@ -221,103 +223,109 @@ const VendorAds = () => {
         });
     };
     
-        
-
-    // const handleImageUpload = async (files) => {
-    //     const formData = new FormData();
-    //     formData.append('file', files);
-    //     formData.append('upload_preset', 'carbonecom'); // Ensure this is set up in Cloudinary
-    
-    //     const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinary.config().cloud_name}/image/upload/`, {
-    //         method: 'POST',
-    //         body: formData,
-    //     });
-    
-    //     if (response.ok) {
-    //         const data = await response.json();
-    //         return data.secure_url; // The URL of the uploaded image
-    //     } else {
-    //         throw new Error('Failed to upload image');
-    //     }
-    // };
-    
     const handleAddNewAd = async () => {
-        const { title, description, price, quantity, brand, manufacturer, item_length, item_width, item_height, item_weight } = formValues;
-    
-        if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !item_length || !item_width || !item_height || !item_weight) {
-            alert('Please fill in all required fields.');
-            return;
-        }
-    
-        const fileInput = document.querySelector('.custom-upload-btn input[type="file"]');
-        let safeImages = []; 
-        let skippedImages = 0; 
-    
-        if (fileInput && fileInput.files.length > 0) {
-            await loadNSFWModel(); 
-    
-            for (let i = 0; i < fileInput.files.length; i++) {
-                const file = fileInput.files[i];
-    
-                const isUnsafe = await checkImage(file);
-                if (isUnsafe) {
-                    console.warn("Blocked unsafe image:", file.name);
-                    skippedImages++;
-                    continue; 
-                }
-    
-                safeImages.push(file);
-            }
-        }
-    
-        if (safeImages.length === 0) {
-            alert("All selected images were blocked. Please upload appropriate images.");
-            return;
-        }        
-    
-        // Use FormData to send files
-        const formData = new FormData();
-        formData.append('ad[title]', title);
-        formData.append('ad[description]', description);
-        formData.append('ad[category_id]', selectedCategory);
-        formData.append('ad[subcategory_id]', selectedSubcategory);
-        formData.append('ad[price]', parseInt(price));
-        formData.append('ad[quantity]', parseInt(quantity));
-        formData.append('ad[brand]', brand);
-        formData.append('ad[manufacturer]', manufacturer);
-        formData.append('ad[item_length]', parseInt(item_length));
-        formData.append('ad[item_width]', parseInt(item_width));
-        formData.append('ad[item_height]', parseInt(item_height));
-        formData.append('ad[item_weight]', parseInt(item_weight));
-        formData.append('ad[weight_unit]', weightUnit);
-    
-        // Append images to FormData
-        safeImages.forEach((file, index) => {
-            formData.append(`ad[media][]`, file);
-        });
-    
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/ads`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                },
-                body: formData, // No need for Content-Type, browser sets it automatically
-            });
+            // Ensure state is reset and uploading starts immediately
+            setUploading(true);
+            setUploadProgress(0);
     
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            const { title, description, price, quantity, brand, manufacturer, item_length, item_width, item_height, item_weight } = formValues;
+        
+            // Validation check
+            if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !item_length || !item_width || !item_height || !item_weight) {
+                alert('Please fill in all required fields.');
+                setUploading(false);
+                return;
             }
-    
-            const result = await response.json();
-            console.log('Ad added successfully:', result);
-    
-            setAds(prevAds => [...prevAds, result]);
-    
+        
+            const fileInput = document.querySelector('.custom-upload-btn input[type="file"]');
+            let safeImages = []; 
+            let skippedImages = 0; 
+        
+            if (fileInput && fileInput.files.length > 0) {
+                await loadNSFWModel(); 
+        
+                for (let i = 0; i < fileInput.files.length; i++) {
+                    const file = fileInput.files[i];
+        
+                    const isUnsafe = await checkImage(file);
+                    if (isUnsafe) {
+                        console.warn("Blocked unsafe image:", file.name);
+                        skippedImages++;
+                        continue; 
+                    }
+        
+                    safeImages.push(file);
+                }
+            }
+        
+            if (safeImages.length === 0) {
+                alert("All selected images were blocked. Please upload appropriate images.");
+                setUploading(false);
+                return;
+            }        
+        
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('ad[title]', title);
+            formData.append('ad[description]', description);
+            formData.append('ad[category_id]', selectedCategory);
+            formData.append('ad[subcategory_id]', selectedSubcategory);
+            formData.append('ad[price]', parseInt(price));
+            formData.append('ad[quantity]', parseInt(quantity));
+            formData.append('ad[brand]', brand);
+            formData.append('ad[manufacturer]', manufacturer);
+            formData.append('ad[item_length]', parseInt(item_length));
+            formData.append('ad[item_width]', parseInt(item_width));
+            formData.append('ad[item_height]', parseInt(item_height));
+            formData.append('ad[item_weight]', parseInt(item_weight));
+            formData.append('ad[weight_unit]', weightUnit);
+        
+            safeImages.forEach((file, index) => {
+                formData.append(`ad[media][]`, file);
+            });
+        
+            // Wrap XMLHttpRequest in a Promise for better async handling
+            const uploadPromise = new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", `${process.env.REACT_APP_BACKEND_URL}/vendor/ads`);
+                xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
+        
+                // Track upload progress
+                xhr.upload.onprogress = (event) => {
+                    if (event.lengthComputable) {
+                        const percentCompleted = Math.round((event.loaded / event.total) * 100);
+                        // Update progress state 
+                        setUploadProgress(percentCompleted);
+                        console.log(`Upload Progress: ${percentCompleted}%`);
+                    }
+                };
+        
+                xhr.onload = () => {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        const result = JSON.parse(xhr.responseText);
+                        console.log("Ad added successfully:", result);
+                        setAds(prevAds => [...prevAds, result]);
+                        resolve(result);
+                    } else {
+                        reject(new Error(`Upload failed with status: ${xhr.status}`));
+                    }
+                };
+        
+                xhr.onerror = () => reject(new Error("Network error during upload"));
+        
+                xhr.send(formData);
+            });
+        
+            // Wait for upload to complete
+            await uploadPromise;
+        
+            // Handle skipped images alert
             if (skippedImages > 0) {
                 alert(`${skippedImages} images were flagged as explicit and were not uploaded.`);
             }
-    
+        
+            // Reset form and state after successful upload
             setFormValues({
                 title: '',
                 description: '',
@@ -335,11 +343,14 @@ const VendorAds = () => {
             setWeightUnit('Grams');
             setShowAddModal(false);
         } catch (error) {
-            console.error('Error adding ad:', error);
-            alert('Failed to add ad. Please try again.');
+            console.error("Error adding ad:", error);
+            alert("Failed to add ad. Please try again.");
+        } finally {
+            // Ensure uploading state is always reset
+            setUploading(false);
+            setUploadProgress(0);
         }
-    };   
-    
+    };
 
     const handleViewDetailsClick = (ad) => {
         setSelectedAd(ad);
@@ -1427,10 +1438,39 @@ const VendorAds = () => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer className="p-0 p-lg-1">
-                        <Button variant="warning" onClick={handleAddNewAd} >
-                            Add Ad
+                        {/* Progress Bar */}
+                        {uploading && (
+                            <div className="progress mt-2 w-100">
+                                <div
+                                    className="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                    role="progressbar"
+                                    style={{ 
+                                        width: `${uploadProgress}%`, 
+                                        transition: "width 0.3s ease-in-out" 
+                                    }}
+                                    aria-valuenow={uploadProgress}
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                >
+                                    {uploadProgress}%
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Buttons */}
+                        <Button 
+                            variant="warning" 
+                            onClick={handleAddNewAd} 
+                            disabled={uploading}
+                        >
+                            {uploading ? "Uploading..." : "Add Ad"}
                         </Button>
-                        <Button variant="danger" onClick={() => setShowAddModal(false)}>
+                        
+                        <Button 
+                            variant="danger" 
+                            onClick={() => setShowAddModal(false)} 
+                            disabled={uploading}
+                        >
                             Close
                         </Button>
                     </Modal.Footer>
