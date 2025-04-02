@@ -42,11 +42,11 @@ const Sidebar = () => {
             className={location.pathname === '/purchaser/home' ? 'active' : ''}>
             <HouseGear className="icon" /> {isOpen && 'Home'}
           </Nav.Link>
-          <Nav.Link
+          {/* <Nav.Link
             href="/purchaser/orders"
             className={location.pathname === '/purchaser/orders' ? 'active' : ''}>
             <BagCheck className="icon" /> {isOpen && 'Orders'}
-          </Nav.Link>
+          </Nav.Link> */}
           <Nav.Link
             href="/purchaser/wish_lists"
             className={location.pathname === '/purchaser/wish_lists' ? 'active' : ''}>

@@ -125,7 +125,7 @@ function App() {
         {isAuthenticated && userRole === 'purchaser' && (
           <Route path="/purchaser/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="purchaser" userRole={userRole} />}>
             <Route path="home" element={<Home onLogout={handleLogout} />} />
-            <Route path="wishlists" element={<WishList onLogout={handleLogout} />} />
+            <Route path="wish_lists" element={<WishList onLogout={handleLogout} />} />
             <Route path="cart" element={<ShoppingCart onLogout={handleLogout} />} />
             <Route path="buyforme" element={<BuyForMeOrderCart onLogout={handleLogout} />} />
             <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
