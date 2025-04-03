@@ -1,28 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Container, Nav, Button, Form, FormControl, Dropdown, Row, Col } from 'react-bootstrap';
-// import { List } from 'react-bootstrap-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
 import './TopNavbar.css';
 
 const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, handleSearch }) => {
-  // const [isVisible, setIsVisible] = useState(!sidebarOpen);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedSubcategory, setSelectedSubcategory] = useState('All');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
-
-  // useEffect(() => {
-  //   if (sidebarOpen) {
-  //     setIsVisible(false);
-  //   } else {
-  //     const timer = setTimeout(() => setIsVisible(true), 300);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [sidebarOpen]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Fetch categories and subcategories
     const fetchCategories = async () => {
       try {
         console.log('Token:', sessionStorage.getItem('token'));
@@ -58,9 +46,8 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
 
     fetchCategories();
 
-    // Check if the purchaser is logged in by verifying the presence of the token
     const token = sessionStorage.getItem('token');
-    setIsLoggedIn(!!token); // If token exists, set isLoggedIn to true
+    setIsLoggedIn(!!token);
   }, []);
 
   const handleCategorySelect = (categoryId) => {
@@ -78,36 +65,24 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('token'); // Remove the token from sessionStorage on logout
-    setIsLoggedIn(false); // Set the login state to false
-    window.location.href = '/login'; // Redirect to the login page
+    sessionStorage.removeItem('token');
+    setIsLoggedIn(false);
+    window.location.href = '/login';
   };
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar mb-0 p-1">
       <Container fluid>
-        {/* <div className={`toggle-container ${sidebarOpen ? 'hidden' : ''}`}>
-          {isVisible && (
-            <Button
-              variant="warning"
-              className={`toggle-button ${sidebarOpen ? 'fade-out' : 'fade-in'}`}
-              onClick={onSidebarToggle}
-              aria-label="Toggle Sidebar"
-            >
-              <List size={15} />
-            </Button>
-          )}
-        </div> */}
         <Navbar.Brand href="/home" className="d-flex align-items-center">
-            <img
-              src={`${process.env.PUBLIC_URL}/logo.png`}
-              alt="Carboncube Logo"
-              width="40"  // Adjust size as needed
-              height="40"  // Adjust size as needed
-              className="d-inline-block align-top"
-            />
-            <span className="ml-2">ARBONCUBE</span>
-          </Navbar.Brand>
+          <img
+            src={`${process.env.PUBLIC_URL}/logo.png`}
+            alt="Carboncube Logo"
+            width="40"
+            height="40"
+            className="d-inline-block align-top"
+          />
+          <span className="ml-2">ARBONCUBE</span>
+        </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
@@ -160,7 +135,6 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               </Dropdown.Menu>
             </Dropdown>
 
-            {/* Ensure the input field has controlled width and height */}
             <div className="d-flex align-items-center flex-grow-1">
               <FormControl
                 type="text"
@@ -177,19 +151,15 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
             </Button>
           </Form>
 
-          {/* Navigation buttons for Vendors and Login/Logout */}
           <Nav className="ms-auto">
             <Row className="d-flex justify-content-center">
-              {/* <Col className="text-center">
-                <Button variant="secondary" href="/login" className="ms-2 w-100" id="button">
-                  Rider
-                </Button>
-              </Col> */}
-              <Col className="text-center">
-                <Button variant="warning" href="/login" className="ms-2 w-100" id="button">
-                  Vendor
-                </Button>
-              </Col>
+              {!isLoggedIn && (
+                <Col className="text-center">
+                  <Button variant="warning" href="/login" className="ms-2 w-100" id="button">
+                    Vendor
+                  </Button>
+                </Col>
+              )}
               <Col className="text-center">
                 {isLoggedIn ? (
                   <Button variant="warning" onClick={handleLogout} className="ms-2 w-100" id="button" style={{ whiteSpace: 'nowrap' }}>
