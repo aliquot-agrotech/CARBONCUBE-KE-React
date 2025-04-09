@@ -376,9 +376,9 @@ const Home = () => {
                                             onClick={() => handleAdClick(ad.id)} // Handle image click
                                         />
                                     </div>
-                                    <Card.Body className="text-start bg-gray">
-                                        <Card.Title className="mb-0 ad-title">{ad.title}</Card.Title>
-                                        <Card.Text className="mt-0">
+                                    <Card.Body className="text-start bg-gray py-2">
+                                        <Card.Title className="mb-1 ad-title">{ad.title}</Card.Title>
+                                        <Card.Text className="mt-1">
                                             <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
                                             <strong style={{ fontSize: '20px' }} className="text-danger">
                                                 {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
