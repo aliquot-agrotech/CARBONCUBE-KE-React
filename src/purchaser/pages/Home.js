@@ -345,7 +345,11 @@ const Home = () => {
                         const borderColor = getBorderColor(ad.vendor_tier); // Get the border color
                         return (
                             <Col xs={6} sm={6} md={2} key={ad.id} className="">
-                                <Card className="ad-card mb-3">
+                                <Card 
+                                    className="ad-card mb-3" 
+                                    style={{
+                                        border: `2px solid ${borderColor}`,
+                                    }}>
                                     <div style={{ position: 'relative' }}>
                                         {/* Tier label */}
                                         <div
@@ -369,15 +373,12 @@ const Home = () => {
                                             src={ad.media_urls && ad.media_urls.length > 0 ? ad.media_urls[0] : 'default-image-url'}
                                             alt={ad.title}
                                             className="ad-image"
-                                            style={{
-                                                border: `2px solid ${borderColor}`,
-                                            }}
                                             onClick={() => handleAdClick(ad.id)} // Handle image click
                                         />
                                     </div>
                                     <Card.Body className="text-start bg-gray">
                                         <Card.Title className="mb-0 ad-title">{ad.title}</Card.Title>
-                                        <Card.Text>
+                                        <Card.Text className="mt-0">
                                             <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
                                             <strong style={{ fontSize: '20px' }} className="text-danger">
                                                 {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
