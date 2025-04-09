@@ -340,7 +340,7 @@ const Home = () => {
                 <h3 className="mb-0">Search Results</h3>
             </Card.Header>
             <Card.Body>
-                <Row>
+                <Row className="g-3">
                     {results.map(ad => {
                         const borderColor = getBorderColor(ad.vendor_tier); // Get the border color
                         return (
