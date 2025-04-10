@@ -520,147 +520,154 @@ const AdDetails = () => {
                                 <div className="ad-details-page container">
                                     {ad && (
                                         <Row className="ad-details mt-1 p-1 shadow-lg rounded border">
-                                            <Col xs={12} md={7} className="d-flex flex-column justify-content-center text-center">
-                                                <motion.div
-                                                    initial={{ opacity: 0, scale: 0.9 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    transition={{ duration: 0.5 }}
-                                                >
-                                                    {renderCarousel()}
-                                                </motion.div>
-                                            </Col>
-
-                                            <Col xs={12} md={4} className="d-flex flex-column justify-content-center p-0 ">
-                                                <h3 className="display-6 text-dark mb-0 px-2"><strong>{ad.title}</strong></h3>
-                                                <div className="p-2">
-                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {ad.brand}</p>
-                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {ad.manufacturer}</p>
-                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {ad.category_name}</p>
-                                                    <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {ad.subcategory_name}</p>
-                                                </div>
-                                                <Row 
-                                                    onClick={handleShowModal} 
-                                                    style={{ cursor: 'pointer' }} 
-                                                    className="link-hover px-2"
+                                            <Row>
+                                                <Col xs={12} md={7} className="d-flex flex-column justify-content-center text-center">
+                                                    <motion.div
+                                                        initial={{ opacity: 0, scale: 0.9 }}
+                                                        animate={{ opacity: 1, scale: 1 }}
+                                                        transition={{ duration: 0.5 }}
                                                     >
-                                                    <span className="star-rating">
-                                                        {renderRatingStars(ad.mean_rating, ad.review_count)}
-                                                    </span>
-                                                </Row>
+                                                        {renderCarousel()}
+                                                    </motion.div>
+                                                </Col>
 
-                                                <h4 className="ad-price my-1 px-2">
-                                                    <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
-                                                    <strong className="text-danger display-6">
-                                                        {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
-                                                            <React.Fragment key={index}>
-                                                                {index === 0 ? (
-                                                                    <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                                                ) : (
-                                                                    <>
-                                                                        <span style={{ fontSize: '16px' }}>.</span>
-                                                                        <span className="price-decimal">{part}</span>
-                                                                    </>
-                                                                )}
-                                                            </React.Fragment>
-                                                        )) : 'N/A'}
-                                                    </strong>
-                                                </h4>
-
-                                                <Card className="mt-2 border-0 shadow custom-card">
-                                                    <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
-                                                    <Card.Body>
-                                                        <Row>
-                                                            <Col xs={6} md={6} lg={6}>
-                                                                <p><strong>Height:</strong> {ad.item_height} cm</p>
-                                                                <p><strong>Width:</strong> {ad.item_width} cm</p>
-                                                            </Col>
-                                                            <Col xs={6} md={6} lg={6}>
-                                                                <p><strong>Length:</strong> {ad.item_length} cm</p>
-                                                                <p>
-                                                                    <strong>Weight:</strong> {ad.item_weight} {ad.weight_unit}
-                                                                </p>
-                                                            </Col>
-                                                        </Row>
-                                                    </Card.Body>
-                                                </Card>
-
-                                                <Container className="mt-3 justify-content-center">
-                                                    <Row>
-                                                        <Col xs={6} md={12} lg={6} className="d-flex justify-content-center">
-                                                            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                                                                <Button
-                                                                    variant="outline-dark"
-                                                                    className="modern-btn-dark px-4 py-2"
-                                                                    id="button"
-                                                                    onClick={(e) => {
-                                                                        e.preventDefault(); // Prevent page reload
-                                                                        handleRevealVendorDetails();
-                                                                    }}
-                                                                >
-                                                                    {/* Display loading spinner inside the button when fetching */}
-                                                                    {loading ? (
-                                                                        <Spinner animation="border" size="sm" className="me-2" />
-                                                                    ) : showVendorDetails && vendor ? (
-                                                                        // Display vendor name and phone number inside the button after it's revealed
-                                                                        <span>
-                                                                            {vendor.enterprise_name} | {vendor.phone_number}
-                                                                        </span>
-                                                                    ) : (
-                                                                        '📞 Contact Vendor' // Default text before clicking
-                                                                    )}
-                                                                </Button>
-                                                            </motion.div>
-                                                        </Col>
-
-                                                        <Col xs={6} md={12} lg={6} className="d-flex justify-content-center">
-                                                            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                                                                <Button
-                                                                    variant="outline-dark"
-                                                                    className="modern-btn-dark px-4 py-2 rounded-pill"
-                                                                    onClick={handleShowReviewModal}
-                                                                >
-                                                                    💬 Leave a Review
-                                                                </Button>
-                                                            </motion.div>
-                                                        </Col>
+                                                <Col xs={12} md={4} className="d-flex flex-column justify-content-center p-0 ">
+                                                    <h3 className="display-6 text-dark mb-0 px-2"><strong>{ad.title}</strong></h3>
+                                                    <div className="p-2">
+                                                        <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {ad.brand}</p>
+                                                        <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {ad.manufacturer}</p>
+                                                        <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {ad.category_name}</p>
+                                                        <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {ad.subcategory_name}</p>
+                                                    </div>
+                                                    <Row 
+                                                        onClick={handleShowModal} 
+                                                        style={{ cursor: 'pointer' }} 
+                                                        className="link-hover px-2"
+                                                        >
+                                                        <span className="star-rating">
+                                                            {renderRatingStars(ad.mean_rating, ad.review_count)}
+                                                        </span>
                                                     </Row>
 
-                                                    <div>
-                                                        <Row className="mt-2">
-                                                            <Col md={12} className="d-flex justify-content-center">
+                                                    <h4 className="ad-price my-1 px-2">
+                                                        <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
+                                                        <strong className="text-danger display-6">
+                                                            {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    {index === 0 ? (
+                                                                        <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                                                    ) : (
+                                                                        <>
+                                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                                            <span className="price-decimal">{part}</span>
+                                                                        </>
+                                                                    )}
+                                                                </React.Fragment>
+                                                            )) : 'N/A'}
+                                                        </strong>
+                                                    </h4>
+
+                                                    
+
+                                                    <Container className="mt-3 justify-content-center">
+                                                        <Row>
+                                                            <Col xs={6} md={12} lg={6} className="d-flex justify-content-center">
                                                                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                                                     <Button
                                                                         variant="outline-dark"
                                                                         className="modern-btn-dark px-4 py-2"
                                                                         id="button"
-                                                                        disabled={!ad || wish_listLoading}
-                                                                        onClick={handleAddToWishlist} // Trigger handleAddToWishlist
+                                                                        onClick={(e) => {
+                                                                            e.preventDefault(); // Prevent page reload
+                                                                            handleRevealVendorDetails();
+                                                                        }}
                                                                     >
-                                                                        🖤 Add to Wish List
+                                                                        {/* Display loading spinner inside the button when fetching */}
+                                                                        {loading ? (
+                                                                            <Spinner animation="border" size="sm" className="me-2" />
+                                                                        ) : showVendorDetails && vendor ? (
+                                                                            // Display vendor name and phone number inside the button after it's revealed
+                                                                            <span>
+                                                                                {vendor.enterprise_name} | {vendor.phone_number}
+                                                                            </span>
+                                                                        ) : (
+                                                                            '📞 Contact Vendor' // Default text before clicking
+                                                                        )}
+                                                                    </Button>
+                                                                </motion.div>
+                                                            </Col>
+
+                                                            <Col xs={6} md={12} lg={6} className="d-flex justify-content-center">
+                                                                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                                                                    <Button
+                                                                        variant="outline-dark"
+                                                                        className="modern-btn-dark px-4 py-2 rounded-pill"
+                                                                        onClick={handleShowReviewModal}
+                                                                    >
+                                                                        💬 Leave a Review
                                                                     </Button>
                                                                 </motion.div>
                                                             </Col>
                                                         </Row>
 
-                                                        {/* Render the Login Modal */}
-                                                        <AlertModal 
-                                                            isVisible={showAlertModal} 
-                                                            message={alertModal} 
-                                                            onClose={handleCloseAlertModal} 
-                                                            loading={false} 
-                                                        />
-                                                    </div>
-                                                </Container>
+                                                        <div>
+                                                            <Row className="mt-2">
+                                                                <Col md={12} className="d-flex justify-content-center">
+                                                                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                                                                        <Button
+                                                                            variant="outline-dark"
+                                                                            className="modern-btn-dark px-4 py-2"
+                                                                            id="button"
+                                                                            disabled={!ad || wish_listLoading}
+                                                                            onClick={handleAddToWishlist} // Trigger handleAddToWishlist
+                                                                        >
+                                                                            🖤 Add to Wish List
+                                                                        </Button>
+                                                                    </motion.div>
+                                                                </Col>
+                                                            </Row>
 
+                                                            {/* Render the Login Modal */}
+                                                            <AlertModal 
+                                                                isVisible={showAlertModal} 
+                                                                message={alertModal} 
+                                                                onClose={handleCloseAlertModal} 
+                                                                loading={false} 
+                                                            />
+                                                        </div>
+                                                    </Container>
+                                                    {wish_listError && <div className="text-danger text-center mt-3">{wish_listError}</div>}
+                                                </Col>
+                                            </Row>
+                                            <Row>
                                                 <Container className="mt-2">
-                                                    <Row>
-                                                        <h3>Description</h3>
-                                                        <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{ad.description}</p>
-                                                    </Row>
+                                                    <Col xs={12} md={8} lg={8} className="p-0">
+                                                        <Row>
+                                                            <h3>Description</h3>
+                                                            <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{ad.description}</p>
+                                                        </Row>
+                                                    </Col>
+                                                    <Col xs={12} md={8} lg={8} className="p-0">
+                                                        <Card className="mt-2 border-0 shadow custom-card">
+                                                            <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
+                                                            <Card.Body>
+                                                                <Row>
+                                                                    <Col xs={6} md={6} lg={6}>
+                                                                        <p><strong>Height:</strong> {ad.item_height} cm</p>
+                                                                        <p><strong>Width:</strong> {ad.item_width} cm</p>
+                                                                    </Col>
+                                                                    <Col xs={6} md={6} lg={6}>
+                                                                        <p><strong>Length:</strong> {ad.item_length} cm</p>
+                                                                        <p>
+                                                                            <strong>Weight:</strong> {ad.item_weight} {ad.weight_unit}
+                                                                        </p>
+                                                                    </Col>
+                                                                </Row>
+                                                            </Card.Body>
+                                                        </Card>
+                                                    </Col>
                                                 </Container>
-
-                                                {wish_listError && <div className="text-danger text-center mt-3">{wish_listError}</div>}
-                                            </Col>
+                                            </Row>
                                         </Row>
                                     )}
 
