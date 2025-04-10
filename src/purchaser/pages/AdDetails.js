@@ -641,7 +641,7 @@ const AdDetails = () => {
                                             </Row>
                                             <Row>
                                                 <Container className="mt-2">
-                                                    <Col xs={12} md={8} lg={8} className="p-0">
+                                                    <Col xs={12} md={7} lg={7} className="p-0">
                                                         <Row>
                                                             <h3>Description</h3>
                                                             <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{ad.description}</p>
