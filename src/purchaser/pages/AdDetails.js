@@ -647,7 +647,7 @@ const AdDetails = () => {
                                                             <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{ad.description}</p>
                                                         </Row>
                                                     </Col>
-                                                    <Col xs={12} md={8} lg={8} className="p-0">
+                                                    <Col xs={12} md={4} lg={4} className="p-0">
                                                         <Card className="mt-2 border-0 shadow custom-card">
                                                             <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
                                                             <Card.Body>
