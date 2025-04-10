@@ -376,23 +376,32 @@ const Home = () => {
                                             onClick={() => handleAdClick(ad.id)} // Handle image click
                                         />
                                     </div>
-                                    <Card.Body className="text-start bg-gray px-2 py-1">
+                                    <Card.Body className="px-2 py-1">
                                         <Card.Title className="mb-0 mb-lg-1 ad-title">{ad.title}</Card.Title>
-                                        <Card.Text className="mt-1">
-                                            <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                                        <Card.Text>
+                                            <span className="text-success" style={{ fontSize: '15px' }}>
+                                                <em>Kshs: </em>
+                                            </span>
                                             <strong style={{ fontSize: '20px' }} className="text-danger">
-                                                {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
-                                                    <React.Fragment key={index}>
-                                                        {index === 0 ? (
-                                                            <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                                        ) : (
-                                                            <>
-                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                <span className="price-decimal">{part}</span>
-                                                            </>
-                                                        )}
-                                                    </React.Fragment>
-                                                )) : 'N/A'}
+                                                {ad.price
+                                                    ? Number(ad.price)
+                                                        .toFixed(2)
+                                                        .split('.')
+                                                        .map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        ))
+                                                    : 'N/A'}
                                             </strong>
                                         </Card.Text>
                                     </Card.Body>
