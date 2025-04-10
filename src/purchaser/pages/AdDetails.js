@@ -519,8 +519,8 @@ const AdDetails = () => {
                             <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
                                 <div className="ad-details-page container">
                                     {ad && (
-                                        <Row className="ad-details mt-1 p-1 shadow-lg rounded border">
-                                            <Row>
+                                        <Row >
+                                            <Row className="ad-details mt-1 p-1 shadow-lg rounded border">
                                                 <Col xs={12} md={7} className="d-flex flex-column justify-content-center text-center">
                                                     <motion.div
                                                         initial={{ opacity: 0, scale: 0.9 }}
@@ -639,7 +639,7 @@ const AdDetails = () => {
                                                     {wish_listError && <div className="text-danger text-center mt-3">{wish_listError}</div>}
                                                 </Col>
                                             </Row>
-                                            <Row>
+                                            <Row className="ad-details mt-1 p-1 shadow-lg rounded border">
                                                 {/* <Container className="mt-2"> */}
                                                     <Col xs={12} md={7} lg={7} className="p-0 ms-3">
                                                         <Row>
