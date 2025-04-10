@@ -641,13 +641,13 @@ const AdDetails = () => {
                                             </Row>
                                             <Row>
                                                 {/* <Container className="mt-2"> */}
-                                                    <Col xs={12} md={7} lg={7} className="p-0">
+                                                    <Col xs={12} md={7} lg={7} className="p-0 ms-3">
                                                         <Row>
                                                             <h3>Description</h3>
                                                             <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{ad.description}</p>
                                                         </Row>
                                                     </Col>
-                                                    <Col xs={12} md={4} lg={4} className="p-0">
+                                                    <Col xs={12} md={4} lg={4} className="p-0 mb-3">
                                                         <Card className="mt-2 border-0 shadow custom-card">
                                                             <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
                                                             <Card.Body>
