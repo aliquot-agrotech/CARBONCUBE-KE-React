@@ -640,7 +640,7 @@ const AdDetails = () => {
                                                 </Col>
                                             </Row>
                                             <Row>
-                                                <Container className="mt-2">
+                                                {/* <Container className="mt-2"> */}
                                                     <Col xs={12} md={7} lg={7} className="p-0">
                                                         <Row>
                                                             <h3>Description</h3>
@@ -666,7 +666,7 @@ const AdDetails = () => {
                                                             </Card.Body>
                                                         </Card>
                                                     </Col>
-                                                </Container>
+                                                {/* </Container> */}
                                             </Row>
                                         </Row>
                                     )}
