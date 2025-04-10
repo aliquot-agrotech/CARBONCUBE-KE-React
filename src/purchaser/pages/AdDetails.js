@@ -639,7 +639,7 @@ const AdDetails = () => {
                                                     {wish_listError && <div className="text-danger text-center mt-3">{wish_listError}</div>}
                                                 </Col>
                                             </Row>
-                                            <Row className="ad-details mt-1 p-1 shadow-lg rounded border">
+                                            <Row className="ad-details mt-3 p-1 shadow-lg rounded border">
                                                 {/* <Container className="mt-2"> */}
                                                     <Col xs={12} md={7} lg={7} className="p-0 ms-3">
                                                         <Row>
