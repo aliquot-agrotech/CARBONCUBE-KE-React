@@ -631,7 +631,7 @@ const AdDetails = () => {
 
                                         {/* Description & Dimensions */}
                                         <Row className="ad-details shadow-lg rounded border p-3 p-xs-2 mb-4 mb-xs-3">
-                                            <Col xs={12} md={8}>
+                                            <Col xs={12} md={7}>
                                                 <h4>Description</h4>
                                                 <p className="lead text-secondary">{ad.description}</p>
                                             </Col>
