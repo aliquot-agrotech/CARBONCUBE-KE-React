@@ -517,228 +517,210 @@ const AdDetails = () => {
                         <Col xs={12} md={10} lg={9} className="p-0 p-lg-1">
                             {/* Main Content Area */}
                             <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
-                                <div className="ad-details-page container">
+                                <div className="ad-details-page container py-3">
                                     {ad && (
-                                        <Row >
-                                            <Row className="ad-details mt-1 p-1 shadow-lg rounded border">
-                                                <Col xs={12} md={7} className="d-flex flex-column justify-content-center text-center">
-                                                    <motion.div
-                                                        initial={{ opacity: 0, scale: 0.9 }}
-                                                        animate={{ opacity: 1, scale: 1 }}
-                                                        transition={{ duration: 0.5 }}
-                                                    >
-                                                        {renderCarousel()}
-                                                    </motion.div>
-                                                </Col>
+                                    <>
+                                        {/* Top Section */}
+                                        <Row className="ad-details shadow-lg rounded border p-3 p-xs-2 mb-4 mb-xs-3">
+                                            {/* Image Carousel */}
+                                            <Col xs={12} md={7} className="text-center mb-3 mb-md-0">
+                                                <motion.div
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                transition={{ duration: 0.5 }}
+                                                >
+                                                {renderCarousel()}
+                                                </motion.div>
+                                            </Col>
 
-                                                <Col xs={12} md={4} className="d-flex flex-column justify-content-center p-0 ">
-                                                    <h3 className="display-6 text-dark mb-0 px-2"><strong>{ad.title}</strong></h3>
-                                                    <div className="p-2">
-                                                        <p><strong style={{ fontSize: '18px' }} className="text-dark">Brand:</strong> {ad.brand}</p>
-                                                        <p><strong style={{ fontSize: '18px' }} className="text-dark">Manufacturer:</strong> {ad.manufacturer}</p>
-                                                        <p><strong style={{ fontSize: '18px' }} className="text-dark">Category:</strong> {ad.category_name}</p>
-                                                        <p><strong style={{ fontSize: '18px' }} className="text-dark">Subcategory:</strong> {ad.subcategory_name}</p>
-                                                    </div>
-                                                    <Row 
-                                                        onClick={handleShowModal} 
-                                                        style={{ cursor: 'pointer' }} 
-                                                        className="link-hover px-2"
+                                            {/* Ad Info */}
+                                            <Col xs={12} md={4}>
+                                                <h3 className="display-6 text-dark mb-3">{ad.title}</h3>
+                                                <div className="mb-3">
+                                                    <p><strong>Brand:</strong> {ad.brand}</p>
+                                                    <p><strong>Manufacturer:</strong> {ad.manufacturer}</p>
+                                                    <p><strong>Category:</strong> {ad.category_name}</p>
+                                                    <p><strong>Subcategory:</strong> {ad.subcategory_name}</p>
+                                                </div>
+
+                                                {/* Rating */}
+                                                <div onClick={handleShowModal} className="cursor-pointer mb-3">
+                                                    <span className="star-rating">{renderRatingStars(ad.mean_rating, ad.review_count)}</span>
+                                                </div>
+
+                                                {/* Price */}
+                                                <h4 className="ad-price my-1 px-2">
+                                                    <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
+                                                    <strong className="text-danger display-6">
+                                                        {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        )) : 'N/A'}
+                                                    </strong>
+                                                </h4>
+
+                                                {/* Buttons */}
+                                                <Row className="gx-2">
+                                                    <Col xs={12} lg={6} className="mb-2">
+                                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                                        <Button
+                                                            variant="outline-dark"
+                                                            className="w-100 py-2 rounded-pill"
+                                                            onClick={(e) => {
+                                                            e.preventDefault();
+                                                            handleRevealVendorDetails();
+                                                            }}
                                                         >
-                                                        <span className="star-rating">
-                                                            {renderRatingStars(ad.mean_rating, ad.review_count)}
-                                                        </span>
-                                                    </Row>
-
-                                                    <h4 className="ad-price my-1 px-2">
-                                                        <span className="text-success" style={{ fontSize: '15px' }}> <em>Kshs: </em></span>
-                                                        <strong className="text-danger display-6">
-                                                            {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
-                                                                <React.Fragment key={index}>
-                                                                    {index === 0 ? (
-                                                                        <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                                                    ) : (
-                                                                        <>
-                                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                                            <span className="price-decimal">{part}</span>
-                                                                        </>
-                                                                    )}
-                                                                </React.Fragment>
-                                                            )) : 'N/A'}
-                                                        </strong>
-                                                    </h4>
-
-                                                    
-
-                                                    <Container className="mt-3 justify-content-center">
-                                                        <Row>
-                                                            <Col xs={6} md={12} lg={6} className="d-flex justify-content-center">
-                                                                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                                                                    <Button
-                                                                        variant="outline-dark"
-                                                                        className="modern-btn-dark px-4 py-2"
-                                                                        id="button"
-                                                                        onClick={(e) => {
-                                                                            e.preventDefault(); // Prevent page reload
-                                                                            handleRevealVendorDetails();
-                                                                        }}
-                                                                    >
-                                                                        {/* Display loading spinner inside the button when fetching */}
-                                                                        {loading ? (
-                                                                            <Spinner animation="border" size="sm" className="me-2" />
-                                                                        ) : showVendorDetails && vendor ? (
-                                                                            // Display vendor name and phone number inside the button after it's revealed
-                                                                            <span>
-                                                                                {vendor.enterprise_name} | {vendor.phone_number}
-                                                                            </span>
-                                                                        ) : (
-                                                                            '📞 Contact Vendor' // Default text before clicking
-                                                                        )}
-                                                                    </Button>
-                                                                </motion.div>
-                                                            </Col>
-
-                                                            <Col xs={6} md={12} lg={6} className="d-flex justify-content-center">
-                                                                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                                                                    <Button
-                                                                        variant="outline-dark"
-                                                                        className="modern-btn-dark px-4 py-2 rounded-pill"
-                                                                        onClick={handleShowReviewModal}
-                                                                    >
-                                                                        💬 Leave a Review
-                                                                    </Button>
-                                                                </motion.div>
-                                                            </Col>
-                                                        </Row>
-
-                                                        <div>
-                                                            <Row className="mt-2">
-                                                                <Col md={12} className="d-flex justify-content-center">
-                                                                    <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                                                                        <Button
-                                                                            variant="outline-dark"
-                                                                            className="modern-btn-dark px-4 py-2"
-                                                                            id="button"
-                                                                            disabled={!ad || wish_listLoading}
-                                                                            onClick={handleAddToWishlist} // Trigger handleAddToWishlist
-                                                                        >
-                                                                            🖤 Add to Wish List
-                                                                        </Button>
-                                                                    </motion.div>
-                                                                </Col>
-                                                            </Row>
-
-                                                            {/* Render the Login Modal */}
-                                                            <AlertModal 
-                                                                isVisible={showAlertModal} 
-                                                                message={alertModal} 
-                                                                onClose={handleCloseAlertModal} 
-                                                                loading={false} 
-                                                            />
-                                                        </div>
-                                                    </Container>
-                                                    {wish_listError && <div className="text-danger text-center mt-3">{wish_listError}</div>}
-                                                </Col>
-                                            </Row>
-                                            <Row className="ad-details mt-3 p-1 shadow-lg rounded border">
-                                                {/* <Container className="mt-2"> */}
-                                                    <Col xs={12} md={7} lg={7} className="p-0 ms-3">
-                                                        <Row>
-                                                            <h3>Description</h3>
-                                                            <p style={{ fontSize: '17px' }} className="lead text-secondary text-dark">{ad.description}</p>
-                                                        </Row>
+                                                            {loading ? (
+                                                            <Spinner animation="border" size="sm" className="me-2" />
+                                                            ) : showVendorDetails && vendor ? (
+                                                            <span>{vendor.enterprise_name} | {vendor.phone_number}</span>
+                                                            ) : (
+                                                            '📞 Contact Vendor'
+                                                            )}
+                                                        </Button>
+                                                        </motion.div>
                                                     </Col>
-                                                    <Col xs={12} md={4} lg={4} className="p-0 mb-3">
-                                                        <Card className="mt-2 border-0 shadow custom-card">
-                                                            <Card.Header className="bg-black text-warning justify-content-start">Dimensions</Card.Header>
-                                                            <Card.Body>
-                                                                <Row>
-                                                                    <Col xs={6} md={6} lg={6}>
-                                                                        <p><strong>Height:</strong> {ad.item_height} cm</p>
-                                                                        <p><strong>Width:</strong> {ad.item_width} cm</p>
-                                                                    </Col>
-                                                                    <Col xs={6} md={6} lg={6}>
-                                                                        <p><strong>Length:</strong> {ad.item_length} cm</p>
-                                                                        <p>
-                                                                            <strong>Weight:</strong> {ad.item_weight} {ad.weight_unit}
-                                                                        </p>
-                                                                    </Col>
-                                                                </Row>
-                                                            </Card.Body>
-                                                        </Card>
+
+                                                    <Col xs={12} lg={6} className="mb-2">
+                                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                                        <Button
+                                                            variant="outline-dark"
+                                                            className="w-100 py-2 rounded-pill"
+                                                            onClick={handleShowReviewModal}
+                                                        >
+                                                            💬 Leave a Review
+                                                        </Button>
+                                                        </motion.div>
                                                     </Col>
-                                                {/* </Container> */}
-                                            </Row>
+                                                </Row>
+
+                                                <Row className="mt-3 mt-xs-2">
+                                                    <Col xs={12}>
+                                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                                        <Button
+                                                            variant="outline-dark"
+                                                            className="w-100 py-2 rounded-pill"
+                                                            disabled={!ad || wish_listLoading}
+                                                            onClick={handleAddToWishlist}
+                                                        >
+                                                            🖤 Add to Wish List
+                                                        </Button>
+                                                        </motion.div>
+                                                    </Col>
+                                                </Row>
+
+                                                {/* Alert/Error */}
+                                                <AlertModal 
+                                                    isVisible={showAlertModal} 
+                                                    message={alertModal} 
+                                                    onClose={handleCloseAlertModal} 
+                                                    loading={false} 
+                                                />
+                                                {wish_listError && <div className="text-danger text-center mt-3">{wish_listError}</div>}
+                                            </Col>
                                         </Row>
+
+                                        {/* Description & Dimensions */}
+                                        <Row className="ad-details shadow-lg rounded border p-3 p-xs-2 mb-4 mb-xs-3">
+                                            <Col xs={12} md={8}>
+                                                <h4>Description</h4>
+                                                <p className="lead text-secondary">{ad.description}</p>
+                                            </Col>
+                                            <Col xs={12} md={4}>
+                                                <Card className="border-0 shadow-sm custom-card">
+                                                    <Card.Header className="bg-dark text-white">Dimensions</Card.Header>
+                                                    <Card.Body>
+                                                        <Row>
+                                                            <Col xs={6}>
+                                                                <p><strong>Height:</strong> {ad.item_height} cm</p>
+                                                                <p><strong>Width:</strong> {ad.item_width} cm</p>
+                                                            </Col>
+                                                            <Col xs={6}>
+                                                                <p><strong>Length:</strong> {ad.item_length} cm</p>
+                                                                <p><strong>Weight:</strong> {ad.item_weight} {ad.weight_unit}</p>
+                                                            </Col>
+                                                        </Row>
+                                                    </Card.Body>
+                                                </Card>
+                                            </Col>
+                                        </Row>
+                                    </>
                                     )}
 
-                                    <h3 className="related-ads-title">Related Ads</h3>
+                                    {/* Related Ads */}
+                                    <h3 className="related-ads-title mb-3">Related Ads</h3>
                                     <Row className="related-ads">
                                         {relatedAds.slice(0, 4).map((relatedAd) => {
-                                            const borderColor = getBorderColor(relatedAd.vendor_tier); // Get the border color based on the tier
-
+                                            const borderColor = getBorderColor(relatedAd.vendor_tier);
                                             return (
-                                                <Col key={relatedAd.id} xs={6} md={3} className="mb-4 px-1">
-                                                    <Card 
-                                                        onClick={() => handleAdClick(relatedAd.id)} 
-                                                        style={{ border: `2px solid ${borderColor}` }}
+                                            <Col key={relatedAd.id} xs={6} md={3} className="mb-4">
+                                                <Card 
+                                                onClick={() => handleAdClick(relatedAd.id)} 
+                                                style={{ border: `2px solid ${borderColor}` }}
+                                                >
+                                                <div style={{ position: 'relative' }}>
+                                                    <div
+                                                    className="tier-label text-dark"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '0px',
+                                                        left: '0px',
+                                                        padding: '0px 5px',
+                                                        fontSize: '12px',
+                                                        backgroundColor: borderColor,
+                                                        borderRadius: '4px',
+                                                        zIndex: 20,
+                                                    }}
                                                     >
-                                                        <div style={{ position: 'relative' }}>
-                                                            {/* Tier Label */}
-                                                            <div
-                                                                className="tier-label text-dark"
-                                                                style={{
-                                                                    position: 'absolute',
-                                                                    top: '0px',
-                                                                    left: '0px',
-                                                                    padding: '0px 5px',
-                                                                    fontSize: '12px',
-                                                                    backgroundColor: borderColor, // Match background color to the tier's border color
-                                                                    borderRadius: '4px',
-                                                                    zIndex: 20,
-                                                                }}
-                                                            >
-                                                                {relatedAd.tier_name}
-                                                            </div>
-
-                                                            {/* Ad Image */}
-                                                            <Card.Img
-                                                                className="ad-image"
-                                                                variant="top"
-                                                                src={relatedAd.media_urls[0] || 'default-image-url'}
-                                                                alt={relatedAd.title}
-                                                            />
-                                                        </div>
-                                                        <Card.Body className="px-2 py-1">
-                                                            <Card.Title className="mb-0 mb-lg-1 ad-title">{relatedAd.title}</Card.Title>
-                                                            <Card.Text>
-                                                                <span className="text-success" style={{ fontSize: '15px' }}>
-                                                                    <em>Kshs: </em>
-                                                                </span>
-                                                                <strong style={{ fontSize: '20px' }} className="text-danger">
-                                                                    {relatedAd.price
-                                                                        ? Number(relatedAd.price)
-                                                                            .toFixed(2)
-                                                                            .split('.')
-                                                                            .map((part, index) => (
-                                                                                <React.Fragment key={index}>
-                                                                                    {index === 0 ? (
-                                                                                        <span className="price-integer">
-                                                                                            {parseInt(part, 10).toLocaleString()}
-                                                                                        </span>
-                                                                                    ) : (
-                                                                                        <>
-                                                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                                                            <span className="price-decimal">{part}</span>
-                                                                                        </>
-                                                                                    )}
-                                                                                </React.Fragment>
-                                                                            ))
-                                                                        : 'N/A'}
-                                                                </strong>
-                                                            </Card.Text>
-                                                        </Card.Body>
-                                                    </Card>
-                                                </Col>
+                                                    {relatedAd.tier_name}
+                                                    </div>
+                                                    <Card.Img
+                                                        className="ad-image"
+                                                        variant="top"
+                                                        src={relatedAd.media_urls[0] || 'default-image-url'}
+                                                        alt={relatedAd.title}
+                                                    />
+                                                </div>
+                                                <Card.Body className="px-2 py-2">
+                                                    <Card.Title className="mb-1 ad-title">{relatedAd.title}</Card.Title>
+                                                    <Card.Text>
+                                                    <span className="text-success" style={{ fontSize: '15px' }}>
+                                                        <em>Kshs: </em>
+                                                    </span>
+                                                    <strong style={{ fontSize: '20px' }} className="text-danger">
+                                                        {relatedAd.price
+                                                            ? Number(relatedAd.price)
+                                                                .toFixed(2)
+                                                                .split('.')
+                                                                .map((part, index) => (
+                                                                    <React.Fragment key={index}>
+                                                                        {index === 0 ? (
+                                                                            <span className="price-integer">
+                                                                                {parseInt(part, 10).toLocaleString()}
+                                                                            </span>
+                                                                        ) : (
+                                                                            <>
+                                                                                <span style={{ fontSize: '16px' }}>.</span>
+                                                                                <span className="price-decimal">{part}</span>
+                                                                            </>
+                                                                        )}
+                                                                    </React.Fragment>
+                                                                ))
+                                                            : 'N/A'}
+                                                    </strong>
+                                                    </Card.Text>
+                                                </Card.Body>
+                                                </Card>
+                                            </Col>
                                             );
                                         })}
                                     </Row>
