@@ -38,7 +38,7 @@ const Sidebar = () => {
       const swalInstance = Swal.fire({
         icon: 'warning',
         title: 'Access Denied',
-        text: 'You must be logged in to continue.',
+        text: 'You must be Signed In to continue.',
         confirmButtonText: 'Go to Login',
         cancelButtonText: 'Cancel',
         showCancelButton: true,

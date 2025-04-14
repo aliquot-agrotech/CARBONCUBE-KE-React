@@ -615,10 +615,6 @@ const AdDetails = () => {
                                                     </Col>
                                                 </Row>
 
-                                                <Row className="mt-3 mt-xs-2">
-                                                    
-                                                </Row>
-
                                                 {/* Alert/Error */}
                                                 <AlertModal 
                                                     isVisible={showAlertModal} 

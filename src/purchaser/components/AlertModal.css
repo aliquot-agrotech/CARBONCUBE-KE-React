@@ -1,4 +1,4 @@
-/* Add this new CSS for the bouncy landing animation */
+/* 
 .bouncy-modal .modal-content {
     animation: bounceIn 0.6s ease-out;
 }
@@ -19,8 +19,8 @@
 }
 
 .modal-header {
-    background-color: #f8f9fa; /* Light background */
-    border-bottom: 1px solid #ddd; /* Border under the header */
+    background-color: #f8f9fa; 
+    border-bottom: 1px solid #ddd; 
 }
 
 .modal-body {
@@ -45,4 +45,26 @@ button {
 
 button:hover {
     background-color: #0056b3;
-}
+} */
+
+
+/* Add to your AlertModal.css */
+.swal2-spinner {
+    display: inline-block;
+    width: 2.5em;
+    height: 2.5em;
+    margin: 0 auto 1em;
+    border: 0.25em solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: swal2-rotate-loading 1.5s linear 0s infinite normal;
+  }
+  
+  @keyframes swal2-rotate-loading {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
