@@ -33,31 +33,66 @@ const Sidebar = () => {
     const token = sessionStorage.getItem('jwtToken');
     if (!token) {
       e.preventDefault();
-      Swal.fire({
+      
+      // Create a reference to the Swal instance
+      const swalInstance = Swal.fire({
         icon: 'warning',
-        title: 'Not Logged In',
-        text: 'You need to be logged in to access this page.',
+        title: 'Access Denied',
+        text: 'You must be logged in to continue.',
         confirmButtonText: 'Go to Login',
         cancelButtonText: 'Cancel',
         showCancelButton: true,
-        confirmButtonColor: '#f0ad4e',
-        cancelButtonColor: '#6c757d',
         customClass: {
-          popup: 'rounded-4 shadow-sm',
-          title: 'fw-bold',
-          actions: 'swal2-button-group-custom', // custom layout
-          confirmButton: 'btn btn-warning rounded-pill px-4 mb-2 mb-md-0 me-md-3',
-          cancelButton: 'btn btn-secondary rounded-pill px-4'
+          popup: 'futuristic-swal rounded-4 glass-bg',
+          title: 'fw-semibold text-white',
+          htmlContainer: 'text-light',
+          actions: 'futuristic-actions',
+          confirmButton: 'btn rounded-pill futuristic-confirm',
+          cancelButton: 'btn rounded-pill futuristic-cancel'
         },
-        backdrop: 'rgba(0, 0, 0, 0.4)',
+        backdrop: 'rgba(0, 0, 0, 0.6)',
         buttonsStyling: false,
-      }).then((result) => {
+        allowOutsideClick: true, // Allow clicking outside to dismiss
+        showClass: {
+          popup: 'swal2-show',
+          backdrop: 'swal2-backdrop-show'
+        },
+        hideClass: {
+          popup: 'swal2-hide',
+          backdrop: 'swal2-backdrop-hide'
+        }
+      });
+      
+      // Handle the modal result for all cases
+      swalInstance.then((result) => {
+        // Clean up regardless of how the modal was dismissed
+        const cleanupModal = () => {
+          // Force all SweetAlert2 modals to close
+          Swal.close();
+          
+          // Remove any lingering modals and backdrops from the DOM
+          document.querySelectorAll('.swal2-container, .swal2-backdrop, .futuristic-swal')
+            .forEach(element => element.remove());
+          
+          // Clear any body modifications SweetAlert might have added
+          document.body.classList.remove('swal2-shown', 'swal2-height-auto');
+          document.body.style.paddingRight = '';
+          document.body.style.overflow = '';
+        };
+        
+        // Handle navigation only if confirmed
         if (result.isConfirmed) {
-          navigate('/login');
+          cleanupModal();
+          setTimeout(() => {
+            navigate('/login');
+          }, 100);
+        } else {
+          // This will run when Cancel button is clicked or dismissed
+          cleanupModal();
         }
       });
     }
-  };  
+  };
 
   return (
     <>
