@@ -521,7 +521,7 @@ const AdDetails = () => {
                                     {ad && (
                                     <>
                                         {/* Top Section */}
-                                        <Row className="ad-details shadow-lg rounded border p-3 p-xs-2 mb-4 mb-xs-3">
+                                        <Row className="ad-details shadow-lg rounded border p-1 p-md-3 p-xs-2 mb-4 mb-xs-3">
                                             {/* Image Carousel */}
                                             <Col xs={12} md={7} className="text-center mb-3 mb-md-0">
                                                 <motion.div
@@ -568,7 +568,7 @@ const AdDetails = () => {
                                                 </h4>
 
                                                 {/* Buttons */}
-                                                <Row className="gx-2">
+                                                <Row className="gx-2 mt-2 mt-lg-4">
                                                     <Col xs={12} lg={6} className="mb-2">
                                                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                                         <Button
@@ -601,10 +601,7 @@ const AdDetails = () => {
                                                         </Button>
                                                         </motion.div>
                                                     </Col>
-                                                </Row>
-
-                                                <Row className="mt-3 mt-xs-2">
-                                                    <Col xs={12}>
+                                                    <Col xs={12} className="mb-2">
                                                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                                         <Button
                                                             variant="outline-dark"
@@ -616,6 +613,10 @@ const AdDetails = () => {
                                                         </Button>
                                                         </motion.div>
                                                     </Col>
+                                                </Row>
+
+                                                <Row className="mt-3 mt-xs-2">
+                                                    
                                                 </Row>
 
                                                 {/* Alert/Error */}
@@ -630,15 +631,15 @@ const AdDetails = () => {
                                         </Row>
 
                                         {/* Description & Dimensions */}
-                                        <Row className="ad-details shadow-lg rounded border p-3 p-xs-2 mb-4 mb-xs-3">
+                                        <Row className="ad-details shadow-lg rounded border p-1 p-md-3 p-xs-2 mb-4 mb-xs-3">
                                             <Col xs={12} md={7}>
                                                 <h4>Description</h4>
                                                 <p className="lead text-secondary">{ad.description}</p>
                                             </Col>
-                                            <Col xs={12} md={4}>
-                                                <Card className="border-0 shadow-sm custom-card">
+                                            <Col xs={12} md={4} className="mb-2 mb-md-0">
+                                                <Card className="border-0 shadow-sm custom-card p-0">
                                                     <Card.Header className="bg-dark text-white">Dimensions</Card.Header>
-                                                    <Card.Body>
+                                                    <Card.Body className="py-2">
                                                         <Row>
                                                             <Col xs={6}>
                                                                 <p><strong>Height:</strong> {ad.item_height} cm</p>
@@ -662,7 +663,7 @@ const AdDetails = () => {
                                         {relatedAds.slice(0, 4).map((relatedAd) => {
                                             const borderColor = getBorderColor(relatedAd.vendor_tier);
                                             return (
-                                            <Col key={relatedAd.id} xs={6} md={3} className="mb-4">
+                                            <Col key={relatedAd.id} xs={6} md={3} className="mb-2 mb-lg-4 p-1">
                                                 <Card 
                                                     onClick={() => handleAdClick(relatedAd.id)} 
                                                     style={{ border: `2px solid ${borderColor}` }}
