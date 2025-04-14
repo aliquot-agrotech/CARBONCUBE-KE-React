@@ -664,61 +664,65 @@ const AdDetails = () => {
                                             return (
                                             <Col key={relatedAd.id} xs={6} md={3} className="mb-4">
                                                 <Card 
-                                                onClick={() => handleAdClick(relatedAd.id)} 
-                                                style={{ border: `2px solid ${borderColor}` }}
-                                                >
-                                                <div style={{ position: 'relative' }}>
-                                                    <div
-                                                    className="tier-label text-dark"
-                                                    style={{
-                                                        position: 'absolute',
-                                                        top: '0px',
-                                                        left: '0px',
-                                                        padding: '0px 5px',
-                                                        fontSize: '12px',
-                                                        backgroundColor: borderColor,
-                                                        borderRadius: '4px',
-                                                        zIndex: 20,
-                                                    }}
+                                                    onClick={() => handleAdClick(relatedAd.id)} 
+                                                    style={{ border: `2px solid ${borderColor}` }}
                                                     >
-                                                    {relatedAd.tier_name}
+                                                    <div style={{ position: 'relative' }}>
+                                                        <div
+                                                            className="tier-label text-dark"
+                                                            style={{
+                                                                position: 'absolute',
+                                                                top: '0px',
+                                                                left: '0px',
+                                                                padding: '2px 6px',
+                                                                fontSize: '12px',
+                                                                backgroundColor: borderColor,
+                                                                borderTopLeftRadius: '4px',
+                                                                borderTopRightRadius: '0px',
+                                                                borderBottomRightRadius: '4px',
+                                                                borderBottomLeftRadius: '0px',
+                                                                zIndex: 20,
+                                                            }}
+                                                        >
+                                                            {relatedAd.tier_name}
+                                                        </div>
+                                                        <Card.Img
+                                                            className="ad-image"
+                                                            variant="top"
+                                                            src={relatedAd.media_urls[0] || 'default-image-url'}
+                                                            alt={relatedAd.title}
+                                                        />
                                                     </div>
-                                                    <Card.Img
-                                                        className="ad-image"
-                                                        variant="top"
-                                                        src={relatedAd.media_urls[0] || 'default-image-url'}
-                                                        alt={relatedAd.title}
-                                                    />
-                                                </div>
-                                                <Card.Body className="px-2 py-2">
-                                                    <Card.Title className="mb-1 ad-title">{relatedAd.title}</Card.Title>
-                                                    <Card.Text>
-                                                    <span className="text-success" style={{ fontSize: '15px' }}>
-                                                        <em>Kshs: </em>
-                                                    </span>
-                                                    <strong style={{ fontSize: '20px' }} className="text-danger">
-                                                        {relatedAd.price
-                                                            ? Number(relatedAd.price)
-                                                                .toFixed(2)
-                                                                .split('.')
-                                                                .map((part, index) => (
-                                                                    <React.Fragment key={index}>
-                                                                        {index === 0 ? (
-                                                                            <span className="price-integer">
-                                                                                {parseInt(part, 10).toLocaleString()}
-                                                                            </span>
-                                                                        ) : (
-                                                                            <>
-                                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                                <span className="price-decimal">{part}</span>
-                                                                            </>
-                                                                        )}
-                                                                    </React.Fragment>
-                                                                ))
-                                                            : 'N/A'}
-                                                    </strong>
-                                                    </Card.Text>
-                                                </Card.Body>
+
+                                                    <Card.Body className="px-2 py-2">
+                                                        <Card.Title className="mb-1 ad-title">{relatedAd.title}</Card.Title>
+                                                        <Card.Text>
+                                                        <span className="text-success" style={{ fontSize: '15px' }}>
+                                                            <em>Kshs: </em>
+                                                        </span>
+                                                        <strong style={{ fontSize: '20px' }} className="text-danger">
+                                                            {relatedAd.price
+                                                                ? Number(relatedAd.price)
+                                                                    .toFixed(2)
+                                                                    .split('.')
+                                                                    .map((part, index) => (
+                                                                        <React.Fragment key={index}>
+                                                                            {index === 0 ? (
+                                                                                <span className="price-integer">
+                                                                                    {parseInt(part, 10).toLocaleString()}
+                                                                                </span>
+                                                                            ) : (
+                                                                                <>
+                                                                                    <span style={{ fontSize: '16px' }}>.</span>
+                                                                                    <span className="price-decimal">{part}</span>
+                                                                                </>
+                                                                            )}
+                                                                        </React.Fragment>
+                                                                    ))
+                                                                : 'N/A'}
+                                                        </strong>
+                                                        </Card.Text>
+                                                    </Card.Body>
                                                 </Card>
                                             </Col>
                                             );
