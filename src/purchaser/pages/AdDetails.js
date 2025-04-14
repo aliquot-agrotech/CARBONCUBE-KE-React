@@ -443,7 +443,7 @@ const AdDetails = () => {
                         position: 'absolute',
                         top: '10px',
                         left: '10px',
-                        padding: '5px 10px',
+                        padding: '2px 4px',
                         fontSize: '14px',
                         fontWeight: 'bold',
                         backgroundColor: borderColor,
@@ -466,7 +466,7 @@ const AdDetails = () => {
                         {ad.media_urls.map((url, index) => (
                             <Carousel.Item key={index}>
                                 <img
-                                    className="d-block h-50 ad-image"
+                                    className="ad-image"
                                     src={url}
                                     alt={`Slide ${index}`}
                                 />
