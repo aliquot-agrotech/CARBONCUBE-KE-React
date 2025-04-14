@@ -1,61 +1,64 @@
 .ads-details-page{
-    background-color: #e0e0e0;
-    font-family: "Fira Sans Extra Condensed", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    overflow-x: hidden;
+  background-color: #e0e0e0;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  overflow-x: hidden;
 }
 
 .main-content {
-    margin-left: 0;
-    transition: margin-left 0.3s ease-in-out;
-    margin-top: 60px;
-  }
-  
-  .sidebar-open .main-content {
-    margin-left: 250px; /* Adjust based on your sidebar width */
-  }
-  
-  .ad-details-page {
-    padding: 20px;
-  }
-  
-  .ad-details img {
-    max-width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .related-ads-title {
-    margin-top: 40px;
-    font-weight: bold;
-  }
-  
-  .related-ads .card {
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-  
-  .related-ads .card:hover {
-    transform: translateY(-10px);
-  }
+  margin-left: 0;
+  transition: margin-left 0.3s ease-in-out;
+  margin-top: 60px;
+}
 
-  .ad-price {
-    font-size: 1.8rem;
-    color: #ff6633;
-    font-weight: bold;
+.sidebar-open .main-content {
+  margin-left: 250px; /* Adjust based on your sidebar width */
+}
+
+.ad-details-page {
+  padding: 20px;
+}
+
+.ad-details {
+  background-color: #fbfbfb;
+}
+
+.ad-details img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.related-ads-title {
+  margin-top: 40px;
+  font-weight: bold;
+}
+
+.related-ads .card {
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.related-ads .card:hover {
+  transform: translateY(-10px);
+}
+
+.ad-price {
+  font-size: 1.8rem;
+  color: #ff6633;
+  font-weight: bold;
 }
 
 .link-hover:hover {
-  text-decoration: underline;
-  color: #0056b3; /* You can adjust the hover color */
-  transform: scale(1.01);
+text-decoration: underline;
+color: #0056b3; /* You can adjust the hover color */
+transform: scale(1.01);
 }
 
 @media screen and (max-width: 767px) {
-  .ads-details-page {
-    margin-top: -15px;
-  }
+.ads-details-page {
+  margin-top: -15px;
+}
 }
 
-  
