@@ -1,28 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
-import { BookmarkDash, PersonCheck, XCircle, ArrowRight, ChatSquareText, BagCheck, HouseGear } from 'react-bootstrap-icons';
-import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  BookmarkDash,
+  PersonCheck,
+  XCircle,
+  ArrowRight,
+  ChatSquareText,
+  HouseGear
+} from 'react-bootstrap-icons';
 import './Sidebar.css';
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false); // Default to closed on initial load
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsOpen(window.innerWidth >= 1024); // Open by default on larger screens
+      setIsOpen(window.innerWidth >= 1024);
     };
 
-    // Set initial state based on screen width when component mounts
     handleResize();
     window.addEventListener('resize', handleResize);
-
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const handleProtectedClick = (e, path) => {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) {
+      e.preventDefault();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Not Logged In',
+        text: 'You need to be logged in to access this page.',
+        confirmButtonText: 'Go to Login',
+        cancelButtonText: 'Cancel',
+        showCancelButton: true,
+        confirmButtonColor: '#f0ad4e',
+        cancelButtonColor: '#6c757d',
+        customClass: {
+          popup: 'rounded-4 shadow-sm',
+          title: 'fw-bold',
+          actions: 'swal2-button-group-custom', // custom layout
+          confirmButton: 'btn btn-warning rounded-pill px-4 mb-2 mb-md-0 me-md-3',
+          cancelButton: 'btn btn-secondary rounded-pill px-4'
+        },
+        backdrop: 'rgba(0, 0, 0, 0.4)',
+        buttonsStyling: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login');
+        }
+      });
+    }
+  };  
 
   return (
     <>
@@ -35,41 +70,35 @@ const Sidebar = () => {
       >
         {isOpen ? <XCircle size={15} /> : <ArrowRight size={15} />}
       </Button>
+
       <div className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
         <Nav className="flex-column">
           <Nav.Link
             href="/purchaser/home"
-            className={location.pathname === '/purchaser/home' ? 'active' : ''}>
+            onClick={(e) => handleProtectedClick(e, '/purchaser/home')}
+            className={location.pathname === '/purchaser/home' ? 'active' : ''}
+          >
             <HouseGear className="icon" /> {isOpen && 'Home'}
           </Nav.Link>
-          {/* <Nav.Link
-            href="/purchaser/orders"
-            className={location.pathname === '/purchaser/orders' ? 'active' : ''}>
-            <BagCheck className="icon" /> {isOpen && 'Orders'}
-          </Nav.Link> */}
           <Nav.Link
             href="/purchaser/wish_lists"
-            className={location.pathname === '/purchaser/wish_lists' ? 'active' : ''}>
+            onClick={(e) => handleProtectedClick(e, '/purchaser/wish_lists')}
+            className={location.pathname === '/purchaser/wish_lists' ? 'active' : ''}
+          >
             <BookmarkDash className="icon" /> {isOpen && 'Wish List'}
           </Nav.Link>
-          {/* <Nav.Link
-            href="/purchaser/cart"
-            className={location.pathname === '/purchaser/cart' ? 'active' : ''}>
-            <Cart4 className="icon" /> {isOpen && 'Cart'}
-          </Nav.Link>
-          <Nav.Link
-            href="/purchaser/buyforme"
-            className={location.pathname === '/purchaser/buyforme' ? 'active' : ''}>
-            <Cart4 className="icon" /> {isOpen && 'Buy For Me'}
-          </Nav.Link> */}
           <Nav.Link
             href="/purchaser/messages"
-            className={location.pathname === '/purchaser/messages' ? 'active' : ''}>
+            onClick={(e) => handleProtectedClick(e, '/purchaser/messages')}
+            className={location.pathname === '/purchaser/messages' ? 'active' : ''}
+          >
             <ChatSquareText className="icon" /> {isOpen && 'Messages'}
           </Nav.Link>
           <Nav.Link
             href="/purchaser/profile"
-            className={location.pathname === '/purchaser/profile' ? 'active' : ''}>
+            onClick={(e) => handleProtectedClick(e, '/purchaser/profile')}
+            className={location.pathname === '/purchaser/profile' ? 'active' : ''}
+          >
             <PersonCheck className="icon" /> {isOpen && 'Profile'}
           </Nav.Link>
         </Nav>

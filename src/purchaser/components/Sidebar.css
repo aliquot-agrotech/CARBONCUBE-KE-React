@@ -92,6 +92,21 @@
   color: #ffc107;
 }
 
+.swal2-button-group-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .swal2-button-group-custom {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;

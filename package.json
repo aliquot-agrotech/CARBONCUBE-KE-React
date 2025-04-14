@@ -34,6 +34,7 @@
     "react-router-dom": "^6.25.1",
     "react-scripts": "5.0.1",
     "react-spinkit": "^3.0.0",
+    "sweetalert2": "^11.17.2",
     "uploadthing": "^6.13.2",
     "web-vitals": "^2.1.4"
   },
