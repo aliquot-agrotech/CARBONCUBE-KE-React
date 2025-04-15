@@ -395,11 +395,17 @@ const AdDetails = () => {
     
             // Navigate to the ad details page
             navigate(`/ads/${adId}`);
+
+            // Ensure smooth scroll top after navigation
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (error) {
             console.error('Error logging ad click:', error);
     
             // Proceed with navigation even if logging fails
             navigate(`/ads/${adId}`);
+
+            // Ensure smooth even if logging fails
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
