@@ -40,7 +40,7 @@ const Sidebar = () => {
         title: 'Access Denied',
         text: 'You must be Signed In to continue.',
         confirmButtonText: 'Go to Login',
-        cancelButtonText: 'Cancel',
+        cancelButtonText: 'Close',
         showCancelButton: true,
         customClass: {
           popup: 'futuristic-swal rounded-4 glass-bg',
