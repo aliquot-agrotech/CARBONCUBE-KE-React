@@ -433,36 +433,10 @@ const AdDetails = () => {
     };
 
     const renderCarousel = () => {
-        // Ensure vendor_tier is correctly accessed
-        const tierId = ad.vendor_tier?.id || ad.vendor_tier; 
-        const borderColor = getBorderColor(tierId);
-    
         return (
             <div 
                 className=" rounded p-0 position-relative"
-                style={{ borderColor, borderWidth: '2px', borderStyle: 'solid' }}
             >
-                {/* Tier Label */}
-                <div
-                    className="tier-label text-dark"
-                    style={{
-                        position: 'absolute',
-                        top: '0px',
-                        right: '0px',
-                        padding: '2px 6px',
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        backgroundColor: borderColor,
-                        borderTopLeftRadius: '0px',
-                        borderTopRightRadius: '4px',
-                        borderBottomRightRadius: '0px',
-                        borderBottomLeftRadius: '4px',
-                        zIndex: 2,
-                    }}
-                >
-                    {ad.tier_name || "Free"} {/* Show tier name, default to "Free" */}
-                </div>
-    
                 {/* Default Image Case */}
                 {!ad.media_urls || ad.media_urls.length === 0 ? (
                     <img
@@ -497,6 +471,9 @@ const AdDetails = () => {
         return tierColors[tierId] || 'transparent'; // No border color for Free tier
     };
 
+    const tierId = ad?.vendor_tier?.id || ad?.vendor_tier;
+    const borderColor = getBorderColor(tierId);
+
     if (loading) {
         return (
             <div className="centered-loader">
@@ -530,8 +507,31 @@ const AdDetails = () => {
                                 <div className="ad-details-page container py-3">
                                     {ad && (
                                     <>
+                                    <div style={{ position: 'relative' }}>
+                                    {/* Tier Label (FLOATING in the corner) */}
+                                        <div
+                                            className="tier-label text-dark"
+                                            style={{
+                                                position: 'absolute',
+                                                top: '2px',
+                                                right: '-11px',
+                                                padding: '2px 6px',
+                                                fontSize: '14px',
+                                                fontWeight: 'bold',
+                                                backgroundColor: borderColor,
+                                                borderTopLeftRadius: '0px',
+                                                borderTopRightRadius: '8px',
+                                                borderBottomRightRadius: '0px',
+                                                borderBottomLeftRadius: '8px',
+                                                zIndex: 2,
+                                            }}
+                                        >
+                                            {ad.tier_name || "Free"} {/* Show tier name, default to "Free" */}
+                                        </div>
+
                                         {/* Top Section */}
-                                        <Row className="ad-details shadow-lg rounded border p-1 p-md-3 p-xs-2 mb-4 mb-xs-3">
+                                        <Row className="ad-details shadow-lg rounded-4 p-1 p-md-3 p-xs-2 mb-4 mb-xs-3"
+                                            style={{ borderColor, borderWidth: '2px', borderStyle: 'solid' }}>
                                             {/* Image Carousel */}
                                             <Col xs={12} md={7} className="text-center mb-3 mb-md-0">
                                                 <motion.div
@@ -660,6 +660,7 @@ const AdDetails = () => {
                                                 </Card>
                                             </Col>
                                         </Row>
+                                    </div>
                                     </>
                                     )}
 
@@ -680,7 +681,7 @@ const AdDetails = () => {
                                                             style={{
                                                                 position: 'absolute',
                                                                 top: '0px',
-                                                                right: '0px',
+                                                                right: '-1px',
                                                                 padding: '2px 6px',
                                                                 fontSize: '12px',
                                                                 backgroundColor: borderColor,
