@@ -7,7 +7,7 @@ import './AlertModal.css';
 const AlertModal = ({
   isVisible,
   message,
-  onClose,
+  onClose = () => {},
   loading = false,
   icon = 'warning',
   title = 'Alert',

@@ -64,7 +64,7 @@ const AdDetails = () => {
           setAlertModalConfig({
             isVisible: true,
             message: 'You must be Signed In to post a review.',
-            title: 'Access Denied',
+            title: 'Login Required',
             icon: 'warning',
             confirmText: 'Go to Login',  // Set the correct confirm button text
             cancelText: 'Cancel',
@@ -198,7 +198,7 @@ const AdDetails = () => {
           setAlertModalConfig({
             isVisible: true,
             message: 'You must be signed in to submit a review.',
-            title: 'Access Denied',
+            title: 'Login Required',
             icon: 'warning',
             confirmText: 'Go to Login', // Ensure this is explicitly set here
             cancelText: 'Cancel',
@@ -275,7 +275,7 @@ const AdDetails = () => {
             setAlertModalConfig({
               isVisible: true,
               message: "You must be signed in to view vendor details.",
-              title: "Access Denied",
+              title: "Login Required",
               icon: "warning",
               confirmText: "Go to Login",
               cancelText: "Cancel",
@@ -347,20 +347,18 @@ const AdDetails = () => {
     
         if (!token) {
             setAlertModalConfig({
-              isVisible: true,
-              message: "You must be signed in to add to your wishlist.",
-              title: "Login Required",
-              icon: "warning",
-              confirmText: "Go to Login",
-              cancelText: "Cancel",
-              showCancel: true,
-              onConfirm: () => navigate('/login'),
-              onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
-            });
-            return;
-          }
-          
-    
+                isVisible: true,
+                message: "You must be signed in to add to your wishlist.",
+                title: "Login Required",
+                icon: "warning",
+                confirmText: "Go to Login",
+                cancelText: "Cancel",
+                showCancel: true,
+                onConfirm: () => navigate('/login'),
+                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+                });
+                return;
+            }    
         try {
             setBookmarkLoading(true);
             setBookmarkError(null);
@@ -381,22 +379,44 @@ const AdDetails = () => {
     
             // Check if the response is successful
             if (response.status === 201) {
-                setShowAlertModal(true);
-                setAlertModal('Ad successfully added to the Wish List');
+                setAlertModalConfig({
+                    isVisible: true,
+                    icon: "success", // ✅ show the success icon
+                    title: "Added to Wishlist!",
+                    message: "The ad has been successfully added to your wishlist.",
+                    confirmText: "Awesome", // ✅ single confirm button
+                    showCancel: false, // ❌ no cancel button
+                    onConfirm: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+                });
             } else {
-                setShowAlertModal(true);
-                setAlertModal('Something went wrong. Please try again.');
+                setAlertModalConfig({
+                    isVisible: true,
+                    icon: "error",
+                    title: "Oops!",
+                    message: "Something went wrong. Please try again.",
+                    confirmText: false,
+                    showCancel: "Close",
+                    onConfirm: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+                });
             }
+
         } catch (error) {
             setBookmarkError('Failed to add ad to the wishlist. Please try again.');
             setShowAlertModal(true);
-            setAlertModal('Failed to add ad to the wishlist. Please try again.');
+            setAlertModalConfig({
+                isVisible: true,
+                icon: "error",
+                title: "Error",
+                message: "Failed to add ad to the wishlist. Please try again.",
+                confirmText: false,
+                showCancel: "Close",
+                onConfirm: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            });
         } finally {
             setBookmarkLoading(false);
         }
     };
-    
-    
+
     // Function to log button click events
     const logClickEventAddtoWishList = async (adId, eventType) => {
         try {
@@ -411,7 +431,6 @@ const AdDetails = () => {
                     event_type: eventType, // 'Add-to-Wishlist'
                 }),
             });
-    
             if (!response.ok) {
                 console.warn('Failed to log event:', eventType);
             }
@@ -473,10 +492,10 @@ const AdDetails = () => {
         try {
             // Log the 'Ad-Click' event before navigating
             await logClickEvent(adId, 'Ad-Click');
-    
+
             // Navigate to the ad details page
             navigate(`/ads/${adId}`);
-
+            
             // Ensure smooth scroll top after navigation
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (error) {
@@ -874,37 +893,37 @@ const AdDetails = () => {
                 </Modal> 
 
                 <Modal centered show={showReviewModal} onHide={handleCloseReviewModal} className="sweetalert-modal">
-                    <div className="sweetalert-container glass-bg rounded-4 p-4 text-center">
+                    <div className="sweetalert-container glass-bg rounded-4 px-3 py-2 text-center">
                         <div className="sweetalert-icon bg-warning text-white mb-3">
-                        <FontAwesomeIcon icon={faStar} className="fa-lg" />
+                            <FontAwesomeIcon icon={faStar} className="fa-lg" />
                         </div>
 
                         <h4 className="text-white fw-semibold mb-3">Write a Review</h4>
 
                         <div className="mb-3 text-light">
-                        <label className="form-label d-block">Rating:</label>
-                        <div className="d-flex justify-content-center">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                            <FontAwesomeIcon
-                                key={star}
-                                icon={star <= rating ? faStar : faStarEmpty}
-                                className={`rating-star mx-1 ${star <= rating ? 'filled' : 'empty'}`}
-                                style={{ fontSize: '30px', cursor: 'pointer' }}
-                                onClick={() => handleRatingClick(star)}
-                            />
-                            ))}
-                        </div>
+                            <label className="form-label d-block">Rating:</label>
+                            <div className="d-flex justify-content-center">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                <FontAwesomeIcon
+                                    key={star}
+                                    icon={star <= rating ? faStar : faStarEmpty}
+                                    className={`rating-star mx-1 ${star <= rating ? 'filled' : 'empty'}`}
+                                    style={{ fontSize: '30px', cursor: 'pointer' }}
+                                    onClick={() => handleRatingClick(star)}
+                                />
+                                ))}
+                            </div>
                         </div>
 
                         <div className="mb-3">
-                        <label className="form-label text-light text-start">Your Review:</label>
-                        <textarea
-                            className="form-control sweetalert-textarea"
-                            rows="4"
-                            value={reviewText}
-                            onChange={(e) => setReviewText(e.target.value)}
-                            placeholder="Share your thoughts..."
-                        />
+                            <label className="form-label text-light text-start">Your Review:</label>
+                            <textarea
+                                className="form-control sweetalert-textarea"
+                                rows="4"
+                                value={reviewText}
+                                onChange={(e) => setReviewText(e.target.value)}
+                                placeholder="Share your thoughts..."
+                            />
                         </div>
 
                         {submitError && (
@@ -912,17 +931,17 @@ const AdDetails = () => {
                         )}
 
                         <div className="d-flex justify-content-center gap-3 mt-4">
-                        <Button variant="danger" className="sweetalert-cancel-btn" onClick={handleCloseReviewModal}>
-                            Cancel
-                        </Button>
-                        <Button
-                            variant="warning"
-                            className="sweetalert-confirm-btn"
-                            onClick={handleSubmitReview}
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? "Submitting..." : "Submit"}
-                        </Button>
+                            <Button variant="danger" className="sweetalert-cancel-btn" onClick={handleCloseReviewModal}>
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="warning"
+                                className="sweetalert-confirm-btn"
+                                onClick={handleSubmitReview}
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? "Submitting..." : "Submit"}
+                            </Button>
                         </div>
                     </div>
                 </Modal>
