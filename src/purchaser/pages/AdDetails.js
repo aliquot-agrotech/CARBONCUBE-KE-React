@@ -873,56 +873,60 @@ const AdDetails = () => {
                     </Modal.Footer>
                 </Modal> 
 
-                {/* Add this JSX right after your existing Modal component in the return statement */}
-                <Modal centered show={showReviewModal} onHide={handleCloseReviewModal} className="futuristic-modal">
-                    <Modal.Header className="border-0 text-center p-1 p-lg-2">
-                        <Modal.Title className="modal-title">Write a Review</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="mb-2">
-                            <label className="form-label">Rating:</label>
-                            <div className="rating-selector">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <FontAwesomeIcon
-                                        key={star}
-                                        icon={star <= rating ? faStar : faStarEmpty}
-                                        style={{ cursor: 'pointer', fontSize: '24px', marginRight: '8px' }}
-                                        className={`rating-star ${star <= rating ? 'filled' : 'empty'}`}
-                                        onClick={() => handleRatingClick(star)}
-                                    />
-                                ))}
-                            </div>
+                <Modal centered show={showReviewModal} onHide={handleCloseReviewModal} className="sweetalert-modal">
+                    <div className="sweetalert-container glass-bg rounded-4 p-4 text-center">
+                        <div className="sweetalert-icon bg-warning text-white mb-3">
+                        <FontAwesomeIcon icon={faStar} className="fa-lg" />
                         </div>
-                        <div className="mb-2">
-                            <label className="form-label">Review:</label>
-                            <textarea
-                                className="form-control review-input"
-                                rows="5"
-                                value={reviewText}
-                                onChange={(e) => setReviewText(e.target.value)}
-                                placeholder="Write your review here..."
+
+                        <h4 className="text-white fw-semibold mb-3">Write a Review</h4>
+
+                        <div className="mb-3 text-light">
+                        <label className="form-label d-block">Rating:</label>
+                        <div className="d-flex justify-content-center">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                            <FontAwesomeIcon
+                                key={star}
+                                icon={star <= rating ? faStar : faStarEmpty}
+                                className={`rating-star mx-1 ${star <= rating ? 'filled' : 'empty'}`}
+                                style={{ fontSize: '30px', cursor: 'pointer' }}
+                                onClick={() => handleRatingClick(star)}
                             />
+                            ))}
                         </div>
+                        </div>
+
+                        <div className="mb-3">
+                        <label className="form-label text-light text-start">Your Review:</label>
+                        <textarea
+                            className="form-control sweetalert-textarea"
+                            rows="4"
+                            value={reviewText}
+                            onChange={(e) => setReviewText(e.target.value)}
+                            placeholder="Share your thoughts..."
+                        />
+                        </div>
+
                         {submitError && (
-                            <div className="alert alert-danger error-alert">
-                                {submitError}
-                            </div>
+                        <div className="alert alert-danger py-2">{submitError}</div>
                         )}
-                    </Modal.Body>
-                    <Modal.Footer className="border-0 d-flex justify-content-between p-0 p-lg-1">
-                        <Button variant="danger" className="btn-modern cancel-btn" onClick={handleCloseReviewModal}>
+
+                        <div className="d-flex justify-content-center gap-3 mt-4">
+                        <Button variant="danger" className="sweetalert-cancel-btn" onClick={handleCloseReviewModal}>
                             Cancel
                         </Button>
-                        <Button 
-                            variant="outline-warning" 
-                            className="btn-modern submit-btn" 
+                        <Button
+                            variant="warning"
+                            className="sweetalert-confirm-btn"
                             onClick={handleSubmitReview}
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? "Submitting..." : "Submit Review"}
+                            {isSubmitting ? "Submitting..." : "Submit"}
                         </Button>
-                    </Modal.Footer>
+                        </div>
+                    </div>
                 </Modal>
+
                 <AlertModal {...alertModalConfig} />
             </div>
         </>
