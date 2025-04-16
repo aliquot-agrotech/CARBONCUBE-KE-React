@@ -439,7 +439,7 @@ const AdDetails = () => {
     
         return (
             <div 
-                className="border rounded p-2 position-relative"
+                className="border rounded p-0 position-relative"
                 style={{ borderColor, borderWidth: '3px', borderStyle: 'solid' }}
             >
                 {/* Tier Label */}
@@ -447,13 +447,16 @@ const AdDetails = () => {
                     className="tier-label text-dark"
                     style={{
                         position: 'absolute',
-                        top: '10px',
-                        left: '10px',
+                        top: '0px',
+                        left: '0px',
                         padding: '2px 4px',
                         fontSize: '14px',
                         fontWeight: 'bold',
                         backgroundColor: borderColor,
-                        borderRadius: '4px',
+                        borderTopLeftRadius: '4px',
+                        borderTopRightRadius: '0px',
+                        borderBottomRightRadius: '4px',
+                        borderBottomLeftRadius: '0px',
                         zIndex: 2,
                     }}
                 >
