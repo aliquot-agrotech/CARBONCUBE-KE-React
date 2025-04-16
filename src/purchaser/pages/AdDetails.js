@@ -58,13 +58,27 @@ const AdDetails = () => {
 
     const handleShowReviewModal = () => {
         const token = sessionStorage.getItem('token');
+        
         if (!token) {
-            setShowAlertModal(true);
-            setAlertModal("You must be Signed In to post a review.");
-            return;
+          // Update the alert modal config with the desired configuration
+          setAlertModalConfig({
+            isVisible: true,
+            message: 'You must be Signed In to post a review.',
+            title: 'Access Denied',
+            icon: 'warning',
+            confirmText: 'Go to Login',  // Set the correct confirm button text
+            cancelText: 'Cancel',
+            showCancel: true,
+            onConfirm: () => navigate('/login'),
+            onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+          });
+          return;
         }
+      
+        // If token exists, show the review modal
         setShowReviewModal(true);
-    };
+      };
+      
     
     const handleCloseReviewModal = () => {
         setShowReviewModal(false);
@@ -165,62 +179,92 @@ const AdDetails = () => {
         }
     };
 
+    const [alertModalConfig, setAlertModalConfig] = useState({
+        isVisible: false,
+        message: '',
+        title: '',
+        icon: '',
+        confirmText: '',
+        cancelText: '',
+        showCancel: true,
+        onClose: () => {}
+    });
+    
+
     const handleSubmitReview = async () => {
         const token = sessionStorage.getItem('token');
+        
         if (!token) {
-            setSubmitError('You must be signed in to submit a review.');
-            return;
+          setAlertModalConfig({
+            isVisible: true,
+            message: 'You must be signed in to submit a review.',
+            title: 'Access Denied',
+            icon: 'warning',
+            confirmText: 'Go to Login', // Ensure this is explicitly set here
+            cancelText: 'Cancel',
+            showCancel: true,
+            onConfirm: () => navigate('/login'),
+            onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+          });
+          return;
         }
-    
+      
         if (rating === 0) {
-            setSubmitError('Please select a rating.');
-            return;
+          setSubmitError('Please select a rating.');
+          return;
         }
-    
+      
         if (!reviewText.trim()) {
-            setSubmitError('Please enter a review.');
-            return;
+          setSubmitError('Please enter a review.');
+          return;
         }
-    
+      
         setIsSubmitting(true);
         setSubmitError(null);
-    
+      
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/${adId}/reviews`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    review: {
-                        rating: rating,
-                        review: reviewText
-                    }
-                })
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/${adId}/reviews`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              review: {
+                rating: rating,
+                review: reviewText
+              }
+            })
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to submit review');
+          }
+      
+          // Close review modal first
+          handleCloseReviewModal();
+      
+          // Show success alert after a slight delay to ensure smooth transition
+          setTimeout(() => {
+            setAlertModalConfig({
+              isVisible: true,
+              message: 'Your review was submitted successfully!',
+              title: 'Thank You!',
+              icon: 'success',
+              confirmText: 'Awesome!',
+              cancelText: 'Close',
+              showCancel: false,
+              onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false }))
             });
-    
-            if (!response.ok) {
-                throw new Error('Failed to submit review');
-            }
-    
-            // Close review modal first
-            handleCloseReviewModal();
-    
-            // Show success alert after a slight delay to ensure smooth transition
-            setTimeout(() => {
-                setShowAlertModal(true);
-                setAlertModal('Review submitted successfully!');
-            }, 300);
-    
-            // Optional: Trigger a refresh of reviews here if needed
-            // fetchReviews();
+          }, 300);
+      
         } catch (error) {
-            setSubmitError('Failed to submit review. Please try again.');
+          setSubmitError('Failed to submit review. Please try again.');
         } finally {
-            setIsSubmitting(false);
+          setIsSubmitting(false);
         }
-    };
+      };
+      
         
     
     const handleRevealVendorDetails = async () => {
@@ -228,10 +272,20 @@ const AdDetails = () => {
     
         const token = sessionStorage.getItem('token');
         if (!token) {
-            setShowAlertModal(true); // Inform the user
-            setAlertModal("You must be Signed In to view vendor details.");
-            return; // Exit the function early
-        }
+            setAlertModalConfig({
+              isVisible: true,
+              message: "You must be signed in to view vendor details.",
+              title: "Access Denied",
+              icon: "warning",
+              confirmText: "Go to Login",
+              cancelText: "Cancel",
+              showCancel: true,
+              onConfirm: () => navigate('/login'),
+              onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            });
+            return;
+          }
+          
     
         // Log the button click event
         await logClickEventRevealVendorDetails(adId, 'Reveal-Vendor-Details');
@@ -292,11 +346,20 @@ const AdDetails = () => {
         const token = sessionStorage.getItem('token');
     
         if (!token) {
-            // Token not found, show the AlertModal
-            setShowAlertModal(true);
-            setAlertModal("You need to Signed In to add items to your wishlist.");
-            return; // Exit the function early if no token
-        }
+            setAlertModalConfig({
+              isVisible: true,
+              message: "You must be signed in to add to your wishlist.",
+              title: "Login Required",
+              icon: "warning",
+              confirmText: "Go to Login",
+              cancelText: "Cancel",
+              showCancel: true,
+              onConfirm: () => navigate('/login'),
+              onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            });
+            return;
+          }
+          
     
         try {
             setBookmarkLoading(true);
@@ -359,7 +422,6 @@ const AdDetails = () => {
 
     const renderRatingStars = (rating, reviewCount) => {
         if (typeof rating !== 'number' || rating < 0) {
-            // console.error('Invalid rating value:', rating);
             return <div className="rating-stars">Invalid rating</div>;
         }
     
@@ -371,17 +433,36 @@ const AdDetails = () => {
             <div className="rating-container">
                 <div className="rating-stars">
                     {[...Array(fullStars)].map((_, index) => (
-                        <FontAwesomeIcon key={index} icon={faStar} className="rating-star filled" />
+                        <FontAwesomeIcon
+                            key={`full-${index}`}
+                            icon={faStar}
+                            className="rating-star"
+                            style={{ color: '#FFC107' }} // Gold
+                        />
                     ))}
-                    {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="rating-star half-filled" />}
+                    {halfStar && (
+                        <FontAwesomeIcon
+                            icon={faStarHalfAlt}
+                            className="rating-star"
+                            style={{ color: '#FFC107' }} // Soft Gold
+                        />
+                    )}
                     {[...Array(emptyStars)].map((_, index) => (
-                        <FontAwesomeIcon key={index} icon={faStarEmpty} className="rating-star empty text-white" />
+                        <FontAwesomeIcon
+                            key={`empty-${index}`}
+                            icon={faStarEmpty}
+                            className="rating-star"
+                            style={{ color: '#CCCCCC' }} // Neutral gray
+                        />
                     ))}
                 </div>
-                <span style={{ fontSize: '14px' }} className="review-count text-secondary"><em>{rating.toFixed(1)}/5</em>  <em>({reviewCount} Ratings)</em></span>
+                <span style={{ fontSize: '14px' }} className="review-count text-secondary">
+                    <em>{rating.toFixed(1)}/5</em> <em>({reviewCount} Ratings)</em>
+                </span>
             </div>
         );
     };
+    
 
     const handleAdClick = async (adId) => {
         if (!adId) {
@@ -842,6 +923,7 @@ const AdDetails = () => {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+                <AlertModal {...alertModalConfig} />
             </div>
         </>
     );
