@@ -439,8 +439,8 @@ const AdDetails = () => {
     
         return (
             <div 
-                className="border rounded p-0 position-relative"
-                style={{ borderColor, borderWidth: '3px', borderStyle: 'solid' }}
+                className=" rounded p-0 position-relative"
+                style={{ borderColor, borderWidth: '2px', borderStyle: 'solid' }}
             >
                 {/* Tier Label */}
                 <div
@@ -448,15 +448,15 @@ const AdDetails = () => {
                     style={{
                         position: 'absolute',
                         top: '0px',
-                        left: '0px',
-                        padding: '2px 4px',
+                        right: '0px',
+                        padding: '2px 6px',
                         fontSize: '14px',
                         fontWeight: 'bold',
                         backgroundColor: borderColor,
-                        borderTopLeftRadius: '4px',
-                        borderTopRightRadius: '0px',
-                        borderBottomRightRadius: '4px',
-                        borderBottomLeftRadius: '0px',
+                        borderTopLeftRadius: '0px',
+                        borderTopRightRadius: '4px',
+                        borderBottomRightRadius: '0px',
+                        borderBottomLeftRadius: '4px',
                         zIndex: 2,
                     }}
                 >
@@ -489,6 +489,7 @@ const AdDetails = () => {
 
     const getBorderColor = (tierId) => {
         const tierColors = {
+            1: '#F0FFF0',  // Free (Blue)
             2: '#FF5733',  // Basic (Red-Orange)
             3: '#28A745',  // Standard (Bright Green)
             4: '#FFC107',  // Premium (Gold-like yellow)
@@ -679,14 +680,14 @@ const AdDetails = () => {
                                                             style={{
                                                                 position: 'absolute',
                                                                 top: '0px',
-                                                                left: '0px',
+                                                                right: '0px',
                                                                 padding: '2px 6px',
                                                                 fontSize: '12px',
                                                                 backgroundColor: borderColor,
-                                                                borderTopLeftRadius: '4px',
-                                                                borderTopRightRadius: '0px',
-                                                                borderBottomRightRadius: '4px',
-                                                                borderBottomLeftRadius: '0px',
+                                                                borderTopLeftRadius: '0px',
+                                                                borderTopRightRadius: '2px',
+                                                                borderBottomRightRadius: '0px',
+                                                                borderBottomLeftRadius: '4px',
                                                                 zIndex: 20,
                                                             }}
                                                         >
