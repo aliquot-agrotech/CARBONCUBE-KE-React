@@ -139,18 +139,21 @@ const AdDetails = () => {
     };
 
     const fetchVendorDetails = async () => {
-        setLoading(true);
         try {
-            const token = sessionStorage.getItem('token'); // Retrieve the token
+            const token = sessionStorage.getItem('token');
     
             if (!token) {
                 throw new Error('You must be logged in to view vendor details.');
             }
     
+            // Set a local loading state instead of the global one
+            // This prevents a full re-render of the component
+            let vendorData;
+    
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/${adId}/vendor`, {
-                signal: AbortSignal.timeout(10000), // 10-second timeout
+                signal: AbortSignal.timeout(10000),
                 headers: {
-                    'Authorization': `Bearer ${token}`, // Include token in the headers
+                    'Authorization': `Bearer ${token}`,
                 },
             });
     
@@ -164,8 +167,8 @@ const AdDetails = () => {
                 throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
             }
     
-            const data = await response.json();
-            setVendor(data);
+            vendorData = await response.json();
+            return vendorData;
         } catch (error) {
             console.error('Detailed error:', {
                 message: error.message,
@@ -173,13 +176,7 @@ const AdDetails = () => {
                 stack: error.stack,
             });
     
-            if (error.message.includes('logged in')) {
-                alert(error.message); // Notify the user they need to log in
-            }
-    
-            setError(`Failed to fetch vendor details: ${error.message}`);
-        } finally {
-            setLoading(false);
+            throw error;
         }
     };
 
@@ -269,9 +266,11 @@ const AdDetails = () => {
         }
     };
     
-    const handleRevealVendorDetails = async (event) => {
-        // Prevent default form submission behavior which might cause page reload
-        event.preventDefault();
+    const handleRevealVendorDetails = async (e) => {
+        // Make sure to prevent default on the event object
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
         
         console.log('Button clicked, adId:', adId);
     
@@ -290,34 +289,51 @@ const AdDetails = () => {
             });
             return;
         }
+    
+        // Set local loading state for just this button
+        const revealButtonRef = e?.currentTarget;
+        if (revealButtonRef) {
+            revealButtonRef.disabled = true;
+        }
         
         try {
-            // Start loading state
-            setLoading(true);
-            
-            // Log the button click event
+            // Log the click event first
             await logClickEventRevealVendorDetails(adId, 'Reveal-Vendor-Details');
-        
-            // Fetch vendor details if not already fetched
+            
+            // Only fetch vendor details if not already available
             if (!vendor) {
-                await fetchVendorDetails();
+                const vendorData = await fetchVendorDetails();
+                setVendor(vendorData);
             }
-        
-            // Show vendor details
+            
+            // Show vendor details and toast
             setShowVendorDetails(true);
             setShowVendorToast(true);
         } catch (error) {
             console.error("Error revealing vendor details:", error);
-            setError("Failed to reveal vendor contact. Please try again.");
+            
+            // Show a user-friendly error
+            setAlertModalConfig({
+                isVisible: true,
+                message: "Failed to reveal vendor contact. Please try again.",
+                title: "Error",
+                icon: "error",
+                confirmText: "OK",
+                showCancel: false,
+                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            });
         } finally {
-            setLoading(false);
+            // Re-enable the button
+            if (revealButtonRef) {
+                revealButtonRef.disabled = false;
+            }
         }
     };
     
     // Function to log button click events
     const logClickEventRevealVendorDetails = async (adId, eventType) => {
         try {
-            const token = sessionStorage.getItem('token'); // Retrieve the token
+            const token = sessionStorage.getItem('token');
     
             if (!token) {
                 console.warn('Cannot log event without a valid session.');
@@ -328,20 +344,25 @@ const AdDetails = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Include token in the headers
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     ad_id: adId,
                     event_type: eventType,
-                    metadata: {}, // Optional metadata
+                    metadata: {},
                 }),
             });
     
             if (!response.ok) {
                 console.warn('Failed to log event:', eventType);
+                // Don't throw here - just log the warning
             }
+            
+            return true;
         } catch (error) {
             console.error('Error logging event:', eventType, error);
+            // Don't throw here either - we don't want logging failures to stop the main function
+            return false;
         }
     };
 
@@ -699,10 +720,11 @@ const AdDetails = () => {
                                                             <Button
                                                                 type="button"
                                                                 className="w-100 py-2 rounded-pill fancy-button"
-                                                                onClick={(e) => handleRevealVendorDetails(e)}
+                                                                onClick={handleRevealVendorDetails}
+                                                                disabled={loading || (showVendorDetails && vendor)}
                                                             >
                                                                 {loading ? (
-                                                                    <Spinner animation="border" size="sm" className="me-2" />
+                                                                    <span><Spinner animation="border" size="sm" className="me-2" />Loading...</span>
                                                                 ) : showVendorDetails && vendor ? (
                                                                     <span>{vendor.enterprise_name} | {vendor.phone_number}</span>
                                                                 ) : (

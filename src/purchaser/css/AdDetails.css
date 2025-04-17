@@ -147,7 +147,7 @@ transform: scale(1.01);
   }
 }
 
-.fancy-button {
+.fancy-button.btn {
   border: 2px solid #212529;
   background-color: transparent;
   color: #212529;
@@ -157,6 +157,9 @@ transform: scale(1.01);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+  border-radius: 50rem;
+  appearance: none; /* Standard property for compatibility */
+  -webkit-appearance: none; /* 🚫 Prevent default styles} */
 }
 
 .fancy-button:hover {
@@ -167,14 +170,23 @@ transform: scale(1.01);
   transform: translateY(-2px);
 }
 
-/* 🔥 Fix: remove default blue background on click */
-.fancy-button:active,
-.fancy-button:focus,
-.fancy-button:focus-visible {
+.fancy-button.btn:active,
+.fancy-button.btn:focus,
+.fancy-button.btn:focus:active {
   background-color: #ffc107 !important;
-  color: #212529;
-  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.5);
-  border-color: #212529;
+  border-color: #212529 !important;
+  color: #212529 !important;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.5) !important;
+  outline: none !important;
+}
+
+
+/* 🔒 Optional extra: remove blue highlight on iOS/Android */
+.fancy-button::-moz-focus-inner {
+  border: 0;
+}
+
+.fancy-button:focus {
   outline: none;
 }
 
