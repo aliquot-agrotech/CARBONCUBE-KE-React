@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {  Row, Col, Card, Carousel, Container, Button, Modal } from 'react-bootstrap';
+import {  Row, Col, Card, Carousel, Container, Button, Modal, Toast, ToastContainer } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt, faStar as faStarEmpty } from '@fortawesome/free-solid-svg-icons';
 import TopNavbar from '../components/TopNavbar';  // Import your TopNavbar component
@@ -36,6 +36,7 @@ const AdDetails = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
     const navigate = useNavigate(); // Initialize useNavigate
+    const [showVendorToast, setShowVendorToast] = useState(false);
 
 
     const handleShowModal = async () => {
@@ -97,6 +98,10 @@ const AdDetails = () => {
             setLoading(false);
             return;
         }
+
+          // Reset vendor-related states on ad change
+        setShowVendorDetails(false);
+        setVendor(null);
 
         // Fetch Ad Details
         const fetchAdDetails = async () => {
@@ -194,108 +199,119 @@ const AdDetails = () => {
         const token = sessionStorage.getItem('token');
         
         if (!token) {
-          setAlertModalConfig({
-            isVisible: true,
-            message: 'You must be signed in to submit a review.',
-            title: 'Login Required',
-            icon: 'warning',
-            confirmText: 'Go to Login', // Ensure this is explicitly set here
-            cancelText: 'Cancel',
-            showCancel: true,
-            onConfirm: () => navigate('/login'),
-            onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
-          });
-          return;
+            setAlertModalConfig({
+                isVisible: true,
+                message: 'You must be signed in to submit a review.',
+                title: 'Login Required',
+                icon: 'warning',
+                confirmText: 'Go to Login', // Ensure this is explicitly set here
+                cancelText: 'Cancel',
+                showCancel: true,
+                onConfirm: () => navigate('/login'),
+                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            });
+            return;
         }
-      
+
         if (rating === 0) {
-          setSubmitError('Please select a rating.');
-          return;
+            setSubmitError('Please select a rating.');
+            return;
         }
-      
+
         if (!reviewText.trim()) {
-          setSubmitError('Please enter a review.');
-          return;
+            setSubmitError('Please enter a review.');
+            return;
         }
-      
+
         setIsSubmitting(true);
         setSubmitError(null);
-      
+
         try {
-          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/${adId}/reviews`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              review: {
-                rating: rating,
-                review: reviewText
-              }
-            })
-          });
-      
-          if (!response.ok) {
-            throw new Error('Failed to submit review');
-          }
-      
-          // Close review modal first
-          handleCloseReviewModal();
-      
-          // Show success alert after a slight delay to ensure smooth transition
-          setTimeout(() => {
-            setAlertModalConfig({
-              isVisible: true,
-              message: 'Your review was submitted successfully!',
-              title: 'Thank You!',
-              icon: 'success',
-              confirmText: 'Awesome!',
-              cancelText: 'Close',
-              showCancel: false,
-              onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false }))
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/${adId}/reviews`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                review: {
+                    rating: rating,
+                    review: reviewText
+                }
+                })
             });
-          }, 300);
-      
-        } catch (error) {
-          setSubmitError('Failed to submit review. Please try again.');
-        } finally {
-          setIsSubmitting(false);
-        }
-      };
-      
         
+            if (!response.ok) {
+                throw new Error('Failed to submit review');
+            }
+        
+            // Close review modal first
+            handleCloseReviewModal();
+        
+            // Show success alert after a slight delay to ensure smooth transition
+            setTimeout(() => {
+                setAlertModalConfig({
+                isVisible: true,
+                message: 'Your review was submitted successfully!',
+                title: 'Thank You!',
+                icon: 'success',
+                confirmText: 'Awesome!',
+                cancelText: 'Close',
+                showCancel: false,
+                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false }))
+                });
+            }, 300);
+
+        } catch (error) {
+            setSubmitError('Failed to submit review. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     
-    const handleRevealVendorDetails = async () => {
+    const handleRevealVendorDetails = async (event) => {
+        // Prevent default form submission behavior which might cause page reload
+        event.preventDefault();
+        
         console.log('Button clicked, adId:', adId);
     
         const token = sessionStorage.getItem('token');
         if (!token) {
             setAlertModalConfig({
-              isVisible: true,
-              message: "You must be signed in to view vendor details.",
-              title: "Login Required",
-              icon: "warning",
-              confirmText: "Go to Login",
-              cancelText: "Cancel",
-              showCancel: true,
-              onConfirm: () => navigate('/login'),
-              onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+                isVisible: true,
+                message: "You must be signed in to view vendor details.",
+                title: "Login Required",
+                icon: "warning",
+                confirmText: "Go to Login",
+                cancelText: "Cancel",
+                showCancel: true,
+                onConfirm: () => navigate('/login'),
+                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
             });
             return;
-          }
-          
-    
-        // Log the button click event
-        await logClickEventRevealVendorDetails(adId, 'Reveal-Vendor-Details');
-    
-        // Fetch vendor details if not already fetched
-        if (!vendor) {
-            await fetchVendorDetails();
         }
-    
-        // Show vendor details
-        setShowVendorDetails(true);
+        
+        try {
+            // Start loading state
+            setLoading(true);
+            
+            // Log the button click event
+            await logClickEventRevealVendorDetails(adId, 'Reveal-Vendor-Details');
+        
+            // Fetch vendor details if not already fetched
+            if (!vendor) {
+                await fetchVendorDetails();
+            }
+        
+            // Show vendor details
+            setShowVendorDetails(true);
+            setShowVendorToast(true);
+        } catch (error) {
+            console.error("Error revealing vendor details:", error);
+            setError("Failed to reveal vendor contact. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
     
     // Function to log button click events
@@ -681,18 +697,16 @@ const AdDetails = () => {
                                                     <Col xs={12} className="mb-2">
                                                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                                             <Button
+                                                                type="button"
                                                                 className="w-100 py-2 rounded-pill fancy-button"
-                                                                onClick={(e) => {
-                                                                e.preventDefault();
-                                                                handleRevealVendorDetails();
-                                                                }}
+                                                                onClick={(e) => handleRevealVendorDetails(e)}
                                                             >
                                                                 {loading ? (
-                                                                <Spinner animation="border" size="sm" className="me-2" />
+                                                                    <Spinner animation="border" size="sm" className="me-2" />
                                                                 ) : showVendorDetails && vendor ? (
-                                                                <span>{vendor.enterprise_name} | {vendor.phone_number}</span>
+                                                                    <span>{vendor.enterprise_name} | {vendor.phone_number}</span>
                                                                 ) : (
-                                                                '📞  Reveal Vendor Contact'
+                                                                    '📞  Reveal Vendor Contact'
                                                                 )}
                                                             </Button>
                                                         </motion.div>
@@ -944,6 +958,24 @@ const AdDetails = () => {
                 </Modal>
 
                 <AlertModal {...alertModalConfig} />
+
+                <ToastContainer position="bottom-end" className="p-3" style={{ zIndex: 9999 }}>
+                    <Toast
+                        show={showVendorToast}
+                        onClose={() => setShowVendorToast(false)}
+                        delay={3000}
+                        autohide
+                        bg="warning"
+                    >
+                        <Toast.Header closeButton>
+                        <strong className="me-auto">Success</strong>
+                        </Toast.Header>
+                        <Toast.Body className="text-black">
+                        Vendor contact revealed successfully!
+                        </Toast.Body>
+                    </Toast>
+                </ToastContainer>
+
             </div>
         </>
     );
