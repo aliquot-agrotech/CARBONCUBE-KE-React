@@ -61,24 +61,23 @@ const AdDetails = () => {
         
         if (!token) {
           // Update the alert modal config with the desired configuration
-          setAlertModalConfig({
-            isVisible: true,
-            message: 'You must be Signed In to post a review.',
-            title: 'Login Required',
-            icon: 'warning',
-            confirmText: 'Go to Login',  // Set the correct confirm button text
-            cancelText: 'Cancel',
-            showCancel: true,
-            onConfirm: () => navigate('/login'),
-            onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
-          });
-          return;
+            setAlertModalConfig({
+                isVisible: true,
+                message: 'You must be Signed In to post a review.',
+                title: 'Login Required',
+                icon: 'warning',
+                confirmText: 'Go to Login',  // Set the correct confirm button text
+                cancelText: 'Cancel',
+                showCancel: true,
+                onConfirm: () => navigate('/login'),
+                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            });
+            return;
         }
-      
+
         // If token exists, show the review modal
         setShowReviewModal(true);
-      };
-      
+    };
     
     const handleCloseReviewModal = () => {
         setShowReviewModal(false);
@@ -620,9 +619,9 @@ const AdDetails = () => {
                                                 fontWeight: 'bold',
                                                 backgroundColor: borderColor,
                                                 borderTopLeftRadius: '0px',
-                                                borderTopRightRadius: '8px',
+                                                borderTopRightRadius: '4px',
                                                 borderBottomRightRadius: '0px',
-                                                borderBottomLeftRadius: '8px',
+                                                borderBottomLeftRadius: '6px',
                                                 zIndex: 2,
                                             }}
                                         >
@@ -630,7 +629,7 @@ const AdDetails = () => {
                                         </div>
 
                                         {/* Top Section */}
-                                        <Row className="ad-details shadow-lg rounded-4 p-1 p-md-3 p-xs-2 mb-4 mb-xs-3"
+                                        <Row className="ad-details shadow-lg rounded-2 p-1 p-md-3 p-xs-2 mb-4 mb-xs-3"
                                             style={{ borderColor, borderWidth: '2px', borderStyle: 'solid' }}>
                                             {/* Image Carousel */}
                                             <Col xs={12} md={7} className="text-center mb-3 mb-md-0">
@@ -737,7 +736,7 @@ const AdDetails = () => {
                                         </Row>
 
                                         {/* Description & Dimensions */}
-                                        <Row className="ad-details shadow-lg rounded border p-1 p-md-3 p-xs-2 mb-4 mb-xs-3">
+                                        <Row className="ad-details shadow-lg rounded-2 border p-1 p-md-3 p-xs-2 mb-4 mb-xs-3">
                                             <Col xs={12} md={7}>
                                                 <h4>Description</h4>
                                                 <p className="lead text-secondary">{ad.description}</p>
