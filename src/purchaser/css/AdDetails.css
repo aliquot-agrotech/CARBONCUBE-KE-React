@@ -146,3 +146,30 @@ transform: scale(1.01);
     transform: translateY(0);
   }
 }
+
+.fancy-button {
+  border: 2px solid #212529;
+  background-color: transparent;
+  color: #212529;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.fancy-button:hover {
+  background-color: #ffc107;
+  color: #212529;
+  border-color: #212529;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.5);
+  transform: translateY(-1px);
+}
+
+.fancy-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+

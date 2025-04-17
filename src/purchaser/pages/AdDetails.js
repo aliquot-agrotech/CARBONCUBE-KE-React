@@ -678,51 +678,49 @@ const AdDetails = () => {
 
                                                 {/* Buttons */}
                                                 <Row className="gx-2 mt-2 mt-lg-4">
-                                                    <Col xs={12} lg={6} className="mb-2">
+                                                    <Col xs={12} className="mb-2">
                                                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                                        <Button
-                                                            variant="outline-dark"
-                                                            className="w-100 py-2 rounded-pill"
-                                                            onClick={(e) => {
-                                                            e.preventDefault();
-                                                            handleRevealVendorDetails();
-                                                            }}
-                                                        >
-                                                            {loading ? (
-                                                            <Spinner animation="border" size="sm" className="me-2" />
-                                                            ) : showVendorDetails && vendor ? (
-                                                            <span>{vendor.enterprise_name} | {vendor.phone_number}</span>
-                                                            ) : (
-                                                            '📞 Contact Vendor'
-                                                            )}
-                                                        </Button>
+                                                            <Button
+                                                                className="w-100 py-2 rounded-pill fancy-button"
+                                                                onClick={(e) => {
+                                                                e.preventDefault();
+                                                                handleRevealVendorDetails();
+                                                                }}
+                                                            >
+                                                                {loading ? (
+                                                                <Spinner animation="border" size="sm" className="me-2" />
+                                                                ) : showVendorDetails && vendor ? (
+                                                                <span>{vendor.enterprise_name} | {vendor.phone_number}</span>
+                                                                ) : (
+                                                                '📞  Reveal Vendor Contact'
+                                                                )}
+                                                            </Button>
                                                         </motion.div>
                                                     </Col>
 
-                                                    <Col xs={12} lg={6} className="mb-2">
-                                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                                        <Button
-                                                            variant="outline-dark"
-                                                            className="w-100 py-2 rounded-pill"
-                                                            onClick={handleShowReviewModal}
-                                                        >
-                                                            💬 Leave a Review
-                                                        </Button>
-                                                        </motion.div>
-                                                    </Col>
                                                     <Col xs={12} className="mb-2">
                                                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                                        <Button
-                                                            variant="outline-dark"
-                                                            className="w-100 py-2 rounded-pill"
-                                                            disabled={!ad || wish_listLoading}
-                                                            onClick={handleAddToWishlist}
-                                                        >
-                                                            🖤 Add to Wish List
-                                                        </Button>
+                                                            <Button
+                                                                className="w-100 py-2 rounded-pill fancy-button"
+                                                                disabled={!ad || wish_listLoading}
+                                                                onClick={handleAddToWishlist}
+                                                            >
+                                                                🖤 Add to Wish List
+                                                            </Button>
                                                         </motion.div>
                                                     </Col>
-                                                </Row>
+
+                                                    <Col xs={12} className="mb-2">
+                                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                                            <Button
+                                                                className="w-100 py-2 rounded-pill fancy-button"
+                                                                onClick={handleShowReviewModal}
+                                                            >
+                                                                💬 Leave a Review
+                                                            </Button>
+                                                        </motion.div>
+                                                    </Col>
+                                                </Row>`
 
                                                 {/* Alert/Error */}
                                                 <AlertModal 
