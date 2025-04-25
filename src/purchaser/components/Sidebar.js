@@ -30,7 +30,7 @@ const Sidebar = () => {
   }, []);
 
   const handleProtectedClick = (e, path) => {
-    const token = sessionStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('token');
     if (!token) {
       e.preventDefault();
       
