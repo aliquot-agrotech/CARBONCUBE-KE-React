@@ -716,7 +716,7 @@ const AdDetails = () => {
                                                 {/* Buttons */}
                                                 <Row className="gx-2 mt-2 mt-lg-4">
                                                     <Col xs={12} className="mb-2">
-                                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
                                                             <Button
                                                                 type="button"
                                                                 className="w-100 py-2 rounded-pill fancy-button"
@@ -735,7 +735,7 @@ const AdDetails = () => {
                                                     </Col>
 
                                                     <Col xs={12} className="mb-2">
-                                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
                                                             <Button
                                                                 className="w-100 py-2 rounded-pill fancy-button"
                                                                 disabled={!ad || wish_listLoading}
@@ -747,7 +747,7 @@ const AdDetails = () => {
                                                     </Col>
 
                                                     <Col xs={12} className="mb-2">
-                                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
                                                             <Button
                                                                 className="w-100 py-2 rounded-pill fancy-button"
                                                                 onClick={handleShowReviewModal}
