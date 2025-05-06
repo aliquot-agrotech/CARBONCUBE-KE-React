@@ -37,7 +37,7 @@ const Sidebar = () => {
       // Create a reference to the Swal instance
       const swalInstance = Swal.fire({
         icon: 'warning',
-        title: 'Access Denied',
+        title: 'Login Required',
         text: 'You must be Signed In to continue.',
         confirmButtonText: 'Go to Login',
         cancelButtonText: 'Close',
