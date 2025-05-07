@@ -7,7 +7,7 @@ import TopNavbar from '../components/TopNavbar';  // Import your TopNavbar compo
 import Sidebar from '../components/Sidebar';      // Import your Sidebar component
 import { motion } from 'framer-motion'; // For animations
 import Spinner from "react-spinkit";
-import AlertModal from '../components/AlertModal';
+import AlertModal from '../../components/AlertModal';
 import axios from 'axios';  // Assuming you're using axios
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../css/AdDetails.css';    // Custom styling for the page

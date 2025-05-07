@@ -9,6 +9,8 @@ import TopNavbar from '../components/TopNavbar';
 import * as nsfwjs from 'nsfwjs';
 import * as tf from '@tensorflow/tfjs';
 import '../css/VendorAds.css'; 
+import Swal from 'sweetalert2';
+import AlertModal from '../../components/AlertModal';
 
 const VendorAds = () => {
     const [ads, setAds] = useState([]);
@@ -28,6 +30,9 @@ const VendorAds = () => {
     const [weightUnit, setWeightUnit] = useState('Grams');
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [adToDelete, setAdToDelete] = useState(null);
+
     // const [selectedImages, setSelectedImages] = useState([]);
     // const [files, setFiles] = useState([]);
     const [editedAd, setEditedAd] = useState({
@@ -619,7 +624,10 @@ const VendorAds = () => {
                                 variant="danger"
                                 className="d-flex justify-content-center align-items-center"
                                 id="button"
-                                onClick={() => handleDeleteAd(ad.id)}
+                                onClick={() => {
+                                    setAdToDelete(ad.id);
+                                    setAlertVisible(true);
+                                }}
                             >
                                 <FontAwesomeIcon
                                     icon={faTrash}
@@ -1476,6 +1484,65 @@ const VendorAds = () => {
                     </Modal.Footer>
                 </Modal>
             </div>
+
+            <AlertModal
+                isVisible={alertVisible}
+                title="Delete Confirmation"
+                message="Are you sure you want to delete this ad? This action is permanent."
+                confirmText="Yes, delete it"
+                cancelText="Cancel"
+                icon="warning"
+                onConfirm={async () => {
+                    try {
+                        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/ads/${adToDelete}`, {
+                            method: 'DELETE',
+                            headers: {
+                            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                            },
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to delete the ad.');
+                    }
+
+                    setAds(prevAds => prevAds.filter(ad => ad.id !== adToDelete));
+
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Your ad has been successfully deleted.',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        customClass: {
+                            popup: 'futuristic-swal rounded-4 glass-bg',
+                            title: 'fw-semibold text-white',
+                            htmlContainer: 'text-light',
+                        },
+                        backdrop: 'rgba(0, 0, 0, 0.6)',
+                    });
+                    } catch (error) {
+                            console.error('Delete failed:', error);
+                            Swal.fire({
+                            title: 'Error!',
+                            text: 'There was a problem deleting the ad.',
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                popup: 'futuristic-swal rounded-4 glass-bg',
+                                title: 'fw-semibold text-white',
+                                htmlContainer: 'text-light',
+                                confirmButton: 'btn rounded-pill futuristic-confirm'
+                            },
+                            backdrop: 'rgba(0, 0, 0, 0.6)',
+                            buttonsStyling: false
+                        });
+                    } finally {
+                        setAlertVisible(false);
+                        setAdToDelete(null);
+                    }
+                }}
+                onClose={() => setAlertVisible(false)}
+            />
         </>
     );
 };
