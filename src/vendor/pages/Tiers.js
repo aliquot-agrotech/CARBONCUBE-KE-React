@@ -60,10 +60,10 @@ const TierPage = () => {
     }
   };
 
-  const handleTierSelect = (tierId) => {
-    setSelectedTier(tierId); // Set the selected tier ID
-    setShowModal(true); // Show the modal for duration selection
-  };
+  // const handleTierSelect = (tierId) => {
+  //   setSelectedTier(tierId); // Set the selected tier ID
+  //   setShowModal(true); // Show the modal for duration selection
+  // };
 
   const handleDurationSelect = async (duration) => {
     const token = sessionStorage.getItem("token");
@@ -153,7 +153,7 @@ const TierPage = () => {
             onClick={() => navigate("/vendor/analytics")}
             className="btn btn-dark mt-4 rounded-pill" // Bootstrap classes for styling
           >
-            Back to Home
+            Back to Analytics
           </Button>
         </Container>
       </section>
@@ -214,13 +214,13 @@ const TierPage = () => {
                         </div>
 
                       </div>
-                      <Button
+                      {/* <Button
                         style={{ backgroundColor: 'black', borderColor: 'black' }}
                         className="w-100 rounded-pill text-white mt-3"
                         onClick={() => handleTierSelect(tier.id)}
                       >
                         {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
-                      </Button>
+                      </Button> */}
                     </Card.Body>
                   </Card>
                 </Col>
