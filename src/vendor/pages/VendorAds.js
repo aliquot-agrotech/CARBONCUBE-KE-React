@@ -839,6 +839,42 @@ const VendorAds = () => {
 
                                     <Row>
                                         <Col xs={12} md={6}>
+<Card className="mb-2 custom-card">
+      <Card.Header as="h6" className="justify-content-center">Condition</Card.Header>
+      <Card.Body className="text-center">
+        <p className="mb-0">
+          {selectedAd.condition === 'brand_new' && (
+            <span style={{
+              backgroundColor: 'green',
+              color: 'white',
+              padding: '4px 12px',
+              borderRadius: '20px',
+              fontWeight: 'bold',
+              fontSize: '0.95rem'
+            }}>
+              Brand New
+            </span>
+          )}
+          {selectedAd.condition === 'second_hand' && (
+            <span style={{
+              backgroundColor: 'orange',
+              color: 'white',
+              padding: '4px 12px',
+              borderRadius: '20px',
+              fontWeight: 'bold',
+              fontSize: '0.95rem'
+            }}>
+              Second Hand
+            </span>
+          )}
+          {!selectedAd.condition && (
+            <span className="text-muted">Not specified</span>
+          )}
+        </p>
+      </Card.Body>
+    </Card>
+                                        </Col>
+                                        <Col xs={12} md={6}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Rating</Card.Header>
                                                 <Card.Body className="text-center">
@@ -848,7 +884,12 @@ const VendorAds = () => {
                                                 </Card.Body>
                                             </Card>
                                         </Col>
-                                        <Col xs={12} md={6}>
+                                        
+                                        
+                                    </Row>
+
+                                    <Row>
+                                        <Col xs={12}>
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Dimensions</Card.Header>
                                                 <Card.Body className="text-center">
@@ -865,8 +906,8 @@ const VendorAds = () => {
                                                 </Card.Body>
                                             </Card>
                                         </Col>
-                                        
                                     </Row>
+
                                 </Container>
                                 <h5 className="text-center" id="reviews">Reviews</h5>
                                 {selectedAd.reviews && selectedAd.reviews.length > 0 ? (
