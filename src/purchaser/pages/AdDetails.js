@@ -610,6 +610,17 @@ const AdDetails = () => {
     const tierId = ad?.vendor_tier?.id || ad?.vendor_tier;
     const borderColor = getBorderColor(tierId);
 
+    const conditionLabels = {
+        brand_new: 'Brand New',
+        second_hand: 'Second Hand'
+    };
+
+    const conditionColors = {
+        brand_new: '#28a745',      // Bootstrap success green
+        second_hand: '#ffc107'     // Bootstrap warning yellow
+    };
+
+
     if (loading) {
         return (
             <div className="centered-loader">
@@ -687,6 +698,21 @@ const AdDetails = () => {
                                                     <p><strong>Manufacturer:</strong> {ad.manufacturer}</p>
                                                     <p><strong>Category:</strong> {ad.category_name}</p>
                                                     <p><strong>Subcategory:</strong> {ad.subcategory_name}</p>
+                                                    <p>
+                                                        <strong>Condition:</strong>{' '}
+                                                        <span
+                                                            style={{
+                                                            backgroundColor: conditionColors[ad.condition],
+                                                            color: ad.condition === 'second_hand' ? '#000' : '#fff',
+                                                            padding: '3px 6px',
+                                                            borderRadius: '8px',
+                                                            fontStyle: 'italic',
+                                                            fontSize: '13px'
+                                                            }}
+                                                        >
+                                                            {conditionLabels[ad.condition]}
+                                                        </span>
+                                                    </p>
                                                 </div>
 
                                                 {/* Rating */}
