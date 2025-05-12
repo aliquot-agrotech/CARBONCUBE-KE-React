@@ -51,6 +51,7 @@ const VendorAds = () => {
         quantity: '',
         brand: '',
         manufacturer: '',
+        condition: '',
         item_length: '',
         item_width: '',
         item_height: '',
@@ -234,10 +235,10 @@ const VendorAds = () => {
             setUploading(true);
             setUploadProgress(0);
     
-            const { title, description, price, quantity, brand, manufacturer, item_length, item_width, item_height, item_weight } = formValues;
+            const { title, description, price, quantity, brand, manufacturer, item_length, item_width, item_height, item_weight, condition } = formValues;
         
             // Validation check
-            if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !item_length || !item_width || !item_height || !item_weight) {
+            if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !item_length || !item_width || !item_height || !item_weight || !condition) {
                 alert('Please fill in all required fields.');
                 setUploading(false);
                 return;
@@ -280,6 +281,7 @@ const VendorAds = () => {
             formData.append('ad[quantity]', parseInt(quantity));
             formData.append('ad[brand]', brand);
             formData.append('ad[manufacturer]', manufacturer);
+            formData.append('ad[condition]', condition);
             formData.append('ad[item_length]', parseInt(item_length));
             formData.append('ad[item_width]', parseInt(item_width));
             formData.append('ad[item_height]', parseInt(item_height));
@@ -338,6 +340,7 @@ const VendorAds = () => {
                 quantity: '',
                 brand: '',
                 manufacturer: '',
+                condition: '',
                 item_length: '',
                 item_width: '',
                 item_height: '',
@@ -435,6 +438,7 @@ const VendorAds = () => {
             quantity: editedAd.quantity,
             brand: editedAd.brand,
             manufacturer: editedAd.manufacturer,
+            condition: editedAd.condition,
             item_length: editedAd.item_length,
             item_width: editedAd.item_width,
             item_height: editedAd.item_height,
@@ -839,40 +843,40 @@ const VendorAds = () => {
 
                                     <Row>
                                         <Col xs={12} md={6}>
-<Card className="mb-2 custom-card">
-      <Card.Header as="h6" className="justify-content-center">Condition</Card.Header>
-      <Card.Body className="text-center">
-        <p className="mb-0">
-          {selectedAd.condition === 'brand_new' && (
-            <span style={{
-              backgroundColor: 'green',
-              color: 'white',
-              padding: '4px 12px',
-              borderRadius: '20px',
-              fontWeight: 'bold',
-              fontSize: '0.95rem'
-            }}>
-              Brand New
-            </span>
-          )}
-          {selectedAd.condition === 'second_hand' && (
-            <span style={{
-              backgroundColor: 'orange',
-              color: 'white',
-              padding: '4px 12px',
-              borderRadius: '20px',
-              fontWeight: 'bold',
-              fontSize: '0.95rem'
-            }}>
-              Second Hand
-            </span>
-          )}
-          {!selectedAd.condition && (
-            <span className="text-muted">Not specified</span>
-          )}
-        </p>
-      </Card.Body>
-    </Card>
+                                            <Card className="mb-2 custom-card">
+                                                <Card.Header as="h6" className="justify-content-center">Condition</Card.Header>
+                                                <Card.Body className="text-center">
+                                                    <p className="mb-0">
+                                                    {selectedAd.condition === 'brand_new' && (
+                                                        <span style={{
+                                                        backgroundColor: 'green',
+                                                        color: 'white',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '20px',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '0.95rem'
+                                                        }}>
+                                                        Brand New
+                                                        </span>
+                                                    )}
+                                                    {selectedAd.condition === 'second_hand' && (
+                                                        <span style={{
+                                                        backgroundColor: 'orange',
+                                                        color: 'white',
+                                                        padding: '4px 12px',
+                                                        borderRadius: '20px',
+                                                        fontWeight: 'bold',
+                                                        fontSize: '0.95rem'
+                                                        }}>
+                                                        Second Hand
+                                                        </span>
+                                                    )}
+                                                    {!selectedAd.condition && (
+                                                        <span className="text-muted">Not specified</span>
+                                                    )}
+                                                    </p>
+                                                </Card.Body>
+                                            </Card>
                                         </Col>
                                         <Col xs={12} md={6}>
                                             <Card className="mb-2 custom-card">
@@ -1109,6 +1113,25 @@ const VendorAds = () => {
                                 />
                             </Form.Group>
 
+                            <Form.Group className="mb-2 w-100">
+                                <Form.Label className="text-center mb-0 fw-bold w-100">Condition</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    id="edit-condition"
+                                    className="mb-1 rounded-pill"
+                                    style={{ maxWidth: '100%' }}
+                                    value={editedAd.condition || ''}
+                                    onChange={(e) =>
+                                    setEditedAd({ ...editedAd, condition: e.target.value })
+                                    }
+                                    required
+                                >
+                                    <option value="">Select Condition</option>
+                                    <option value="brand_new">Brand New</option>
+                                    <option value="second_hand">Second Hand</option>
+                                </Form.Control>
+                            </Form.Group>
+
                             <Card className="custom-card-vendor">
                                 <Card.Header className="justify-content-center fw-bold">Dimensions</Card.Header>
                                 <Card.Body>
@@ -1318,6 +1341,24 @@ const VendorAds = () => {
                                         
                                         {/* Preview Uploaded Images in a row at bottom */}
                                         
+                                    </Form.Group>
+                                    <Form.Group className="mb-2 w-100">
+                                        <Form.Label className="text-center mb-0 fw-bold w-100">Condition</Form.Label>
+                                        <Form.Control
+                                            as="select"
+                                            id="condition"
+                                            className="mb-1 rounded-pill"
+                                            style={{ maxWidth: '100%' }}
+                                            value={formValues.condition || ''}
+                                            onChange={(e) =>
+                                            setFormValues({ ...formValues, condition: e.target.value })
+                                            }
+                                            required
+                                        >
+                                            <option value="">Select Condition</option>
+                                            <option value="brand_new">Brand New</option>
+                                            <option value="second_hand">Second Hand</option>
+                                        </Form.Control>
                                     </Form.Group>
                                 </Col>
 
