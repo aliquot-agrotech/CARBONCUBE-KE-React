@@ -185,8 +185,9 @@ const Messages = () => {
                 <Col xs={12} md={10} lg={9}className="messages-list ">
                   {selectedConversation ? (
                     <Card className="message-container mt-2 mt-lg-4">
-                      <Card.Header className="messages-header justify-content-center">
-                        <FontAwesomeIcon className="me-3" icon={faUser} /> {selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}
+                      <Card.Header className="messages-header d-flex align-items-center justify-content-center gap-2">
+                        <FontAwesomeIcon icon={faUser} size="lg" />
+                        <span>{selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}</span>
                       </Card.Header>
                       <Card.Body className="messages-scroll">
                         {loadingMessages ? (
@@ -199,10 +200,13 @@ const Messages = () => {
                               const isSent = message.sender_type === 'Admin';
                               return (
                                 <div key={message.id} className={`message ${isSent ? 'sent' : 'received'}`}>
-                                  <p>{message.content}</p>
-                                  <span className="message-timestamp">
-                                    {new Date(message.created_at).toLocaleTimeString()}
-                                  </span>
+                                  <div className="message-content">
+                                    <p>{message.content}</p>
+                                    <span className="message-timestamp">
+                                      {new Date(message.created_at).toLocaleTimeString()}
+                                    </span>
+                                  </div>
+                                  {!isSent && <div className="message-sender"><em>{message.sender?.fullname || message.sender_type}</em></div>}
                                 </div>
                               );
                             })}
@@ -229,7 +233,9 @@ const Messages = () => {
                     <div className="parent-container p-0">
                       <Card className="select-conversation-card">
                         <Card.Body>
-                          <div className="select-conversation-text">Select a conversation to view messages</div>
+                          <div className="select-conversation-text">
+                            💬 Start chatting with your vendors or purchasers
+                          </div>
                         </Card.Body>
                       </Card>
                     </div>
