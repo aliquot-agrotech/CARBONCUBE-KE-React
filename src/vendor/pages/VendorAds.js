@@ -32,6 +32,7 @@ const VendorAds = () => {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [alertVisible, setAlertVisible] = useState(false);
     const [adToDelete, setAdToDelete] = useState(null);
+    const [editedImages, setEditedImages] = useState([]);
 
     // const [selectedImages, setSelectedImages] = useState([]);
     // const [files, setFiles] = useState([]);
@@ -229,7 +230,9 @@ const VendorAds = () => {
         });
     };
     
-    const handleAddNewAd = async () => {
+    const handleAddNewAd = async (e) => {
+        if (e && e.preventDefault) e.preventDefault(); // ✅ Prevent page reload
+
         try {
             // Ensure state is reset and uploading starts immediately
             setUploading(true);
@@ -377,35 +380,6 @@ const VendorAds = () => {
     };
     
 
-    const handleDeleteAd = async (adId) => {
-        console.log('Delete ad clicked for ad ID:', adId);
-        
-        const confirmed = window.confirm("Are you sure you want to delete this ad?");
-        if (!confirmed) return; // Exit if the user cancels the deletion
-        
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/ads/${adId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                },
-            });
-    
-            if (!response.ok) {
-                throw new Error('Failed to delete the ad.');
-            }
-    
-            // If the ad was successfully deleted, remove it from the local state
-            setAds(prevAds => prevAds.filter(ad => ad.id !== adId));
-    
-            console.log('Ad deleted successfully');
-        } catch (error) {
-            console.error('Error deleting ad:', error);
-            alert('There was an error deleting the ad. Please try again.');
-        }
-    };
-    
-
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
@@ -418,48 +392,75 @@ const VendorAds = () => {
         setShowDetailsModal(false);
         setShowEditModal(false);
         setShowAddModal(false);
+        setEditedImages([]); // reset new image files
     };
 
     const handleSaveEdit = async () => {
         setIsSaving(true);
+
         try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/ads/${editedAd.id}`, {
-            method: 'PUT',
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-            },
-            body: JSON.stringify({ ad: {
-            title: editedAd.title,
-            description: editedAd.description,
-            category_id: editedAd.category_id, // Ensure it's category_id
-            subcategory_id: editedAd.subcategory_id, // Ensure it's subcategory_id
-            price: editedAd.price,
-            quantity: editedAd.quantity,
-            brand: editedAd.brand,
-            manufacturer: editedAd.manufacturer,
-            condition: editedAd.condition,
-            item_length: editedAd.item_length,
-            item_width: editedAd.item_width,
-            item_height: editedAd.item_height,
-            item_weight: editedAd.item_weight,
-            weight_unit: editedAd.weight_unit,
-            flagged: editedAd.flagged,
-            media: editedAd.media // Only include media if applicable
-            } }),
-        });
-    
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-    
-        const updatedAd = await response.json();
-        setAds(ads.map(p => p.id === updatedAd.id ? updatedAd : p));
-        setShowEditModal(false);
+            const formData = new FormData();
+            formData.append('ad[title]', editedAd.title);
+            formData.append('ad[description]', editedAd.description);
+            formData.append('ad[category_id]', editedAd.category_id);
+            formData.append('ad[subcategory_id]', editedAd.subcategory_id);
+            formData.append('ad[price]', editedAd.price);
+            formData.append('ad[quantity]', editedAd.quantity);
+            formData.append('ad[brand]', editedAd.brand);
+            formData.append('ad[manufacturer]', editedAd.manufacturer);
+            formData.append('ad[condition]', editedAd.condition);
+            formData.append('ad[item_length]', editedAd.item_length);
+            formData.append('ad[item_width]', editedAd.item_width);
+            formData.append('ad[item_height]', editedAd.item_height);
+            formData.append('ad[item_weight]', editedAd.item_weight);
+            formData.append('ad[weight_unit]', editedAd.weight_unit);
+
+            // 🔍 NSFW filtering for uploaded images
+            if (editedImages && editedImages.length > 0) {
+                await loadNSFWModel();
+
+                const safeImages = [];
+
+                for (let file of editedImages) {
+                    const isUnsafe = await checkImage(file);
+                    if (!isUnsafe) {
+                        safeImages.push(file);
+                    } else {
+                        console.warn("Unsafe image blocked:", file.name);
+                    }
+                }
+
+                if (safeImages.length === 0) {
+                    alert("All selected images were flagged and blocked.");
+                    setIsSaving(false);
+                    return;
+                }
+
+                safeImages.forEach((file) => {
+                    formData.append("ad[media][]", file);
+                });
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/ads/${editedAd.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const updatedAd = await response.json();
+            setAds(ads.map(p => p.id === updatedAd.id ? updatedAd : p));
+            setShowEditModal(false);
+            setEditedImages([]); // Reset after successful update
         } catch (error) {
-        console.error('Error saving changes:', error);
+            console.error('Error saving changes:', error);
         } finally {
-        setIsSaving(false);
+            setIsSaving(false);
         }
     };
 
@@ -470,52 +471,6 @@ const VendorAds = () => {
             [name]: value,
         }));
     };
-
-    // Function to handle adding images for edited ad
-    const handleAddImages = async () => {
-        try {
-            const fileInput = document.querySelector('input[type="file"]');
-            if (!fileInput.files.length) {
-                alert("Please select an image.");
-                return;
-            }
-    
-            const file = fileInput.files[0];
-    
-            await loadNSFWModel();
-            const isUnsafe = await checkImage(file);
-    
-            if (isUnsafe) {
-                alert("This image contains explicit content and cannot be uploaded.");
-                return;
-            }
-    
-            const formData = new FormData();
-            formData.append('ad[media][]', file);
-    
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/ads/${editedAd.id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                },
-                body: formData, 
-            });
-    
-            if (!response.ok) {
-                throw new Error('Failed to update ad');
-            }
-    
-            const updatedAd = await response.json();
-    
-            setEditedAd(updatedAd);
-            setAds(prevAds => prevAds.map(p => p.id === updatedAd.id ? updatedAd : p));
-    
-            setNewImageUrl('');
-            console.log('Image added successfully');
-        } catch (error) {
-            console.error('Error adding image:', error);
-        }
-    };    
 
     const handleFileSelect = async (files) => {
         if (files.length > 0) {
@@ -944,7 +899,6 @@ const VendorAds = () => {
                     </Modal.Header>
                     <Modal.Body className="p-1 p-lg-2">
                         <Form>
-
                             <Form.Group className="mb-3">
                                 {editedAd.media && editedAd.media.length > 0 ? (
                                     <Carousel>
@@ -1084,22 +1038,38 @@ const VendorAds = () => {
 
                             <Form.Group className="d-flex flex-column align-items-center mb-1 mb-lg-3">
                                 <Form.Label className="text-center mb-0 fw-bold">Add Images</Form.Label>
-                                <Form.Control 
+                                <Form.Control
                                     type="file"
                                     id="button"
                                     accept="image/*"
                                     multiple
-                                    onChange={(e) => handleFileSelect(e.target.files)}
+                                    onChange={(e) => {
+                                    const files = Array.from(e.target.files);
+                                    setEditedImages((prev) => [...prev, ...files]); // append to current
+                                    }}
                                 />
-                                <Button 
-                                    variant="warning"
-                                    onClick={handleAddImages} 
-                                    className="mt-2"
-                                    id="button"
-                                >
-                                    Upload and Add Images
-                                </Button>
+
+                                {editedImages.length > 0 && (
+                                    <div className="image-preview d-flex flex-wrap justify-content-center mt-3">
+                                        {editedImages.map((file, index) => (
+                                            <div key={index} className="m-1">
+                                                <img
+                                                    src={URL.createObjectURL(file)}
+                                                    alt={`new-img-${index}`}
+                                                    style={{
+                                                    width: '80px',
+                                                    height: '80px',
+                                                    objectFit: 'cover',
+                                                    borderRadius: '5px',
+                                                    border: '1px solid #ccc'
+                                                    }}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </Form.Group>
+
 
                             <Form.Group className="d-flex flex-column align-items-center">
                                 <Form.Label className="text-center mb-0 fw-bold">Description</Form.Label>
@@ -1549,6 +1519,7 @@ const VendorAds = () => {
 
                         {/* Buttons */}
                         <Button 
+                            type="button"
                             variant="warning" 
                             onClick={handleAddNewAd} 
                             disabled={uploading}
