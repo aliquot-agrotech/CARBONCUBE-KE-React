@@ -172,7 +172,7 @@ const Messages = () => {
                                 className={`conversation-card ${participantType} ${selectedConversation?.id === conversation.id ? 'active' : ''} ${pullOverClass}`}
                                 onClick={() => handleConversationClick(conversation)}
                               >
-                                <Card.Body className="text-center">
+                                <Card.Body className="text-center p-3">
                                   <FontAwesomeIcon icon={faEnvelopeOpenText} /> {participant?.fullname || 'Unknown'}
                                 </Card.Body>
                               </Card>
@@ -182,7 +182,7 @@ const Messages = () => {
                     </Card.Body>
                   </Card>
                 </Col>
-                <Col xs={12} md={10} lg={9}className="messages-list ">
+                <Col xs={12} md={10} lg={9} className="messages-list ">
                   {selectedConversation ? (
                     <Card className="message-container mt-2 mt-lg-4">
                       <Card.Header className="messages-header d-flex align-items-center justify-content-center gap-2">
