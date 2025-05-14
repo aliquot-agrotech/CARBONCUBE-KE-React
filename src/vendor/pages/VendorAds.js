@@ -502,29 +502,25 @@ const VendorAds = () => {
 
     const handleDeleteImage = async (index) => {
         try {
-            // Filter out the image at the specific index
-            const updatedMedia = editedAd.media.filter((_, i) => i !== index);
+            const updatedMedia = [...editedAd.media];
+            updatedMedia.splice(index, 1); // remove image by index
 
-            // Send a PATCH request to update the ad's media array in the database
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/ads/${editedAd.id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                },
-                body: JSON.stringify({ ad: { media: updatedMedia } }),
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+            },
+            body: JSON.stringify({ ad: { media: updatedMedia } }),
             });
 
-            if (!response.ok) {
-                throw new Error('Failed to update ad');
-            }
+            if (!response.ok) throw new Error('Failed to update ad');
 
             const updatedAd = await response.json();
 
-            // Update the ad in the local state
             setEditedAd(updatedAd);
             setAds(prevAds => 
-                prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
+            prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
             );
 
             console.log('Image deleted successfully');
@@ -913,9 +909,9 @@ const VendorAds = () => {
                                             <Button 
                                                 variant="danger"
                                                 className="delete-button"
-                                                onClick={() => handleDeleteImage(index)}  // Pass the index to delete the correct image
+                                                onClick={() => handleDeleteImage(index)}
                                             >
-                                                <FontAwesomeIcon icon={faTrash} />
+                                            <FontAwesomeIcon icon={faTrash} />
                                             </Button>
                                         </Carousel.Item>
                                     ))}
