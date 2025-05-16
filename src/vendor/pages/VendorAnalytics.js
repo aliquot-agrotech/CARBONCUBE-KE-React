@@ -31,7 +31,7 @@ const VendorAnalytics = () => {
         }
 
         const data = await response.json();
-        console.log('API Response:', data);
+        // console.log('API Response:', data);
 
         const validatedAnalytics = {
           tier_id: data.tier_id || 1,
@@ -72,7 +72,7 @@ const VendorAnalytics = () => {
           }
         };
 
-        console.log('Validated Analytics:', validatedAnalytics);
+        // console.log('Validated Analytics:', validatedAnalytics);
 
         setTierId(validatedAnalytics.tier_id);
         setAnalyticsData(validatedAnalytics);
