@@ -2,13 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { Navbar, Container, Nav, Button, Form, FormControl, Dropdown, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import Spinner from "react-spinkit";
 import './TopNavbar.css';
+
+// Custom hook for debouncing search inputs
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 
 const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, handleSearch }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedSubcategory, setSelectedSubcategory] = useState('All');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const debouncedSearchQuery = useDebounce(searchQuery, 500); // 500ms debounce
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -50,19 +70,55 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
     setIsLoggedIn(!!token);
   }, []);
 
-  const handleCategorySelect = (categoryId) => {
+  // Auto-search when category/subcategory changes, but with loading indicator
+  const handleCategorySelect = async (categoryId) => {
     setSelectedCategory(categoryId);
     setSelectedSubcategory('All');
+    setIsSearchLoading(true);
+    try {
+      await handleSearch({ preventDefault: () => {} }, categoryId, 'All');
+    } finally {
+      setIsSearchLoading(false);
+    }
   };
 
-  const handleSubcategorySelect = (subcategoryId) => {
+  const handleSubcategorySelect = async (subcategoryId) => {
     setSelectedSubcategory(subcategoryId);
+    setIsSearchLoading(true);
+    try {
+      await handleSearch({ preventDefault: () => {} }, selectedCategory, subcategoryId);
+    } finally {
+      setIsSearchLoading(false);
+    }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    handleSearch(e, selectedCategory, selectedSubcategory);
+    setIsSearchLoading(true);
+    try {
+      await handleSearch(e, selectedCategory, selectedSubcategory);
+    } finally {
+      setIsSearchLoading(false);
+    }
   };
+
+  // Auto-search when search term changes (debounced)
+  useEffect(() => {
+    if (debouncedSearchQuery !== searchQuery) {
+      const autoSearch = async () => {
+        setIsSearchLoading(true);
+        try {
+          await handleSearch({ preventDefault: () => {} }, selectedCategory, selectedSubcategory);
+        } finally {
+          setIsSearchLoading(false);
+        }
+      };
+      
+      if (debouncedSearchQuery.length > 2 || debouncedSearchQuery.length === 0) {
+        autoSearch();
+      }
+    }
+  }, [debouncedSearchQuery]);
 
   const handleLogout = () => {
     sessionStorage.removeItem('token');
@@ -146,8 +202,12 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               />
             </div>
 
-            <Button variant="warning" type="submit" id="button">
-              <FontAwesomeIcon icon={faSearch} />
+            <Button variant="warning" type="submit" id="button" disabled={isSearchLoading}>
+              {isSearchLoading ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                <FontAwesomeIcon icon={faSearch} />
+              )}
             </Button>
           </Form>
 

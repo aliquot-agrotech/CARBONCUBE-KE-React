@@ -13,6 +13,7 @@ import '../css/Home.css';
 const Home = () => {
     const [categories, setCategories] = useState([]);
     const [ads, setAds] = useState({});
+    const [allAds, setAllAds] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -132,32 +133,31 @@ const Home = () => {
     const handleSearch = async (e, category = 'All', subcategory = 'All') => {
         e.preventDefault();
         setIsSearching(true);
-    
+
         try {
-            // Fetch search results
             const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}`, 
+                `${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}&page=1&per_page=20`,
                 {
                     headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }
             );
-    
+
             if (!response.ok) throw new Error('Failed to fetch search results');
-    
+
             const results = await response.json();
             setSearchResults(results);
-    
+
             // Log the ad search to the backend
             await logAdSearch(searchQuery, category, subcategory);
-    
         } catch (error) {
             setError('Error searching ads');
         } finally {
             setIsSearching(false);
         }
     };
+
     
     // Function to log the ad search
     const logAdSearch = async (query, category, subcategory) => {
@@ -185,6 +185,7 @@ const Home = () => {
 
     const getBorderColor = (tierId) => {
         const tierColors = {
+            1: '#F0FFF0',  // Free (Blue)
             2: '#FF5733',  // Basic (Red-Orange)
             3: '#28A745',  // Standard (Bright Green)
             4: '#FFC107',  // Premium (Gold-like yellow)
@@ -357,15 +358,18 @@ const Home = () => {
                                             style={{
                                                 position: 'absolute',
                                                 top: '0px',
-                                                left: '0px',
-                                                padding: '0px 5px',
-                                                fontSize: '12px',
-                                                backgroundColor: borderColor, // Match background to border color
-                                                borderRadius: '4px',
-                                                zIndex: 20,
+                                                right: '-3px',
+                                                padding: '2px 6px',
+                                                fontSize: '11px',
+                                                backgroundColor: borderColor,
+                                                borderTopLeftRadius: '0px',
+                                                borderTopRightRadius: '4px',
+                                                borderBottomRightRadius: '0px',
+                                                borderBottomLeftRadius: '6px',
+                                                zIndex: 2,
                                             }}
                                         >
-                                            {ad.tier_name}
+                                            {ad.tier_name || "Free"} {/* Show tier name, default to "Free" */}
                                         </div>
                                         
                                         <Card.Img
