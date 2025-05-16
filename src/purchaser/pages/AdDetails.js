@@ -693,12 +693,12 @@ const AdDetails = () => {
                                             {/* Ad Info */}
                                             <Col xs={12} md={4}>
                                                 <h3 className="display-6 text-dark mb-3">{ad.title}</h3>
-                                                <div className="mb-3">
+                                                <div className="mb-2">
                                                     <p><strong>Brand:</strong> {ad.brand}</p>
                                                     <p><strong>Manufacturer:</strong> {ad.manufacturer}</p>
                                                     <p><strong>Category:</strong> {ad.category_name}</p>
                                                     <p><strong>Subcategory:</strong> {ad.subcategory_name}</p>
-                                                    <p>
+                                                    <p className="mb-0">
                                                         <strong>Condition:</strong>{' '}
                                                         <span
                                                             style={{
@@ -717,6 +717,7 @@ const AdDetails = () => {
 
                                                 {/* Rating */}
                                                 <div onClick={handleShowModal} className="cursor-pointer mb-3">
+                                                    <p className="mb-0"><strong>Product rating:</strong></p>
                                                     <span className="star-rating">{renderRatingStars(ad.mean_rating, ad.review_count)}</span>
                                                 </div>
 
