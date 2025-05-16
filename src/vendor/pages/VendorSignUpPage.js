@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
@@ -23,22 +23,57 @@ function VendorSignUpPage({ onSignup }) {
     birthdate: '',
     gender: '',
     city: '',
-    zipcode: ''
+    zipcode: '',
+    county_id: '',
+    sub_county_id: ''
   });
   
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const [counties, setCounties] = useState([]);
+  const [subCounties, setSubCounties] = useState([]);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
     setErrors({
       ...errors,
-      [e.target.name]: null,
+      [name]: null,
     });
   };
+
+  useEffect(() => {
+    const fetchCounties = async () => {
+      try {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/counties`);
+        const data = await res.json();
+        setCounties(data);
+      } catch (err) {
+        console.error("Failed to fetch counties", err);
+      }
+    };
+    fetchCounties();
+  }, []);
+
+  useEffect(() => {
+    const fetchSubCounties = async () => {
+      if (formData.county_id) {
+        try {
+          const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/counties/${formData.county_id}/sub_counties`);
+          const data = await res.json();
+          setSubCounties(data);
+        } catch (err) {
+          console.error("Failed to fetch sub-counties", err);
+        }
+      } else {
+        setSubCounties([]);
+      }
+    };
+    fetchSubCounties();
+  }, [formData.county_id]);
 
   const validatePassword = () => {
     let isValid = true;
@@ -357,7 +392,47 @@ function VendorSignUpPage({ onSignup }) {
                   </Row>
 
                   <Row>
-                  <Col xs={6} md={6}>
+                    <Col xs={6}>
+                      <Form.Group>
+                        <Form.Select
+                          name="county_id"
+                          value={formData.county_id}
+                          id="button"
+                          onChange={handleChange}
+                          className="mb-2 text-center"
+                          isInvalid={!!errors.county_id}
+                        >
+                          <option value="">Select County</option>
+                          {counties.map((county) => (
+                            <option key={county.id} value={county.id}>{county.name}</option>
+                          ))}
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">{errors.county_id}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={6}>
+                      <Form.Group>
+                        <Form.Select
+                          name="sub_county_id"
+                          value={formData.sub_county_id}
+                          onChange={handleChange}
+                          className="mb-2 text-center"
+                          id="button"
+                          isInvalid={!!errors.sub_county_id}
+                          disabled={!formData.county_id}
+                        >
+                          <option value="">Select Sub-County</option>
+                          {subCounties.map((sub) => (
+                            <option key={sub.id} value={sub.id}>{sub.name}</option>
+                          ))}
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">{errors.sub_county_id}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col xs={6} md={6}>
                       <Form.Group>
                         <Form.Control
                           type="password"
