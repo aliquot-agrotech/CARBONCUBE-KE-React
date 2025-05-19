@@ -31,6 +31,8 @@ function PurchaserSignUpPage({ onSignup }) {
   const [options, setOptions] = useState({ incomes: [], sectors: [], educations: [], employments: [] });
   const navigate = useNavigate();
   const [terms, setTerms] = useState(false);
+  const [counties, setCounties] = useState([]);
+  const [subCounties, setSubCounties] = useState([]);
 
   useEffect(() => {
     // Fetch options for dropdowns from the API
@@ -68,6 +70,36 @@ function PurchaserSignUpPage({ onSignup }) {
     });
   };
 
+  useEffect(() => {
+      const fetchCounties = async () => {
+        try {
+          const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/counties`);
+          const data = await res.json();
+          setCounties(data);
+        } catch (err) {
+          console.error("Failed to fetch counties", err);
+        }
+      };
+      fetchCounties();
+    }, []);
+  
+    useEffect(() => {
+      const fetchSubCounties = async () => {
+        if (formData.county_id) {
+          try {
+            const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/counties/${formData.county_id}/sub_counties`);
+            const data = await res.json();
+            setSubCounties(data);
+          } catch (err) {
+            console.error("Failed to fetch sub-counties", err);
+          }
+        } else {
+          setSubCounties([]);
+        }
+      };
+      fetchSubCounties();
+    }, [formData.county_id]);
+
   const validatePassword = () => {
     let isValid = true;
     const newErrors = {};
@@ -89,26 +121,15 @@ function PurchaserSignUpPage({ onSignup }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validatePassword()) {
-      return; 
-    }
-    
-    try {
-    
-      // console.log("Form submitted successfully:", formData);
-    
-    } catch (error) {
-      // console.error("Error during submission:", error);
-    }
-  
+    if (!validateForm()) return;         // ✅ CHECK terms
+    if (!validatePassword()) return;     // ✅ CHECK password match / length
+
     const payload = {
       purchaser: {
         ...formData
       }
     };
-  
-    // console.log("Form Data before submission:", payload);
-  
+
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/purchaser/signup`, payload, {
         headers: {
@@ -121,10 +142,10 @@ function PurchaserSignUpPage({ onSignup }) {
         navigate('/login');
       }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.errors) {
+      if (err.response?.data?.errors) {
         const serverErrors = {};
         err.response.data.errors.forEach(error => {
-          const [field, message] = error.split(': ');
+          const [field, message] = error.includes(': ') ? error.split(': ') : ['general', error];
           serverErrors[field.toLowerCase()] = message;
         });
         setErrors(serverErrors);
@@ -430,6 +451,46 @@ function PurchaserSignUpPage({ onSignup }) {
                           ))}
                         </Form.Control>
                         <Form.Control.Feedback type="invalid">{errors.income_id}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  
+                  <Row>
+                    <Col xs={6}>
+                      <Form.Group>
+                        <Form.Select
+                          name="county_id"
+                          value={formData.county_id}
+                          id="button"
+                          onChange={handleChange}
+                          className="mb-2 text-center"
+                          isInvalid={!!errors.county_id}
+                        >
+                          <option value="">Select County</option>
+                          {counties.map((county) => (
+                            <option key={county.id} value={county.id}>{county.name}</option>
+                          ))}
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">{errors.county_id}</Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={6}>
+                      <Form.Group>
+                        <Form.Select
+                          name="sub_county_id"
+                          value={formData.sub_county_id}
+                          onChange={handleChange}
+                          className="mb-2 text-center"
+                          id="button"
+                          isInvalid={!!errors.sub_county_id}
+                          disabled={!formData.county_id}
+                        >
+                          <option value="">Select Sub-County</option>
+                          {subCounties.map((sub) => (
+                            <option key={sub.id} value={sub.id}>{sub.name}</option>
+                          ))}
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">{errors.sub_county_id}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                   </Row>
