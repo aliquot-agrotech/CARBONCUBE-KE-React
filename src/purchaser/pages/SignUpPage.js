@@ -30,7 +30,7 @@ function PurchaserSignUpPage({ onSignup }) {
   const [errors, setErrors] = useState({});
   const [options, setOptions] = useState({ incomes: [], sectors: [], educations: [], employments: [] });
   const navigate = useNavigate();
-
+  const [terms, setTerms] = useState(false);
 
   useEffect(() => {
     // Fetch options for dropdowns from the API
@@ -88,10 +88,7 @@ function PurchaserSignUpPage({ onSignup }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return; 
-    }
-  
+
     if (!validatePassword()) {
       return; 
     }
@@ -140,7 +137,7 @@ function PurchaserSignUpPage({ onSignup }) {
   const validateForm = () => {
     const newErrors = {};
   
-    if (!formData.terms) {
+    if (!terms) {
       newErrors.terms = "You must agree to the terms and conditions.";
     }
   
@@ -475,22 +472,17 @@ function PurchaserSignUpPage({ onSignup }) {
                       type="checkbox"
                       label="Agree to Terms and Conditions and receiving of SMS, emails and promotion notifications."
                       name="terms"
-                      checked={formData.terms || false} // Bind the checkbox to formData
-                      onChange={(e) =>
-                        handleChange({
-                          target: { name: 'terms', value: e.target.checked },
-                        })
-                      }
-                      isInvalid={!!errors.terms}
+                      checked={terms}
+                      onChange={(e) => setTerms(e.target.checked)}
                     />
-                    <Form.Control.Feedback type="invalid">{errors.terms}</Form.Control.Feedback>
+                    {errors.terms && <div className="text-danger mt-1">{errors.terms}</div>}
                   </Form.Group>
 
                   <Button
                     variant="warning"
                     type="submit"
                     className="w-100 mb-0 rounded-pill"
-                    disabled={!formData.terms} // Disable the button until terms are agreed to
+                    disabled={!terms} // Disable the button until terms are agreed to
                   >
                     Sign Up
                   </Button>
