@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Trash, CartPlus } from "react-bootstrap-icons";
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import '../css/WishLists.css';
 
 const WishList = () => {
   const [wish_lists, setWishLists] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWishLists = async () => {
@@ -52,6 +54,44 @@ const WishList = () => {
     }
   };
 
+  const handleAdClick = async (adId) => {
+    if (!adId) {
+      console.error('Invalid adId');
+      return;
+    }
+
+    try {
+      await logClickEvent(adId, 'Ad-Click');
+      navigate(`/ads/${adId}`);
+    } catch (error) {
+      console.error('Error logging ad click:', error);
+      navigate(`/ads/${adId}`); // Fallback navigation
+    }
+  };
+
+  // Function to log a click event
+  const logClickEvent = async (adId, eventType) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/click_events`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+          },
+          body: JSON.stringify({
+              ad_id: adId,
+              event_type: eventType, // e.g., 'Ad-Click'
+          }),
+      });
+      
+      if (!response.ok) {
+          console.warn('Failed to log click event');
+      }
+    } catch (error) {
+        console.error('Error logging click event:', error);
+    }
+  };
+
   return (
     <>
       <TopNavbar />
@@ -71,7 +111,14 @@ const WishList = () => {
                     wish_lists.map((wish_list) => (
                       <Col key={wish_list.ad.id} md={3} className="mb-4">
                         <Card>
-                          <Card.Img variant="top" src={wish_list.ad.first_media_url} />
+                          <Card.Img
+                            variant="top"
+                            src={wish_list.ad.first_media_url}
+                            alt={wish_list.ad.title}
+                            className="ad-image"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => handleAdClick(wish_list.ad.id)}
+                          />
                           <Card.Body className="p-2 wish_list-body">
                             <div className="d-flex justify-content-between align-items-center">
                               <div>
