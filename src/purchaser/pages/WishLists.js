@@ -52,22 +52,6 @@ const WishList = () => {
     }
   };
 
-  const handleAddToCart = async (adId) => {
-    try {
-      await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/cart_items`, {
-        method: 'POST',
-        headers: {
-          "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ ad_id: adId })
-      });
-      window.alert("Ad added to cart!");
-    } catch (error) {
-      // console.error("Error adding to cart:", error);
-    }
-  };
-
   return (
     <>
       <TopNavbar />
@@ -89,39 +73,36 @@ const WishList = () => {
                         <Card>
                           <Card.Img variant="top" src={wish_list.ad.first_media_url} />
                           <Card.Body className="p-2 wish_list-body">
-                            <Card.Title>{wish_list.ad.title}</Card.Title>
-                            <Card.Text >
-                              <em className='ad-price-label' style={{ fontSize: '13px' }}>Kshs: </em>
-                              <strong className="text-success">
-                                {wish_list.ad.price ? parseFloat(wish_list.ad.price).toFixed(2).split('.').map((part, index) => (
-                                  <React.Fragment key={index}>
-                                    {index === 0 ? (
-                                      <span className="price-integer">
-                                        {parseInt(part, 10).toLocaleString()}
-                                      </span>
-                                    ) : (
-                                      <>
-                                        <span style={{ fontSize: '16px' }}>.</span>
-                                        <span className="price-decimal">{part}</span>
-                                      </>
-                                    )}
-                                  </React.Fragment>
-                                )) : 'N/A'}
-                              </strong>
-
-                              <br />
-                              {/* Rating: 
-                              <span className="stars">
-                                {"★".repeat(wish_list.ad.rating)}{" "}
-                                {"☆".repeat(5 - wish_list.ad.rating)}
-                              </span> */}
-                            </Card.Text>
-                            <div className="d-flex justify-content-between">
-                              <Button variant="danger" id="button" onClick={() => handleDeleteWishList(wish_list.ad.id)}>
+                            <div className="d-flex justify-content-between align-items-center">
+                              <div>
+                                <Card.Title className="mb-1">{wish_list.ad.title}</Card.Title>
+                                <Card.Text className="mb-0">
+                                  <em className='ad-price-label' style={{ fontSize: '13px' }}>Kshs: </em>
+                                  <strong className="text-danger" style={{ fontSize: '18px' }}>
+                                    {wish_list.ad.price ? parseFloat(wish_list.ad.price).toFixed(2).split('.').map((part, index) => (
+                                      <React.Fragment key={index}>
+                                        {index === 0 ? (
+                                          <span className="price-integer">
+                                            {parseInt(part, 10).toLocaleString()}
+                                          </span>
+                                        ) : (
+                                          <>
+                                            <span style={{ fontSize: '16px' }}>.</span>
+                                            <span className="price-decimal">{part}</span>
+                                          </>
+                                        )}
+                                      </React.Fragment>
+                                    )) : 'N/A'}
+                                  </strong>
+                                </Card.Text>
+                              </div>
+                              
+                              <Button
+                                variant="danger"
+                                id="button"
+                                onClick={() => handleDeleteWishList(wish_list.ad.id)}
+                              >
                                 <Trash />
-                              </Button>
-                              <Button variant="warning" id="button" onClick={() => handleAddToCart(wish_list.ad.id)}>
-                                <CartPlus />
                               </Button>
                             </div>
                           </Card.Body>

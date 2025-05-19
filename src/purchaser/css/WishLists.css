@@ -1,4 +1,4 @@
-.bookmarks-page {
+.wish_lists-page {
     background-color: #e0e0e0;
     font-family: "Fira Sans Extra Condensed", sans-serif;
     font-weight: 400;
@@ -10,13 +10,13 @@
     overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
-.bookmark-body {
+.wish_list-body {
     background-color: #ededed;
     text-align: start;
 }
 
 @media screen and (max-width: 767px) {
-    .bookmarks-page h2 {
+    .wish_lists-page h2 {
         text-align: center;
     }
 }
