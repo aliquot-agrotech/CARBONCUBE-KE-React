@@ -8,7 +8,7 @@ import PurchaserInsights from '../components/PurchaserInsights';
 import VendorInsights from '../components/VendorInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics';
 import CategoryWishlists from '../components/CategoryWishlists';
-import { AgeGroupChart, GenderDistributionChart, EmploymentChart, IncomeChart, EducationChart, SectorChart } from "../components/PurchaserDemographics";
+import { PurchaserAgeGroupChart, GenderDistributionChart, EmploymentChart, IncomeChart, EducationChart, SectorChart } from "../components/PurchaserDemographics";
 import { VendorAgeGroupChart, VendorGenderDistributionChart, VendorCategoryChart, VendorTierChart } from "../components/VendorDemographics";
 import Spinner from "react-spinkit";
 import '../css/AnalyticsReporting.css';
@@ -161,7 +161,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Age Group Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
-                    <AgeGroupChart data={analyticsData.age_groups} />
+                    <PurchaserAgeGroupChart data={analyticsData.purchaser_age_groups} />
                   </Card.Body>
                 </Card>
               </Col>

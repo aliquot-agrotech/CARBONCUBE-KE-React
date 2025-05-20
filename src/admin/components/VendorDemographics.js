@@ -9,7 +9,7 @@ const VendorAgeGroupChart = ({ data }) => {
     const chartData = {
         labels: Object.keys(data),
         datasets: [{
-            label: "No. of Vendors",
+            label: "Vendors",
             data: Object.values(data),
             backgroundColor: "#FF9800",
         }],
@@ -99,7 +99,7 @@ const VendorCategoryChart = ({ data }) => {
     const chartData = {
         labels: data.map(s => Object.entries(s)[0][0]),
         datasets: [{
-            label: "No. of Vendors",
+            label: "Vendors",
             data: data.map(s => Object.entries(s)[0][1]),
             backgroundColor: "#FF9800",
         }],
