@@ -18,7 +18,7 @@ function PurchaserSignUpPage({ onSignup }) {
     location: '',
     password: '',
     password_confirmation: '',
-    birthdate: '',
+    age_group_id: '',
     gender: '',
     city: '',
     zipcode: '',
@@ -28,7 +28,7 @@ function PurchaserSignUpPage({ onSignup }) {
     employment_id: ''
   });
   const [errors, setErrors] = useState({});
-  const [options, setOptions] = useState({ incomes: [], sectors: [], educations: [], employments: [] });
+  const [options, setOptions] = useState({ incomes: [], sectors: [], educations: [], employments: [], age_groups: [] });
   const navigate = useNavigate();
   const [terms, setTerms] = useState(false);
   const [counties, setCounties] = useState([]);
@@ -38,17 +38,19 @@ function PurchaserSignUpPage({ onSignup }) {
     // Fetch options for dropdowns from the API
     const fetchOptions = async () => {
       try {
-        const [incomeRes, sectorRes, educationRes, employmentRes] = await Promise.all([
+        const [incomeRes, sectorRes, educationRes, employmentRes, age_groupRes] = await Promise.all([
           axios.get(`${process.env.REACT_APP_BACKEND_URL}/incomes`),
           axios.get(`${process.env.REACT_APP_BACKEND_URL}/sectors`),
           axios.get(`${process.env.REACT_APP_BACKEND_URL}/educations`),
           axios.get(`${process.env.REACT_APP_BACKEND_URL}/employments`),
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/age_groups`),
         ]);
         setOptions({
           incomes: incomeRes.data,
           sectors: sectorRes.data,
           educations: educationRes.data,
           employments: employmentRes.data,
+          age_groups: age_groupRes.data,
         });
       } catch (error) {
         console.error('Error fetching dropdown options:', error);
@@ -301,8 +303,7 @@ function PurchaserSignUpPage({ onSignup }) {
                   <Row>
                     <Col xs={6} md={6}>
                       <Form.Group>
-                        <div className="dropdown-container">
-                          <Form.Control
+                          <Form.Select
                             as="select"
                             name="gender"
                             className="text-center rounded-pill mb-2"
@@ -318,14 +319,13 @@ function PurchaserSignUpPage({ onSignup }) {
                                 {gender}
                               </option>
                             ))}
-                          </Form.Control>
-                        </div>
+                          </Form.Select>
                         <Form.Control.Feedback type="invalid">
                           {errors.gender}
                         </Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col xs={6} md={6}>
+                    {/* <Col xs={6} md={6}>
                       <Form.Group>
                         <div className="position-relative">
                           <ReactDatePicker
@@ -365,13 +365,33 @@ function PurchaserSignUpPage({ onSignup }) {
                           )}
                         </div>
                       </Form.Group>
+                    </Col> */}
+                    <Col xs={6} md={6}>
+                      <Form.Group>
+                        <Form.Select
+                          as="select"
+                          name="age_group_id"
+                          className="text-center rounded-pill mb-2"
+                          value={formData.age_group_id}
+                          onChange={handleChange}
+                          isInvalid={!!errors.age_group_id}
+                        >
+                          <option value="" disabled hidden>Select Age</option>
+                          {options.age_groups.map((age_group) => (
+                            <option key={age_group.id} value={age_group.id}>
+                              {age_group.name}
+                            </option>
+                          ))}
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">{errors.age_group_id}</Form.Control.Feedback>
+                      </Form.Group>
                     </Col>
                   </Row>
 
                   <Row>
                   <Col xs={6} md={6}>
                       <Form.Group>
-                        <Form.Control
+                        <Form.Select
                           as="select"
                           name="education_id"
                           className="text-center rounded-pill mb-2"
@@ -385,14 +405,14 @@ function PurchaserSignUpPage({ onSignup }) {
                               {education.level}
                             </option>
                           ))}
-                        </Form.Control>
+                        </Form.Select>
                         <Form.Control.Feedback type="invalid">{errors.education_id}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
 
                     <Col xs={6} md={6}>
                       <Form.Group>
-                        <Form.Control
+                        <Form.Select
                           as="select"
                           name="employment_id"
                           className="text-center rounded-pill mb-2"
@@ -406,7 +426,7 @@ function PurchaserSignUpPage({ onSignup }) {
                               {employment.status}
                             </option>
                           ))}
-                        </Form.Control>
+                        </Form.Select>
                         <Form.Control.Feedback type="invalid">{errors.employment_id}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
@@ -415,7 +435,7 @@ function PurchaserSignUpPage({ onSignup }) {
                   <Row>
                     <Col xs={6} md={6}>
                       <Form.Group>
-                        <Form.Control
+                        <Form.Select
                           as="select"
                           name="sector_id"
                           className="text-center rounded-pill mb-2"
@@ -429,13 +449,13 @@ function PurchaserSignUpPage({ onSignup }) {
                               {sector.name}
                             </option>
                           ))}
-                        </Form.Control>
+                        </Form.Select>
                         <Form.Control.Feedback type="invalid">{errors.sector_id}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
                     <Col xs={6} md={6}>
                       <Form.Group>
-                        <Form.Control
+                        <Form.Select
                           as="select"
                           name="income_id"
                           className="text-center rounded-pill mb-2"
@@ -449,7 +469,7 @@ function PurchaserSignUpPage({ onSignup }) {
                               {income.range}
                             </option>
                           ))}
-                        </Form.Control>
+                        </Form.Select>
                         <Form.Control.Feedback type="invalid">{errors.income_id}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
