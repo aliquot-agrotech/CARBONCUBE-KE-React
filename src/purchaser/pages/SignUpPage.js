@@ -25,7 +25,9 @@ function PurchaserSignUpPage({ onSignup }) {
     income_id: '',
     sector_id: '',
     education_id: '',
-    employment_id: ''
+    employment_id: '',
+    county_id: '',             // ✅ Add this
+    sub_county_id: '' 
   });
   const [errors, setErrors] = useState({});
   const [options, setOptions] = useState({ incomes: [], sectors: [], educations: [], employments: [], age_groups: [] });
@@ -247,7 +249,7 @@ function PurchaserSignUpPage({ onSignup }) {
                     </Col>
                   </Row>
                   
-                  <Row>
+                  {/* <Row>
                     <Col md={12}>
                       <Form.Group>
                         <Form.Control
@@ -264,10 +266,10 @@ function PurchaserSignUpPage({ onSignup }) {
                       </Form.Group>
                     </Col>
                     
-                  </Row>
+                  </Row> */}
                   
                   <Row>
-                    <Col xs={6} md={6}>
+                    <Col xs={6} md={12}>
                     <Form.Group>
                         <Form.Control
                           type="text"
@@ -282,8 +284,8 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.city}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                    <Col xs={6} md={6}>
-                    <Form.Group>
+                    {/* <Col xs={6} md={6}>
+                      <Form.Group>
                         <Form.Control
                           type="text"
                           placeholder="Zip Code"
@@ -296,7 +298,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         />
                         <Form.Control.Feedback type="invalid">{errors.zipcode}</Form.Control.Feedback>
                       </Form.Group>
-                    </Col>
+                    </Col> */}
                     
                   </Row>
                   
@@ -388,7 +390,7 @@ function PurchaserSignUpPage({ onSignup }) {
                     </Col>
                   </Row>
 
-                  <Row>
+                  {/* <Row>
                   <Col xs={6} md={6}>
                       <Form.Group>
                         <Form.Select
@@ -430,9 +432,9 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.employment_id}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                  </Row>
+                  </Row> */}
 
-                  <Row>
+                  {/* <Row>
                     <Col xs={6} md={6}>
                       <Form.Group>
                         <Form.Select
@@ -513,7 +515,7 @@ function PurchaserSignUpPage({ onSignup }) {
                         <Form.Control.Feedback type="invalid">{errors.sub_county_id}</Form.Control.Feedback>
                       </Form.Group>
                     </Col>
-                  </Row>
+                  </Row> */}
 
                   <Row>
                     <Col md={12}>
