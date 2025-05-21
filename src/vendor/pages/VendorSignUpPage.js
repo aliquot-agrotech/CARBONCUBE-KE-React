@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import TopNavbarMinimal from '../../components/TopNavBarMinimal';
 import '../css/VendorSignUpPage.css';
 
 function VendorSignUpPage({ onSignup }) {
@@ -159,6 +160,9 @@ function VendorSignUpPage({ onSignup }) {
   let datepickerRef;
 
   return (
+    <>
+      <TopNavbarMinimal />
+
     <Container fluid className="p-0 vendor-signup-page">
       <Row className="m-0">
         <Col className="warehouse-bg">
@@ -233,16 +237,14 @@ function VendorSignUpPage({ onSignup }) {
                       </Form.Group>
                     </Col>
                   </Row>
-
                   
                   <Row>
                     <Col xs={6} md={6}>
-                      <Form.Group >
-                        <div className="dropdown-container">
-                          <Form.Control
+                      <Form.Group>
+                          <Form.Select
                             as="select"
                             name="gender"
-                            className="text-center rounded-pill mb-0"
+                            className="text-center rounded-pill mb-2"
                             value={formData.gender}
                             onChange={handleChange}
                             isInvalid={!!errors.gender}
@@ -255,8 +257,7 @@ function VendorSignUpPage({ onSignup }) {
                                 {gender}
                               </option>
                             ))}
-                          </Form.Control>
-                        </div>
+                          </Form.Select>
                         <Form.Control.Feedback type="invalid">
                           {errors.gender}
                         </Form.Control.Feedback>
@@ -515,6 +516,7 @@ function VendorSignUpPage({ onSignup }) {
         </Col>
       </Row>
     </Container>
+    </>
   );
 }
 

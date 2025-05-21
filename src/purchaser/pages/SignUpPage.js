@@ -7,6 +7,7 @@ import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import TopNavbarMinimal from '../../components/TopNavBarMinimal';
 import '../css/SignUpPage.css';
 
 function PurchaserSignUpPage({ onSignup }) {
@@ -181,6 +182,8 @@ function PurchaserSignUpPage({ onSignup }) {
   let datepickerRef;
 
   return (
+    <>
+    <TopNavbarMinimal />
     <Container fluid className="p-0 purchaser-signup-page">
       <Row className="m-0">
         <Col className="warehouse-bg">
@@ -604,6 +607,7 @@ function PurchaserSignUpPage({ onSignup }) {
         </Col>
       </Row>
     </Container>
+    </>
   );
 }
 
