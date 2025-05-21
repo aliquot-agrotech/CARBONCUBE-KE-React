@@ -32,7 +32,7 @@ import BuyForMeOrderCart from './purchaser/pages/BuyForMeOrderCart';
 import ShoppingCart from './purchaser/pages/ShoppingCart';
 import PurchaserMessages from './purchaser/pages/PurchaserMessages';
 import PurchaserNotifications from './purchaser/pages/PurchaserNotifications';
-import PurchaserSignUpPage from './purchaser/pages/SignUpPage';
+import PurchaserSignUpPage from './purchaser/pages/PurchaserSignUpPage';
 import ProfilePage from './purchaser/pages/Profile';
 import RiderSignUpPage from './rider/pages/RiderSignUpPage';
 import PrivateRoute from './components/PrivateRoute';
@@ -90,9 +90,9 @@ function App() {
         <Route path="/vendor" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
         <Route path="/home" element={<Home onLogout={handleLogout} />} />
-        <Route path="/purchasersignup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
-        <Route path="/vendorsignup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
-        <Route path="/ridersignup" element={<RiderSignUpPage onSignup={handleRiderSignup} />} />
+        <Route path="/purchaser-signup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
+        <Route path="/vendor-signup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
+        <Route path="/rider-signup" element={<RiderSignUpPage onSignup={handleRiderSignup} />} />
         <Route path="/tiers" element={<TierPage onLogout={handleLogout} />} />
 
         {isAuthenticated && userRole === 'admin' && (

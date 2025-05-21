@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopNavbarMinimal from '../../components/TopNavBarMinimal';
-import '../css/SignUpPage.css';
+import '../css/PurchaserSignUpPage.css';
 
 function PurchaserSignUpPage({ onSignup }) {
   const [formData, setFormData] = useState({
@@ -365,15 +365,15 @@ function PurchaserSignUpPage({ onSignup }) {
                   </div>
                 </Col>
                     
-                {/* Left Branding Section */}
+                {/* Right Branding Section */}
                 <Col lg={4} className="d-none d-lg-block">
                   <div className="h-100 d-flex flex-column justify-content-between text-white p-2" style={{
                     background: "linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%)"
                     }}>
                     <div className="pt-4">
                       <h2 className="fw-bold">
-                        <span className="text-white">Carbon</span>
-                        <span className="text-warning">Cube</span>
+                        <span className="text-white">Purchaser</span>
+                        <span className="text-warning">Portal</span>
                       </h2>
                       <p className="text-light opacity-75 mt-3">
                         Join to explore a world of eco-friendly products, curated just for you.
@@ -403,8 +403,14 @@ function PurchaserSignUpPage({ onSignup }) {
                     </div>
 
                     <div className="bg-dark bg-opacity-50 p-3 rounded-3 mt-2">
+                      <div className="d-flex align-items-center">
+                        {/* <div className="rounded-circle bg-warning" style={{ width: "30px", height: "30px" }}></div> */}
+                        <div className="ms-2">
+                          <small className="fw-bold">Vision:</small>
+                        </div>
+                      </div>
                       <p className="fst-italic small mb-2">
-                        "CarbonCube makes sustainable shopping easy and exciting"
+                        "To be Kenya’s most trusted and innovative online marketplace."
                       </p>
                     </div>
                   </div>

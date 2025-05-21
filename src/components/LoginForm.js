@@ -72,7 +72,7 @@ const LoginForm = ({ onLogin }) => {
                         <span className="text-warning">Cube</span>
                       </h2>
                       <p className="text-light opacity-75 mt-3">
-                        Welcome back to your CarbonCube dashboard
+                        Welcome back to CarbonCube - your trusted online marketplace for carbon credits.
                       </p>
                     </div>
 
@@ -99,16 +99,15 @@ const LoginForm = ({ onLogin }) => {
                     </div>
 
                     <div className="bg-dark bg-opacity-50 p-3 rounded-3 mt-2">
-                      <p className="fst-italic small mb-2">
-                        "CarbonCube transformed the way I trade green products. It's seamless and smart!"
-                      </p>
-                      {/* <div className="d-flex align-items-center">
-                        <div className="rounded-circle bg-warning" style={{ width: "30px", height: "30px" }}></div>
+                      <div className="d-flex align-items-center">
+                        {/* <div className="rounded-circle bg-warning" style={{ width: "30px", height: "30px" }}></div> */}
                         <div className="ms-2">
-                          <small className="fw-bold">Jane Muthoni</small>
-                          <small className="d-block text-light opacity-75">Eco Vendor</small>
+                          <small className="fw-bold">Vision:</small>
                         </div>
-                      </div> */}
+                      </div>
+                      <p className="fst-italic small mb-2">
+                        "To be Kenya’s most trusted and innovative online marketplace."
+                      </p>
                     </div>
                   </div>
                 </Col>
@@ -116,7 +115,7 @@ const LoginForm = ({ onLogin }) => {
                 {/* Right Login Form Section */}
                 <Col lg={7}>
                   <div className="card-body p-4 p-lg-5" style={{ backgroundColor: '#e0e0e0' }}>
-                    <h3 className="fw-bold text-center mb-4">Welcome Back</h3>
+                    <h3 className="fw-bold text-center mb-4">Sign In</h3>
 
                     {error && <Alert variant="danger">{error}</Alert>}
 
@@ -183,7 +182,7 @@ const LoginForm = ({ onLogin }) => {
                           <Button
                             variant="secondary"
                             className="w-100 signup-btn rounded-pill"
-                            onClick={() => navigate('/purchasersignup')}
+                            onClick={() => navigate('/purchaser-signup')}
                           >
                             Purchaser
                           </Button>
@@ -192,7 +191,7 @@ const LoginForm = ({ onLogin }) => {
                           <Button
                             variant="secondary"
                             className="w-100 signup-btn rounded-pill"
-                            onClick={() => navigate('/vendorsignup')}
+                            onClick={() => navigate('/vendor-signup')}
                           >
                             Vendor
                           </Button>
