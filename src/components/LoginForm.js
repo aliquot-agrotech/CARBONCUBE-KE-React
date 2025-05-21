@@ -71,7 +71,7 @@ const LoginForm = ({ onLogin }) => {
             <Form.Group controlId="formIdentifier">
               <Form.Control
                 type="text"  // Changed from "email" to "text" to support email, phone, or ID number
-                placeholder="Email, Phone Number, or ID Number"
+                placeholder="Email or Phone Number"
                 className="mb-3 text-center rounded-pill"
                 id="identifier"
                 value={identifier}  // Updated state variable
