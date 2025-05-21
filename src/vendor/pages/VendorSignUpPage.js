@@ -180,7 +180,59 @@ function VendorSignUpPage({ onSignup }) {
           <Col xs={11} md={10} lg={6}>
             <div className="card border-0 shadow-lg overflow-hidden">
               <Row className="g-0">
+
                 {/* Left Branding Section */}
+                <Col lg={4} className="d-none d-lg-block">
+                  <div className="h-100 d-flex flex-column justify-content-between text-white p-4" style={{
+                    background: "linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%)"
+                    }}>
+                    <div className="pt-4">
+                      <h2 className="fw-bold d-flex align-items-center">
+                        <span className="text-white me-2">Vendor</span>
+                        <span className="text-warning">Portal</span>
+                      </h2>
+                      <p className="text-light opacity-75 mt-3">
+                        Join our growing network of Kenyan businesses and take your brand online.
+                      </p>
+                    </div>
+
+                    <div className="px-2 py-4">
+                      <h5 className="text-warning mb-3">Why Sell with us?</h5>
+                      <ul className="list-unstyled">
+                        <li className="mb-2 d-flex align-items-center">
+                          <span className="me-2 text-warning">✓</span>
+                          <span className="small">Reach thousands of potential customers</span>
+                        </li>
+                        <li className="mb-2 d-flex align-items-center">
+                          <span className="me-2 text-warning">✓</span>
+                          <span className="small">Boost your business visibility online</span>
+                        </li>
+                        <li className="mb-2 d-flex align-items-center">
+                          <span className="me-2 text-warning">✓</span>
+                          <span className="small">Easy-to-use tools to manage your listings</span>
+                        </li>
+                        <li className="mb-2 d-flex align-items-center">
+                          <span className="me-2 text-warning">✓</span>
+                          <span className="small">Support and resources for business growth</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div className="bg-dark bg-opacity-50 p-3 rounded-3 mt-2">
+                      <div className="d-flex align-items-center">
+                        {/* <div className="rounded-circle bg-warning" style={{ width: "30px", height: "30px" }}></div> */}
+                        <div className="ms-2">
+                          <small className="fw-bold">Vision:</small>
+                        </div>
+                      </div>
+                      <p className="fst-italic small mb-2">
+                        "To be Kenya’s most trusted and innovative online marketplace."
+                      </p>
+                    </div>
+                  </div>
+                </Col>
+                
+                {/* Right Branding Section */}
                 <Col lg={8}>
                   <div className="card-body p-4 p-lg-5" style={{ backgroundColor: '#e0e0e0' }}>
                     <h3 className="fw-bold text-center mb-4">Vendor Sign Up</h3>
@@ -520,56 +572,7 @@ function VendorSignUpPage({ onSignup }) {
                   </div>
                 </Col>
                 
-                {/* Right Branding Section */}
-                <Col lg={4} className="d-none d-lg-block">
-                  <div className="h-100 d-flex flex-column justify-content-between text-white p-4" style={{
-                    background: "linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%)"
-                    }}>
-                    <div className="pt-4">
-                      <h2 className="fw-bold d-flex align-items-center">
-                        <span className="text-white me-2">Vendor</span>
-                        <span className="text-warning">Portal</span>
-                      </h2>
-                      <p className="text-light opacity-75 mt-3">
-                        Join our growing network of Kenyan businesses and take your brand online.
-                      </p>
-                    </div>
-
-                    <div className="px-2 py-4">
-                      <h5 className="text-warning mb-3">Why Sell with us?</h5>
-                      <ul className="list-unstyled">
-                        <li className="mb-2 d-flex align-items-center">
-                          <span className="me-2 text-warning">✓</span>
-                          <span className="small">Reach thousands of potential customers</span>
-                        </li>
-                        <li className="mb-2 d-flex align-items-center">
-                          <span className="me-2 text-warning">✓</span>
-                          <span className="small">Boost your business visibility online</span>
-                        </li>
-                        <li className="mb-2 d-flex align-items-center">
-                          <span className="me-2 text-warning">✓</span>
-                          <span className="small">Easy-to-use tools to manage your listings</span>
-                        </li>
-                        <li className="mb-2 d-flex align-items-center">
-                          <span className="me-2 text-warning">✓</span>
-                          <span className="small">Support and resources for business growth</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="bg-dark bg-opacity-50 p-3 rounded-3 mt-2">
-                      <div className="d-flex align-items-center">
-                        {/* <div className="rounded-circle bg-warning" style={{ width: "30px", height: "30px" }}></div> */}
-                        <div className="ms-2">
-                          <small className="fw-bold">Vision:</small>
-                        </div>
-                      </div>
-                      <p className="fst-italic small mb-2">
-                        "To be Kenya’s most trusted and innovative online marketplace."
-                      </p>
-                    </div>
-                  </div>
-                </Col>
+                
               </Row>
             </div>
           </Col>
