@@ -144,7 +144,7 @@ const LoginForm = ({ onLogin }) => {
                       <Row className="mb-3">
                         <Col xs="6">
                           <Form.Check
-                            type="switch"
+                            type="checkbox"
                             id="rememberMeSwitch"
                             label="Remember me"
                           />

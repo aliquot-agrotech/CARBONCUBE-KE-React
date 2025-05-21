@@ -367,7 +367,7 @@ function PurchaserSignUpPage({ onSignup }) {
                             </Row>
 
                             <Form.Group className="mb-2">
-                              <Form.Switch
+                              <Form.Check
                                 type="checkbox"
                                 label="Agree to Terms and Conditions and receive SMS/emails."
                                 name="terms"
