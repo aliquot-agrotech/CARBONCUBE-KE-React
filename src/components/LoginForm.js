@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import TopNavbarMinimal from './TopNavBarMinimal'; // adjust the path if needed
 import './LoginForm.css';
 
 const LoginForm = ({ onLogin }) => {
@@ -58,9 +59,12 @@ const LoginForm = ({ onLogin }) => {
 
   return (
     <>
+    <TopNavbarMinimal />
     <Container fluid className="login-container" style={{ minHeight: `${window.innerHeight}px` }}>
       <Row className="justify-content-center">
         <Col md={12} lg={12} className="text-center login-box">
+          
+
           <h2 className="mb-3">Sign In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleLogin}>

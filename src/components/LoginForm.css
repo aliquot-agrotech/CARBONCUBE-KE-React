@@ -1,14 +1,33 @@
-.login-container {
+  .login-container {
+    position: relative;
     background: url('./assets/LoginFormbg.jpg') no-repeat center center fixed;
     background-size: cover;
     font-family: "Fira Sans Extra Condensed", sans-serif;
     font-weight: 400;
     font-style: normal;
-    /* min-height: 100vh; */
+    min-height: 100vh;
     overflow-y: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  /* Overlay to darken the background */
+  .login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity here */
+    z-index: 1;
+  }
+
+  /* Make sure content is above the overlay */
+  .login-container > * {
+    position: relative;
+    z-index: 2;
   }
   
   .login-box {
