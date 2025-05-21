@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert, ProgressBar } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -36,6 +36,9 @@ function PurchaserSignUpPage({ onSignup }) {
   const [terms, setTerms] = useState(false);
   const [counties, setCounties] = useState([]);
   const [subCounties, setSubCounties] = useState([]);
+  const [step, setStep] = useState(1);
+  const nextStep = () => setStep(prev => Math.min(prev + 1, 2));
+  const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
   useEffect(() => {
     // Fetch options for dropdowns from the API
@@ -183,430 +186,283 @@ function PurchaserSignUpPage({ onSignup }) {
 
   return (
     <>
-    <TopNavbarMinimal />
-    <Container fluid className="p-0 purchaser-signup-page">
-      <Row className="m-0">
-        <Col className="warehouse-bg">
-          <Col className="form-container align-items-center center">
-            <Container className="d-flex justify-content-center">
-              <Col xs={12} sm={10} md={12} lg={10}>
-                <h2 className="form-title text-center mb-2  ">Purchaser Sign Up</h2>
-                <Form onSubmit={handleSubmit}>
-                  {errors.general && <Alert variant="danger">{errors.general}</Alert>}
-                  
-                  <Row>
-                    <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          placeholder="Full name"
-                          name="fullname"
-                          id="button"
-                          className="mb-2 text-center"
-                          value={formData.fullname}
-                          onChange={handleChange}
-                          isInvalid={!!errors.fullname}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.fullname}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          placeholder="Username"
-                          name="username"
-                          id="button"
-                          className="mb-2 text-center"
-                          value={formData.username}
-                          onChange={handleChange}
-                          isInvalid={!!errors.username}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  
-                  <Row>
-                    <Col md={6}>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          placeholder="Phone Number"
-                          name="phone_number"
-                          id="button"
-                          className="mb-2 text-center"
-                          value={formData.phone_number}
-                          onChange={handleChange}
-                          isInvalid={!!errors.phone_number}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.phone_number}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                      <Form.Group>
-                        <Form.Control
-                          type="email"
-                          placeholder="Email"
-                          name="email"
-                          id="button"
-                          className="mb-2 text-center"
-                          value={formData.email}
-                          onChange={handleChange}
-                          isInvalid={!!errors.email}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  
-                  {/* <Row>
-                    <Col md={12}>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          placeholder="Physical Address"
-                          name="location"
-                          id="button"
-                          className="mb-2 text-center"
-                          value={formData.location}
-                          onChange={handleChange}
-                          isInvalid={!!errors.location}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.location}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    
-                  </Row> */}
-                  
-                  <Row>
-                    <Col xs={6} md={12}>
-                    <Form.Group>
-                        <Form.Control
-                          type="text"
-                          placeholder="City"
-                          name="city"
-                          id="button"
-                          className="mb-2 text-center"  
-                          value={formData.city}
-                          onChange={handleChange}
-                          isInvalid={!!errors.city}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.city}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    {/* <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          placeholder="Zip Code"
-                          name="zipcode"
-                          id="button"
-                          className="mb-2 text-center"  
-                          value={formData.zipcode}
-                          onChange={handleChange}
-                          isInvalid={!!errors.zipcode}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.zipcode}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col> */}
-                    
-                  </Row>
-                  
-                  <Row>
-                    <Col xs={6} md={6}>
-                      <Form.Group>
-                          <Form.Select
-                            as="select"
-                            name="gender"
-                            className="text-center rounded-pill mb-2"
-                            value={formData.gender}
-                            onChange={handleChange}
-                            isInvalid={!!errors.gender}
-                          >
-                            <option value="" disabled hidden>
-                              Gender
-                            </option>
-                            {["Male", "Female", "Other"].map((gender) => (
-                              <option key={gender} value={gender}>
-                                {gender}
-                              </option>
-                            ))}
-                          </Form.Select>
-                        <Form.Control.Feedback type="invalid">
-                          {errors.gender}
-                        </Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    {/* <Col xs={6} md={6}>
-                      <Form.Group>
-                        <div className="position-relative">
-                          <ReactDatePicker
-                            ref={(el) => (datepickerRef = el)}
-                            selected={formData.birthdate ? new Date(formData.birthdate) : null}
-                            onChange={(date) =>
-                              handleChange({
-                                target: { name: 'birthdate', value: date ? date.toISOString().split('T')[0] : '' },
-                              })
-                            }
-                            className="form-control text-center rounded-pill mb-0 pr-5"
-                            placeholderText="Date of Birth"
-                            dateFormat="MM/dd/yyyy"
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                          />
-                          <div 
-                            onClick={() => datepickerRef.setOpen(true)}
-                            style={{ 
-                              position: 'absolute',
-                              top: '50%',
-                              right: '10px',
-                              transform: 'translateY(-50%)',
-                              cursor: 'pointer'
-                            }}
-                          >
-                            <FontAwesomeIcon
-                              icon={faCalendarAlt}
-                              style={{
-                                color: '#aaa',
-                              }}
-                            />
-                          </div>
-                          {errors.birthdate && (
-                            <div className="invalid-feedback">{errors.birthdate}</div>
-                          )}
+      <TopNavbarMinimal />
+        <Container fluid className="login-container">
+          <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+            <Col xs={11} md={10} lg={6}>
+              <div className="card border-0 shadow-lg overflow-hidden">
+                <Row className="g-0">
+                
+                  {/* Left Branding Section */}
+                  <Col lg={8}>
+                    <div className="card-body p-4 p-lg-5" style={{ backgroundColor: '#e0e0e0' }}>
+                      <h3 className="fw-bold text-center mb-4">Purchaser Sign Up</h3>
+
+                      
+
+                      <Form onSubmit={handleSubmit}>
+                        {errors.general && <Alert variant="danger">{errors.general}</Alert>}
+
+                        {step === 1 && (
+                          <>
+                            <Row>
+                              <Col md={6}>
+                                <Form.Group>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Full Name"
+                                    name="fullname"
+                                    className="mb-2 text-center rounded-pill"
+                                    value={formData.fullname}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.fullname}
+                                  />
+                                  <Form.Control.Feedback type="invalid">{errors.fullname}</Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                <Form.Group>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Username"
+                                    name="username"
+                                    className="mb-2 text-center rounded-pill"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.username}
+                                  />
+                                  <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                            </Row>
+
+                            <Row>
+                              <Col md={12}>
+                                <Form.Group>
+                                  <Form.Control
+                                    type="email"
+                                    placeholder="Email"
+                                    name="email"
+                                    className="mb-2 text-center rounded-pill"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.email}
+                                  />
+                                  <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                            </Row>
+                            
+                            <Row>
+                              <Col md={6}>
+                                <Form.Group>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="Phone Number"
+                                    name="phone_number"
+                                    className="mb-2 text-center rounded-pill"
+                                    value={formData.phone_number}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.phone_number}
+                                  />
+                                  <Form.Control.Feedback type="invalid">{errors.phone_number}</Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                <Form.Group>
+                                  <Form.Control
+                                    type="text"
+                                    placeholder="City"
+                                    name="city"
+                                    className="mb-2 text-center rounded-pill"
+                                    value={formData.city}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.city}
+                                  />
+                                  <Form.Control.Feedback type="invalid">{errors.city}</Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                            </Row>
+                              
+
+                            <Row>
+                              <Col md={6}>
+                                <Form.Group>
+                                  <Form.Select
+                                    name="gender"
+                                    className="text-center rounded-pill mb-2 rounded-pill"
+                                    value={formData.gender}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.gender}
+                                  >
+                                    <option value="" disabled hidden>Gender</option>
+                                    {["Male", "Female", "Other"].map(g => (
+                                      <option key={g} value={g}>{g}</option>
+                                    ))}
+                                  </Form.Select>
+                                  <Form.Control.Feedback type="invalid">{errors.gender}</Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                <Form.Group>
+                                  <Form.Select
+                                    name="age_group_id"
+                                    className="text-center rounded-pill mb-2 rounded-pill"
+                                    value={formData.age_group_id}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.age_group_id}
+                                  >
+                                    <option value="" disabled hidden>Select Age Group</option>
+                                    {options.age_groups.map(group => (
+                                      <option key={group.id} value={group.id}>{group.name}</option>
+                                    ))}
+                                  </Form.Select>
+                                  <Form.Control.Feedback type="invalid">{errors.age_group_id}</Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                            </Row>
+
+                            <div className="d-flex justify-content-center mt-3">
+                              <Button variant="dark" className="rounded-pill w-75" onClick={nextStep}>
+                                Continue
+                              </Button>
+                            </div>
+                          </>
+                        )}
+
+                        {step === 2 && (
+                          <>
+                            <Row>
+                              <Col md={12}>
+                                <Form.Group>
+                                  <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    name="password"
+                                    className="mb-2 text-center rounded-pill"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.password}
+                                  />
+                                  <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                            </Row>
+
+                            <Row>
+                              <Col md={12}>
+                                <Form.Group>
+                                  <Form.Control
+                                    type="password"
+                                    placeholder="Confirm Password"
+                                    name="password_confirmation"
+                                    className="mb-2 text-center rounded-pill"
+                                    value={formData.password_confirmation}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.password_confirmation}
+                                  />
+                                  <Form.Control.Feedback type="invalid">{errors.password_confirmation}</Form.Control.Feedback>
+                                </Form.Group>
+                              </Col>
+                            </Row>
+
+                            <Form.Group className="mb-2">
+                              <Form.Switch
+                                type="checkbox"
+                                label="Agree to Terms and Conditions and receive SMS/emails."
+                                name="terms"
+                                checked={terms}
+                                onChange={(e) => setTerms(e.target.checked)}
+                              />
+                              {errors.terms && <div className="text-danger mt-1">{errors.terms}</div>}
+                            </Form.Group>
+
+                            <Row className="mt-3">
+                              <Col className="d-flex justify-content-between">
+                                <Button variant="dark" className="rounded-pill w-25" onClick={prevStep}>
+                                  Back
+                                </Button>
+                                <Button
+                                  variant="warning"
+                                  type="submit"
+                                  className="rounded-pill w-25"
+                                  disabled={!terms}
+                                >
+                                  Sign Up
+                                </Button>
+                              </Col>
+                            </Row>
+                          </>
+                        )}
+
+                        <div className="divider mt-4">
+                          <span>or continue with</span>
                         </div>
-                      </Form.Group>
-                    </Col> */}
-                    <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Select
-                          as="select"
-                          name="age_group_id"
-                          className="text-center rounded-pill mb-2"
-                          value={formData.age_group_id}
-                          onChange={handleChange}
-                          isInvalid={!!errors.age_group_id}
-                        >
-                          <option value="" disabled hidden>Select Age</option>
-                          {options.age_groups.map((age_group) => (
-                            <option key={age_group.id} value={age_group.id}>
-                              {age_group.name}
-                            </option>
-                          ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">{errors.age_group_id}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
 
-                  {/* <Row>
-                  <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Select
-                          as="select"
-                          name="education_id"
-                          className="text-center rounded-pill mb-2"
-                          value={formData.education_id || ""}
-                          onChange={handleChange}
-                          isInvalid={!!errors.education_id}
-                        >
-                          <option value="" disabled hidden>Select Education</option>
-                          {options.educations.map((education) => (
-                            <option key={education.id} value={education.id}>
-                              {education.level}
-                            </option>
-                          ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">{errors.education_id}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
+                        <div className="d-flex justify-content-around mb-3">
+                          <Button variant="warning rounded-pill" className="social-btn"><Google size={20} /></Button>
+                          <Button variant="warning rounded-pill" className="social-btn"><Facebook size={20} /></Button>
+                          <Button variant="warning rounded-pill" className="social-btn"><Apple size={20} /></Button>
+                        </div>
 
-                    <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Select
-                          as="select"
-                          name="employment_id"
-                          className="text-center rounded-pill mb-2"
-                          value={formData.employment_id}
-                          onChange={handleChange}
-                          isInvalid={!!errors.employment_id}
-                        >
-                          <option value="" disabled hidden>Select Employment</option>
-                          {options.employments.map((employment) => (
-                            <option key={employment.id} value={employment.id}>
-                              {employment.status}
-                            </option>
-                          ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">{errors.employment_id}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row> */}
+                        <div className="text-center mt-2">
+                          Already have an account? <a href="./login" className="login-link">Sign In</a>
+                        </div>
+                      </Form>
 
-                  {/* <Row>
-                    <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Select
-                          as="select"
-                          name="sector_id"
-                          className="text-center rounded-pill mb-2"
-                          value={formData.sector_id}
-                          onChange={handleChange}
-                          isInvalid={!!errors.sector_id}
-                        >
-                          <option value="" disabled hidden>Select Sector</option>
-                          {options.sectors.map((sector) => (
-                            <option key={sector.id} value={sector.id}>
-                              {sector.name}
-                            </option>
-                          ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">{errors.sector_id}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col xs={6} md={6}>
-                      <Form.Group>
-                        <Form.Select
-                          as="select"
-                          name="income_id"
-                          className="text-center rounded-pill mb-2"
-                          value={formData.income_id}
-                          onChange={handleChange}
-                          isInvalid={!!errors.income_id}
-                        >
-                          <option value="" disabled hidden>Select Income</option>
-                          {options.incomes.map((income) => (
-                            <option key={income.id} value={income.id}>
-                              {income.range}
-                            </option>
-                          ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">{errors.income_id}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                  
-                  <Row>
-                    <Col xs={6}>
-                      <Form.Group>
-                        <Form.Select
-                          name="county_id"
-                          value={formData.county_id}
-                          id="button"
-                          onChange={handleChange}
-                          className="mb-2 text-center"
-                          isInvalid={!!errors.county_id}
-                        >
-                          <option value="">Select County</option>
-                          {counties.map((county) => (
-                            <option key={county.id} value={county.id}>{county.name}</option>
-                          ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">{errors.county_id}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col xs={6}>
-                      <Form.Group>
-                        <Form.Select
-                          name="sub_county_id"
-                          value={formData.sub_county_id}
-                          onChange={handleChange}
-                          className="mb-2 text-center"
-                          id="button"
-                          isInvalid={!!errors.sub_county_id}
-                          disabled={!formData.county_id}
-                        >
-                          <option value="">Select Sub-County</option>
-                          {subCounties.map((sub) => (
-                            <option key={sub.id} value={sub.id}>{sub.name}</option>
-                          ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">{errors.sub_county_id}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row> */}
+                      <ProgressBar now={step * 50} className=" mt-3 rounded-pill" variant="warning" style={{ height: '8px' }}/>
+                    </div>
+                  </Col>
+                      
+                  {/* Left Branding Section */}
+                  <Col lg={4} className="d-none d-lg-block">
+                    <div className="h-100 d-flex flex-column justify-content-between text-white p-2" style={{
+                      background: "linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%)"
+                      }}>
+                      <div className="pt-4">
+                        <h2 className="fw-bold">
+                          <span className="text-white">Carbon</span>
+                          <span className="text-warning">Cube</span>
+                        </h2>
+                        <p className="text-light opacity-75 mt-3">
+                          Join to explore a world of eco-friendly products, curated just for you.
+                        </p>
+                      </div>
 
-                  <Row>
-                    <Col md={12}>
-                      <Form.Group>
-                        <Form.Control
-                          type="password"
-                          placeholder="Password"
-                          name="password"
-                          id="button"
-                          className="mb-2 text-center"
-                          value={formData.password}
-                          onChange={handleChange}
-                          isInvalid={!!errors.password}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                    <Col md={12}>
-                      <Form.Group>
-                        <Form.Control
-                          type="password"
-                          placeholder="Confirm Password"
-                          name="password_confirmation"
-                          id="button"
-                          className="mb-2 text-center"
-                          value={formData.password_confirmation}
-                          onChange={handleChange}
-                          isInvalid={!!errors.password_confirmation}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.password_confirmation}</Form.Control.Feedback>
-                      </Form.Group>
-                    </Col>
-                  </Row>      
-                  
-                  <Form.Group className="mb-2">
-                    <Form.Switch
-                      type="checkbox"
-                      label="Agree to Terms and Conditions and receiving of SMS, emails and promotion notifications."
-                      name="terms"
-                      checked={terms}
-                      onChange={(e) => setTerms(e.target.checked)}
-                    />
-                    {errors.terms && <div className="text-danger mt-1">{errors.terms}</div>}
-                  </Form.Group>
+                      <div className="px-2 py-4">
+                        <h5 className="text-warning mb-3">Why Shop with us?</h5>
+                        <ul className="list-unstyled">
+                          <li className="mb-2 d-flex align-items-center">
+                            <span className="me-2 text-warning">✓</span>
+                            <span className="small">Wide variety of carbon-conscious products</span>
+                          </li>
+                          <li className="mb-2 d-flex align-items-center">
+                            <span className="me-2 text-warning">✓</span>
+                            <span className="small">Verified and trusted local vendors</span>
+                          </li>
+                          <li className="mb-2 d-flex align-items-center">
+                            <span className="me-2 text-warning">✓</span>
+                            <span className="small">Secure and seamless</span>
+                          </li>
+                          <li className="mb-2 d-flex align-items-center">
+                            <span className="me-2 text-warning">✓</span>
+                            <span className="small">Support kenyan economy with every purchase</span>
+                          </li>
+                        </ul>
+                      </div>
 
-                  <Button
-                    variant="warning"
-                    type="submit"
-                    className="w-100 mb-0 rounded-pill"
-                    disabled={!terms} // Disable the button until terms are agreed to
-                  >
-                    Sign Up
-                  </Button>
-                  
-                  <div className="divider">
-                    <span>or continue with</span>
-                  </div>
-                  
-                  <div className="d-flex justify-content-around">
-                    <Button variant="warning rounded-pill" className="social-btn">
-                      <Google size={25} />
-                    </Button>
-                    <Button variant="warning rounded-pill" className="social-btn">
-                      <Facebook size={25} />
-                    </Button>
-                    <Button variant="warning rounded-pill" className="social-btn">
-                      <Apple size={25} />
-                    </Button>
-                  </div>
-                  
-                  <div className="text-center mt-2">
-                    Already have an account? <a href="./login" className="login-link">Sign In</a>
-                  </div>
-                </Form>
-              </Col>
-            </Container>
-          </Col>
-        </Col>
-      </Row>
-    </Container>
+                      <div className="bg-dark bg-opacity-50 p-3 rounded-3 mt-2">
+                        <p className="fst-italic small mb-2">
+                          "CarbonCube makes sustainable shopping easy and exciting"
+                        </p>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+          </Row>
+        </Container>
     </>
   );
 }

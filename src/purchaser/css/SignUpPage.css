@@ -1,128 +1,53 @@
-.purchaser-signup-page {
-  font-family: "Fira Sans Extra Condensed", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.signup-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-
-.warehouse-bg {
-  background-image: url('../../components/assets/LoginFormbg.jpg');
+.login-container {
+  background: url('../../components/assets/LoginFormbg.jpg') no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  position: relative;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 }
 
-/* Overlay to darken the background */
-.warehouse-bg::before {
+.login-container::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity here */
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
-/* Make sure content is above the overlay */
-.warehouse-bg > * {
+.login-container > * {
   position: relative;
   z-index: 2;
 }
 
-.form-container {
+.login-box {
   background-color: #e0e0e0;
-  padding: 0.5rem;
-  border-radius: 8px; /* Optional: Add some border radius for a better look */
-  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional: Add a shadow effect */
-  max-width: 100%; /* Ensure it doesn't exceed container width */
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
-.form-title {
-  color: #333;
-  margin-bottom: 1.5rem;
-}
-
-.form-control {
-  margin-bottom: 1rem;
-}
-
-.btn-sign-in {
-  background-color: #ffc107;
-  border-color: #ffc107;
-  color: #000;
-  font-weight: bold;
-}
-
-.btn-sign-in:hover {
-  background-color: #e0a800;
-  border-color: #e0a800;
-}
-
-.social-login-button {
-  width: 40px;
-  height: 40px;
-  padding: 6px;
-  margin: 0 5px;
-}
-
-.social-login-button img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 1rem 0;
-}
-
-.divider::before,
-.divider::after {
+.separator::before,
+.separator::after {
   content: '';
   flex: 1;
-  border-bottom: 1px solid #ced4da;
+  border-bottom: 1px solid #999;
+  margin: 0 0.5rem;
 }
 
-.divider span {
-  padding: 0 10px;
-  color: #6c757d;
+.social-btn {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#button {
-  border-radius: 2.0rem;
+.signup-btn:hover {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: black;
 }
-
-.login-link {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.login-link:hover {
-  text-decoration: underline;
-}
-
-@media (min-width: 768px) {
-  .form-container {
-    max-width: 400px;
-  }
-}
-
-@media (min-width: 992px) {
-  .form-container {
-    max-width: 750px;
-  }
-}
-  
