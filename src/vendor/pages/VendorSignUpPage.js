@@ -161,11 +161,11 @@ function VendorSignUpPage({ onSignup }) {
 
   const validateForm = () => {
     const newErrors = {};
-  
-    if (!formData.terms) {
+
+    if (!terms) {
       newErrors.terms = "You must agree to the terms and conditions.";
     }
-  
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -406,7 +406,7 @@ function VendorSignUpPage({ onSignup }) {
                                   isInvalid={!!errors.county_id}
                                 >
                                   <option value="">Select County</option>
-                                  {counties.map((county) => (
+                                  {options.counties.map((county) => (
                                     <option key={county.id} value={county.id}>{county.name}</option>
                                   ))}
                                 </Form.Select>
