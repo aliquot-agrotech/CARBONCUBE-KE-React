@@ -62,7 +62,7 @@ const LoginForm = ({ onLogin }) => {
               <Row className="g-0">
                 
                 {/* Left Branding Section */}
-                <Col lg={5} className="d-none d-lg-block">
+                <Col lg={4} className="d-none d-lg-block">
                   <div className="h-100 d-flex flex-column justify-content-between text-white p-4" style={{
                     background: "linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%)"
                     }}>
@@ -72,7 +72,7 @@ const LoginForm = ({ onLogin }) => {
                         <span className="text-warning">Cube</span>
                       </h2>
                       <p className="text-light opacity-75 mt-3">
-                        Welcome back to CarbonCube - your trusted online marketplace for carbon credits.
+                        Welcome to CarbonCube - your trusted online marketplace for carbon credits.
                       </p>
                     </div>
 
@@ -113,7 +113,7 @@ const LoginForm = ({ onLogin }) => {
                 </Col>
 
                 {/* Right Login Form Section */}
-                <Col lg={7}>
+                <Col lg={8}>
                   <div className="card-body p-4 p-lg-5" style={{ backgroundColor: '#e0e0e0' }}>
                     <h3 className="fw-bold text-center mb-4">Sign In</h3>
 

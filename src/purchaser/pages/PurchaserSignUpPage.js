@@ -367,12 +367,12 @@ function PurchaserSignUpPage({ onSignup }) {
                     
                 {/* Right Branding Section */}
                 <Col lg={4} className="d-none d-lg-block">
-                  <div className="h-100 d-flex flex-column justify-content-between text-white p-2" style={{
+                  <div className="h-100 d-flex flex-column justify-content-between text-white p-4" style={{
                     background: "linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%)"
                     }}>
                     <div className="pt-4">
                       <h2 className="fw-bold">
-                        <span className="text-white">Purchaser</span>
+                        <span className="text-white me-2">Purchaser</span>
                         <span className="text-warning">Portal</span>
                       </h2>
                       <p className="text-light opacity-75 mt-3">
