@@ -1,79 +1,53 @@
-  .login-container {
-    position: relative;
-    background: url('./assets/LoginFormbg.jpg') no-repeat center center fixed;
-    background-size: cover;
-    font-family: "Fira Sans Extra Condensed", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    min-height: 100vh;
-    overflow-y: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.login-container {
+  background: url('./assets/LoginFormbg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
 
-  /* Overlay to darken the background */
-  .login-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity here */
-    z-index: 1;
-  }
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
 
-  /* Make sure content is above the overlay */
-  .login-container > * {
-    position: relative;
-    z-index: 2;
-  }
-  
-  .login-box {
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    padding: 10px;
-  }
-  
-  .separator {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #444444;
-  }
-  
-  .separator::before,
-  .separator::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #8f8f8f;
-  }
-  
-  .separator::before {
-    margin-right: .25em;
-  }
-  
-  .separator::after {
-    margin-left: .25em;
-  }
-  
-  .social-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100px;
-    margin: 0 5px;
-  }
+.login-container > * {
+  position: relative;
+  z-index: 2;
+}
 
-  .signup-form .signup-btn:hover {
-    background-color: #ffc107;
-    color: black;
-    border-color: #ffc107;
-  }
+.login-box {
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
 
-  #button {
-    border-radius: 1.5rem;
-  }
-  
-  
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #999;
+  margin: 0 0.5rem;
+}
+
+.social-btn {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-btn:hover {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: black;
+}

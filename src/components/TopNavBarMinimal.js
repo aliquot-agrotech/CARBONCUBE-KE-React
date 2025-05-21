@@ -16,9 +16,9 @@ const TopNavbarMinimal = () => {
                         height="50"
                         className="d-inline-block align-top"
                     />
-                    <span className="ms-0 fw-bold" style={{ color: '#ffc107' }}>
+                    {/* <span className="ms-0 fw-bold" style={{ color: '#ffc107' }}>
                         ARBONCUBE
-                    </span>
+                    </span> */}
                 </Navbar.Brand>
 
                 {/* Toggle button for mobile */}

@@ -1,14 +1,13 @@
-// src/components/LoginForm.js
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import TopNavbarMinimal from './TopNavBarMinimal'; 
+import TopNavbarMinimal from './TopNavBarMinimal';
 import './LoginForm.css';
 
 const LoginForm = ({ onLogin }) => {
-  const [identifier, setIdentifier] = useState('');  // Changed from 'email' to 'identifier'
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,125 +20,193 @@ const LoginForm = ({ onLogin }) => {
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
-          identifier,  // Use identifier instead of email
-          password,
+        identifier,
+        password,
       });
-  
+
       const { token, user } = response.data;
-  
       onLogin(token, user);
-  
-      // Redirect based on user role
+
       switch (user.role) {
-          case 'purchaser':
-              navigate('/purchaser/home');
-              break;
-          case 'vendor':
-              navigate('/vendor/analytics');
-              break;
-          case 'admin':
-              navigate('/admin/analytics');
-              break;
-          default:
-              setError('Unexpected user role.');
+        case 'purchaser':
+          navigate('/purchaser/home');
+          break;
+        case 'vendor':
+          navigate('/vendor/analytics');
+          break;
+        case 'admin':
+          navigate('/admin/analytics');
+          break;
+        default:
+          setError('Unexpected user role.');
       }
     } catch (error) {
-        console.error(error);
-        if (error.response) {
-            setError(error.response.data.message || 'Invalid identifier or password');
-        } else {
-            setError('Network error. Please try again later.');
-        }
+      console.error(error);
+      if (error.response) {
+        setError(error.response.data.message || 'Invalid identifier or password');
+      } else {
+        setError('Network error. Please try again later.');
+      }
     } finally {
-        setLoading(false);
-    }  
+      setLoading(false);
+    }
   };
-
-  // Start of the export component
 
   return (
     <>
-    <TopNavbarMinimal />
-    <Container fluid className="login-container" style={{ minHeight: `${window.innerHeight}px` }}>
-      <Row className="justify-content-center">
-        <Col md={12} lg={12} className="text-center login-box">
-          
+      <TopNavbarMinimal />
+      <Container fluid className="login-container">
+        <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+          <Col xs={11} md={10} lg={6}>
+            <div className="card border-0 shadow-lg overflow-hidden">
+              <Row className="g-0">
+                
+                {/* Left Branding Section */}
+                <Col lg={5} className="d-none d-lg-block">
+                  <div className="h-100 d-flex flex-column justify-content-between text-white p-4" style={{
+                    background: "linear-gradient(135deg, #000000 0%, #111111 50%, #1a1a1a 100%)"
+                    }}>
+                    <div className="pt-4">
+                      <h2 className="fw-bold">
+                        <span className="text-white">Carbon</span>
+                        <span className="text-warning">Cube</span>
+                      </h2>
+                      <p className="text-light opacity-75 mt-3">
+                        Welcome back to your CarbonCube dashboard
+                      </p>
+                    </div>
 
-          <h2 className="mb-3">Sign In</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleLogin}>
-            <Form.Group controlId="formIdentifier">
-              <Form.Control
-                type="text"  // Changed from "email" to "text" to support email, phone, or ID number
-                placeholder="Email or Phone Number"
-                className="mb-3 text-center rounded-pill"
-                id="identifier"
-                value={identifier}  // Updated state variable
-                onChange={(e) => setIdentifier(e.target.value)}  // Updated state handling
-              />
-            </Form.Group>
+                    <div className="px-2 py-4">
+                      <h5 className="text-warning mb-3">Why CarbonCube?</h5>
+                      <ul className="list-unstyled">
+                        <li className="mb-2 d-flex align-items-center">
+                          <span className="me-2 text-warning">✓</span>
+                          <span className="small">Manage carbon product listings</span>
+                        </li>
+                        <li className="mb-2 d-flex align-items-center">
+                          <span className="me-2 text-warning">✓</span>
+                          <span className="small">Connect with local vendors</span>
+                        </li>
+                        <li className="mb-2 d-flex align-items-center">
+                          <span className="me-2 text-warning">✓</span>
+                          <span className="small">Real-time deal tracking</span>
+                        </li>
+                        <li className="mb-2 d-flex align-items-center">
+                          <span className="me-2 text-warning">✓</span>
+                          <span className="small">Eco-conscious marketplace</span>
+                        </li>
+                      </ul>
+                    </div>
 
-            <Form.Group controlId="formPassword">
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                className="mb-3 text-center rounded-pill"
-                // id="button"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formRememberMe" className="d-flex justify-content-between align-items-center">
-              <Form.Switch type="checkbox" label="Remember me" />
-              <a href="/" className="text-muted">Forget Password?</a>
-            </Form.Group>
-
-            <Button variant="warning" type="submit" className="w-100 mt-3 rounded-pill" disabled={loading}>
-              {loading ? 'Signing In...' : 'Sign In'}
-            </Button>
-
-            <div className="separator my-4">or continue with</div>
-
-            <div className="d-flex justify-content-around">
-              <Button variant="warning rounded-pill" className="social-btn">
-                <Google size={25} />
-              </Button>
-              <Button variant="warning rounded-pill" className="social-btn">
-                <Facebook size={25} />
-              </Button>
-              <Button variant="warning rounded-pill" className="social-btn">
-                <Apple size={25} />
-              </Button>
-            </div>
-
-            <div className="text-center mt-3 signup-form">
-              Don't have an account?
-              <Row className="justify-content-center mt-1">
-                <Col xs={4} sm={4} className="mb-2">
-                  <Button
-                    variant="secondary"
-                    className="w-100 signup-btn rounded-pill"
-                    onClick={() => navigate('/purchasersignup')}
-                  >
-                    Purchaser
-                  </Button>
+                    <div className="bg-dark bg-opacity-50 p-3 rounded-3 mt-2">
+                      <p className="fst-italic small mb-2">
+                        "CarbonCube transformed the way I trade green products. It's seamless and smart!"
+                      </p>
+                      {/* <div className="d-flex align-items-center">
+                        <div className="rounded-circle bg-warning" style={{ width: "30px", height: "30px" }}></div>
+                        <div className="ms-2">
+                          <small className="fw-bold">Jane Muthoni</small>
+                          <small className="d-block text-light opacity-75">Eco Vendor</small>
+                        </div>
+                      </div> */}
+                    </div>
+                  </div>
                 </Col>
-                <Col xs={4} sm={4} className="mb-2">
-                  <Button
-                    variant="secondary"
-                    className="w-100 signup-btn rounded-pill"
-                    onClick={() => navigate('/vendorsignup')}
-                  >
-                    Vendor
-                  </Button>
+
+                {/* Right Login Form Section */}
+                <Col lg={7}>
+                  <div className="card-body p-4 p-lg-5" style={{ backgroundColor: '#e0e0e0' }}>
+                    <h3 className="fw-bold text-center mb-4">Welcome Back</h3>
+
+                    {error && <Alert variant="danger">{error}</Alert>}
+
+                    <Form onSubmit={handleLogin}>
+                      <Form.Group controlId="formIdentifier" className="mb-3">
+                        <Form.Control
+                          type="text"
+                          placeholder="Email or Phone Number"
+                          className="text-center rounded-pill"
+                          value={identifier}
+                          onChange={(e) => setIdentifier(e.target.value)}
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="formPassword" className="mb-3">
+                        <Form.Control
+                          type="password"
+                          placeholder="Password"
+                          className="text-center rounded-pill"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                      </Form.Group>
+
+                      <Row className="mb-3">
+                        <Col xs="6">
+                          <Form.Check
+                            type="switch"
+                            id="rememberMeSwitch"
+                            label="Remember me"
+                          />
+                        </Col>
+                        <Col xs="6" className="text-end">
+                          <a href="/" className="text-muted">Forgot Password?</a>
+                        </Col>
+                      </Row>
+
+                      <Button
+                        variant="warning"
+                        type="submit"
+                        className="w-100 rounded-pill mb-3"
+                        disabled={loading}
+                      >
+                        {loading ? 'Signing In...' : 'Sign In'}
+                      </Button>
+
+                      <div className="separator my-4 text-center">or continue with</div>
+
+                      <Row className="justify-content-center mb-3">
+                        <Col xs="auto">
+                          <Button variant="warning" className="social-btn rounded-pill"><Google size={20} /></Button>
+                        </Col>
+                        <Col xs="auto">
+                          <Button variant="warning" className="social-btn rounded-pill"><Facebook size={20} /></Button>
+                        </Col>
+                        <Col xs="auto">
+                          <Button variant="warning" className="social-btn rounded-pill"><Apple size={20} /></Button>
+                        </Col>
+                      </Row>
+
+                      <p className="text-center mt-3 mb-2">Don't have an account?</p>
+                      <Row className="justify-content-center">
+                        <Col xs={5} sm={4}>
+                          <Button
+                            variant="secondary"
+                            className="w-100 signup-btn rounded-pill"
+                            onClick={() => navigate('/purchasersignup')}
+                          >
+                            Purchaser
+                          </Button>
+                        </Col>
+                        <Col xs={5} sm={4}>
+                          <Button
+                            variant="secondary"
+                            className="w-100 signup-btn rounded-pill"
+                            onClick={() => navigate('/vendorsignup')}
+                          >
+                            Vendor
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </div>
                 </Col>
+
               </Row>
             </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };
