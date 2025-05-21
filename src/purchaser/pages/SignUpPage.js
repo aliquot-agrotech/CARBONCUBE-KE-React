@@ -135,6 +135,14 @@ function PurchaserSignUpPage({ onSignup }) {
     };
 
     try {
+      const cleanedData = Object.fromEntries(
+        Object.entries(formData).map(([key, value]) => [key, value === "" ? null : value])
+      );
+
+      const payload = {
+        purchaser: cleanedData
+      };
+
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/purchaser/signup`, payload, {
         headers: {
           'Content-Type': 'application/json',
