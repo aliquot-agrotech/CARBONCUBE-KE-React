@@ -201,7 +201,7 @@ function PurchaserSignUpPage({ onSignup }) {
 
                 {/* Right Branding Section */}
                 <Col lg={8}>
-                  <div className="card-body p-4 p-lg-5" style={{ backgroundColor: '#e0e0e0' }}>
+                  <div className="card-body p-4 p-lg-5 h-100 d-flex flex-column justify-content-between" style={{ backgroundColor: '#e0e0e0' }}>
                     <h3 className="fw-bold text-center mb-4">Purchaser Sign Up</h3>
                     <Form onSubmit={handleSubmit}>
                       {errors.general && <Alert variant="danger">{errors.general}</Alert>}
