@@ -27,7 +27,11 @@ const PurchaserWishlistStats = ({ data }) => {
   const datasets = eventTypes.map((eventType, index) => ({
     label: eventType.toUpperCase(),
     backgroundColor: colors[index],
-    data: categories.map((category) => data[category][eventType] || 0),
+    data: categories.map((category) => {
+      const entry = data[category];
+      return entry && entry[eventType] ? entry[eventType] : 0;
+    }),
+
   }));
 
   // Chart data
