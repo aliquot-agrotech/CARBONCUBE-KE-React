@@ -130,6 +130,15 @@
   padding: 0;
 }
 
+.icon-button {
+  transition: transform 0.2s ease;
+}
+
+.icon-button:hover {
+  transform: scale(1.2);
+}
+
+
 @media screen and (max-width: 767px) {
   .search-container .search-input {
     width: 85%;

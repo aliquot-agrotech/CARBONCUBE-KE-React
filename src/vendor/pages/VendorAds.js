@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Container, Row, Col, Card, Button, Modal, Carousel, FormControl, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
 import Spinner from "react-spinkit";
 import TopNavbar from '../components/TopNavbar';
@@ -540,72 +540,66 @@ const VendorAds = () => {
 
     const renderAdCard = (ad) => (
         <Col xs={6} md={6} lg={3} key={ad.id} className="mb-3 px-2 px-md-2">
-            <Card>
-                <Card.Img variant="top" className="ad-image" src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'}/> 
-                <Card.Body className="px-2 py-1 py-md-2 bookmark-body">
-                    <Card.Title className="mb-0 ad-title">{ad.title}</Card.Title>
-                    <Card.Text>
-                        <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
-                        <strong style={{ fontSize: '20px' }} className="text-danger">
-                            {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
-                                <React.Fragment key={index}>
-                                    {index === 0 ? (
+            <Card className="h-100">
+                <Card.Img
+                    variant="top"
+                    className="ad-image"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => handleViewDetailsClick(ad)}
+                    src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'}
+                />
+
+                <Card.Body className="px-2 py-2 bookmark-body d-flex flex-column justify-content-center">
+                    <div className="d-flex justify-content-between align-items-center h-100">
+                        <div>
+                            <Card.Title className="mb-1 ad-title">{ad.title}</Card.Title>
+                            <Card.Text className="mb-0">
+                                <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                                <strong style={{ fontSize: '20px' }} className="text-danger">
+                                    {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
+                                    <React.Fragment key={index}>
+                                        {index === 0 ? (
                                         <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                    ) : (
+                                        ) : (
                                         <>
                                             <span style={{ fontSize: '16px' }}>.</span>
                                             <span className="price-decimal">{part}</span>
                                         </>
-                                    )}
-                                </React.Fragment>
-                            )) : 'N/A'}
-                        </strong>
-                    </Card.Text>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <div className="flex-grow-1">
-                            <Button
-                                variant="warning"
-                                id="button"
-                                onClick={() => handleViewDetailsClick(ad)}
-                            >
-                                Details
-                            </Button>
+                                        )}
+                                    </React.Fragment>
+                                    )) : 'N/A'}
+                                </strong>
+                            </Card.Text>
                         </div>
-                        <div className="d-flex ml-2">
-                            <Button
-                                variant="secondary"
-                                className="me-2"
-                                id="button"
+
+                        <div className="d-flex flex-column justify-content-center me-2">
+                            <div className="d-flex flex-column align-items-center">
+                                <span
                                 onClick={() => handleEditAd(ad.id)}
-                            >
-                                <FontAwesomeIcon
-                                    icon={faPencilAlt}
-                                    className="edit-icon"
-                                    title="Edit Ad"
-                                />
-                            </Button>
-                            <Button
-                                variant="danger"
-                                className="d-flex justify-content-center align-items-center"
-                                id="button"
+                                className="mb-2 text-secondary icon-button"
+                                title="Edit Ad"
+                                style={{ cursor: 'pointer' }}
+                                >
+                                <FontAwesomeIcon icon={faPencilAlt} className="edit-icon" size="lg"/>
+                                </span>
+                                <span
                                 onClick={() => {
                                     setAdToDelete(ad.id);
                                     setAlertVisible(true);
                                 }}
-                            >
-                                <FontAwesomeIcon
-                                    icon={faTrash}
-                                    className="edit-icon"
-                                    title="Delete Ad"
-                                />
-                            </Button>
+                                className="text-danger icon-button"
+                                title="Delete Ad"
+                                style={{ cursor: 'pointer' }}
+                                >
+                                <FontAwesomeIcon icon={faTrashCan} className="edit-icon" size="lg"/>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </Card.Body>
             </Card>
         </Col>
     );
-    
 
     const renderRatingStars = (rating) => {
         if (typeof rating !== 'number' || rating < 0) {
@@ -703,7 +697,7 @@ const VendorAds = () => {
                     </Row>
                 </Container>
 
-{/* ============================================================ START PRODUCT DETAILS MODAL ==================================================================================*/}
+{/* ============================================================ START AD DETAILS MODAL ==================================================================================*/}
 
                 <Modal centered show={showDetailsModal} onHide={handleModalClose} size="xl">
                     <Modal.Header className='justify-content-center p-1 p-lg-2'>
@@ -896,7 +890,7 @@ const VendorAds = () => {
                     </Modal.Footer>
                 </Modal>
 
-{/* ============================================================ START EDIT PRODUCT MODAL ==================================================================================*/}
+{/* ============================================================ START EDIT AD MODAL ==================================================================================*/}
 
                 <Modal centered show={showEditModal} onHide={handleModalClose} size="xl">
                     <Modal.Header className='justify-content-center p-1 p-lg-2'>
@@ -909,19 +903,26 @@ const VendorAds = () => {
                                     <Carousel>
                                     {editedAd.media.map((image, index) => (
                                         <Carousel.Item key={index} className="position-relative">
-                                            <img
-                                                className="d-block w-100"
-                                                src={image}
-                                                alt={`Ad - view ${index + 1}`}
-                                                style={{ height: '300px', objectFit: 'contain' }}
-                                            />
-                                            <Button 
-                                                variant="danger"
-                                                className="delete-button"
-                                                onClick={() => handleDeleteImage(index)}
-                                            >
-                                            <FontAwesomeIcon icon={faTrash} />
-                                            </Button>
+                                        <img
+                                            className="d-block w-100"
+                                            src={image}
+                                            alt={`Ad - view ${index + 1}`}
+                                            style={{ height: '300px', objectFit: 'contain' }}
+                                        />
+                                        <span
+                                            onClick={() => handleDeleteImage(index)}
+                                            className="position-absolute top-0 end-0 m-2"
+                                            title="Delete image"
+                                            style={{
+                                            cursor: 'pointer',
+                                            color: 'red',
+                                            fontSize: '20px',
+                                            background: 'transparent',
+                                            border: 'none',
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faTrashCan} />
+                                        </span>
                                         </Carousel.Item>
                                     ))}
                                     </Carousel>
@@ -1204,7 +1205,7 @@ const VendorAds = () => {
                     </Modal.Footer>
                 </Modal>
                                     
-{/* ============================================================  START ADD PRODUCT MODAL ==================================================================================*/}
+{/* ============================================================  START ADD AD MODAL ==================================================================================*/}
 
                 <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="xl" centered className="custom-modal">
                     <Modal.Header className="custom-modal-header justify-content-center p-1 p-lg-2">
