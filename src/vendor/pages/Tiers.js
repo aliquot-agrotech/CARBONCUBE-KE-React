@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Row, Col, Button, Accordion, Container, Card, Modal } from 'react-bootstrap';
 import Spinner from "react-spinkit";
 import { useNavigate } from "react-router-dom";
+import MpesaPaymentGuide from '../components/MpesaPaymentGuide';
 import '../css/Tiers.css';
 import { jwtDecode } from 'jwt-decode';
 
@@ -226,6 +227,7 @@ const TierPage = () => {
                 </Col>
               ))}
           </Row>
+          <MpesaPaymentGuide />
         </Container>
       </section>
 
