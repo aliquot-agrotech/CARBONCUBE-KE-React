@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Container, Row, Col, FormControl, Modal, Form, Carousel, Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faTrashRestore, faStar, faStarHalfAlt, faStar as faStarEmpty, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faTrashRestore, faStar, faStarHalfAlt, faStar as faStarEmpty, faFilter } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
@@ -268,7 +268,7 @@ const AdsManagement = () => {
                                 <Col xs={12} md={8} lg={6} className="mb-3 pt-2">
                                     <div className="search-container d-flex align-items-center">
                                         
-                                        <Dropdown className="dropdown-filter me-2">
+                                        <Dropdown className="dropdown-filter me-2 mt-3">
                                             <Dropdown.Toggle
                                                 variant="secondary"
                                                 id="button"
@@ -331,51 +331,71 @@ const AdsManagement = () => {
                                 {filteredNonFlaggedAds.length > 0 ? (
                                     filteredNonFlaggedAds.map(ad => (
                                         <Col key={ad.id} xs={6} md={6} lg={3} className="mb-2 mb-lg-4 px-2">
-                                            <Card>
-                                            <Card.Img 
-                                                variant="top" 
-                                                className="ad-image"
-                                                src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'} 
-                                            />
-                                                <Card.Body className="py-0 py-lg-1 px-2 chill-body mb-1">
-                                                <Card.Title className="d-flex justify-content-start mb-0 ad-title">{ad.title}</Card.Title>
-                                                    <Card.Text className="price-container d-flex justify-content-start" style={{ fontSize: '18px' }}>
-                                                        <span>
-                                                            <em className="ad-price-label text-success" style={{ fontSize: '13px' }}>Kshs:&nbsp;</em>
-                                                        </span>
-                                                        <strong  className="text-danger">
-                                                            {ad.price ? parseFloat(ad.price).toFixed(2).split('.').map((part, index) => (
-                                                                <React.Fragment key={index}>
-                                                                    {index === 0 ? (
-                                                                        <span className="price-integer">
-                                                                            {parseInt(part, 10).toLocaleString()} {/* Add commas to the integer part */}
-                                                                        </span>
-                                                                    ) : (
-                                                                        <>
-                                                                            <span style={{ fontSize: '16px' }}>.</span>
-                                                                            <span className="price-decimal">{part}</span>
-                                                                        </>
-                                                                    )}
-                                                                </React.Fragment>
-                                                            )) : 'N/A'}
-                                                        </strong>
-                                                    </Card.Text>
+                                            <Card className="h-100">
+                                                {/* Clickable image */}
+                                                <div
+                                                role="button"
+                                                tabIndex={0}
+                                                onClick={() => handleViewDetailsClick(ad)}
+                                                onKeyPress={(e) => { if (e.key === 'Enter' || e.key === ' ') handleViewDetailsClick(ad); }}
+                                                style={{ cursor: 'pointer', outline: 'none' }}
+                                                >
+                                                <Card.Img
+                                                    variant="top"
+                                                    className="ad-image"
+                                                    src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'}
+                                                    alt={ad.title}
+                                                    style={{ width: '100%', height: 'auto', objectFit: 'contain', border: 'none' }}
+                                                />
+                                                </div>
 
-                                                    <Row className="align-middle">
-                                                        <Col xs={9} md={6} lg={6}>
-                                                            <Button variant="warning" id="button" onClick={() => handleViewDetailsClick(ad)} className="py-1">
-                                                                View Details
-                                                            </Button>
-                                                        </Col>
-                                                        <Col xs={3} md={6} lg={6}>
-                                                            <FontAwesomeIcon
-                                                                icon={faTrash}
-                                                                className="delete-icon"
-                                                                onClick={() => handleFlagAd(ad.id)}
-                                                                title="Flag Ad"
-                                                            />
-                                                        </Col>
-                                                    </Row>
+                                                <Card.Body
+                                                className="py-0 py-lg-1 px-2 chill-body d-flex flex-column"
+                                                style={{ position: 'relative' }}
+                                                >
+                                                <Card.Title className="d-flex justify-content-start mb-0 ad-title" style={{ fontSize: '18px', fontWeight: '600' }}>
+                                                    {ad.title}
+                                                </Card.Title>
+
+                                                <Card.Text className="price-container d-flex justify-content-start" style={{ fontSize: '18px' }}>
+                                                    <span>
+                                                    <em className="ad-price-label text-success" style={{ fontSize: '13px' }}>Kshs:&nbsp;</em>
+                                                    </span>
+                                                    <strong className="text-danger">
+                                                    {ad.price
+                                                        ? parseFloat(ad.price)
+                                                            .toFixed(2)
+                                                            .split('.')
+                                                            .map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                                                ) : (
+                                                                <>
+                                                                    <span style={{ fontSize: '16px' }}>.</span>
+                                                                    <span className="price-decimal">{part}</span>
+                                                                </>
+                                                                )}
+                                                            </React.Fragment>
+                                                            ))
+                                                        : 'N/A'}
+                                                    </strong>
+                                                </Card.Text>
+
+                                                {/* Delete icon absolute bottom right */}
+                                                <div
+                                                    style={{
+                                                    position: 'absolute',
+                                                    bottom: '8px',
+                                                    right: '8px',
+                                                    cursor: 'pointer',
+                                                    color: '#dc3545', // Bootstrap danger red
+                                                    }}
+                                                    onClick={() => handleFlagAd(ad.id)}
+                                                    title="Flag Ad"
+                                                >
+                                                    <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                                                </div>
                                                 </Card.Body>
                                             </Card>
                                         </Col>
