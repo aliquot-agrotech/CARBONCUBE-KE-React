@@ -12,7 +12,7 @@ const CompetitorStats = ({ data }) => {
             <div className="card shadow-sm mb-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)', border: 'none' }}>
                 <div className="card-body py-2 px-3">
                     <h5 className="card-title">Top Competitor Ads</h5>
-                    <CompetitorAds data={top_competitor_ads} />
+                    <CompetitorAds data={Array.isArray(top_competitor_ads) ? top_competitor_ads : []} />
                 </div>
             </div>
 
@@ -38,7 +38,7 @@ const CompetitorStats = ({ data }) => {
                             &nbsp; Kshs &nbsp;
                         </span>
                         <strong style={{ fontSize: '18px', color: '#dc3545' }}>
-                            {competitor_average_price.toFixed(2).split('.').map((part, index) => (
+                            {(competitor_average_price ?? 0).toFixed(2).split('.').map((part, index) => (
                                 <React.Fragment key={index}>
                                     {index === 0 ? (
                                         <span className="analytics-price-integer">
