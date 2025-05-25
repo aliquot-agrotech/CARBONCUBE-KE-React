@@ -744,29 +744,37 @@ const AdDetails = () => {
                                                 <Row className="gx-2 mt-2 mt-lg-4">
                                                     <Col xs={12} className="mb-2">
                                                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
+                                                            {showVendorDetails && vendor ? (
+                                                            <a
+                                                                href={`tel:${vendor.phone_number}`}
+                                                                className="text-decoration-none"
+                                                                style={{ display: 'block' }}
+                                                            >
+                                                                <Button
+                                                                type="button"
+                                                                className="w-100 py-2 rounded-pill fancy-button text-dark"
+                                                                disabled={loading}
+                                                                >
+                                                                {vendor.enterprise_name} | {vendor.phone_number}
+                                                                </Button>
+                                                            </a>
+                                                            ) : (
                                                             <Button
-                                                            type="button"
-                                                            className="w-100 py-2 rounded-pill fancy-button"
-                                                            onClick={handleRevealVendorDetails}
-                                                            disabled={loading || (showVendorDetails && vendor)}
+                                                                type="button"
+                                                                className="w-100 py-2 rounded-pill fancy-button"
+                                                                onClick={handleRevealVendorDetails}
+                                                                disabled={loading}
                                                             >
                                                                 {loading ? (
-                                                                    <span>
+                                                                <>
                                                                     <Spinner animation="border" size="sm" className="me-2" />
                                                                     Loading...
-                                                                    </span>
-                                                                ) : showVendorDetails && vendor ? (
-                                                                    <a
-                                                                    href={`tel:${vendor.phone_number}`}
-                                                                    className="text-white text-decoration-none"
-                                                                    style={{ display: 'inline-block', width: '100%' }}
-                                                                    >
-                                                                        {vendor.enterprise_name} | {vendor.phone_number}
-                                                                    </a>
+                                                                </>
                                                                 ) : (
-                                                                    '📞  Reveal Vendor Contact'
+                                                                '📞 Reveal Vendor Contact'
                                                                 )}
                                                             </Button>
+                                                            )}
                                                         </motion.div>
                                                     </Col>
 
