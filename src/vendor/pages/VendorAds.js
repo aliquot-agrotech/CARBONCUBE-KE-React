@@ -261,8 +261,7 @@ const VendorAds = () => {
             // Validate required fields
             if (
                 !title || !description || !selectedCategory || !selectedSubcategory ||
-                !price || !quantity || !brand || !manufacturer ||
-                !item_length || !item_width || !item_height || !item_weight || !condition
+                !price || !quantity || !brand || !manufacturer || !condition
             ) {
                 alert('Please fill in all required fields.');
                 setUploading(false);
@@ -304,10 +303,10 @@ const VendorAds = () => {
             formData.append('ad[brand]', brand);
             formData.append('ad[manufacturer]', manufacturer);
             formData.append('ad[condition]', condition);
-            formData.append('ad[item_length]', parseInt(item_length));
-            formData.append('ad[item_width]', parseInt(item_width));
-            formData.append('ad[item_height]', parseInt(item_height));
-            formData.append('ad[item_weight]', parseInt(item_weight));
+            if (item_length) formData.append('ad[item_length]', parseFloat(item_length));
+            if (item_width) formData.append('ad[item_width]', parseFloat(item_width));
+            if (item_height) formData.append('ad[item_height]', parseFloat(item_height));
+            if (item_weight) formData.append('ad[item_weight]', parseFloat(item_weight));
             formData.append('ad[weight_unit]', weightUnit);
 
             safeImages.forEach((file) => {
