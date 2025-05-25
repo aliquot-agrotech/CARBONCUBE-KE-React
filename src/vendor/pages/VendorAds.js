@@ -33,8 +33,8 @@ const VendorAds = () => {
     const [alertVisible, setAlertVisible] = useState(false);
     const [adToDelete, setAdToDelete] = useState(null);
     const [editedImages, setEditedImages] = useState([]);
+    const [selectedImages, setSelectedImages] = useState([]);
 
-    // const [selectedImages, setSelectedImages] = useState([]);
     // const [files, setFiles] = useState([]);
     const [editedAd, setEditedAd] = useState({
         item_length: '',
@@ -65,11 +65,9 @@ const VendorAds = () => {
     const nsfwModelRef = useRef(null); 
 
     const removeImage = (index) => {
-        setEditedAd(prev => ({
-            ...prev,
-            media: prev.media.filter((_, i) => i !== index)
-        }));
+        setSelectedImages(prev => prev.filter((_, i) => i !== index));
     };
+
 
     useEffect(() => {
         const fetchAds = async () => {
@@ -243,46 +241,58 @@ const VendorAds = () => {
         if (e && e.preventDefault) e.preventDefault(); // ✅ Prevent page reload
 
         try {
-            // Ensure state is reset and uploading starts immediately
             setUploading(true);
             setUploadProgress(0);
-    
-            const { title, description, price, quantity, brand, manufacturer, item_length, item_width, item_height, item_weight, condition } = formValues;
-        
-            // Validation check
-            if (!title || !description || !selectedCategory || !selectedSubcategory || !price || !quantity || !brand || !manufacturer || !item_length || !item_width || !item_height || !item_weight || !condition) {
+
+            const {
+                title,
+                description,
+                price,
+                quantity,
+                brand,
+                manufacturer,
+                item_length,
+                item_width,
+                item_height,
+                item_weight,
+                condition
+            } = formValues;
+
+            // Validate required fields
+            if (
+                !title || !description || !selectedCategory || !selectedSubcategory ||
+                !price || !quantity || !brand || !manufacturer ||
+                !item_length || !item_width || !item_height || !item_weight || !condition
+            ) {
                 alert('Please fill in all required fields.');
                 setUploading(false);
                 return;
             }
-        
-            const fileInput = document.querySelector('.custom-upload-btn input[type="file"]');
-            let safeImages = []; 
-            let skippedImages = 0; 
-        
-            if (fileInput && fileInput.files.length > 0) {
-                await loadNSFWModel(); 
-        
-                for (let i = 0; i < fileInput.files.length; i++) {
-                    const file = fileInput.files[i];
-        
+
+            let safeImages = [];
+            let skippedImages = 0;
+
+            if (selectedImages.length > 0) {
+                await loadNSFWModel();
+
+                for (let i = 0; i < selectedImages.length; i++) {
+                    const file = selectedImages[i];
                     const isUnsafe = await checkImage(file);
                     if (isUnsafe) {
                         console.warn("Blocked unsafe image:", file.name);
                         skippedImages++;
-                        continue; 
+                        continue;
                     }
-        
                     safeImages.push(file);
                 }
             }
-        
+
             if (safeImages.length === 0) {
                 alert("All selected images were blocked. Please upload appropriate images.");
                 setUploading(false);
                 return;
-            }        
-        
+            }
+
             // Prepare form data
             const formData = new FormData();
             formData.append('ad[title]', title);
@@ -299,27 +309,24 @@ const VendorAds = () => {
             formData.append('ad[item_height]', parseInt(item_height));
             formData.append('ad[item_weight]', parseInt(item_weight));
             formData.append('ad[weight_unit]', weightUnit);
-        
-            safeImages.forEach((file, index) => {
-                formData.append(`ad[media][]`, file);
+
+            safeImages.forEach((file) => {
+                formData.append('ad[media][]', file);
             });
-        
-            // Wrap XMLHttpRequest in a Promise for better async handling
+
             const uploadPromise = new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
                 xhr.open("POST", `${process.env.REACT_APP_BACKEND_URL}/vendor/ads`);
                 xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
-        
-                // Track upload progress
+
                 xhr.upload.onprogress = (event) => {
                     if (event.lengthComputable) {
                         const percentCompleted = Math.round((event.loaded / event.total) * 100);
-                        // Update progress state 
                         setUploadProgress(percentCompleted);
                         console.log(`Upload Progress: ${percentCompleted}%`);
                     }
                 };
-        
+
                 xhr.onload = () => {
                     if (xhr.status >= 200 && xhr.status < 300) {
                         const result = JSON.parse(xhr.responseText);
@@ -330,21 +337,19 @@ const VendorAds = () => {
                         reject(new Error(`Upload failed with status: ${xhr.status}`));
                     }
                 };
-        
+
                 xhr.onerror = () => reject(new Error("Network error during upload"));
-        
+
                 xhr.send(formData);
             });
-        
-            // Wait for upload to complete
+
             await uploadPromise;
-        
-            // Handle skipped images alert
+
             if (skippedImages > 0) {
-                alert(`${skippedImages} images were flagged as explicit and were not uploaded.`);
+                alert(`${skippedImages} image(s) were flagged as explicit and were not uploaded.`);
             }
-        
-            // Reset form and state after successful upload
+
+            // Reset form and state
             setFormValues({
                 title: '',
                 description: '',
@@ -361,16 +366,17 @@ const VendorAds = () => {
             setSelectedCategory('');
             setSelectedSubcategory('');
             setWeightUnit('Grams');
+            setSelectedImages([]);
             setShowAddModal(false);
         } catch (error) {
             console.error("Error adding ad:", error);
             alert("Failed to add ad. Please try again.");
         } finally {
-            // Ensure uploading state is always reset
             setUploading(false);
             setUploadProgress(0);
         }
     };
+
 
     const handleViewDetailsClick = (ad) => {
         setSelectedAd(ad);
@@ -481,32 +487,31 @@ const VendorAds = () => {
         }));
     };
 
-    const handleFileSelect = async (files) => {
-        if (files.length > 0) {
-            try {
-                const fileArray = Array.from(files);
-    
-                // Check if any file exceeds the 1MB limit
-                for (const file of fileArray) {
-                    console.log(`File name: ${file.name}, size: ${file.size} bytes`);
-                    if (file.size >= 1024 * 1024) { // Includes files exactly 1MB
-                        alert('File size exceeds the 1MB limit. Please select a smaller image.');
-                        return; // Stop further processing if a file is too large
-                    }
+    const handleFileSelect = async (files, mode = 'add') => {
+        if (!files || files.length === 0) return;
+
+        try {
+            const fileArray = Array.from(files);
+
+            for (const file of fileArray) {
+                if (file.size >= 1024 * 1024) {
+                    alert(`"${file.name}" exceeds 1MB. Please select a smaller image.`);
+                    return;
                 }
-    
-                // Store selected images directly in the component state
-                setEditedAd(prev => ({
-                    ...prev,
-                    media: [...prev.media, ...fileArray],
-                }));
-    
-                console.log('Images added successfully');
-            } catch (error) {
-                console.error('Error adding images:', error);
             }
+
+            if (mode === 'edit') {
+                setEditedImages(prev => [...prev, ...fileArray]);
+            } else {
+                setSelectedImages(prev => [...prev, ...fileArray]);
+            }
+
+            console.log(`${mode === 'edit' ? 'Edited' : 'Selected'} images added successfully`);
+        } catch (error) {
+            console.error('Error processing selected images:', error);
         }
     };
+
     
 
     const handleDeleteImage = async (index) => {
@@ -1042,32 +1047,46 @@ const VendorAds = () => {
                                 </Col>
                             </Row>
 
-                            <Form.Group className="d-flex flex-column align-items-center mb-1 mb-lg-3">
+                           <Form.Group className="d-flex flex-column align-items-center mb-1 mb-lg-3">
                                 <Form.Label className="text-center mb-0 fw-bold">Add Images</Form.Label>
                                 <Form.Control
                                     type="file"
                                     id="button"
                                     accept="image/*"
                                     multiple
-                                    onChange={(e) => {
-                                    const files = Array.from(e.target.files);
-                                    setEditedImages((prev) => [...prev, ...files]); // append to current
-                                    }}
+                                    onChange={(e) => handleFileSelect(e.target.files, 'edit')}
                                 />
 
                                 {editedImages.length > 0 && (
                                     <div className="image-preview d-flex flex-wrap justify-content-center mt-3">
                                         {editedImages.map((file, index) => (
-                                            <div key={index} className="m-1">
+                                            <div key={index} className="m-1 position-relative">
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger btn-sm position-absolute"
+                                                    style={{
+                                                        top: 0,
+                                                        right: 0,
+                                                        borderRadius: '50%',
+                                                        padding: '0 6px',
+                                                        lineHeight: '1',
+                                                        fontSize: '14px',
+                                                    }}
+                                                    onClick={() =>
+                                                        setEditedImages(prev => prev.filter((_, i) => i !== index))
+                                                    }
+                                                >
+                                                    &times;
+                                                </button>
                                                 <img
                                                     src={URL.createObjectURL(file)}
                                                     alt={`new-img-${index}`}
                                                     style={{
-                                                    width: '80px',
-                                                    height: '80px',
-                                                    objectFit: 'cover',
-                                                    borderRadius: '5px',
-                                                    border: '1px solid #ccc'
+                                                        width: '80px',
+                                                        height: '80px',
+                                                        objectFit: 'cover',
+                                                        borderRadius: '5px',
+                                                        border: '1px solid #ccc'
                                                     }}
                                                 />
                                             </div>
@@ -1075,6 +1094,7 @@ const VendorAds = () => {
                                     </div>
                                 )}
                             </Form.Group>
+
 
 
                             <Form.Group className="d-flex flex-column align-items-center">
@@ -1251,7 +1271,7 @@ const VendorAds = () => {
                                                         type="file"
                                                         accept="image/*"
                                                         multiple
-                                                        onChange={(e) => handleFileSelect(e.target.files)}
+                                                        onChange={(e) => handleFileSelect(e.target.files, 'add')}
                                                         style={{
                                                             position: 'absolute',
                                                             top: 0,
@@ -1271,7 +1291,7 @@ const VendorAds = () => {
                                                 gap: '10px',
                                                 padding: '10px 0'
                                                 }}>
-                                                {editedAd.media.map((imageUrl, index) => (
+                                                {selectedImages.map((imageUrl, index) => (
                                                     <div 
                                                         key={index} 
                                                         className="image-container position-relative"
@@ -1299,8 +1319,9 @@ const VendorAds = () => {
                                                         >
                                                             &times;
                                                         </button>
-                                                        <img
-                                                            src={imageUrl}
+                                                       <img
+                                                            src={typeof imageUrl === 'string' ? imageUrl : URL.createObjectURL(imageUrl)}
+                                                            
                                                             alt={`preview ${index + 1}`}
                                                             className="img-thumbnail"
                                                             style={{ 
