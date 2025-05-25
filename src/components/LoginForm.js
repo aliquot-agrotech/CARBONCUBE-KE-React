@@ -32,7 +32,7 @@ const LoginForm = ({ onLogin }) => {
           navigate('/purchaser/home');
           break;
         case 'vendor':
-          navigate('/vendor/analytics');
+          navigate('/vendor/ads');
           break;
         case 'admin':
           navigate('/admin/analytics');
