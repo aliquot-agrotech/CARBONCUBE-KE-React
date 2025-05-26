@@ -19,10 +19,10 @@ const MpesaPaymentGuide = () => {
                         <strong>Enter Business Number:</strong> Type in <strong><code className="text-success">4160265</code></strong>.
                     </li>
                     <li>
-                        <strong>Enter Account Number:</strong> Use your <strong>Phone Number</strong> or <strong>Business Registration Number</strong> (same as used during registration).
+                        <strong>Enter Account Number:</strong> Use your <strong>Phone Number</strong> (same as used during registration).
                     </li>
                     <li>
-                        <strong>Enter Amount:</strong> Input the amount for your selected tier (e.g., KES 500, 1000, etc.).
+                        <strong>Enter Amount:</strong> Input the amount for your selected tier and duration suitable for you. (e.g., KES 500, 1000, etc.).
                     </li>
                     <li>
                         <strong>Enter M-Pesa PIN:</strong> Confirm and complete the payment with your PIN.
