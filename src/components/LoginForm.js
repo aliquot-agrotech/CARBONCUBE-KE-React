@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TopNavbarMinimal from './TopNavBarMinimal';
 import './LoginForm.css';
 
@@ -149,7 +150,9 @@ const LoginForm = ({ onLogin }) => {
                           />
                         </Col>
                         <Col xs="6" className="text-end">
-                          <a href="/" className="text-muted">Forgot Password?</a>
+                          <Link to="/forgot-password" className="text-muted" style={{ cursor: 'pointer' }}>
+                            Forgot Password?
+                          </Link>
                         </Col>
                       </Row>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
+import ForgotPassword from './components/ForgotPassword';
 
 // Admin Imports
 import AnalyticsReporting from './admin/pages/AnalyticsReporting';
@@ -89,6 +90,7 @@ function App() {
         <Route path="/admin" element={<Navigate to="/login" />} />
         <Route path="/vendor" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/home" element={<Home onLogout={handleLogout} />} />
         <Route path="/purchaser-signup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         <Route path="/vendor-signup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
