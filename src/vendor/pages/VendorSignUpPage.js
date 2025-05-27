@@ -326,7 +326,7 @@ function VendorSignUpPage({ onSignup }) {
                                 </Form.Control.Feedback>
                               </Form.Group>
                             </Col>
-                            <Col md={6}>
+                            <Col xs={6} md={6}>
                               <Form.Group>
                                 <Form.Select
                                   name="age_group_id"
@@ -365,7 +365,7 @@ function VendorSignUpPage({ onSignup }) {
                               <Form.Group>
                                 <Form.Control
                                   type="text"
-                                  placeholder="Business Registration Number"
+                                  placeholder="Business Permit Number"
                                   name="business_registration_number"
                                   id="button"
                                   className="mb-2 text-center"
