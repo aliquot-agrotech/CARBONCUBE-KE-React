@@ -1,23 +1,40 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import TopNavbarMinimal from './TopNavBarMinimal';
+import AlertModal from '../components/AlertModal';  // Import your modal
 import './LoginForm.css';
 
 const LoginForm = ({ onLogin }) => {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  // const [error, setError] = useState('');  // No longer need inline error state
   const [loading, setLoading] = useState(false);
+
+  // AlertModal states
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [alertModalMessage, setAlertModalMessage] = useState('');
+  const [alertModalConfig, setAlertModalConfig] = useState({
+    icon: 'error',
+    title: 'Error',
+    confirmText: 'OK',
+    cancelText: '',
+    showCancel: false,
+    onConfirm: () => setShowAlertModal(false),
+  });
+
   const navigate = useNavigate();
+
+  const handleCloseAlertModal = () => {
+    setShowAlertModal(false);
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    // setError('');  // replaced by modal
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, {
@@ -39,23 +56,42 @@ const LoginForm = ({ onLogin }) => {
           navigate('/admin/analytics');
           break;
         default:
-          setError('Unexpected user role.');
+          // Show modal for unexpected role
+          setAlertModalMessage('Unexpected user role.');
+          setAlertModalConfig({
+            icon: 'error',
+            title: 'Error',
+            confirmText: 'OK',
+            showCancel: false,
+            onConfirm: () => setShowAlertModal(false),
+          });
+          setShowAlertModal(true);
       }
     } catch (error) {
       console.error(error);
+      let message = 'Network error. Please try again later.';
+
       if (error.response) {
         const data = error.response.data;
         if (data.errors && Array.isArray(data.errors)) {
-          setError(data.errors[0]);
+          message = data.errors[0];
         } else if (data.message) {
-          setError(data.message);
+          message = data.message;
         } else {
-          setError('Invalid identifier or password');
+          message = 'Invalid identifier or password';
         }
       }
-      else {
-        setError('Network error. Please try again later.');
-      }
+
+      // Show modal with error message
+      setAlertModalMessage(message);
+      setAlertModalConfig({
+        icon: 'error',
+        title: 'Login Failed',
+        confirmText: 'OK',
+        showCancel: false,
+        onConfirm: () => setShowAlertModal(false),
+      });
+      setShowAlertModal(true);
     } finally {
       setLoading(false);
     }
@@ -125,8 +161,6 @@ const LoginForm = ({ onLogin }) => {
                 <Col lg={8}>
                   <div className="card-body p-4 p-lg-5" style={{ backgroundColor: '#e0e0e0' }}>
                     <h3 className="fw-bold text-center mb-4">Sign In</h3>
-
-                    {error && <Alert variant="danger">{error}</Alert>}
 
                     <Form onSubmit={handleLogin}>
                       <Form.Group controlId="formIdentifier" className="mb-3">
@@ -216,6 +250,19 @@ const LoginForm = ({ onLogin }) => {
             </div>
           </Col>
         </Row>
+
+        {/* AlertModal usage */}
+        <AlertModal
+          isVisible={showAlertModal}
+          message={alertModalMessage}
+          onClose={handleCloseAlertModal}
+          icon={alertModalConfig.icon}
+          title={alertModalConfig.title}
+          confirmText={alertModalConfig.confirmText}
+          cancelText={alertModalConfig.cancelText}
+          showCancel={alertModalConfig.showCancel}
+          onConfirm={alertModalConfig.onConfirm}
+        />
       </Container>
     </>
   );
