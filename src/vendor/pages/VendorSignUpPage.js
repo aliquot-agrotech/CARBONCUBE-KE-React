@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Alert, ProgressBar } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
+import AlertModal from '../../components/AlertModal';
 import axios from 'axios';
-import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import TopNavbarMinimal from '../../components/TopNavBarMinimal';
 import '../css/VendorSignUpPage.css';
@@ -36,11 +34,23 @@ function VendorSignUpPage({ onSignup }) {
   const [counties, setCounties] = useState([]);
   const [subCounties, setSubCounties] = useState([]);
   const [ageGroups, setAgeGroups] = useState([]);
+  const [showPilotNotice, setShowPilotNotice] = useState(false);
   const [options, setOptions] = useState({ age_groups: [], counties: [] });
   const [terms, setTerms] = useState(false);
   const [step, setStep] = useState(1);
   const nextStep = () => setStep(prev => Math.min(prev + 1, 2));
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [alertModalMessage, setAlertModalMessage] = useState('');
+  const [alertModalConfig, setAlertModalConfig] = useState({
+    icon: 'info',
+    title: 'Alert',
+    confirmText: 'OK',
+    cancelText: 'Close',
+    showCancel: false,
+    onConfirm: null,
+  });
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -136,8 +146,45 @@ function VendorSignUpPage({ onSignup }) {
       );
 
       if (response.status === 201) {
-        onSignup();
-        navigate('/login');
+        const selectedCounty = options.counties.find(
+          (county) => String(county.id) === formData.county_id
+        );
+
+        const isNairobi = selectedCounty?.county_code === 47;
+
+        if (!isNairobi) {
+          setAlertModalMessage(
+            `Thank you for signing up! CarbonCube-KE is currently in its pilot phase and only available to vendors based in Nairobi County.<br/><br/>
+            You won’t be able to log in just yet, but your account is saved. Once we go public, you’ll be able to log in without registering again.`
+          );
+
+          setAlertModalConfig({
+            icon: 'info',
+            title: 'Notice',
+            confirmText: 'OK',
+            cancelText: '',
+            showCancel: false,
+            onConfirm: () => {
+              setShowPilotNotice(true); // optional if you want to keep this state update
+              navigate('/');           // navigate to home page on OK click
+            },
+          });
+          setShowAlertModal(true);
+        } else {
+          setAlertModalMessage('Signup successful! You can now log in to your account.');
+          setAlertModalConfig({
+            icon: 'success',
+            title: 'Success',
+            confirmText: 'Go to Login',
+            cancelText: '',
+            showCancel: false,
+            onConfirm: () => {
+              onSignup();
+              navigate('/login');
+            },
+          });
+          setShowAlertModal(true);
+        }
       }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errors) {
@@ -164,7 +211,6 @@ function VendorSignUpPage({ onSignup }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  let datepickerRef;
 
   return (
     <>
@@ -580,11 +626,22 @@ function VendorSignUpPage({ onSignup }) {
                         Already have an account? <a href="./login" className="login-link">Sign In</a>
                       </div>
                     </Form>
+
+                    <AlertModal
+                      isVisible={showAlertModal}
+                      message={alertModalMessage}
+                      onClose={() => setShowAlertModal(false)}
+                      icon={alertModalConfig.icon}
+                      title={alertModalConfig.title}
+                      confirmText={alertModalConfig.confirmText}
+                      cancelText={alertModalConfig.cancelText}
+                      showCancel={alertModalConfig.showCancel}
+                      onConfirm={alertModalConfig.onConfirm}
+                    />
+
                     <ProgressBar now={step * 50} className=" mt-3 rounded-pill" variant="warning" style={{ height: '8px' }}/>
                   </div>
                 </Col>
-                
-                
               </Row>
             </div>
           </Col>

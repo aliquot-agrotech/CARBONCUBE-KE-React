@@ -44,8 +44,16 @@ const LoginForm = ({ onLogin }) => {
     } catch (error) {
       console.error(error);
       if (error.response) {
-        setError(error.response.data.message || 'Invalid identifier or password');
-      } else {
+        const data = error.response.data;
+        if (data.errors && Array.isArray(data.errors)) {
+          setError(data.errors[0]);
+        } else if (data.message) {
+          setError(data.message);
+        } else {
+          setError('Invalid identifier or password');
+        }
+      }
+      else {
         setError('Network error. Please try again later.');
       }
     } finally {
