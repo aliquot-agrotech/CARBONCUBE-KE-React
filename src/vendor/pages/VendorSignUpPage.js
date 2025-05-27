@@ -26,11 +26,13 @@ function VendorSignUpPage({ onSignup }) {
     city: '',
     zipcode: '',
     county_id: '',
-    sub_county_id: ''
+    sub_county_id: '',
+    business_permit: null
   });
   
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [counties, setCounties] = useState([]);
   const [subCounties, setSubCounties] = useState([]);
   const [ageGroups, setAgeGroups] = useState([]);
@@ -110,37 +112,29 @@ function VendorSignUpPage({ onSignup }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return; 
+
+    if (!validateForm() || !validatePassword()) return;
+
+    setLoading(true); // 🔸 Start loading
+
+    const submitFormData = new FormData();
+    for (const key in formData) {
+      submitFormData.append(`vendor[${key}]`, formData[key]);
     }
-  
-    if (!validatePassword()) {
-      return; 
-    }
-    
+
+    console.log("FormData to be submitted:", formData);
+
     try {
-    
-      console.log("Form submitted successfully:", formData);
-    
-    } catch (error) {
-      console.error("Error during submission:", error);
-    }
-  
-    const payload = {
-      vendor: {
-        ...formData
-      }
-    };
-  
-    console.log("Form Data before submission:", payload);
-  
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/vendor/signup`, payload, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/vendor/signup`,
+        submitFormData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
-      });
+      );
+
       if (response.status === 201) {
         onSignup();
         navigate('/login');
@@ -412,6 +406,24 @@ function VendorSignUpPage({ onSignup }) {
 
                       {step === 2 && (
                         <>
+                          <Row className="mt-3">
+                            <Col>
+                              <Form.Group controlId="businessPermit">
+                                <Form.Label className="fw-bold">Upload Business Permit</Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => setFormData({ ...formData, business_permit: e.target.files[0] })}
+                                  className="form-control rounded-pill"
+                                  isInvalid={!!errors.business_permit}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.business_permit}
+                                </Form.Control.Feedback>
+                              </Form.Group>
+                            </Col>
+                          </Row>
+
                           <Row>
                             <Col xs={6} md={6}>
                               <Form.Group>
@@ -539,9 +551,9 @@ function VendorSignUpPage({ onSignup }) {
                                 variant="warning"
                                 type="submit"
                                 className="rounded-pill w-25"
-                                disabled={!terms}
+                                disabled={!terms || loading}
                               >
-                                Sign Up
+                                {loading ? "Signing Up..." : "Sign Up"}
                               </Button>
                             </Col>
                           </Row>
