@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Google, Facebook, Apple } from 'react-bootstrap-icons';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from "framer-motion";
 import TopNavbarMinimal from './TopNavBarMinimal';
 import AlertModal from '../components/AlertModal';  // Import your modal
 import './LoginForm.css';
@@ -10,6 +12,7 @@ import './LoginForm.css';
 const LoginForm = ({ onLogin }) => {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   // const [error, setError] = useState('');  // No longer need inline error state
   const [loading, setLoading] = useState(false);
 
@@ -173,14 +176,49 @@ const LoginForm = ({ onLogin }) => {
                         />
                       </Form.Group>
 
-                      <Form.Group controlId="formPassword" className="mb-3">
+                      <Form.Group controlId="formPassword" className="mb-3 position-relative">
                         <Form.Control
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           placeholder="Password"
                           className="text-center rounded-pill"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                         />
+                        <div
+                          onClick={() => setShowPassword(!showPassword)}
+                          style={{
+                            position: "absolute",
+                            top: "50%",
+                            right: "15px",
+                            transform: "translateY(-50%)",
+                            cursor: "pointer",
+                            color: "#6c757d",
+                          }}
+                        >
+                          <AnimatePresence mode="wait" initial={false}>
+                            {showPassword ? (
+                              <motion.span
+                                key="hide"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <FaEyeSlash />
+                              </motion.span>
+                            ) : (
+                              <motion.span
+                                key="show"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <FaEye />
+                              </motion.span>
+                            )}
+                          </AnimatePresence>
+                        </div>
                       </Form.Group>
 
                       <Row className="mb-3">

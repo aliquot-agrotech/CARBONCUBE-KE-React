@@ -458,7 +458,7 @@ function VendorSignUpPage({ onSignup }) {
                                 <Form.Label className="fw-bold">Upload Business Permit</Form.Label>
                                 <Form.Control
                                   type="file"
-                                  accept="image/*"
+                                  accept=".pdf, image/jpeg, image/jpg, image/png"
                                   onChange={(e) => setFormData({ ...formData, business_permit: e.target.files[0] })}
                                   className="form-control rounded-pill"
                                   isInvalid={!!errors.business_permit}
