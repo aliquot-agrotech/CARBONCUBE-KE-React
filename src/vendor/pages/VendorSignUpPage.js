@@ -532,19 +532,27 @@ function VendorSignUpPage({ onSignup }) {
 
                           <Row className="mt-3">
                             <Col>
-                              <Form.Group controlId="businessPermit">
-                                <Form.Label className="fw-bold text-center  ">Upload Business Permit</Form.Label>
-                                <Form.Control
-                                  type="file"
-                                  accept=".pdf, image/jpeg, image/jpg, image/png"
-                                  onChange={(e) => setFormData({ ...formData, business_permit: e.target.files[0] })}
-                                  className="form-control rounded-pill"
-                                  isInvalid={!!errors.business_permit}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.business_permit}
-                                </Form.Control.Feedback>
-                              </Form.Group>
+                              <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
+                              >
+                                <Form.Group controlId="businessPermit">
+                                  <Form.Label className="fw-bold text-center d-block">
+                                    Upload Business Permit
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="file"
+                                    accept=".pdf, image/jpeg, image/jpg, image/png"
+                                    onChange={(e) => setFormData({ ...formData, business_permit: e.target.files[0] })}
+                                    className="form-control rounded-pill"
+                                    isInvalid={!!errors.business_permit}
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.business_permit}
+                                  </Form.Control.Feedback>
+                                </Form.Group>
+                              </motion.div>
                             </Col>
                           </Row>
 
