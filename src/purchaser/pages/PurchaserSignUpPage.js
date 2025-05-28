@@ -102,7 +102,8 @@ function PurchaserSignUpPage({ onSignup }) {
     if (!otpSent) {
       try {
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}/email_otps`, {
-          email: formData.email
+          email: formData.email,
+          fullname: formData.fullname
         });
         setOtpSent(true);
       } catch (error) {
