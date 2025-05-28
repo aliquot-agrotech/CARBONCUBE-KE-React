@@ -3,13 +3,16 @@ import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import TopNavbarMinimal from './TopNavBarMinimal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { Eye, EyeSlash } from 'react-bootstrap-icons';
+import { motion, AnimatePresence } from "framer-motion";
 import './LoginForm.css'; // reuse styles from login
 import axios from 'axios';
 
 const ForgotPassword = () => {
   const [emailOrPhone, setEmailOrPhone] = useState('');
   const [otp, setOtp] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -147,17 +150,51 @@ const ForgotPassword = () => {
                           />
                         </Form.Group>
 
-                        <Form.Group controlId="newPassword" className="mb-3">
+                        <Form.Group controlId="newPassword" className="mb-3 position-relative">
                           <Form.Control
-                            type="password"
+                            type={showNewPassword ? "text" : "password"}
                             placeholder="New Password"
                             className="text-center rounded-pill"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             required
                           />
+                          <div
+                            onClick={() => setShowNewPassword(!showNewPassword)}
+                            style={{
+                              position: "absolute",
+                              top: "50%",
+                              right: "15px",
+                              transform: "translateY(-50%)",
+                              cursor: "pointer",
+                              color: "#6c757d",
+                            }}
+                          >
+                            <AnimatePresence mode="wait" initial={false}>
+                              {showNewPassword ? (
+                                <motion.span
+                                  key="hideNew"
+                                  initial={{ opacity: 0, scale: 0.8 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  exit={{ opacity: 0, scale: 0.8 }}
+                                  transition={{ duration: 0.2 }}
+                                >
+                                  <EyeSlash />
+                                </motion.span>
+                              ) : (
+                                <motion.span
+                                  key="showNew"
+                                  initial={{ opacity: 0, scale: 0.8 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  exit={{ opacity: 0, scale: 0.8 }}
+                                  transition={{ duration: 0.2 }}
+                                >
+                                  <Eye />
+                                </motion.span>
+                              )}
+                            </AnimatePresence>
+                          </div>
                         </Form.Group>
-
                         <Button type="submit" disabled={loading} className="w-100 rounded-pill" variant="warning">
                           {loading ? 'Resetting Password...' : 'Reset Password'}
                         </Button>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Alert, ProgressBar } from 'react-bootstrap';
-import { Google, Facebook, Apple } from 'react-bootstrap-icons';
+import { Google, Facebook, Apple, Eye, EyeSlash } from 'react-bootstrap-icons';
+import { motion, AnimatePresence } from "framer-motion";
 import AlertModal from '../../components/AlertModal';
 import axios from 'axios';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -50,6 +51,9 @@ function VendorSignUpPage({ onSignup }) {
     showCancel: false,
     onConfirm: null,
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 
   const handleChange = (e) => {
@@ -545,10 +549,10 @@ function VendorSignUpPage({ onSignup }) {
                           </Row>
 
                           <Row>
-                            <Col xs={6} md={6}>
+                            <Col xs={6} md={6} className="position-relative">
                               <Form.Group>
                                 <Form.Control
-                                  type="password"
+                                  type={showPassword ? "text" : "password"}
                                   placeholder="Password"
                                   name="password"
                                   id="button"
@@ -557,13 +561,51 @@ function VendorSignUpPage({ onSignup }) {
                                   onChange={handleChange}
                                   isInvalid={!!errors.password}
                                 />
-                                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.password}
+                                </Form.Control.Feedback>
+                                <div
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    right: "15px",
+                                    transform: "translateY(-50%)",
+                                    cursor: "pointer",
+                                    color: "#6c757d",
+                                  }}
+                                >
+                                  <AnimatePresence mode="wait" initial={false}>
+                                    {showPassword ? (
+                                      <motion.span
+                                        key="hide1"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.2 }}
+                                      >
+                                        <EyeSlash />
+                                      </motion.span>
+                                    ) : (
+                                      <motion.span
+                                        key="show1"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.2 }}
+                                      >
+                                        <Eye />
+                                      </motion.span>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
                               </Form.Group>
                             </Col>
-                            <Col xs={6} md={6}>
+
+                            <Col xs={6} md={6} className="position-relative">
                               <Form.Group>
                                 <Form.Control
-                                  type="password"
+                                  type={showConfirmPassword ? "text" : "password"}
                                   placeholder="Confirm Password"
                                   name="password_confirmation"
                                   id="button"
@@ -572,11 +614,47 @@ function VendorSignUpPage({ onSignup }) {
                                   onChange={handleChange}
                                   isInvalid={!!errors.password_confirmation}
                                 />
-                                <Form.Control.Feedback type="invalid">{errors.password_confirmation}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.password_confirmation}
+                                </Form.Control.Feedback>
+                                <div
+                                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                  style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    right: "15px",
+                                    transform: "translateY(-50%)",
+                                    cursor: "pointer",
+                                    color: "#6c757d",
+                                  }}
+                                >
+                                  <AnimatePresence mode="wait" initial={false}>
+                                    {showConfirmPassword ? (
+                                      <motion.span
+                                        key="hide2"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.2 }}
+                                      >
+                                        <EyeSlash />
+                                      </motion.span>
+                                    ) : (
+                                      <motion.span
+                                        key="show2"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.2 }}
+                                      >
+                                        <Eye />
+                                      </motion.span>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
                               </Form.Group>
                             </Col>
                           </Row>
-
                           <Form.Group className="mb-2">
                             <Form.Check
                               type="checkbox"

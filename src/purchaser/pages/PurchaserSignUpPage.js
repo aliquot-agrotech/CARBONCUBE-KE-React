@@ -1,6 +1,7 @@
 import React, { useState ,useEffect} from 'react';
 import { Container, Row, Col, Form, Button, Alert, ProgressBar } from 'react-bootstrap';
-import { Google, Facebook, Apple } from 'react-bootstrap-icons';
+import { Google, Facebook, Apple, Eye, EyeSlash } from 'react-bootstrap-icons';
+import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -34,6 +35,9 @@ function PurchaserSignUpPage({ onSignup }) {
   const [step, setStep] = useState(1);
   const nextStep = () => setStep(prev => Math.min(prev + 1, 2));
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     // Fetch options for dropdowns from the API
@@ -336,10 +340,10 @@ function PurchaserSignUpPage({ onSignup }) {
                       {step === 2 && (
                         <>
                           <Row>
-                            <Col md={12}>
+                            <Col md={12} className="position-relative">
                               <Form.Group>
                                 <Form.Control
-                                  type="password"
+                                  type={showPassword ? "text" : "password"}
                                   placeholder="Password"
                                   name="password"
                                   className="mb-2 text-center rounded-pill"
@@ -347,16 +351,53 @@ function PurchaserSignUpPage({ onSignup }) {
                                   onChange={handleChange}
                                   isInvalid={!!errors.password}
                                 />
-                                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.password}
+                                </Form.Control.Feedback>
+                                <div
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    right: "20px",
+                                    transform: "translateY(-50%)",
+                                    cursor: "pointer",
+                                    color: "#6c757d",
+                                  }}
+                                >
+                                  <AnimatePresence mode="wait" initial={false}>
+                                    {showPassword ? (
+                                      <motion.span
+                                        key="hidePwd"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.2 }}
+                                      >
+                                        <EyeSlash />
+                                      </motion.span>
+                                    ) : (
+                                      <motion.span
+                                        key="showPwd"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.2 }}
+                                      >
+                                        <Eye />
+                                      </motion.span>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
                               </Form.Group>
                             </Col>
                           </Row>
 
                           <Row>
-                            <Col md={12}>
+                            <Col md={12} className="position-relative">
                               <Form.Group>
                                 <Form.Control
-                                  type="password"
+                                  type={showConfirmPassword ? "text" : "password"}
                                   placeholder="Confirm Password"
                                   name="password_confirmation"
                                   className="mb-2 text-center rounded-pill"
@@ -364,7 +405,44 @@ function PurchaserSignUpPage({ onSignup }) {
                                   onChange={handleChange}
                                   isInvalid={!!errors.password_confirmation}
                                 />
-                                <Form.Control.Feedback type="invalid">{errors.password_confirmation}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.password_confirmation}
+                                </Form.Control.Feedback>
+                                <div
+                                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                  style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    right: "20px",
+                                    transform: "translateY(-50%)",
+                                    cursor: "pointer",
+                                    color: "#6c757d",
+                                  }}
+                                >
+                                  <AnimatePresence mode="wait" initial={false}>
+                                    {showConfirmPassword ? (
+                                      <motion.span
+                                        key="hideConfirm"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.2 }}
+                                      >
+                                        <EyeSlash />
+                                      </motion.span>
+                                    ) : (
+                                      <motion.span
+                                        key="showConfirm"
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.8 }}
+                                        transition={{ duration: 0.2 }}
+                                      >
+                                        <Eye />
+                                      </motion.span>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
                               </Form.Group>
                             </Col>
                           </Row>
