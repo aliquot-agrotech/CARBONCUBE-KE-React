@@ -533,7 +533,7 @@ function VendorSignUpPage({ onSignup }) {
                           <Row className="mt-3">
                             <Col>
                               <Form.Group controlId="businessPermit">
-                                <Form.Label className="fw-bold text-center">Upload Business Permit</Form.Label>
+                                <Form.Label className="fw-bold text-center  ">Upload Business Permit</Form.Label>
                                 <Form.Control
                                   type="file"
                                   accept=".pdf, image/jpeg, image/jpg, image/png"
@@ -549,14 +549,14 @@ function VendorSignUpPage({ onSignup }) {
                           </Row>
 
                           <Row>
-                            <Col md={6} className="position-relative">
-                              <Form.Group>
+                            <Col md={6} >
+                              <Form.Group className="position-relative">
                                 <Form.Control
                                   type={showPassword ? "text" : "password"}
                                   placeholder="Password"
                                   name="password"
                                   id="button"
-                                  className="mb-2 text-center"
+                                  className=" text-center rounded-pill mb-2"
                                   value={formData.password}
                                   onChange={handleChange}
                                   isInvalid={!!errors.password}
@@ -602,8 +602,8 @@ function VendorSignUpPage({ onSignup }) {
                               </Form.Group>
                             </Col>
 
-                            <Col md={6} className="position-relative">
-                              <Form.Group>
+                            <Col md={6} >
+                              <Form.Group className="position-relative">
                                 <Form.Control
                                   type={showConfirmPassword ? "text" : "password"}
                                   placeholder="Confirm Password"

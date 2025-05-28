@@ -340,8 +340,8 @@ function PurchaserSignUpPage({ onSignup }) {
                       {step === 2 && (
                         <>
                           <Row>
-                            <Col md={12} className="position-relative">
-                              <Form.Group>
+                            <Col md={12} >
+                              <Form.Group className="position-relative">
                                 <Form.Control
                                   type={showPassword ? "text" : "password"}
                                   placeholder="Password"
@@ -359,7 +359,7 @@ function PurchaserSignUpPage({ onSignup }) {
                                   style={{
                                     position: "absolute",
                                     top: "50%",
-                                    right: "20px",
+                                    right: "15px",
                                     transform: "translateY(-50%)",
                                     cursor: "pointer",
                                     color: "#6c757d",
@@ -394,8 +394,8 @@ function PurchaserSignUpPage({ onSignup }) {
                           </Row>
 
                           <Row>
-                            <Col md={12} className="position-relative">
-                              <Form.Group>
+                            <Col md={12} >
+                              <Form.Group className="position-relative">
                                 <Form.Control
                                   type={showConfirmPassword ? "text" : "password"}
                                   placeholder="Confirm Password"
@@ -413,7 +413,7 @@ function PurchaserSignUpPage({ onSignup }) {
                                   style={{
                                     position: "absolute",
                                     top: "50%",
-                                    right: "20px",
+                                    right: "15px",
                                     transform: "translateY(-50%)",
                                     cursor: "pointer",
                                     color: "#6c757d",
