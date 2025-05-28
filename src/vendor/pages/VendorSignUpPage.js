@@ -456,24 +456,6 @@ function VendorSignUpPage({ onSignup }) {
 
                       {step === 2 && (
                         <>
-                          <Row className="mt-3">
-                            <Col>
-                              <Form.Group controlId="businessPermit">
-                                <Form.Label className="fw-bold">Upload Business Permit</Form.Label>
-                                <Form.Control
-                                  type="file"
-                                  accept=".pdf, image/jpeg, image/jpg, image/png"
-                                  onChange={(e) => setFormData({ ...formData, business_permit: e.target.files[0] })}
-                                  className="form-control rounded-pill"
-                                  isInvalid={!!errors.business_permit}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                  {errors.business_permit}
-                                </Form.Control.Feedback>
-                              </Form.Group>
-                            </Col>
-                          </Row>
-
                           <Row>
                             <Col xs={6} md={6}>
                               <Form.Group>
@@ -548,8 +530,26 @@ function VendorSignUpPage({ onSignup }) {
                             </Col>
                           </Row>
 
+                          <Row className="mt-3">
+                            <Col>
+                              <Form.Group controlId="businessPermit">
+                                <Form.Label className="fw-bold text-center">Upload Business Permit</Form.Label>
+                                <Form.Control
+                                  type="file"
+                                  accept=".pdf, image/jpeg, image/jpg, image/png"
+                                  onChange={(e) => setFormData({ ...formData, business_permit: e.target.files[0] })}
+                                  className="form-control rounded-pill"
+                                  isInvalid={!!errors.business_permit}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                  {errors.business_permit}
+                                </Form.Control.Feedback>
+                              </Form.Group>
+                            </Col>
+                          </Row>
+
                           <Row>
-                            <Col xs={6} md={6} className="position-relative">
+                            <Col md={6} className="position-relative">
                               <Form.Group>
                                 <Form.Control
                                   type={showPassword ? "text" : "password"}
@@ -602,7 +602,7 @@ function VendorSignUpPage({ onSignup }) {
                               </Form.Group>
                             </Col>
 
-                            <Col xs={6} md={6} className="position-relative">
+                            <Col md={6} className="position-relative">
                               <Form.Group>
                                 <Form.Control
                                   type={showConfirmPassword ? "text" : "password"}

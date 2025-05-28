@@ -293,7 +293,7 @@ function PurchaserSignUpPage({ onSignup }) {
                             
 
                           <Row>
-                            <Col md={6}>
+                            <Col xs={6} md={6}>
                               <Form.Group>
                                 <Form.Select
                                   name="gender"
@@ -310,7 +310,7 @@ function PurchaserSignUpPage({ onSignup }) {
                                 <Form.Control.Feedback type="invalid">{errors.gender}</Form.Control.Feedback>
                               </Form.Group>
                             </Col>
-                            <Col md={6}>
+                            <Col xs={6} md={6}>
                               <Form.Group>
                                 <Form.Select
                                   name="age_group_id"
