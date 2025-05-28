@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { Google, Facebook, Apple } from 'react-bootstrap-icons';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Google, Facebook, Apple, Eye, EyeSlash } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
@@ -204,7 +203,7 @@ const LoginForm = ({ onLogin }) => {
                                 exit={{ opacity: 0, scale: 0.8 }}
                                 transition={{ duration: 0.2 }}
                               >
-                                <FaEyeSlash />
+                                <EyeSlash />
                               </motion.span>
                             ) : (
                               <motion.span
@@ -214,7 +213,7 @@ const LoginForm = ({ onLogin }) => {
                                 exit={{ opacity: 0, scale: 0.8 }}
                                 transition={{ duration: 0.2 }}
                               >
-                                <FaEye />
+                                <Eye />
                               </motion.span>
                             )}
                           </AnimatePresence>
