@@ -410,88 +410,88 @@ const VendorAds = () => {
     };
 
     const handleSaveEdit = async () => {
-  setIsSaving(true);
+        setIsSaving(true);
 
-  try {
-    const formData = new FormData();
+        try {
+            const formData = new FormData();
 
-    // Helper function: Append only if value is non-empty
-    const appendIfValid = (key) => {
-      const value = editedAd[key];
-      if (value !== '' && value !== null && value !== undefined) {
-        formData.append(`ad[${key}]`, value);
-      }
-    };
+            // Helper function: Append only if value is non-empty
+            const appendIfValid = (key) => {
+            const value = editedAd[key];
+            if (value !== '' && value !== null && value !== undefined) {
+                formData.append(`ad[${key}]`, value);
+            }
+            };
 
-    // Append basic fields
-    appendIfValid('title');
-    appendIfValid('description');
-    appendIfValid('category_id');
-    appendIfValid('subcategory_id');
-    appendIfValid('price');
-    appendIfValid('quantity');
-    appendIfValid('brand');
-    appendIfValid('manufacturer');
-    appendIfValid('condition');
+            // Append basic fields
+            appendIfValid('title');
+            appendIfValid('description');
+            appendIfValid('category_id');
+            appendIfValid('subcategory_id');
+            appendIfValid('price');
+            appendIfValid('quantity');
+            appendIfValid('brand');
+            appendIfValid('manufacturer');
+            appendIfValid('condition');
 
-    // Append dimensions and weight fields only if valid
-    appendIfValid('item_length');
-    appendIfValid('item_width');
-    appendIfValid('item_height');
-    appendIfValid('item_weight');
+            // Append dimensions and weight fields only if valid
+            appendIfValid('item_length');
+            appendIfValid('item_width');
+            appendIfValid('item_height');
+            appendIfValid('item_weight');
 
-    // Weight unit - append always, defaulting to 'Grams' if empty or missing
-    formData.append('ad[weight_unit]', editedAd.weight_unit && editedAd.weight_unit !== '' ? editedAd.weight_unit : 'Grams');
+            // Weight unit - append always, defaulting to 'Grams' if empty or missing
+            formData.append('ad[weight_unit]', editedAd.weight_unit && editedAd.weight_unit !== '' ? editedAd.weight_unit : 'Grams');
 
-    // NSFW image filtering if images exist
-    if (editedImages && editedImages.length > 0) {
-      await loadNSFWModel();
+            // NSFW image filtering if images exist
+            if (editedImages && editedImages.length > 0) {
+            await loadNSFWModel();
 
-      const safeImages = [];
+            const safeImages = [];
 
-      for (let file of editedImages) {
-        const isUnsafe = await checkImage(file);
-        if (!isUnsafe) {
-          safeImages.push(file);
-        } else {
-          console.warn("Unsafe image blocked:", file.name);
+            for (let file of editedImages) {
+                const isUnsafe = await checkImage(file);
+                if (!isUnsafe) {
+                safeImages.push(file);
+                } else {
+                console.warn("Unsafe image blocked:", file.name);
+                }
+            }
+
+            if (safeImages.length === 0) {
+                alert("All selected images were flagged and blocked.");
+                setIsSaving(false);
+                return;
+            }
+
+            safeImages.forEach((file) => {
+                formData.append("ad[media][]", file);
+            });
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/ads/${editedAd.id}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                // Do NOT set Content-Type here! Let fetch set it for FormData.
+            },
+            body: formData,
+            });
+
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+
+            const updatedAd = await response.json();
+            setAds(ads.map(p => p.id === updatedAd.id ? updatedAd : p));
+            setShowEditModal(false);
+            setEditedImages([]); // Reset after successful update
+        } catch (error) {
+            console.error('Error saving changes:', error);
+        } finally {
+            setIsSaving(false);
         }
-      }
-
-      if (safeImages.length === 0) {
-        alert("All selected images were flagged and blocked.");
-        setIsSaving(false);
-        return;
-      }
-
-      safeImages.forEach((file) => {
-        formData.append("ad[media][]", file);
-      });
-    }
-
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/vendor/ads/${editedAd.id}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-        // Do NOT set Content-Type here! Let fetch set it for FormData.
-      },
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const updatedAd = await response.json();
-    setAds(ads.map(p => p.id === updatedAd.id ? updatedAd : p));
-    setShowEditModal(false);
-    setEditedImages([]); // Reset after successful update
-  } catch (error) {
-    console.error('Error saving changes:', error);
-  } finally {
-    setIsSaving(false);
-  }
-};
+    };
 
 
     const handleInputChange = (e) => {
