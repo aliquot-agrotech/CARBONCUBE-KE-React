@@ -39,7 +39,7 @@ function VendorSignUpPage({ onSignup }) {
   const [options, setOptions] = useState({ age_groups: [], counties: [] });
   const [terms, setTerms] = useState(false);
   const [step, setStep] = useState(1);
-  const nextStep = () => setStep(prev => Math.min(prev + 1, 2));
+  const nextStep = () => setStep(prev => Math.min(prev + 1, 3));
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [alertModalMessage, setAlertModalMessage] = useState('');
@@ -54,6 +54,11 @@ function VendorSignUpPage({ onSignup }) {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState('');
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [submittingSignup, setSubmittingSignup] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
 
   const handleChange = (e) => {
@@ -124,30 +129,60 @@ function VendorSignUpPage({ onSignup }) {
     return isValid;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Step 2 submit: send OTP after validating form and password
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!validateForm() || !validatePassword()) return;
+  if (!validateForm()) return;
 
-    setLoading(true); // 🔸 Start loading
-
-    const submitFormData = new FormData();
-    for (const key in formData) {
-      submitFormData.append(`vendor[${key}]`, formData[key]);
-    }
-
-    console.log("FormData to be submitted:", formData);
+  if (step === 2) {
+    if (!validatePassword()) return;
 
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/vendor/signup`,
-        submitFormData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
+      setSubmittingSignup(true);
+
+      // Send OTP to vendor email
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/email_otps`, {
+        email: formData.email,
+        fullname: formData.fullname,
+      });
+
+      setOtpSent(true);
+      nextStep(); // go to step 3 (OTP verification)
+    } catch (error) {
+      setErrors({ email: 'Failed to send OTP. Try again later.' });
+    } finally {
+      setSubmittingSignup(false);
+    }
+    return;
+  }
+
+  // Do nothing if step not handled here
+};
+
+// Verify OTP and finalize vendor signup
+const verifyOtpCode = async () => {
+  try {
+    setVerifyingOtp(true);
+
+    const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/email_otps/verify`, {
+      email: formData.email,
+      otp: otpCode,
+    });
+
+    if (res.data.verified) {
+      setEmailVerified(true);
+      setErrors({});
+
+      // Clean empty strings to null
+      const cleanedData = Object.fromEntries(
+        Object.entries(formData).map(([key, value]) => [key, value === '' ? null : value])
       );
+
+      const payload = { vendor: cleanedData };
+      setSubmittingSignup(true);
+
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/vendor/signup`, payload);
 
       if (response.status === 201) {
         const selectedCounty = options.counties.find(
@@ -169,8 +204,8 @@ function VendorSignUpPage({ onSignup }) {
             cancelText: '',
             showCancel: false,
             onConfirm: () => {
-              setShowPilotNotice(true); // optional if you want to keep this state update
-              navigate('/');           // navigate to home page on OK click
+              setShowPilotNotice(true);
+              navigate('/');
             },
           });
           setShowAlertModal(true);
@@ -190,19 +225,22 @@ function VendorSignUpPage({ onSignup }) {
           setShowAlertModal(true);
         }
       }
-    } catch (err) {
-      if (err.response && err.response.data && err.response.data.errors) {
-        const serverErrors = {};
-        err.response.data.errors.forEach(error => {
-          const [field, message] = error.split(': ');
-          serverErrors[field.toLowerCase()] = message;
-        });
-        setErrors(serverErrors);
-      } else {
-        setErrors({ general: 'Signup failed. Please try again.' });
-      }
+    } else {
+      setErrors({ otp: 'Invalid or expired OTP.' });
     }
-  };
+  } catch (err) {
+    const serverErrors = {};
+    err.response?.data?.errors?.forEach((error) => {
+      const [field, message] = error.includes(': ') ? error.split(': ') : ['general', error];
+      serverErrors[field.toLowerCase()] = message;
+    });
+    setErrors({ otp: serverErrors.otp || 'Verification failed. Please try again.' });
+  } finally {
+    setVerifyingOtp(false);
+    setSubmittingSignup(false);
+  }
+};
+
 
   const validateForm = () => {
     const newErrors = {};
@@ -683,10 +721,61 @@ function VendorSignUpPage({ onSignup }) {
                                 variant="warning"
                                 type="submit"
                                 className="rounded-pill w-25"
-                                disabled={!terms || loading}
+                                disabled={!terms || submittingSignup}
                               >
-                                {loading ? "Signing Up..." : "Sign Up"}
+                                {submittingSignup ? "Sending OTP..." : "Request OTP"}
                               </Button>
+
+                            </Col>
+                          </Row>
+                        </>
+                      )}
+
+                      {step === 3 && (
+                        <>
+                          <Form.Group>
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter OTP sent to email"
+                              name="otp"
+                              className="mb-2 text-center rounded-pill"
+                              value={otpCode}
+                              onChange={(e) => setOtpCode(e.target.value)}
+                              isInvalid={!!errors.otp}
+                            />
+                            <Form.Control.Feedback type="invalid">{errors.otp}</Form.Control.Feedback>
+                          </Form.Group>
+
+                          <Form.Group className="mb-2">
+                            <Form.Check
+                              type="checkbox"
+                              label="Agree to Terms and Conditions and receive SMS/emails."
+                              name="terms"
+                              checked={terms}
+                              onChange={(e) => setTerms(e.target.checked)}
+                            />
+                            {errors.terms && <div className="text-danger mt-1">{errors.terms}</div>}
+                          </Form.Group>
+
+                          <Row className="mt-3">
+                            <Col className="d-flex justify-content-between">
+                              <Button
+                                variant="dark"
+                                className="rounded-pill w-25"
+                                onClick={prevStep}
+                              >
+                                Back
+                              </Button>
+
+                              <Button
+                                variant="warning"
+                                className="rounded-pill w-50"
+                                onClick={verifyOtpCode}
+                                disabled={!terms || otpCode.trim().length === 0 || verifyingOtp}
+                              >
+                                {verifyingOtp ? "Verifying OTP..." : "Verify & Finish Sign Up"}
+                              </Button>
+
                             </Col>
                           </Row>
                         </>
