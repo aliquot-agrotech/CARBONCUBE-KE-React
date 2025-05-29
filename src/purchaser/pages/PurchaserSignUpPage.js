@@ -162,7 +162,7 @@ function PurchaserSignUpPage({ onSignup }) {
     } catch (err) {
       setErrors({ otp: 'Verification failed. Please try again.' });
     }
-  };z
+  };
   
   const validateForm = () => {
     const newErrors = {};
