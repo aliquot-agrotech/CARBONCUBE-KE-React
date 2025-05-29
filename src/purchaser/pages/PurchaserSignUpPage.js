@@ -33,7 +33,7 @@ function PurchaserSignUpPage({ onSignup }) {
   const navigate = useNavigate();
   const [terms, setTerms] = useState(false);
   const [step, setStep] = useState(1);
-  const nextStep = () => setStep(prev => Math.min(prev + 1, 2));
+  const nextStep = () => setStep(prev => Math.min(prev + 1, 3));
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
   const [showPassword, setShowPassword] = useState(false);
@@ -42,8 +42,7 @@ function PurchaserSignUpPage({ onSignup }) {
   const [otpCode, setOtpCode] = useState('');
   const [emailVerified, setEmailVerified] = useState(false);
   const [submittingSignup, setSubmittingSignup] = useState(false);
-
-
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   useEffect(() => {
     // Fetch options for dropdowns from the API
@@ -94,60 +93,39 @@ function PurchaserSignUpPage({ onSignup }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
     if (!validateForm()) return;
-    if (!validatePassword()) return;
 
-    if (!otpSent) {
+    if (step === 2) {
+      if (!validatePassword()) return;
+
       try {
+        setSubmittingSignup(true); // Start loader
+
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}/email_otps`, {
           email: formData.email,
           fullname: formData.fullname
         });
+
         setOtpSent(true);
+        nextStep(); // move to step 3
       } catch (error) {
         setErrors({ email: 'Failed to send OTP. Try again later.' });
+      } finally {
+        setSubmittingSignup(false); // Reset loader in both success/failure
       }
+
       return;
     }
-
-    if (!emailVerified) {
-      setErrors({ otp: 'Please verify the OTP sent to your email before submitting.' });
-      return;
-    }
-
-    // Final form submission after OTP is verified
-    try {
-      const cleanedData = Object.fromEntries(
-        Object.entries(formData).map(([key, value]) => [key, value === "" ? null : value])
-      );
-
-      const payload = {
-        purchaser: cleanedData
-      };
-
-      setSubmittingSignup(true);
-
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/purchaser/signup`, payload);
-      if (response.status === 201) {
-        onSignup();
-        navigate('/login');
-      }
-    } catch (err) {
-      const serverErrors = {};
-      err.response?.data?.errors?.forEach(error => {
-        const [field, message] = error.includes(': ') ? error.split(': ') : ['general', error];
-        serverErrors[field.toLowerCase()] = message;
-      });
-      setErrors(serverErrors);
-    } finally {
-      setSubmittingSignup(false);
-    }
+    // If step is not handled, do nothing.
   };
+
 
   const verifyOtpCode = async () => {
     try {
+      setVerifyingOtp(true); // start loading
+
       const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/email_otps/verify`, {
         email: formData.email,
         otp: otpCode
@@ -156,14 +134,36 @@ function PurchaserSignUpPage({ onSignup }) {
       if (res.data.verified) {
         setEmailVerified(true);
         setErrors({});
+
+        const cleanedData = Object.fromEntries(
+          Object.entries(formData).map(([key, value]) => [key, value === "" ? null : value])
+        );
+
+        const payload = { purchaser: cleanedData };
+        setSubmittingSignup(true);
+
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/purchaser/signup`, payload);
+        if (response.status === 201) {
+          onSignup();
+          navigate('/login');
+        }
       } else {
         setErrors({ otp: 'Invalid or expired OTP.' });
       }
     } catch (err) {
-      setErrors({ otp: 'Verification failed. Please try again.' });
+      const serverErrors = {};
+      err.response?.data?.errors?.forEach(error => {
+        const [field, message] = error.includes(': ') ? error.split(': ') : ['general', error];
+        serverErrors[field.toLowerCase()] = message;
+      });
+      setErrors({ otp: serverErrors.otp || 'Verification failed. Please try again.' });
+    } finally {
+      setVerifyingOtp(false); // stop loading
+      setSubmittingSignup(false);
     }
   };
-  
+
+
   const validateForm = () => {
     const newErrors = {};
   
@@ -479,32 +479,6 @@ function PurchaserSignUpPage({ onSignup }) {
                             </Col>
                           </Row>
 
-                          {otpSent && !emailVerified && (
-                            <>
-                              <Form.Group>
-                                <Form.Control
-                                  type="text"
-                                  placeholder="Enter OTP sent to email"
-                                  name="otp"
-                                  className="mb-2 text-center rounded-pill"
-                                  value={otpCode}
-                                  onChange={(e) => setOtpCode(e.target.value)}
-                                  isInvalid={!!errors.otp}
-                                />
-                                <Form.Control.Feedback type="invalid">{errors.otp}</Form.Control.Feedback>
-                              </Form.Group>
-
-                              <Button
-                                variant="info"
-                                className="rounded-pill w-100 mb-2"
-                                onClick={verifyOtpCode}
-                              >
-                                Verify OTP
-                              </Button>
-                            </>
-                          )}
-
-
                           <Form.Group className="mb-2">
                             <Form.Check
                               type="checkbox"
@@ -525,10 +499,61 @@ function PurchaserSignUpPage({ onSignup }) {
                                 variant="warning"
                                 type="submit"
                                 className="rounded-pill w-25"
-                                disabled={!terms}
+                                disabled={!terms || submittingSignup}
                               >
-                                Sign Up
+                                {submittingSignup ? "Sending OTP..." : "Request OTP"}
                               </Button>
+
+                            </Col>
+                          </Row>
+                        </>
+                      )}
+
+                      {step === 3 && (
+                        <>
+                          <Form.Group>
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter OTP sent to email"
+                              name="otp"
+                              className="mb-2 text-center rounded-pill"
+                              value={otpCode}
+                              onChange={(e) => setOtpCode(e.target.value)}
+                              isInvalid={!!errors.otp}
+                            />
+                            <Form.Control.Feedback type="invalid">{errors.otp}</Form.Control.Feedback>
+                          </Form.Group>
+
+                          <Form.Group className="mb-2">
+                            <Form.Check
+                              type="checkbox"
+                              label="Agree to Terms and Conditions and receive SMS/emails."
+                              name="terms"
+                              checked={terms}
+                              onChange={(e) => setTerms(e.target.checked)}
+                            />
+                            {errors.terms && <div className="text-danger mt-1">{errors.terms}</div>}
+                          </Form.Group>
+
+                          <Row className="mt-3">
+                            <Col className="d-flex justify-content-between">
+                              <Button
+                                variant="dark"
+                                className="rounded-pill w-25"
+                                onClick={prevStep}
+                              >
+                                Back
+                              </Button>
+
+                              <Button
+                                variant="warning"
+                                className="rounded-pill w-50"
+                                onClick={verifyOtpCode}
+                                disabled={!terms || otpCode.trim().length === 0 || verifyingOtp}
+                              >
+                                {verifyingOtp ? "Verifying OTP..." : "Verify & Finish Sign Up"}
+                              </Button>
+
                             </Col>
                           </Row>
                         </>
