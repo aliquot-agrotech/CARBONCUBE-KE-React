@@ -6,7 +6,7 @@ const TopNavbar = () => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar mb-0 p-1">
       <Container fluid>
-        <Navbar.Brand href="/vendor/analytics" className="d-flex align-items-center">
+        <Navbar.Brand href="/vendor/ads" className="d-flex align-items-center">
           <img
             src={`${process.env.PUBLIC_URL}/logo.png`}
             alt="Carboncube Logo"

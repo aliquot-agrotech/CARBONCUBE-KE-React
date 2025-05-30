@@ -240,7 +240,10 @@ const TiersManagement = () => {
                                                                 </Card.Header>
                                                                 <Card.Body className="d-flex flex-column justify-content-between px-2">
                                                                     <div className="d-flex flex-column flex-grow-1">
-                                                                        <p><strong>Ads Limit:</strong> {tier.ads_limit}</p>
+                                                                        <p>
+                                                                            <strong>Ads Limit:</strong>{' '}
+                                                                            {tier.name === 'Premium' ? <span style={{ fontSize: '1.2rem' }}>∞</span> : tier.ads_limit}
+                                                                        </p>
                                                                         <h5 className="text-center">Features:</h5>
                                                                         <ul>
                                                                             {tier.tier_features.map((feature, index) => (

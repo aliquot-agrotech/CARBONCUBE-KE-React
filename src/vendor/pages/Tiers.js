@@ -174,7 +174,9 @@ const TierPage = () => {
                     <Card.Body className="flex-grow-1 d-flex flex-column justify-content-between">
                       <div>
                         <Card.Title className="tier-title text-secondary">{tier.name}</Card.Title>
-                        <Card.Subtitle className="tier-description mb-3">Ads: {tier.ads_limit}</Card.Subtitle>
+                        <Card.Subtitle className="tier-description mb-3">
+                          Ads: {tier.name === 'Premium' ? <span style={{ fontSize: '1.2rem' }}>∞</span> : tier.ads_limit}
+                        </Card.Subtitle>
                         <ul className="tier-features list-unstyled mb-3">
                           {(tier.tier_features || []).map((feature) => (
                             <li key={feature.id}>✔ {feature.feature_name}</li>
@@ -213,15 +215,7 @@ const TierPage = () => {
                             <p className="text-center text-muted">Free Tier</p> // Message for the free tier
                           )}
                         </div>
-
                       </div>
-                      {/* <Button
-                        style={{ backgroundColor: 'black', borderColor: 'black' }}
-                        className="w-100 rounded-pill text-white mt-3"
-                        onClick={() => handleTierSelect(tier.id)}
-                      >
-                        {selectedTier === tier.id ? 'Selected' : 'Select Tier'}
-                      </Button> */}
                     </Card.Body>
                   </Card>
                 </Col>
