@@ -151,7 +151,7 @@ const TierPage = () => {
           
           {/* Home Button */}
           <Button
-            onClick={() => navigate("/vendor/analytics")}
+            onClick={() => navigate("/vendor/ads")}
             className="btn btn-dark mt-4 rounded-pill" // Bootstrap classes for styling
           >
             Back to Analytics
