@@ -60,6 +60,18 @@ const VendorAds = () => {
         item_weight: ''
     });
 
+    const [showAlertModal, setShowAlertModal] = useState(false);
+    const [alertModalMessage, setAlertModalMessage] = useState('');
+    const [alertModalConfig, setAlertModalConfig] = useState({
+    icon: '',
+    title: '',
+    confirmText: '',
+    cancelText: '',
+    showCancel: false,
+    onConfirm: () => {},
+    });
+
+
     const vendorId = sessionStorage.getItem('vendorId');
 
     const nsfwModelRef = useRef(null); 
@@ -507,27 +519,53 @@ const VendorAds = () => {
 
         try {
             const fileArray = Array.from(files);
+            const maxSize = 5 * 1024 * 1024;
 
-            for (const file of fileArray) {
-                if (file.size >= 1024 * 1024) {
-                    alert(`"${file.name}" exceeds 1MB. Please select a smaller image.`);
-                    return;
+            const validFiles = fileArray.filter(file => file.size <= maxSize);
+            const invalidFiles = fileArray.filter(file => file.size > maxSize);
+
+            if (invalidFiles.length > 0) {
+            // Create a message listing all oversized files
+            const invalidNames = invalidFiles.map(file => `"${file.name}"`).join(', ');
+            const alertMessage = `${invalidNames} ${invalidFiles.length === 1 ? 'exceeds' : 'exceed'} 5MB. Please select smaller image${invalidFiles.length === 1 ? '' : 's'}.`;
+
+            setAlertModalMessage(alertMessage);
+            setAlertModalConfig({
+                icon: 'warning',
+                title: 'File Too Large',
+                confirmText: 'OK',
+                cancelText: '',
+                showCancel: false,
+                onConfirm: () => {
+                setShowAlertModal(false);
+
+                // Proceed with valid files after alert confirmation
+                if (validFiles.length > 0) {
+                    if (mode === 'edit') {
+                    setEditedImages(prev => [...prev, ...validFiles]);
+                    } else {
+                    setSelectedImages(prev => [...prev, ...validFiles]);
+                    }
+
+                    console.log(`${mode === 'edit' ? 'Edited' : 'Selected'} images added successfully`);
                 }
-            }
-
-            if (mode === 'edit') {
-                setEditedImages(prev => [...prev, ...fileArray]);
+                },
+            });
+            setShowAlertModal(true);
             } else {
-                setSelectedImages(prev => [...prev, ...fileArray]);
+            // All files are valid
+            if (mode === 'edit') {
+                setEditedImages(prev => [...prev, ...validFiles]);
+            } else {
+                setSelectedImages(prev => [...prev, ...validFiles]);
             }
 
             console.log(`${mode === 'edit' ? 'Edited' : 'Selected'} images added successfully`);
+            }
         } catch (error) {
             console.error('Error processing selected images:', error);
         }
-    };
-
-    
+    };    
 
     const handleDeleteImage = async (index) => {
         try {
@@ -1578,6 +1616,19 @@ const VendorAds = () => {
                     </Modal.Footer>
                 </Modal>
             </div>
+
+            <AlertModal
+                isVisible={showAlertModal}
+                message={alertModalMessage}
+                onClose={() => setShowAlertModal(false)}
+                icon={alertModalConfig.icon}
+                title={alertModalConfig.title}
+                confirmText={alertModalConfig.confirmText}
+                cancelText={alertModalConfig.cancelText}
+                showCancel={alertModalConfig.showCancel}
+                onConfirm={alertModalConfig.onConfirm}
+            />
+
 
             <AlertModal
                 isVisible={alertVisible}
