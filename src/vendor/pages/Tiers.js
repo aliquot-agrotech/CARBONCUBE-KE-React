@@ -4,6 +4,7 @@ import { Row, Col, Button, Accordion, Container, Card, Modal } from 'react-boots
 import Spinner from "react-spinkit";
 import { useNavigate } from "react-router-dom";
 import MpesaPaymentGuide from '../components/MpesaPaymentGuide';
+import FeatureComparisonTable from '../components/FeatureComparisonTable';
 import TopNavBarMinimal from '../../components/TopNavBarMinimal'; // Adjust path if necessary
 import '../css/Tiers.css';
 import { jwtDecode } from 'jwt-decode';
@@ -244,96 +245,7 @@ const TierPage = () => {
       </section>
 
       {/* Feature Breakdown */}
-      {tiers.length > 0 && (
-        <section className="pricing-comparison my-5">
-          <Container>
-            <h2 className="text-center">Features Comparison</h2>
-            <table className="table table-bordered comparison-table mt-4">
-              <thead className="table-light">
-                <tr>
-                  <th>Feature</th>
-                  {tiers
-                    .slice()
-                    .sort((a, b) => {
-                      const priceA = a.tier_pricings && a.tier_pricings[0]?.price;
-                      const priceB = b.tier_pricings && b.tier_pricings[0]?.price;
-                      return priceA - priceB;
-                    })
-                    .map((tier) => (
-                      <th key={tier.id}>{tier.name}</th>
-                    ))}
-                </tr>
-              </thead>
-              <tbody>
-                {/* Extract unique feature names from tier_features */}
-                {tiers
-                  .flatMap((tier) => tier.tier_features.map((feature) => feature.feature_name)) // Gather all features
-                  .reduce((uniqueFeatures, feature) => {
-                    if (!uniqueFeatures.includes(feature)) {
-                      uniqueFeatures.push(feature); // Add unique features
-                    }
-                    return uniqueFeatures;
-                  }, []) // Reduce to unique features list
-                  .map((featureName, index) => (
-                    <tr key={index}>
-                      <td>{featureName}</td>
-                      {tiers
-                        .slice()
-                        .sort((a, b) => {
-                          const priceA = a.tier_pricings && a.tier_pricings[0]?.price;
-                          const priceB = b.tier_pricings && b.tier_pricings[0]?.price;
-                          return priceA - priceB;
-                        })
-                        .map((tier, tierIndex) => {
-                          const isFeatureInCurrentTier = tier.tier_features.some(
-                            (feature) => feature.feature_name === featureName
-                          );
-
-                          // Determine if the feature should be ticked for each tier
-                          let shouldTick = false;
-
-                          // Free tier: Only tick its own features
-                          if (tierIndex === 0 && isFeatureInCurrentTier) {
-                            shouldTick = true;
-                          }
-                          // Basic tier: Tick if feature is in Basic tier
-                          else if (tierIndex === 1 && isFeatureInCurrentTier) {
-                            shouldTick = true;
-                          }
-                          // Standard tier: Tick if feature is in Standard or Basic tier
-                          else if (tierIndex === 2 && (
-                            isFeatureInCurrentTier || 
-                            tiers[1].tier_features.some(feature => feature.feature_name === featureName)
-                          )) {
-                            shouldTick = true;
-                          }
-                          // Premium tier: Tick if feature is in Premium, Standard, or Basic tier
-                          else if (tierIndex === 3 && (
-                            isFeatureInCurrentTier || 
-                            tiers[2].tier_features.some(feature => feature.feature_name === featureName) || 
-                            tiers[1].tier_features.some(feature => feature.feature_name === featureName)
-                          )) {
-                            shouldTick = true;
-                          }
-
-                          // Display check or cross based on shouldTick status
-                          const displayTick = shouldTick ? 
-                            <span className="text-success" style={{ fontSize: '20px' }}>✔</span> : 
-                            <span className="text-danger" style={{ fontSize: '20px' }}>✘</span>;
-
-                          return (
-                            <td key={tier.id} className="text-center py-2 px-0">
-                              {displayTick}
-                            </td>
-                          );
-                        })}
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </Container>
-        </section>
-      )}
+      <FeatureComparisonTable />
 
       {/* FAQs Section */}
       <section className="faqs my-5">
