@@ -4,6 +4,7 @@ import axios from 'axios';
 import TopNavbar from '../components/TopNavbar';
 import Sidebar from '../components/Sidebar';
 import { formatDate } from '../utils/formatDate';
+import AlertModal from '../../components/AlertModal';
 import '../css/Profile.css';
 
 const ProfilePage = () => {
@@ -29,6 +30,17 @@ const ProfilePage = () => {
         newPassword: '',
         confirmPassword: ''
     });
+
+    const [showAlertModal, setShowAlertModal] = useState(false);
+    const [alertModalMessage, setAlertModalMessage] = useState('');
+    const [alertModalConfig, setAlertModalConfig] = useState({
+        icon: '',
+        title: '',
+        confirmText: '',
+        cancelText: '',
+        showCancel: false,
+        onConfirm: () => {},
+    }); 
 
     const [passwordMatch, setPasswordMatch] = useState(true);
 
@@ -138,22 +150,52 @@ const ProfilePage = () => {
     };
     
     const handleDeleteAccount = () => {
-        if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) return;
+        setAlertModalMessage('Are you sure you want to delete your account? This action cannot be undone.');
 
-        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/vendor/delete_account`, {
-            headers: {
-                Authorization: `Bearer ${token}`
+        setAlertModalConfig({
+            icon: 'warning',
+            title: 'Delete Account',
+            confirmText: 'Yes, Delete',
+            cancelText: 'Cancel',
+            showCancel: true,
+            onConfirm: async () => {
+            try {
+                await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/vendor/delete_account`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                });
+
+                setAlertModalMessage('Your account has been deleted.');
+                setAlertModalConfig({
+                icon: 'success',
+                title: 'Deleted',
+                confirmText: 'OK',
+                cancelText: '',
+                showCancel: false,
+                onConfirm: () => {
+                    sessionStorage.removeItem('token');
+                    window.location.href = '/login';
+                },
+                });
+                setShowAlertModal(true);
+            } catch (error) {
+                setAlertModalMessage('Failed to delete your account. Please try again.');
+                setAlertModalConfig({
+                icon: 'error',
+                title: 'Error',
+                confirmText: 'OK',
+                cancelText: '',
+                showCancel: false,
+                onConfirm: () => setShowAlertModal(false),
+                });
+                setShowAlertModal(true);
+                console.error(error);
             }
-        })
-        .then(() => {
-            alert("Your account has been deleted.");
-            sessionStorage.removeItem('token');
-            window.location.href = '/login';
-        })
-        .catch(error => {
-            alert("Failed to delete account.");
-            console.error(error);
+            },
         });
+
+        setShowAlertModal(true);
     };
 
     // Toggle Modal
@@ -422,6 +464,17 @@ const ProfilePage = () => {
                                             </Container>
                                         </Form>
 
+                                        <AlertModal
+                                            isVisible={showAlertModal}
+                                            message={alertModalMessage}
+                                            onClose={() => setShowAlertModal(false)}
+                                            icon={alertModalConfig.icon}
+                                            title={alertModalConfig.title}
+                                            confirmText={alertModalConfig.confirmText}
+                                            cancelText={alertModalConfig.cancelText}
+                                            showCancel={alertModalConfig.showCancel}
+                                            onConfirm={alertModalConfig.onConfirm}
+                                        />
                                     </div>
                                 </div>
                             {/* </Container> */}
