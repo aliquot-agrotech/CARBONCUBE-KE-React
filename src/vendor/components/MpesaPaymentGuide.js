@@ -37,14 +37,14 @@ const MpesaPaymentGuide = () => {
                     ℹ️ Need help? Email{' '}
                     <a
                         href="mailto:info@carboncube-ke.com"
-                        className="text-info"
+                        className="text-success"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         info@carboncube-ke.com
                     </a>{' '}
                     or call{' '}
-                    <a href="tel:+254712990524" className="text-info">
+                    <a href="tel:+254712990524" className="text-success">
                         +254 712 990524
                     </a>.
                 </p>

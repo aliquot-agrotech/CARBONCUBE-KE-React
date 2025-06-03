@@ -4,7 +4,7 @@ import { Google, Facebook, Apple, Eye, EyeSlash } from 'react-bootstrap-icons';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
-import TopNavbarMinimal from './TopNavBarMinimal';
+import TopNavBarMinimal from './TopNavBarMinimal';
 import AlertModal from '../components/AlertModal';  // Import your modal
 import './LoginForm.css';
 
@@ -101,7 +101,7 @@ const LoginForm = ({ onLogin }) => {
 
   return (
     <>
-      <TopNavbarMinimal />
+      <TopNavBarMinimal />
       <Container fluid className="login-container">
         <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
           <Col xs={11} md={10} lg={6}>

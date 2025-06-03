@@ -95,7 +95,8 @@ function App() {
         <Route path="/purchaser-signup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         <Route path="/vendor-signup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
         <Route path="/rider-signup" element={<RiderSignUpPage onSignup={handleRiderSignup} />} />
-        <Route path="/tiers" element={<TierPage onLogout={handleLogout} />} />
+        <Route path="/vendor/tiers" element={<TierPage />} />
+
 
         {isAuthenticated && userRole === 'admin' && (
           <Route path="/admin/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="admin" userRole={userRole} />}>

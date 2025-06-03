@@ -4,6 +4,7 @@ import { Row, Col, Button, Accordion, Container, Card, Modal } from 'react-boots
 import Spinner from "react-spinkit";
 import { useNavigate } from "react-router-dom";
 import MpesaPaymentGuide from '../components/MpesaPaymentGuide';
+import TopNavBarMinimal from '../../components/TopNavBarMinimal'; // Adjust path if necessary
 import '../css/Tiers.css';
 import { jwtDecode } from 'jwt-decode';
 
@@ -14,15 +15,14 @@ const TierPage = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const [isVendorLoggedIn, setIsVendorLoggedIn] = useState(false);
+
 
   // const vendorId = sessionStorage.getItem('vendor_id');
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/vendor/vendor_tiers`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`${process.env.REACT_APP_BACKEND_URL}/tiers`)
       .then((response) => {
         setTiers(response.data || []);
         setLoading(false);
@@ -99,6 +99,20 @@ const TierPage = () => {
       );
     }
   };
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        if (decoded.vendor_id) {
+          setIsVendorLoggedIn(true);
+        }
+      } catch (error) {
+        console.error('Invalid token:', error);
+      }
+    }
+  }, []);
   
 
   function getVendorIdFromToken() {
@@ -139,6 +153,8 @@ const TierPage = () => {
 
   return (
     <div className="pricing-page px-0 py-0">
+    {/* Top Navbar Minimal */}
+      <TopNavBarMinimal />
 
       {/* Hero Section */}
       <section className="hero-section text-center mb-3 mb-lg-5 custom-card">
@@ -148,14 +164,16 @@ const TierPage = () => {
             Whether you're just starting out or ready to scale, we have a plan that fits your needs. Explore our tiered
             options below.
           </p>
-          
-          {/* Home Button */}
-          <Button
-            onClick={() => navigate("/vendor/ads")}
-            className="btn btn-dark mt-4 rounded-pill" // Bootstrap classes for styling
-          >
-            Back to Analytics
-          </Button>
+
+          {/* Show only if vendor is logged in */}
+          {isVendorLoggedIn && (
+            <Button
+              onClick={() => navigate("/vendor/ads")}
+              className="btn btn-dark mt-4 rounded-pill"
+            >
+              Back to Home
+            </Button>
+          )}
         </Container>
       </section>
 

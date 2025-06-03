@@ -3,7 +3,7 @@ import React from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import './TopNavBarMinimal.css';
 
-const TopNavbarMinimal = () => {
+const TopNavBarMinimal = () => {
     return (
         <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top navbar p-1">
             <Container fluid>
@@ -27,6 +27,9 @@ const TopNavbarMinimal = () => {
                 {/* Right: Links (collapsible) */}
                 <Navbar.Collapse id="top-navbar-collapse" className="justify-content-end">
                     <Nav className="align-items-center">
+                        <Nav.Link href="/vendor/tiers" className="text-white">
+                        Tiers & Pricing
+                        </Nav.Link>
                         <Nav.Link href="/terms" className="text-white">
                         Terms & Conditions
                         </Nav.Link>
@@ -40,5 +43,5 @@ const TopNavbarMinimal = () => {
     );
 };
 
-export default TopNavbarMinimal;
+export default TopNavBarMinimal;
 
