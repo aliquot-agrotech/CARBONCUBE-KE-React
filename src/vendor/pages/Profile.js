@@ -137,7 +137,24 @@ const ProfilePage = () => {
         });
     };
     
-    
+    const handleDeleteAccount = () => {
+        if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) return;
+
+        axios.delete(`${process.env.REACT_APP_BACKEND_URL}/vendor/delete_account`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(() => {
+            alert("Your account has been deleted.");
+            sessionStorage.removeItem('token');
+            window.location.href = '/login';
+        })
+        .catch(error => {
+            alert("Failed to delete account.");
+            console.error(error);
+        });
+    };
 
     // Toggle Modal
     const toggleChangePasswordModal = () => setShowChangePasswordModal(!showChangePasswordModal);
@@ -397,7 +414,7 @@ const ProfilePage = () => {
                                                                 Save
                                                             </Button>
                                                         )}
-                                                        <Button variant="danger" id="button" className="ml-2">
+                                                        <Button variant="danger" id="button" className="ml-2" onClick={handleDeleteAccount}>
                                                             Delete Account
                                                         </Button>
                                                     </Col>
