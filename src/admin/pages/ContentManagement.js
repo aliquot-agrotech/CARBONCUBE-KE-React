@@ -5,7 +5,6 @@ import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
 import '../css/ContentManagement.css';  // Custom CSS
-import { Cloudinary } from 'cloudinary-core';
 
 const ContentManagement = () => {
     const [aboutData, setAboutData] = useState(null);

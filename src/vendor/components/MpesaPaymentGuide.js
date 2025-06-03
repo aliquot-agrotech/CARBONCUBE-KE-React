@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { Card, CardBody, CardHeader } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 const MpesaPaymentGuide = () => {
     return (

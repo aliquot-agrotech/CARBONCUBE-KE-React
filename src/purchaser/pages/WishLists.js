@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { Trash, CartPlus } from "react-bootstrap-icons";
+import { Trash } from "react-bootstrap-icons";
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';

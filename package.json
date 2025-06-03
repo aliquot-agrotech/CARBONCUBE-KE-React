@@ -39,8 +39,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PORT=3000 react-scripts --no-warnings start",
-    "build": "react-scripts --no-warnings build",
+    "start": "GENERATE_SOURCEMAP=false PORT=3000 react-scripts --no-warnings start",
+    "build": "GENERATE_SOURCEMAP=false react-scripts --no-warnings build",
+    "build:prod": "CI=true GENERATE_SOURCEMAP=false react-scripts --no-warnings build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
