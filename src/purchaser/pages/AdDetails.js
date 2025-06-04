@@ -698,7 +698,7 @@ const AdDetails = () => {
                                                     <p><strong>Manufacturer:</strong> {ad.manufacturer}</p>
                                                     <p><strong>Category:</strong> {ad.category_name}</p>
                                                     <p><strong>Subcategory:</strong> {ad.subcategory_name}</p>
-                                                    <p className="mb-0">
+                                                    <p>
                                                         <strong>Condition:</strong>{' '}
                                                         <span
                                                             style={{
@@ -712,6 +712,9 @@ const AdDetails = () => {
                                                         >
                                                             {conditionLabels[ad.condition]}
                                                         </span>
+                                                    </p>
+                                                    <p style={{ fontSize: '16px' }}>
+                                                        <strong>Vendor: <span className="text-success">{ad.vendor_enterprise_name || 'N/A'}</span></strong>
                                                     </p>
                                                 </div>
 
@@ -755,7 +758,7 @@ const AdDetails = () => {
                                                                 className="w-100 py-2 rounded-pill fancy-button text-dark"
                                                                 disabled={loading}
                                                                 >
-                                                                {vendor.enterprise_name} | {vendor.phone_number}
+                                                                {vendor.phone_number}
                                                                 </Button>
                                                             </a>
                                                             ) : (
@@ -777,6 +780,7 @@ const AdDetails = () => {
                                                             )}
                                                         </motion.div>
                                                     </Col>
+
 
                                                     <Col xs={12} className="mb-2">
                                                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
