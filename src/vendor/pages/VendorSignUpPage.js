@@ -4,7 +4,10 @@ import { Google, Facebook, Apple, Eye, EyeSlash } from 'react-bootstrap-icons';
 import { motion, AnimatePresence } from "framer-motion";
 import AlertModal from '../../components/AlertModal';
 import axios from 'axios';
+import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import TopNavbarMinimal from '../../components/TopNavBarMinimal';
 import '../css/VendorSignUpPage.css';
@@ -26,7 +29,9 @@ function VendorSignUpPage({ onSignup }) {
     zipcode: '',
     county_id: '',
     sub_county_id: '',
-    business_permit: null
+    document_url: null,
+    document_type_id: '',
+    document_expiry_date: ''
   });
   
   const [errors, setErrors] = useState({});
@@ -74,25 +79,27 @@ function VendorSignUpPage({ onSignup }) {
   };
 
   useEffect(() => {
-      // Fetch options for dropdowns from the API
-      const fetchOptions = async () => {
-        try {
-          const [countiesRes, age_groupRes] = await Promise.all([
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/counties`),
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/age_groups`),
-          ]);
-          setOptions({
-            age_groups: age_groupRes.data,
-            counties: countiesRes.data,
-          });
-        } catch (error) {
-          console.error('Error fetching dropdown options:', error);
-        }
-      };
-  
-      fetchOptions();
-    }, []);
+    // Fetch options for dropdowns from the API
+    const fetchOptions = async () => {
+      try {
+        const [countiesRes, age_groupRes, documentTypesRes] = await Promise.all([
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/counties`),
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/age_groups`),
+          axios.get(`${process.env.REACT_APP_BACKEND_URL}/document_types`), // new
+        ]);
+        
+        setOptions({
+          age_groups: age_groupRes.data,
+          counties: countiesRes.data,
+          document_types: documentTypesRes.data,  // new
+        });
+      } catch (error) {
+        console.error('Error fetching dropdown options:', error);
+      }
+    };
 
+    fetchOptions();
+  }, []);
 
   useEffect(() => {
     const fetchSubCounties = async () => {
@@ -252,6 +259,8 @@ const verifyOtpCode = async () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
+  let datepickerRef;
 
 
   return (
@@ -568,7 +577,7 @@ const verifyOtpCode = async () => {
                             </Col>
                           </Row>
 
-                          <Row className="mt-3">
+                          <Row className="mt-1">
                             <Col>
                               <motion.div
                                 initial={{ opacity: 0, y: 20 }}
@@ -577,22 +586,87 @@ const verifyOtpCode = async () => {
                               >
                                 <Form.Group controlId="businessPermit">
                                   <Form.Label className="fw-bold text-center d-block">
-                                    Upload Business Permit
+                                    Upload Document
                                   </Form.Label>
                                   <Form.Control
                                     type="file"
                                     accept=".pdf, image/jpeg, image/jpg, image/png"
-                                    onChange={(e) => setFormData({ ...formData, business_permit: e.target.files[0] })}
+                                    onChange={(e) => setFormData({ ...formData, document_url: e.target.files[0] })}
                                     className="form-control rounded-pill"
-                                    isInvalid={!!errors.business_permit}
+                                    isInvalid={!!errors.document_url}
                                   />
                                   <Form.Control.Feedback type="invalid">
-                                    {errors.business_permit}
+                                    {errors.document_url}
                                   </Form.Control.Feedback>
                                 </Form.Group>
                               </motion.div>
                             </Col>
                           </Row>
+                          
+                          <Row>
+                            <Col xs={6}>
+                              <Form.Group>
+                                <Form.Select
+                                  name="document_type_id"
+                                  value={formData.document_type_id}
+                                  id="button"
+                                  onChange={handleChange}
+                                  className="mb-2 text-center"
+                                  isInvalid={!!errors.document_type_id}
+                                >
+                                  <option value="">Select Document Type</option>
+                                  {options.document_types.map((document_type) => (
+                                    <option key={document_type.id} value={document_type.id}>{document_type.name}</option>
+                                  ))}
+                                </Form.Select>
+                                <Form.Control.Feedback type="invalid">{errors.document_type_id}</Form.Control.Feedback>
+                              </Form.Group>
+                            </Col>
+
+                            <Col xs={6} md={6}>
+                              <Form.Group className="mb-2">
+                                <div className="position-relative">
+                                  <ReactDatePicker
+                                    ref={(el) => (datepickerRef = el)}
+                                    selected={formData.document_expiry_date ? new Date(formData.document_expiry_date) : null}
+                                    onChange={(date) =>
+                                      handleChange({
+                                        target: { name: 'document_expiry_date', value: date ? date.toISOString().split('T')[0] : '' },
+                                      })
+                                    }
+                                    className="form-control text-center rounded-pill mb-0 pr-5"
+                                    placeholderText="Document Expiry Date"
+                                    dateFormat="yyyy/MM/dd"
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                  />
+                                  <div 
+                                    onClick={() => datepickerRef.setOpen(true)}
+                                    style={{ 
+                                      position: 'absolute',
+                                      top: '50%',
+                                      right: '10px',
+                                      transform: 'translateY(-50%)',
+                                      cursor: 'pointer'
+                                    }}
+                                  >
+                                    <FontAwesomeIcon
+                                      icon={faCalendarAlt}
+                                      style={{
+                                        color: '#aaa',
+                                      }}
+                                    />
+                                  </div>
+                                  {errors.document_expiry_date && (
+                                    <div className="invalid-feedback">{errors.document_expiry_date}</div>
+                                  )}
+                                </div>
+                              </Form.Group>
+                            </Col>
+                          </Row>
+
+                          
 
                           <Row>
                             <Col md={6} >
@@ -814,7 +888,13 @@ const verifyOtpCode = async () => {
                       onConfirm={alertModalConfig.onConfirm}
                     />
 
-                    <ProgressBar now={step * 50} className=" mt-3 rounded-pill" variant="warning" style={{ height: '8px' }}/>
+                    <ProgressBar 
+                      now={Math.round((step / 3) * 100)} 
+                      className="mt-3 rounded-pill" 
+                      variant="warning" 
+                      style={{ height: '8px' }}
+                    />
+
                   </div>
                 </Col>
               </Row>
