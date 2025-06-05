@@ -102,9 +102,11 @@ const LoginForm = ({ onLogin }) => {
   return (
     <>
       <TopNavBarMinimal />
+      
       <Container fluid className="login-container">
         <Row className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-          <Col xs={11} md={10} lg={6}>
+          <h1 className="my-4 text-center text-warning fw-bold">Pilot Phase</h1>
+          <Col xs={11} md={10} lg={6} className="mb-4">
             <div className="card border-0 shadow-lg overflow-hidden">
               <Row className="g-0">
                 
@@ -119,7 +121,7 @@ const LoginForm = ({ onLogin }) => {
                         <span className="text-warning">Cube</span>
                       </h2>
                       <p className="text-light opacity-75 mt-3">
-                        Welcome to CarbonCube - your trusted online marketplace for carbon credits.
+                        Welcome to CarbonCube - your trusted online marketplace.
                       </p>
                     </div>
 
@@ -151,7 +153,7 @@ const LoginForm = ({ onLogin }) => {
                         <div className="ms-2">
                           <small className="fw-bold">Vision:</small>
                         </div>
-                      </div>
+                        </div>
                       <p className="fst-italic small mb-2">
                         "To be Kenya’s most trusted and innovative online marketplace."
                       </p>
