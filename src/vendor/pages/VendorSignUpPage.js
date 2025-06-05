@@ -137,116 +137,128 @@ function VendorSignUpPage({ onSignup }) {
   };
 
   // Step 2 submit: send OTP after validating form and password
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!validateForm()) return;
+    if (!validateForm()) return;
 
-  if (step === 2) {
-    if (!validatePassword()) return;
+    if (step === 2) {
+      if (!validatePassword()) return;
 
+      try {
+        setSubmittingSignup(true);
+
+        // Send OTP to vendor email
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/email_otps`, {
+          email: formData.email,
+          fullname: formData.fullname,
+        });
+
+        setOtpSent(true);
+        nextStep(); // go to step 3 (OTP verification)
+      } catch (error) {
+        setErrors({ email: 'Failed to send OTP. Try again later.' });
+      } finally {
+        setSubmittingSignup(false);
+      }
+      return;
+    }
+
+    // Do nothing if step not handled here
+  };
+
+  // Verify OTP and finalize vendor signup
+  const verifyOtpCode = async () => {
     try {
-      setSubmittingSignup(true);
+      setVerifyingOtp(true);
 
-      // Send OTP to vendor email
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/email_otps`, {
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/email_otps/verify`, {
         email: formData.email,
-        fullname: formData.fullname,
+        otp: otpCode,
       });
 
-      setOtpSent(true);
-      nextStep(); // go to step 3 (OTP verification)
-    } catch (error) {
-      setErrors({ email: 'Failed to send OTP. Try again later.' });
-    } finally {
-      setSubmittingSignup(false);
-    }
-    return;
-  }
+      if (res.data.verified) {
+        setEmailVerified(true);
+        setErrors({});
 
-  // Do nothing if step not handled here
-};
+        const formDataToSend = new FormData();
 
-// Verify OTP and finalize vendor signup
-const verifyOtpCode = async () => {
-  try {
-    setVerifyingOtp(true);
+        Object.entries(formData).forEach(([key, value]) => {
+          if (value === '') return;
 
-    const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/email_otps/verify`, {
-      email: formData.email,
-      otp: otpCode,
-    });
+          formDataToSend.append(`vendor[${key}]`, value); // 👈 nest under 'vendor'
+        });
 
-    if (res.data.verified) {
-      setEmailVerified(true);
-      setErrors({});
 
-      // Clean empty strings to null
-      const cleanedData = Object.fromEntries(
-        Object.entries(formData).map(([key, value]) => [key, value === '' ? null : value])
-      );
+        setSubmittingSignup(true);
 
-      const payload = { vendor: cleanedData };
-      setSubmittingSignup(true);
-
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/vendor/signup`, payload);
-
-      if (response.status === 201) {
-        const selectedCounty = options.counties.find(
-          (county) => String(county.id) === formData.county_id
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URL}/vendor/signup`,
+          formDataToSend,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
         );
 
-        const isNairobi = selectedCounty?.county_code === 47;
 
-        if (!isNairobi) {
-          setAlertModalMessage(
-            `Thank you for signing up! CarbonCube-KE is currently in its pilot phase and only available to vendors based in Nairobi County.<br/><br/>
-            You won’t be able to log in just yet, but your account is saved. Once we go public, you’ll be able to log in without registering again.`
+        if (response.status === 201) {
+          const selectedCounty = options.counties.find(
+            (county) => String(county.id) === formData.county_id
           );
 
-          setAlertModalConfig({
-            icon: 'info',
-            title: 'Notice',
-            confirmText: 'OK',
-            cancelText: '',
-            showCancel: false,
-            onConfirm: () => {
-              setShowPilotNotice(true);
-              navigate('/');
-            },
-          });
-          setShowAlertModal(true);
-        } else {
-          setAlertModalMessage('Signup successful! You can now log in to your account.');
-          setAlertModalConfig({
-            icon: 'success',
-            title: 'Success',
-            confirmText: 'Go to Login',
-            cancelText: '',
-            showCancel: false,
-            onConfirm: () => {
-              onSignup();
-              navigate('/login');
-            },
-          });
-          setShowAlertModal(true);
+          const isNairobi = selectedCounty?.county_code === 47;
+
+          if (!isNairobi) {
+            setAlertModalMessage(
+              `Thank you for signing up! CarbonCube-KE is currently in its pilot phase and only available to vendors based in Nairobi County.<br/><br/>
+              You won’t be able to log in just yet, but your account is saved. Once we go public, you’ll be able to log in without registering again.`
+            );
+
+            setAlertModalConfig({
+              icon: 'info',
+              title: 'Notice',
+              confirmText: 'OK',
+              cancelText: '',
+              showCancel: false,
+              onConfirm: () => {
+                setShowPilotNotice(true);
+                navigate('/');
+              },
+            });
+            setShowAlertModal(true);
+          } else {
+            setAlertModalMessage('Signup successful! You can now log in to your account.');
+            setAlertModalConfig({
+              icon: 'success',
+              title: 'Success',
+              confirmText: 'Go to Login',
+              cancelText: '',
+              showCancel: false,
+              onConfirm: () => {
+                onSignup();
+                navigate('/login');
+              },
+            });
+            setShowAlertModal(true);
+          }
         }
+      } else {
+        setErrors({ otp: 'Invalid or expired OTP.' });
       }
-    } else {
-      setErrors({ otp: 'Invalid or expired OTP.' });
+    } catch (err) {
+      const serverErrors = {};
+      err.response?.data?.errors?.forEach((error) => {
+        const [field, message] = error.includes(': ') ? error.split(': ') : ['general', error];
+        serverErrors[field.toLowerCase()] = message;
+      });
+      setErrors({ otp: serverErrors.otp || 'Verification failed. Please try again.' });
+    } finally {
+      setVerifyingOtp(false);
+      setSubmittingSignup(false);
     }
-  } catch (err) {
-    const serverErrors = {};
-    err.response?.data?.errors?.forEach((error) => {
-      const [field, message] = error.includes(': ') ? error.split(': ') : ['general', error];
-      serverErrors[field.toLowerCase()] = message;
-    });
-    setErrors({ otp: serverErrors.otp || 'Verification failed. Please try again.' });
-  } finally {
-    setVerifyingOtp(false);
-    setSubmittingSignup(false);
-  }
-};
+  };
 
 
   const validateForm = () => {
