@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faUser, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faUser, faEnvelopeOpenText, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
@@ -15,6 +15,7 @@ const Messages = () => {
   const [loadingConversations, setLoadingConversations] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [showMobileMessages, setShowMobileMessages] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -47,7 +48,7 @@ const Messages = () => {
   }, []);
 
   const fetchMessages = async (conversationId) => {
-    setLoadingMessages(true); // Set loading state for messages
+    setLoadingMessages(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/conversations/${conversationId}/messages`, {
         headers: {
@@ -57,18 +58,16 @@ const Messages = () => {
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
 
-      // Sort messages by created_at (oldest to newest)
       const sortedMessages = Array.isArray(data) ? data.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) : [];
       setMessages(sortedMessages);
     } catch (error) {
       // console.error('Error fetching messages:', error);
     } finally {
-      setLoadingMessages(false); // Reset loading state for messages
+      setLoadingMessages(false);
     }
   };
 
   useEffect(() => {
-    // Scroll to bottom when messages change or when a new message is sent
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -76,7 +75,13 @@ const Messages = () => {
 
   const handleConversationClick = (conversation) => {
     setSelectedConversation(conversation);
-    fetchMessages(conversation.id); // Fetch messages for the selected conversation
+    setShowMobileMessages(true); // Show messages overlay on mobile
+    fetchMessages(conversation.id);
+  };
+
+  const handleBackToConversations = () => {
+    setShowMobileMessages(false);
+    setSelectedConversation(null);
   };
 
   const handleSendMessage = async (e) => {
@@ -100,14 +105,11 @@ const Messages = () => {
       if (!response.ok) throw new Error('Network response was not ok');
       const message = await response.json();
   
-      // Update the messages state with the newly created message
       setMessages(prevMessages => {
-        // Add the new message and sort the messages
         const updatedMessages = [...prevMessages, message].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
         return updatedMessages;
       });
   
-      // Optionally, move the conversation to the top of the list
       const updatedConversation = { ...selectedConversation, messages: [...messages, message], pullOver: true };
       const updatedConversations = conversations
         .filter(convo => convo.id !== selectedConversation.id)
@@ -115,7 +117,6 @@ const Messages = () => {
   
       setConversations([updatedConversation, ...updatedConversations]);
   
-      // Reset the pull-over animation after it completes
       setTimeout(() => {
         setConversations(prevConversations => prevConversations.map(convo => {
           if (convo.id === updatedConversation.id) {
@@ -123,7 +124,7 @@ const Messages = () => {
           }
           return convo;
         }));
-      }, 500); // Duration of the animation
+      }, 500);
   
       setNewMessage('');
     } catch (error) {
@@ -142,14 +143,17 @@ const Messages = () => {
             <Col xs={12} md={2} className="p-0">
               <Sidebar />
             </Col>
+
+            {/* Main Messages Container: flex row, full height */}
             <Col xs={12} md={10} lg={9} className="p-0 p-lg-2 mt-1 mt-lg-0">
-              <Row>
-                <Col xs={12} md={2} lg={3}>
-                  <Card className="conversations-list mt-2 mt-lg-4">
+              <div className="messages-main-container d-flex" style={{ height: '90vh' }}>
+                {/* Conversations List */}
+                <div className={`conversations-list-container ${showMobileMessages ? 'mobile-hidden' : ''}`}>
+                  <Card className="conversations-list h-100 d-flex flex-column">
                     <Card.Header className="conversations-header text-center justify-content-center">
                       <strong>Conversations</strong>
                     </Card.Header>
-                    <Card.Body className="p-2 conversations-scroll">
+                    <Card.Body className="conversations-scroll flex-grow-1">
                       {loadingConversations ? (
                         <div className="centered-loader">
                           <Spinner variant="warning" name="cube-grid" style={{ width: 50, height: 50 }} />
@@ -157,9 +161,16 @@ const Messages = () => {
                       ) : (
                         conversations
                           .sort((a, b) => {
-                            const lastMessageA = a.messages[a.messages.length - 1];
-                            const lastMessageB = b.messages[b.messages.length - 1];
-                            return new Date(lastMessageB.created_at) - new Date(lastMessageA.created_at);
+                            const messagesA = Array.isArray(a.messages) ? a.messages : [];
+                            const messagesB = Array.isArray(b.messages) ? b.messages : [];
+
+                            const lastMessageA = messagesA[messagesA.length - 1];
+                            const lastMessageB = messagesB[messagesB.length - 1];
+
+                            const dateA = lastMessageA ? new Date(lastMessageA.created_at) : 0;
+                            const dateB = lastMessageB ? new Date(lastMessageB.created_at) : 0;
+
+                            return dateB - dateA;
                           })
                           .map((conversation) => {
                             const participant = conversation.purchaser || conversation.vendor;
@@ -181,15 +192,25 @@ const Messages = () => {
                       )}
                     </Card.Body>
                   </Card>
-                </Col>
-                <Col xs={12} md={10} lg={9} className="messages-list ">
+                </div>
+
+                {/* Messages List */}
+                <div className={`messages-list-container ${showMobileMessages ? 'mobile-overlay' : ''}`}>
                   {selectedConversation ? (
-                    <Card className="message-container mt-2 mt-lg-4">
+                    <Card className="message-container h-100 d-flex flex-column">
                       <Card.Header className="messages-header d-flex align-items-center justify-content-center gap-2">
+                        <Button 
+                          className="mobile-back-btn d-md-none" 
+                          variant="link" 
+                          onClick={handleBackToConversations}
+                          style={{ position: 'absolute', left: '10px', padding: '0', color: '#666' }}
+                        >
+                          <FontAwesomeIcon icon={faArrowLeft} size="lg" />
+                        </Button>
                         <FontAwesomeIcon icon={faUser} size="lg" />
                         <span>{selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}</span>
                       </Card.Header>
-                      <Card.Body className="messages-scroll">
+                      <Card.Body className="messages-scroll flex-grow-1">
                         {loadingMessages ? (
                           <div className="centered-loader">
                             <Spinner variant="warning" name="cube-grid" style={{ width: 50, height: 50 }} />
@@ -202,15 +223,17 @@ const Messages = () => {
                                 <div key={message.id} className={`message ${isSent ? 'sent' : 'received'}`}>
                                   <div className="message-content">
                                     <p>{message.content}</p>
-                                    <span className="message-timestamp">
-                                      {new Date(message.created_at).toLocaleTimeString()}
-                                    </span>
+                                    <div className="message-footer">
+                                      {!isSent && <span className="message-sender"><em>{message.sender?.fullname || message.sender_type}</em></span>}
+                                      <span className="message-timestamp">
+                                        {new Date(message.created_at).toLocaleTimeString()}
+                                      </span>
+                                    </div>
                                   </div>
-                                  {!isSent && <div className="message-sender"><em>{message.sender?.fullname || message.sender_type}</em></div>}
                                 </div>
                               );
                             })}
-                            <div ref={messagesEndRef} /> {/* This empty div will be scrolled into view */}
+                            <div ref={messagesEndRef} />
                           </>
                         )}
                       </Card.Body>
@@ -220,28 +243,28 @@ const Messages = () => {
                             className="message-input"
                             type="text"
                             value={newMessage}
+                            placeholder="Write your message..."
                             onChange={(e) => setNewMessage(e.target.value)}
-                            placeholder="Type a message..."
                           />
-                          <Button type="submit" variant="warning" className="message-send-btn">
+                          <Button className="message-send-btn" variant="warning" type="submit">
                             <FontAwesomeIcon icon={faPaperPlane} />
                           </Button>
                         </Form>
                       </Card.Footer>
                     </Card>
                   ) : (
-                    <div className="parent-container p-0">
+                    <div className="parent-container p-0 h-100 d-flex justify-content-center align-items-center">
                       <Card className="select-conversation-card">
                         <Card.Body>
-                          <div className="select-conversation-text">
+                          <div className="select-conversation-text text-center">
                             💬 Start chatting with your vendors or purchasers
                           </div>
                         </Card.Body>
                       </Card>
                     </div>
                   )}
-                </Col>
-              </Row>
+                </div>
+              </div>
             </Col>
           </Row>
         </Container>
