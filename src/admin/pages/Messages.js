@@ -19,6 +19,12 @@ const Messages = () => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    // Prevent accidental exit on mobile if first time
+    window.history.replaceState({ view: 'list' }, '', '');
+  }, []);
+
+
+  useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
@@ -75,8 +81,11 @@ const Messages = () => {
 
   const handleConversationClick = (conversation) => {
     setSelectedConversation(conversation);
-    setShowMobileMessages(true); // Show messages overlay on mobile
+    setShowMobileMessages(true);
     fetchMessages(conversation.id);
+
+    // Push new state to history so browser back button works as expected
+    window.history.pushState({ view: 'conversation' }, '', '');
   };
 
   const handleBackToConversations = () => {
@@ -132,6 +141,22 @@ const Messages = () => {
     }
   };
 
+  useEffect(() => {
+    const handlePopState = (event) => {
+      // Only handle if a conversation was selected
+      if (selectedConversation && showMobileMessages) {
+        handleBackToConversations();
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [selectedConversation, showMobileMessages]);
+
+
   if (!currentUser) return <div>Loading...</div>;
 
   return (
@@ -145,7 +170,7 @@ const Messages = () => {
             </Col>
 
             {/* Main Messages Container: flex row, full height */}
-            <Col xs={12} md={10} lg={9} className="p-0 p-lg-2 mt-1 mt-lg-0">
+            <Col xs={12} md={10} lg={9} className="p-0 p-lg-2 mt-1 mt-lg-2">
               <div className="messages-main-container d-flex" style={{ height: '90vh' }}>
                 {/* Conversations List */}
                 <div className={`conversations-list-container ${showMobileMessages ? 'mobile-hidden' : ''}`}>
@@ -220,7 +245,7 @@ const Messages = () => {
                             {messages.map((message) => {
                               const isSent = message.sender_type === 'Admin';
                               return (
-                                <div key={message.id} className={`message ${isSent ? 'sent' : 'received'}`}>
+                                <div key={message.id} className={`message ${isSent ? 'sent' : 'received'} py-1 px-1`}>
                                   <div className="message-content">
                                     <p>{message.content}</p>
                                     <div className="message-footer">

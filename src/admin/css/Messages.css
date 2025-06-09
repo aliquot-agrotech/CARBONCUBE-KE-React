@@ -46,6 +46,7 @@
 
 .messages-footer {
   padding: 10px 15px;
+  /* border-radius: 0px 0px 0px 0px ! important; */
 }
 
 .message-form {
