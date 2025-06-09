@@ -140,8 +140,13 @@
 }
 
 .select-conversation-card {
-  max-width: 400px;
+  display: inline-block;
+  height: auto;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
 }
+
 
 .select-conversation-text {
   font-size: 1.1rem;
