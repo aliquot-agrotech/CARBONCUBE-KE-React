@@ -279,8 +279,8 @@ const Messages = () => {
                     </Card>
                   ) : (
                     <div
-                      className="d-flex justify-content-center align-items-center"
-                      style={{ height: '20vh' }} // Full viewport height for vertical centering
+                      className="d-flex flex-column justify-content-center align-items-center"
+                      style={{ height: '20vh' }}
                     >
                       <Card className="select-conversation-card text-center">
                         <Card.Body>
