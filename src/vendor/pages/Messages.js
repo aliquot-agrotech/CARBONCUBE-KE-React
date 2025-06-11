@@ -25,12 +25,18 @@ const Messages = () => {
 
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
-      setCurrentUser({ id: payload.vendor_id, type: 'vendor' });
-    }
-  }, []);
+  const token = sessionStorage.getItem('token');
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    console.log('JWT Payload:', payload); // Debug log
+    
+    // Try different ID fields based on your JWT structure
+    const userId = payload.vendor_id || payload.user_id || payload.id;
+    const userType = payload.role || payload.type || 'vendor';
+    
+    setCurrentUser({ id: userId, type: userType });
+  }
+}, []);
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -91,6 +97,17 @@ const Messages = () => {
   const handleBackToConversations = () => {
     setShowMobileMessages(false);
     setSelectedConversation(null);
+  };
+
+  const isMessageSentByCurrentUser = (message) => {
+    // More flexible comparison
+    const messageSenderType = message.sender_type?.toLowerCase().trim();
+    const currentUserType = currentUser?.type?.toLowerCase().trim();
+    
+    return (
+      messageSenderType === currentUserType &&
+      String(message.sender_id) === String(currentUser.id) // Convert both to strings
+    );
   };
 
   const handleSendMessage = async (e) => {
@@ -243,7 +260,7 @@ const Messages = () => {
                         ) : (
                           <>
                             {messages.map((message) => {
-                              const isSent = currentUser.role === 'Vendor' && message.sender_type?.toLowerCase() === 'vendor' && message.sender_id === currentUser.id;
+                              const isSent = isMessageSentByCurrentUser(message);
                               return (
                                 <div key={message.id} className={`message ${isSent ? 'sent' : 'received'} py-1 px-1`}>
                                   <div className="message-content">
