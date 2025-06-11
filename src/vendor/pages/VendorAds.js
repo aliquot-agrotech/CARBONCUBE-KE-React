@@ -1408,6 +1408,7 @@ const VendorAds = () => {
                                             <option value="">Select Condition</option>
                                             <option value="brand_new">Brand New</option>
                                             <option value="second_hand">Second Hand</option>
+                                            <option value="refurbished">Refurbished</option>
                                         </Form.Control>
                                     </Form.Group>
                                 </Col>
