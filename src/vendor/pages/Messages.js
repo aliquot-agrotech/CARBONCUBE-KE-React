@@ -215,8 +215,8 @@ const Messages = () => {
                             return dateB - dateA;
                           })
                           .map((conversation) => {
-                            const participant = conversation.purchaser || conversation.vendor;
-                            const participantType = conversation.purchaser ? 'purchaser' : 'vendor';
+                            const participant = conversation.purchaser || conversation.vendor || conversation.admin;
+                            const participantType = conversation.admin ? 'admin' : conversation.purchaser ? 'purchaser' : 'vendor';
                             const pullOverClass = conversation.pullOver ? 'conversation-pull-over' : '';
                             return (
                               <Card
@@ -250,7 +250,7 @@ const Messages = () => {
                           <FontAwesomeIcon icon={faArrowLeft} size="lg" />
                         </Button>
                         <FontAwesomeIcon icon={faUser} size="lg" />
-                        <span>{selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}</span>
+                        <span>{selectedConversation.admin?.fullname || selectedConversation.purchaser?.fullname || selectedConversation.vendor?.fullname || 'Unknown'}</span>
                       </Card.Header>
                       <Card.Body className="messages-scroll flex-grow-1">
                         {loadingMessages ? (
