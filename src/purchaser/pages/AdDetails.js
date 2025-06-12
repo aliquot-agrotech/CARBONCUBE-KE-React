@@ -271,46 +271,85 @@ const AdDetails = () => {
 
         if (!token) {
             setAlertModalConfig({
-                isVisible: true,
-                title: 'Login Required',
-                message: 'You must be signed in to start a chat with the vendor.',
-                icon: 'warning',
-                confirmText: 'Go to Login',
-                cancelText: 'Cancel',
-                showCancel: true,
-                onConfirm: () => navigate('/login'),
-                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            isVisible: true,
+            title: 'Login Required',
+            message: 'You must be signed in to start a chat with the vendor.',
+            icon: 'warning',
+            confirmText: 'Go to Login',
+            cancelText: 'Cancel',
+            showCancel: true,
+            onConfirm: () => navigate('/login'),
+            onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
             });
             return;
         }
 
-        // Set default message
-        const defaultMessage = `Hello, I'm interested in your ad titled "${ad?.title}". Is it still available?`;
-        
+        // Define suggested messages
+        const suggestedMessages = [
+            `Is this still available?`,
+            `Can you share more details about the product?`,
+            `What's your best price for this item?`,
+            `Hello, I'm interested in "${ad?.title}". When can I pick it up?`
+        ];
+
+        // Build buttons HTML
+        const suggestedButtonsHTML = suggestedMessages.map(msg => {
+            const escapedMsg = msg.replace(/'/g, "\\'").replace(/"/g, '&quot;'); 
+            return `
+            <button 
+                class="swal2-styled suggested-msg-btn" 
+                style="margin: 3px; padding: 3px 6px; background-color: #ffc107; color: #1e293b; border: 2px solid #ffc107; border-radius: 30px; font-size: 0.9rem; cursor: pointer;"
+                onclick="document.getElementById('chat-message').value='${escapedMsg}'"
+            >
+                ${msg}
+            </button>
+            `;
+        }).join('');
+
         setAlertModalConfig({
             isVisible: true,
             title: 'Start Chat with Vendor',
             message: `
-                <p>Send the message below to the vendor:</p>
-                <textarea id="chat-message" class="swal2-textarea" style="width: 100%; height: 100px;" placeholder="Type your message...">${defaultMessage}</textarea>
+            <p>Click a message below or type your own:</p>
+            <div style="margin-bottom: 10px;">
+                ${suggestedButtonsHTML}
+            </div>
+            <textarea id="chat-message" class="swal2-textarea" style="
+                width: 85%; 
+                height: 100px; 
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                border: 2px solid transparent;
+                border-radius: 12px;
+                padding: 16px;
+                font-family: 'Fira Sans Extra Condensed', sans-serif;
+                font-size: 15px;
+                color: #1e293b;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                resize: vertical;
+                outline: none;
+                backdrop-filter: blur(10px);
+                background-attachment: fixed;
+            " 
+            placeholder="Type your message..."
+            ></textarea>
             `,
             icon: 'info',
             confirmText: 'Send Message',
             cancelText: 'Cancel',
             showCancel: true,
             onConfirm: () => {
-                // Add a small delay to ensure DOM is ready
-                setTimeout(() => {
-                    const textarea = document.getElementById('chat-message');
-                    const message = textarea ? textarea.value.trim() : defaultMessage;
-                    
-                    if (!message) {
-                        alert('Please enter a message');
-                        return;
-                    }
-                    
-                    handleSendChatMessage(message);
-                }, 100);
+            setTimeout(() => {
+                const textarea = document.getElementById('chat-message');
+                const message = textarea ? textarea.value.trim() : '';
+
+                if (!message) {
+                alert('Please enter a message');
+                return;
+                }
+
+                handleSendChatMessage(message);
+            }, 50);
             },
             onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
         });
@@ -906,7 +945,7 @@ const AdDetails = () => {
                                                                 disabled={!ad || wish_listLoading}
                                                                 onClick={handleAddToWishlist}
                                                             >
-                                                                🖤 Add to Wish List
+                                                                🔖 Add to Wish List
                                                             </Button>
                                                         </motion.div>
                                                     </Col>
@@ -917,7 +956,7 @@ const AdDetails = () => {
                                                                 className="w-100 py-2 rounded-pill fancy-button"
                                                                 onClick={handleShowReviewModal}
                                                             >
-                                                                💬 Leave a Review
+                                                                📝 Leave a Review
                                                             </Button>
                                                         </motion.div>
                                                     </Col>
@@ -925,10 +964,10 @@ const AdDetails = () => {
                                                     <Col xs={12} className="mb-2">
                                                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
                                                             <Button
-                                                            className="w-100 py-2 rounded-pill fancy-button"
-                                                            onClick={handleOpenChatModal}
+                                                                className="w-100 py-2 rounded-pill fancy-button"
+                                                                onClick={handleOpenChatModal}
                                                             >
-                                                            💬 Start Chat with Vendor
+                                                                💬 Start Chat with Vendor
                                                             </Button>
                                                         </motion.div>
                                                     </Col>
