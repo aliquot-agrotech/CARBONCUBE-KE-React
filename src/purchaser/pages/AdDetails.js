@@ -37,7 +37,8 @@ const AdDetails = () => {
     const [submitError, setSubmitError] = useState(null);
     const navigate = useNavigate(); // Initialize useNavigate
     const [showVendorToast, setShowVendorToast] = useState(false);
-
+    // const handleCloseChatModal = () => setShowChatModal(false);
+    // const [showChatModal, setShowChatModal] = useState(false);
 
     const handleShowModal = async () => {
         setShowModal(true);
@@ -90,7 +91,6 @@ const AdDetails = () => {
     const handleRatingClick = (selectedRating) => {
         setRating(selectedRating);
     };
-
     
     useEffect(() => {
         if (!adId) {
@@ -263,6 +263,123 @@ const AdDetails = () => {
             setSubmitError('Failed to submit review. Please try again.');
         } finally {
             setIsSubmitting(false);
+        }
+    };
+
+    const handleOpenChatModal = () => {
+        const token = sessionStorage.getItem('token');
+
+        if (!token) {
+            setAlertModalConfig({
+                isVisible: true,
+                title: 'Login Required',
+                message: 'You must be signed in to start a chat with the vendor.',
+                icon: 'warning',
+                confirmText: 'Go to Login',
+                cancelText: 'Cancel',
+                showCancel: true,
+                onConfirm: () => navigate('/login'),
+                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            });
+            return;
+        }
+
+        // Set default message
+        const defaultMessage = `Hello, I'm interested in your ad titled "${ad?.title}". Is it still available?`;
+        
+        setAlertModalConfig({
+            isVisible: true,
+            title: 'Start Chat with Vendor',
+            message: `
+                <p>Send the message below to the vendor:</p>
+                <textarea id="chat-message" class="swal2-textarea" style="width: 100%; height: 100px;" placeholder="Type your message...">${defaultMessage}</textarea>
+            `,
+            icon: 'info',
+            confirmText: 'Send Message',
+            cancelText: 'Cancel',
+            showCancel: true,
+            onConfirm: () => {
+                // Add a small delay to ensure DOM is ready
+                setTimeout(() => {
+                    const textarea = document.getElementById('chat-message');
+                    const message = textarea ? textarea.value.trim() : defaultMessage;
+                    
+                    if (!message) {
+                        alert('Please enter a message');
+                        return;
+                    }
+                    
+                    handleSendChatMessage(message);
+                }, 100);
+            },
+            onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+        });
+    };
+
+    const handleSendChatMessage = async (message) => {
+        const token = sessionStorage.getItem('token');
+
+        // Validate message before sending
+        if (!message || message.trim() === '') {
+            setAlertModalConfig({
+                isVisible: true,
+                title: 'Error',
+                message: 'Message cannot be empty. Please enter a message.',
+                icon: 'error',
+                confirmText: 'Okay',
+                showCancel: false,
+                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            });
+            return;
+        }
+
+        try {
+            console.log('Sending message:', message); // Debug log
+            
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/conversations`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    conversation: {
+                        vendor_id: ad?.vendor_id,
+                        ad_id: ad?.id
+                    },
+                    message: message.trim() // Ensure no extra whitespace
+                })
+            });
+
+            const responseData = await response.json();
+            console.log('Response:', responseData); // Debug log
+
+            if (!response.ok) {
+                throw new Error(responseData.error || 'Failed to create conversation');
+            }
+
+            setTimeout(() => {
+                setAlertModalConfig({
+                    isVisible: true,
+                    title: 'Message Sent!',
+                    message: 'Your message was sent and a chat has been created.',
+                    icon: 'success',
+                    confirmText: 'Awesome!',
+                    showCancel: false,
+                    onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+                });
+            }, 300);
+        } catch (error) {
+            console.error('Error sending message:', error); // Debug log
+            setAlertModalConfig({
+                isVisible: true,
+                title: 'Error',
+                message: `Failed to send message: ${error.message}`,
+                icon: 'error',
+                confirmText: 'Okay',
+                showCancel: false,
+                onClose: () => setAlertModalConfig(prev => ({ ...prev, isVisible: false })),
+            });
         }
     };
     
@@ -804,7 +921,18 @@ const AdDetails = () => {
                                                             </Button>
                                                         </motion.div>
                                                     </Col>
-                                                </Row>`
+
+                                                    <Col xs={12} className="mb-2">
+                                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
+                                                            <Button
+                                                            className="w-100 py-2 rounded-pill fancy-button"
+                                                            onClick={handleOpenChatModal}
+                                                            >
+                                                            💬 Start Chat with Vendor
+                                                            </Button>
+                                                        </motion.div>
+                                                    </Col>
+                                                </Row>
 
                                                 {/* Alert/Error */}
                                                 <AlertModal 
