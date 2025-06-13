@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
+import AboutUs from './components/AboutUs';
 import ForgotPassword from './components/ForgotPassword';
 
 // Admin Imports
@@ -96,6 +97,7 @@ function App() {
         <Route path="/vendor-signup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
         <Route path="/rider-signup" element={<RiderSignUpPage onSignup={handleRiderSignup} />} />
         <Route path="/vendor/tiers" element={<TierPage />} />
+        <Route path="/about-us" element={<AboutUs/>} />
 
 
         {isAuthenticated && userRole === 'admin' && (
