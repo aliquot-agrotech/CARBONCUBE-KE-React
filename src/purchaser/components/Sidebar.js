@@ -108,13 +108,7 @@ const Sidebar = () => {
 
       <div className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
         <Nav className="flex-column">
-          <Nav.Link
-            href="/purchaser/home"
-            onClick={(e) => handleProtectedClick(e, '/purchaser/home')}
-            className={location.pathname === '/purchaser/home' ? 'active' : ''}
-          >
-            <HouseGear className="icon" /> {isOpen && 'Home'}
-          </Nav.Link>
+          
           <Nav.Link
             href="/purchaser/wish_lists"
             onClick={(e) => handleProtectedClick(e, '/purchaser/wish_lists')}
