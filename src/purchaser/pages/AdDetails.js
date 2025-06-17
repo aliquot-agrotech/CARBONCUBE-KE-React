@@ -267,112 +267,112 @@ const AdDetails = () => {
         }
     };
 
-const handleOpenChatModal = () => {
-  const token = sessionStorage.getItem('token');
-  if (!token) {
-    Swal.fire({
-      title: 'Login Required',
-      text: 'You must be signed in to start a chat with the vendor.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Go to Login',
-      cancelButtonText: 'Cancel',
-      customClass: {
-        popup: 'futuristic-swal rounded-4 glass-bg',
-        title: 'fw-semibold text-white',
-        htmlContainer: 'text-light',
-        actions: 'futuristic-actions',
-        confirmButton: 'btn rounded-pill futuristic-confirm',
-        cancelButton: 'btn rounded-pill futuristic-cancel',
-      },
-      backdrop: 'rgba(0, 0, 0, 0.6)',
-      buttonsStyling: false,
-    }).then(result => {
-      if (result.isConfirmed) {
-        navigate('/login');
-      }
-    });
-    return;
-  }
+    const handleOpenChatModal = () => {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            Swal.fire({
+            title: 'Login Required',
+            text: 'You must be signed in to start a chat with the vendor.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Go to Login',
+            cancelButtonText: 'Cancel',
+            customClass: {
+                popup: 'futuristic-swal rounded-4 glass-bg',
+                title: 'fw-semibold text-white',
+                htmlContainer: 'text-light',
+                actions: 'futuristic-actions',
+                confirmButton: 'btn rounded-pill futuristic-confirm',
+                cancelButton: 'btn rounded-pill futuristic-cancel',
+            },
+            backdrop: 'rgba(0, 0, 0, 0.6)',
+            buttonsStyling: false,
+            }).then(result => {
+            if (result.isConfirmed) {
+                navigate('/login');
+            }
+            });
+            return;
+        }
 
-  const suggestedMessages = [
-    `Is this still available?`,
-    `Can you share more details about the product?`,
-    `What's your best price for this item?`,
-    `Hello, I'm interested in "${ad?.title}". When can I pick it up?`
-  ];
+        const suggestedMessages = [
+            `Is this still available?`,
+            `Can you share more details about the product?`,
+            `What's your best price for this item?`,
+            `Hello, I'm interested in "${ad?.title}". When can I pick it up?`
+        ];
 
-  Swal.fire({
-    title: 'Start Chat with Vendor',
-    html: `
-      <p>Click a message below or type your own:</p>
-      <div id="suggested-msg-container" style="margin-bottom: 10px;"></div>
-      <textarea id="chat-message" class="swal2-textarea" placeholder="Type your message..."
-        style="
-          width: 85%; 
-          height: 100px; 
-          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-          border: 2px solid transparent;
-          border-radius: 12px;
-          padding: 16px;
-          font-family: 'Fira Sans Extra Condensed', sans-serif;
-          font-size: 15px;
-          color: #1e293b;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.7);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          resize: vertical;
-          outline: none;
-          backdrop-filter: blur(10px);
-          background-attachment: fixed;
-        "
-      ></textarea>
-    `,
-    icon: 'info',
-    confirmButtonText: 'Send Message',
-    cancelButtonText: 'Cancel',
-    showCancelButton: true,
-    customClass: {
-      popup: 'futuristic-swal rounded-4 glass-bg',
-      title: 'fw-semibold text-white',
-      htmlContainer: 'text-light',
-      actions: 'futuristic-actions',
-      confirmButton: 'btn rounded-pill futuristic-confirm',
-      cancelButton: 'btn rounded-pill futuristic-cancel',
-    },
-    backdrop: 'rgba(0, 0, 0, 0.6)',
-    buttonsStyling: false,
-    didOpen: () => {
-      const container = document.getElementById('suggested-msg-container');
-      const textarea = document.getElementById('chat-message');
+        Swal.fire({
+            title: 'Start Chat with Vendor',
+            html: `
+            <p>Click a message below or type your own:</p>
+            <div id="suggested-msg-container" style="margin-bottom: 10px;"></div>
+            <textarea id="chat-message" class="swal2-textarea" placeholder="Type your message..."
+                style="
+                width: 85%; 
+                height: 100px; 
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                border: 2px solid transparent;
+                border-radius: 12px;
+                padding: 16px;
+                font-family: 'Fira Sans Extra Condensed', sans-serif;
+                font-size: 15px;
+                color: #1e293b;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                resize: vertical;
+                outline: none;
+                backdrop-filter: blur(10px);
+                background-attachment: fixed;
+                "
+            ></textarea>
+            `,
+            icon: 'info',
+            confirmButtonText: 'Send Message',
+            cancelButtonText: 'Cancel',
+            showCancelButton: true,
+            customClass: {
+            popup: 'futuristic-swal rounded-4 glass-bg',
+            title: 'fw-semibold text-white',
+            htmlContainer: 'text-light',
+            actions: 'futuristic-actions',
+            confirmButton: 'btn rounded-pill futuristic-confirm',
+            cancelButton: 'btn rounded-pill futuristic-cancel',
+            },
+            backdrop: 'rgba(0, 0, 0, 0.6)',
+            buttonsStyling: false,
+            didOpen: () => {
+            const container = document.getElementById('suggested-msg-container');
+            const textarea = document.getElementById('chat-message');
 
-      suggestedMessages.forEach(msg => {
-        const btn = document.createElement('button');
-        btn.textContent = msg;
-        btn.className = 'swal2-styled';
-        btn.style.cssText = `
-          margin: 3px; padding: 3px 6px; background-color: #ffc107; color: #1e293b;
-          border: 2px solid #ffc107; border-radius: 30px; font-size: 0.85rem; cursor: pointer;
-        `;
-        btn.onclick = () => {
-          textarea.value = msg;
-        };
-        container.appendChild(btn);
-      });
-    },
-    preConfirm: () => {
-      const msg = document.getElementById('chat-message')?.value.trim();
-      if (!msg) {
-        Swal.showValidationMessage('Please enter a message');
-        return false;
-      }
-      return msg;
-    }
-  }).then(result => {
-    if (result.isConfirmed && result.value) {
-      handleSendChatMessage(result.value);
-    }
-  });
-};
+            suggestedMessages.forEach(msg => {
+                const btn = document.createElement('button');
+                btn.textContent = msg;
+                btn.className = 'swal2-styled';
+                btn.style.cssText = `
+                margin: 3px; padding: 3px 6px; background-color: #ffc107; color: #1e293b;
+                border: 2px solid #ffc107; border-radius: 30px; font-size: 0.85rem; cursor: pointer;
+                `;
+                btn.onclick = () => {
+                textarea.value = msg;
+                };
+                container.appendChild(btn);
+            });
+            },
+            preConfirm: () => {
+            const msg = document.getElementById('chat-message')?.value.trim();
+            if (!msg) {
+                Swal.showValidationMessage('Please enter a message');
+                return false;
+            }
+            return msg;
+            }
+        }).then(result => {
+            if (result.isConfirmed && result.value) {
+            handleSendChatMessage(result.value);
+            }
+        });
+    };
 
     const handleSendChatMessage = async (message) => {
         const token = sessionStorage.getItem('token');

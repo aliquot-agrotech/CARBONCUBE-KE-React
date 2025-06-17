@@ -514,6 +514,8 @@ const VendorAds = () => {
         }));
     };
 
+    const MAX_IMAGES = 3;
+
     const handleFileSelect = async (files, mode = 'add') => {
         if (!files || files.length === 0) return;
 
@@ -521,11 +523,31 @@ const VendorAds = () => {
             const fileArray = Array.from(files);
             const maxSize = 5 * 1024 * 1024;
 
-            const validFiles = fileArray.filter(file => file.size <= maxSize);
-            const invalidFiles = fileArray.filter(file => file.size > maxSize);
+            // Determine current image count based on mode
+            const currentCount = mode === 'edit' ? editedImages.length : selectedImages.length;
+
+            // Limit number of images allowed
+            const allowableSlots = MAX_IMAGES - currentCount;
+            if (allowableSlots <= 0) {
+            setAlertModalMessage(`You can only upload up to ${MAX_IMAGES} images.`);
+            setAlertModalConfig({
+                icon: 'warning',
+                title: 'Upload Limit Reached',
+                confirmText: 'OK',
+                cancelText: '',
+                showCancel: false,
+                onConfirm: () => setShowAlertModal(false),
+            });
+            setShowAlertModal(true);
+            return;
+            }
+
+            const filesWithinLimit = fileArray.slice(0, allowableSlots);
+
+            const validFiles = filesWithinLimit.filter(file => file.size <= maxSize);
+            const invalidFiles = filesWithinLimit.filter(file => file.size > maxSize);
 
             if (invalidFiles.length > 0) {
-            // Create a message listing all oversized files
             const invalidNames = invalidFiles.map(file => `"${file.name}"`).join(', ');
             const alertMessage = `${invalidNames} ${invalidFiles.length === 1 ? 'exceeds' : 'exceed'} 5MB. Please select smaller image${invalidFiles.length === 1 ? '' : 's'}.`;
 
@@ -538,22 +560,18 @@ const VendorAds = () => {
                 showCancel: false,
                 onConfirm: () => {
                 setShowAlertModal(false);
-
-                // Proceed with valid files after alert confirmation
                 if (validFiles.length > 0) {
                     if (mode === 'edit') {
                     setEditedImages(prev => [...prev, ...validFiles]);
                     } else {
                     setSelectedImages(prev => [...prev, ...validFiles]);
                     }
-
-                    console.log(`${mode === 'edit' ? 'Edited' : 'Selected'} images added successfully`);
                 }
                 },
             });
             setShowAlertModal(true);
             } else {
-            // All files are valid
+            // All files are valid and within limit
             if (mode === 'edit') {
                 setEditedImages(prev => [...prev, ...validFiles]);
             } else {
@@ -565,7 +583,8 @@ const VendorAds = () => {
         } catch (error) {
             console.error('Error processing selected images:', error);
         }
-    };    
+    };
+
 
     const handleDeleteImage = async (index) => {
         try {
@@ -1318,9 +1337,14 @@ const VendorAds = () => {
                                         <Form.Label className="text-center mb-0 fw-bold">Media</Form.Label>
                                         <div className="upload-section position-relative">
                                             <div className="upload-icon">&#8689;</div>
-                                                <Button variant="warning" className="custom-upload-btn position-relative rounded-pill">
-                                                    Upload Images
-                                                    <input
+                                                <div className="d-flex flex-column align-items-center">
+                                                    <Button
+                                                        variant="warning"
+                                                        className="custom-upload-btn position-relative rounded-pill mb-1"
+                                                        disabled={selectedImages.length >= 3}
+                                                    >
+                                                        {selectedImages.length < 3 ? 'Upload Images' : 'Maximum Reached (3)'}
+                                                        <input
                                                         type="file"
                                                         accept="image/*"
                                                         multiple
@@ -1334,8 +1358,11 @@ const VendorAds = () => {
                                                             opacity: 0,
                                                             cursor: 'pointer',
                                                         }}
-                                                    />
-                                                </Button>
+                                                        />
+                                                    </Button>
+
+                                                    <small className="text-muted">{selectedImages.length} of 3 images uploaded</small>
+                                                </div>
                                             <div className="upload-instructions">Drag and Drop files Here</div>
                                             <div className="image-preview mt-2" style={{ 
                                                 display: 'flex', 
