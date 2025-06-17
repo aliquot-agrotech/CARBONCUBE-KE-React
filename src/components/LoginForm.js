@@ -134,7 +134,7 @@ const LoginForm = ({ onLogin }) => {
                         </li>
                         <li className="mb-2 d-flex align-items-center">
                           <span className="me-2 text-warning">✓</span>
-                          <span className="small">Connect with local vendors</span>
+                          <span className="small">Connect with local sellers</span>
                         </li>
                         <li className="mb-2 d-flex align-items-center">
                           <span className="me-2 text-warning">✓</span>
@@ -268,7 +268,7 @@ const LoginForm = ({ onLogin }) => {
                             className="w-100 signup-btn rounded-pill"
                             onClick={() => navigate('/purchaser-signup')}
                           >
-                            Purchaser
+                            Buyer
                           </Button>
                         </Col>
                         <Col xs={5} sm={4}>
@@ -277,7 +277,7 @@ const LoginForm = ({ onLogin }) => {
                             className="w-100 signup-btn rounded-pill"
                             onClick={() => navigate('/vendor-signup')}
                           >
-                            Vendor
+                            Seller
                           </Button>
                         </Col>
                       </Row>

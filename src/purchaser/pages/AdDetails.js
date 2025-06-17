@@ -303,7 +303,7 @@ const AdDetails = () => {
         ];
 
         Swal.fire({
-            title: 'Start Chat with Vendor',
+            title: 'Start Chat with Seller',
             html: `
             <p>Click a message below or type your own:</p>
             <div id="suggested-msg-container" style="margin-bottom: 10px;"></div>
@@ -889,7 +889,7 @@ const AdDetails = () => {
                                                         </span>
                                                     </p>
                                                     <p style={{ fontSize: '16px' }}>
-                                                        <strong>Vendor: <span className="text-success">{ad.vendor_enterprise_name || 'N/A'}</span></strong>
+                                                        <strong>Seller: <span className="text-success">{ad.vendor_enterprise_name || 'N/A'}</span></strong>
                                                     </p>
                                                 </div>
 
@@ -949,7 +949,7 @@ const AdDetails = () => {
                                                                     Loading...
                                                                 </>
                                                                 ) : (
-                                                                '📞 Reveal Vendor Contact'
+                                                                '📞 Reveal Seller Contact'
                                                                 )}
                                                             </Button>
                                                             )}
@@ -986,7 +986,7 @@ const AdDetails = () => {
                                                                 className="w-100 py-2 rounded-pill fancy-button"
                                                                 onClick={handleOpenChatModal}
                                                             >
-                                                                💬 Start Chat with Vendor
+                                                                💬 Start Chat with Seller
                                                             </Button>
                                                         </motion.div>
                                                     </Col>
@@ -1227,7 +1227,7 @@ const AdDetails = () => {
                         <strong className="me-auto">Success</strong>
                         </Toast.Header>
                         <Toast.Body className="text-black">
-                        Vendor contact revealed successfully!
+                        Seller contact revealed successfully!
                         </Toast.Body>
                     </Toast>
                 </ToastContainer>

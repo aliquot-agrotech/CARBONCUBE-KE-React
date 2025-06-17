@@ -60,13 +60,13 @@ const Sidebar = () => {
           <Nav.Link
             href="/admin/vendors"
             className={location.pathname === '/admin/vendors' ? 'active' : ''}>
-            <Shop className="icon" /> {isOpen && 'Vendors'}
+            <Shop className="icon" /> {isOpen && 'Sellers'}
           </Nav.Link>
 
           <Nav.Link
             href="/admin/purchasers"
             className={location.pathname === '/admin/purchasers' ? 'active' : ''}>
-            <PersonCheck className="icon" /> {isOpen && 'Purchasers'}
+            <PersonCheck className="icon" /> {isOpen && 'Buyers'}
           </Nav.Link>
           <Nav.Link
             href="/admin/content"

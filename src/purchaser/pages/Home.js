@@ -507,12 +507,12 @@ const Home = () => {
                         <li className="mb-2">
                             <a href="/become-a-vendor" className="text-white text-decoration-none hover-link">
                             <Badge bg="success" className="me-2 small">New</Badge>
-                            Become a Vendor
+                            Become a Seller
                             </a>
                         </li>
                         <li className="mb-2">
                             <a href="/vendor-help" className="text-white text-decoration-none hover-link">
-                            Vendor Help Center
+                            Seller Help Center
                             </a>
                         </li>
                         <li className="mb-2">

@@ -24,7 +24,7 @@ const AboutUs = () => {
             </div>
             <Container className="text-center position-relative">
                 <h1 className="display-4 fw-bold mb-3">Welcome to CarbonCube Kenya</h1>
-                <p className="lead mb-4 fs-5">Kenya's Trusted AI-Powered Online Marketplace</p>
+                <p className="lead mb-4 fs-5">Kenya's Trusted Online Marketplace</p>
                 <p className="mb-4 fs-6 opacity-75">Connecting verified sellers with confident buyers across Kenya</p>
                 <Button variant="dark" size="lg" className="rounded-pill px-4 py-2 shadow">
                 <Shop className="me-2" size={16} />

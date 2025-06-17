@@ -191,7 +191,7 @@ function PurchaserSignUpPage({ onSignup }) {
                     }}>
                     <div className="pt-4">
                       <h2 className="fw-bold">
-                        <span className="text-white me-2">Purchaser</span>
+                        <span className="text-white me-2">Buyer</span>
                         <span className="text-warning">Portal</span>
                       </h2>
                       <p className="text-light opacity-75 mt-3">
@@ -238,7 +238,7 @@ function PurchaserSignUpPage({ onSignup }) {
                 {/* Right Branding Section */}
                 <Col lg={8}>
                   <div className="card-body p-4 p-lg-5 h-100 d-flex flex-column justify-content-between" style={{ backgroundColor: '#e0e0e0' }}>
-                    <h3 className="fw-bold text-center mb-4">Purchaser Sign Up</h3>
+                    <h3 className="fw-bold text-center mb-4">Buyer Sign Up</h3>
                     <Form onSubmit={handleSubmit}>
                       {errors.general && <Alert variant="danger">{errors.general}</Alert>}
 
