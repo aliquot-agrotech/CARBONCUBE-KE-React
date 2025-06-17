@@ -48,7 +48,7 @@ const Footer = () => (
                             Flash Sales / Deals
                             </a>
                         </li>
-                                            <li className="mb-2">
+                        <li className="mb-2">
                             <a href="/about-us" className="text-white text-decoration-none hover-link">
                             About Us
                             </a>

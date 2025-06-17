@@ -36,6 +36,9 @@ const TopNavBarMinimal = () => {
                         <Nav.Link href="/privacy" className="text-white">
                         Privacy Policy
                         </Nav.Link>
+                        <Nav.Link href="/about-us" className="text-white">
+                        About Us
+                        </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
