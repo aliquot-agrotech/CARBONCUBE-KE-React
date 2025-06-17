@@ -29,15 +29,15 @@ const AdDetails = () => {
     const [reviews, setReviews] = useState([]);
     const [loadingReviews, setLoadingReviews] = useState(false);
     const [reviewsError, setReviewsError] = useState(null);
-    const [vendor, setVendor] = useState(null);
-    const [showVendorDetails, setShowVendorDetails] = useState(false); // State to toggle visibility
+    const [seller, setSeller] = useState(null);
+    const [showSellerDetails, setShowSellerDetails] = useState(false); // State to toggle visibility
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [reviewText, setReviewText] = useState('');
     const [rating, setRating] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
     const navigate = useNavigate(); // Initialize useNavigate
-    const [showVendorToast, setShowVendorToast] = useState(false);
+    const [showSellerToast, setShowSellerToast] = useState(false);
     // const handleCloseChatModal = () => setShowChatModal(false);
     // const [showChatModal, setShowChatModal] = useState(false);
 
@@ -100,14 +100,14 @@ const AdDetails = () => {
             return;
         }
 
-          // Reset vendor-related states on ad change
-        setShowVendorDetails(false);
-        setVendor(null);
+          // Reset seller-related states on ad change
+        setShowSellerDetails(false);
+        setSeller(null);
 
         // Fetch Ad Details
         const fetchAdDetails = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/${adId}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/ads/${adId}`);
                 if (!response.ok) throw new Error('Failed to fetch ad details');
                 const data = await response.json();
                 setAd(data);
@@ -121,7 +121,7 @@ const AdDetails = () => {
         // Fetch Related Ads
         const fetchRelatedAds = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/${adId}/related`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/ads/${adId}/related`);
                 if (!response.ok) throw new Error('Failed to fetch related ads');
                 const data = await response.json();
                 setRelatedAds(data);
@@ -139,19 +139,19 @@ const AdDetails = () => {
         setShowAlertModal(false); // Close the modal
     };
 
-    const fetchVendorDetails = async () => {
+    const fetchSellerDetails = async () => {
         try {
             const token = sessionStorage.getItem('token');
     
             if (!token) {
-                throw new Error('You must be logged in to view vendor details.');
+                throw new Error('You must be logged in to view seller details.');
             }
     
             // Set a local loading state instead of the global one
             // This prevents a full re-render of the component
-            let vendorData;
+            let sellerData;
     
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/${adId}/vendor`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/ads/${adId}/seller`, {
                 signal: AbortSignal.timeout(10000),
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -168,8 +168,8 @@ const AdDetails = () => {
                 throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
             }
     
-            vendorData = await response.json();
-            return vendorData;
+            sellerData = await response.json();
+            return sellerData;
         } catch (error) {
             console.error('Detailed error:', {
                 message: error.message,
@@ -225,7 +225,7 @@ const AdDetails = () => {
         setSubmitError(null);
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/${adId}/reviews`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/ads/${adId}/reviews`, {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -272,7 +272,7 @@ const AdDetails = () => {
         if (!token) {
             Swal.fire({
             title: 'Login Required',
-            text: 'You must be signed in to start a chat with the vendor.',
+            text: 'You must be signed in to start a chat with the seller.',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Go to Login',
@@ -394,7 +394,7 @@ const AdDetails = () => {
         try {
             console.log('Sending message:', message); // Debug log
             
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/conversations`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/conversations`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -402,7 +402,7 @@ const AdDetails = () => {
                 },
                 body: JSON.stringify({
                     conversation: {
-                        vendor_id: ad?.vendor_id,
+                        seller_id: ad?.seller_id,
                         ad_id: ad?.id
                     },
                     message: message.trim() // Ensure no extra whitespace
@@ -441,7 +441,7 @@ const AdDetails = () => {
         }
     };
     
-    const handleRevealVendorDetails = async (e) => {
+    const handleRevealSellerDetails = async (e) => {
         // Make sure to prevent default on the event object
         if (e && e.preventDefault) {
             e.preventDefault();
@@ -453,7 +453,7 @@ const AdDetails = () => {
         if (!token) {
             setAlertModalConfig({
                 isVisible: true,
-                message: "You must be signed in to view vendor details.",
+                message: "You must be signed in to view seller details.",
                 title: "Login Required",
                 icon: "warning",
                 confirmText: "Go to Login",
@@ -473,24 +473,24 @@ const AdDetails = () => {
         
         try {
             // Log the click event first
-            await logClickEventRevealVendorDetails(adId, 'Reveal-Vendor-Details');
+            await logClickEventRevealSellerDetails(adId, 'Reveal-Seller-Details');
             
-            // Only fetch vendor details if not already available
-            if (!vendor) {
-                const vendorData = await fetchVendorDetails();
-                setVendor(vendorData);
+            // Only fetch seller details if not already available
+            if (!seller) {
+                const sellerData = await fetchSellerDetails();
+                setSeller(sellerData);
             }
             
-            // Show vendor details and toast
-            setShowVendorDetails(true);
-            setShowVendorToast(true);
+            // Show seller details and toast
+            setShowSellerDetails(true);
+            setShowSellerToast(true);
         } catch (error) {
-            console.error("Error revealing vendor details:", error);
+            console.error("Error revealing seller details:", error);
             
             // Show a user-friendly error
             setAlertModalConfig({
                 isVisible: true,
-                message: "Failed to reveal vendor contact. Please try again.",
+                message: "Failed to reveal seller contact. Please try again.",
                 title: "Error",
                 icon: "error",
                 confirmText: "OK",
@@ -506,7 +506,7 @@ const AdDetails = () => {
     };
     
     // Function to log button click events
-    const logClickEventRevealVendorDetails = async (adId, eventType) => {
+    const logClickEventRevealSellerDetails = async (adId, eventType) => {
         try {
             const token = sessionStorage.getItem('token');
     
@@ -579,7 +579,7 @@ const AdDetails = () => {
     
             // Step 2: API call to add the ad to the wishlist
             const response = await axios.post(
-                `${process.env.REACT_APP_BACKEND_URL}/purchaser/wish_lists`,
+                `${process.env.REACT_APP_BACKEND_URL}/buyer/wish_lists`,
                 { ad_id: ad.id },
                 {
                     headers: {
@@ -782,7 +782,7 @@ const AdDetails = () => {
         return tierColors[tierId] || 'transparent'; // No border color for Free tier
     };
 
-    const tierId = ad?.vendor_tier?.id || ad?.vendor_tier;
+    const tierId = ad?.seller_tier?.id || ad?.seller_tier;
     const borderColor = getBorderColor(tierId);
 
     const conditionLabels = {
@@ -889,7 +889,7 @@ const AdDetails = () => {
                                                         </span>
                                                     </p>
                                                     <p style={{ fontSize: '16px' }}>
-                                                        <strong>Seller: <span className="text-success">{ad.vendor_enterprise_name || 'N/A'}</span></strong>
+                                                        <strong>Seller: <span className="text-success">{ad.seller_enterprise_name || 'N/A'}</span></strong>
                                                     </p>
                                                 </div>
 
@@ -922,9 +922,9 @@ const AdDetails = () => {
                                                 <Row className="gx-2 mt-2 mt-lg-4">
                                                     <Col xs={12} className="mb-2">
                                                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}>
-                                                            {showVendorDetails && vendor ? (
+                                                            {showSellerDetails && seller ? (
                                                             <a
-                                                                href={`tel:${vendor.phone_number}`}
+                                                                href={`tel:${seller.phone_number}`}
                                                                 className="text-decoration-none"
                                                                 style={{ display: 'block' }}
                                                             >
@@ -933,14 +933,14 @@ const AdDetails = () => {
                                                                 className="w-100 py-2 rounded-pill fancy-button text-dark"
                                                                 disabled={loading}
                                                                 >
-                                                                {vendor.phone_number}
+                                                                {seller.phone_number}
                                                                 </Button>
                                                             </a>
                                                             ) : (
                                                             <Button
                                                                 type="button"
                                                                 className="w-100 py-2 rounded-pill fancy-button"
-                                                                onClick={handleRevealVendorDetails}
+                                                                onClick={handleRevealSellerDetails}
                                                                 disabled={loading}
                                                             >
                                                                 {loading ? (
@@ -1035,7 +1035,7 @@ const AdDetails = () => {
                                     <h3 className="related-ads-title mb-3">Related Ads</h3>
                                     <Row className="related-ads">
                                         {relatedAds.slice(0, 4).map((relatedAd) => {
-                                            const borderColor = getBorderColor(relatedAd.vendor_tier);
+                                            const borderColor = getBorderColor(relatedAd.seller_tier);
                                             return (
                                             <Col key={relatedAd.id} xs={6} md={3} className="mb-2 mb-lg-4 p-1">
                                                 <Card 
@@ -1134,7 +1134,7 @@ const AdDetails = () => {
                             return (
                                 <Card key={index} className="my-2 my-lg-3 custom-card">
                                 <Card.Body className="py-2">
-                                    <Card.Title>{review.purchaser.name}</Card.Title>
+                                    <Card.Title>{review.buyer.name}</Card.Title>
                                     <Card.Text>{review.review}</Card.Text>
                                     <div className="rating-stars d-flex align-items-center">
                                     {[...Array(fullStars)].map((_, i) => (
@@ -1217,8 +1217,8 @@ const AdDetails = () => {
 
                 <ToastContainer position="bottom-end" className="p-3" style={{ zIndex: 9999 }}>
                     <Toast
-                        show={showVendorToast}
-                        onClose={() => setShowVendorToast(false)}
+                        show={showSellerToast}
+                        onClose={() => setShowSellerToast(false)}
                         delay={3000}
                         autohide
                         bg="warning"

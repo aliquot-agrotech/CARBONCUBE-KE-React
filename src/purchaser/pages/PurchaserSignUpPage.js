@@ -139,10 +139,10 @@ function PurchaserSignUpPage({ onSignup }) {
           Object.entries(formData).map(([key, value]) => [key, value === "" ? null : value])
         );
 
-        const payload = { purchaser: cleanedData };
+        const payload = { buyer: cleanedData };
         setSubmittingSignup(true);
 
-        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/purchaser/signup`, payload);
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/buyer/signup`, payload);
         if (response.status === 201) {
           onSignup();
           navigate('/login');

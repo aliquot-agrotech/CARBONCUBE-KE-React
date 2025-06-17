@@ -32,8 +32,8 @@ const Home = () => {
     
                 // Fetch categories and subcategories
                 const [categoryResponse, subcategoryResponse] = await Promise.all([
-                    fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/categories`, { headers }),
-                    fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/subcategories`, { headers })
+                    fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/categories`, { headers }),
+                    fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/subcategories`, { headers })
                 ]);
     
                 if (!categoryResponse.ok || !subcategoryResponse.ok) throw new Error('Failed to fetch categories/subcategories');
@@ -52,7 +52,7 @@ const Home = () => {
                 setCategories(categoriesWithSubcategories);
     
                 // ✅ Fetch all ads with pagination
-                const adResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/purchaser/ads?per_page=500`, { headers });
+                const adResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/ads?per_page=500`, { headers });
     
                 if (!adResponse.ok) throw new Error('Failed to fetch ads');
     
@@ -136,7 +136,7 @@ const Home = () => {
 
         try {
             const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URL}/purchaser/ads/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}&page=1&per_page=20`,
+                `${process.env.REACT_APP_BACKEND_URL}/buyer/ads/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}&page=1&per_page=20`,
                 {
                     headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
