@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card, Modal, Image, Button } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import ClickEventsStats from '../components/ClickEventsStats';
@@ -9,6 +9,7 @@ import CompetitorStats from '../components/CompetitorStats';
 import CountDownDisplay from '../components/CountDownDisplay';
 import PurchaserDemographics from "../components/PurchaserDemographics";
 import Spinner from "react-spinkit";
+
 import '../css/VendorAnalytics.css';
 
 const VendorAnalytics = () => {
@@ -16,6 +17,10 @@ const VendorAnalytics = () => {
   const [tierId, setTierId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showReviewsModal, setShowReviewsModal] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -86,6 +91,26 @@ const VendorAnalytics = () => {
 
     fetchAnalytics();
   }, []);
+
+  const fetchReviews = async () => {
+    setLoadingReviews(true);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/seller/reviews`, {
+        headers: {
+          'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+        },
+      });
+
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+      const data = await response.json();
+      setReviews(data);
+    } catch (err) {
+      console.error('Error fetching reviews:', err.message);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -166,7 +191,15 @@ const VendorAnalytics = () => {
                   <Card.Header>Total Reviews</Card.Header>
                   <Card.Body>
                     {tierId >= 3 ? (
-                      <Card.Text className="text-center" style={{ fontSize: '1.3rem'}}>
+                      <Card.Text
+                        className="text-center text-primary"
+                        role="button"
+                        style={{ fontSize: '1.3rem', textDecoration: 'underline' }}
+                        onClick={() => {
+                          setShowReviewsModal(true);
+                          fetchReviews();
+                        }}
+                      >
                         <strong>{total_reviews.toLocaleString()}</strong>
                       </Card.Text>
                     ) : (
@@ -282,6 +315,70 @@ const VendorAnalytics = () => {
               </Row>
           </Col>
         </Row>
+        
+        <Modal
+          show={showReviewsModal}
+          onHide={() => setShowReviewsModal(false)}
+          centered
+          size="lg"
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header className="text-white py-2 justify-content-center ">
+            <Modal.Title className="fw-bold">
+              <i className="bi bi-star-half me-2"></i> Buyer Reviews
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body className="" style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+            {loadingReviews ? (
+              <div className="text-center py-5">
+                <Spinner animation="border" variant="primary" />
+                <p className="mt-3 text-muted">Loading reviews...</p>
+              </div>
+            ) : reviews.length > 0 ? (
+              reviews.map((review, idx) => (
+                <Card key={review.id || idx} className="mb-3 border-0 shadow-sm">
+                  <Card.Body className="bg-white rounded">
+                    <div className="d-flex align-items-start">
+                      <img
+                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(review.buyer_name)}&background=random`}
+                        className="rounded-circle me-3"
+                        alt="Avatar"
+                        width="60"
+                        height="60"
+                      />
+                      <div>
+                        <h6 className="mb-1 fw-semibold text-dark">
+                          {review.buyer_name || `Buyer #${review.buyer_id}`}
+                        </h6>
+                        <div className="mb-2 text-warning">
+                          {'★'.repeat(review.rating)}
+                          {'☆'.repeat(5 - review.rating)}
+                          <small className="text-muted ms-2">({review.rating}/5)</small>
+                        </div>
+                        <p className="mb-0 text-muted fst-italic">
+                          {review.review || 'No review provided.'}
+                        </p>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              ))
+            ) : (
+              <div className="text-center text-muted py-5">
+                <i className="bi bi-chat-left-dots fs-1 mb-3"></i>
+                <p>No reviews have been submitted yet.</p>
+              </div>
+            )}
+          </Modal.Body>
+
+          <Modal.Footer className="py-1">
+            <Button variant="danger" onClick={() => setShowReviewsModal(false)}>
+              <i className="bi bi-x-circle me-1"></i> Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </>
   );
