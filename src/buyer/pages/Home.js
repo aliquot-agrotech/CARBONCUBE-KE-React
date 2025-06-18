@@ -518,7 +518,7 @@ const Home = () => {
     };    
 
     const Footer = () => (
-        <footer className="mt-5 text-white position-relative overflow-hidden" style={{ backgroundColor: '#000000', zIndex: 10 }}>
+        <footer className="mt-5 text-white position-relative overflow-hidden footer-container" style={{ backgroundColor: '#000000', zIndex: 10 }}>
             {/* Subtle background pattern */}
             <div className="position-absolute top-0 start-0 w-100 h-100 opacity-5">
             <div style={{

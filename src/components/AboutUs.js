@@ -4,6 +4,7 @@ import { Lock, Robot, CheckCircle, Shop, Award, Person, GraphUp, Shield } from '
 import TopNavBarMinimal from './TopNavBarMinimal';
 import Footer from './Footer';
 import AboutUsImage from './assets/about-us.jpg'
+import './AboutUs.css'; // Assuming you have a CSS file for custom styles
 
 const AboutUs = () => {
     return (
@@ -11,7 +12,8 @@ const AboutUs = () => {
         <TopNavBarMinimal />
 
         {/* Add padding-top to prevent navbar overlay */}
-        <div style={{ paddingTop: '68px' }}>
+        
+        <div style={{ paddingTop: '68px' }} className="aboutus-container">
             
             {/* Enhanced Hero Banner */}
             <section className="py-5 text-dark position-relative overflow-hidden" style={{ backgroundColor: '#ffc107' }}>
@@ -109,8 +111,8 @@ const AboutUs = () => {
                         <div className="bg-warning bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3">
                         <Robot size={32} className="text-warning" />
                         </div>
-                        <h5 className="fw-bold mb-3">AI-Powered Experience</h5>
-                        <p className="text-muted small mb-0">Smart recommendations, fraud detection, and personalized shopping — all powered by cutting-edge artificial intelligence.</p>
+                        <h5 className="fw-bold mb-3">Best Experience</h5>
+                        <p className="text-muted small mb-0">Smart recommendations, fraud detection, and personalized shopping — all powered by cutting-edge solutions.</p>
                     </Card.Body>
                     </Card>
                 </Col>

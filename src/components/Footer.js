@@ -2,9 +2,10 @@ import React from 'react';
 import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedinIn, faWhatsapp, faInstagram, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import './Footer.css'; // Assuming you have a CSS file for additional styles
 
 const Footer = () => (
-    <footer className="mt-5 text-white position-relative overflow-hidden" style={{ backgroundColor: '#000000' }}>
+    <footer className="mt-5 text-white position-relative overflow-hidden footer-container" style={{ backgroundColor: '#000000' }}>
         {/* Subtle background pattern */}
         <div className="position-absolute top-0 start-0 w-100 h-100 opacity-5">
         <div style={{
