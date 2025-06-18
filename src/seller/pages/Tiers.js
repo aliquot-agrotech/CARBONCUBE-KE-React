@@ -7,6 +7,7 @@ import MpesaPaymentGuide from '../components/MpesaPaymentGuide';
 import FeatureComparisonTable from '../components/FeatureComparisonTable';
 import TopNavBarMinimal from '../../components/TopNavBarMinimal'; // Adjust path if necessary
 import '../css/Tiers.css';
+import Footer from '../../components/Footer'; // Adjust path if necessary
 import { jwtDecode } from 'jwt-decode';
 
 const TierPage = () => {
@@ -14,12 +15,8 @@ const TierPage = () => {
   const [selectedTier, setSelectedTier] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const [isVendorLoggedIn, setIsVendorLoggedIn] = useState(false);
-
-
-  // const sellerId = sessionStorage.getItem('seller_id');
 
   useEffect(() => {
     axios
@@ -59,45 +56,6 @@ const TierPage = () => {
       }
     } catch (error) {
       console.error('Error updating tier:', error);
-    }
-  };
-
-  // const handleTierSelect = (tierId) => {
-  //   setSelectedTier(tierId); // Set the selected tier ID
-  //   setShowModal(true); // Show the modal for duration selection
-  // };
-
-  const handleDurationSelect = async (duration) => {
-    const token = sessionStorage.getItem("token");
-  
-    if (!token) {
-      alert("You are not logged in. Please log in and try again.");
-      return;
-    }
-  
-    try {
-      const durationString = `${duration} months`;
-  
-      const response = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/seller/seller_tiers/update_tier`,
-        {
-          tier_id: selectedTier, // Pass the selected tier ID
-          tier_duration: durationString, // Pass the selected duration
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-  
-      console.log("Tier updated successfully:", response.data);
-      alert("Your tier and duration have been successfully updated.");
-      setShowModal(false); // Close the modal
-      setSelectedTier(null); // Reset the selected tier after duration selection
-    } catch (error) {
-      console.error("Error updating tier:", error);
-      alert(
-        error.response?.data?.error ||
-          "An error occurred while updating your tier. Please try again."
-      );
     }
   };
 
@@ -158,7 +116,7 @@ const TierPage = () => {
       <TopNavBarMinimal />
 
       {/* Hero Section */}
-      <section className="hero-section text-center mb-3 mb-lg-5 custom-card">
+      <section className="hero-section text-center mb-1 mb-lg-5 custom-card mt-3">
         <Container>
           <h1 className="display-4 fw-bold">Choose the Perfect Plan for Your Business</h1>
           <p className="lead">
@@ -286,25 +244,8 @@ const TierPage = () => {
         </Container>
       </section>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Select Duration</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {tiers
-            .find((tier) => tier.id === selectedTier)
-            ?.tier_pricings.map((pricing) => (
-              <Button
-                key={pricing.id}
-                variant="outline-primary"
-                className="w-100 mb-2"
-                onClick={() => handleDurationSelect(pricing.duration_months)} // Capturing the duration as a number
-              >
-                {`${pricing.duration_months} months: ${pricing.price} KES`} {/* Displaying duration as '6 months' */}
-              </Button>
-            ))}
-        </Modal.Body>
-      </Modal>
+      <Footer />
+      
     </div>
   );
 };
