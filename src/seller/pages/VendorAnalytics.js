@@ -9,7 +9,9 @@ import CompetitorStats from '../components/CompetitorStats';
 import CountDownDisplay from '../components/CountDownDisplay';
 import PurchaserDemographics from "../components/PurchaserDemographics";
 import Spinner from "react-spinkit";
-
+import { format, isToday } from 'date-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import '../css/VendorAnalytics.css';
 
 const VendorAnalytics = () => {
@@ -23,6 +25,9 @@ const VendorAnalytics = () => {
   const [showReplyModal, setShowReplyModal] = useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
   const [replyText, setReplyText] = useState("");
+  const [editingReplyId, setEditingReplyId] = useState(null);
+const [replyDraft, setReplyDraft] = useState('');
+
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -95,37 +100,38 @@ const VendorAnalytics = () => {
   }, []);
 
   const handleReplyClick = (review) => {
-    setSelectedReview(review);
-    setReplyText(review.seller_reply || '');
-    setShowReplyModal(true);
+    setEditingReplyId(review.id);
+    setReplyDraft(review.seller_reply || '');
   };
 
-  const handleSubmitReply = async (e) => {
-    e.preventDefault();
-    if (!selectedReview) return;
+  const handleReplySave = async (reviewId) => {
+    if (!reviewId || !replyDraft.trim()) return;
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/seller/reviews/${selectedReview.id}/reply`,
+        `${process.env.REACT_APP_BACKEND_URL}/seller/reviews/${reviewId}/reply`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
           },
-          body: JSON.stringify({ seller_reply: replyText }),
+          body: JSON.stringify({ seller_reply: replyDraft }),
         }
       );
+
       if (!response.ok) throw new Error("Failed to submit reply");
 
-      // Refresh reviews
-      fetchReviews(); // Your function to reload
-      setShowReplyModal(false);
+      // Refresh reviews list and reset state
+      await fetchReviews();
+      setEditingReplyId(null);
+      setReplyDraft('');
     } catch (err) {
       console.error(err);
       alert("Failed to submit reply. Please try again.");
     }
   };
+
 
   const fetchReviews = async () => {
     setLoadingReviews(true);
@@ -355,9 +361,10 @@ const VendorAnalytics = () => {
           show={showReviewsModal}
           onHide={() => setShowReviewsModal(false)}
           centered
-          size="lg"
+          size="xl"
           backdrop="static"
           keyboard={false}
+          dialogClassName="glass-modal"
         >
           <Modal.Header className="text-white py-2 justify-content-center">
             <Modal.Title className="fw-bold">
@@ -384,41 +391,97 @@ const VendorAnalytics = () => {
                         height="60"
                       />
                       <div className="flex-grow-1">
-                        <div className="d-flex justify-content-between">
-                          <h6 className="fw-semibold text-dark mb-0">
-                            {review.buyer_name || `Buyer #${review.buyer_id}`}
-                          </h6>
-                          <small className="text-muted">
-                            {review.created_at ? new Date(review.created_at).toLocaleString() : "No date"}
-                          </small>
-                        </div>
+                        <div className="d-flex justify-content-between align-items-center w-100">
+                          {/* Left: Buyer name */}
+                          <div className="d-flex align-items-center">
+                            <h6 className="fw-semibold text-dark mb-0 me-2">
+                              {review.buyer_name || `Buyer #${review.buyer_id}`}
+                            </h6>
+                            {/* Rating right of name */}
+                            <div className="text-warning">
+                              {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                              <small className="text-muted ms-1">({review.rating}/5)</small>
+                            </div>
+                          </div>
 
-                        <div className="mb-2 text-warning">
-                          {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
-                          <small className="text-muted ms-2">({review.rating}/5)</small>
+                          {/* Right: Timestamp */}
+                          <small
+                            className="text-muted text-nowrap"
+                            style={{ fontSize: '0.70rem' }}
+                          >
+                            {review.updated_at
+                              ? isToday(new Date(review.updated_at))
+                                ? `Today at ${format(new Date(review.updated_at), 'HH:mm')}`
+                                : format(new Date(review.updated_at), 'PP HH:mm')
+                              : "No date"}
+                          </small>
                         </div>
 
                         <p className="text-muted fst-italic mb-2">
                           {review.review || 'No review provided.'}
                         </p>
 
-                        {/* Seller reply section */}
-                        {review.seller_reply ? (
-                          <div className="bg-light p-2 rounded border border-success mb-2">
-                            <strong className="text-success">Your Reply:</strong>
-                            <p className="mb-1">{review.seller_reply}</p>
+                        {editingReplyId === review.id ? (
+                        <div
+                          className="bg-light p-2 ps-4 rounded border-start border-3 border-success mb-2"
+                          style={{
+                            fontSize: '0.85rem',
+                            color: '#444',
+                            marginLeft: '1.5rem',
+                            backgroundColor: '#f8f9fa',
+                          }}
+                        >
+                          <Form.Group controlId={`replyText-${review.id}`}>
+                            <Form.Label className="text-success d-block mb-1">Your Reply:</Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              rows={3}
+                              value={replyDraft}
+                              onChange={(e) => setReplyDraft(e.target.value)}
+                            />
+                          </Form.Group>
+                          <div className="text-end mt-2">
+                            <Button
+                              variant="success"
+                              className="rounded-pill py-0 px-3"
+                              size="sm"
+                              onClick={() => handleReplySave(review.id)}
+                            >
+                              <i className="bi bi-check-circle me-1"></i> Save
+                            </Button>
                           </div>
-                        ) : null}
-
-                        {/* Reply button */}
+                        </div>
+                      ) : review.seller_reply ? (
+                        <div
+                          className="bg-light p-2 ps-4 rounded border-start border-3 border-success mb-2 position-relative"
+                          style={{
+                            fontSize: '0.85rem',
+                            color: '#444',
+                            marginLeft: '1.5rem',
+                            backgroundColor: '#f8f9fa',
+                          }}
+                        >
+                          <strong className="text-success d-block mb-1">Your Reply:</strong>
+                          <p className="mb-0 fst-italic pe-4">{review.seller_reply}</p>
+                          <Button
+                            variant="transparent"
+                            className="position-absolute top-0 end-0 m-2 p-1 border-0"
+                            style={{ width: '1.8rem', height: '1.8rem' }}
+                            onClick={() => handleReplyClick(review)}
+                          >
+                            <FontAwesomeIcon icon={faPencilAlt} style={{ fontSize: '1rem', color: '#28a745' }} />
+                          </Button>
+                        </div>
+                      ) : (
                         <Button
                           variant="outline-warning"
-                          className="rounded-pill text-dark"
+                          className="rounded-pill text-dark mt-1 py-0"
                           size="sm"
                           onClick={() => handleReplyClick(review)}
                         >
-                          <i className="bi bi-reply-fill"></i> {review.seller_reply ? 'Edit Reply' : 'Reply'}
+                          Reply
                         </Button>
+                      )}
                       </div>
                     </div>
                   </Card.Body>
@@ -439,31 +502,6 @@ const VendorAnalytics = () => {
           </Modal.Footer>
         </Modal>
 
-        <Modal show={showReplyModal} onHide={() => setShowReplyModal(false)} centered>
-          <Modal.Header className="text-white">
-            <Modal.Title><i className="bi bi-pencil-square me-2"></i> Respond to Review</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={handleSubmitReply}>
-              <Form.Group controlId="replyText">
-                <Form.Label>Your Reply</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={4}
-                  className="bg-light"
-                  value={replyText}
-                  onChange={(e) => setReplyText(e.target.value)}
-                  required
-                />
-              </Form.Group>
-              <div className="text-end mt-3">
-                <Button type="submit " variant="warning" className="rounded-pill text-dark">
-                  <i className="bi bi-send-fill me-1"></i> Submit Reply
-                </Button>
-              </div>
-            </Form>
-          </Modal.Body>
-        </Modal>
       </Container>
     </>
   );
