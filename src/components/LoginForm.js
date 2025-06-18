@@ -48,11 +48,11 @@ const LoginForm = ({ onLogin }) => {
       onLogin(token, user);
 
       switch (user.role) {
-        case 'purchaser':
-          navigate('/purchaser/home');
+        case 'buyer':
+          navigate('/buyer/home');
           break;
-        case 'vendor':
-          navigate('/vendor/ads');
+        case 'seller':
+          navigate('/seller/ads');
           break;
         case 'admin':
           navigate('/admin/analytics');
@@ -266,7 +266,7 @@ const LoginForm = ({ onLogin }) => {
                           <Button
                             variant="secondary"
                             className="w-100 signup-btn rounded-pill"
-                            onClick={() => navigate('/purchaser-signup')}
+                            onClick={() => navigate('/buyer-signup')}
                           >
                             Buyer
                           </Button>
@@ -275,7 +275,7 @@ const LoginForm = ({ onLogin }) => {
                           <Button
                             variant="secondary"
                             className="w-100 signup-btn rounded-pill"
-                            onClick={() => navigate('/vendor-signup')}
+                            onClick={() => navigate('/seller-signup')}
                           >
                             Seller
                           </Button>

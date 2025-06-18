@@ -25,17 +25,23 @@ const Messages = () => {
 
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
-      setCurrentUser({ id: payload.admin_id, type: 'Admin' });
-    }
-  }, []);
+  const token = sessionStorage.getItem('token');
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    console.log('JWT Payload:', payload); // Debug log
+    
+    // Try different ID fields based on your JWT structure
+    const userId = payload.seller_id || payload.user_id || payload.id;
+    const userType = payload.role || payload.type || 'seller';
+    
+    setCurrentUser({ id: userId, type: userType });
+  }
+}, []);
 
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/conversations`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/seller/conversations`, {
           headers: {
             'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
           },
@@ -56,7 +62,7 @@ const Messages = () => {
   const fetchMessages = async (conversationId) => {
     setLoadingMessages(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/conversations/${conversationId}/messages`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/seller/conversations/${conversationId}/messages`, {
         headers: {
           'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
         },
@@ -93,12 +99,23 @@ const Messages = () => {
     setSelectedConversation(null);
   };
 
+  const isMessageSentByCurrentUser = (message) => {
+    // More flexible comparison
+    const messageSenderType = message.sender_type?.toLowerCase().trim();
+    const currentUserType = currentUser?.type?.toLowerCase().trim();
+    
+    return (
+      messageSenderType === currentUserType &&
+      String(message.sender_id) === String(currentUser.id) // Convert both to strings
+    );
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
   
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/conversations/${selectedConversation.id}/messages`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/seller/conversations/${selectedConversation.id}/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -198,8 +215,8 @@ const Messages = () => {
                             return dateB - dateA;
                           })
                           .map((conversation) => {
-                            const participant = conversation.buyer || conversation.seller;
-                            const participantType = conversation.buyer ? 'buyer' : 'seller';
+                            const participant = conversation.buyer || conversation.seller || conversation.admin;
+                            const participantType = conversation.admin ? 'admin' : conversation.buyer ? 'buyer' : 'seller';
                             const pullOverClass = conversation.pullOver ? 'conversation-pull-over' : '';
                             return (
                               <Card
@@ -233,7 +250,7 @@ const Messages = () => {
                           <FontAwesomeIcon icon={faArrowLeft} size="lg" />
                         </Button>
                         <FontAwesomeIcon icon={faUser} size="lg" />
-                        <span>{selectedConversation.buyer?.fullname || selectedConversation.seller?.fullname || 'Unknown'}</span>
+                        <span>{selectedConversation.admin?.fullname || selectedConversation.buyer?.fullname || selectedConversation.seller?.fullname || 'Unknown'}</span>
                       </Card.Header>
                       <Card.Body className="messages-scroll flex-grow-1">
                         {loadingMessages ? (
@@ -243,7 +260,7 @@ const Messages = () => {
                         ) : (
                           <>
                             {messages.map((message) => {
-                              const isSent = message.sender_type === 'Admin';
+                              const isSent = isMessageSentByCurrentUser(message);
                               return (
                                 <div key={message.id} className={`message ${isSent ? 'sent' : 'received'} py-1 px-1`}>
                                   <div className="message-content">

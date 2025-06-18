@@ -143,7 +143,7 @@ const RidersManagement = () => {
     return (
         <>
             <TopNavbar />
-            <div className="vendors-management-page">
+            <div className="sellers-management-page">
                 <Container fluid className="p-0">
                     <Row>
                         <Col xs={12} md={2} className="p-0">
@@ -245,7 +245,7 @@ const RidersManagement = () => {
                                         <Tabs
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
-                                            id="vendor-details-tabs"
+                                            id="seller-details-tabs"
                                             className="custom-tabs mb-0 mb-lg-2 mx-1 mx-lg-4 d-flex justify-content-between flex-row nav-justified mt-2"
                                             style={{ gap: '10px' }}
                                             >
@@ -499,7 +499,7 @@ const RidersManagement = () => {
                                                                             order.order_items.map((item) => (
                                                                                 <tr key={`${order.id}-${item.ad.id}`}>
                                                                                     <td>{order.id}</td>
-                                                                                    <td>{order.purchaser.fullname}</td>
+                                                                                    <td>{order.buyer.fullname}</td>
                                                                                     <td>{item.ad.title}</td>
                                                                                     <td>{item.quantity}</td>
                                                                                     <td onClick={(e) => e.stopPropagation()} style={{ textAlign: 'center' }}>
@@ -568,7 +568,7 @@ const RidersManagement = () => {
                                                     {selectedRider.ads && selectedRider.ads.length > 0 ? (
                                                         selectedRider.ads.map((ad) => (
                                                             <Col key={ad.id} xs={12} md={12} lg={12} className="mb-1">
-                                                                <Card className="ad-card-vendor">
+                                                                <Card className="ad-card-seller">
                                                                     <Card.Img
                                                                         className="analytics-card-img-top ad-image"
                                                                         variant="top"
@@ -616,7 +616,7 @@ const RidersManagement = () => {
                                                             <p className="review-comment"><em>"{review.review}"</em></p>
                                                             <StarRating rating={review.rating} /> 
                                                             <p className="review-ad"><strong>{review.ad_title}</strong></p>
-                                                            <p className="reviewer-name"><strong><em>{review.purchaser_name}</em></strong></p>
+                                                            <p className="reviewer-name"><strong><em>{review.buyer_name}</em></strong></p>
                                                             </div>
                                                         </div>
                                                         </Col>

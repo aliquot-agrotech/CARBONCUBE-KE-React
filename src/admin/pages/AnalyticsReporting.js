@@ -56,8 +56,8 @@ const AnalyticsReporting = () => {
           <Col xs={12} md={10} lg={9} className="content-area">
             <Row>
               {[
-                { title: "Total Vendors", value: analyticsData.total_vendors },
-                { title: "Total Purchasers", value: analyticsData.total_purchasers },
+                { title: "Total Vendors", value: analyticsData.total_sellers },
+                { title: "Total Purchasers", value: analyticsData.total_buyers },
                 { title: "Total Reviews", value: analyticsData.total_reviews },
                 { title: "Total Ads", value: analyticsData.total_ads },
                 { title: "Total Wishlists", value: analyticsData.total_ads_wish_listed },
@@ -134,7 +134,7 @@ const AnalyticsReporting = () => {
                     Purchaser Insights
                   </Card.Header>
                   <Card.Body className="px-2">
-                    <PurchaserInsights data={analyticsData.purchasers_insights} />
+                    <PurchaserInsights data={analyticsData.buyers_insights} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -144,7 +144,7 @@ const AnalyticsReporting = () => {
                     Vendor Insights
                   </Card.Header>
                   <Card.Body className="px-2">
-                    <VendorInsights data={analyticsData.vendors_insights} />
+                    <VendorInsights data={analyticsData.sellers_insights} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -161,7 +161,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Age Group Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
-                    <PurchaserAgeGroupChart data={analyticsData.purchaser_age_groups} />
+                    <PurchaserAgeGroupChart data={analyticsData.buyer_age_groups} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -223,7 +223,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Age Group Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
-                    <VendorAgeGroupChart data={analyticsData.vendor_age_groups} />
+                    <VendorAgeGroupChart data={analyticsData.seller_age_groups} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -241,7 +241,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Gender Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
-                    <VendorGenderDistributionChart data={analyticsData.vendor_gender_distribution} />
+                    <VendorGenderDistributionChart data={analyticsData.seller_gender_distribution} />
                   </Card.Body>
                 </Card>
               </Col>

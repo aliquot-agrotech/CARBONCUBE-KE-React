@@ -12,7 +12,7 @@ body {
 }
 
 /* General page styles */
-.purchasers-management-page {
+.buyers-management-page {
     background-color: #E0E0E0;
     min-height: 100vh; /* Ensure the background color covers the full height */
     padding: 0 1rem; /* Optional: Adjust padding as needed */
@@ -37,30 +37,30 @@ body, html {
 }
 
 /* Table styles */
-.purchasers-table {
+.buyers-table {
     border-collapse: separate;
     border-spacing: 0;
 }
 
-.purchasers-table thead {
+.buyers-table thead {
     background-color: #616161;
     color: #fff;
 }
 
-.purchasers-table tbody tr {
+.buyers-table tbody tr {
     transition: all 0.2s;
 }
 
-.purchasers-table tbody td {
+.buyers-table tbody td {
   vertical-align: middle;
 }
 
-.purchasers-table tbody tr:hover {
+.buyers-table tbody tr:hover {
     background-color: #f1f1f1;
 }
 
 
-.purchasers-management-page .card-header {
+.buyers-management-page .card-header {
     background-color: #616161; /* Secondary variant */
     font-weight: bold;
     font-size: 25px;
@@ -69,7 +69,7 @@ body, html {
     color: #fff;
   }
   
-  .purchasers-management-page .card-footer {
+  .buyers-management-page .card-footer {
     background-color: #616161; /* Secondary variant */
     font-weight: bold;
     text-align: center; /* Center text */
@@ -94,13 +94,13 @@ body, html {
 
 
 
-.purchaser-details {
+.buyer-details {
     /* display: flex; */
     flex-wrap: wrap;
     gap: 20px;
 }
 
-.purchaser-detail-item {
+.buyer-detail-item {
     flex: 1 1 45%;
     background-color: #f8f9fa;
     padding: 10px;
@@ -108,7 +108,7 @@ body, html {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.purchaser-detail-item strong {
+.buyer-detail-item strong {
     display: block;
     font-weight: 600;
     margin-bottom: 5px;
@@ -150,7 +150,7 @@ body, html {
   }
 
   @media (max-width: 768px) {
-    .purchasers-management-page {
+    .buyers-management-page {
       padding: 5px;
       padding-top: 10px;
       margin-top : -5px;

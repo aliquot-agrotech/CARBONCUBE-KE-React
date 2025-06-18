@@ -4,7 +4,7 @@ import './PurchaserInsights.css'; // Import the CSS files
 
 const PurchaserInsights = () => {
   const [selectedMetric, setSelectedMetric] = useState('Total Wishlists');
-  const [purchasersData, setPurchasersData] = useState([]);
+  const [buyersData, setPurchasersData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleMetricChange = (event) => {
@@ -22,11 +22,11 @@ const PurchaserInsights = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setPurchasersData(data.purchasers_insights || []);
+        setPurchasersData(data.buyers_insights || []);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching purchaser insights:', error);
+        console.error('Error fetching buyer insights:', error);
         setLoading(false);
       });
   };
@@ -59,18 +59,18 @@ const PurchaserInsights = () => {
             </tr>
           </thead>
           <tbody>
-            {purchasersData.map((purchaser, index) => (
-              <tr key={purchaser.purchaser_id || index}>
+            {buyersData.map((buyer, index) => (
+              <tr key={buyer.buyer_id || index}>
                 <td>{index + 1}</td>
-                <td>{purchaser.fullname}</td>
+                <td>{buyer.fullname}</td>
                 <td>
                   {selectedMetric === 'Total Wishlists' && (
-                    <strong className=" text-success fw-bold">{purchaser.total_wishlists}</strong>
+                    <strong className=" text-success fw-bold">{buyer.total_wishlists}</strong>
                   )}
                   {selectedMetric === 'Total Click Events' && (
                     <>
                       <strong style={{ fontSize: '16px' }} className="text-success">
-                        {purchaser.total_clicks || 0}{}
+                        {buyer.total_clicks || 0}{}
                       </strong>
                     </>
                   )}           

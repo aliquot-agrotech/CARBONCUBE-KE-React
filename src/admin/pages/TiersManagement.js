@@ -153,12 +153,12 @@ const TiersManagement = () => {
             return;
         }
     
-        // Check if the tier is assigned to a vendor (this will be based on your database structure)
+        // Check if the tier is assigned to a seller (this will be based on your database structure)
         const tier = tiers.find(t => t.id === tierId);
         
-        if (tier && tier.vendor) {
-            // Tier is assigned to a vendor, prevent deletion
-            alert("This tier is already assigned to a vendor and cannot be deleted.");
+        if (tier && tier.seller) {
+            // Tier is assigned to a seller, prevent deletion
+            alert("This tier is already assigned to a seller and cannot be deleted.");
             return;
         }
     
@@ -304,7 +304,7 @@ const TiersManagement = () => {
                                                                         variant="danger"
                                                                         className="rounded-pill py-1 my-0 ms-2 text-white"
                                                                         onClick={() => deleteTier(tier.id)}
-                                                                        disabled={tier.vendor}  // Disable if tier is assigned to a vendor
+                                                                        disabled={tier.seller}  // Disable if tier is assigned to a seller
                                                                     >
                                                                         <Trash size={18} />
                                                                     </Button>

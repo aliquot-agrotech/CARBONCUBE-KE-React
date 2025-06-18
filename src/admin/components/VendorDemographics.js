@@ -47,7 +47,7 @@ const VendorAgeGroupChart = ({ data }) => {
 };
 
 
-// vendor Gender Distribution Chart
+// seller Gender Distribution Chart
 const VendorGenderDistributionChart = ({ data }) => {
     const chartData = {
         labels: Object.keys(data),

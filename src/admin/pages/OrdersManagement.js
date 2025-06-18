@@ -192,7 +192,7 @@ const OrdersManagement = () => {
                                                     style={{ cursor: 'pointer' }}
                                                     >
                                                     <td>{order.id}</td>
-                                                    <td>{order.purchaser?.fullname || 'Unknown'}</td>
+                                                    <td>{order.buyer?.fullname || 'Unknown'}</td>
                                                     <td>
                                                         {order.order_items
                                                             .slice(0, 3) // Limit to the first 3 ads
@@ -306,7 +306,7 @@ const OrdersManagement = () => {
                                                     <Card className="mb-2 custom-card">
                                                         <Card.Header as="h6" className='justify-content-center'>Purchaser</Card.Header>
                                                         <Card.Body className='text-center p-2 p-lg-3'>
-                                                            {selectedOrder.purchaser?.fullname || 'Unknown'}
+                                                            {selectedOrder.buyer?.fullname || 'Unknown'}
                                                         </Card.Body>
                                                     </Card>
                                                 </Col>
@@ -371,7 +371,7 @@ const OrdersManagement = () => {
                                                                         selectedOrder.order_items.map(item => (
                                                                             <tr key={item.ad?.id || 'unknown'}>
                                                                                 <td className="text-start">{item.ad?.title || 'Unknown'}</td>
-                                                                                <td>{item.ad?.vendor?.fullname || 'Unknown'}</td>
+                                                                                <td>{item.ad?.seller?.fullname || 'Unknown'}</td>
                                                                                 <td>{item.quantity || '0'}</td>
                                                                                 <td className="price-container">
                                                                                     {/* <em className="ad-price-label">Kshs: </em> */}

@@ -528,7 +528,7 @@ const AdsManagement = () => {
                                             <Card className="mb-2 custom-card">
                                                 <Card.Header as="h6" className="justify-content-center">Vendor</Card.Header>
                                                 <Card.Body className="text-center">
-                                                    {selectedAd.vendor?.fullname || 'Unknown'}
+                                                    {selectedAd.seller?.fullname || 'Unknown'}
                                                 </Card.Body>
                                             </Card>
                                         </Col>
@@ -592,7 +592,7 @@ const AdsManagement = () => {
                                             <div className="review-card py-2 px-2" key={index}>
                                                 <p className="review-comment"><em>"{review.review}"</em></p>
                                                 <StarRating rating={review.rating} />
-                                                <p className="reviewer-name"><strong>{review.purchaser.fullname}</strong></p>
+                                                <p className="reviewer-name"><strong>{review.buyer.fullname}</strong></p>
                                             </div>
                                         ))}
                                     </div>

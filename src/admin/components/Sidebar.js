@@ -58,14 +58,14 @@ const Sidebar = () => {
             <Union className="icon" /> {isOpen && 'Tiers'}
           </Nav.Link>
           <Nav.Link
-            href="/admin/vendors"
-            className={location.pathname === '/admin/vendors' ? 'active' : ''}>
+            href="/admin/sellers"
+            className={location.pathname === '/admin/sellers' ? 'active' : ''}>
             <Shop className="icon" /> {isOpen && 'Sellers'}
           </Nav.Link>
 
           <Nav.Link
-            href="/admin/purchasers"
-            className={location.pathname === '/admin/purchasers' ? 'active' : ''}>
+            href="/admin/buyers"
+            className={location.pathname === '/admin/buyers' ? 'active' : ''}>
             <PersonCheck className="icon" /> {isOpen && 'Buyers'}
           </Nav.Link>
           <Nav.Link

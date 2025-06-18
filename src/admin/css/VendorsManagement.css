@@ -11,7 +11,7 @@ body {
     overflow-x: hidden; /* Prevent horizontal scroll for the entire page */
 }
 
-.vendors-management-page {
+.sellers-management-page {
     background-color: #E0E0E0;
     min-height: 100vh; /* Ensure the background color covers the full height */
     padding: 0 1rem; /* Optional: Adjust padding as needed */
@@ -25,7 +25,7 @@ body {
 }
 
 
-.vendors-management-page .card-header {
+.sellers-management-page .card-header {
     background-color: #616161; /* Secondary variant */
     font-weight: bold;
     font-size: 25px;
@@ -34,7 +34,7 @@ body {
     color: #fff;
   }
   
-  .vendors-management-page .card-footer {
+  .sellers-management-page .card-footer {
     background-color: #616161; /* Secondary variant */
     font-weight: bold;
     text-align: center; /* Center text */
@@ -43,7 +43,7 @@ body {
   }
 
 /* Table Styles */
-.vendors-table {
+.sellers-table {
     margin-top: 0px;
     width: 100%;
     table-layout: auto; /* Adjust table layout */
@@ -58,8 +58,8 @@ body {
 }
 
 /* Ensure vertical alignment of table content */
-.vendors-table td, 
-.vendors-table th {
+.sellers-table td, 
+.sellers-table th {
     vertical-align: middle; /* Vertically center the content */
     padding: 10px; /* Optional: Add padding for better spacing */
 }
@@ -104,19 +104,19 @@ body {
 }
 
 /* Custom Tabs Styles */
-#vendor-details-tabs .nav-tabs {
+#seller-details-tabs .nav-tabs {
     border-bottom: 2px solid #dee2e6;
     display: flex;
     justify-content: space-between; /* Ensure equal spacing */
     flex-wrap: wrap; /* Allow wrapping on small screens */
 }
 
-#vendor-details-tabs .nav-item {
+#seller-details-tabs .nav-item {
     flex: 1; /* Equal width for tabs */
     text-align: center; /* Center the tab content */
 }
 
-#vendor-details-tabs .nav-link {
+#seller-details-tabs .nav-link {
     border: 2px solid #ffc107;
     border-radius: 2.0rem;
     padding: 10px 15px;
@@ -127,20 +127,20 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#vendor-details-tabs .nav-link.active {
+#seller-details-tabs .nav-link.active {
     background-color: #ffffffed; /* Slightly darker yellow for active tab */
     color: #000;
     border-radius: 2.0rem;
     border: 2px solid #ffc107;
 }
 
-#vendor-details-tabs .nav-link:hover {
+#seller-details-tabs .nav-link:hover {
     background-color: #fff; /* Slightly darker yellow for hover effect */
     color: #495057;
     border: 2px solid #ffc107;
 }
 
-#vendor-details-tabs .tab-content {
+#seller-details-tabs .tab-content {
     padding: 20px;
     border: 1px solid #dee2e6;
     border-top: none;
@@ -297,7 +297,7 @@ body {
     color: #495057;
 }
 
-.custom-card-vendor {
+.custom-card-seller {
     border: none;
     border-radius: 15px;
     box-shadow: none;
@@ -307,7 +307,7 @@ body {
   }
   
   
-  .custom-card-vendor:hover {
+  .custom-card-seller:hover {
     /* transform: translateY(-5px); */
     /* transform: scale(1.02); */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -318,12 +318,12 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
 
-    .vendors-management-page {
+    .sellers-management-page {
         padding: 5px;
         padding-top: 10px;
         margin-top: -5px;
     }
-    #vendor-details-tabs .nav-link {
+    #seller-details-tabs .nav-link {
         font-size: 0.9rem; /* Adjust font size for smaller screens */
     }
 
@@ -353,7 +353,7 @@ body {
         grid-template-columns: 1fr; /* Single column for small screens */
     }
 
-    #vendor-details-tabs .nav-item {
+    #seller-details-tabs .nav-item {
         flex: 1; /* Ensures each tab takes up equal width */
     }
 }

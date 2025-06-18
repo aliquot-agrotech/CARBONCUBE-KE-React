@@ -11,7 +11,7 @@ import '../css/VendorsManagement.css';  // Custom CSS
 const VendorsManagement = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedVendor, setSelectedVendor] = useState(null);
-    const [vendors, setVendors] = useState([]);
+    const [sellers, setVendors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedTab, setSelectedTab] = useState('profile');    
@@ -20,7 +20,7 @@ const VendorsManagement = () => {
     useEffect(() => {
         const fetchVendors = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/vendors?search_query=${searchQuery}`, {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/sellers?search_query=${searchQuery}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
@@ -31,12 +31,12 @@ const VendorsManagement = () => {
                 }
 
                 const data = await response.json();
-                // console.log('Fetched vendors:', data); // Add this line
+                // console.log('Fetched sellers:', data); // Add this line
                 data.sort((a, b) => a.id - b.id);
                 setVendors(data);
             } catch (error) {
-                // console.error('Error fetching vendors:', error);
-                setError('Error fetching vendors');
+                // console.error('Error fetching sellers:', error);
+                setError('Error fetching sellers');
             } finally {
                 setLoading(false);
             }
@@ -46,46 +46,46 @@ const VendorsManagement = () => {
     }, [searchQuery]); // Depend on searchQuery so it refetches when the query changes
 
 
-    const handleRowClick = async (vendorId) => {
+    const handleRowClick = async (sellerId) => {
         try {
-            const [vendorResponse, ordersResponse, adsResponse, reviewsResponse] = await Promise.all([
-                fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/vendors/${vendorId}`, {
+            const [sellerResponse, ordersResponse, adsResponse, reviewsResponse] = await Promise.all([
+                fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/sellers/${sellerId}`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/vendors/${vendorId}/orders`, {
+                fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/sellers/${sellerId}/orders`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/vendors/${vendorId}/ads`, {
+                fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/sellers/${sellerId}/ads`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 }),
-                fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/vendors/${vendorId}/reviews`, {
+                fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/sellers/${sellerId}/reviews`, {
                     headers: {
                         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                     },
                 })
             ]);
     
-            if (!vendorResponse.ok || !ordersResponse.ok || !adsResponse.ok || !reviewsResponse.ok) {
+            if (!sellerResponse.ok || !ordersResponse.ok || !adsResponse.ok || !reviewsResponse.ok) {
                 throw new Error('Network response was not ok');
             }
     
-            const vendorData = await vendorResponse.json();
+            const sellerData = await sellerResponse.json();
             const ordersData = await ordersResponse.json();
             const adsData = await adsResponse.json();
             const reviewsData = await reviewsResponse.json();
-            const analytics = await fetchVendorAnalytics(vendorId);
+            const analytics = await fetchVendorAnalytics(sellerId);
     
-            setSelectedVendor({ ...vendorData, orders: ordersData, ads: adsData, reviews: reviewsData, analytics });
+            setSelectedVendor({ ...sellerData, orders: ordersData, ads: adsData, reviews: reviewsData, analytics });
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
-            // console.error('Error fetching vendor details:', error);
+            // console.error('Error fetching seller details:', error);
         }
     };
     
@@ -96,9 +96,9 @@ const VendorsManagement = () => {
         setSelectedVendor(null);
     };
 
-    const handleUpdateStatus = async (vendorId, status) => {
+    const handleUpdateStatus = async (sellerId, status) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/vendors/${vendorId}/${status}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/sellers/${sellerId}/${status}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -108,27 +108,27 @@ const VendorsManagement = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('Error updating vendor status:', errorData);
+                console.error('Error updating seller status:', errorData);
                 return;
             }
 
             setVendors(prevVendors =>
-                prevVendors.map(vendor =>
-                    vendor.id === vendorId ? { ...vendor, blocked: status === 'block' } : vendor
+                prevVendors.map(seller =>
+                    seller.id === sellerId ? { ...seller, blocked: status === 'block' } : seller
                 )
             );
 
-            if (selectedVendor && selectedVendor.id === vendorId) {
+            if (selectedVendor && selectedVendor.id === sellerId) {
                 setSelectedVendor(prevVendor => ({ ...prevVendor, blocked: status === 'block' }));
             }
         } catch (error) {
-            // console.error('Error updating vendor status:', error);
+            // console.error('Error updating seller status:', error);
         }
     };
 
-    const fetchVendorAnalytics = async (vendorId) => {
+    const fetchVendorAnalytics = async (sellerId) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/vendors/${vendorId}/analytics`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/sellers/${sellerId}/analytics`, {
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                 },
@@ -140,7 +140,7 @@ const VendorsManagement = () => {
 
             return await response.json();
         } catch (error) {
-            // console.error('Error fetching vendor analytics:', error);
+            // console.error('Error fetching seller analytics:', error);
             return {};
         }
     };
@@ -178,7 +178,7 @@ const VendorsManagement = () => {
     return (
         <>
             <TopNavbar />
-            <div className="vendors-management-page">
+            <div className="sellers-management-page">
                 <Container fluid className="p-0">
                     <Row>
                         <Col xs={12} md={2} className="p-0">
@@ -226,30 +226,30 @@ const VendorsManagement = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {vendors.length > 0 ? (
-                                                vendors.map((vendor) => (
+                                            {sellers.length > 0 ? (
+                                                sellers.map((seller) => (
                                                     <tr
-                                                        key={vendor.id}
-                                                        onClick={() => handleRowClick(vendor.id)}
-                                                        className={`vendor-row ${vendor.blocked ? 'blocked' : ''}`}
+                                                        key={seller.id}
+                                                        onClick={() => handleRowClick(seller.id)}
+                                                        className={`seller-row ${seller.blocked ? 'blocked' : ''}`}
                                                         style={{ cursor: 'pointer' }}
                                                     >
-                                                        <td>{vendor.id}</td>
-                                                        <td>{vendor.fullname}</td>
-                                                        <td>{vendor.phone_number}</td>
-                                                        <td>{vendor.email}</td>
-                                                        <td>{vendor.enterprise_name}</td>
-                                                        <td>{vendor.location}</td>
+                                                        <td>{seller.id}</td>
+                                                        <td>{seller.fullname}</td>
+                                                        <td>{seller.phone_number}</td>
+                                                        <td>{seller.email}</td>
+                                                        <td>{seller.enterprise_name}</td>
+                                                        <td>{seller.location}</td>
                                                         <td>
                                                             <Button
-                                                                variant={vendor.blocked ? 'danger' : 'warning'}
+                                                                variant={seller.blocked ? 'danger' : 'warning'}
                                                                 id="button"
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
-                                                                    handleUpdateStatus(vendor.id, vendor.blocked ? 'unblock' : 'block');
+                                                                    handleUpdateStatus(seller.id, seller.blocked ? 'unblock' : 'block');
                                                                 }}
                                                             >
-                                                                <FontAwesomeIcon icon={vendor.blocked ? faKey : faUserShield} />
+                                                                <FontAwesomeIcon icon={seller.blocked ? faKey : faUserShield} />
                                                                 
                                                             </Button>
                                                         </td>
@@ -278,7 +278,7 @@ const VendorsManagement = () => {
                                         <Tabs
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
-                                            id="vendor-details-tabs"
+                                            id="seller-details-tabs"
                                             className="custom-tabs mb-0 mb-lg-2 mx-1 mx-lg-4 d-flex justify-content-between flex-row nav-justified mt-2"
                                             style={{ gap: '10px' }}
                                             >
@@ -415,7 +415,7 @@ const VendorsManagement = () => {
                                                                                             data: [
                                                                                                 selectedVendor.analytics.ad_clicks,
                                                                                                 selectedVendor.analytics.add_to_wish_list,
-                                                                                                selectedVendor.analytics.reveal_vendor_details
+                                                                                                selectedVendor.analytics.reveal_seller_details
                                                                                             ],
                                                                                             backgroundColor: ['#919191', '#FF9800', '#363636']
                                                                                         }
@@ -513,7 +513,7 @@ const VendorsManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Vendor Insights</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        <p className="m-0 font-weight-bold">Category: {selectedVendor.analytics.vendor_category}</p>
+                                                                        <p className="m-0 font-weight-bold">Category: {selectedVendor.analytics.seller_category}</p>
                                                                         <p className="m-0 font-weight-bold">Last Ad Posted: {selectedVendor.analytics.last_ad_posted_at ? new Date(selectedVendor.analytics.last_ad_posted_at).toLocaleDateString() : "N/A"}</p>
                                                                         <p className="m-0 font-weight-bold">Account Age: {selectedVendor.analytics.account_age_days} days</p>
                                                                     </Card.Body>
@@ -552,7 +552,7 @@ const VendorsManagement = () => {
                                                         <Row>
                                                             {selectedVendor.ads.map((ad) => (
                                                                 <Col key={ad.id} xs={6} md={12} lg={3} className="mb-2 px-1">
-                                                                    <Card className="ad-card-vendor">
+                                                                    <Card className="ad-card-seller">
                                                                         <Card.Img
                                                                             className="analytics-card-img-top ad-image"
                                                                             variant="top"
@@ -602,7 +602,7 @@ const VendorsManagement = () => {
                                                             <p className="review-comment"><em>"{review.review}"</em></p>
                                                             <StarRating rating={review.rating} /> {/* Assuming StarRating component is defined elsewhere */}
                                                             <p className="review-ad"><strong>{review.ad_title}</strong></p>
-                                                            <p className="reviewer-name"><strong><em>{review.purchaser_name}</em></strong></p>
+                                                            <p className="reviewer-name"><strong><em>{review.buyer_name}</em></strong></p>
                                                             </div>
                                                         </div>
                                                         </Col>

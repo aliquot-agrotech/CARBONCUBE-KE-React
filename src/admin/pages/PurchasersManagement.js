@@ -10,7 +10,7 @@ import '../css/PurchasersManagement.css';  // Custom CSS
 const PurchasersManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedPurchaser, setSelectedPurchaser] = useState(null);
-  const [purchasers, setPurchasers] = useState([]);
+  const [buyers, setPurchasers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState(''); 
@@ -18,7 +18,7 @@ const PurchasersManagement = () => {
   useEffect(() => {
       const fetchPurchasers = async () => {
           try {
-              const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/purchasers?search_query=${searchQuery}`, {
+              const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/buyers?search_query=${searchQuery}`, {
                   headers: {
                       'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
                   },
@@ -31,8 +31,8 @@ const PurchasersManagement = () => {
               const data = await response.json();
               setPurchasers(data);
           } catch (error) {
-              // console.error('Error fetching purchasers:', error);
-              setError('Error fetching purchasers');
+              // console.error('Error fetching buyers:', error);
+              setError('Error fetching buyers');
           } finally {
               setLoading(false);
           }
@@ -42,9 +42,9 @@ const PurchasersManagement = () => {
   }, [searchQuery]); 
 
 
-  const handleRowClick = async (purchaserId) => {
+  const handleRowClick = async (buyerId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/purchasers/${purchaserId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/buyers/${buyerId}`, {
         headers: {
           'Authorization': 'Bearer ' + sessionStorage.getItem('token'), // Add token if required
         },
@@ -58,13 +58,13 @@ const PurchasersManagement = () => {
       setSelectedPurchaser(data);
       setShowModal(true);
     } catch (error) {
-      // console.error('Error fetching purchaser details:', error);
+      // console.error('Error fetching buyer details:', error);
     }
   };
 
-  const handleUpdateStatus = async (purchaserId, status) => {
+  const handleUpdateStatus = async (buyerId, status) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/purchasers/${purchaserId}/${status}`, {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/buyers/${buyerId}/${status}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -74,21 +74,21 @@ const PurchasersManagement = () => {
   
       if (!response.ok) {
         const errorData = await response.json();
-        window.alert ('Error updating purchaser status:', errorData);
+        window.alert ('Error updating buyer status:', errorData);
         return;
       }
   
       setPurchasers(prevPurchasers =>
-        prevPurchasers.map(purchaser =>
-          purchaser.id === purchaserId ? { ...purchaser, blocked: status === 'block' } : purchaser
+        prevPurchasers.map(buyer =>
+          buyer.id === buyerId ? { ...buyer, blocked: status === 'block' } : buyer
         )
       );
   
-      if (selectedPurchaser && selectedPurchaser.id === purchaserId) {
+      if (selectedPurchaser && selectedPurchaser.id === buyerId) {
         setSelectedPurchaser(prevPurchaser => ({ ...prevPurchaser, blocked: status === 'block' }));
       }
     } catch (error) {
-      // console.error('Error updating purchaser status:', error);
+      // console.error('Error updating buyer status:', error);
     }
   };
   
@@ -113,7 +113,7 @@ const PurchasersManagement = () => {
   return (
     <>
       <TopNavbar />
-      <div className="purchasers-management-page">
+      <div className="buyers-management-page">
         <Container fluid className="p-0">
           <Row>
             <Col xs={12} md={2} className="p-0">
@@ -159,27 +159,27 @@ const PurchasersManagement = () => {
                       </tr>
                     </thead>
                     <tbody>
-                    {purchasers.length > 0 ? (
-                      purchasers
-                          .sort((a, b) => a.id - b.id) // Sort purchasers by ID in ascending order
-                          .map((purchaser) => (
-                              <tr key={purchaser.id} onClick={() => handleRowClick(purchaser.id)} style={{ cursor: 'pointer' }}>
-                            <td>{purchaser.id}</td>
-                            <td>{purchaser.fullname}</td>
-                            <td>{purchaser.phone_number}</td>
-                            <td>{purchaser.email}</td>
-                            <td>{purchaser.location}</td>
+                    {buyers.length > 0 ? (
+                      buyers
+                          .sort((a, b) => a.id - b.id) // Sort buyers by ID in ascending order
+                          .map((buyer) => (
+                              <tr key={buyer.id} onClick={() => handleRowClick(buyer.id)} style={{ cursor: 'pointer' }}>
+                            <td>{buyer.id}</td>
+                            <td>{buyer.fullname}</td>
+                            <td>{buyer.phone_number}</td>
+                            <td>{buyer.email}</td>
+                            <td>{buyer.location}</td>
                             <td>
                               <Button
-                                  variant={purchaser.blocked ? 'danger' : 'warning'}
+                                  variant={buyer.blocked ? 'danger' : 'warning'}
                                   id="button"
                                   onClick={(e) => {
                                       e.stopPropagation();
-                                      handleUpdateStatus(purchaser.id, purchaser.blocked ? 'unblock' : 'block');
+                                      handleUpdateStatus(buyer.id, buyer.blocked ? 'unblock' : 'block');
                                   }}
                               >
-                                  <FontAwesomeIcon icon={purchaser.blocked ? faKey : faUserShield} />
-                                  {/* {purchaser.blocked ? ' Unblock' : ' Block'} */}
+                                  <FontAwesomeIcon icon={buyer.blocked ? faKey : faUserShield} />
+                                  {/* {buyer.blocked ? ' Unblock' : ' Block'} */}
                               </Button>
                             </td>
                           </tr>
@@ -206,7 +206,7 @@ const PurchasersManagement = () => {
                 <Modal.Body className=" m-0 p-1 p-lg-3">
                   {selectedPurchaser ? (
                     <div>
-                      <div className="purchaser-details mb-4  text-center">
+                      <div className="buyer-details mb-4  text-center">
 
                         <Row>
                           <Col xs={12} md={12}>
