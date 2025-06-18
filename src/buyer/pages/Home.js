@@ -418,8 +418,9 @@ const Home = () => {
     const SearchResultSection = ({ results, searchType }) => {
         const getHeaderTitle = () => {
             if (typeof searchType === 'string' && searchType.startsWith('subcategory-')) {
-                const subcategoryName = searchType.replace('subcategory-', '');
-                return `${subcategoryName} Products`;
+                const rawName = searchType.replace('subcategory-', '');
+                const formatted = rawName.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                return `${formatted} Products`;
             }
             return 'Search Results';
         };
@@ -429,12 +430,12 @@ const Home = () => {
                 <Card.Header className="d-flex justify-content-between align-items-center">
                     <h3 className="mb-0">{getHeaderTitle()}</h3>
                     <Button 
-                        variant="outline-secondary" 
+                        variant="outline-secondary bg-warning rounded-pill text-dark" 
                         size="sm" 
                         onClick={handleClearSearch}
                         className="d-flex align-items-center gap-2"
                     >
-                        <span>×</span> Back to Home
+                        Back to Home
                     </Button>
                 </Card.Header>
                 <Card.Body>
@@ -774,10 +775,10 @@ const Home = () => {
                     <Container fluid className="mb-0">
                         {isSearching ? (
                             <div className="centered-loader">
-                                <Spinner variant="warning" animation="border" />
+                                <Spinner variant="warning" name="cube-grid" style={{ width: 50, height: 50 }} />
                             </div>
                         ) : searchResults.length > 0 ? (
-                            <SearchResultSection results={searchResults} />
+                            <SearchResultSection results={searchResults} searchType={currentSearchType} />
                         ) : (
                             <>
                             <div className="categories-overlay">
