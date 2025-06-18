@@ -216,7 +216,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
               {!isLoggedIn && (
                 <Col className="text-center">
                   <Button variant="warning" href="/login" className="ms-2 w-100" id="button">
-                    Vendor
+                    Seller
                   </Button>
                 </Col>
               )}
