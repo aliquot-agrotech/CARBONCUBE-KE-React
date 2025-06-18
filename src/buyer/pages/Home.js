@@ -22,6 +22,7 @@ const Home = () => {
     const [isSearching, setIsSearching] = useState(false);
     const [showModal, setShowModal] = useState(false); // State for modal visibility
     const [selectedAd, setSelectedAd] = useState(null); // State for selected ad
+    const [currentSearchType, setCurrentSearchType] = useState(''); // Track if it's a subcategory search
     const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
@@ -148,6 +149,7 @@ const Home = () => {
 
             const results = await response.json();
             setSearchResults(results);
+            setCurrentSearchType('search');
 
             // Log the ad search to the backend
             await logAdSearch(searchQuery, category, subcategory);
@@ -158,6 +160,65 @@ const Home = () => {
         }
     };
 
+    // New function to handle subcategory click
+    const handleSubcategoryClick = async (subcategoryName, categoryName) => {
+        setIsSearching(true);
+        setSearchQuery(''); // Clear search query since this is a category filter
+        setCurrentSearchType(`subcategory-${subcategoryName}`);
+
+        try {
+            const response = await fetch(
+                `${process.env.REACT_APP_BACKEND_URL}/buyer/ads/search?query=&category=${encodeURIComponent(categoryName)}&subcategory=${encodeURIComponent(subcategoryName)}&page=1&per_page=50`,
+                {
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                    },
+                }
+            );
+
+            if (!response.ok) throw new Error('Failed to fetch subcategory ads');
+
+            const results = await response.json();
+            setSearchResults(results);
+
+            // Log the subcategory click
+            await logSubcategoryClick(subcategoryName, categoryName);
+        } catch (error) {
+            setError('Error fetching subcategory ads');
+        } finally {
+            setIsSearching(false);
+        }
+    };
+
+    // Function to log subcategory clicks
+    const logSubcategoryClick = async (subcategory, category) => {
+        try {
+            const logResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/subcategory_clicks`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: JSON.stringify({
+                    subcategory: subcategory,
+                    category: category,
+                }),
+            });
+
+            if (!logResponse.ok) {
+                console.warn('Failed to log subcategory click');
+            }
+        } catch (logError) {
+            console.error('Error logging subcategory click:', logError);
+        }
+    };
+
+    // Function to clear search results and return to home view
+    const handleClearSearch = () => {
+        setSearchResults([]);
+        setSearchQuery('');
+        setCurrentSearchType('');
+    };
     
     // Function to log the ad search
     const logAdSearch = async (query, category, subcategory) => {
@@ -216,8 +277,10 @@ const Home = () => {
                             <Col xs={12} sm={6} md={3} key={subcategory.id}>
                                 <SubcategorySection
                                     subcategory={subcategory.name}
+                                    categoryName={title}
                                     ads={ads[subcategory.id] || []}
                                     onAdClick={handleAdClick}
+                                    onSubcategoryClick={handleSubcategoryClick}
                                 />
                             </Col>
                         ))}
@@ -227,7 +290,7 @@ const Home = () => {
         );
     };
 
-    const SubcategorySection = ({ subcategory, ads, onAdClick }) => {
+    const SubcategorySection = ({ subcategory, categoryName, ads, onAdClick, onSubcategoryClick }) => {
         const displayedAds = ads.slice(0, 4);
         return (
             <Card className="subcategory-section h-100">
@@ -277,7 +340,24 @@ const Home = () => {
                     </Row>
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-start">
-                    <h5 className='m-0'>{subcategory}</h5>
+                    <h5 
+                        className='m-0 subcategory-title' 
+                        onClick={() => onSubcategoryClick(subcategory, categoryName)}
+                        style={{ 
+                            cursor: 'pointer',
+                            transition: 'color 0.3s ease, transform 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.target.style.color = '#007bff';
+                            e.target.style.transform = 'translateX(5px)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.target.style.color = '';
+                            e.target.style.transform = 'translateX(0)';
+                        }}
+                    >
+                        {subcategory}
+                    </h5>
                 </Card.Footer>
             </Card>
         );
@@ -335,81 +415,106 @@ const Home = () => {
         </Card>
     );
 
-    const SearchResultSection = ({ results }) => (
-        <Card className="section-search mb-4 mt-2">
-            <Card.Header className="d-flex justify-content-center align-items-center">
-                <h3 className="mb-0">Search Results</h3>
-            </Card.Header>
-            <Card.Body>
-                <Row className="g-3">
-                    {results.map(ad => {
-                        const borderColor = getBorderColor(ad.seller_tier); // Get the border color
-                        return (
-                            <Col xs={6} sm={6} md={2} key={ad.id} className="">
-                                <Card 
-                                    className="ad-card-seller mb-3" 
-                                    style={{
-                                        border: `2px solid ${borderColor}`,
-                                    }}>
-                                    <div style={{ position: 'relative' }}>
-                                        {/* Tier label */}
-                                        <div
-                                            className="tier-label text-dark"
+    const SearchResultSection = ({ results, searchType }) => {
+        const getHeaderTitle = () => {
+            if (typeof searchType === 'string' && searchType.startsWith('subcategory-')) {
+                const subcategoryName = searchType.replace('subcategory-', '');
+                return `${subcategoryName} Products`;
+            }
+            return 'Search Results';
+        };
+
+        return (
+            <Card className="section-search mb-4 mt-2">
+                <Card.Header className="d-flex justify-content-between align-items-center">
+                    <h3 className="mb-0">{getHeaderTitle()}</h3>
+                    <Button 
+                        variant="outline-secondary" 
+                        size="sm" 
+                        onClick={handleClearSearch}
+                        className="d-flex align-items-center gap-2"
+                    >
+                        <span>×</span> Back to Home
+                    </Button>
+                </Card.Header>
+                <Card.Body>
+                    {results.length === 0 ? (
+                        <div className="text-center py-5">
+                            <h5 className="text-muted">No products found</h5>
+                            <p className="text-muted">Try adjusting your search or browse other categories</p>
+                        </div>
+                    ) : (
+                        <Row className="g-3">
+                            {results.map(ad => {
+                                const borderColor = getBorderColor(ad.seller_tier); // Get the border color
+                                return (
+                                    <Col xs={6} sm={6} md={2} key={ad.id} className="">
+                                        <Card 
+                                            className="ad-card-seller mb-3" 
                                             style={{
-                                                position: 'absolute',
-                                                top: '0px',
-                                                right: '-3px',
-                                                padding: '2px 6px',
-                                                fontSize: '11px',
-                                                backgroundColor: borderColor,
-                                                borderTopLeftRadius: '0px',
-                                                borderTopRightRadius: '4px',
-                                                borderBottomRightRadius: '0px',
-                                                borderBottomLeftRadius: '6px',
-                                                zIndex: 2,
-                                            }}
-                                        >
-                                            {ad.tier_name || "Free"} {/* Show tier name, default to "Free" */}
-                                        </div>
-                                        
-                                        <Card.Img
-                                            variant="top"
-                                            src={ad.media_urls && ad.media_urls.length > 0 ? ad.media_urls[0] : 'default-image-url'}
-                                            alt={ad.title}
-                                            className="analytics-card-img-top ad-image"
-                                            onClick={() => handleAdClick(ad.id)} // Handle image click
-                                        />
-                                    </div>
-                                    <Card.Body className="px-2 py-1">
-                                        <Card.Title className="mb-0 ad-title">{ad.title}</Card.Title>
-                                        <Card.Text className="price-container">
-                                            <span><em className='ad-price-label text-success'>Kshs: </em></span>
-                                            <strong className='text-danger'>
-                                                {ad.price ? parseFloat(ad.price).toFixed(2).split('.').map((part, index) => (
-                                                    <React.Fragment key={index}>
-                                                        {index === 0 ? (
-                                                            <span className="price-integer">
-                                                                {parseInt(part, 10).toLocaleString()}
-                                                            </span>
-                                                        ) : (
-                                                            <>
-                                                                <span style={{ fontSize: '16px' }}>.</span>
-                                                                <span className="price-decimal">{part}</span>
-                                                            </>
-                                                        )}
-                                                    </React.Fragment>
-                                                )) : 'N/A'}
-                                            </strong>
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        );
-                    })}
-                </Row>
-            </Card.Body>
-        </Card>
-    );    
+                                                border: `2px solid ${borderColor}`,
+                                            }}>
+                                            <div style={{ position: 'relative' }}>
+                                                {/* Tier label */}
+                                                <div
+                                                    className="tier-label text-dark"
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '0px',
+                                                        right: '-2px',
+                                                        padding: '2px 6px',
+                                                        fontSize: '11px',
+                                                        backgroundColor: borderColor,
+                                                        borderTopLeftRadius: '0px',
+                                                        borderTopRightRadius: '4px',
+                                                        borderBottomRightRadius: '0px',
+                                                        borderBottomLeftRadius: '6px',
+                                                        zIndex: 2,
+                                                    }}
+                                                >
+                                                    {ad.tier_name || "Free"} {/* Show tier name, default to "Free" */}
+                                                </div>
+                                                
+                                                <Card.Img
+                                                    variant="top"
+                                                    src={ad.media_urls && ad.media_urls.length > 0 ? ad.media_urls[0] : 'default-image-url'}
+                                                    alt={ad.title}
+                                                    className="analytics-card-img-top ad-image"
+                                                    onClick={() => handleAdClick(ad.id)} // Handle image click
+                                                />
+                                            </div>
+                                            <Card.Body className="px-2 py-1">
+                                                <Card.Title className="mb-0 ad-title">{ad.title}</Card.Title>
+                                                <Card.Text className="price-container">
+                                                    <span><em className='ad-price-label text-success'>Kshs: </em></span>
+                                                    <strong className='text-danger'>
+                                                        {ad.price ? parseFloat(ad.price).toFixed(2).split('.').map((part, index) => (
+                                                            <React.Fragment key={index}>
+                                                                {index === 0 ? (
+                                                                    <span className="price-integer">
+                                                                        {parseInt(part, 10).toLocaleString()}
+                                                                    </span>
+                                                                ) : (
+                                                                    <>
+                                                                        <span style={{ fontSize: '16px' }}>.</span>
+                                                                        <span className="price-decimal">{part}</span>
+                                                                    </>
+                                                                )}
+                                                            </React.Fragment>
+                                                        )) : 'N/A'}
+                                                    </strong>
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                );
+                            })}
+                        </Row>
+                    )}
+                </Card.Body>
+            </Card>
+        );
+    };    
 
     const Footer = () => (
         <footer className="mt-5 text-white position-relative overflow-hidden" style={{ backgroundColor: '#000000', zIndex: 10 }}>

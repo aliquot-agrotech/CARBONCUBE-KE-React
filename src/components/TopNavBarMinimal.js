@@ -27,7 +27,7 @@ const TopNavBarMinimal = () => {
                 {/* Right: Links (collapsible) */}
                 <Navbar.Collapse id="top-navbar-collapse" className="justify-content-end">
                     <Nav className="align-items-center">
-                        <Nav.Link href="/vendor/tiers" className="text-white">
+                        <Nav.Link href="/seller/tiers" className="text-white">
                         Tiers & Pricing
                         </Nav.Link>
                         <Nav.Link href="/terms" className="text-white">
