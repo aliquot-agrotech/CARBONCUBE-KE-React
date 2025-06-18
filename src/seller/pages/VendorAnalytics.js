@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Modal, Image, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Modal, Form, Button } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import ClickEventsStats from '../components/ClickEventsStats';
@@ -20,7 +20,9 @@ const VendorAnalytics = () => {
   const [showReviewsModal, setShowReviewsModal] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
-
+  const [showReplyModal, setShowReplyModal] = useState(false);
+  const [selectedReview, setSelectedReview] = useState(null);
+  const [replyText, setReplyText] = useState("");
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -91,6 +93,39 @@ const VendorAnalytics = () => {
 
     fetchAnalytics();
   }, []);
+
+  const handleReplyClick = (review) => {
+    setSelectedReview(review);
+    setReplyText(review.seller_reply || '');
+    setShowReplyModal(true);
+  };
+
+  const handleSubmitReply = async (e) => {
+    e.preventDefault();
+    if (!selectedReview) return;
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/seller/reviews/${selectedReview.id}/reply`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+          },
+          body: JSON.stringify({ seller_reply: replyText }),
+        }
+      );
+      if (!response.ok) throw new Error("Failed to submit reply");
+
+      // Refresh reviews
+      fetchReviews(); // Your function to reload
+      setShowReplyModal(false);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit reply. Please try again.");
+    }
+  };
 
   const fetchReviews = async () => {
     setLoadingReviews(true);
@@ -324,13 +359,13 @@ const VendorAnalytics = () => {
           backdrop="static"
           keyboard={false}
         >
-          <Modal.Header className="text-white py-2 justify-content-center ">
+          <Modal.Header className="text-white py-2 justify-content-center">
             <Modal.Title className="fw-bold">
               <i className="bi bi-star-half me-2"></i> Buyer Reviews
             </Modal.Title>
           </Modal.Header>
 
-          <Modal.Body className="" style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+          <Modal.Body style={{ maxHeight: '70vh', overflowY: 'auto' }}>
             {loadingReviews ? (
               <div className="text-center py-5">
                 <Spinner animation="border" variant="primary" />
@@ -348,18 +383,42 @@ const VendorAnalytics = () => {
                         width="60"
                         height="60"
                       />
-                      <div>
-                        <h6 className="mb-1 fw-semibold text-dark">
-                          {review.buyer_name || `Buyer #${review.buyer_id}`}
-                        </h6>
+                      <div className="flex-grow-1">
+                        <div className="d-flex justify-content-between">
+                          <h6 className="fw-semibold text-dark mb-0">
+                            {review.buyer_name || `Buyer #${review.buyer_id}`}
+                          </h6>
+                          <small className="text-muted">
+                            {review.created_at ? new Date(review.created_at).toLocaleString() : "No date"}
+                          </small>
+                        </div>
+
                         <div className="mb-2 text-warning">
-                          {'★'.repeat(review.rating)}
-                          {'☆'.repeat(5 - review.rating)}
+                          {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
                           <small className="text-muted ms-2">({review.rating}/5)</small>
                         </div>
-                        <p className="mb-0 text-muted fst-italic">
+
+                        <p className="text-muted fst-italic mb-2">
                           {review.review || 'No review provided.'}
                         </p>
+
+                        {/* Seller reply section */}
+                        {review.seller_reply ? (
+                          <div className="bg-light p-2 rounded border border-success mb-2">
+                            <strong className="text-success">Your Reply:</strong>
+                            <p className="mb-1">{review.seller_reply}</p>
+                          </div>
+                        ) : null}
+
+                        {/* Reply button */}
+                        <Button
+                          variant="outline-warning"
+                          className="rounded-pill text-dark"
+                          size="sm"
+                          onClick={() => handleReplyClick(review)}
+                        >
+                          <i className="bi bi-reply-fill"></i> {review.seller_reply ? 'Edit Reply' : 'Reply'}
+                        </Button>
                       </div>
                     </div>
                   </Card.Body>
@@ -378,6 +437,32 @@ const VendorAnalytics = () => {
               <i className="bi bi-x-circle me-1"></i> Close
             </Button>
           </Modal.Footer>
+        </Modal>
+
+        <Modal show={showReplyModal} onHide={() => setShowReplyModal(false)} centered>
+          <Modal.Header className="text-white">
+            <Modal.Title><i className="bi bi-pencil-square me-2"></i> Respond to Review</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleSubmitReply}>
+              <Form.Group controlId="replyText">
+                <Form.Label>Your Reply</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={4}
+                  className="bg-light"
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                  required
+                />
+              </Form.Group>
+              <div className="text-end mt-3">
+                <Button type="submit " variant="warning" className="rounded-pill text-dark">
+                  <i className="bi bi-send-fill me-1"></i> Submit Reply
+                </Button>
+              </div>
+            </Form>
+          </Modal.Body>
         </Modal>
       </Container>
     </>
