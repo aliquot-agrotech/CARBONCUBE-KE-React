@@ -758,77 +758,100 @@ const AdDetails = () => {
                 />
             ) : (
                 <div>
-                    <Carousel
-                        activeIndex={carouselActiveIndex}
-                        onSelect={(selectedIndex) => setCarouselActiveIndex(selectedIndex)}
-                        className="custom-carousel"
-                        controls={ad.media_urls.length > 1}
-                        indicators={false}
-                    >
-                        {ad.media_urls.map((url, index) => (
-                            <Carousel.Item key={index}>
-                                <img
-                                    className="ad-image"
-                                    src={url}
-                                    alt={`Slide ${index + 1}`}
-                                />
-                            </Carousel.Item>
-                        ))}
-                    </Carousel>
-                    
-                    {/* 🔢 Image number overlay - only show if more than 1 image */}
-                    {ad.media_urls.length > 1 && (
-                        <div
-                            className="position-absolute bottom-0 start-0 m-3 px-3 py-1 text-dark animate__animated animate__fadeIn"
-                            style={{ 
-                                fontSize: '0.9rem', 
-                                zIndex: 1050,
-                                textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
-                            }}
+                    <div className="position-relative">
+                        <Carousel
+                            activeIndex={carouselActiveIndex}
+                            onSelect={(selectedIndex) => setCarouselActiveIndex(selectedIndex)}
+                            className="custom-carousel"
+                            controls={ad.media_urls.length > 1}
+                            indicators={false}
                         >
-                            {carouselActiveIndex + 1} / {ad.media_urls.length}
-                        </div>
-                    )}
-
-                    {/* 🖼️ Image Thumbnails Preview Below - only show if more than 1 image */}
-                    {ad.media_urls.length > 1 && (
-                        <div className="mt-3 d-flex justify-content-center">
-                            <div className="d-flex gap-2 flex-wrap">
-                                {ad.media_urls.map((url, index) => (
-                                    <div
-                                        key={index}
-                                        className={`thumbnail-preview ${index === carouselActiveIndex ? 'active' : ''}`}
-                                        onClick={() => setCarouselActiveIndex(index)}
-                                        style={{
-                                            width: '60px',
-                                            height: '60px',
-                                            cursor: 'pointer',
-                                            border: index === carouselActiveIndex ? '3px solid #007bff' : '2px solid rgba(0,0,0,0.2)',
-                                            borderRadius: '8px',
-                                            overflow: 'hidden',
-                                            opacity: index === carouselActiveIndex ? 1 : 0.7,
-                                            transition: 'all 0.3s ease'
-                                        }}
-                                    >
-                                        <img
-                                            src={url}
-                                            alt={`Thumbnail ${index + 1}`}
-                                            style={{
-                                                width: '100%',
-                                                height: '100%',
-                                                objectFit: 'cover'
-                                            }}
-                                        />
-                                    </div>
-                                ))}
+                            {ad.media_urls.map((url, index) => (
+                                <Carousel.Item key={index}>
+                                    <img
+                                        className="ad-image"
+                                        src={url}
+                                        alt={`Slide ${index + 1}`}
+                                    />
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
+                        
+                        {/* 🔢 Fixed Image number overlay - outside carousel */}
+                        {ad.media_urls.length > 1 && (
+                            <div
+                                className="position-absolute bottom-0 start-0 m-3 px-3 py-1 text-dark animate__animated animate__fadeIn"
+                                style={{ 
+                                    fontSize: '0.9rem', 
+                                    zIndex: 1050,
+                                    textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
+                                }}
+                            >
+                                {carouselActiveIndex + 1} / {ad.media_urls.length}
                             </div>
-                        </div>
-                    )}
+                        )}
+                        
+                        {/* 🖼️ Image Thumbnails Preview - only show if more than 1 image */}
+                        {ad.media_urls && ad.media_urls.length > 1 && (
+                            <div 
+                                className="position-absolute bottom-0 end-0 m-3"
+                                style={{ zIndex: 1050 }}
+                            >
+                                <div className="d-flex gap-2">
+                                    {ad.media_urls.map((image, index) => (
+                                        <div
+                                            key={index}
+                                            className={`thumbnail-preview ${index === carouselActiveIndex ? 'active' : ''}`}
+                                            onClick={() => setCarouselActiveIndex(index)}
+                                            style={{
+                                                width: '40px',
+                                                height: '40px',
+                                                cursor: 'pointer',
+                                                border: index === carouselActiveIndex ? '2px solid #ffc107' : '2px solid rgba(255,255,255,0.5)',
+                                                borderRadius: '8px',
+                                                overflow: 'hidden',
+                                                opacity: index === carouselActiveIndex ? 1 : 0.7,
+                                                transition: 'all 0.3s ease',
+                                                backgroundColor: 'rgba(0,0,0,0.1)'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                if (index !== carouselActiveIndex) {
+                                                    e.target.style.opacity = '0.9';
+                                                    e.target.style.transform = 'scale(1.05)';
+                                                }
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                if (index !== carouselActiveIndex) {
+                                                    e.target.style.opacity = '0.7';
+                                                    e.target.style.transform = 'scale(1)';
+                                                }
+                                            }}
+                                        >
+                                            <img
+                                                src={image}
+                                                alt={`Thumbnail ${index + 1}`}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'cover',
+                                                    pointerEvents: 'none'
+                                                }}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    
                 </div>
             )}
         </div>
     );
 };
+
+
 
     const getBorderColor = (tierId) => {
         const tierColors = {
@@ -913,13 +936,19 @@ const AdDetails = () => {
                                         <Row className="ad-details shadow-lg rounded-2 p-1 p-md-3 p-xs-2 mb-4 mb-xs-3"
                                             style={{ borderColor, borderWidth: '2px', borderStyle: 'solid' }}>
                                             {/* Image Carousel */}
-                                            <Col xs={12} md={7} className="text-center mb-3 mb-md-0">
-                                                <motion.div
-                                                initial={{ opacity: 0, scale: 0.9 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                transition={{ duration: 0.5 }}
+                                            <Col
+                                                xs={12}
+                                                md={7}
+                                                className="d-flex align-items-center justify-content-center text-center mb-3 mb-md-0"
+                                                style={{ minHeight: '100%' }}
                                                 >
-                                                {renderCarousel()}
+                                                <motion.div
+                                                    initial={{ opacity: 0, scale: 0.9 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    transition={{ duration: 0.5 }}
+                                                    className="w-100"
+                                                >
+                                                    {renderCarousel()}
                                                 </motion.div>
                                             </Col>
 
