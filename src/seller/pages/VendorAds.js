@@ -40,6 +40,7 @@ const VendorAds = () => {
 
 
 
+
     // const [files, setFiles] = useState([]);
     const [editedAd, setEditedAd] = useState({
         item_length: '',
@@ -648,12 +649,12 @@ const VendorAds = () => {
             updatedMedia.splice(index, 1); // remove image by index
 
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/seller/ads/${editedAd.id}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-            },
-            body: JSON.stringify({ ad: { media: updatedMedia } }),
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                },
+                body: JSON.stringify({ ad: { media: updatedMedia } }),
             });
 
             if (!response.ok) throw new Error('Failed to update ad');
@@ -661,15 +662,36 @@ const VendorAds = () => {
             const updatedAd = await response.json();
 
             setEditedAd(updatedAd);
-            setAds(prevAds => 
-            prevAds.map(p => p.id === updatedAd.id ? updatedAd : p)
+            setAds(prevAds =>
+                prevAds.map(p => (p.id === updatedAd.id ? updatedAd : p))
             );
+
+            // ✅ Trigger AlertModal
+            setAlertModalMessage('Image has been deleted successfully.');
+            setAlertModalConfig({
+                icon: 'success',
+                title: 'Image Deleted',
+                confirmText: 'OK',
+                showCancel: false,
+            });
+            setShowAlertModal(true);
 
             console.log('Image deleted successfully');
         } catch (error) {
             console.error('Error deleting image:', error);
+
+            // Optional: Show error in AlertModal
+            setAlertModalMessage('Failed to delete image. Please try again.');
+            setAlertModalConfig({
+                icon: 'error',
+                title: 'Error',
+                confirmText: 'OK',
+                showCancel: false,
+            });
+            setShowAlertModal(true);
         }
     };
+
 
     const renderAdCard = (ad) => (
         <Col xs={6} md={6} lg={3} key={ad.id} className="mb-3 px-2 px-md-2">
@@ -1054,20 +1076,19 @@ const VendorAds = () => {
                                             alt={`Ad - view ${index + 1}`}
                                             style={{ height: '300px', objectFit: 'contain' }}
                                         />
-                                        <span
+                                        <Button
+                                            variant="link"
                                             onClick={() => handleDeleteImage(index)}
-                                            className="position-absolute top-0 end-0 m-2"
-                                            title="Delete image"
+                                            className="position-absolute top-0 end-0 m-2 text-danger"
                                             style={{
-                                            cursor: 'pointer',
-                                            color: 'red',
-                                            fontSize: '20px',
-                                            background: 'transparent',
-                                            border: 'none',
+                                                fontSize: '1.2rem',
+                                                zIndex: 1050,
+                                                pointerEvents: 'auto'
                                             }}
-                                        >
+                                            >
                                             <FontAwesomeIcon icon={faTrashCan} />
-                                        </span>
+                                        </Button>
+
                                         </Carousel.Item>
                                     ))}
                                     </Carousel>
