@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button, Modal, Carousel, FormControl, Form }
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
+import { useNavigate } from 'react-router-dom';
 import Spinner from "react-spinkit";
 import TopNavbar from '../components/TopNavbar';
 // import { Cloudinary } from 'cloudinary-core';
@@ -34,6 +35,10 @@ const VendorAds = () => {
     const [adToDelete, setAdToDelete] = useState(null);
     const [editedImages, setEditedImages] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
+    // const [alertMessage, setAlertMessage] = useState('');
+    const navigate = useNavigate();
+
+
 
     // const [files, setFiles] = useState([]);
     const [editedAd, setEditedAd] = useState({
@@ -339,13 +344,40 @@ const VendorAds = () => {
                 };
 
                 xhr.onload = () => {
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        const result = JSON.parse(xhr.responseText);
-                        console.log("Ad added successfully:", result);
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        console.log("📦 Server Response:", response);
+
+                        if (xhr.status === 403 && response.error?.includes("Ad creation limit")) {
+                    setAlertModalMessage(response.error);
+                    setAlertModalConfig({
+                        icon: 'warning',
+                        title: 'Ad Limit Reached',
+                        confirmText: 'Upgrade Tier',
+                        cancelText: 'Close',
+                        showCancel: true,
+                        onConfirm: () => {
+                        setShowAlertModal(false);
+                        navigate('/seller/tiers');
+                        }
+                    });
+                    setShowAlertModal(true);
+                    setUploading(false);
+                    return;
+                    }
+
+
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                        const result = response;
+                        console.log("✅ Ad added successfully:", result);
                         setAds(prevAds => [...prevAds, result]);
                         resolve(result);
-                    } else {
+                        } else {
                         reject(new Error(`Upload failed with status: ${xhr.status}`));
+                        }
+                    } catch (err) {
+                        console.error("❌ Failed to parse response or show modal:", err);
+                        reject(new Error("Invalid JSON response or modal error"));
                     }
                 };
 
@@ -414,10 +446,34 @@ const VendorAds = () => {
         ad.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const resetForm = () => {
+        setFormValues({
+            title: '',
+            description: '',
+            price: '',
+            quantity: '',
+            brand: '',
+            manufacturer: '',
+            condition: '',
+            item_length: '',
+            item_width: '',
+            item_height: '',
+            item_weight: '',
+        });
+        setSelectedCategory('');
+        setSelectedSubcategory('');
+        setWeightUnit('Grams');
+        setSelectedImages([]);
+        setUploadProgress(0);
+        setUploading(false);
+    };
+
+
     const handleModalClose = () => {
         setShowDetailsModal(false);
         setShowEditModal(false);
         setShowAddModal(false);
+        resetForm(); // 👈 clear form values when modal closes
         setEditedImages([]); // reset new image files
     };
 
@@ -1668,7 +1724,6 @@ const VendorAds = () => {
                 showCancel={alertModalConfig.showCancel}
                 onConfirm={alertModalConfig.onConfirm}
             />
-
 
             <AlertModal
                 isVisible={alertVisible}
