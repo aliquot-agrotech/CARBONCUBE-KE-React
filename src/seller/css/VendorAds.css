@@ -84,9 +84,26 @@
   z-index: 1000; /* Ensure this is higher than the carousel controls */
 }
 
-.carousel-control-next,
-.carousel-control-prev {
-  z-index: 500; /* Set lower than the delete button */
+
+
+.custom-carousel .carousel-control-prev-icon,
+.custom-carousel .carousel-control-next-icon {
+  background-color: #c9d2d2; /* Blue color */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  color: #000000;
+  background-size: 20px;
+}
+
+.custom-carousel .carousel-control-prev,
+.custom-carousel .carousel-control-next {
+  opacity: 0.8;
+}
+
+.custom-carousel .carousel-control-prev:hover,
+.custom-carousel .carousel-control-next:hover {
+  opacity: 1;
 }
 
 .button{

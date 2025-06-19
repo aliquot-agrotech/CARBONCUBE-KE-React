@@ -35,6 +35,8 @@ const VendorAds = () => {
     const [adToDelete, setAdToDelete] = useState(null);
     const [editedImages, setEditedImages] = useState([]);
     const [selectedImages, setSelectedImages] = useState([]);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [viewActiveIndex, setViewActiveIndex] = useState(0);
     // const [alertMessage, setAlertMessage] = useState('');
     const navigate = useNavigate();
 
@@ -873,23 +875,40 @@ const VendorAds = () => {
                     <Modal.Body className="p-0 p-lg-2">
                         {selectedAd && (
                             <>
-                                <Carousel className='mb-4'>
-                                    {selectedAd.media && selectedAd.media.length > 0 ? (
-                                        selectedAd.media.map((image, index) => (
-                                            <Carousel.Item key={index} className="position-relative">
-                                                <img
-                                                    className="d-block w-100 ad-image"
-                                                    src={image}
-                                                    alt={`Ad ${selectedAd.title} - view ${index + 1}`} // Updated alt text
-                                                    style={{ height: '300px', objectFit: 'contain' }}  // Adjust the height as needed
-                                                />
-                                            </Carousel.Item>
-                                        ))
-                                    ) : (
-                                        <Carousel.Item>
-                                            <p className="text-center">No images available</p>
-                                        </Carousel.Item>
-                                    )}
+                                <Carousel 
+                                className='mb-4 custom-carousel'
+                                activeIndex={viewActiveIndex} 
+                                onSelect={(selectedIndex) => setViewActiveIndex(selectedIndex)}
+                                >
+                                {selectedAd.media && selectedAd.media.length > 0 ? (
+                                    selectedAd.media.map((image, index) => (
+                                    <Carousel.Item key={index} className="position-relative">
+                                        <img
+                                        className="d-block w-100 ad-image"
+                                        src={image}
+                                        alt={`Ad ${selectedAd.title} - view ${index + 1}`}
+                                        style={{ height: '300px', objectFit: 'contain' }}
+                                        />
+                                        {/* 🔢 Image number overlay - only show on current active slide */}
+                                        {index === viewActiveIndex && (
+                                        <div
+                                            className="position-absolute bottom-0 start-0 m-3 px-3 py-1 text-dark animate__animated animate__fadeIn"
+                                            style={{ 
+                                            fontSize: '0.9rem', 
+                                            zIndex: 1050,
+                                            textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
+                                            }}
+                                        >
+                                            {viewActiveIndex + 1} / {selectedAd.media.length}
+                                        </div>
+                                        )}
+                                    </Carousel.Item>
+                                    ))
+                                ) : (
+                                    <Carousel.Item>
+                                    <p className="text-center">No images available</p>
+                                    </Carousel.Item>
+                                )}
                                 </Carousel>
                                 <Container className="ad-details mb-4 p-1 p-lg-2">
                                     <Row>
@@ -1065,33 +1084,50 @@ const VendorAds = () => {
                     </Modal.Header>
                     <Modal.Body className="p-1 p-lg-2">
                         <Form>
-                            <Form.Group className="mb-3">
+                            <Form.Group className="mb-3 position-relative">
                                 {editedAd.media && editedAd.media.length > 0 ? (
-                                    <Carousel>
-                                    {editedAd.media.map((image, index) => (
-                                        <Carousel.Item key={index} className="position-relative">
-                                        <img
+                                    <>
+                                    <Carousel 
+                                        activeIndex={activeIndex} 
+                                        onSelect={(selectedIndex) => setActiveIndex(selectedIndex)}
+                                        className="custom-carousel"
+                                    >
+                                        {editedAd.media.map((image, index) => (
+                                        <Carousel.Item key={index}>
+                                            <img
                                             className="d-block w-100"
                                             src={image}
                                             alt={`Ad - view ${index + 1}`}
                                             style={{ height: '300px', objectFit: 'contain' }}
-                                        />
-                                        <Button
-                                            variant="link"
-                                            onClick={() => handleDeleteImage(index)}
-                                            className="position-absolute top-0 end-0 m-2 text-danger"
-                                            style={{
-                                                fontSize: '1.2rem',
-                                                zIndex: 1050,
-                                                pointerEvents: 'auto'
-                                            }}
-                                            >
-                                            <FontAwesomeIcon icon={faTrashCan} />
-                                        </Button>
-
+                                            />
                                         </Carousel.Item>
-                                    ))}
+                                        ))}
                                     </Carousel>
+                                    {/* 🔢 Image number (bottom-left) - transparent background */}
+                                    <div
+                                        className="position-absolute bottom-0 start-0 m-3 px-3 py-1 text-dark animate__animated animate__fadeIn"
+                                        style={{ 
+                                        fontSize: '0.9rem', 
+                                        zIndex: 1050,
+                                        textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
+                                        }}
+                                    >
+                                        {activeIndex + 1} / {editedAd.media.length}
+                                    </div>
+                                    {/* 🗑️ Delete button (top-right) for current image */}
+                                    <Button
+                                        variant="link"
+                                        onClick={() => handleDeleteImage(activeIndex)}
+                                        className="position-absolute top-0 end-0 m-2 text-danger"
+                                        style={{
+                                        fontSize: '1.2rem',
+                                        zIndex: 1050,
+                                        pointerEvents: 'auto'
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faTrashCan} />
+                                    </Button>
+                                    </>
                                 ) : (
                                     <p>No images available</p>
                                 )}

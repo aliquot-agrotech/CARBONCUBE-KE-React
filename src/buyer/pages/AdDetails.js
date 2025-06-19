@@ -38,6 +38,7 @@ const AdDetails = () => {
     const [submitError, setSubmitError] = useState(null);
     const navigate = useNavigate(); // Initialize useNavigate
     const [showSellerToast, setShowSellerToast] = useState(false);
+    const [carouselActiveIndex, setCarouselActiveIndex] = useState(0);
     // const handleCloseChatModal = () => setShowChatModal(false);
     // const [showChatModal, setShowChatModal] = useState(false);
 
@@ -744,33 +745,90 @@ const AdDetails = () => {
     };
 
     const renderCarousel = () => {
-        return (
-            <div 
-                className=" rounded p-0 position-relative"
-            >
-                {/* Default Image Case */}
-                {!ad.media_urls || ad.media_urls.length === 0 ? (
-                    <img
-                        src="default-image-url"
-                        alt="default"
-                        className="ad-image img-fluid"
-                    />
-                ) : (
-                    <Carousel>
+    return (
+        <div 
+            className="rounded p-0 position-relative"
+        >
+            {/* Default Image Case */}
+            {!ad.media_urls || ad.media_urls.length === 0 ? (
+                <img
+                    src="default-image-url"
+                    alt="default"
+                    className="ad-image img-fluid"
+                />
+            ) : (
+                <div>
+                    <Carousel
+                        activeIndex={carouselActiveIndex}
+                        onSelect={(selectedIndex) => setCarouselActiveIndex(selectedIndex)}
+                        className="custom-carousel"
+                        controls={ad.media_urls.length > 1}
+                        indicators={false}
+                    >
                         {ad.media_urls.map((url, index) => (
                             <Carousel.Item key={index}>
                                 <img
                                     className="ad-image"
                                     src={url}
-                                    alt={`Slide ${index}`}
+                                    alt={`Slide ${index + 1}`}
                                 />
                             </Carousel.Item>
                         ))}
                     </Carousel>
-                )}
-            </div>
-        );
-    };  
+                    
+                    {/* 🔢 Image number overlay - only show if more than 1 image */}
+                    {ad.media_urls.length > 1 && (
+                        <div
+                            className="position-absolute bottom-0 start-0 m-3 px-3 py-1 text-dark animate__animated animate__fadeIn"
+                            style={{ 
+                                fontSize: '0.9rem', 
+                                zIndex: 1050,
+                                textShadow: '2px 2px 4px rgba(0,0,0,0.8)'
+                            }}
+                        >
+                            {carouselActiveIndex + 1} / {ad.media_urls.length}
+                        </div>
+                    )}
+
+                    {/* 🖼️ Image Thumbnails Preview Below - only show if more than 1 image */}
+                    {ad.media_urls.length > 1 && (
+                        <div className="mt-3 d-flex justify-content-center">
+                            <div className="d-flex gap-2 flex-wrap">
+                                {ad.media_urls.map((url, index) => (
+                                    <div
+                                        key={index}
+                                        className={`thumbnail-preview ${index === carouselActiveIndex ? 'active' : ''}`}
+                                        onClick={() => setCarouselActiveIndex(index)}
+                                        style={{
+                                            width: '60px',
+                                            height: '60px',
+                                            cursor: 'pointer',
+                                            border: index === carouselActiveIndex ? '3px solid #007bff' : '2px solid rgba(0,0,0,0.2)',
+                                            borderRadius: '8px',
+                                            overflow: 'hidden',
+                                            opacity: index === carouselActiveIndex ? 1 : 0.7,
+                                            transition: 'all 0.3s ease'
+                                        }}
+                                    >
+                                        <img
+                                            src={url}
+                                            alt={`Thumbnail ${index + 1}`}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover'
+                                            }}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+};
 
     const getBorderColor = (tierId) => {
         const tierColors = {
