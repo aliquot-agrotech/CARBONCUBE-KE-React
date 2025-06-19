@@ -25,7 +25,7 @@ const VendorAds = () => {
     const [subcategories, setSubcategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedSubcategory, setSelectedSubcategory] = useState('');
-    const [ setNewImageUrl] = useState('');
+    // const [ setNewImageUrl] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [weightUnit, setWeightUnit] = useState('Grams');
     const [uploading, setUploading] = useState(false);
