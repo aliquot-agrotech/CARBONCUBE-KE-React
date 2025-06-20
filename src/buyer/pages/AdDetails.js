@@ -41,6 +41,26 @@ const AdDetails = () => {
     const [carouselActiveIndex, setCarouselActiveIndex] = useState(0);
     // const handleCloseChatModal = () => setShowChatModal(false);
     // const [showChatModal, setShowChatModal] = useState(false);
+    const [showShopModal, setShowShopModal] = useState(false);
+    const [sellerAds, setSellerAds] = useState([]);
+    const [isLoadingSellerAds, setIsLoadingSellerAds] = useState(false);
+
+    useEffect(() => {
+        if (ad && ad.seller_id && showShopModal) {
+            setIsLoadingSellerAds(true);
+
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/sellers/${ad.seller_id}/ads`)
+            .then((res) => res.json())
+            .then((data) => {
+                setSellerAds(data);
+                setIsLoadingSellerAds(false);
+            })
+            .catch((err) => {
+                console.error('Failed to fetch seller ads:', err);
+                setIsLoadingSellerAds(false);
+            });
+        }
+    }, [ad, showShopModal]); // ✅ Do NOT destructure ad.seller_id directly here
 
     const handleShowModal = async () => {
         setShowModal(true);
@@ -693,32 +713,19 @@ const AdDetails = () => {
             </div>
         );
     };
-    
 
     const handleAdClick = async (adId) => {
-        if (!adId) {
-            console.error('Invalid adId');
-            return;
-        }
-    
+        if (!adId) return;
+
         try {
-            // Log the 'Ad-Click' event before navigating
+            setShowShopModal(false); // close modal
             await logClickEvent(adId, 'Ad-Click');
-
-            // Navigate to the ad details page
-            navigate(`/ads/${adId}`);
-            
-            // Ensure smooth scroll top after navigation
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (error) {
-            console.error('Error logging ad click:', error);
-    
-            // Proceed with navigation even if logging fails
-            navigate(`/ads/${adId}`);
-
-            // Ensure smooth even if logging fails
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            console.warn('Logging failed, proceeding...');
         }
+
+        navigate(`/ads/${adId}`);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     // Function to log a click event
@@ -963,28 +970,61 @@ const AdDetails = () => {
                                                     <p>
                                                         <strong>Condition:</strong>{' '}
                                                         <span
-                                                            style={{
+                                                        style={{
                                                             backgroundColor: conditionColors[ad.condition],
                                                             color: ad.condition === 'second_hand' ? '#000' : '#fff',
                                                             padding: '3px 6px',
                                                             borderRadius: '8px',
                                                             fontStyle: 'italic',
                                                             fontSize: '13px'
-                                                            }}
+                                                        }}
                                                         >
-                                                            {conditionLabels[ad.condition]}
+                                                        {conditionLabels[ad.condition]}
                                                         </span>
                                                     </p>
-                                                    <p style={{ fontSize: '16px' }}>
-                                                        <strong>Seller: <span className="text-success">{ad.seller_enterprise_name || 'N/A'}</span></strong>
-                                                    </p>
+
+                                                    {/* Rating */}
+                                                    <div onClick={handleShowModal} className="cursor-pointer mb-3">
+                                                        <p className="mb-0"><strong>Product rating:</strong></p>
+                                                        <span className="star-rating">{renderRatingStars(ad.mean_rating, ad.review_count)}</span>
+                                                    </div>
+
+                                                    {/* Modern Seller Section */}
+                                                    <div
+                                                        className="mt-3 p-2 rounded"
+                                                        onClick={() => setShowShopModal(true)}
+                                                        role="button"
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                            borderColor,
+                                                            borderWidth: '2px',
+                                                            backgroundColor: '#e0e0e0',
+                                                            borderStyle: 'solid',
+                                                        }}
+                                                    >
+                                                        <div className="d-flex align-items-center">
+                                                            <img
+                                                                src={ad.seller_profile_picture || '/default-avatar.png'}
+                                                                alt="Seller Profile"
+                                                                className="rounded-circle me-3"
+                                                                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                                                            />
+                                                            <div>
+                                                                <h6 className="mb-1 text-dark fw-bold">{ad.seller_enterprise_name || 'N/A'}</h6>
+                                                                <Button
+                                                                variant="warning"
+                                                                className="text-dark btn-sm rounded-pill py-0"
+                                                                
+                                                                >
+                                                                View Shop
+                                                                </Button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
-                                                {/* Rating */}
-                                                <div onClick={handleShowModal} className="cursor-pointer mb-3">
-                                                    <p className="mb-0"><strong>Product rating:</strong></p>
-                                                    <span className="star-rating">{renderRatingStars(ad.mean_rating, ad.review_count)}</span>
-                                                </div>
+
+                                                
 
                                                 {/* Price */}
                                                 <h4 className="ad-price my-1 px-2">
@@ -1299,6 +1339,74 @@ const AdDetails = () => {
                         </div>
                     </div>
                 </Modal>
+
+                <Modal show={showShopModal} onHide={() => setShowShopModal(false)} centered size="xl" className="glass-modal">
+                    <Modal.Header>
+                        <Modal.Title>{ad.seller_enterprise_name}'s Shop</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {isLoadingSellerAds ? (
+                        <div className="text-center py-4">
+                            <div className="spinner-border text-primary" role="status"></div>
+                        </div>
+                        ) : sellerAds.length > 0 ? (
+                        <Row>
+                            {sellerAds.map((item) => (
+                            <Col xs={6} md={6} lg={3} key={item.id} className="mb-3 px-2 px-md-2">
+                                <Card className="h-100">
+                                    <Card.Img
+                                        variant="top"
+                                        className="ad-image"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => handleAdClick(item.id)}
+                                        src={item.media && item.media.length > 0 ? item.media[0] : 'default-image-url'}
+                                    />
+                    
+                                    <Card.Body className="px-2 py-2 bookmark-body d-flex flex-column justify-content-center">
+                                        <div className="d-flex justify-content-between align-items-center h-100 w-100">
+                                            {/* Title + Price */}
+                                            <div className="flex-grow-1" style={{ minWidth: 0 }}>
+                                                <Card.Title
+                                                    className="mb-1 ad-title text-truncate"
+                                                    style={{
+                                                    whiteSpace: 'nowrap',
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis',
+                                                    }}
+                                                >
+                                                    {item.title}
+                                                </Card.Title>
+                            
+                                                <Card.Text className="mb-0">
+                                                    <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                                                    <strong style={{ fontSize: '20px' }} className="text-danger">
+                                                    {item.price ? Number(item.price).toFixed(2).split('.').map((part, index) => (
+                                                        <React.Fragment key={index}>
+                                                        {index === 0 ? (
+                                                            <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                                        ) : (
+                                                            <>
+                                                            <span style={{ fontSize: '16px' }}>.</span>
+                                                            <span className="price-decimal">{part}</span>
+                                                            </>
+                                                        )}
+                                                        </React.Fragment>
+                                                    )) : 'N/A'}
+                                                    </strong>
+                                                </Card.Text>
+                                            </div>
+                                        </div>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            ))}
+                        </Row>
+                        ) : (
+                        <p className="text-muted">No ads available from this seller.</p>
+                        )}
+                    </Modal.Body>
+                </Modal>
+
 
                 <AlertModal {...alertModalConfig} />
 
