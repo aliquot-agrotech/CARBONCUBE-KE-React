@@ -36,15 +36,75 @@ function VendorSignUpPage({ onSignup }) {
   
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [counties, setCounties] = useState([]);
   const [subCounties, setSubCounties] = useState([]);
-  const [ageGroups, setAgeGroups] = useState([]);
-  const [showPilotNotice, setShowPilotNotice] = useState(false);
+  const [ setShowPilotNotice] = useState(false);
   const [options, setOptions] = useState({ age_groups: [], counties: [] });
   const [terms, setTerms] = useState(false);
   const [step, setStep] = useState(1);
-  const nextStep = () => setStep(prev => Math.min(prev + 1, 3));
+  const nextStep = () => {
+    const newErrors = {};
+
+    if (step === 1) {
+      const requiredFields = [
+        'fullname',
+        'username',
+        'phone_number',
+        'email',
+        'gender',
+        'age_group_id',
+        'enterprise_name',
+        'business_registration_number',
+        'location'
+      ];
+
+      requiredFields.forEach(field => {
+        if (!formData[field] || formData[field].toString().trim() === '') {
+          newErrors[field] = 'This field is required';
+        }
+      });
+    }
+
+    if (step === 2) {
+      const requiredFields = [
+        'city',
+        'zipcode',
+        'county_id',
+        'sub_county_id',
+        'document_url',
+        'document_type_id',
+        'document_expiry_date',
+        'password',
+        'password_confirmation'
+      ];
+
+      requiredFields.forEach(field => {
+        if (!formData[field] || formData[field].toString().trim() === '') {
+          newErrors[field] = 'This field is required';
+        }
+      });
+
+      if (formData.password && formData.password.length < 8) {
+        newErrors.password = 'Password must be at least 8 characters long';
+      }
+
+      if (formData.password !== formData.password_confirmation) {
+        newErrors.password_confirmation = 'Passwords do not match';
+      }
+
+      if (!terms) {
+        newErrors.terms = "You must agree to the terms and conditions.";
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
+    setStep(prev => Math.min(prev + 1, 3));
+  };
+
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [alertModalMessage, setAlertModalMessage] = useState('');
@@ -59,9 +119,9 @@ function VendorSignUpPage({ onSignup }) {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
+  const [ setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
-  const [emailVerified, setEmailVerified] = useState(false);
+  const [ setEmailVerified] = useState(false);
   const [submittingSignup, setSubmittingSignup] = useState(false);
   const [verifyingOtp, setVerifyingOtp] = useState(false);
 
@@ -900,12 +960,7 @@ function VendorSignUpPage({ onSignup }) {
                       onConfirm={alertModalConfig.onConfirm}
                     />
 
-                    <ProgressBar 
-                      now={Math.round((step / 3) * 100)} 
-                      className="mt-3 rounded-pill" 
-                      variant="warning" 
-                      style={{ height: '8px' }}
-                    />
+                    <ProgressBar now={Math.round((step/3) * 100)} className=" mt-3 rounded-pill" variant="warning" style={{ height: '8px' }}/>
 
                   </div>
                 </Col>

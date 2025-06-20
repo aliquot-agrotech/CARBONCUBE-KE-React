@@ -33,16 +33,46 @@ function PurchaserSignUpPage({ onSignup }) {
   const navigate = useNavigate();
   const [terms, setTerms] = useState(false);
   const [step, setStep] = useState(1);
-  const nextStep = () => setStep(prev => Math.min(prev + 1, 3));
+  const nextStep = () => {
+    const requiredFields = ['fullname', 'username', 'email', 'phone_number', 'city', 'gender', 'age_group_id'];
+    const newErrors = {};
+
+    requiredFields.forEach(field => {
+      if (!formData[field] || formData[field].trim() === '') {
+        newErrors[field] = 'This field is required';
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return; // Stop from going to next step
+    }
+
+    setErrors({});
+    setStep(prev => Math.min(prev + 1, 3));
+  };
+
   const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
+  const [ setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
-  const [emailVerified, setEmailVerified] = useState(false);
+  const [ setEmailVerified] = useState(false);
   const [submittingSignup, setSubmittingSignup] = useState(false);
   const [verifyingOtp, setVerifyingOtp] = useState(false);
+
+  // ✅ Place this AFTER state declarations
+  useEffect(() => {
+    const firstErrorKey = Object.keys(errors)[0];
+    if (firstErrorKey) {
+      const el = document.querySelector(`[name="${firstErrorKey}"]`);
+      if (el && el.scrollIntoView) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.focus();
+      }
+    }
+  }, [errors]);
 
   useEffect(() => {
     // Fetch options for dropdowns from the API
@@ -166,14 +196,41 @@ function PurchaserSignUpPage({ onSignup }) {
 
   const validateForm = () => {
     const newErrors = {};
-  
-    if (!terms) {
-      newErrors.terms = "You must agree to the terms and conditions.";
+
+    if (step === 1) {
+      const requiredFields = ['fullname', 'username', 'email', 'phone_number', 'city', 'gender', 'age_group_id'];
+      requiredFields.forEach(field => {
+        if (!formData[field]) {
+          newErrors[field] = 'This field is required';
+        }
+      });
     }
-  
+
+    if (step === 2) {
+      if (!formData.password) {
+        newErrors.password = 'Password is required';
+      }
+      if (!formData.password_confirmation) {
+        newErrors.password_confirmation = 'Please confirm your password';
+      }
+      if (!terms) {
+        newErrors.terms = "You must agree to the terms and conditions.";
+      }
+    }
+
+    if (step === 3) {
+      if (!otpCode.trim()) {
+        newErrors.otp = "OTP is required";
+      }
+      if (!terms) {
+        newErrors.terms = "You must agree to the terms and conditions.";
+      }
+    }
+
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
+    return Object.keys(newErrors).length === 0;
   };
+
 
   return (
     <>
@@ -574,7 +631,8 @@ function PurchaserSignUpPage({ onSignup }) {
                       </div>
                     </Form>
 
-                    <ProgressBar now={step * 50} className=" mt-3 rounded-pill" variant="warning" style={{ height: '8px' }}/>
+                    <ProgressBar now={Math.round((step/3) * 100)} className=" mt-3 rounded-pill" variant="warning" style={{ height: '8px' }}/>
+                    
                   </div>
                 </Col>
                     

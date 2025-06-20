@@ -39,7 +39,7 @@ const VendorAds = () => {
     const [viewActiveIndex, setViewActiveIndex] = useState(0);
     // const [alertMessage, setAlertMessage] = useState('');
     const navigate = useNavigate();
-
+    const [formErrors, setFormErrors] = useState({});
 
 
 
@@ -174,6 +174,17 @@ const VendorAds = () => {
         }
     }, [showAddModal]);
 
+    useEffect(() => {
+        const firstErrorKey = Object.keys(formErrors)[0];
+        if (firstErrorKey) {
+            const el = document.querySelector(`[name="${firstErrorKey}"]`);
+            if (el && el.scrollIntoView) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.focus();
+            }
+        }
+    }, [formErrors]);
+
     const handleCategoryChange = (event) => {
         const category_id = event.target.value;
         setSelectedCategory(category_id);
@@ -258,61 +269,69 @@ const VendorAds = () => {
     };
     
     const handleAddNewAd = async (e) => {
-        if (e && e.preventDefault) e.preventDefault(); // ✅ Prevent page reload
+        if (e && e.preventDefault) e.preventDefault();
+
+        const {
+            title,
+            description,
+            price,
+            quantity,
+            brand,
+            manufacturer,
+            item_length,
+            item_width,
+            item_height,
+            item_weight,
+            condition
+        } = formValues;
+
+        const newErrors = {};
+
+        if (!title.trim()) newErrors.title = 'Title is required';
+        if (!description.trim()) newErrors.description = 'Description is required';
+        if (!price) newErrors.price = 'Price is required';
+        if (!quantity) newErrors.quantity = 'Quantity is required';
+        if (!brand.trim()) newErrors.brand = 'Brand is required';
+        if (!manufacturer.trim()) newErrors.manufacturer = 'Manufacturer is required';
+        if (!condition) newErrors.condition = 'Condition is required';
+        if (!selectedCategory) newErrors.category = 'Category is required';
+        if (!selectedSubcategory) newErrors.subcategory = 'Subcategory is required';
+
+        if (Object.keys(newErrors).length > 0) {
+            setFormErrors(newErrors);
+            alert('Please fill in all required fields.');
+            return;
+        }
+
+        setUploading(true);
+        setUploadProgress(0);
+        setFormErrors({}); // clear previous
 
         try {
-            setUploading(true);
-            setUploadProgress(0);
-
-            const {
-                title,
-                description,
-                price,
-                quantity,
-                brand,
-                manufacturer,
-                item_length,
-                item_width,
-                item_height,
-                item_weight,
-                condition
-            } = formValues;
-
-            // Validate required fields
-            if (
-                !title || !description || !selectedCategory || !selectedSubcategory ||
-                !price || !quantity || !brand || !manufacturer || !condition
-            ) {
-                alert('Please fill in all required fields.');
-                setUploading(false);
-                return;
-            }
-
             let safeImages = [];
             let skippedImages = 0;
 
             if (selectedImages.length > 0) {
-                await loadNSFWModel();
+            await loadNSFWModel();
 
-                for (let i = 0; i < selectedImages.length; i++) {
-                    const file = selectedImages[i];
-                    const isUnsafe = await checkImage(file);
-                    if (isUnsafe) {
-                        console.warn("Blocked unsafe image:", file.name);
-                        skippedImages++;
-                        continue;
-                    }
-                    safeImages.push(file);
+            for (let i = 0; i < selectedImages.length; i++) {
+                const file = selectedImages[i];
+                const isUnsafe = await checkImage(file);
+                if (isUnsafe) {
+                console.warn("Blocked unsafe image:", file.name);
+                skippedImages++;
+                continue;
                 }
+                safeImages.push(file);
+            }
             }
 
             if (safeImages.length === 0) {
-                alert("All selected images were blocked. Please upload appropriate images.");
-                setUploading(false);
-                return;
+            alert("All selected images were blocked. Please upload appropriate images.");
+            setUploading(false);
+            return;
             }
 
-            // Prepare form data
             const formData = new FormData();
             formData.append('ad[title]', title);
             formData.append('ad[description]', description);
@@ -330,84 +349,79 @@ const VendorAds = () => {
             formData.append('ad[weight_unit]', weightUnit);
 
             safeImages.forEach((file) => {
-                formData.append('ad[media][]', file);
+            formData.append('ad[media][]', file);
             });
 
             const uploadPromise = new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", `${process.env.REACT_APP_BACKEND_URL}/seller/ads`);
-                xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", `${process.env.REACT_APP_BACKEND_URL}/seller/ads`);
+            xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
 
-                xhr.upload.onprogress = (event) => {
-                    if (event.lengthComputable) {
-                        const percentCompleted = Math.round((event.loaded / event.total) * 100);
-                        setUploadProgress(percentCompleted);
-                        console.log(`Upload Progress: ${percentCompleted}%`);
-                    }
-                };
+            xhr.upload.onprogress = (event) => {
+                if (event.lengthComputable) {
+                const percentCompleted = Math.round((event.loaded / event.total) * 100);
+                setUploadProgress(percentCompleted);
+                }
+            };
 
-                xhr.onload = () => {
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        console.log("📦 Server Response:", response);
+            xhr.onload = () => {
+                try {
+                const response = JSON.parse(xhr.responseText);
 
-                        if (xhr.status === 403 && response.error?.includes("Ad creation limit")) {
+                if (xhr.status === 403 && response.error?.includes("Ad creation limit")) {
                     setAlertModalMessage(response.error);
                     setAlertModalConfig({
-                        icon: 'warning',
-                        title: 'Ad Limit Reached',
-                        confirmText: 'Upgrade Tier',
-                        cancelText: 'Close',
-                        showCancel: true,
-                        onConfirm: () => {
+                    icon: 'warning',
+                    title: 'Ad Limit Reached',
+                    confirmText: 'Upgrade Tier',
+                    cancelText: 'Close',
+                    showCancel: true,
+                    onConfirm: () => {
                         setShowAlertModal(false);
                         navigate('/seller/tiers');
-                        }
+                    }
                     });
                     setShowAlertModal(true);
                     setUploading(false);
                     return;
-                    }
+                }
 
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const result = response;
+                    setAds(prevAds => [...prevAds, result]);
+                    resolve(result);
+                } else {
+                    reject(new Error(`Upload failed with status: ${xhr.status}`));
+                }
+                } catch (err) {
+                console.error("❌ Failed to parse response:", err);
+                reject(new Error("Invalid JSON response"));
+                }
+            };
 
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                        const result = response;
-                        console.log("✅ Ad added successfully:", result);
-                        setAds(prevAds => [...prevAds, result]);
-                        resolve(result);
-                        } else {
-                        reject(new Error(`Upload failed with status: ${xhr.status}`));
-                        }
-                    } catch (err) {
-                        console.error("❌ Failed to parse response or show modal:", err);
-                        reject(new Error("Invalid JSON response or modal error"));
-                    }
-                };
-
-                xhr.onerror = () => reject(new Error("Network error during upload"));
-
-                xhr.send(formData);
+            xhr.onerror = () => reject(new Error("Network error during upload"));
+            xhr.send(formData);
             });
 
             await uploadPromise;
 
             if (skippedImages > 0) {
-                alert(`${skippedImages} image(s) were flagged as explicit and were not uploaded.`);
+            alert(`${skippedImages} image(s) were flagged as explicit and were not uploaded.`);
             }
 
-            // Reset form and state
+            // Reset
             setFormValues({
-                title: '',
-                description: '',
-                price: '',
-                quantity: '',
-                brand: '',
-                manufacturer: '',
-                condition: '',
-                item_length: '',
-                item_width: '',
-                item_height: '',
-                item_weight: ''
+            title: '',
+            description: '',
+            price: '',
+            quantity: '',
+            brand: '',
+            manufacturer: '',
+            condition: '',
+            item_length: '',
+            item_width: '',
+            item_height: '',
+            item_weight: ''
             });
             setSelectedCategory('');
             setSelectedSubcategory('');
@@ -422,6 +436,7 @@ const VendorAds = () => {
             setUploadProgress(0);
         }
     };
+
 
 
     const handleViewDetailsClick = (ad) => {
@@ -1551,26 +1566,37 @@ const VendorAds = () => {
                                         <Form.Label className="text-center mb-0 fw-bold">Title</Form.Label>
                                         <Form.Control
                                             id="title"
+                                            name="title"
                                             type="text"
                                             placeholder="Enter ad title"
                                             value={formValues.title}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1 rounded-pill"
+                                            isInvalid={!!formErrors.title}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            {formErrors.title}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Description</Form.Label>
                                         <Form.Control
                                             id="description"
+                                            name="description"
                                             as="textarea"
                                             rows={10}
                                             placeholder="Enter ad description"
                                             value={formValues.description}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1"
+                                            isInvalid={!!formErrors.description}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            {formErrors.description}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
+
 
                                     {/* Inside your modal */}
                                     <Form.Group className="mb-2">
@@ -1664,20 +1690,25 @@ const VendorAds = () => {
                                         <Form.Control
                                             as="select"
                                             id="condition"
+                                            name="condition"
                                             className="mb-1 rounded-pill"
                                             style={{ maxWidth: '100%' }}
                                             value={formValues.condition || ''}
                                             onChange={(e) =>
                                             setFormValues({ ...formValues, condition: e.target.value })
                                             }
-                                            required
+                                            isInvalid={!!formErrors.condition}
                                         >
                                             <option value="">Select Condition</option>
                                             <option value="brand_new">Brand New</option>
                                             <option value="second_hand">Second Hand</option>
                                             <option value="refurbished">Refurbished</option>
                                         </Form.Control>
+                                        <Form.Control.Feedback type="invalid">
+                                            {formErrors.condition}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
+
                                 </Col>
 
                                 <Col md={4}>
@@ -1685,84 +1716,115 @@ const VendorAds = () => {
                                         <Form.Label className="text-center mb-0 fw-bold">Category</Form.Label>
                                         <Form.Control
                                             id="category_id"
+                                            name="category"
                                             as="select"
                                             className="custom-input mb-1 rounded-pill"
                                             value={selectedCategory}
                                             onChange={(e) => setSelectedCategory(e.target.value)}
+                                            isInvalid={!!formErrors.category}
                                         >
                                             <option value="">Select Category</option>
                                             {categories.map((category) => (
-                                                <option key={category.id} value={category.id}>
-                                                    {category.name}
-                                                </option>
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
                                             ))}
                                         </Form.Control>
+                                        <Form.Control.Feedback type="invalid">
+                                            {formErrors.category}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group xs={6} className="d-flex flex-column align-items-center mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Sub-Category</Form.Label>
                                         <Form.Control
                                             id="subcategory_id"
+                                            name="subcategory"
                                             as="select"
                                             className="custom-input mb-1 rounded-pill"
                                             value={selectedSubcategory}
                                             onChange={(e) => setSelectedSubcategory(e.target.value)}
+                                            isInvalid={!!formErrors.subcategory}
                                         >
                                             <option value="">Select Sub-Category</option>
                                             {subcategories.map((subcategory) => (
-                                                <option key={subcategory.id} value={subcategory.id}>
-                                                    {subcategory.name}
-                                                </option>
+                                            <option key={subcategory.id} value={subcategory.id}>
+                                                {subcategory.name}
+                                            </option>
                                             ))}
                                         </Form.Control>
+                                        <Form.Control.Feedback type="invalid">
+                                            {formErrors.subcategory}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
+
 
                                     <Form.Group className="d-flex flex-column align-items-center mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Price</Form.Label>
                                         <Form.Control
                                             id="price"
+                                            name="price"
                                             type="text"
                                             placeholder="Enter ad price"
                                             value={formValues.price}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1 rounded-pill"
+                                            isInvalid={!!formErrors.price}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            {formErrors.price}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="d-flex flex-column align-items-center mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Quantity</Form.Label>
                                         <Form.Control
                                             id="quantity"
+                                            name="quantity"
                                             type="text"
                                             placeholder="Enter quantity"
                                             value={formValues.quantity}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1 rounded-pill"
+                                            isInvalid={!!formErrors.quantity}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            {formErrors.quantity}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="d-flex flex-column align-items-center mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Brand</Form.Label>
                                         <Form.Control
                                             id="brand"
+                                            name="brand"
                                             type="text"
                                             placeholder="Enter brand"
                                             value={formValues.brand}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1 rounded-pill"
+                                            isInvalid={!!formErrors.brand}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            {formErrors.brand}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Form.Group className="d-flex flex-column align-items-center mb-2">
                                         <Form.Label className="text-center mb-0 fw-bold">Manufacturer</Form.Label>
                                         <Form.Control
                                             id="manufacturer"
+                                            name="manufacturer"
                                             type="text"
                                             placeholder="Enter manufacturer"
                                             value={formValues.manufacturer}
                                             onChange={handleFormChange}
                                             className="custom-input mb-1 rounded-pill"
+                                            isInvalid={!!formErrors.brand}
                                         />
+                                        <Form.Control.Feedback type="invalid">
+                                            {formErrors.manufacturer}
+                                        </Form.Control.Feedback>
                                     </Form.Group>
 
                                     <Container className="p-0">
@@ -1772,6 +1834,7 @@ const VendorAds = () => {
                                                 <Col xs={6} lg={12}>
                                                     <Form.Control
                                                         id="item_length"
+                                                        name="item_length"
                                                         type="text"
                                                         placeholder="Length"
                                                         value={formValues.item_length}
@@ -1782,6 +1845,7 @@ const VendorAds = () => {
                                                 <Col xs={6} lg={12}>
                                                     <Form.Control
                                                         id="item_width"
+                                                        name="item_width"
                                                         type="text"
                                                         placeholder="Width"
                                                         value={formValues.item_width}
@@ -1796,6 +1860,7 @@ const VendorAds = () => {
                                                 <Col xs={6} lg={12}>
                                                     <Form.Control
                                                         id="item_height"
+                                                        name="item_height"
                                                         type="text"
                                                         placeholder="Height"
                                                         value={formValues.item_height}
@@ -1806,6 +1871,7 @@ const VendorAds = () => {
                                                 <Col xs={6} lg={12} >
                                                     <Form.Control
                                                         id="item_weight"
+                                                        name="item_weight"
                                                         type="text"
                                                         placeholder="Weight"
                                                         value={formValues.item_weight}
