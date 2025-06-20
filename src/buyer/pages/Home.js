@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Banner from '../components/Banner';
 import Spinner from "react-spinkit";
-import AdDetailsModal from '../components/AdDetailsModal';
+// import AdDetailsModal from '../components/AdDetailsModal';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedinIn, faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
@@ -841,11 +841,11 @@ const Home = () => {
             <div className='lorem'>
                 <Footer />
             </div>
-            <AdDetailsModal
+            {/* <AdDetailsModal
                     show={showModal}
                     onHide={handleCloseModal}
                     ad={selectedAd}
-                /> 
+                />  */}
                 
         </>
     );
