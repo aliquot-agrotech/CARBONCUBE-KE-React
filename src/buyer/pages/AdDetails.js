@@ -1341,7 +1341,7 @@ const AdDetails = () => {
                 </Modal>
 
                 <Modal show={showShopModal} onHide={() => setShowShopModal(false)} centered size="xl" className="glass-modal">
-                    <Modal.Header>
+                    <Modal.Header className="justify-content-center">
                         <Modal.Title>{ad.seller_enterprise_name}'s Shop</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
