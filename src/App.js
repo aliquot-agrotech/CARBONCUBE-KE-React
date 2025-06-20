@@ -30,10 +30,7 @@ import TierPage from './seller/pages/Tiers';
 import Home from './buyer/pages/Home';
 import AdDetails from './buyer/pages/AdDetails';
 import WishList from './buyer/pages/WishLists';
-import BuyForMeOrderCart from './buyer/pages/BuyForMeOrderCart';
-import ShoppingCart from './buyer/pages/ShoppingCart';
 import PurchaserMessages from './buyer/pages/PurchaserMessages';
-import PurchaserNotifications from './buyer/pages/PurchaserNotifications';
 import PurchaserSignUpPage from './buyer/pages/PurchaserSignUpPage';
 import ProfilePage from './buyer/pages/Profile';
 import RiderSignUpPage from './rider/pages/RiderSignUpPage';
@@ -87,12 +84,12 @@ function App() {
     <Router>
       <Routes>
         <Route path="/ads/:adId" element={<AdDetails />} />
-        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/home" element={<Home onLogout={handleLogout} />} />
+        <Route path="/" element={<Home onLogout={handleLogout} />} />
         <Route path="/admin" element={<Navigate to="/login" />} />
         <Route path="/seller" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/home" element={<Home onLogout={handleLogout} />} />
         <Route path="/buyer-signup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
         <Route path="/seller-signup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
         <Route path="/rider-signup" element={<RiderSignUpPage onSignup={handleRiderSignup} />} />
@@ -131,10 +128,7 @@ function App() {
           <Route path="/buyer/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="buyer" userRole={userRole} />}>
             <Route path="home" element={<Home onLogout={handleLogout} />} />
             <Route path="wish_lists" element={<WishList onLogout={handleLogout} />} />
-            <Route path="cart" element={<ShoppingCart onLogout={handleLogout} />} />
-            <Route path="buyforme" element={<BuyForMeOrderCart onLogout={handleLogout} />} />
             <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
-            <Route path="notifications" element={<PurchaserNotifications onLogout={handleLogout} />} />
             <Route path="profile" element={<ProfilePage onLogout={handleLogout} />} />
           </Route>
         )}

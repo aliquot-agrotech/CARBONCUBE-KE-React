@@ -5,7 +5,7 @@ import TopNavbar from '../components/TopNavbar';
 import Banner from '../components/Banner';
 import Spinner from "react-spinkit";
 import AdDetailsModal from '../components/AdDetailsModal';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedinIn, faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import '../css/Home.css';
@@ -13,7 +13,7 @@ import '../css/Home.css';
 const Home = () => {
     const [categories, setCategories] = useState([]);
     const [ads, setAds] = useState({});
-    const [allAds, setAllAds] = useState({});
+    // const [allAds, setAllAds] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -24,6 +24,7 @@ const Home = () => {
     const [selectedAd, setSelectedAd] = useState(null); // State for selected ad
     const [currentSearchType, setCurrentSearchType] = useState(''); // Track if it's a subcategory search
     const navigate = useNavigate(); // Initialize useNavigate
+    const [isComponentMounted, setIsComponentMounted] = useState(false);
 
     useEffect(() => {
         const fetchCategoriesAndAds = async () => {
@@ -72,31 +73,90 @@ const Home = () => {
     
         fetchCategoriesAndAds();
     }, []);
-    
+
+    const location = useLocation();
+
+    // Update the useEffect that handles location search to better manage state
+    useEffect(() => {
+        setIsComponentMounted(true);
+        return () => setIsComponentMounted(false);
+    }, [isComponentMounted]);
+
+    // Update the search results useEffect to only run when component is mounted
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const query = params.get('query');
+        const category = params.get('category');
+        const subcategory = params.get('subcategory');
+
+        if (!params.toString()) {
+            setSearchResults([]);
+            setCurrentSearchType('');
+            setIsSearching(false);
+            return;
+        }
+
+        const fetchSearchResults = async () => {
+            setIsSearching(true);
+            try {
+                const searchQuery = query || '';
+                const searchCategory = category || 'All';
+                const searchSubcategory = subcategory || 'All';
+
+                const response = await fetch(
+                    `${process.env.REACT_APP_BACKEND_URL}/buyer/ads/search?query=${encodeURIComponent(searchQuery)}&category=${encodeURIComponent(searchCategory)}&subcategory=${encodeURIComponent(searchSubcategory)}&page=1&per_page=20`,
+                    {
+                        headers: {
+                            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+                        },
+                    }
+                );
+
+                if (!response.ok) throw new Error('Failed to fetch search results');
+
+                const results = await response.json();
+                setSearchResults(results);
+
+                if (searchQuery.trim()) {
+                    setCurrentSearchType('search');
+                } else if (searchSubcategory !== 'All') {
+                    setCurrentSearchType(`subcategory-${searchSubcategory}`);
+                } else {
+                    setCurrentSearchType('category');
+                }
+
+                await logAdSearch(searchQuery, searchCategory, searchSubcategory);
+            } catch (error) {
+                console.error(error);
+                setError('Error searching ads');
+            } finally {
+                setIsSearching(false);
+            }
+        };
+
+        fetchSearchResults();
+    }, [location.search]);
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    // const handleShowModal = (ad) => {
-    //     setSelectedAd(ad);
-    //     setShowModal(true);
-    // };
     const handleAdClick = async (adId) => {
         if (!adId) {
             console.error('Invalid adId');
             return;
         }
-    
+
         try {
             // Log the 'Ad-Click' event before navigating
             await logClickEvent(adId, 'Ad-Click');
-    
-            // Navigate to the ad details page
+
+            // Navigate to the ad details page without replacing current history entry
+            // This preserves the back button functionality
             navigate(`/ads/${adId}`);
         } catch (error) {
             console.error('Error logging ad click:', error);
-    
+
             // Proceed with navigation even if logging fails
             navigate(`/ads/${adId}`);
         }
@@ -131,63 +191,37 @@ const Home = () => {
         setSelectedAd(null);
     };
 
-    const handleSearch = async (e, category = 'All', subcategory = 'All') => {
+    const handleSearch = (e, category = 'All', subcategory = 'All') => {
         e.preventDefault();
-        setIsSearching(true);
 
-        try {
-            const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URL}/buyer/ads/search?query=${encodeURIComponent(searchQuery)}&category=${category}&subcategory=${subcategory}&page=1&per_page=20`,
-                {
-                    headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                }
-            );
-
-            if (!response.ok) throw new Error('Failed to fetch search results');
-
-            const results = await response.json();
-            setSearchResults(results);
-            setCurrentSearchType('search');
-
-            // Log the ad search to the backend
-            await logAdSearch(searchQuery, category, subcategory);
-        } catch (error) {
-            setError('Error searching ads');
-        } finally {
-            setIsSearching(false);
+        // Don't search if query is empty and no category/subcategory filters
+        if (!searchQuery.trim() && category === 'All' && subcategory === 'All') {
+            return;
         }
+
+        // Build search URL with proper parameters
+        const params = new URLSearchParams();
+        if (searchQuery.trim()) {
+            params.set('query', searchQuery.trim());
+        }
+        if (category !== 'All') {
+            params.set('category', category);
+        }
+        if (subcategory !== 'All') {
+            params.set('subcategory', subcategory);
+        }
+
+        // Navigate to search results
+        navigate(`/?${params.toString()}`);
     };
 
-    // New function to handle subcategory click
+    // Update handleSubcategoryClick to use URL navigation and handle the search properly
     const handleSubcategoryClick = async (subcategoryName, categoryName) => {
-        setIsSearching(true);
-        setSearchQuery(''); // Clear search query since this is a category filter
-        setCurrentSearchType(`subcategory-${subcategoryName}`);
-
-        try {
-            const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URL}/buyer/ads/search?query=&category=${encodeURIComponent(categoryName)}&subcategory=${encodeURIComponent(subcategoryName)}&page=1&per_page=50`,
-                {
-                    headers: {
-                        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                    },
-                }
-            );
-
-            if (!response.ok) throw new Error('Failed to fetch subcategory ads');
-
-            const results = await response.json();
-            setSearchResults(results);
-
-            // Log the subcategory click
-            await logSubcategoryClick(subcategoryName, categoryName);
-        } catch (error) {
-            setError('Error fetching subcategory ads');
-        } finally {
-            setIsSearching(false);
-        }
+        // Navigate to URL with subcategory parameters
+        navigate(`/?query=&category=${encodeURIComponent(categoryName)}&subcategory=${encodeURIComponent(subcategoryName)}`);
+        
+        // Log the subcategory click
+        await logSubcategoryClick(subcategoryName, categoryName);
     };
 
     // Function to log subcategory clicks
@@ -215,10 +249,14 @@ const Home = () => {
 
     // Function to clear search results and return to home view
     const handleClearSearch = () => {
+        // Use replace to avoid adding to history stack
+        navigate('/', { replace: true });
         setSearchResults([]);
         setSearchQuery('');
         setCurrentSearchType('');
+        setIsSearching(false);
     };
+
     
     // Function to log the ad search
     const logAdSearch = async (query, category, subcategory) => {
