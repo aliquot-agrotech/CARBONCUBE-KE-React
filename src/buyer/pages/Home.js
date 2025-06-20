@@ -20,8 +20,6 @@ const Home = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
-    const [showModal, setShowModal] = useState(false); // State for modal visibility
-    const [selectedAd, setSelectedAd] = useState(null); // State for selected ad
     const [currentSearchType, setCurrentSearchType] = useState(''); // Track if it's a subcategory search
     const navigate = useNavigate(); // Initialize useNavigate
     const [isComponentMounted, setIsComponentMounted] = useState(false);
@@ -185,11 +183,6 @@ const Home = () => {
         }
     };
     
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-        setSelectedAd(null);
-    };
 
     const handleSearch = (e, category = 'All', subcategory = 'All') => {
         e.preventDefault();
