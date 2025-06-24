@@ -37,7 +37,7 @@ function VendorSignUpPage({ onSignup }) {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [subCounties, setSubCounties] = useState([]);
-  const [ setShowPilotNotice] = useState(false);
+  const [showPilotNotice, setShowPilotNotice] = useState(false);
   const [options, setOptions] = useState({ age_groups: [], counties: [] });
   const [terms, setTerms] = useState(false);
   const [step, setStep] = useState(1);
@@ -119,9 +119,9 @@ function VendorSignUpPage({ onSignup }) {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [ setOtpSent] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
-  const [ setEmailVerified] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
   const [submittingSignup, setSubmittingSignup] = useState(false);
   const [verifyingOtp, setVerifyingOtp] = useState(false);
 
