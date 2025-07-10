@@ -56,23 +56,33 @@ function PurchaserSignUpPage({ onSignup }) {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [ setOtpSent] = useState(false);
+  const [ otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
-  const [ setEmailVerified] = useState(false);
+  const [ emailVerified, setEmailVerified] = useState(false);
   const [submittingSignup, setSubmittingSignup] = useState(false);
   const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   // ✅ Place this AFTER state declarations
+  const hasFocusedError = React.useRef(false);
+
   useEffect(() => {
+    if (hasFocusedError.current) return;
+
     const firstErrorKey = Object.keys(errors)[0];
     if (firstErrorKey) {
       const el = document.querySelector(`[name="${firstErrorKey}"]`);
       if (el && el.scrollIntoView) {
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
         el.focus();
+        hasFocusedError.current = true; // ✅ prevent repeated focusing
       }
     }
   }, [errors]);
+
+  // Reset the focus tracker when form is resubmitted
+  useEffect(() => {
+    hasFocusedError.current = false;
+  }, [step]);
 
   useEffect(() => {
     // Fetch options for dropdowns from the API
