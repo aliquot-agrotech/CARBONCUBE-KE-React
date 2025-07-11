@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 import AlertModal from '../../components/AlertModal';
 
 const VendorAds = () => {
-    const [ads, setAds] = useState([]);
+    const [ads, setAds] = useState({ active: [], deleted: [] });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -103,7 +103,10 @@ const VendorAds = () => {
                 }
 
                 const data = await response.json();
-                setAds(data);
+                setAds({
+                    active: data.active_ads || [],
+                    deleted: data.deleted_ads || []
+                });
             } catch (error) {
                 console.error('Error fetching ads:', error);
                 setError('Error fetching ads');
@@ -460,9 +463,13 @@ const VendorAds = () => {
         setSearchTerm(e.target.value);
     };
 
-    const filteredAds = ads.filter(ad =>
+    const filteredActiveAds = ads.active.filter(ad =>
         ad.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    const filteredDeletedAds = ads.deleted.filter(ad =>
+        ad.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
 
     const resetForm = () => {
         setFormValues({
@@ -868,15 +875,30 @@ const VendorAds = () => {
                                 </Col>
                             </Row>
 
+                            {/* Active Ads Section */}
+                            <h5 className="mt-3">Active Ads</h5>
                             <Row>
-                                {filteredAds.length > 0 ? (
-                                    filteredAds.map(renderAdCard)
+                                {filteredActiveAds.length > 0 ? (
+                                    filteredActiveAds.map(renderAdCard)
                                 ) : (
                                     <Col>
-                                        <p>No ads found</p>
+                                    <p className="text-muted">No active ads found.</p>
                                     </Col>
                                 )}
                             </Row>
+
+                            {/* Deleted Ads Section */}
+                            <h5 className="mt-4">Deleted Ads</h5>
+                            <Row>
+                                {filteredDeletedAds.length > 0 ? (
+                                    filteredDeletedAds.map(renderAdCard)
+                                ) : (
+                                    <Col>
+                                    <p className="text-muted">No deleted ads.</p>
+                                    </Col>
+                                )}
+                            </Row>
+
                         </Col>
                     </Row>
                 </Container>
