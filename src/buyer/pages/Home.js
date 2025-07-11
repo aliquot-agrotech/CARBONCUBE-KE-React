@@ -662,52 +662,52 @@ const Home = () => {
                     </Col>
         
                     {/* Let's Connect */}
-                    <Col xs={12} md={6} lg={3}>
-                    <div className="footer-section">
-                        <div className="d-flex align-items-center mb-3">
+                <Col xs={12} md={6} lg={3}>
+                <div className="footer-section">
+                    <div className="d-flex align-items-center mb-3">
                         <div className="bg-warning rounded-circle p-1 me-2" style={{ width: '8px', height: '8px' }}></div>
-                        <h5 className="text-uppercase fw-bold mb-0" style={{ color: '#ffc107', fontSize: '0.95rem' }}>
-                            Let's Connect
-                        </h5>
+                            <h5 className="text-uppercase fw-bold mb-0" style={{ color: '#ffc107', fontSize: '0.95rem' }}>
+                                Let's Connect
+                            </h5>
                         </div>
                         <p className="text-white-50 small mb-3">
                         Follow us for updates, deals, and marketplace news
                         </p>
                         <div className="d-flex flex-wrap gap-2 mb-3">
-                        <a 
-                            href="https://linkedin.com" 
-                            className="social-link bg-primary bg-opacity-20 text-white rounded-circle d-flex align-items-center justify-content-center"
-                            style={{ width: '40px', height: '40px' }}
-                        >
-                            <FontAwesomeIcon icon={faLinkedinIn} size="sm" />
-                        </a>
-                        <a 
-                            href="https://whatsapp.com" 
-                            className="social-link bg-success bg-opacity-20 text-white rounded-circle d-flex align-items-center justify-content-center"
-                            style={{ width: '40px', height: '40px' }}
-                        >
-                            <FontAwesomeIcon icon={faWhatsapp} size="sm" />
-                        </a>
-                        <a 
-                            href="https://instagram.com" 
-                            className="social-link bg-danger bg-opacity-20 text-white rounded-circle d-flex align-items-center justify-content-center"
-                            style={{ width: '40px', height: '40px' }}
-                        >
-                            <FontAwesomeIcon icon={faInstagram} size="sm" />
-                        </a>
-                        <a 
-                            href="https://facebook.com" 
-                            className="social-link bg-info bg-opacity-20 text-white rounded-circle d-flex align-items-center justify-content-center"
-                            style={{ width: '40px', height: '40px' }}
-                        >
-                            <FontAwesomeIcon icon={faFacebook} size="sm" />
-                        </a>
+                            <a 
+                                href="https://www.linkedin.com/company/carbon-cube-kenya/?viewAsMember=true" 
+                                className="social-link bg-primary bg-opacity-20 text-white rounded-circle d-flex align-items-center justify-content-center"
+                                style={{ width: '40px', height: '40px' }}
+                            >
+                                <FontAwesomeIcon icon={faLinkedinIn} size="sm" />
+                            </a>
+                            <a 
+                                href="https://whatsapp.com" 
+                                className="social-link bg-success bg-opacity-20 text-white rounded-circle d-flex align-items-center justify-content-center"
+                                style={{ width: '40px', height: '40px' }}
+                            >
+                                <FontAwesomeIcon icon={faWhatsapp} size="sm" />
+                            </a>
+                            <a 
+                                href="https://www.instagram.com/carboncube_ke/" 
+                                className="social-link bg-danger bg-opacity-20 text-white rounded-circle d-flex align-items-center justify-content-center"
+                                style={{ width: '40px', height: '40px' }}
+                            >
+                                <FontAwesomeIcon icon={faInstagram} size="sm" />
+                            </a>
+                            <a 
+                                href="https://www.facebook.com/profile.php?id=61574066312678" 
+                                className="social-link bg-info bg-opacity-20 text-white rounded-circle d-flex align-items-center justify-content-center"
+                                style={{ width: '40px', height: '40px' }}
+                            >
+                                <FontAwesomeIcon icon={faFacebook} size="sm" />
+                            </a>
                         </div>
-                        <Button variant="outline-warning" size="sm" className="rounded-pill px-3">
-                        Newsletter
-                        </Button>
-                    </div>
-                    </Col>
+                    <Button variant="outline-warning" size="sm" className="rounded-pill px-3">
+                    Newsletter
+                    </Button>
+                </div>
+                </Col>
                 </Row>
         
                 {/* Newsletter Section */}
