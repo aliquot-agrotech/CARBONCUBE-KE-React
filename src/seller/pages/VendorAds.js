@@ -2005,7 +2005,14 @@ const VendorAds = () => {
                         throw new Error('Failed to delete the ad.');
                     }
 
-                    setAds(prevAds => prevAds.filter(ad => ad.id !== adToDelete));
+                    setAds(prevAds => {
+                        const deletedAd = prevAds.active.find(ad => ad.id === adToDelete);
+                        return {
+                            active: prevAds.active.filter(ad => ad.id !== adToDelete),
+                            deleted: [...prevAds.deleted, deletedAd]
+                        };
+                    });
+
 
                     Swal.fire({
                         title: 'Deleted!',
