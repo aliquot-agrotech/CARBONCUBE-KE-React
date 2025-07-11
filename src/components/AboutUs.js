@@ -186,25 +186,25 @@ const AboutUs = () => {
             <section className="py-5" style={{ backgroundColor: '#f8f9fa' }}>
             <Container>
                 <Row className="text-center g-4">
-                <Col md={3} sm={6}>
+                {/* <Col md={3} sm={6}>
                     <div className="p-3">
                     <h3 className="fw-bold text-warning display-6 mb-2">1000+</h3>
                     <p className="text-muted mb-0">Verified Sellers</p>
                     </div>
-                </Col>
-                <Col md={3} sm={6}>
+                </Col> */}
+                <Col md={4} sm={6}>
                     <div className="p-3">
                     <h3 className="fw-bold text-warning display-6 mb-2">50K+</h3>
                     <p className="text-muted mb-0">Happy Customers</p>
                     </div>
                 </Col>
-                <Col md={3} sm={6}>
+                <Col md={4} sm={6}>
                     <div className="p-3">
                     <h3 className="fw-bold text-warning display-6 mb-2">100K+</h3>
                     <p className="text-muted mb-0">Products Listed</p>
                     </div>
                 </Col>
-                <Col md={3} sm={6}>
+                <Col md={4} sm={6}>
                     <div className="p-3">
                     <h3 className="fw-bold text-warning display-6 mb-2">99.9%</h3>
                     <p className="text-muted mb-0">Uptime Guarantee</p>
