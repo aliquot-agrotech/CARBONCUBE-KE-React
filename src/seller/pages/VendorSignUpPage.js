@@ -30,11 +30,14 @@ function VendorSignUpPage({ onSignup }) {
     county_id: '',
     sub_county_id: '',
     document_url: null,
+    profile_picture: null,
     document_type_id: '',
     document_expiry_date: ''
   });
   
   const [errors, setErrors] = useState({});
+  const [previewURL, setPreviewURL] = useState(null);
+  const [profilePreviewURL, setProfilePreviewURL] = useState(null);
   const navigate = useNavigate();
   const [subCounties, setSubCounties] = useState([]);
   const [showPilotNotice, setShowPilotNotice] = useState(false);
@@ -71,6 +74,7 @@ function VendorSignUpPage({ onSignup }) {
         'county_id',
         'sub_county_id',
         'document_url',
+        'profile_picture',
         'document_type_id',
         'document_expiry_date',
         'password',
@@ -649,32 +653,6 @@ function VendorSignUpPage({ onSignup }) {
                             </Col>
                           </Row>
 
-                          <Row className="mt-1">
-                            <Col>
-                              <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, ease: "easeOut" }}
-                              >
-                                <Form.Group controlId="businessPermit">
-                                  <Form.Label className="fw-bold text-center d-block">
-                                    Upload Document
-                                  </Form.Label>
-                                  <Form.Control
-                                    type="file"
-                                    accept=".pdf, image/jpeg, image/jpg, image/png"
-                                    onChange={(e) => setFormData({ ...formData, document_url: e.target.files[0] })}
-                                    className="form-control rounded-pill"
-                                    isInvalid={!!errors.document_url}
-                                  />
-                                  <Form.Control.Feedback type="invalid">
-                                    {errors.document_url}
-                                  </Form.Control.Feedback>
-                                </Form.Group>
-                              </motion.div>
-                            </Col>
-                          </Row>
-                          
                           <Row>
                             <Col xs={6}>
                               <Form.Group>
@@ -737,8 +715,145 @@ function VendorSignUpPage({ onSignup }) {
                               </Form.Group>
                             </Col>
                           </Row>
-
                           
+                          <Row className="mb-2">
+                            {/* Document Upload */}
+                            <Col md={6}>
+                              <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
+                              >
+                                <Form.Group controlId="businessPermit">
+                                  <Form.Label className="fw-bold text-center d-block">Upload Document</Form.Label>
+
+                                  <Form.Control
+                                    type="file"
+                                    accept=".pdf, image/jpeg, image/jpg, image/png"
+                                    id="documentUpload"
+                                    onChange={(e) => {
+                                      const file = e.target.files[0];
+                                      if (file) {
+                                        setFormData({ ...formData, document_url: file });
+                                        const fileURL = URL.createObjectURL(file);
+                                        setPreviewURL(fileURL);
+                                      }
+                                    }}
+                                    style={{ display: "none" }}
+                                    isInvalid={!!errors.document_url}
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.document_url}
+                                  </Form.Control.Feedback>
+
+                                  <div className="text-center">
+                                    <label htmlFor="documentUpload" className="btn btn-warning rounded-pill px-4">
+                                      📎 Choose Document
+                                    </label>
+                                  </div>
+
+                                  {formData.document_url && (
+                                    <div className="text-center mt-1">
+                                      <div className="position-relative d-inline-block">
+                                        <Button
+                                          variant="white"
+                                          size="sm"
+                                          className="position-absolute top-0 start-0 m-1 p-1 rounded-circle shadow-sm"
+                                          style={{ zIndex: 2, width: "22px", height: "22px", fontSize: "12px", lineHeight: "1" }}
+                                          onClick={() => {
+                                            setFormData({ ...formData, document_url: null });
+                                            setPreviewURL(null);
+                                          }}
+                                        >
+                                          ❌
+                                        </Button>
+
+                                        {previewURL && formData.document_url.type.startsWith("image/") ? (
+                                          <img
+                                            src={previewURL}
+                                            alt="Document Preview"
+                                            style={{ maxWidth: "150px", borderRadius: "8px", border: "1px solid #ccc" }}
+                                          />
+                                        ) : (
+                                          <a
+                                            href={previewURL}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-primary d-inline-block"
+                                          >
+                                            📄 Preview Document
+                                          </a>
+                                        )}
+                                      </div>
+                                    </div>
+                                  )}
+                                </Form.Group>
+                              </motion.div>
+                            </Col>
+
+                            {/* Profile Picture Upload */}
+                            <Col md={6}>
+                              <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, ease: "easeOut" }}
+                              >
+                                <Form.Group controlId="profilePicture">
+                                  <Form.Label className="fw-bold text-center d-block">Profile Picture</Form.Label>
+
+                                  <Form.Control
+                                    type="file"
+                                    accept="image/jpeg, image/jpg, image/png, image/webp"
+                                    id="profilePictureUpload"
+                                    onChange={(e) => {
+                                      const file = e.target.files[0];
+                                      if (file) {
+                                        setFormData({ ...formData, profile_picture: file });
+                                        const fileURL = URL.createObjectURL(file);
+                                        setProfilePreviewURL(fileURL);
+                                      }
+                                    }}
+                                    style={{ display: "none" }}
+                                    isInvalid={!!errors.profile_picture}
+                                  />
+                                  <Form.Control.Feedback type="invalid">
+                                    {errors.profile_picture}
+                                  </Form.Control.Feedback>
+
+                                  <div className="text-center">
+                                    <label htmlFor="profilePictureUpload" className="btn btn-warning rounded-pill px-4">
+                                      📷 Choose Profile Picture
+                                    </label>
+                                  </div>
+
+                                  {formData.profile_picture && (
+                                    <div className="text-center mt-1 ">
+                                      <div className="position-relative d-inline-block">
+                                        <Button
+                                          variant="white"
+                                          size="sm"
+                                          className="position-absolute top-0 start-0 m-1 p-1 rounded-circle shadow-sm"
+                                          style={{ zIndex: 2, width: "22px", height: "22px", fontSize: "12px", lineHeight: "1" }}
+                                          onClick={() => {
+                                            setFormData({ ...formData, profile_picture: null });
+                                            setProfilePreviewURL(null);
+                                          }}
+                                        >
+                                          ❌
+                                        </Button>
+
+                                        <img
+                                          src={profilePreviewURL}
+                                          alt="Profile Preview"
+                                          style={{ maxWidth: "150px", borderRadius: "8px", border: "1px solid #ccc" }}
+                                        />
+                                      </div>
+                                    </div>
+                                  )}
+                                </Form.Group>
+                              </motion.div>
+                            </Col>
+                          </Row>
 
                           <Row>
                             <Col md={6} >
