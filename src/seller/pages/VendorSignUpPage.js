@@ -734,6 +734,18 @@ function VendorSignUpPage({ onSignup }) {
                                     onChange={(e) => {
                                       const file = e.target.files[0];
                                       if (file) {
+                                        if (file.size > 5 * 1024 * 1024) {
+                                          setAlertModalMessage('The document must be 5MB or smaller.');
+                                          setAlertModalConfig({
+                                            icon: 'error',
+                                            title: 'Upload Error',
+                                            confirmText: 'OK',
+                                            showCancel: false,
+                                            onConfirm: () => setShowAlertModal(false),
+                                          });
+                                          setShowAlertModal(true);
+                                          return;
+                                        }
                                         setFormData({ ...formData, document_url: file });
                                         const fileURL = URL.createObjectURL(file);
                                         setPreviewURL(fileURL);
@@ -808,6 +820,18 @@ function VendorSignUpPage({ onSignup }) {
                                     onChange={(e) => {
                                       const file = e.target.files[0];
                                       if (file) {
+                                        if (file.size > 5 * 1024 * 1024) {
+                                          setAlertModalMessage('The profile picture must be 5MB or smaller.');
+                                          setAlertModalConfig({
+                                            icon: 'error',
+                                            title: 'Upload Error',
+                                            confirmText: 'OK',
+                                            showCancel: false,
+                                            onConfirm: () => setShowAlertModal(false),
+                                          });
+                                          setShowAlertModal(true);
+                                          return;
+                                        }
                                         setFormData({ ...formData, profile_picture: file });
                                         const fileURL = URL.createObjectURL(file);
                                         setProfilePreviewURL(fileURL);
