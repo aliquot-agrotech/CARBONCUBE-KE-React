@@ -84,7 +84,9 @@
   z-index: 1000; /* Ensure this is higher than the carousel controls */
 }
 
-
+.restore-button-wrapper div {
+  transition: opacity 0.2s ease-in-out;
+}
 
 .custom-carousel .carousel-control-prev-icon,
 .custom-carousel .carousel-control-next-icon {

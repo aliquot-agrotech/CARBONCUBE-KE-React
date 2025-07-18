@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Container, Row, Col, Card, Button, Modal, Carousel, FormControl, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faStar, faStarHalfAlt, faStar as faStarEmpty, faPencilAlt, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import Spinner from "react-spinkit";
@@ -40,7 +40,8 @@ const VendorAds = () => {
     // const [alertMessage, setAlertMessage] = useState('');
     const navigate = useNavigate();
     const [formErrors, setFormErrors] = useState({});
-
+    const [hoveredAdId, setHoveredAdId] = useState(null);
+    const [hoveredIcon, setHoveredIcon] = useState(null);
 
 
     // const [files, setFiles] = useState([]);
@@ -824,14 +825,42 @@ const VendorAds = () => {
 
                         {/* Edit/Delete Icons */}
                         {ads.deleted.some(p => p.id === ad.id) ? (
-                        <Button
-                            variant="outline-success"
-                            size="sm"
-                            onClick={() => handleRestoreAd(ad.id)}
-                            title="Restore Ad"
-                        >
-                            Restore
-                        </Button>
+                        <div className="restore-button-wrapper" style={{ position: 'relative', display: 'inline-block' }}>
+                            <span
+                                onClick={() => handleRestoreAd(ad.id)}
+                                onMouseEnter={() => setHoveredAdId(ad.id)}
+                                onMouseLeave={() => setHoveredAdId(null)}
+                                style={{
+                                cursor: 'pointer',
+                                color: 'green',
+                                fontSize: '1.2rem',
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faRotateLeft} />
+                            </span>
+
+                            {hoveredAdId === ad.id && (
+                                <div
+                                style={{
+                                    position: 'absolute',
+                                    bottom: '110%',
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                                    color: '#fff',
+                                    padding: '2px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: '12px',
+                                    whiteSpace: 'nowrap',
+                                    zIndex: 1000,
+                                    pointerEvents: 'none',
+                                }}
+                                >
+                                Restore
+                                </div>
+                            )}
+                        </div>
+
                         ) : (
                         <div className="d-flex flex-column align-items-center">
                             <span
