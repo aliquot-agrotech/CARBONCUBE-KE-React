@@ -448,16 +448,26 @@ const VendorAds = () => {
     };
 
     const handleEditAd = (adId) => {
-        const ad = ads.find(p => p.id === adId);
+        // Prevent editing of deleted ads
+        if (ads.deleted.some(p => p.id === adId)) {
+            alert("❌ You cannot edit a deleted ad.");
+            return;
+        }
+
+        // Find ad in active list
+        const ad = ads.active.find(p => p.id === adId);
+
+        if (!ad) {
+            console.error("Ad not found in active ads");
+            return;
+        }
+
         setSelectedAd(ad);
         setEditedAd({ ...ad });
-        
-        // Set selected category and subcategory from the ad data
         setSelectedCategory(ad.category_id);
         setSelectedSubcategory(ad.subcategory_id);
         setShowEditModal(true);
     };
-    
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
