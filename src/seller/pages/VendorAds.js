@@ -739,64 +739,64 @@ const VendorAds = () => {
                 />
 
                 <Card.Body className="px-2 py-2 bookmark-body d-flex flex-column justify-content-center">
-                <div className="d-flex justify-content-between align-items-center h-100 w-100">
-                    {/* Title + Price */}
-                    <div className="flex-grow-1" style={{ minWidth: 0 }}>
-                    <Card.Title
-                        className="mb-1 ad-title text-truncate"
-                        style={{
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        }}
-                    >
-                        {ad.title}
-                    </Card.Title>
-
-                    <Card.Text className="mb-0">
-                        <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
-                        <strong style={{ fontSize: '20px' }} className="text-danger">
-                        {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
-                            <React.Fragment key={index}>
-                            {index === 0 ? (
-                                <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                            ) : (
-                                <>
-                                <span style={{ fontSize: '16px' }}>.</span>
-                                <span className="price-decimal">{part}</span>
-                                </>
-                            )}
-                            </React.Fragment>
-                        )) : 'N/A'}
-                        </strong>
-                    </Card.Text>
-                    </div>
-
-                    {/* Edit/Delete Icons */}
-                    <div className="d-flex flex-column justify-content-center ms-2 flex-shrink-0">
-                    <div className="d-flex flex-column align-items-center">
-                        <span
-                        onClick={() => handleEditAd(ad.id)}
-                        className="mb-2 text-secondary icon-button"
-                        title="Edit Ad"
-                        style={{ cursor: 'pointer' }}
+                    <div className="d-flex justify-content-between align-items-center h-100 w-100">
+                        {/* Title + Price */}
+                        <div className="flex-grow-1" style={{ minWidth: 0 }}>
+                        <Card.Title
+                            className="mb-1 ad-title text-truncate"
+                            style={{
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            }}
                         >
-                        <FontAwesomeIcon icon={faPencilAlt} className="edit-icon" size="lg" />
-                        </span>
-                        <span
-                        onClick={() => {
-                            setAdToDelete(ad.id);
-                            setAlertVisible(true);
-                        }}
-                        className="text-danger icon-button"
-                        title="Delete Ad"
-                        style={{ cursor: 'pointer' }}
-                        >
-                        <FontAwesomeIcon icon={faTrashCan} className="edit-icon" size="lg" />
-                        </span>
+                            {ad.title}
+                        </Card.Title>
+
+                        <Card.Text className="mb-0">
+                            <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                            <strong style={{ fontSize: '20px' }} className="text-danger">
+                            {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
+                                <React.Fragment key={index}>
+                                {index === 0 ? (
+                                    <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                ) : (
+                                    <>
+                                    <span style={{ fontSize: '16px' }}>.</span>
+                                    <span className="price-decimal">{part}</span>
+                                    </>
+                                )}
+                                </React.Fragment>
+                            )) : 'N/A'}
+                            </strong>
+                        </Card.Text>
+                        </div>
+
+                        {/* Edit/Delete Icons */}
+                        <div className="d-flex flex-column justify-content-center ms-2 flex-shrink-0">
+                            <div className="d-flex flex-column align-items-center">
+                                <span
+                                onClick={() => handleEditAd(ad.id)}
+                                className="mb-2 text-secondary icon-button"
+                                title="Edit Ad"
+                                style={{ cursor: 'pointer' }}
+                                >
+                                <FontAwesomeIcon icon={faPencilAlt} className="edit-icon" size="lg" />
+                                </span>
+                                <span
+                                onClick={() => {
+                                    setAdToDelete(ad.id);
+                                    setAlertVisible(true);
+                                }}
+                                className="text-danger icon-button"
+                                title="Delete Ad"
+                                style={{ cursor: 'pointer' }}
+                                >
+                                <FontAwesomeIcon icon={faTrashCan} className="edit-icon" size="lg" />
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-                </div>
                 </Card.Body>
             </Card>
         </Col>
