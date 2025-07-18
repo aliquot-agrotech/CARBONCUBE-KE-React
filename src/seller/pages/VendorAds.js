@@ -730,76 +730,131 @@ const VendorAds = () => {
         }
     };
 
+    const handleRestoreAd = async (adId) => {
+        try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/seller/ads/${adId}/restore`, {
+            method: 'PUT', // or POST depending on your API
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+            },
+            });
+
+            if (!response.ok) throw new Error('Failed to restore ad');
+
+            const restoredAd = await response.json();
+
+            setAds((prev) => ({
+            active: [restoredAd, ...prev.active],
+            deleted: prev.deleted.filter((a) => a.id !== adId),
+            }));
+        } catch (error) {
+            console.error('Restore failed:', error);
+            alert("Failed to restore ad.");
+        }
+    };
 
     const renderAdCard = (ad) => (
         <Col xs={6} md={6} lg={3} key={ad.id} className="mb-3 px-2 px-md-2">
             <Card className="h-100">
-                <Card.Img
-                    variant="top"
-                    className="ad-image"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => handleViewDetailsClick(ad)}
-                    src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'}
-                />
+                <div style={{ position: 'relative' }}>
+                    <Card.Img
+                        variant="top"
+                        className="ad-image"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => handleViewDetailsClick(ad)}
+                        src={ad.media && ad.media.length > 0 ? ad.media[0] : 'default-image-url'}
+                    />
+                    {ads.deleted.some(p => p.id === ad.id) && (
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                backgroundColor: 'rgba(255, 0, 0, 0.6)',
+                                color: 'white',
+                                width: '100%',
+                                height: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '1.5rem',
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                            }}
+                            >
+                            Deleted
+                        </div>
+                    )}
+                </div>
+
 
                 <Card.Body className="px-2 py-2 bookmark-body d-flex flex-column justify-content-center">
                     <div className="d-flex justify-content-between align-items-center h-100 w-100">
                         {/* Title + Price */}
                         <div className="flex-grow-1" style={{ minWidth: 0 }}>
-                        <Card.Title
-                            className="mb-1 ad-title text-truncate"
-                            style={{
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            }}
-                        >
-                            {ad.title}
-                        </Card.Title>
+                            <Card.Title
+                                className="mb-1 ad-title text-truncate"
+                                style={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                }}
+                            >
+                                {ad.title}
+                            </Card.Title>
 
-                        <Card.Text className="mb-0">
-                            <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
-                            <strong style={{ fontSize: '20px' }} className="text-danger">
-                            {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
-                                <React.Fragment key={index}>
-                                {index === 0 ? (
-                                    <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
-                                ) : (
-                                    <>
-                                    <span style={{ fontSize: '16px' }}>.</span>
-                                    <span className="price-decimal">{part}</span>
-                                    </>
-                                )}
-                                </React.Fragment>
-                            )) : 'N/A'}
-                            </strong>
-                        </Card.Text>
+                            <Card.Text className="mb-0">
+                                <span className="text-success" style={{ fontSize: '15px' }}>Kshs: </span>
+                                <strong style={{ fontSize: '20px' }} className="text-danger">
+                                {ad.price ? Number(ad.price).toFixed(2).split('.').map((part, index) => (
+                                    <React.Fragment key={index}>
+                                    {index === 0 ? (
+                                        <span className="price-integer">{parseInt(part, 10).toLocaleString()}</span>
+                                    ) : (
+                                        <>
+                                        <span style={{ fontSize: '16px' }}>.</span>
+                                        <span className="price-decimal">{part}</span>
+                                        </>
+                                    )}
+                                    </React.Fragment>
+                                )) : 'N/A'}
+                                </strong>
+                            </Card.Text>
                         </div>
 
                         {/* Edit/Delete Icons */}
-                        <div className="d-flex flex-column justify-content-center ms-2 flex-shrink-0">
-                            <div className="d-flex flex-column align-items-center">
-                                <span
-                                onClick={() => handleEditAd(ad.id)}
-                                className="mb-2 text-secondary icon-button"
-                                title="Edit Ad"
-                                style={{ cursor: 'pointer' }}
-                                >
-                                <FontAwesomeIcon icon={faPencilAlt} className="edit-icon" size="lg" />
-                                </span>
-                                <span
-                                onClick={() => {
-                                    setAdToDelete(ad.id);
-                                    setAlertVisible(true);
-                                }}
-                                className="text-danger icon-button"
-                                title="Delete Ad"
-                                style={{ cursor: 'pointer' }}
-                                >
-                                <FontAwesomeIcon icon={faTrashCan} className="edit-icon" size="lg" />
-                                </span>
-                            </div>
+                        {ads.deleted.some(p => p.id === ad.id) ? (
+                        <Button
+                            variant="outline-success"
+                            size="sm"
+                            onClick={() => handleRestoreAd(ad.id)}
+                            title="Restore Ad"
+                        >
+                            Restore
+                        </Button>
+                        ) : (
+                        <div className="d-flex flex-column align-items-center">
+                            <span
+                            onClick={() => handleEditAd(ad.id)}
+                            className="mb-2 text-secondary icon-button"
+                            title="Edit Ad"
+                            style={{ cursor: 'pointer' }}
+                            >
+                            <FontAwesomeIcon icon={faPencilAlt} className="edit-icon" size="lg" />
+                            </span>
+                            <span
+                            onClick={() => {
+                                setAdToDelete(ad.id);
+                                setAlertVisible(true);
+                            }}
+                            className="text-danger icon-button"
+                            title="Delete Ad"
+                            style={{ cursor: 'pointer' }}
+                            >
+                            <FontAwesomeIcon icon={faTrashCan} className="edit-icon" size="lg" />
+                            </span>
                         </div>
+                        )}
                     </div>
                 </Card.Body>
             </Card>
