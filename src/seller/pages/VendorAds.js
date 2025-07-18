@@ -586,7 +586,11 @@ const VendorAds = () => {
             }
 
             const updatedAd = await response.json();
-            setAds(ads.map(p => p.id === updatedAd.id ? updatedAd : p));
+            setAds((prev) => ({
+                ...prev,
+                active: prev.active.map(p => p.id === updatedAd.id ? updatedAd : p),
+            }));
+
             setShowEditModal(false);
             setEditedImages([]); // Reset after successful update
         } catch (error) {
