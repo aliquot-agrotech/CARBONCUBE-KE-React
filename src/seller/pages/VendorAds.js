@@ -392,7 +392,11 @@ const VendorAds = () => {
 
                 if (xhr.status >= 200 && xhr.status < 300) {
                     const result = response;
-                    setAds(prevAds => [...prevAds, result]);
+                    setAds(prevAds => ({
+                        ...prevAds,
+                        active: [...prevAds.active, result],
+                    }));
+
                     resolve(result);
                 } else {
                     reject(new Error(`Upload failed with status: ${xhr.status}`));
