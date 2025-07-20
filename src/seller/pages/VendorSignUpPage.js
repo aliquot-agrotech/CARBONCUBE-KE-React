@@ -312,12 +312,23 @@ function VendorSignUpPage({ onSignup }) {
         setErrors({ otp: 'Invalid or expired OTP.' });
       }
     } catch (err) {
+      console.error("Signup error:", err.response?.data || err.message);
+
       const serverErrors = {};
-      err.response?.data?.errors?.forEach((error) => {
-        const [field, message] = error.includes(': ') ? error.split(': ') : ['general', error];
-        serverErrors[field.toLowerCase()] = message;
-      });
-      setErrors({ otp: serverErrors.otp || 'Verification failed. Please try again.' });
+
+      if (err.response?.data?.errors) {
+        // Rails model validation errors (e.g. { email: ["has already been taken"] })
+        Object.entries(err.response.data.errors).forEach(([field, messages]) => {
+          serverErrors[field] = Array.isArray(messages) ? messages.join(', ') : messages;
+        });
+      } else if (err.response?.data?.error) {
+        // Single string error (e.g. from image or document upload)
+        serverErrors.general = err.response.data.error;
+      } else {
+        serverErrors.general = "An unknown error occurred. Please try again.";
+      }
+
+      setErrors(serverErrors);
     } finally {
       setVerifyingOtp(false);
       setSubmittingSignup(false);
