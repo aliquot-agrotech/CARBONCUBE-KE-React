@@ -701,9 +701,11 @@ const VendorAds = () => {
             const updatedAd = await response.json();
 
             setEditedAd(updatedAd);
-            setAds(prevAds =>
-                prevAds.map(p => (p.id === updatedAd.id ? updatedAd : p))
-            );
+            setAds(prevAds => ({
+                ...prevAds,
+                active: prevAds.active.map(p => (p.id === updatedAd.id ? updatedAd : p)),
+            }));
+
 
             // ✅ Trigger AlertModal
             setAlertModalMessage('Image has been deleted successfully.');
