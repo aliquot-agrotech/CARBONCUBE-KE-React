@@ -46,7 +46,7 @@ const CategoryClickEvents = ({ data = [] }) => {
             const category = data[tooltipItem.datasetIndex];
             const totalCategoryClicks = totalClicks(category);
             
-            const labels = ['Ad-Click', 'Add-to-Wish-List', 'Reveal-Vendor-Details'];
+            const labels = ['Ad-Click', 'Add-to-Wish-List', 'Reveal-Seller-Details'];
             const values = [category.ad_clicks, category.wish_list_clicks, category.reveal_clicks];
             const percentages = [
               totalCategoryClicks > 0 ? ((category.ad_clicks / totalCategoryClicks) * 100).toFixed(2) : 0,

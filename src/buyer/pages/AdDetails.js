@@ -494,7 +494,7 @@ const AdDetails = () => {
         
         try {
             // Log the click event first
-            await logClickEventRevealSellerDetails(adId, 'Reveal-Vendor-Details');
+            await logClickEventRevealSellerDetails(adId, 'Reveal-Seller-Details');
             
             // Only fetch seller details if not already available
             if (!seller) {
