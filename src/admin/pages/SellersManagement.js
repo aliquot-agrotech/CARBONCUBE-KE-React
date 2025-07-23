@@ -6,19 +6,19 @@ import { Bar, Doughnut } from "react-chartjs-2";
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
-import '../css/VendorsManagement.css';  // Custom CSS
+import '../css/SellersManagement.css';  // Custom CSS
 
-const VendorsManagement = () => {
+const SellersManagement = () => {
     const [showModal, setShowModal] = useState(false);
-    const [selectedVendor, setSelectedVendor] = useState(null);
-    const [sellers, setVendors] = useState([]);
+    const [selectedSeller, setSelectedSeller] = useState(null);
+    const [sellers, setSellers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedTab, setSelectedTab] = useState('profile');    
     const [searchQuery, setSearchQuery] = useState(''); 
 
     useEffect(() => {
-        const fetchVendors = async () => {
+        const fetchSellers = async () => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/sellers?search_query=${searchQuery}`, {
                     headers: {
@@ -33,7 +33,7 @@ const VendorsManagement = () => {
                 const data = await response.json();
                 // console.log('Fetched sellers:', data); // Add this line
                 data.sort((a, b) => a.id - b.id);
-                setVendors(data);
+                setSellers(data);
             } catch (error) {
                 // console.error('Error fetching sellers:', error);
                 setError('Error fetching sellers');
@@ -42,7 +42,7 @@ const VendorsManagement = () => {
             }
         };
 
-        fetchVendors();
+        fetchSellers();
     }, [searchQuery]); // Depend on searchQuery so it refetches when the query changes
 
 
@@ -79,9 +79,9 @@ const VendorsManagement = () => {
             const ordersData = await ordersResponse.json();
             const adsData = await adsResponse.json();
             const reviewsData = await reviewsResponse.json();
-            const analytics = await fetchVendorAnalytics(sellerId);
+            const analytics = await fetchSellerAnalytics(sellerId);
     
-            setSelectedVendor({ ...sellerData, orders: ordersData, ads: adsData, reviews: reviewsData, analytics });
+            setSelectedSeller({ ...sellerData, orders: ordersData, ads: adsData, reviews: reviewsData, analytics });
             setSelectedTab('profile');
             setShowModal(true);
         } catch (error) {
@@ -93,7 +93,7 @@ const VendorsManagement = () => {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        setSelectedVendor(null);
+        setSelectedSeller(null);
     };
 
     const handleUpdateStatus = async (sellerId, status) => {
@@ -112,21 +112,21 @@ const VendorsManagement = () => {
                 return;
             }
 
-            setVendors(prevVendors =>
-                prevVendors.map(seller =>
+            setSellers(prevSellers =>
+                prevSellers.map(seller =>
                     seller.id === sellerId ? { ...seller, blocked: status === 'block' } : seller
                 )
             );
 
-            if (selectedVendor && selectedVendor.id === sellerId) {
-                setSelectedVendor(prevVendor => ({ ...prevVendor, blocked: status === 'block' }));
+            if (selectedSeller && selectedSeller.id === sellerId) {
+                setSelectedSeller(prevSeller => ({ ...prevSeller, blocked: status === 'block' }));
             }
         } catch (error) {
             // console.error('Error updating seller status:', error);
         }
     };
 
-    const fetchVendorAnalytics = async (sellerId) => {
+    const fetchSellerAnalytics = async (sellerId) => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/sellers/${sellerId}/analytics`, {
                 headers: {
@@ -185,13 +185,13 @@ const VendorsManagement = () => {
                             <Sidebar />
                         </Col>
                         <Col xs={12} md={10} lg={9} className="p-0">
-                            {/* <h2 className="mb-4 text-center">Vendors Management</h2> */}
+                            {/* <h2 className="mb-4 text-center">Sellers Management</h2> */}
                             <Card className="section"> 
                                 <Card.Header className="text-center orders-header p-1 p-lg-2">
                                     <Container fluid>
                                         <Row className="d-flex flex-row flex-md-row justify-content-between align-items-center">
                                             <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3 ps-4">
-                                                <h4 className="mb-0 align-self-center">Vendors</h4>
+                                                <h4 className="mb-0 align-self-center">Sellers</h4>
                                             </Col>
                                             <Col xs="auto" className="d-flex align-items-center">
                                                 <div className="search-container d-flex align-items-center">
@@ -199,7 +199,7 @@ const VendorsManagement = () => {
                                                         <Form.Group controlId="searchPhoneNumberOrID">
                                                             <Form.Control
                                                                 type="text"
-                                                                placeholder="Search (Vendor ID)"
+                                                                placeholder="Search (Seller ID)"
                                                                 className="form-control"
                                                                 value={searchQuery}
                                                                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -216,7 +216,7 @@ const VendorsManagement = () => {
                                     <Table hover className="orders-table text-center">
                                         <thead>
                                             <tr>
-                                                <th>Vendor ID</th>
+                                                <th>Seller ID</th>
                                                 <th>Name</th>
                                                 <th>Contact</th>
                                                 <th>Email</th>
@@ -271,10 +271,10 @@ const VendorsManagement = () => {
 
                             <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
                                 <Modal.Header className="justify-content-center p-1 p-lg-1">
-                                    <Modal.Title>Vendor Info</Modal.Title>
+                                    <Modal.Title>Seller Info</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body className="m-0 p-1">
-                                    {selectedVendor ? (
+                                    {selectedSeller ? (
                                         <Tabs
                                             activeKey={selectedTab}
                                             onSelect={(key) => setSelectedTab(key)}
@@ -290,7 +290,7 @@ const VendorsManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.fullname}
+                                                                    {selectedSeller.fullname}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -298,7 +298,7 @@ const VendorsManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Email</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.email}
+                                                                    {selectedSeller.email}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -309,7 +309,7 @@ const VendorsManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Phone</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.phone_number}
+                                                                    {selectedSeller.phone_number}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -317,7 +317,7 @@ const VendorsManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Enterprise</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.enterprise_name}
+                                                                    {selectedSeller.enterprise_name}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -328,7 +328,7 @@ const VendorsManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Location</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.location}
+                                                                    {selectedSeller.location}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -336,8 +336,8 @@ const VendorsManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Status</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                <span className={selectedVendor.blocked ? 'text-danger' : 'text-success'}>
-                                                                    {selectedVendor.blocked ? 'Blocked' : 'Active'}
+                                                                <span className={selectedSeller.blocked ? 'text-danger' : 'text-success'}>
+                                                                    {selectedSeller.blocked ? 'Blocked' : 'Active'}
                                                                 </span>
                                                                 </Card.Body>
                                                             </Card>
@@ -349,7 +349,7 @@ const VendorsManagement = () => {
                                                             <Card className="mb-2 custom-card">
                                                                 <Card.Header as="h6" className="justify-content-center">Categories</Card.Header>
                                                                 <Card.Body className="text-center">
-                                                                    {selectedVendor.category_names ? selectedVendor.category_names.join(', ') : 'No categories available'}
+                                                                    {selectedSeller.category_names ? selectedSeller.category_names.join(', ') : 'No categories available'}
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
@@ -359,14 +359,14 @@ const VendorsManagement = () => {
 
                                             <Tab eventKey="analytics" title="Analytics">
                                                 {/* <h5 className="text-center">Analytics</h5> */}
-                                                {selectedVendor.analytics ? (
+                                                {selectedSeller.analytics ? (
                                                     <Container className="profile-cards text-center">
                                                         <Row>
                                                             <Col xs={6} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Ads</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_ads}
+                                                                        {selectedSeller.analytics.total_ads}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -374,7 +374,7 @@ const VendorsManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Ads Wishlisted</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_ads_wishlisted}
+                                                                        {selectedSeller.analytics.total_ads_wishlisted}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -385,8 +385,8 @@ const VendorsManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Mean Rating</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        <StarRating rating={selectedVendor.analytics.mean_rating} />
-                                                                        <p className='m-0'>{selectedVendor.analytics.mean_rating}/5</p>
+                                                                        <StarRating rating={selectedSeller.analytics.mean_rating} />
+                                                                        <p className='m-0'>{selectedSeller.analytics.mean_rating}/5</p>
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -394,7 +394,7 @@ const VendorsManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Reviews</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_reviews}
+                                                                        {selectedSeller.analytics.total_reviews}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -408,14 +408,14 @@ const VendorsManagement = () => {
                                                                         <div style={{ width: "200px", height: "200px", margin: "0 auto" }}>
                                                                             <Doughnut
                                                                                 data={{
-                                                                                    labels: ["Ad Clicks", "Add to Wish List", "Reveal Vendor Details"],
+                                                                                    labels: ["Ad Clicks", "Add to Wish List", "Reveal Seller Details"],
                                                                                     datasets: [
                                                                                         {
                                                                                             label: "Click Events",
                                                                                             data: [
-                                                                                                selectedVendor.analytics.ad_clicks,
-                                                                                                selectedVendor.analytics.add_to_wish_list,
-                                                                                                selectedVendor.analytics.reveal_seller_details
+                                                                                                selectedSeller.analytics.ad_clicks,
+                                                                                                selectedSeller.analytics.add_to_wish_list,
+                                                                                                selectedSeller.analytics.reveal_seller_details
                                                                                             ],
                                                                                             backgroundColor: ['#919191', '#FF9800', '#363636']
                                                                                         }
@@ -449,7 +449,7 @@ const VendorsManagement = () => {
                                                                             </div>
                                                                             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
                                                                                 <span style={{ width: "12px", height: "12px", backgroundColor: "#363636", borderRadius: "50%" }}></span>
-                                                                                <span>Reveal Vendor Details</span>
+                                                                                <span>Reveal Seller Details</span>
                                                                             </div>
                                                                         </div>
                                                                     </Card.Body>
@@ -466,7 +466,7 @@ const VendorsManagement = () => {
                                                                                 datasets: [
                                                                                     {
                                                                                         label: "No. of Ratings",
-                                                                                        data: selectedVendor.analytics.rating_pie_chart.map(r => r.count),
+                                                                                        data: selectedSeller.analytics.rating_pie_chart.map(r => r.count),
                                                                                         backgroundColor: "#FF9800"
                                                                                     }
                                                                                 ]
@@ -496,11 +496,11 @@ const VendorsManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Most Clicked Ad</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.most_clicked_ad ? (
+                                                                        {selectedSeller.analytics.most_clicked_ad ? (
                                                                             <>
-                                                                                <p className="m-0"><strong>{selectedVendor.analytics.most_clicked_ad.title}</strong></p>
-                                                                                <p className="text-muted">Total Clicks: {selectedVendor.analytics.most_clicked_ad.total_clicks}</p>
-                                                                                {/* <p className="text-muted">Category: {selectedVendor.analytics.most_clicked_ad.category}</p> */}
+                                                                                <p className="m-0"><strong>{selectedSeller.analytics.most_clicked_ad.title}</strong></p>
+                                                                                <p className="text-muted">Total Clicks: {selectedSeller.analytics.most_clicked_ad.total_clicks}</p>
+                                                                                {/* <p className="text-muted">Category: {selectedSeller.analytics.most_clicked_ad.category}</p> */}
                                                                             </>
                                                                         ) : (
                                                                             <p>No Click Data Available</p>
@@ -511,11 +511,11 @@ const VendorsManagement = () => {
 
                                                             <Col xs={12} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
-                                                                    <Card.Header as="h6" className="justify-content-center">Vendor Insights</Card.Header>
+                                                                    <Card.Header as="h6" className="justify-content-center">Seller Insights</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        <p className="m-0 font-weight-bold">Category: {selectedVendor.analytics.seller_category}</p>
-                                                                        <p className="m-0 font-weight-bold">Last Ad Posted: {selectedVendor.analytics.last_ad_posted_at ? new Date(selectedVendor.analytics.last_ad_posted_at).toLocaleDateString() : "N/A"}</p>
-                                                                        <p className="m-0 font-weight-bold">Account Age: {selectedVendor.analytics.account_age_days} days</p>
+                                                                        <p className="m-0 font-weight-bold">Category: {selectedSeller.analytics.seller_category}</p>
+                                                                        <p className="m-0 font-weight-bold">Last Ad Posted: {selectedSeller.analytics.last_ad_posted_at ? new Date(selectedSeller.analytics.last_ad_posted_at).toLocaleDateString() : "N/A"}</p>
+                                                                        <p className="m-0 font-weight-bold">Account Age: {selectedSeller.analytics.account_age_days} days</p>
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -526,15 +526,15 @@ const VendorsManagement = () => {
                                                                 <Card className="mb-2 custom-card">
                                                                     <Card.Header as="h6" className="justify-content-center">Total Profile Views</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.total_profile_views}
+                                                                        {selectedSeller.analytics.total_profile_views}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
                                                             <Col xs={12} md={6} className="px-1 px-lg-2">
                                                                 <Card className="mb-2 custom-card">
-                                                                    <Card.Header as="h6" className="justify-content-center">Vendor Engagement Rank</Card.Header>
+                                                                    <Card.Header as="h6" className="justify-content-center">Seller Engagement Rank</Card.Header>
                                                                     <Card.Body className="text-center">
-                                                                        {selectedVendor.analytics.ad_performance_rank || "N/A"}
+                                                                        {selectedSeller.analytics.ad_performance_rank || "N/A"}
                                                                     </Card.Body>
                                                                 </Card>
                                                             </Col>
@@ -548,9 +548,9 @@ const VendorsManagement = () => {
 
                                             <Tab eventKey="ads" title="Ads">
                                                 <div className="card-container">
-                                                    {selectedVendor.ads && selectedVendor.ads.length > 0 ? (
+                                                    {selectedSeller.ads && selectedSeller.ads.length > 0 ? (
                                                         <Row>
-                                                            {selectedVendor.ads.map((ad) => (
+                                                            {selectedSeller.ads.map((ad) => (
                                                                 <Col key={ad.id} xs={6} md={12} lg={3} className="mb-2 px-1">
                                                                     <Card className="ad-card-seller">
                                                                         <Card.Img
@@ -593,9 +593,9 @@ const VendorsManagement = () => {
 
                                             <Tab eventKey="reviews" title="Reviews">
                                                 {/* <h5 className="text-center" id="reviews">Reviews</h5> */}
-                                                {selectedVendor.reviews && selectedVendor.reviews.length > 0 ? (
+                                                {selectedSeller.reviews && selectedSeller.reviews.length > 0 ? (
                                                     <Row>
-                                                    {selectedVendor.reviews.map((review) => (
+                                                    {selectedSeller.reviews.map((review) => (
                                                         <Col lg={6} key={review.id} className=" justify-content-center">
                                                         <div className="reviews-container text-center p-0 p-lg-2 ">
                                                             <div className="review-card p-1">
@@ -632,4 +632,4 @@ const VendorsManagement = () => {
     );
 };
 
-export default VendorsManagement;
+export default SellersManagement;

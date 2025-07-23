@@ -100,7 +100,7 @@ const CategoryClickEvents = ({ data = [] }) => {
             </div>
             <div className="legend-item">
                 <div className="legend-color" style={{ backgroundColor: '#363636' }}></div>
-                <div className="legend-label">Reveal Vendor Details</div>
+                <div className="legend-label">Reveal Seller Details</div>
                 </div>
         </div>
     </div>

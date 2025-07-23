@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-// import './VendorSignUpPage.css';
+// import './SellerSignUpPage.css';
 
 function RiderSignUpPage({ onSignup }) {
   const [formData, setFormData] = useState({

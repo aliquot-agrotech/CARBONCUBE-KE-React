@@ -5,18 +5,18 @@ import TopNavbar from '../components/TopNavbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserShield, faKey } from '@fortawesome/free-solid-svg-icons';
 import Spinner from "react-spinkit";
-import '../css/PurchasersManagement.css';  // Custom CSS
+import '../css/BuyersManagement.css';  // Custom CSS
 
-const PurchasersManagement = () => {
+const BuyersManagement = () => {
   const [showModal, setShowModal] = useState(false);
-  const [selectedPurchaser, setSelectedPurchaser] = useState(null);
-  const [buyers, setPurchasers] = useState([]);
+  const [selectedBuyer, setSelectedBuyer] = useState(null);
+  const [buyers, setBuyers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState(''); 
 
   useEffect(() => {
-      const fetchPurchasers = async () => {
+      const fetchBuyers = async () => {
           try {
               const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/buyers?search_query=${searchQuery}`, {
                   headers: {
@@ -29,7 +29,7 @@ const PurchasersManagement = () => {
               }
 
               const data = await response.json();
-              setPurchasers(data);
+              setBuyers(data);
           } catch (error) {
               // console.error('Error fetching buyers:', error);
               setError('Error fetching buyers');
@@ -38,7 +38,7 @@ const PurchasersManagement = () => {
           }
       };
 
-      fetchPurchasers();
+      fetchBuyers();
   }, [searchQuery]); 
 
 
@@ -55,7 +55,7 @@ const PurchasersManagement = () => {
       }
 
       const data = await response.json();
-      setSelectedPurchaser(data);
+      setSelectedBuyer(data);
       setShowModal(true);
     } catch (error) {
       // console.error('Error fetching buyer details:', error);
@@ -78,14 +78,14 @@ const PurchasersManagement = () => {
         return;
       }
   
-      setPurchasers(prevPurchasers =>
-        prevPurchasers.map(buyer =>
+      setBuyers(prevBuyers =>
+        prevBuyers.map(buyer =>
           buyer.id === buyerId ? { ...buyer, blocked: status === 'block' } : buyer
         )
       );
   
-      if (selectedPurchaser && selectedPurchaser.id === buyerId) {
-        setSelectedPurchaser(prevPurchaser => ({ ...prevPurchaser, blocked: status === 'block' }));
+      if (selectedBuyer && selectedBuyer.id === buyerId) {
+        setSelectedBuyer(prevBuyer => ({ ...prevBuyer, blocked: status === 'block' }));
       }
     } catch (error) {
       // console.error('Error updating buyer status:', error);
@@ -95,7 +95,7 @@ const PurchasersManagement = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setSelectedPurchaser(null);
+    setSelectedBuyer(null);
   };
 
   if (loading) {
@@ -125,7 +125,7 @@ const PurchasersManagement = () => {
                   <Container fluid>
                     <Row className="d-flex flex-row flex-md-row justify-content-between align-items-center">
                         <Col xs="auto" className="d-flex align-items-center mb-0 mb-md-0 text-center ms-3 ps-3">
-                            <h4 className="mb-0 align-self-center">Purchasers</h4>
+                            <h4 className="mb-0 align-self-center">Buyers</h4>
                         </Col>
                         <Col xs="auto" className="d-flex align-items-center">
                             <div className="search-container d-flex align-items-center">
@@ -133,7 +133,7 @@ const PurchasersManagement = () => {
                                     <Form.Group controlId="searchPhoneNumberOrID">
                                         <Form.Control
                                             type="text"
-                                            placeholder="Search (Vendor ID)"
+                                            placeholder="Search (Seller ID)"
                                             className="form-control"
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -150,7 +150,7 @@ const PurchasersManagement = () => {
                   <Table hover className="orders-table text-center">
                     <thead className="table-header">
                       <tr>
-                        <th>Purchaser ID</th>
+                        <th>Buyer ID</th>
                         <th>Name</th>
                         <th>Contact</th>
                         <th>Email</th>
@@ -201,10 +201,10 @@ const PurchasersManagement = () => {
 
               <Modal centered show={showModal} onHide={handleCloseModal} size="xl">
                 <Modal.Header className="justify-content-center p-1 p-lg-2">
-                  <Modal.Title>Purchaser Details</Modal.Title>
+                  <Modal.Title>Buyer Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className=" m-0 p-1 p-lg-3">
-                  {selectedPurchaser ? (
+                  {selectedBuyer ? (
                     <div>
                       <div className="buyer-details mb-4  text-center">
 
@@ -213,7 +213,7 @@ const PurchasersManagement = () => {
                               <Card className="mb-2 custom-card">
                                   <Card.Header as="h6" className="justify-content-center">Name</Card.Header>
                                   <Card.Body className="text-center">
-                                      {selectedPurchaser.fullname}
+                                      {selectedBuyer.fullname}
                                   </Card.Body>
                               </Card>
                           </Col>
@@ -221,9 +221,9 @@ const PurchasersManagement = () => {
                         <Row>
                           <Col xs={6} md={6}>
                               <Card className="mb-2 custom-card">
-                                  <Card.Header as="h6" className="justify-content-center">Purchaser ID</Card.Header>
+                                  <Card.Header as="h6" className="justify-content-center">Buyer ID</Card.Header>
                                   <Card.Body className="text-center">
-                                      {selectedPurchaser.id}
+                                      {selectedBuyer.id}
                                   </Card.Body>
                               </Card>
                           </Col>
@@ -231,7 +231,7 @@ const PurchasersManagement = () => {
                               <Card className="mb-2 custom-card">
                                   <Card.Header as="h6" className="justify-content-center">Contact</Card.Header>
                                   <Card.Body className="text-center">
-                                      {selectedPurchaser.phone_number}
+                                      {selectedBuyer.phone_number}
                                   </Card.Body>
                               </Card>
                           </Col>
@@ -243,7 +243,7 @@ const PurchasersManagement = () => {
                               <Card className="mb-2 custom-card">
                                   <Card.Header as="h6" className="justify-content-center">Email</Card.Header>
                                   <Card.Body className="text-center">
-                                      {selectedPurchaser.email}
+                                      {selectedBuyer.email}
                                   </Card.Body>
                               </Card>
                           </Col>
@@ -254,7 +254,7 @@ const PurchasersManagement = () => {
                               <Card className="mb-2 custom-card">
                                   <Card.Header as="h6" className="justify-content-center">Address</Card.Header>
                                   <Card.Body className="text-center">
-                                      {selectedPurchaser.location}
+                                      {selectedBuyer.location}
                                   </Card.Body>
                               </Card>
                           </Col>
@@ -279,4 +279,4 @@ const PurchasersManagement = () => {
   );
 };
 
-export default PurchasersManagement;
+export default BuyersManagement;

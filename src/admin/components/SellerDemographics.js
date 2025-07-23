@@ -4,12 +4,12 @@ import { Chart as ChartJS, BarElement, ArcElement, CategoryScale, LinearScale, T
 
 ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-// Age Group Chart
-const PurchaserAgeGroupChart = ({ data }) => {
+// Seller Age Group Chart
+const SellerAgeGroupChart = ({ data }) => {
     const chartData = {
         labels: Object.keys(data),
         datasets: [{
-            label: "Purchasers",
+            label: "Sellers",
             data: Object.values(data),
             backgroundColor: "#FF9800",
         }],
@@ -47,8 +47,8 @@ const PurchaserAgeGroupChart = ({ data }) => {
 };
 
 
-// Gender Distribution Chart
-const GenderDistributionChart = ({ data }) => {
+// seller Gender Distribution Chart
+const SellerGenderDistributionChart = ({ data }) => {
     const chartData = {
         labels: Object.keys(data),
         datasets: [{
@@ -93,17 +93,18 @@ const GenderDistributionChart = ({ data }) => {
     );
 };
 
-// Employment Chart
-const EmploymentChart = ({ data }) => {
+
+//Seller Category Chart
+const SellerCategoryChart = ({ data }) => {
     const chartData = {
-        labels: data.map(item => Object.keys(item)[0]),
+        labels: data.map(s => Object.entries(s)[0][0]),
         datasets: [{
-            label: "Purchasers",
-            data: data.map(item => Object.values(item)[0]),
+            label: "Sellers",
+            data: data.map(s => Object.entries(s)[0][1]),
             backgroundColor: "#FF9800",
         }],
     };
-
+    
     const chartOptions = {
         responsive: true,
         scales: { 
@@ -130,70 +131,28 @@ const EmploymentChart = ({ data }) => {
         },
     };
     
-
     return <Bar data={chartData} options={chartOptions} />;
 };
 
-// Income Chart
-const IncomeChart = ({ data }) => {
+
+// Seller Tier Chart
+const SellerTierChart = ({ data }) => {
+    // Extract tier names and totals correctly
+    const tierNames = data.map(obj => Object.keys(obj)[0]);  // ["Free", "Basic", "Standard", "Premium"]
+    const tierTotals = data.map(obj => Object.values(obj)[0]);  // [15, 14, 12, 9]
+
     const chartData = {
-        labels: data.map(i => Object.keys(i)[0]),
+        labels: tierNames,
         datasets: [{
-            label: "Purchasers",
-            data: data.map(i => Object.values(i)[0]),
-            backgroundColor: "#FF9800",
-        }],
-    };
-
-    const chartOptions = {
-        responsive: true,
-        scales: { 
-            y: { beginAtZero: true } 
-        },
-        plugins: {
-            legend: {
-                labels: {
-                    usePointStyle: true, // Enables circular markers
-                    pointStyle: "circle", // Ensures markers are displayed as circles
-                    padding: 10,  // Adjust padding between the label and the chart
-                    generateLabels: function(chart) {
-                        const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
-                        const labels = original.call(this, chart);
-
-                        // Make the color boxes circular
-                        labels.forEach(label => {
-                            label.pointStyle = 'circle';
-                            label.radius = 10; // Adjust the size of the circle
-                        });
-
-                        return labels;
-                    },
-                },
-            },
-        },
-    };
-
-    return <Bar data={chartData} options={chartOptions} />;
-};
-
-// Education Chart
-const EducationChart = ({ data }) => {
-    const chartData = {
-        labels: data.map(e => Object.keys(e)[0]),
-        datasets: [{
-            data: data.map(e => Object.values(e)[0]),
+            data: tierTotals,
             backgroundColor: ["#3F51B5", '#919191', '#FF9800', '#363636'],
         }],
     };
 
     const chartOptions = {
-        cutout: '70%',  // Adjust the size of the hole in the middle (e.g., 70% of the radius)
+        cutout: '70%',
         plugins: {
-            legend: {
-                display: false,
-                labels: {usePointStyle: true},
-                 // Hide the default legend
-            },
+            legend: { display: false },
         },
     };
 
@@ -205,7 +164,7 @@ const EducationChart = ({ data }) => {
 
             {/* Custom Legend */}
             <div className="mt-4" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-                {data.map((item, index) => (
+                {tierNames.map((tier, index) => (
                     <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '0 10px' }}>
                         <div 
                             style={{
@@ -213,10 +172,10 @@ const EducationChart = ({ data }) => {
                                 height: '15px',
                                 backgroundColor: chartData.datasets[0].backgroundColor[index],
                                 marginRight: '5px',
-                                borderRadius: '50%',  // Makes it a circle
+                                borderRadius: '50%',
                             }}
                         />
-                        <span style={{ fontSize: '12px' }}>{Object.keys(item)[0]}</span>
+                        <span style={{ fontSize: '12px' }}>{tier}</span>
                     </div>
                 ))}
             </div>
@@ -225,46 +184,5 @@ const EducationChart = ({ data }) => {
 };
 
 
-// Sector Chart
-const SectorChart = ({ data }) => {
-    const chartData = {
-        labels: data.map(s => Object.entries(s)[0][0]),
-        datasets: [{
-            label: "Purchasers",
-            data: data.map(s => Object.entries(s)[0][1]),
-            backgroundColor: "#FF9800",
-        }],
-    };
 
-    const chartOptions = {
-        responsive: true,
-        scales: { 
-            y: { beginAtZero: true } 
-        },
-        plugins: {
-            legend: {
-                labels: {
-                    usePointStyle: true, // Enables circular markers
-                    pointStyle: "circle", // Ensures markers are displayed as circles
-                    padding: 10,  // Adjust padding between the label and the chart
-                    generateLabels: function(chart) {
-                        const original = ChartJS.defaults.plugins.legend.labels.generateLabels;
-                        const labels = original.call(this, chart);
-
-                        // Make the color boxes circular
-                        labels.forEach(label => {
-                            label.pointStyle = 'circle';
-                            label.radius = 10; // Adjust the size of the circle
-                        });
-
-                        return labels;
-                    },
-                },
-            },
-        },
-    };
-    
-    return <Bar data={chartData} options={chartOptions} />;
-};
-
-export { PurchaserAgeGroupChart, GenderDistributionChart, EmploymentChart, IncomeChart, EducationChart, SectorChart };
+export { SellerAgeGroupChart, SellerGenderDistributionChart, SellerCategoryChart, SellerTierChart };

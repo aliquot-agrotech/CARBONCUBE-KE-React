@@ -6,9 +6,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import TopNavbarMinimal from '../../components/TopNavBarMinimal';
-import '../css/PurchaserSignUpPage.css';
+import '../css/BuyerSignUpPage.css';
 
-function PurchaserSignUpPage({ onSignup }) {
+function BuyerSignUpPage({ onSignup }) {
   const [formData, setFormData] = useState({
     fullname: '',
     username: '',
@@ -656,4 +656,4 @@ function PurchaserSignUpPage({ onSignup }) {
   );
 }
 
-export default PurchaserSignUpPage;
+export default BuyerSignUpPage;

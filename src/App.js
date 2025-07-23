@@ -7,9 +7,9 @@ import ForgotPassword from './components/ForgotPassword';
 // Admin Imports
 import AnalyticsReporting from './admin/pages/AnalyticsReporting';
 import ContentManagement from './admin/pages/ContentManagement';
-import PurchasersManagement from './admin/pages/PurchasersManagement';
+import BuyersManagement from './admin/pages/BuyersManagement';
 import RidersManagement from './admin/pages/RidersManagement';
-import VendorsManagement from './admin/pages/VendorsManagement';
+import SellersManagement from './admin/pages/SellersManagement';
 import AdsManagement from './admin/pages/AdsManagement';
 import Messages from './admin/pages/Messages';
 import PromotionsDiscount from './admin/pages/PromotionsDiscount';
@@ -17,21 +17,21 @@ import Notifications from './admin/pages/Notifications';
 import CategoriesManagement from './admin/pages/CategoriesManagement';
 import TiersManagement from './admin/pages/TiersManagement';
 
-// Vendor Imports
-import VendorSignUpPage from './seller/pages/VendorSignUpPage';
-import VendorAnalytics from './seller/pages/VendorAnalytics';
-import VendorAds from './seller/pages/VendorAds';
-import VendorMessages from './seller/pages/Messages';
-import VendorNotifications from './seller/pages/VendorNotifications';
-import VendorProfile from './seller/pages/Profile';
+// Seller Imports
+import SellerSignUpPage from './seller/pages/SellerSignUpPage';
+import SellerAnalytics from './seller/pages/SellerAnalytics';
+import SellerAds from './seller/pages/SellerAds';
+import SellerMessages from './seller/pages/Messages';
+import SellerNotifications from './seller/pages/SellerNotifications';
+import SellerProfile from './seller/pages/Profile';
 import TierPage from './seller/pages/Tiers';
 
-// Purchaser Imports
+// Buyer Imports
 import Home from './buyer/pages/Home';
 import AdDetails from './buyer/pages/AdDetails';
 import WishList from './buyer/pages/WishLists';
-import PurchaserMessages from './buyer/pages/PurchaserMessages';
-import PurchaserSignUpPage from './buyer/pages/PurchaserSignUpPage';
+import BuyerMessages from './buyer/pages/BuyerMessages';
+import BuyerSignUpPage from './buyer/pages/BuyerSignUpPage';
 import ProfilePage from './buyer/pages/Profile';
 import RiderSignUpPage from './rider/pages/RiderSignUpPage';
 import PrivateRoute from './components/PrivateRoute';
@@ -63,13 +63,13 @@ function App() {
     setIsAuthenticated(false);
   };
 
-  const handlePurchaserSignup = () => {
+  const handleBuyerSignup = () => {
     setIsAuthenticated(true);
     setUserRole('buyer');
     sessionStorage.setItem('userRole', 'buyer'); // Use 'userRole' here
   };
 
-  const handleVendorSignup = () => {
+  const handleSellerSignup = () => {
     setIsAuthenticated(true);
     setUserRole('seller');
     sessionStorage.setItem('userRole', 'seller'); // Use 'userRole' here
@@ -90,8 +90,8 @@ function App() {
         <Route path="/seller" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginForm onLogin={handleLogin} />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/buyer-signup" element={<PurchaserSignUpPage onSignup={handlePurchaserSignup} />} />
-        <Route path="/seller-signup" element={<VendorSignUpPage onSignup={handleVendorSignup} />} />
+        <Route path="/buyer-signup" element={<BuyerSignUpPage onSignup={handleBuyerSignup} />} />
+        <Route path="/seller-signup" element={<SellerSignUpPage onSignup={handleSellerSignup} />} />
         <Route path="/rider-signup" element={<RiderSignUpPage onSignup={handleRiderSignup} />} />
         <Route path="/seller/tiers" element={<TierPage />} />
         <Route path="/about-us" element={<AboutUs/>} />
@@ -101,8 +101,8 @@ function App() {
           <Route path="/admin/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="admin" userRole={userRole} />}>
             <Route path="analytics" element={<AnalyticsReporting onLogout={handleLogout} />} />
             <Route path="content" element={<ContentManagement onLogout={handleLogout} />} />
-            <Route path="buyers" element={<PurchasersManagement onLogout={handleLogout} />} />
-            <Route path="sellers" element={<VendorsManagement onLogout={handleLogout} />} />
+            <Route path="buyers" element={<BuyersManagement onLogout={handleLogout} />} />
+            <Route path="sellers" element={<SellersManagement onLogout={handleLogout} />} />
             <Route path="riders" element={<RidersManagement onLogout={handleLogout} />} />
             <Route path="ads" element={<AdsManagement onLogout={handleLogout} />} />
             <Route path="messages" element={<Messages onLogout={handleLogout} />} />
@@ -115,11 +115,11 @@ function App() {
 
         {isAuthenticated && userRole === 'seller' && (
           <Route path="/seller/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="seller" userRole={userRole} />}>
-            <Route path="analytics" element={<VendorAnalytics onLogout={handleLogout} />} />
-            <Route path="ads" element={<VendorAds onLogout={handleLogout} />} />
-            <Route path="messages" element={<VendorMessages onLogout={handleLogout} />} />
-            <Route path="notifications" element={<VendorNotifications onLogout={handleLogout} />} />
-            <Route path="profile" element={<VendorProfile onLogout={handleLogout} />} />
+            <Route path="analytics" element={<SellerAnalytics onLogout={handleLogout} />} />
+            <Route path="ads" element={<SellerAds onLogout={handleLogout} />} />
+            <Route path="messages" element={<SellerMessages onLogout={handleLogout} />} />
+            <Route path="notifications" element={<SellerNotifications onLogout={handleLogout} />} />
+            <Route path="profile" element={<SellerProfile onLogout={handleLogout} />} />
             <Route path="tiers" element={<TierPage onLogout={handleLogout} />} />
           </Route>
         )}
@@ -128,7 +128,7 @@ function App() {
           <Route path="/buyer/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="buyer" userRole={userRole} />}>
             <Route path="home" element={<Home onLogout={handleLogout} />} />
             <Route path="wish_lists" element={<WishList onLogout={handleLogout} />} />
-            <Route path="messages" element={<PurchaserMessages onLogout={handleLogout} />} />
+            <Route path="messages" element={<BuyerMessages onLogout={handleLogout} />} />
             <Route path="profile" element={<ProfilePage onLogout={handleLogout} />} />
           </Route>
         )}

@@ -171,7 +171,7 @@ const OrdersManagement = () => {
                                             <thead className="table-header">
                                                 <tr>
                                                     <th>Order ID</th>
-                                                    <th>Purchaser</th>
+                                                    <th>Buyer</th>
                                                     <th>Ads</th>
                                                     <th>Quantity</th>
                                                     <th>Total&nbsp;<em className="ad-price-label" style={{ fontSize: "13px"}}>(Kshs:)</em></th>
@@ -304,7 +304,7 @@ const OrdersManagement = () => {
                                                 </Col>
                                                 <Col xs={6} md={6} lg={6}>
                                                     <Card className="mb-2 custom-card">
-                                                        <Card.Header as="h6" className='justify-content-center'>Purchaser</Card.Header>
+                                                        <Card.Header as="h6" className='justify-content-center'>Buyer</Card.Header>
                                                         <Card.Body className='text-center p-2 p-lg-3'>
                                                             {selectedOrder.buyer?.fullname || 'Unknown'}
                                                         </Card.Body>
@@ -361,7 +361,7 @@ const OrdersManagement = () => {
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Ad Name</th>
-                                                                        <th>Vendor</th>
+                                                                        <th>Seller</th>
                                                                         <th>Quantity</th>
                                                                         <th>Price <em style={{ fontSize: '12px' }}>(Kshs)</em></th>
                                                                     </tr>

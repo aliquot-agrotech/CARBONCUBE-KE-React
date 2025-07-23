@@ -16,7 +16,7 @@ const TierPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const [isVendorLoggedIn, setIsVendorLoggedIn] = useState(false);
+  const [isSellerLoggedIn, setIsSellerLoggedIn] = useState(false);
 
   useEffect(() => {
     axios
@@ -33,9 +33,9 @@ const TierPage = () => {
   }, []);
 
   const handleSelectTier = async (tierId) => {
-    const sellerId = getVendorIdFromToken();
+    const sellerId = getSellerIdFromToken();
     if (!sellerId) {
-      console.error('Vendor ID not found in session storage.');
+      console.error('Seller ID not found in session storage.');
       return;
     }
   
@@ -65,7 +65,7 @@ const TierPage = () => {
       try {
         const decoded = jwtDecode(token);
         if (decoded.seller_id) {
-          setIsVendorLoggedIn(true);
+          setIsSellerLoggedIn(true);
         }
       } catch (error) {
         console.error('Invalid token:', error);
@@ -74,7 +74,7 @@ const TierPage = () => {
   }, []);
   
 
-  function getVendorIdFromToken() {
+  function getSellerIdFromToken() {
     const token = sessionStorage.getItem('token'); // Adjust if stored differently
     if (!token) {
       console.error('Token not found in session storage');
@@ -125,7 +125,7 @@ const TierPage = () => {
           </p>
 
           {/* Show only if seller is logged in */}
-          {isVendorLoggedIn && (
+          {isSellerLoggedIn && (
             <Button
               onClick={() => navigate("/seller/ads")}
               className="btn btn-dark mt-4 rounded-pill"

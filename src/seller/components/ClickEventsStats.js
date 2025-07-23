@@ -13,7 +13,7 @@ const ClickEventsStats = ({ data }) => {
   const labels = data.map((item) => item.month); // Already reversed from backend
 
   const eventTypes = ["ad_clicks", "add_to_wish_list", "reveal_vendor_details"];
-  const colors = ["#919191", "#FF9800", "#363636"]; // Ad Clicks (Gray), Wishlist (Yellow), Reveal Vendor (Black)
+  const colors = ["#919191", "#FF9800", "#363636"]; // Ad Clicks (Gray), Wishlist (Yellow), Reveal Seller (Black)
 
   const datasets = eventTypes.map((eventType, index) => ({
     label: eventType.replace("_", " ").toUpperCase(),

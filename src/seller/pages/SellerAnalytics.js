@@ -7,14 +7,14 @@ import TopWishListedAds from '../components/TopWishListedAds';
 import WishListStats from '../components/WishListStats';
 import CompetitorStats from '../components/CompetitorStats';
 import CountDownDisplay from '../components/CountDownDisplay';
-import PurchaserDemographics from "../components/PurchaserDemographics";
+import BuyerDemographics from "../components/BuyerDemographics";
 import Spinner from "react-spinkit";
 import { format, isToday } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import '../css/VendorAnalytics.css';
+import '../css/SellerAnalytics.css';
 
-const VendorAnalytics = () => {
+const SellerAnalytics = () => {
   const [analyticsData, setAnalyticsData] = useState(null);
   const [tierId, setTierId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -336,10 +336,10 @@ const [replyDraft, setReplyDraft] = useState('');
             <Row>
               <Col xs={12}>
                 <Card className="mb-4 custom-card">
-                  <Card.Header>Purchaser Demographics</Card.Header>
+                  <Card.Header>Buyer Demographics</Card.Header>
                   <Card.Body>
                     {tierId >= 3 ? (
-                      <PurchaserDemographics
+                      <BuyerDemographics
                         data={{
                           clickEvents: analyticsData.click_events_stats,
                           wishlistStats: analyticsData.wishlist_stats,
@@ -507,4 +507,4 @@ const [replyDraft, setReplyDraft] = useState('');
   );
 };
 
-export default VendorAnalytics;
+export default SellerAnalytics;

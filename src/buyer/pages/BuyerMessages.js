@@ -5,9 +5,9 @@ import { faPaperPlane, faUser, faEnvelopeOpenText, faArrowLeft } from '@fortawes
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
-import '../css/PurchaserMessages.css'; // Custom CSS
+import '../css/BuyerMessages.css'; // Custom CSS
 
-const PurchaserMessages = () => {
+const BuyerMessages = () => {
   const [conversations, setConversations] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -318,4 +318,4 @@ const PurchaserMessages = () => {
   );
 };
 
-export default PurchaserMessages;
+export default BuyerMessages;

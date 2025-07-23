@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Form } from 'react-bootstrap';
-import './PurchaserInsights.css'; // Import the CSS files
 
-const PurchaserInsights = () => {
-  const [selectedMetric, setSelectedMetric] = useState('Total Wishlists');
-  const [buyersData, setPurchasersData] = useState([]);
+const SellerInsights = () => {
+  const [selectedMetric, setSelectedMetric] = useState('Rating');
+  const [sellersData, setSellersData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleMetricChange = (event) => {
     const metric = event.target.value;
     setSelectedMetric(metric);
-    fetchPurchasersData(metric);
+    fetchSellersData(metric);
   };
 
-  const fetchPurchasersData = (metric) => {
+  const fetchSellersData = (metric) => {
     setLoading(true);
     fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/analytics?metric=${metric}`, {
       headers: {
@@ -22,17 +21,17 @@ const PurchaserInsights = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setPurchasersData(data.buyers_insights || []);
+        setSellersData(data.sellers_insights || []);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching buyer insights:', error);
+        console.error('Error fetching seller insights:', error);
         setLoading(false);
       });
   };
 
   useEffect(() => {
-    fetchPurchasersData(selectedMetric);
+    fetchSellersData(selectedMetric);
   }, [selectedMetric]); // Initial fetch
 
   return (
@@ -44,7 +43,7 @@ const PurchaserInsights = () => {
           <thead>
             <tr>
               <th>No:</th>
-              <th>Purchaser Name</th>
+              <th>Seller Name</th>
               <th>
                 <Form.Control
                   className="rounded-pill mb-0 text-center p-0 fw-bold"
@@ -52,28 +51,40 @@ const PurchaserInsights = () => {
                   value={selectedMetric}
                   onChange={handleMetricChange}
                 >
-                  <option>Total Wishlists</option>
-                  <option>Total Click Events</option>
+                  <option>Rating</option>
+                  <option>Total Ads</option>
+                  <option>Reveal Clicks</option>
+                  <option>Ad Clicks</option>
                 </Form.Control>
               </th>
             </tr>
           </thead>
           <tbody>
-            {buyersData.map((buyer, index) => (
-              <tr key={buyer.buyer_id || index}>
+            {sellersData.map((seller, index) => (
+              <tr key={seller.seller_id || index}>
                 <td>{index + 1}</td>
-                <td>{buyer.fullname}</td>
+                <td>{seller.fullname}</td>
                 <td>
-                  {selectedMetric === 'Total Wishlists' && (
-                    <strong className=" text-success fw-bold">{buyer.total_wishlists}</strong>
+                  {selectedMetric === 'Rating' && (
+                    <strong className=" text-success fw-bold">{seller.mean_rating ? parseFloat(seller.mean_rating).toFixed(2) : '0.00'}</strong>
                   )}
-                  {selectedMetric === 'Total Click Events' && (
+                  {selectedMetric === 'Total Ads' && (
                     <>
                       <strong style={{ fontSize: '16px' }} className="text-success">
-                        {buyer.total_clicks || 0}{}
+                        {seller.total_ads}
                       </strong>
                     </>
-                  )}           
+                  )}
+                  {selectedMetric === 'Reveal Clicks' && (
+                    <strong className="text-success fw-bold">
+                      {seller.reveal_clicks}
+                    </strong>
+                  )}
+                  {selectedMetric === 'Ad Clicks' && (
+                    <strong className="text-success fw-bold">
+                      {seller.total_ad_clicks}
+                    </strong>
+                  )}               
                 </td>
               </tr>
             ))}
@@ -84,5 +95,4 @@ const PurchaserInsights = () => {
   );
 };
 
-export default PurchaserInsights;
-
+export default SellerInsights;

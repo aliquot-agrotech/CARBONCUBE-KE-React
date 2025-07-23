@@ -4,7 +4,7 @@ import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Lege
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const PurchaserClickEvents = ({ data }) => {
+const BuyerClickEvents = ({ data }) => {
   if (!data) {
     return <div>Loading...</div>;
   }
@@ -66,4 +66,4 @@ const PurchaserClickEvents = ({ data }) => {
   );
 };
 
-export default PurchaserClickEvents;
+export default BuyerClickEvents;

@@ -6,17 +6,17 @@ import { faTruckFast } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
-import '../css/VendorNotifications.css';  // Custom CSS file
+import '../css/SellerNotifications.css';  // Custom CSS file
 import { createConsumer } from "@rails/actioncable";
 
-const VendorNotifications = () => {
+const SellerNotifications = () => {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [sellerId, setVendorId] = useState(null);
+    const [sellerId, setSellerId] = useState(null);
 
     useEffect(() => {
-        const fetchVendorId = async () => {
+        const fetchSellerId = async () => {
             const token = sessionStorage.getItem('token');
             if (token) {
                 try {
@@ -35,8 +35,8 @@ const VendorNotifications = () => {
                     }
         
                     const data = await response.json();
-                    console.log('Fetched Vendor ID Data:', data);
-                    setVendorId(data.seller_id);
+                    console.log('Fetched Seller ID Data:', data);
+                    setSellerId(data.seller_id);
                 } catch (error) {
                     console.error('Error fetching seller ID:', error);
                     setError('Error fetching seller ID');
@@ -50,7 +50,7 @@ const VendorNotifications = () => {
         };
         
     
-        fetchVendorId();
+        fetchSellerId();
     }, []);
     
 
@@ -206,4 +206,4 @@ const VendorNotifications = () => {
     );
 };
 
-export default VendorNotifications;
+export default SellerNotifications;

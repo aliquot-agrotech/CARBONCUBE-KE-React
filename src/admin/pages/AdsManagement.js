@@ -16,7 +16,7 @@ const AdsManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [showNotifyVendorModal, setShowNotifyVendorModal] = useState(false);
+    const [showNotifySellerModal, setShowNotifySellerModal] = useState(false);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedAd, setSelectedAd] = useState(null);
     const [notificationOptions, setNotificationOptions] = useState([]);
@@ -102,7 +102,7 @@ const AdsManagement = () => {
         setSelectedAd(ad);
         setNotificationOptions([]);
         setNotes('');
-        setShowNotifyVendorModal(true);
+        setShowNotifySellerModal(true);
     };
 
     const handleViewDetailsClick = async (ad) => {
@@ -126,7 +126,7 @@ const AdsManagement = () => {
     };
 
     const handleModalClose = () => {
-        setShowNotifyVendorModal(false);
+        setShowNotifySellerModal(false);
         setShowDetailsModal(false);
     };
 
@@ -447,7 +447,7 @@ const AdsManagement = () => {
                                                     <Row className="align-middle">
                                                         <Col xs={9} md={6} lg={6}>
                                                             <Button variant="warning" id="button" onClick={() => handleNotifyClick(ad)} className="py-1">
-                                                                Notify Vendor
+                                                                Notify Seller
                                                             </Button>
                                                         </Col>
                                                         <Col xs={3} md={6} lg={6}>
@@ -526,7 +526,7 @@ const AdsManagement = () => {
                                         </Col>
                                         <Col xs={12} md={6}>
                                             <Card className="mb-2 custom-card">
-                                                <Card.Header as="h6" className="justify-content-center">Vendor</Card.Header>
+                                                <Card.Header as="h6" className="justify-content-center">Seller</Card.Header>
                                                 <Card.Body className="text-center">
                                                     {selectedAd.seller?.fullname || 'Unknown'}
                                                 </Card.Body>
@@ -609,9 +609,9 @@ const AdsManagement = () => {
                     </Modal.Footer>
                 </Modal>
 
-                <Modal centered show={showNotifyVendorModal} onHide={handleModalClose} size="xl">
+                <Modal centered show={showNotifySellerModal} onHide={handleModalClose} size="xl">
                     <Modal.Header >
-                        <Modal.Title>Notify Vendor</Modal.Title>
+                        <Modal.Title>Notify Seller</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>

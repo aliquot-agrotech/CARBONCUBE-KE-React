@@ -4,7 +4,7 @@ import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Lege
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const PurchaserWishlistStats = ({ data }) => {
+const BuyerWishlistStats = ({ data }) => {
   if (!data) {
     return <div>Loading...</div>;
   }
@@ -109,4 +109,4 @@ const PurchaserWishlistStats = ({ data }) => {
   );
 };
 
-export default PurchaserWishlistStats;
+export default BuyerWishlistStats;

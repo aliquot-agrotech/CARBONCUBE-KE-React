@@ -4,12 +4,12 @@ import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import CategoryClickEvents from '../components/CategoryClickEvents';
 import TopWishListedAds from '../components/TopWishListedAds';
-import PurchaserInsights from '../components/PurchaserInsights';
-import VendorInsights from '../components/VendorInsights';
+import BuyerInsights from '../components/BuyerInsights';
+import SellerInsights from '../components/SellerInsights';
 import CategoryAnalytics from '../components/CategoryAnalytics';
 import CategoryWishlists from '../components/CategoryWishlists';
-import { PurchaserAgeGroupChart, GenderDistributionChart, EmploymentChart, IncomeChart, EducationChart, SectorChart } from "../components/PurchaserDemographics";
-import { VendorAgeGroupChart, VendorGenderDistributionChart, VendorCategoryChart, VendorTierChart } from "../components/VendorDemographics";
+import { BuyerAgeGroupChart, GenderDistributionChart, EmploymentChart, IncomeChart, EducationChart, SectorChart } from "../components/BuyerDemographics";
+import { SellerAgeGroupChart, SellerGenderDistributionChart, SellerCategoryChart, SellerTierChart } from "../components/SellerDemographics";
 import Spinner from "react-spinkit";
 import '../css/AnalyticsReporting.css';
 
@@ -56,8 +56,8 @@ const AnalyticsReporting = () => {
           <Col xs={12} md={10} lg={9} className="content-area">
             <Row>
               {[
-                { title: "Total Vendors", value: analyticsData.total_sellers },
-                { title: "Total Purchasers", value: analyticsData.total_buyers },
+                { title: "Total Sellers", value: analyticsData.total_sellers },
+                { title: "Total Buyers", value: analyticsData.total_buyers },
                 { title: "Total Reviews", value: analyticsData.total_reviews },
                 { title: "Total Ads", value: analyticsData.total_ads },
                 { title: "Total Wishlists", value: analyticsData.total_ads_wish_listed },
@@ -131,29 +131,29 @@ const AnalyticsReporting = () => {
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Purchaser Insights
+                    Buyer Insights
                   </Card.Header>
                   <Card.Body className="px-2">
-                    <PurchaserInsights data={analyticsData.buyers_insights} />
+                    <BuyerInsights data={analyticsData.buyers_insights} />
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={12} md={6}>
                 <Card className="mb-4 custom-card">
                   <Card.Header className="justify-content-center">
-                    Vendor Insights
+                    Seller Insights
                   </Card.Header>
                   <Card.Body className="px-2">
-                    <VendorInsights data={analyticsData.sellers_insights} />
+                    <SellerInsights data={analyticsData.sellers_insights} />
                   </Card.Body>
                 </Card>
               </Col>
             </Row>
 
-            {/* Purchaser Demographics Charts Section */}
+            {/* Buyer Demographics Charts Section */}
             <Row>
               <Col xs={12}>
-                <h3 className="text-center my-2 my-lg-4">Purchaser Demographics</h3>
+                <h3 className="text-center my-2 my-lg-4">Buyer Demographics</h3>
               </Col>
             </Row>
             <Row>
@@ -161,7 +161,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Age Group Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
-                    <PurchaserAgeGroupChart data={analyticsData.buyer_age_groups} />
+                    <BuyerAgeGroupChart data={analyticsData.buyer_age_groups} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -212,10 +212,10 @@ const AnalyticsReporting = () => {
               </Col>
             </Row>
 
-            {/* Vendor Demographics Charts Section */}
+            {/* Seller Demographics Charts Section */}
             <Row>
               <Col xs={12}>
-                <h3 className="text-center my-2 my-lg-4">Vendor Demographics</h3>
+                <h3 className="text-center my-2 my-lg-4">Seller Demographics</h3>
               </Col>
             </Row>
             <Row>
@@ -223,7 +223,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Age Group Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
-                    <VendorAgeGroupChart data={analyticsData.seller_age_groups} />
+                    <SellerAgeGroupChart data={analyticsData.seller_age_groups} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -231,7 +231,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Category Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
-                    <VendorCategoryChart data={analyticsData.category_data} />
+                    <SellerCategoryChart data={analyticsData.category_data} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -241,7 +241,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Gender Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
-                    <VendorGenderDistributionChart data={analyticsData.seller_gender_distribution} />
+                    <SellerGenderDistributionChart data={analyticsData.seller_gender_distribution} />
                   </Card.Body>
                 </Card>
               </Col>
@@ -249,7 +249,7 @@ const AnalyticsReporting = () => {
                 <Card className="mb-4 custom-card">
                   <Card.Header>Tier Distribution</Card.Header>
                   <Card.Body className="px-3 py-2">
-                    <VendorTierChart data={analyticsData.tier_data} />
+                    <SellerTierChart data={analyticsData.tier_data} />
                   </Card.Body>
                 </Card>
               </Col>

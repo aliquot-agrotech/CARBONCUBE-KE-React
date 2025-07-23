@@ -6,7 +6,7 @@ import { faUserShield, faKey,  } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
 import TopNavbar from '../components/TopNavbar';
 import Spinner from "react-spinkit";
-import '../css/VendorsManagement.css';  // Custom CSS
+import '../css/SellersManagement.css';  // Custom CSS
 
 const RidersManagement = () => {
     const [showModal, setShowModal] = useState(false);
@@ -485,7 +485,7 @@ const RidersManagement = () => {
                                                                 <thead className='table-head'>
                                                                     <tr>
                                                                         <th>Order ID</th>
-                                                                        <th>Purchaser</th>
+                                                                        <th>Buyer</th>
                                                                         <th>Ad</th>
                                                                         <th>Quantity</th>
                                                                         <th>Status</th>

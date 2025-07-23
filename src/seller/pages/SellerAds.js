@@ -9,11 +9,11 @@ import TopNavbar from '../components/TopNavbar';
 // import { Cloudinary } from 'cloudinary-core';
 import * as nsfwjs from 'nsfwjs';
 import * as tf from '@tensorflow/tfjs';
-import '../css/VendorAds.css'; 
+import '../css/SellerAds.css'; 
 import Swal from 'sweetalert2';
 import AlertModal from '../../components/AlertModal';
 
-const VendorAds = () => {
+const SellerAds = () => {
     const [ads, setAds] = useState({ active: [], deleted: [] });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -2158,4 +2158,4 @@ const VendorAds = () => {
     );
 };
 
-export default VendorAds;
+export default SellerAds;

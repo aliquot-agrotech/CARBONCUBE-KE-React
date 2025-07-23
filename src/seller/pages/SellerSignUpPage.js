@@ -10,9 +10,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import TopNavbarMinimal from '../../components/TopNavBarMinimal';
-import '../css/VendorSignUpPage.css';
+import '../css/SellerSignUpPage.css';
 
-function VendorSignUpPage({ onSignup }) {
+function SellerSignUpPage({ onSignup }) {
   const [formData, setFormData] = useState({
     fullname: '',
     username: '',
@@ -1123,4 +1123,4 @@ function VendorSignUpPage({ onSignup }) {
   );
 }
 
-export default VendorSignUpPage;
+export default SellerSignUpPage;
