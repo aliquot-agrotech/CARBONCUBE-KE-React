@@ -45,6 +45,7 @@ const LoginForm = ({ onLogin }) => {
       });
 
       const { token, user } = response.data;
+      localStorage.setItem('token', token);
       onLogin(token, user);
 
       switch (user.role) {
@@ -56,6 +57,9 @@ const LoginForm = ({ onLogin }) => {
           break;
         case 'admin':
           navigate('/admin/analytics');
+          break;
+        case 'sales':
+          navigate('/sales/dashboard'); // Adjust this route as needed
           break;
         default:
           // Show modal for unexpected role

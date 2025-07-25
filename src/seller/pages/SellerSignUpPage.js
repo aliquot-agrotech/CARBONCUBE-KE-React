@@ -56,7 +56,7 @@ function SellerSignUpPage({ onSignup }) {
         'gender',
         'age_group_id',
         'enterprise_name',
-        'business_registration_number',
+        // 'business_registration_number',
         'location'
       ];
 
@@ -73,10 +73,10 @@ function SellerSignUpPage({ onSignup }) {
         'zipcode',
         'county_id',
         'sub_county_id',
-        'document_url',
-        'profile_picture',
-        'document_type_id',
-        'document_expiry_date',
+        // 'document_url',
+        // 'profile_picture',
+        // 'document_type_id',
+        // 'document_expiry_date',
         'password',
         'password_confirmation'
       ];
@@ -248,9 +248,39 @@ function SellerSignUpPage({ onSignup }) {
         const formDataToSend = new FormData();
 
         Object.entries(formData).forEach(([key, value]) => {
-          if (value === '') return;
+            // Skip empty strings and null values
+            if (value === '' || value === null || value === undefined) return;
 
-          formDataToSend.append(`seller[${key}]`, value); // 👈 nest under 'seller'
+            // Handle file fields specially
+            if (key === 'document_url' || key === 'profile_picture') {
+              // Only append if it's actually a File object
+              if (value instanceof File) {
+                formDataToSend.append(`seller[${key}]`, value);
+              }
+              return;
+            }
+
+            // Handle optional date fields
+            if (key === 'document_expiry_date') {
+              // Only append if date is actually selected
+              if (value && value.trim() !== '') {
+                formDataToSend.append(`seller[${key}]`, value);
+              }
+              return;
+            }
+
+            // Handle optional text fields
+            if (key === 'business_registration_number' || key === 'document_type_id') {
+              // Only append if field has actual content
+              if (value && value.toString().trim() !== '') {
+                formDataToSend.append(`seller[${key}]`, value);
+              }
+              return;
+            }
+
+            // For all other required fields, append normally
+            formDataToSend.append(`seller[${key}]`, value);
+ // 👈 nest under 'seller'
         });
 
 
@@ -540,7 +570,7 @@ function SellerSignUpPage({ onSignup }) {
                                   className="mb-2 text-center"
                                   value={formData.enterprise_name}
                                   onChange={handleChange}
-                                  isInvalid={!!errors.enterprise_name}
+                                  //isInvalid={!!errors.enterprise_name}
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.enterprise_name}</Form.Control.Feedback>
                               </Form.Group>
@@ -555,7 +585,7 @@ function SellerSignUpPage({ onSignup }) {
                                   className="mb-2 text-center"
                                   value={formData.business_registration_number}
                                   onChange={handleChange}
-                                  isInvalid={!!errors.business_registration_number}
+                                  //isInvalid={!!errors.business_registration_number}
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.business_registration_number}</Form.Control.Feedback>
                               </Form.Group>
@@ -680,7 +710,7 @@ function SellerSignUpPage({ onSignup }) {
                                     <option key={document_type.id} value={document_type.id}>{document_type.name}</option>
                                   ))}
                                 </Form.Select>
-                                <Form.Control.Feedback type="invalid">{errors.document_type_id}</Form.Control.Feedback>
+                                {/* <Form.Control.Feedback type="invalid">{errors.document_type_id}</Form.Control.Feedback> */}
                               </Form.Group>
                             </Col>
 
@@ -719,9 +749,9 @@ function SellerSignUpPage({ onSignup }) {
                                       }}
                                     />
                                   </div>
-                                  {errors.document_expiry_date && (
+                                  {/* {errors.document_expiry_date && (
                                     <div className="invalid-feedback">{errors.document_expiry_date}</div>
-                                  )}
+                                  )} */}
                                 </div>
                               </Form.Group>
                             </Col>
@@ -763,7 +793,7 @@ function SellerSignUpPage({ onSignup }) {
                                       }
                                     }}
                                     style={{ display: "none" }}
-                                    isInvalid={!!errors.document_url}
+                                    //isInvalid={!!errors.document_url}
                                   />
                                   <Form.Control.Feedback type="invalid">
                                     {errors.document_url}
@@ -849,7 +879,7 @@ function SellerSignUpPage({ onSignup }) {
                                       }
                                     }}
                                     style={{ display: "none" }}
-                                    isInvalid={!!errors.profile_picture}
+                                    //isInvalid={!!errors.profile_picture}
                                   />
                                   <Form.Control.Feedback type="invalid">
                                     {errors.profile_picture}

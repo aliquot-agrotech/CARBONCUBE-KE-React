@@ -36,6 +36,10 @@ import ProfilePage from './buyer/pages/Profile';
 import RiderSignUpPage from './rider/pages/RiderSignUpPage';
 import PrivateRoute from './components/PrivateRoute';
 
+
+//sales imports
+import SalesDashboard from './sales/pages/SalesDashboard';
+
 function App() {
   const [userRole, setUserRole] = useState(null); // For storing user role
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -74,6 +78,8 @@ function App() {
     setUserRole('seller');
     sessionStorage.setItem('userRole', 'seller'); // Use 'userRole' here
   };
+  
+  
 
   const handleRiderSignup = () => {
     setIsAuthenticated(true);
@@ -132,6 +138,13 @@ function App() {
             <Route path="profile" element={<ProfilePage onLogout={handleLogout} />} />
           </Route>
         )}
+        {isAuthenticated && userRole === 'sales' && (
+            <Route path="/sales/*" element={<PrivateRoute isAuthenticated={isAuthenticated} role="sales" userRole={userRole} />}>
+            <Route path="dashboard" element={<SalesDashboard onLogout={handleLogout} />} />
+          </Route>
+        )}
+
+
       </Routes>
     </Router>
   );
