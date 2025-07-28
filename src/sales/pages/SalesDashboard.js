@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Sidebar from '../../admin/components/Sidebar';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import './dashboard.css'; 
+import { CircleUserRound } from 'lucide-react';
 
 
 function SalesDashboard() {
@@ -64,7 +65,20 @@ function SalesDashboard() {
     <>
       <TopNavbar />
       <div className="container mt-10">
-        <h2 className="mb-4">Sales Dashboard</h2>
+        <div fluid  className='container ' >
+          <h2 className="mb-4">Sales Dashboard</h2>
+          <div className='d-flex justify-content-between'>
+
+            <h3 className='text-success py-3'>Overview</h3>
+            <div className='d-flex align-items-center justify-content-center'>
+           {/* <h3 className='text-success px-2'>Hello</h3> */}
+           <CircleUserRound  className='text-success '/>
+           </div>
+          </div>
+        </div>
+
+
+
 
         <div className="row">
           
