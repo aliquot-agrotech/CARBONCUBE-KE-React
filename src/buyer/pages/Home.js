@@ -405,7 +405,7 @@ const Home = () => {
             <Card.Body className="cat-body">
                 <Row className="g-3">
                     
-                    {ads.slice(0, 6).map(ad => {
+                    {ads.slice(0, 8).map(ad => {
                         const borderColor = getBorderColor(ad.seller_tier);
                         console.log("ad", ad);
                         console.log("borderColor", getBorderColor(ad.seller_tier));
@@ -557,7 +557,7 @@ const Home = () => {
     };    
 
     const Footer = () => (
-        <footer className=" text-white position-relative overflow-hidden footer-container" style={{ backgroundColor: '#000000', zIndex: 10 }}>
+        <footer className=" text-white  sticky-bottom overflow-hidden footer-container" style={{ backgroundColor: '#000000',  }}>
             {/* Subtle background pattern */}
             <div className="position-absolute top-0 start-0 w-100 h-100 opacity-5">
             <div style={{
@@ -847,7 +847,7 @@ const Home = () => {
                     
                 </div>
             </div>
-            <div className='lorem'>
+            <div className='lorem ' >
                 <Footer />
             </div>
             {/* <AdDetailsModal

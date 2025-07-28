@@ -1,7 +1,9 @@
 .home-page-wrapper {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /* Ensures the wrapper takes full height */                                                                      
+   
+    
 }
 
 .home-page {
@@ -15,6 +17,11 @@
     position: relative;
     margin-right: 200px;
     margin-left: 200px;
+    height: 1500px;
+
+    
+     
+    
     
 
 }
@@ -33,6 +40,7 @@
     right: 0;
     z-index: 2;
     padding-top: 30px;
+    overflow: visible;
 }
 
 .section {
@@ -110,7 +118,7 @@
     bottom: 0; /* Ensures the footer is positioned at the bottom */
     width: 100%;
     position: relative;
-    z-index: 3;
+    z-index: 1;
 }
 
 .footer a {
@@ -157,6 +165,7 @@
 
 .lorem{
     position: relative;
+    
 }
 
 

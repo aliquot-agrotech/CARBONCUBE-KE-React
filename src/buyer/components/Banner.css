@@ -98,6 +98,7 @@
     background-color: transparent; /* Set background to transparent */
     width: 100%;
     top: 0; /* Position the overlay at the top */
+    flex-basis: 2/3;
 }
 
 .ad-image-container {
@@ -132,6 +133,9 @@
     .ad-image-container {
         width: 80px; /* Smaller size on mobile */
         height: 80px;
+    }
+    .ad-image-container p {
+        padding: 2px 0;
     }
 
     .premium-ad-image {

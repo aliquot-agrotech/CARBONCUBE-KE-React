@@ -34,12 +34,15 @@ const Banner = () => {
                 const ads = await response.json();
                 // Filter for ads with `seller_tier` === 4
                 const premium = ads.filter((ad) => ad.seller_tier === 4);
+                
 
                 // Shuffle and pick 3 random ads
                 const shuffled = premium.sort(() => 0.5 - Math.random());
+
+                
                 setPremiumAds(shuffled.slice(0, 3));
 
-                console.log('Premium Ads:', premium); // Debugging line
+                
             } catch (error) {
                 console.error('Error fetching premium ads:', error);
             }
@@ -70,15 +73,16 @@ const Banner = () => {
                                                     ? ad.first_media_url
                                                     : (ad.media_urls[0] || 'default-image-url');
                                                 
-                                            console.log('Ad Image URL:', adImage); // Debugging line
+                                            console.log('Ad ', ad); // Debugging line
                                             
                                             return (
-                                                <div key={ad.id} className="ad-image-container">
+                                                <div key={ad.id} className="ad-image-container d-flex flex-column align-items-center">
                                                     <img
                                                         src={adImage}
                                                         alt={ad.title}
                                                         className="premium-ad-image"
                                                     />
+                                                    <p className='text-white fw-bold flex-fill '>{ad.seller.enterprise_name}</p>
                                                 </div>
                                             );
                                         })}
