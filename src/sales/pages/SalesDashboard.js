@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import TopNavbar from '../../seller/components/TopNavbar';
+import TopNavbar from '../components/TopNavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Sidebar from '../../admin/components/Sidebar';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import Sidebar from '../components/Sidebar';
+import { Container, Row, Col } from 'react-bootstrap';
 import './dashboard.css'; 
 import { CircleUserRound } from 'lucide-react';
-
 
 function SalesDashboard() {
   const [analytics, setAnalytics] = useState(null);
@@ -57,83 +56,57 @@ function SalesDashboard() {
     );  
   }
 
-  const { total_sellers, total_ads ,total_buyers, total_reviews } = analytics;
-  console.log('sellers:', total_sellers);
-  console.log('buyers:', total_buyers);
-
+  const { total_sellers, total_ads, total_buyers, total_reviews } = analytics;
+  
   return (
     <>
       <TopNavbar />
-      <div className="container mt-10">
-        <div fluid  className='container ' >
-          <h2 className="mb-4">Sales Dashboard</h2>
-          <div className='d-flex justify-content-between'>
-
-            <h3 className='text-success py-3'>Overview</h3>
-            <div className='d-flex align-items-center justify-content-center'>
-           {/* <h3 className='text-success px-2'>Hello</h3> */}
-           <CircleUserRound  className='text-success '/>
-           </div>
+      
+      {/* Header Section */}
+      <div className="container mt-2">
+        <h2 className="mb-4">Sales Dashboard</h2>
+        <div className='d-flex justify-content-between align-items-center'>
+          <h3 className='text-success'>Overview</h3>
+          <div className='d-flex align-items-center'>
+            <CircleUserRound className='text-success' />
           </div>
         </div>
-
-
-
-
-        <div className="row">
-          
-
-
-          <Container fluid className="analytics-reporting-page">
-                  <Row>
-                    <Col xs={12} md={2} className="p-0">
-                      <Sidebar />
-                    </Col>
-                    <Col xs={12} md={10} lg={9} className="content-area">
-                      <Row>
-                        {[
-                          { title: "Total Sellers", 
-                            value: analytics.total_sellers,
-                            
-                          },
-                          { title: "Total Buyers", value: analytics.total_buyers },
-                          { title: "Total Reviews", value: analytics.total_reviews },
-                          { title: "Total Ads", value: analytics.total_ads },
-                          { title: "Total Wishlists", value: analytics.total_ads_wish_listed },
-                        ].map(({ title, value }, index, array) => (
-                          <Col xs={12} sm={6} md={3} key=    {index}>
-                            <div className="stat-card p-3 rounded shadow-sm bg-white h-100">
-                              <div className="d-flex justify-content-between align-items-center mb-2 ">
-                                <h6 className="mb-0 fw-semibold text-muted">{title}</h6>
-                                <div className="dots">⋯</div>
-                              </div>
-                              <h3 className="fw-bold">{value}</h3>
-                              {/* <p className={`mb-0 text-green small`}>
-                                <span >
-                                </span>
-                                <span className="text-muted">From last week</span>
-                              </p> */}
-                            </div>
-                          </Col>
-                        ))}
-                      </Row>
-          
-          
-                      
-                      
-                    </Col>
-                  </Row>
-          </Container>
-
-
-
-
-
-
-          
-        </div>
       </div>
-    
+
+      {/* Main Dashboard Content */}
+      <Container fluid className="analytics-reporting-page">
+        <Row className="g-0">
+          {/* Sidebar */}
+          <Col xs={12} md={2} className="pe-3">
+            <Sidebar />
+          </Col>
+          
+          {/* Main Content Area */}
+          <Col xs={12} md={10}>
+            <div className="content-area">
+              <Row className="g-3">
+                {[
+                  { title: "Total Sellers", value: analytics.total_sellers },
+                  { title: "Total Buyers", value: analytics.total_buyers },
+                  { title: "Total Reviews", value: analytics.total_reviews },
+                  { title: "Total Ads", value: analytics.total_ads },
+                  { title: "Total Wishlists", value: analytics.total_ads_wish_listed },
+                ].map(({ title, value }, index) => (
+                  <Col xs={12} sm={6} lg={4} xl={3} key={index}>
+                    <div className="stat-card p-3 rounded shadow-sm bg-white h-100">
+                      <div className="d-flex justify-content-between align-items-center mb-2">
+                        <h6 className="mb-0 fw-semibold text-muted">{title}</h6>
+                        <div className="dots">⋯</div>
+                      </div>
+                      <h3 className="fw-bold">{value || 0}</h3>
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

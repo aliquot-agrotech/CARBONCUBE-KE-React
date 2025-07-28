@@ -139,6 +139,8 @@ const Home = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
+    console.log('ads:', ads); // Debugging: Log the ads data
+
     const handleAdClick = async (adId) => {
         if (!adId) {
             console.error('Invalid adId');
@@ -395,18 +397,24 @@ const Home = () => {
     };
 
     const PopularAdsSection = ({ ads, onAdClick }) => (
+        
         <Card className="section bg-transparent mb-3 m-4 mx-5">
             <Card.Header className="d-flex justify-content-start popular-ads-header">
                 <h3 className='mb-0'>Best Sellers</h3>
             </Card.Header>
             <Card.Body className="cat-body">
-                <Row>
+                <Row className="g-3">
+                    
                     {ads.slice(0, 6).map(ad => {
-                        const borderColor = getBorderColor(ad.seller_tier); // Get the border color
+                        const borderColor = getBorderColor(ad.seller_tier);
+                        console.log("ad", ad);
+                        console.log("borderColor", getBorderColor(ad.seller_tier));
+                        
+                        
                         return (
-                            <Col xs={6} sm={6} md={2} key={ad.id}>
+                            <Col xs={6} sm={6} md={4} lg={3} key={ad.id}>
                                 <Card
-                                    className="ad-card"
+                                    className="ad-card h-100"
                                     style={{
                                         border: `2px solid ${borderColor}`,
                                     }}
@@ -549,7 +557,7 @@ const Home = () => {
     };    
 
     const Footer = () => (
-        <footer className="mt-5 text-white position-relative overflow-hidden footer-container" style={{ backgroundColor: '#000000', zIndex: 10 }}>
+        <footer className=" text-white position-relative overflow-hidden footer-container" style={{ backgroundColor: '#000000', zIndex: 10 }}>
             {/* Subtle background pattern */}
             <div className="position-absolute top-0 start-0 w-100 h-100 opacity-5">
             <div style={{
