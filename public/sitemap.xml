@@ -13,7 +13,7 @@
   </url>
 
   <url>
-    <loc>https://carboncube-ke.com/about</loc>
+    <loc>https://carboncube-ke.com/about-us</loc>
     <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -42,6 +42,13 @@
   </url>
   <url>
     <loc>https://carboncube-ke.com/buyer-signup</loc>
+    <lastmod>2025-07-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+   <url>
+    <loc>https://carboncube-ke.com/seller/tiers</loc>
     <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -173,10 +180,16 @@
     <priority>0.6</priority>
   </url>
 
+<url>
+    <loc>https://carboncube-ke.com/terms</loc>
+    <lastmod>2025-07-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
  
 
   <url>
-    <loc>https://carboncube-ke.com/privacy-policy</loc>
+    <loc>https://carboncube-ke.com/privacy</loc>
     <lastmod>2025-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
