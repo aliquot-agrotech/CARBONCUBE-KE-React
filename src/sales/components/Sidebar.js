@@ -108,7 +108,7 @@ const Sidebar = () => {
       </Button>
 
       <div className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
-        <Nav className="flex-column">
+        <Nav className="flex-column px-2">
           
           <Nav.Link
             href="/sales/dashboard"
@@ -118,9 +118,9 @@ const Sidebar = () => {
             <ChartSpline className="icon" /> {isOpen && 'Dashboard'}
           </Nav.Link>
           <Nav.Link
-            href="/buyer/messages"
+            href="/sales/reviews"
             onClick={(e) => handleProtectedClick(e, '/buyer/messages')}
-            className={location.pathname === '/buyer/messages' ? 'active' : ''}
+            className={location.pathname === '/sales/reviews' ? 'active' : ''}
           >
             <ChatSquareText className="icon" /> {isOpen && 'Reviews'}
           </Nav.Link>

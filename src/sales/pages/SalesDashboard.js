@@ -3,9 +3,20 @@ import axios from 'axios';
 import TopNavbar from '../components/TopNavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Sidebar from '../components/Sidebar';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col , Card} from 'react-bootstrap';
+import { Pie, Bar } from 'react-chartjs-2';
 import './dashboard.css'; 
 import { CircleUserRound } from 'lucide-react';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+} from 'chart.js';
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 function SalesDashboard() {
   const [analytics, setAnalytics] = useState(null);
@@ -13,7 +24,7 @@ function SalesDashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log('Token:', token)
+    
 
     const API_URL = `${process.env.REACT_APP_BACKEND_URL}/sales/analytics`;
 
@@ -22,7 +33,7 @@ function SalesDashboard() {
         const res = await axios.get(API_URL, {
           headers: { Authorization: `Bearer ${token}` },
         });
-         console.log('Full API response:', res.data)
+         
         setAnalytics(res.data);
       } catch (err) {
         console.error('Failed to fetch analytics:', err);
@@ -56,34 +67,80 @@ function SalesDashboard() {
     );  
   }
 
-  const { total_sellers, total_ads, total_buyers, total_reviews } = analytics;
+  const { total_sellers, total_ads, total_buyers, total_reviews ,subscription_countdowns , without_subscription} = analytics;
+
+  let renewalRate = total_sellers > 0 ? (subscription_countdowns / total_sellers * 100).toFixed(2) : 0;
+
+   
+  const pieData = {
+    labels: ['Active Subscriptions', 'Inactive Subscriptions'],
+    datasets: [
+      {
+        label: 'Sellers',
+        data: [subscription_countdowns, without_subscription],
+        backgroundColor: ['#4caf50', '#f44336'],
+        borderColor: ['#fff', '#fff'],
+        borderWidth: 2,
+      },
+    ],
+  };
+   
+  const barData = {
+    labels: ['Renewal Rate'],
+    datasets: [
+      {
+        label: 'Renewal %',
+        data: [parseFloat(renewalRate)],
+        backgroundColor: '#4caf50',
+      },
+    ],
+  };
+
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 100,
+        ticks: {
+          callback: (value) => `${value}%`,
+        },
+      },
+    },
+  };
   
   return (
     <>
       <TopNavbar />
       
-      {/* Header Section */}
-      <div className="container mt-2">
-        <h2 className="mb-4">Sales Dashboard</h2>
-        <div className='d-flex justify-content-between align-items-center'>
-          <h3 className='text-success'>Overview</h3>
-          <div className='d-flex align-items-center'>
-            <CircleUserRound className='text-success' />
-          </div>
-        </div>
-      </div>
+     
 
-      {/* Main Dashboard Content */}
+      
       <Container fluid className="analytics-reporting-page">
+
+      
+       
+        
+        
+      
         <Row className="g-0">
-          {/* Sidebar */}
+          
           <Col xs={12} md={2} className="pe-3">
             <Sidebar />
           </Col>
+
           
-          {/* Main Content Area */}
+          
+          
           <Col xs={12} md={10}>
             <div className="content-area">
+            <div className="d-flex justify-content-between align-items-center mb-4 bg-secondary p-3 text-white rounded">
+              <h2 className="mb-0">Overview</h2>
+              <span className="fw-semibold">Hello, Sales Team</span>
+      </div>
               <Row className="g-3">
                 {[
                   { title: "Total Sellers", value: analytics.total_sellers },
@@ -103,9 +160,49 @@ function SalesDashboard() {
                   </Col>
                 ))}
               </Row>
+
+              <Row className='g-6'>
+              
+
+
+               <Col xs={12} md={6} className="text-center mt-4 ">
+          <Card className="p-3 shadow-sm custom-card">
+            <Card.Header className="text-center fw-bold">
+              Subscription Distribution
+            </Card.Header>
+            <Card.Body className=''>
+              <Pie data={pieData} className='' />
+            </Card.Body>
+          </Card>
+        </Col>
+
+
+            <Col xs={12} md={6} className="text-center mt-4 ">
+          <Card className="p-3 shadow-sm custom-card h-100">
+            <Card.Header className="text-center fw-bold">Renewal Rate {renewalRate} (%)</Card.Header>
+            <Card.Body>
+              <Bar data={barData} options={barOptions} className='h-100' />
+            </Card.Body>
+          </Card>
+        </Col>
+
+       
+             </Row>
+             <Row className="mt-4 g-4">
+       
+      </Row>
+
+             
+
+
+             
             </div>
           </Col>
         </Row>
+
+        
+
+
       </Container>
     </>
   );
