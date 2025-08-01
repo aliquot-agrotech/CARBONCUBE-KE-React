@@ -579,7 +579,7 @@ function SellerSignUpPage({ onSignup }) {
                               <Form.Group>
                                 <Form.Control
                                   type="text"
-                                  placeholder="Business Permit Number"
+                                  placeholder="Business Permit Number (optional)"
                                   name="business_registration_number"
                                   id="button"
                                   className="mb-2 text-center"
@@ -705,7 +705,7 @@ function SellerSignUpPage({ onSignup }) {
                                   className="mb-2 text-center"
                                   isInvalid={!!errors.document_type_id}
                                 >
-                                  <option value="">Select Document Type</option>
+                                  <option value="">Select Document Type (optional)</option>
                                   {options.document_types.map((document_type) => (
                                     <option key={document_type.id} value={document_type.id}>{document_type.name}</option>
                                   ))}
@@ -766,7 +766,7 @@ function SellerSignUpPage({ onSignup }) {
                                 transition={{ duration: 0.5, ease: "easeOut" }}
                               >
                                 <Form.Group controlId="businessPermit">
-                                  <Form.Label className="fw-bold text-center d-block">Upload Document</Form.Label>
+                                  <Form.Label className="fw-bold text-center d-block">Upload Document (optional)</Form.Label>
 
                                   <Form.Control
                                     type="file"
@@ -801,7 +801,7 @@ function SellerSignUpPage({ onSignup }) {
 
                                   <div className="text-center">
                                     <label htmlFor="documentUpload" className="btn btn-warning rounded-pill px-4">
-                                      📎 Choose Document
+                                      📎 Choose Document 
                                     </label>
                                   </div>
 
@@ -852,7 +852,7 @@ function SellerSignUpPage({ onSignup }) {
                                 transition={{ duration: 0.5, ease: "easeOut" }}
                               >
                                 <Form.Group controlId="profilePicture">
-                                  <Form.Label className="fw-bold text-center d-block">Profile Picture</Form.Label>
+                                  <Form.Label className="fw-bold text-center d-block">Profile Picture (optional)</Form.Label>
 
                                   <Form.Control
                                     type="file"

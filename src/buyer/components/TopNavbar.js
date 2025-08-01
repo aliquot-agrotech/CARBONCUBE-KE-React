@@ -33,7 +33,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        console.log('Token:', sessionStorage.getItem('token'));
+        //console.log('Token:', sessionStorage.getItem('token'));
 
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/categories`, {
           headers: {

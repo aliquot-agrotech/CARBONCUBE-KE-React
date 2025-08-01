@@ -165,26 +165,28 @@ function SalesDashboard() {
               
 
 
-               <Col xs={12} md={6} className="text-center mt-4 ">
-          <Card className="p-3 shadow-sm custom-card">
-            <Card.Header className="text-center fw-bold">
-              Subscription Distribution
-            </Card.Header>
-            <Card.Body className=''>
-              <Pie data={pieData} className='' />
-            </Card.Body>
-          </Card>
-        </Col>
+               <Col xs={12} sm={6} md={4} className="text-center mt-4 ">
+                <Card className="p-3 shadow-sm custom-card">
+                  <Card.Header className="text-center fw-bold">
+                    Subscription Distribution
+                  </Card.Header>
+                  <Card.Body className=''>
+                    <Pie data={pieData} className=''  />
+                  </Card.Body>
+                </Card>
+               </Col>
 
 
-            <Col xs={12} md={6} className="text-center mt-4 ">
-          <Card className="p-3 shadow-sm custom-card h-100">
-            <Card.Header className="text-center fw-bold">Renewal Rate {renewalRate} (%)</Card.Header>
-            <Card.Body>
-              <Bar data={barData} options={barOptions} className='h-100' />
-            </Card.Body>
-          </Card>
-        </Col>
+            <Col xs={12} sm={6} md={4} className="text-center mt-4 ">
+              <Card className="p-3 shadow-sm custom-card h-100">
+                <Card.Header className="text-center fw-bold">Renewal Rate {renewalRate} (%)</Card.Header>
+                <Card.Body>
+                  <Bar data={barData} options={barOptions} className='h-100'  />
+                </Card.Body>
+              </Card>
+             </Col>
+
+             
 
        
              </Row>

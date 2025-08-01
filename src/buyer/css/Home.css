@@ -17,7 +17,9 @@
     position: relative;
     margin-right: 200px;
     margin-left: 200px;
-    height: 1500px;
+    padding-bottom: 120px;
+    
+    
 
     
      
@@ -41,6 +43,7 @@
     z-index: 2;
     padding-top: 30px;
     overflow: visible;
+    margin-bottom: 3rem;
 }
 
 .section {
@@ -117,8 +120,11 @@
     font-style: normal;
     bottom: 0; /* Ensures the footer is positioned at the bottom */
     width: 100%;
-    position: relative;
-    z-index: 1;
+    /* position: relative;
+    z-index: 1; */
+    
+    /* border: 2px solid  red; */
+    
 }
 
 .footer a {

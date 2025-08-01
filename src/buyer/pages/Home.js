@@ -325,6 +325,10 @@ const Home = () => {
 
     const SubcategorySection = ({ subcategory, categoryName, ads, onAdClick, onSubcategoryClick }) => {
         const displayedAds = ads.slice(0, 4);
+
+        // if (!ads || ads.length === 0) {
+        // return ;
+        // }
         return (
             <Card className="subcategory-section h-100">
                 <Card.Body className="p-2">
@@ -398,8 +402,8 @@ const Home = () => {
 
     const PopularAdsSection = ({ ads, onAdClick }) => (
         
-        <Card className="section bg-transparent mb-3 m-4 mx-5">
-            <Card.Header className="d-flex justify-content-start popular-ads-header">
+        <Card className="section bg-transparent mb-3 m-4 mx-5 z-index-10">
+            <Card.Header className="d-flex justify-content-start popular-ads-header ">
                 <h3 className='mb-0'>Best Sellers</h3>
             </Card.Header>
             <Card.Body className="cat-body">
@@ -407,8 +411,8 @@ const Home = () => {
                     
                     {ads.slice(0, 8).map(ad => {
                         const borderColor = getBorderColor(ad.seller_tier);
-                        console.log("ad", ad);
-                        console.log("borderColor", getBorderColor(ad.seller_tier));
+                        {/* console.log("ad", ad);
+                        console.log("borderColor", getBorderColor(ad.seller_tier)); */}
                         
                         
                         return (
@@ -557,7 +561,7 @@ const Home = () => {
     };    
 
     const Footer = () => (
-        <footer className=" text-white  sticky-bottom overflow-hidden footer-container" style={{ backgroundColor: '#000000',  }}>
+        <footer className=" text-white sticky-bottom overflow-hidden footer-container " style={{ backgroundColor: '#000000',  }}>
             {/* Subtle background pattern */}
             <div className="position-absolute top-0 start-0 w-100 h-100 opacity-5">
             <div style={{
@@ -815,9 +819,9 @@ const Home = () => {
                 setSearchQuery={setSearchQuery}
                 handleSearch={handleSearch}
             />
-            <div className="home-page-wrapper">
+            <div className="home-page-wrapper" style={{ minHeight: '100vh',}} > 
                 <Sidebar isOpen={sidebarOpen} />
-                <div className={`home-page ${sidebarOpen ? 'sidebar-open' : ''}`}>
+                <div className={`home-page  ${sidebarOpen ? 'sidebar-open' : ''}`}>
                     {!isSearching && searchResults.length === 0 && <Banner />}
                     <Container fluid className="mb-0">
                         {isSearching ? (
@@ -828,7 +832,7 @@ const Home = () => {
                             <SearchResultSection results={searchResults} searchType={currentSearchType} />
                         ) : (
                             <>
-                            <div className="categories-overlay">
+                            <div className="categories-overlay" style={{ marginBottom: '3rem' }}>
                                 {categories.map((category) => (
                                     <CategorySection
                                         key={category.id}
@@ -836,9 +840,11 @@ const Home = () => {
                                         subcategories={category.subcategories}
                                     />
                                 ))}
-                                <PopularAdsSection
+                                <PopularAdsSection  style={{ marginBottom: '3rem',  }}
                                     ads={Object.values(ads).flat()}
                                     onAdClick={handleAdClick}
+
+                                    
                                 />
                                 </div>
                             </>
@@ -847,7 +853,7 @@ const Home = () => {
                     
                 </div>
             </div>
-            <div className='lorem ' >
+            <div className='lorem  bg-red' >
                 <Footer />
             </div>
             {/* <AdDetailsModal

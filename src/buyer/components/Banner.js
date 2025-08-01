@@ -73,7 +73,7 @@ const Banner = () => {
                                                     ? ad.first_media_url
                                                     : (ad.media_urls[0] || 'default-image-url');
                                                 
-                                            console.log('Ad ', ad); // Debugging line
+                                            {/* console.log('Ad ', ad); // Debugging line */}
                                             
                                             return (
                                                 <div key={ad.id} className="ad-image-container d-flex flex-column align-items-center">
