@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import AboutUs from './components/AboutUs';
-import ForgotPassword from './components/ForgotPassword';
+import ContactUs from './components/ContactUs';
+import ForgotPassword from './components/ForgotPassword'; 
 
 // Admin Imports
 import AnalyticsReporting from './admin/pages/AnalyticsReporting';
@@ -101,6 +102,7 @@ function App() {
         <Route path="/rider-signup" element={<RiderSignUpPage onSignup={handleRiderSignup} />} />
         <Route path="/seller/tiers" element={<TierPage />} />
         <Route path="/about-us" element={<AboutUs/>} />
+        <Route path="/contact-us" element={<ContactUs />} />
 
 
         {isAuthenticated && userRole === 'admin' && (

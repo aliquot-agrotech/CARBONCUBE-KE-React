@@ -39,6 +39,9 @@ const TopNavBarMinimal = () => {
                         <Nav.Link href="/about-us" className="text-white">
                         About Us
                         </Nav.Link>
+                        <Nav.Link href="/contact-us" className="text-white">
+                        Contact Us
+                        </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
