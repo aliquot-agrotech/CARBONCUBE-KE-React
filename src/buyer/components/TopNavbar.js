@@ -43,6 +43,7 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
         if (!response.ok) throw new Error('Failed to fetch categories');
 
         const categoryData = await response.json();
+        
 
         const subcategoryResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/buyer/subcategories`, {
           headers: {
@@ -52,6 +53,8 @@ const TopNavbar = ({ onSidebarToggle, sidebarOpen, searchQuery, setSearchQuery, 
         if (!subcategoryResponse.ok) throw new Error('Failed to fetch subcategories');
 
         const subcategoryData = await subcategoryResponse.json();
+        console.log('Subcategories:', subcategoryData);
+        console.log('Categories:', categoryData);
 
         const categoriesWithSubcategories = categoryData.map((category) => ({
           ...category,

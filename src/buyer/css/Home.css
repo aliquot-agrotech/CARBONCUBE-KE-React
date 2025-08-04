@@ -37,7 +37,7 @@
 .categories-overlay {
     position: absolute;
     top: 26em;
-    bottom: 20rem;
+    bottom: auto;
     left: 0;
     right: 0;
     z-index: 2;

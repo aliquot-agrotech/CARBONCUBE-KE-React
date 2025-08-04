@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';  // Assuming you're using axios
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../css/AdDetails.css';    // Custom styling for the page
+import slugify from '../../utils/slugify'; // Import the slugify utility function
 
 const AdDetails = () => {
     const { adId } = useParams();
@@ -44,6 +45,11 @@ const AdDetails = () => {
     const [showShopModal, setShowShopModal] = useState(false);
     const [sellerAds, setSellerAds] = useState([]);
     const [isLoadingSellerAds, setIsLoadingSellerAds] = useState(false);
+
+
+
+
+
 
     useEffect(() => {
         if (ad && ad.seller_id && showShopModal) {
@@ -568,7 +574,7 @@ const AdDetails = () => {
 
     const handleSearch = () => {
         // Implement search functionality here
-        // console.log('Search for:', searchQuery);
+        // console.log('Search for:', searchw);
     };
 
     const handleAddToWishlist = async () => {
@@ -1003,12 +1009,12 @@ const AdDetails = () => {
                                                         }}
                                                     >
                                                         <div className="d-flex align-items-center">
-                                                            <img
+                                                            {ad.seller_profile_picture &&<img
                                                                 src={ad.seller_profile_picture || '/default-avatar.png'}
                                                                 alt="Seller Profile"
                                                                 className="rounded-circle me-3"
                                                                 style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                                                            />
+                                                            />}
                                                             <div>
                                                                 <h6 className="mb-1 text-dark fw-bold">{ad.seller_enterprise_name || 'N/A'}</h6>
                                                                 <Button

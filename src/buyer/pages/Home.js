@@ -20,6 +20,7 @@ const Home = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
+    const [searchAttempted, setSearchAttempted] = useState(false);
     const [currentSearchType, setCurrentSearchType] = useState(''); // Track if it's a subcategory search
     const navigate = useNavigate(); // Initialize useNavigate
     const [isComponentMounted, setIsComponentMounted] = useState(false);
@@ -96,6 +97,7 @@ const Home = () => {
 
         const fetchSearchResults = async () => {
             setIsSearching(true);
+            setSearchAttempted(false);
             try {
                 const searchQuery = query || '';
                 const searchCategory = category || 'All';
@@ -113,7 +115,12 @@ const Home = () => {
                 if (!response.ok) throw new Error('Failed to fetch search results');
 
                 const results = await response.json();
+                console.log('Search Results:', results); // Debugging: Log the search results
+                if (!results || results.length === 0) {
+                    setSearchResults([]);
+                }else{
                 setSearchResults(results);
+                }
 
                 if (searchQuery.trim()) {
                     setCurrentSearchType('search');
@@ -127,6 +134,8 @@ const Home = () => {
             } catch (error) {
                 console.error(error);
                 setError('Error searching ads');
+                setSearchResults([]);
+                setSearchAttempted(true);
             } finally {
                 setIsSearching(false);
             }
@@ -139,7 +148,7 @@ const Home = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    console.log('ads:', ads); // Debugging: Log the ads data
+    // console.log('ads:', ads); // Debugging: Log the ads data
 
     const handleAdClick = async (adId) => {
         if (!adId) {
@@ -561,7 +570,7 @@ const Home = () => {
     };    
 
     const Footer = () => (
-        <footer className=" text-white sticky-bottom overflow-hidden footer-container " style={{ backgroundColor: '#000000',  }}>
+        <footer className=" text-white overflow-hidden sticky-bottom footer-container" style={{ backgroundColor: '#000000',  }}>
             {/* Subtle background pattern */}
             <div className="position-absolute top-0 start-0 w-100 h-100 opacity-5">
             <div style={{
