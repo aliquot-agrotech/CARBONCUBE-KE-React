@@ -840,7 +840,7 @@ const Home = () => {
                         ) : searchResults.length > 0 ? (
                             <SearchResultSection results={searchResults} searchType={currentSearchType} />
                         ) : (
-                            <>
+                            < div className="categories-wrapper">
                             <div className="categories-overlay" style={{ marginBottom: '3rem' }}>
                                 {categories.map((category) => (
                                     <CategorySection
@@ -849,14 +849,16 @@ const Home = () => {
                                         subcategories={category.subcategories}
                                     />
                                 ))}
-                                <PopularAdsSection  style={{ marginBottom: '3rem',  }}
+                                <PopularAdsSection  style={{ marginBottom: '5rem',  }}
                                     ads={Object.values(ads).flat()}
                                     onAdClick={handleAdClick}
 
                                     
                                 />
+
+                            
                                 </div>
-                            </>
+                            </div>
                         )}
                     </Container>
                     

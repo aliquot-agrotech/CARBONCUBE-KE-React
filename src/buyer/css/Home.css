@@ -36,12 +36,12 @@
 
 .categories-overlay {
     position: absolute;
-    top: 26em;
-    bottom: auto;
+    top:26rem; 
+    bottom: 20rem;
     left: 0;
     right: 0;
     z-index: 2;
-    padding-top: 30px;
+    /* padding-top: 30px; */
     overflow: visible;
     margin-bottom: 3rem;
 }
