@@ -21,6 +21,7 @@ Disallow: /seller/*
 # Private buyer areas  
 Disallow: /buyer/
 Disallow: /buyer/*
+Allow: /buyer-signup
 
 # Private rider areas
 Disallow: /rider/
