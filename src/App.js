@@ -4,6 +4,8 @@ import LoginForm from './components/LoginForm';
 import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import ForgotPassword from './components/ForgotPassword'; 
+import Terms from './components/Terms';
+import PrivacyPolicy from './components/Privacy';
 
 // Admin Imports
 import AnalyticsReporting from './admin/pages/AnalyticsReporting';
@@ -103,6 +105,8 @@ function App() {
         <Route path="/seller/tiers" element={<TierPage />} />
         <Route path="/about-us" element={<AboutUs/>} />
         <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/terms-and-conditions" element={<Terms />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
 
 
         {isAuthenticated && userRole === 'admin' && (
